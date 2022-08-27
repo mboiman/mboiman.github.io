@@ -60,13 +60,13 @@ disable404 = true
         class = "linkedin"
         icon = "fa-linkedin"
         url = "//linkedin.com/in/michael-boiman-ab709912"
-        title = "linkedin.com/in/michael-boiman"
+        title = "michael-boiman"
 
         [[params.contact.list]]
         class = "github"
         icon = "fa-github"
         url = "//github.com/qualitycluster"
-        title = "github.com/qualitycluster"
+        title = "qualitycluster"
 
         [[params.contact.list]]
         class = "twitter"
