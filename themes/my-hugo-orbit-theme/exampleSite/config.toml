@@ -1,10 +1,10 @@
 # Page settings
 
-baseurl = "http://mboiman.github.io/"
-languageCode = "de-de"
-title = "Michael Boiman CV"
-theme = "my-hugo-orbit-theme"
-#googleAnalytics = "UA-XXXXXXX-Y"
+baseurl = "http://example.org/"
+languageCode = "en-us"
+title = "John Doe Resume"
+theme = "hugo-orbit-theme"
+googleAnalytics = "UA-XXXXXXX-Y"
 
 # Do not build files for websites. Need them? Set to false
 disableRSS = true
@@ -15,7 +15,7 @@ disable404 = true
 
 # Meta
     description = "Hugo Responsive Resume/CV Theme for Developers"
-    author = "Michael Boiman"
+    author = "Pavel Kanyshev"
 
 # Theme styles
 
@@ -30,8 +30,8 @@ disable404 = true
 
     # Profile section
     [params.profile]
-        name = "Michael Boiman"
-        tagline = "Full Stack Quality Engineer"
+        name = "John Doe"
+        tagline = "Full Stack Developer"
         avatar = "profile.png"
 
     # Contact section
@@ -41,38 +41,38 @@ disable404 = true
         [[params.contact.list]]
         class = "email"
         icon = "fa-envelope"
-        url = "mailto: mboiman@gmail.com"
-        title = "mboiman@gmail.com"
+        url = "mailto: yourname@email.com"
+        title = "john.doe@website.com"
 
         [[params.contact.list]]
         class = "phone"
         icon = "fa-phone"
-        url = "tel:+4915233822623"
-        title = "+4915233822623"
+        url = "tel:+1234567890"
+        title = "+1234567890"
 
         [[params.contact.list]]
         class = "website"
         icon = "fa-globe"
-        url = "//qualitycluster.de"
-        title = "qualitycluster.de"
+        url = "//portfoliosite.com"
+        title = "portfoliosite.com"
 
         [[params.contact.list]]
         class = "linkedin"
         icon = "fa-linkedin"
-        url = "//linkedin.com/in/michael-boiman-ab709912"
-        title = "linkedin.com/in/michael-boiman"
+        url = "//linkedin.com/in/johndoe"
+        title = "linkedin.com/in/johndoe"
 
         [[params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/qualitycluster"
-        title = "github.com/qualitycluster"
+        url = "//github.com/username"
+        title = "github.com/username"
 
         [[params.contact.list]]
         class = "twitter"
         icon = "fa-twitter"
-        url = "//twitter.com/mboiman"
-        title = "@mboiman"
+        url = "//twitter.com/username"
+        title = "@twittername"
 
     # Education section
     [params.education]
@@ -95,19 +95,15 @@ disable404 = true
         title = "Languages"
 
         [[params.language.list]]
-        language = "German"
+        language = "English"
         level = "Native"
 
         [[params.language.list]]
-        language = "English"
+        language = "French"
         level = "Professional"
 
         [[params.language.list]]
         language = "Russian"
-        level = "Professional"
-
-        [[params.language.list]]
-        language = "Hebrew"
         level = "Professional"
 
     # Interests section
