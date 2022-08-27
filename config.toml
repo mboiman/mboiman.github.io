@@ -95,15 +95,19 @@ disable404 = true
         title = "Languages"
 
         [[params.language.list]]
-        language = "English"
+        language = "German"
         level = "Native"
 
         [[params.language.list]]
-        language = "French"
+        language = "English"
         level = "Professional"
 
         [[params.language.list]]
         language = "Russian"
+        level = "Professional"
+
+        [[params.language.list]]
+        language = "Hebrew"
         level = "Professional"
 
     # Interests section
