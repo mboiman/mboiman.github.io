@@ -1,14 +1,14 @@
 - id: education
-  translation: Education
+  translation: Qualifikation
 - id: experiences
-  translation: Experiences
+  translation: Projekte
 - id: interests
-  translation: Interests
+  translation: Interessen
 - id: language
-  translation: Languages
+  translation: Sprachen
 - id: projects
-  translation: Projects
+  translation: Neben Projekte
 - id: skills
-  translation: Skills & Proficiency
+  translation: Skills & Erfahrung
 - id: summary
-  translation: Career Profile
+  translation: Zusammenfassung

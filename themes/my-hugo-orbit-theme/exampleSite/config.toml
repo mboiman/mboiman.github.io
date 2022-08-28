@@ -1,7 +1,7 @@
 # Page settings
 
 baseurl = "http://example.org/"
-languageCode = "en-us"
+languageCode = "de-de"
 title = "John Doe Resume"
 theme = "hugo-orbit-theme"
 googleAnalytics = "UA-XXXXXXX-Y"

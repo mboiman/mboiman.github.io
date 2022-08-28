@@ -24,7 +24,7 @@ disable404 = true
     # are available. Also the source LESS files are included so
     # it’s quick and easy to change the styling and colour scheme.
 
-    styles = "styles.css"
+    styles = "styles-6.css"
 
 # Sidebar sections
 
@@ -80,14 +80,14 @@ disable404 = true
         title = "Education"
 
         [[params.education.list]]
-        degree = "MSc in Computer Science"
-        college = "University of London"
-        dates = "2006 - 2010"
+        degree = "Dipl. Allg. Informatiker (FH)"
+        college = "Fachhochschule Köln Abt. Gummersbach"
+        dates = "2000 - 2005"
 
         [[params.education.list]]
-        degree = "BSc in Applied Mathematics"
-        college = "Bristol University"
-        dates = "2007 - 2011"
+        degree = "ISTQB Certified Tester"
+        # college = "Bristol University"
+        dates = "2005"
 
     # Languages section
     [params.language]
@@ -104,25 +104,23 @@ disable404 = true
 
         [[params.language.list]]
         language = "Russian"
-        level = "Professional"
+        level = "Independent"
 
         [[params.language.list]]
         language = "Hebrew"
-        level = "Professional"
+        level = "Independent"
 
     # Interests section
     [params.interests]
-        enable = true
+        enable = false
         title = "Interests"
 
         [[params.interests.list]]
-        interest = "Climbing"
+        interest = "Gaming"
 
         [[params.interests.list]]
-        interest = "Snowboarding"
+        interest = "Basketball"
 
-        [[params.interests.list]]
-        interest = "Cooking"
 
 # Main body sections
 
@@ -133,7 +131,17 @@ disable404 = true
         enable = true
         icon = "fa-user"
         title = "Career Profile"
-        summary = "**Summarise your career here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu."
+        summary = "Spezialisierung auf alle **Qualitäts-Prozesse** in der software Entwicklung. Hauptfokus, dass einführen von Testautomatisierung & Monitoring in der CICD-Pipeline"
+
+
+    [params.test]
+        enable = true
+        icon = "fa-flask"
+        title = "Fachliche Schwerpunkte"
+
+        [[params.jobs.list]]
+        position = "CICD pipelines mit Quality Gates"
+ 
 
     # Experiences section
     [params.experiences]
