@@ -53,6 +53,12 @@ disable404 = true
         [[params.contact.list]]
         class = "website"
         icon = "fa-globe"
+        url = "//boiman.solutions"
+        title = "boiman.solutions"
+
+        [[params.contact.list]]
+        class = "website"
+        icon = "fa-globe"
         url = "//qualitycluster.de"
         title = "qualitycluster.de"
 
@@ -132,7 +138,7 @@ disable404 = true
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-Spezialisierung auf alle **Qualitäts-Prozesse** innerhalb der software Entwicklung \n
+Spezialisierung auf alle **Qualitäts-Prozesse** innerhalb der software Entwicklung mit über 15 Jahren Erfahrung \n
 Fachliche Schwerpunkte: \n
 - **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
 - **Dynamische-Testsysteme** die in echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
@@ -148,16 +154,6 @@ Fachliche Schwerpunkte: \n
 - Agile - **Scrum**, SAFE
 """
 
-
-    [params.test]
-        enable = true
-        icon = "fa-flask"
-        title = "Fachliche Schwerpunkte"
-
-        [[params.jobs.list]]
-        position = "CICD pipelines mit Quality Gates"
- 
-
     # Experiences section
     [params.experiences]
         enable = true
@@ -165,93 +161,101 @@ Fachliche Schwerpunkte: \n
         title = "Experiences"
 
         [[params.jobs.list]]
-        position = "Lead Developer"
-        dates = "2015 - Present"
-        company = "Startup Hubs, San Francisco"
-        details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo.\n\n Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+        position = "Quality-Lead"
+        dates = "08/2021 - 12/2022"
+        company = "DVAG"
+        details = """
+**Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Teams) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitäts-Metriken und Testautomatisierung innerhalb der Pipe-line
+Teamübergreifend \n
+**Schwerpunkte** \n
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Grafana zur echt Zeitmessung der Qualität \n
+- Dokumentation von Qualitäts-Metriken über fortschritt der messbaren Qualität der Sprints \n
+- Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) \n
+- Einführung von Gauge (BDD) \n
+- Fachliche und technische Analyse von Incidents \n
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
+"""
 
-        [[params.jobs.list]]
-        position = "Senior Software Engineer"
-        dates = "2014 - 2015"
-        company = "Google, London"
-        details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."
-
-        [[params.jobs.list]]
-        position = "UI Developer"
-        dates = "2012 - 2014"
-        company = "Amazon, London"
-        details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."
 
     # Projects section
     [params.projects]
         enable = true
         icon = "fa-archive"
         title = "Projects"
-        intro = "**You can list your side projects or open source libraries in this section.** Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et ligula in nunc bibendum fringilla a eu lectus"
+        intro = "**Weitere Projekte ausserhalb des normalen Buisness**"
 
         [[params.projects.list]]
-        title = "Hugrid"
-        url = "https://github.com/aerohub/hugrid"
-        tagline = "Grid theme for Hugo. It's a kind of boilerplate to perform anyone or anything quickly. Portfolio, collection, bookmarks, contacts and so on"
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tagline = "wecation ist die kollaborative Antwort auf die Organisation von jeglichen Treffen: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
 
         [[params.projects.list]]
-        title = "Simple FAQ Theme for Hugo"
-        url = "https://github.com/aerohub/hugo-faq-theme"
-        tagline = "Simple FAQ Theme for Hugo. You may use this theme for building very simple FAQs or note lists."
+        title = "QualityCluster"
+        url = "https://qualitycluster.de"
+        tagline = """
+QualityCluster ist ein Zusammenschluss von QE-Experten (Quality Engineers), um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. \n
+Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirklichen. \n
+"""
 
-        [[params.projects.list]]
-        title = "Hugo Identity"
-        url = "https://github.com/aerohub/hugo-identity-theme"
-        tagline = "Little profile/card-style template for Hugo."
-
-        [[params.projects.list]]
-        title = "Orbit"
-        url = "https://github.com/aerohub/hugo-orbit-theme"
-        tagline = "Hugo Resume/CV Theme for Developers."
-
-        [[params.projects.list]]
-        title = "Me"
-        url = "https://github.com/aerohub/hugo-me-theme"
-        tagline = "A simple responsive Hugo theme for personal site."
 
     # Skills section
     [params.skills]
         enable = true
         icon = "fa-rocket"
-        title = "Skills & Proficiency"
+        title = "Skills & Tools"
 
         [[params.skills.list]]
-        skill = "Python & Django"
+        skill = "Jira & Confluence"
         level = "98%"
                 
         [[params.skills.list]]
-        skill = "Javascript & jQuery"
-        level = "98%"
+        skill = "Intelij & VSC"
+        level = "93%"
 
         [[params.skills.list]]
-        skill = "Angular"
+        skill = "Cucumber & Gauge"
+        level = "99%"
+
+        [[params.skills.list]]
+        skill = "Taiko"
         level = "95%"
 
         [[params.skills.list]]
-        skill = "HTML5 & CSS"
-        level = "95%"
+        skill = "CDC (Spring Contract & Pact.io)"
+        level = "70%"
 
         [[params.skills.list]]
-        skill = "Ruby on Rails"
-        level = "75%"
+        skill = "CI/CD-Workflows with Gitlab, Github, Jenkins"
+        level = "80%"
 
         [[params.skills.list]]
-        skill = "Sketch & Photoshop"
-        level = "60%"
+        skill = "Kubernetes (K8s), Helm, Terraform, ArgoCD, Docker"
+        level = "80%"
+
+        [[params.skills.list]]
+        skill = "REST, Postman"
+        level = "90%"
+
+        [[params.skills.list]]
+        skill = "Dashboards & Analyse mit Kibana, Elastic-Search, Greylog, Grafana, Instana, Azure-Portal"
+        level = "90%"
+
+        [[params.skills.list]]
+        skill = "Mobile Entwicklung mit X-Code, Intelij, VSC, Flutter, Swift, Objective-C"
+        level = "90%"
+
+        [[params.skills.list]]
+        skill = "Testautomatisierung / Testmanagement mit Zephyre, Jira, QualityCenter/ALM, UFT, Loadrunner, Selenium, Cypress, SOAP-Tools, SQL-Tools"
+        level = "90%"
+
+        [[params.skills.list]]
+        skill = "Last und performance Testing mit J-Meter, Gatling"
+        level = "90%"
+
+        [[params.skills.list]]
+        skill = "Cloud-Anbieter - AWS, Google, Azure"
+        level = "80%"
 
     # Footer section
-
-    # The original template is released under the Creative Commons Attribution 3.0 License.
-    # Please keep the original attribution link when using for your own project.
-    # If you'd like to use the template without the attribution,
-    # you can check out other license options via template author's website: themes.3rdwavemedia.com
-    # 
-    # As for Hugo port you may rewrite the "Ported for..." line with setting your name below.
-
     [params.footer]
-        copyright = ""
+        copyright = "Michael.Boiman"
