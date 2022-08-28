@@ -15,6 +15,9 @@
 	{{ partial "summary.html" . }}
     {{ end }}
 
+    {{ if .Site.Params.skills.enable }}
+	{{ partial "skills.html" . }}
+
     {{ if .Site.Params.experiences.enable }}
     {{ partial "experiences.html" . }}
     {{ end }}
@@ -23,8 +26,7 @@
     {{ partial "projects.html" . }}
     {{ end }}
 
-    {{ if .Site.Params.skills.enable }}
-	{{ partial "skills.html" . }}
+
     {{ end }}
 
 	</div><!--//main-body-->
