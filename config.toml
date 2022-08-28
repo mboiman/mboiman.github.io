@@ -1,6 +1,6 @@
 # Page settings
 
-baseurl = "http://mboiman.github.io/"
+baseurl = "http://mboiman.github.io"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "my-hugo-orbit-theme"
