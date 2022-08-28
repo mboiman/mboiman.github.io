@@ -132,8 +132,20 @@ disable404 = true
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-Spezialisierung auf alle **Qualitäts-Prozesse** in der software Entwicklung. Hauptfokus, dass einführen von Testautomatisierung & Monitoring in der CICD-Pipeline \n
-Dynamische-Echtzeittests:	Aufbau von Dynamischen-Testsystemen, die Ihre eigenen Testdaten generieren. 24 Stunden lang laufen und die Tests eigenständig variieren und verifizieren. Das Ergebnis wird auf Kibana oder Graylog Dashboards angezeigt, womit man daraus in die Analyse einsteigen kann
+Spezialisierung auf alle **Qualitäts-Prozesse** innerhalb der software Entwicklung \n
+Fachliche Schwerpunkte: \n
+- **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
+- **Dynamische-Testsysteme** die in echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
+- **Analyse**, **Monitoring** und Alerting
+- **Last und Performance** Tests
+- TDD und BDD durch **Junit**, **Cucumber**, **Gauge** ...
+- Testmanagement, Defect-Traking und nachhaltiges Beheben von Incidents
+- Entwicklung (**Java**, JavaScript, Swift, Python ...)
+- Pipeline worflows mit **Github**, **Gitlab**, Jenkins usw.
+- Contract-Testting (**CDC**) mit Pact.io oder Spring Contract
+- Cloud mit **K8s**, **Helm**, **Terraform**, **ArgoCD** usw
+- Mobile Entwicklung mit Swift, **Flutter** ...
+- Agile - **Scrum**, SAFE
 """
 
 
