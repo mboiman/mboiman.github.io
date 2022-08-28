@@ -131,7 +131,10 @@ disable404 = true
         enable = true
         icon = "fa-user"
         title = "Career Profile"
-        summary = "Spezialisierung auf alle **Qualitäts-Prozesse** in der software Entwicklung. Hauptfokus, dass einführen von Testautomatisierung & Monitoring in der CICD-Pipeline"
+        summary = """\
+Spezialisierung auf alle **Qualitäts-Prozesse** in der software Entwicklung. Hauptfokus, dass einführen von Testautomatisierung & Monitoring in der CICD-Pipeline \n
+Dynamische-Echtzeittests:	Aufbau von Dynamischen-Testsystemen, die Ihre eigenen Testdaten generieren. 24 Stunden lang laufen und die Tests eigenständig variieren und verifizieren. Das Ergebnis wird auf Kibana oder Graylog Dashboards angezeigt, womit man daraus in die Analyse einsteigen kann
+"""
 
 
     [params.test]
