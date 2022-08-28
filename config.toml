@@ -174,6 +174,46 @@ Teamübergreifend \n
 - Einführung von Gauge (BDD) \n
 - Fachliche und technische Analyse von Incidents \n
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
+\n
+**Tools** \n
+- Intelij / Visual Studio Code \n
+- Java / Java-Script \n
+- Gauge / Taiko \n
+- CI/CD / Github – reusebale workflows \n
+- Helm / Container \n
+- JIRA / Confluence \n
+- Grafana \n
+- Behavier Driven Development \n
+- Consumer Driven Contracts (Pact.io) \n
+"""
+
+
+         [[params.jobs.list]]
+        position = "Quality-Lead"
+        dates = "01/2018 - 05/2021"
+        company = "DB Vertrieb"
+        details = """
+**DB Vertrieb - Testmanagement & Testkoordination Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive Teamübergreifende Einarbeitung, Hilfestellung, Beratung, Schulung \n
+**Schwerpunkte** \n
+- Agile Qualitätssicherung durch Konzeption von QualityGates in der CICD Pipeline \n
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Kibana, Graylog, Grafana, Instana & Elastic Search \n
+- Performance Tests innerhalb der CICD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und  Instana \n
+- Dokumentation von Qualitätsmetriken über fortschritt der messbaren Qualität der Sprints \n
+- Aufbau und Konzeption von DatenTest CICD-Pipeline \n
+- Fachliche und technische Analyse von Problemen \n
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
+\n
+**Tools** \n
+- Intelij \n
+- Java \n
+- Cucumber / Cypress \n
+- J-Meter / Gatling
+- CI/CD / ·	GITLAB CI / Jenkins \n
+- Helm / Docker \n
+- JIRA / Confluence \n
+- Kibana / Grafana / Instana / Graylog \n
+- Behavier Driven Development \n
+- Consumer Driven Contracts (Spring Cloud Contract) \n
 """
 
 
