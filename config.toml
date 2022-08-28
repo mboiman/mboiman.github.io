@@ -1,6 +1,6 @@
 # Page settings
 
-baseurl = "https://mboiman.github.io"
+baseurl = "https://mboiman.github.io/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "my-hugo-orbit-theme"
@@ -374,31 +374,43 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "95%"
 
         [[params.skills.list]]
-        skill = "CDC (Spring Contract & Pact.io)"
+        skill = "CDC - Spring Contract & Pact.io"
         level = "70%"
 
         [[params.skills.list]]
-        skill = "CI/CD-Workflows with Gitlab, Github, Jenkins"
+        skill = "CICD-Workflows - Gitlab & Github & Jenkins"
         level = "80%"
 
         [[params.skills.list]]
-        skill = "Kubernetes (K8s), Helm, Terraform, ArgoCD, Docker"
+        skill = "Kubernetes - Helm & Terraform & ArgoCD & Docker"
         level = "80%"
 
         [[params.skills.list]]
-        skill = "REST, Postman"
+        skill = "REST & Postman"
         level = "90%"
 
         [[params.skills.list]]
-        skill = "Dashboards & Analyse mit Kibana, Elastic-Search, Greylog, Grafana, Instana, Azure-Portal"
+        skill = """
+        Dashboards & Analyse - \n  
+        Kibana & Elastic-Search \n 
+        Greylog & Grafana & Instana & Azure-Portal \n
+        """
         level = "90%"
 
         [[params.skills.list]]
-        skill = "Mobile Entwicklung mit X-Code, Intelij, VSC, Flutter, Swift, Objective-C"
+        skill = "MobileDev - X-Code & Intelij & VSC & Flutter & Swift & Objective-C"
         level = "90%"
 
         [[params.skills.list]]
-        skill = "Testautomatisierung / Testmanagement mit Zephyre, Jira, QualityCenter/ALM, UFT, Loadrunner, Selenium, Cypress, SOAP-Tools, SQL-Tools"
+        skill = """
+        Testautomatisierung / Testmanagement: \n
+         - Zephyre \n
+         - Jira \n
+         - QualityCenter/ALM \n
+         - UFT \n
+         - LoadRunner \n
+         - Selenium & Cypress \n 
+         - SOAP-Tools & SQL-Tools"""
         level = "90%"
 
         [[params.skills.list]]
