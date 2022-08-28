@@ -229,7 +229,7 @@ Teamübergreifend \n
         details = """
 **Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests \n
 **Schwerpunkte** \n
-- Anforderungs-Management ,  und   \n
+- Anforderungs-Management \n
 - Status Reports \n
 - Beratung der Kunden \n
 - Dokumentation in form von Testkonzepts, Analysen  „Management Summarys“ und Wiki-Dokumentation \n
@@ -246,6 +246,89 @@ Teamübergreifend \n
 - Schnittstellen: HTTP, WS, REST, MQ, JMS  \n
 """
 
+         [[params.jobs.list]]
+        position = "Senior IOS Developer"
+        dates = "04/2015 - 09/2015"
+        company = "Telekom"
+        details = """
+**Senior IOS Developer** Weiterentwicklung der rebuild Version von der **Kundencenter App** der Deutschen Telekom, um neue Funktionalitäten zur IFA. \n
+**Schwerpunkte** \n
+- Swift \n
+- IOS 8 \n
+- Requests & responces to backend \n
+- Errorhandling \n
+- Ipad / Iphone \n
+- Scrum \n
+\n
+**Tools** \n
+- X-Code \n
+- GIT \n
+- JIRA \n
+"""
+
+
+         [[params.jobs.list]]
+        position = "QS, Testmanagement"
+        dates = "05/2009 - 03/2015"
+        company = "Siemens"
+        details = """
+**QS, Testmanagement , Testautomatisierung, Requirementsmanagement** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführ \n
+**Projekte** \n
+- SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen \n
+- STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) \n
+- GPM2 - Aktien-Bonus-programm für Angestellte (Frontend: Web / Backend: JBoss) \n
+- PATAC \n
+- SOM - Verwaltung und Übersicht von OrgUnits \n
+\n
+**Schwerpunkte** \n
+- Erstellung Fachlicher Testkonzepte und Testpläne \n
+- Defect -Tracking \n
+- Verwaltung der CRs, Kommunikation zwischen Kunden und Entwickler \n
+- Test Automatisierungs erstellung, pflege und Ausführung \n
+- User Acceptance Tests \n
+- Schulung neuer Tester und Testautomatisierer \n
+- Betretung als Testmanager nach Projektschluss im Regelbetrieb \n
+- Aufbau von Abnahme-Tests \n
+- Übertragung der Fachspezifikation und Feinspezifikation ins Quality Center  \n
+- Überwachung der umgesetzten Anforderungen gegen das Feinkonzept \n
+\n
+**Tools** \n
+- HP ALM \n
+- HP UFT \n
+- HP QC \n
+- Quick Test Pro  \n
+"""
+
+
+         [[params.jobs.list]]
+        position = "Last und Performance Tester"
+        dates = "03/2009 - 05/2009"
+        company = "ING-DIBA"
+        details = """
+**Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal \n
+**Schwerpunkte** \n
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  \n
+- Durchführung von Lasttests und Analyse der Ergebnisse \n
+- Monitoring und Reporting \n
+\n
+**Tools** \n
+- Loadrunner \n
+"""
+
+         [[params.jobs.list]]
+        position = "Zusammenfassung verschiedene Aktivitäten"
+        dates = "01/2006 - 12/2008"
+        company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
+        details = """
+**Last und Performance Tester / Tester** Verschiedene Projekte, die meisten Last & Performance tests\n
+**Schwerpunkte** \n
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  \n
+- Durchführung von Lasttests und Analyse der Ergebnisse \n
+- Monitoring und Reporting \n
+\n
+**Tools** \n
+- Loadrunner \n
+"""
 
     # Projects section
     [params.projects]
