@@ -47,8 +47,8 @@ disable404 = true
         [[params.contact.list]]
         class = "phone"
         icon = "fa-phone"
-        url = "tel:+4915233822623"
-        title = "+4915233822623"
+        url = ""
+        title = "Auf Anfrage per Mail"
 
         [[params.contact.list]]
         class = "website"
@@ -371,7 +371,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = "Taiko"
-        level = "95%"
+        level = "97%"
 
         [[params.skills.list]]
         skill = "CDC - Spring Contract & Pact.io"
@@ -382,44 +382,49 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "80%"
 
         [[params.skills.list]]
-        skill = "Kubernetes - Helm & Terraform & ArgoCD & Docker"
+        skill = "Kubernetes - Helm & Terraform & ArgoCD"
         level = "80%"
 
         [[params.skills.list]]
         skill = "REST & Postman"
         level = "90%"
 
-        [[params.skills.list]]
-        skill = """
-        Dashboards & Analyse - \n  
-        Kibana & Elastic-Search \n 
-        Greylog & Grafana & Instana & Azure-Portal \n
-        """
-        level = "90%"
 
-        [[params.skills.list]]
-        skill = "MobileDev - X-Code & Intelij & VSC & Flutter & Swift & Objective-C"
-        level = "90%"
-
-        [[params.skills.list]]
-        skill = """
-        Testautomatisierung / Testmanagement: \n
-         - Zephyre \n
-         - Jira \n
-         - QualityCenter/ALM \n
-         - UFT \n
-         - LoadRunner \n
-         - Selenium & Cypress \n 
-         - SOAP-Tools & SQL-Tools"""
-        level = "90%"
+#        [[params.skills.list]]
+#        skill = """
+#        Testautomatisierung / Testmanagement: \n
+#         - Zephyre \n
+#         - Jira \n
+#         - QualityCenter/ALM \n
+#         - UFT \n
+#         - LoadRunner \n
+#         - Selenium & Cypress \n 
+#         - SOAP-Tools & SQL-Tools"""
+#        level = "90%"
 
         [[params.skills.list]]
         skill = "Last und performance Testing mit J-Meter, Gatling"
         level = "90%"
 
         [[params.skills.list]]
-        skill = "Cloud-Anbieter - AWS, Google, Azure"
+        skill = "AWS & Google & Azure"
         level = "80%"
+
+        [[params.skills.list]]
+        skill = """
+        Dashboards & Analyse - \n  
+        Kibana(+ES) & Greylog &  \n 
+        Grafana & Instana \n
+        """
+        level = "90%"
+
+        [[params.skills.list]]
+        skill =  "Azure-Portal" 
+        level = "50%"
+
+        [[params.skills.list]]
+        skill = "MobileDev - X-Code & Flutter & Swift"
+        level = "90%"
 
     # Footer section
     [params.footer]
