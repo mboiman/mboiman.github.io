@@ -53,7 +53,7 @@ disable404 = true
         [[params.contact.list]]
         class = "website"
         icon = "fa-globe"
-        url = "//boiman.solutions"
+        url = "http://boiman.solutions"
         title = "boiman.solutions"
 
 
