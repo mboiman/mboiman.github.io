@@ -59,6 +59,12 @@ disable404 = true
         [[params.contact.list]]
         class = "website"
         icon = "fa-globe"
+        url = "//boiman.solutions"
+        title = "boiman.solutions"
+
+        [[params.contact.list]]
+        class = "website"
+        icon = "fa-globe"
         url = "//qualitycluster.de"
         title = "qualitycluster.de"
 
