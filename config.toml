@@ -139,14 +139,14 @@ disable404 = true
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-Spezialisierung auf alle **Qualitäts-Prozesse** innerhalb der software Entwicklung mit über 15 Jahren Erfahrung \n
+Spezialisierung auf alle **Qualitätsprozesse** innerhalb der Softwareentwicklung mit über 15 Jahren Erfahrung \n
 Fachliche Schwerpunkte: \n
 - **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
-- **Dynamische-Testsysteme** die in echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
+- **Dynamische-Testsysteme** die in Echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
 - **Analyse**, **Monitoring** und Alerting
 - **Last und Performance** Tests
 - TDD und BDD durch **Junit**, **Cucumber**, **Gauge** ...
-- Testmanagement, Defect-Traking und nachhaltiges Beheben von Incidents
+- Testmanagement, Defect-Tracking und nachhaltiges Beheben von Incidents
 - Entwicklung (**Java**, JavaScript, Swift, Python ...)
 - Pipeline worflows mit **Github**, **Gitlab**, Jenkins usw.
 - Contract-Testting (**CDC**) mit Pact.io oder Spring Contract
@@ -166,11 +166,11 @@ Fachliche Schwerpunkte: \n
         dates = "08/2021 - 12/2022"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Teams) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitäts-Metriken und Testautomatisierung innerhalb der Pipe-line
+**Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline
 Teamübergreifend \n
 **Schwerpunkte** \n
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Grafana zur echt Zeitmessung der Qualität \n
-- Dokumentation von Qualitäts-Metriken über fortschritt der messbaren Qualität der Sprints \n
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität \n
+- Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints \n
 - Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) \n
 - Einführung von Gauge (BDD) \n
 - Fachliche und technische Analyse von Incidents \n
