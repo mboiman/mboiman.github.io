@@ -372,6 +372,10 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "99%"
 
         [[params.skills.list]]
+        skill = "Playwright"
+        level = "90%"
+
+        [[params.skills.list]]
         skill = "Taiko"
         level = "97%"
 
@@ -381,7 +385,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = "CICD-Workflows - Gitlab & Github & Jenkins"
-        level = "80%"
+        level = "90%"
 
         [[params.skills.list]]
         skill = "Kubernetes - Helm & Terraform & ArgoCD"
