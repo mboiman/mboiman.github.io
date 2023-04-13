@@ -378,10 +378,6 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "99%"
 
         [[params.skills.list]]
-        skill = "Playwright"
-        level = "90%"
-
-        [[params.skills.list]]
         skill = "Taiko"
         level = "97%"
 
