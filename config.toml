@@ -31,7 +31,7 @@ disable404 = true
     # Profile section
     [params.profile]
         name = "Michael Boiman"
-        tagline = "Full Stack Quality Engineer"
+        tagline = "Full Stack Quality Engineer and Automation & AI Expert"
         avatar = "profile.png"
 
     # Contact section
@@ -144,6 +144,8 @@ Fachliche Schwerpunkte: \n
 - **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
 - **Dynamische-Testsysteme** die in echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
 - **Analyse**, **Monitoring** und Alerting
+- **Automatisierung** von Prozessen
+- **Integration** mit **Künstliche-Inteligenz** Modellen (**ML und DL**)
 - **Last und Performance** Tests
 - TDD und BDD durch **Junit**, **Cucumber**, **Gauge** ...
 - Testmanagement, Defect-Traking und nachhaltiges Beheben von Incidents
@@ -365,6 +367,10 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         [[params.skills.list]]
         skill = "Intelij & VSC"
         level = "93%"
+
+        [[params.skills.list]]
+        skill = "Playwright"
+        level = "97%"
 
         [[params.skills.list]]
         skill = "Cucumber & Gauge"
