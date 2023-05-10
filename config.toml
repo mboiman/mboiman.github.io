@@ -428,7 +428,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill =  "Azure-Portal" 
-        level = "50%"
+        level = "70%"
 
         [[params.skills.list]]
         skill = "MobileDev - X-Code & Flutter & Swift"
