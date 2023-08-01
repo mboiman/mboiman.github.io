@@ -15,7 +15,7 @@ disable404 = true
 [params]
 
 # Meta
-    description = "Hugo Responsive Resume/CV Theme for Developers"
+    description = "CV of Michael Boiman"
     author = "Michael Boiman"
 
 # Theme styles
@@ -32,7 +32,7 @@ disable404 = true
     # Profile section
     [params.profile]
         name = "Michael Boiman"
-        tagline = "Full Stack Quality Engineer and Automation & AI Expert"
+        tagline = "Full Stack Quality Engineer & Automation & AI Expert"
         avatar = "profile.png"
 
     # Contact section
@@ -56,7 +56,6 @@ disable404 = true
         icon = "fa-globe"
         url = "http://boiman.solutions"
         title = "boiman.solutions"
-
 
         [[params.contact.list]]
         class = "website"
@@ -142,6 +141,7 @@ disable404 = true
         summary = """\
 Spezialisierung auf alle **Qualitätsprozesse** innerhalb der Softwareentwicklung mit über 15 Jahren Erfahrung \n
 Fachliche Schwerpunkte: \n
+- **AI** Automatisierung und Integration in bestehende Prozesse
 - **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
 - **Dynamische-Testsysteme** die in Echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
 - **Analyse**, **Monitoring** und Alerting
@@ -166,7 +166,7 @@ Fachliche Schwerpunkte: \n
 
         [[params.jobs.list]]
         position = "Quality-Lead"
-        dates = "08/2021 - 12/2022"
+        dates = "08/2021 - 07/2023"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline
@@ -175,14 +175,16 @@ Teamübergreifend \n
 - Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität \n
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints \n
 - Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) \n
+- Einführung von QualityGates zur sicherung der Qualität innerhalb der CICD-Pipleine
 - Einführung von Gauge (BDD) \n
+- Einführung von Playwright und integration in bestehende CICD-Pipeline
 - Fachliche und technische Analyse von Incidents \n
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
 \n
 **Tools** \n
 - Intelij / Visual Studio Code \n
-- Java / Java-Script \n
-- Gauge / Taiko \n
+- Java / Java-Script / Typescript \n
+- Playwright / Gauge / Taiko / Karate \n
 - CI/CD / Github – reusebale workflows \n
 - Helm / Container \n
 - JIRA / Confluence \n
