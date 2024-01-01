@@ -15,7 +15,7 @@ disable404 = true
 [params]
 
 # Meta
-    description = "Hugo Responsive Resume/CV Theme for Developers"
+    description = "CV of Michael Boiman"
     author = "Michael Boiman"
 
 # Theme styles
@@ -32,7 +32,7 @@ disable404 = true
     # Profile section
     [params.profile]
         name = "Michael Boiman"
-        tagline = "Full Stack Quality Engineer and Automation & AI Expert"
+        tagline = "Full Stack Quality Engineer & Automation & AI Expert"
         avatar = "profile.png"
 
     # Contact section
@@ -56,7 +56,6 @@ disable404 = true
         icon = "fa-globe"
         url = "http://boiman.solutions"
         title = "boiman.solutions"
-
 
         [[params.contact.list]]
         class = "website"
@@ -136,27 +135,38 @@ disable404 = true
 
     # Summary section
     [params.summary]
-        enable = true
-        icon = "fa-user"
-        title = "Career Profile"
-        summary = """\
-Spezialisierung auf alle **Qualitätsprozesse** innerhalb der Softwareentwicklung mit über 15 Jahren Erfahrung \n
-Fachliche Schwerpunkte: \n
-- **Quality-Gates** durch **Testautomatisierung** innerhalb der **CICD** Pipeline \n
-- **Dynamische-Testsysteme** die in Echtzeit den Qualitätsstand über **Monitoring-Dashboards** zeigen \n
-- **Analyse**, **Monitoring** und Alerting
-- **Automatisierung** von Prozessen
-- **Integration** mit **Künstliche-Inteligenz** Modellen (**ML und DL**)
-- **Last und Performance** Tests
-- TDD und BDD durch **Junit**, **Cucumber**, **Gauge** ...
-- Testmanagement, Defect-Tracking und nachhaltiges Beheben von Incidents
-- Entwicklung (**Java**, JavaScript, Swift, Python ...)
-- Pipeline worflows mit **Github**, **Gitlab**, Jenkins usw.
-- Contract-Testting (**CDC**) mit Pact.io oder Spring Contract
-- Cloud mit **K8s**, **Helm**, **Terraform**, **ArgoCD** usw
-- Mobile Entwicklung mit Swift, **Flutter** ...
-- Agile - **Scrum**, SAFE
-"""
+    enable = true
+    icon = "fa-user"
+    title = "Karriereprofil"
+    summary = """\
+    Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
+    - **KI-Automatisierung**: Implementierung und Integration von KI in bestehende Prozesse.
+    - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
+    - **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
+    - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Prozesse.
+    - **Performance-Tests**: Durchführung von Last- und Leistungstests.
+    - **Entwicklung**: Expertise in Java, JavaScript, Swift, Python und weiteren Sprachen.
+    - **DevOps**: Erfahrung mit GitHub, GitLab, Jenkins und anderen CI/CD-Tools.
+    - **Contract-Testing**: Anwendung von Pact.io oder Spring Contract.
+    - **Cloud-Technologien**: Kenntnisse in Kubernetes, Helm, Terraform, ArgoCD, etc.
+    - **Mobile Entwicklung**: Erfahrungen mit Swift und Flutter.
+    - **Agile Methoden**: Praktische Anwendung von Scrum und SAFE.
+    """
+
+
+# Konferenzen und Vorträge
+[params.conferences]
+    enable = true
+    icon = "fa-microphone"
+    title = "Konferenzen und Vorträge"
+
+    [[params.conferences.list]]
+    title = "Anwendungen von KI im Geschäftsumfeld"
+    event = "KI-Workshop zur Unternehmenseinbindung"
+    details = """
+    Bei diesem Workshop präsentierte ich innovative Anwendungen von KI-Technologien in der Geschäftswelt. Der Fokus lag auf der Live-Demonstration von ChatGPT zur Codegenerierung und der Umsetzung von KI in realen Geschäftsprozessen. Ich demonstrierte die Nutzung von KI für das Web Scraping, Datenanalyse und die Entwicklung eines interaktiven Chatbots. Weitere Details und Quellcode sind in meinem [GitHub-Repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot) verfügbar.
+    """
+
 
     # Experiences section
     [params.experiences]
@@ -166,7 +176,7 @@ Fachliche Schwerpunkte: \n
 
         [[params.jobs.list]]
         position = "Quality-Lead"
-        dates = "08/2021 - 12/2022"
+        dates = "08/2021 - 07/2023"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline
@@ -175,14 +185,16 @@ Teamübergreifend \n
 - Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität \n
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints \n
 - Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) \n
+- Einführung von QualityGates zur sicherung der Qualität innerhalb der CICD-Pipleine
 - Einführung von Gauge (BDD) \n
+- Einführung von Playwright und integration in bestehende CICD-Pipeline
 - Fachliche und technische Analyse von Incidents \n
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
 \n
 **Tools** \n
 - Intelij / Visual Studio Code \n
-- Java / Java-Script \n
-- Gauge / Taiko \n
+- Java / Java-Script / Typescript \n
+- Playwright / Gauge / Taiko / Karate \n
 - CI/CD / Github – reusebale workflows \n
 - Helm / Container \n
 - JIRA / Confluence \n
@@ -354,12 +366,32 @@ QualityCluster ist ein Zusammenschluss von QE-Experten (Quality Engineers), um g
 Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirklichen. \n
 """
 
+        [[params.projects.list]]
+        title = "KI-basierter Chatbot für Messe-Interaktion"
+        url = "#"
+        tagline = "Entwicklung eines interaktiven Chatbots unter Verwendung von RAG und OpenAI, um die Benutzerinteraktion auf einer Messe-Website zu optimieren."
+
+        [[params.projects.list]]
+        title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
+        url = "#"
+        tagline = "Einsatz von NLP-Technologien zur Effizienzsteigerung in der automatisierten Dokumentenanalyse."
+
+        [[params.projects.list]]
+        title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
+        url = "#"
+        tagline = "Integration von Microsoft Graph-API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
+
+
 
     # Skills section
     [params.skills]
         enable = true
         icon = "fa-rocket"
         title = "Skills & Tools"
+
+        [[params.skills.list]]
+        skill = "KI & Machine Learning"
+        level = "95%"
 
         [[params.skills.list]]
         skill = "Jira & Confluence"
