@@ -139,18 +139,18 @@ disable404 = true
     icon = "fa-user"
     title = "Karriereprofil"
     summary = """\
-    Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
-    - **KI-Automatisierung**: Implementierung und Integration von KI in bestehende Prozesse.
-    - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
-    - **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
-    - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Prozesse.
-    - **Performance-Tests**: Durchführung von Last- und Leistungstests.
-    - **Entwicklung**: Expertise in Java, JavaScript, Swift, Python und weiteren Sprachen.
-    - **DevOps**: Erfahrung mit GitHub, GitLab, Jenkins und anderen CI/CD-Tools.
-    - **Contract-Testing**: Anwendung von Pact.io oder Spring Contract.
-    - **Cloud-Technologien**: Kenntnisse in Kubernetes, Helm, Terraform, ArgoCD, etc.
-    - **Mobile Entwicklung**: Erfahrungen mit Swift und Flutter.
-    - **Agile Methoden**: Praktische Anwendung von Scrum und SAFE.
+Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
+- **KI-Automatisierung**: Implementierung und Integration von KI in bestehende Prozesse.
+- **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
+- **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
+- **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Prozesse.
+- **Performance-Tests**: Durchführung von Last- und Leistungstests.
+- **Entwicklung**: Expertise in Java, JavaScript, Swift, Python und weiteren Sprachen.
+- **DevOps**: Erfahrung mit GitHub, GitLab, Jenkins und anderen CI/CD-Tools.
+- **Contract-Testing**: Anwendung von Pact.io oder Spring Contract.
+- **Cloud-Technologien**: Kenntnisse in Kubernetes, Helm, Terraform, ArgoCD, etc.
+- **Mobile Entwicklung**: Erfahrungen mit Swift und Flutter.
+- **Agile Methoden**: Praktische Anwendung von Scrum und SAFE.
     """
 
 
