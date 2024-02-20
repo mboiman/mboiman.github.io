@@ -418,7 +418,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         title = "Skills & Tools"
 
         [[params.skills.list]]
-        skill = "KI & Machine Learning"
+        skill = "AI & Machine Learning"
         level = "95%"
 
         [[params.skills.list]]
