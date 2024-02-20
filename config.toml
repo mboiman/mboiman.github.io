@@ -141,8 +141,8 @@ disable404 = true
     summary = """\
 Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
 - **KI-Automatisierung**: Prozessoptimierung und der Implementierung von KI in bestehende Geschäftsprozesse.
-- **Entwickler eines KI-Mail-Bots für automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen. 
-- **Erfahrung mit LLMs wie GTP, LLaMA, Mistral usw.
+- **Entwickler eines KI-Mail-Bots** für automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen. 
+- **Erfahrung mit LLMs** wie GTP, LLaMA, Mistral usw.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
 - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Prozesse.
@@ -418,7 +418,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = "AI & Machine Learning"
-        level = "95%"
+        level = "96%"
 
         [[params.skills.list]]
         skill = "Jira & Confluence"
@@ -458,7 +458,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = "REST & Postman"
-        level = "90%"
+        level = "95%"
 
 
 #        [[params.skills.list]]
