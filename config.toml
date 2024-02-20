@@ -182,16 +182,16 @@ Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Quali
         dates = "04/2023 - 02/2024"
         company = "Ryze"
         details = """
-**Projektmanagement & Technische Leitung: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und zur Integration mit bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination, von der Idee bis zur Implementierung.
+**Projektmanagement & Technische Leitung** Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und zur Integration mit bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination, von der Idee bis zur Implementierung.
   
-**Schwerpunkte:
+**Schwerpunkte** \n
 - Entwicklung von ML-Modellen: Entwurf und Training spezialisierter Machine Learning Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
 - API-Integrationen: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und SAP-Systeme zur Überprüfung von Kundendaten und Abonnements.
 - Prozessautomatisierung: Automatisches Verschieben von E-Mails basierend auf Klassifizierung und spezifischen Geschäftsregeln, einschließlich der Bearbeitung von Reklamationen.
 - CI/CD und Monitoring: Implementierung von Continuous Integration und Continuous Deployment Pipelines zur Optimierung des Entwicklungsprozesses und Einsatz von Kibana für das Monitoring der Bot-Aktivitäten.
 - Benutzerinterface mit Streamlit: Entwicklung einer Streamlit-basierten Benutzeroberfläche zur vereinfachen der testbarkeit.
   
-**Tools & Technologien:
+**Tools & Technologien**
 - Azure Functions: Für serverlose Anwendungsarchitekturen und die Ausführung von ML-Modellen.
 - Python: Hauptprogrammiersprache für die Entwicklung des E-Mail-Bots und der ML-Modelle.
 - Microsoft Graph API: Für den Zugriff und die Verarbeitung von E-Mails im Microsoft Outlook 365.
@@ -418,7 +418,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         title = "Skills & Tools"
 
         [[params.skills.list]]
-        skill = "KI & Machine Learning"
+        skill = "AI & Machine Learning"
         level = "95%"
 
         [[params.skills.list]]
