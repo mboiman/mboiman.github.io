@@ -140,7 +140,9 @@ disable404 = true
     title = "Karriereprofil"
     summary = """\
 Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
-- **KI-Automatisierung**: Implementierung und Integration von KI in bestehende Prozesse.
+- **KI-Automatisierung**: Prozessoptimierung und der Implementierung von KI in bestehende Geschäftsprozesse.
+- **Entwickler eines KI-Mail-Bots für automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen. 
+- **Erfahrung mit LLMs wie GTP, LLaMA, Mistral usw.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
 - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Prozesse.
@@ -174,9 +176,35 @@ Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Quali
         icon = "fa-briefcase"
         title = "Experiences"
 
+
+        [[params.jobs.list]]
+        position = "Architect & Lead-Developer"
+        dates = "04/2023 - 02/2024"
+        company = "Ryze"
+        details = """
+**Projektmanagement & Technische Leitung: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und zur Integration mit bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination, von der Idee bis zur Implementierung.
+  
+**Schwerpunkte:
+- Entwicklung von ML-Modellen: Entwurf und Training spezialisierter Machine Learning Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
+- API-Integrationen: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und SAP-Systeme zur Überprüfung von Kundendaten und Abonnements.
+- Prozessautomatisierung: Automatisches Verschieben von E-Mails basierend auf Klassifizierung und spezifischen Geschäftsregeln, einschließlich der Bearbeitung von Reklamationen.
+- CI/CD und Monitoring: Implementierung von Continuous Integration und Continuous Deployment Pipelines zur Optimierung des Entwicklungsprozesses und Einsatz von Kibana für das Monitoring der Bot-Aktivitäten.
+- Benutzerinterface mit Streamlit: Entwicklung einer Streamlit-basierten Benutzeroberfläche zur vereinfachen der testbarkeit.
+  
+**Tools & Technologien:
+- Azure Functions: Für serverlose Anwendungsarchitekturen und die Ausführung von ML-Modellen.
+- Python: Hauptprogrammiersprache für die Entwicklung des E-Mail-Bots und der ML-Modelle.
+- Microsoft Graph API: Für den Zugriff und die Verarbeitung von E-Mails im Microsoft Outlook 365.
+- SAP API: Für die Abfrage von Kundendaten und die Kommunikation mit SAP-Systemen.
+- GitHub: Für Versionskontrolle, CI/CD Pipelines und den kollaborativen Entwicklungsprozess.
+- Kibana: Für das Echtzeit-Monitoring und die Analyse der Systemleistung.
+- Streamlit: Für die Entwicklung einer interaktiven Webanwendung zur Systemüberwachung.
+
+
+
         [[params.jobs.list]]
         position = "Quality-Lead"
-        dates = "08/2021 - 07/2023"
+        dates = "08/2021 - 02/2024"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline
