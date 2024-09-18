@@ -54,14 +54,8 @@ disable404 = true
         [[params.contact.list]]
         class = "website"
         icon = "fa-globe"
-        url = "http://boiman.solutions"
-        title = "boiman.solutions"
-
-        [[params.contact.list]]
-        class = "website"
-        icon = "fa-globe"
-        url = "//qualitycluster.de"
-        title = "qualitycluster.de"
+        url = "http://boiman-kupermann.com"
+        title = "Boiman.Kupermann.Solutions"
 
         [[params.contact.list]]
         class = "linkedin"
@@ -72,7 +66,7 @@ disable404 = true
         [[params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/qualitycluster"
+        url = "//github.com/bks-lab"
         title = "qualitycluster"
 
         [[params.contact.list]]
