@@ -417,7 +417,11 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         [[params.skills.list]]
         skill = "Jira & Confluence"
         level = "98%"
-
+        
+         [[params.skills.list]]
+        skill = "AI/Machine Learning"
+        level = "70%"
+                
         [[params.skills.list]]
         skill = "Intelij & VSC"
         level = "93%"
@@ -480,8 +484,8 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "90%"
 
         [[params.skills.list]]
-        skill =  "Azure-Portal"
-        level = "50%"
+        skill =  "Azure-Portal" 
+        level = "70%"
 
         [[params.skills.list]]
         skill = "MobileDev - X-Code & Flutter & Swift"
