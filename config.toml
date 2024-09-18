@@ -141,7 +141,7 @@ disable404 = true
     summary = """\
 Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Qualitätsprozesse und die Integration von Künstlicher Intelligenz spezialisiert. Hier sind einige meiner fachlichen Schwerpunkte:
 - **KI-Automatisierung**: Prozessoptimierung und der Implementierung von KI in bestehende Geschäftsprozesse.
-- **Entwickler eines KI-Mail-Bots** für automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen. 
+- **Entwickler eines KI-Mail-Bots** für automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen.
 - **Erfahrung mit LLMs** wie GTP, LLaMA, Mistral usw.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring-Systeme**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
@@ -179,18 +179,18 @@ Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Quali
 
         [[params.jobs.list]]
         position = "Architect & Lead-Developer"
-        dates = "04/2023 - 02/2024"
+        dates = "04/2023 - 04/2024"
         company = "Ryze"
         details = """
 **Projektmanagement & Technische Leitung** Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und zur Integration mit bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination, von der Idee bis zur Implementierung.
-  
+
 **Schwerpunkte** \n
 - Entwicklung von ML-Modellen: Entwurf und Training spezialisierter Machine Learning Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
 - API-Integrationen: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und SAP-Systeme zur Überprüfung von Kundendaten und Abonnements.
 - Prozessautomatisierung: Automatisches Verschieben von E-Mails basierend auf Klassifizierung und spezifischen Geschäftsregeln, einschließlich der Bearbeitung von Reklamationen.
 - CI/CD und Monitoring: Implementierung von Continuous Integration und Continuous Deployment Pipelines zur Optimierung des Entwicklungsprozesses und Einsatz von Kibana für das Monitoring der Bot-Aktivitäten.
 - Benutzerinterface mit Streamlit: Entwicklung einer Streamlit-basierten Benutzeroberfläche zur vereinfachen der testbarkeit.
-  
+
 **Tools & Technologien**
 - Azure Functions: Für serverlose Anwendungsarchitekturen und die Ausführung von ML-Modellen.
 - Python: Hauptprogrammiersprache für die Entwicklung des E-Mail-Bots und der ML-Modelle.
@@ -204,7 +204,7 @@ Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Quali
 
         [[params.jobs.list]]
         position = "Quality-Lead"
-        dates = "08/2021 - 02/2024"
+        dates = "08/2021 - 09/2024"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination**, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend \n
@@ -246,7 +246,7 @@ Mit über 20 Jahren Erfahrung in der Softwareentwicklung habe ich mich auf Quali
 - Fachliche und technische Analyse von Problemen \n
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
 - Aufbau von Junit, Unit-Integrationtests und Integrationstest unteranderen mit Java Cucumber \n
-- Entwicklung eine Hybriden App die zur Präsentation (Review) der Ergebnisse in einer Web oder Mobil en Plattform \n 
+- Entwicklung eine Hybriden App die zur Präsentation (Review) der Ergebnisse in einer Web oder Mobil en Plattform \n
 - Koordination Integrationstest zwischen Teams \n
 \n
 **Tools** \n
@@ -423,7 +423,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         [[params.skills.list]]
         skill = "Jira & Confluence"
         level = "98%"
-                
+
         [[params.skills.list]]
         skill = "Intelij & VSC"
         level = "93%"
@@ -465,7 +465,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 #         - QualityCenter/ALM \n
 #         - UFT \n
 #         - LoadRunner \n
-#         - Selenium & Cypress \n 
+#         - Selenium & Cypress \n
 #         - SOAP-Tools & SQL-Tools"""
 #        level = "90%"
 
@@ -479,14 +479,14 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = """
-        Dashboards & Analyse - \n  
-        Kibana(+ES) & Greylog &  \n 
+        Dashboards & Analyse - \n
+        Kibana(+ES) & Greylog &  \n
         Grafana & Instana \n
         """
         level = "90%"
 
         [[params.skills.list]]
-        skill =  "Azure-Portal" 
+        skill =  "Azure-Portal"
         level = "50%"
 
         [[params.skills.list]]
