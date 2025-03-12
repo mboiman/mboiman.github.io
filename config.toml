@@ -417,10 +417,6 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         [[params.skills.list]]
         skill = "Jira & Confluence"
         level = "98%"
-        
-         [[params.skills.list]]
-        skill = "AI/Machine Learning"
-        level = "70%"
                 
         [[params.skills.list]]
         skill = "Intelij & VSC"
