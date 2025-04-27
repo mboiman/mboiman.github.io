@@ -1,7 +1,8 @@
-            <section class="section experiences-section">
+<section class="section experiences-section">
                 <h2 class="section-title"><i class="fa {{ .Site.Params.experiences.icon }}"></i>{{ i18n "experiences" }}</h2>
-
-				{{ range .Site.Params.jobs.list }}
+                
+                <div class="pdf-experiences">
+                {{ range .Site.Params.jobs.list }}
                 <div class="item">
                     <div class="meta">
                         <div class="upper-row">
@@ -10,10 +11,11 @@
                         </div><!--//upper-row-->
                         <div class="company">{{ .company }}</div>
                     </div><!--//meta-->
-                    <div class="details">
+                    <div class="details pdf-job-details">
                         <p>{{ with .details }}{{ . | markdownify }}{{ end }}</p>
                     </div><!--//details-->
                 </div><!--//item-->
-				{{ end }}
-
+                {{ end }}
+                </div>
+                
             </section><!--//section-->

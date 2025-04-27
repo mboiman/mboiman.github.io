@@ -144,6 +144,13 @@
     padding-top: 20px !important;
   }
   
+  /* Seitenumbruch vor dem Erfahrungsabschnitt */
+  .pdf-experiences-page {
+    page-break-before: always !important;
+    display: block !important;
+    padding-top: 10px !important;
+  }
+  
   /* Formatierung der Zusammenfassung für PDF */
   .pdf-summary-content {
     margin-top: 15px !important;
@@ -153,5 +160,83 @@
   /* Sicherstellen, dass Überschriften nie allein am Ende einer Seite stehen */
   .section-title {
     page-break-after: avoid !important;
+  }
+  
+  /* Skills-Sektion für PDF optimiert */
+  .pdf-skillset {
+    width: 100% !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .pdf-skills-columns {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 25px !important;
+    width: 100% !important;
+  }
+  
+  .pdf-skills-column {
+    width: 48% !important;
+  }
+  
+  /* Skills-Balken für PDF optimiert */
+  .skills-section .level-bar {
+    width: 95% !important;
+    height: 10px !important;
+    background-color: #e8e8e8 !important;
+  }
+  
+  .skills-section .level-bar-inner {
+    height: 10px !important;
+    background-color: #42A8C0 !important;
+  }
+  
+  /* Erfahrungs-Sektion für PDF optimiert */
+  .pdf-experiences {
+    width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .pdf-experiences .item {
+    margin-bottom: 25px !important;
+    page-break-inside: avoid !important; /* Verhindert, dass Erfahrungseinträge getrennt werden */
+    break-inside: avoid !important;
+  }
+  
+  .pdf-job-details {
+    margin-top: 5px !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+  }
+  
+  .pdf-job-details ul {
+    margin-top: 5px !important;
+    padding-left: 20px !important;
+  }
+  
+  .experiences-section .upper-row {
+    page-break-inside: avoid !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  
+  .experiences-section .job-title {
+    color: #3F4650 !important;
+    font-size: 12pt !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-weight: bold !important;
+  }
+  
+  .experiences-section .company {
+    margin-bottom: 8px !important;
+    color: #42A8C0 !important;
+  }
+  
+  .experiences-section .time {
+    color: #97AAC3 !important;
+    font-weight: normal !important;
   }
 }
