@@ -50,10 +50,43 @@ document.addEventListener('DOMContentLoaded', function() {
       profileImage.style.display = 'block';
     }
     
-    // Kontaktbereich für PDF-Export vorbereiten
+    // Eleganten Header für den PDF-Export vorbereiten (vertikal)
     const contactSection = document.querySelector('.pdf-only-contact-section');
+    const compactHeaderSection = document.querySelector('.compact-header-section');
+    
     if (contactSection) {
       contactSection.style.display = 'block';
+      contactSection.style.textAlign = 'center';
+      
+      // Links in den Kontaktinformationen klickbar machen
+      const links = contactSection.querySelectorAll('a');
+      links.forEach(link => {
+        link.style.color = '#2d7788';
+        link.style.borderBottom = '1px dotted #c5d6db';
+      });
+    }
+    
+    if (compactHeaderSection) {
+      compactHeaderSection.style.display = 'block';
+      compactHeaderSection.style.flexDirection = 'column';
+      compactHeaderSection.style.pageBreakAfter = 'avoid';
+      compactHeaderSection.style.pageBreakInside = 'avoid';
+      compactHeaderSection.style.textAlign = 'center';
+      compactHeaderSection.style.paddingBottom = '10px';
+      compactHeaderSection.style.marginBottom = '10px';
+    }
+    
+    // Summary-Sektion optimieren
+    const summarySection = document.querySelector('.summary-section');
+    if (summarySection) {
+      summarySection.style.pageBreakAfter = 'avoid';
+      summarySection.style.pageBreakInside = 'avoid';
+      // Zusammenfassung verkürzen, falls zu lang
+      const summaryParagraph = summarySection.querySelector('.summary p');
+      if (summaryParagraph && summaryParagraph.offsetHeight > 100) {
+        summaryParagraph.style.fontSize = '9pt';
+        summaryParagraph.style.lineHeight = '1.3';
+      }
     }
     
     // Kontaktinformationen für PDF optimieren
@@ -115,7 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
         /* Grundlegende Seitenformatierung */
         @page {
           size: A4 portrait !important;
-          margin: 10mm 15mm 15mm 15mm !important; /* Oben, Rechts, Unten, Links */
+          margin: 8mm !important; /* Gleichmäßige Ränder für mehr Platz */
+        }
+        
+        /* Zusätzliche Optimierungen für einseitige Darstellung */
+        html, body {
+          font-size: 9pt !important;
+          line-height: 1.3 !important;
         }
         
         /* Verhindern leerer Seiten am Ende */

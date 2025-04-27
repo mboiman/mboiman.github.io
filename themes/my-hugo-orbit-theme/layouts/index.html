@@ -7,9 +7,12 @@
 <body>
     <div class="wrapper">
     
-    {{ partial "sidebar.html" . }}
-    
-    {{ partial "pdf-contact-section.html" . }}
+    <!-- Kompakter Header für PDF-Ausgabe -->
+    <div class="compact-header-section">
+        {{ partial "sidebar.html" . }}
+        
+        {{ partial "pdf-contact-section.html" . }}
+    </div>
 
 	<div class="main-wrapper">
     
