@@ -1,0 +1,165 @@
+/* PDF-Cover Seite Styling */
+@media print {
+  /* Cover-Seite Container */
+  .pdf-cover-page {
+    display: block !important;
+    width: 100% !important;
+    height: 100vh !important;
+    page-break-after: always !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+  }
+  
+  /* Ausblenden normaler Inhalte auf der ersten Seite */
+  .pdf-cover-page ~ .wrapper .main-wrapper {
+    page-break-before: always !important;
+  }
+
+  /* Cover Header mit Profil und Titel */
+  .pdf-cover-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin: 0 0 30px 0 !important;
+    padding: 0 0 20px 0 !important;
+    border-bottom: 2px solid #2d7788 !important;
+  }
+  
+  /* Profilbild im Header */
+  .pdf-cover-profile {
+    flex: 0 0 150px !important;
+    margin-right: 30px !important;
+  }
+  
+  .pdf-header-image {
+    width: 150px !important;
+    height: auto !important;
+    border-radius: 5px !important;
+    border: 1px solid #e8e8e8 !important;
+  }
+  
+  /* Titel-Bereich */
+  .pdf-cover-title {
+    flex: 1 !important;
+  }
+  
+  .pdf-cover-title .name {
+    font-size: 24pt !important;
+    color: #2d7788 !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 !important;
+  }
+  
+  .pdf-cover-title .tagline {
+    font-size: 14pt !important;
+    color: #778492 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Inhalts-Bereich (zweispaltig) */
+  .pdf-cover-content {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 30px !important;
+    margin-bottom: 30px !important;
+  }
+  
+  /* Linke und rechte Spalte */
+  .pdf-cover-left, .pdf-cover-right {
+    flex: 1 !important;
+    padding: 0 !important;
+  }
+  
+  /* Überschriften in den Sektionen */
+  .pdf-cover-contact h3,
+  .pdf-cover-education h3,
+  .pdf-cover-languages h3 {
+    font-size: 14pt !important;
+    color: #2d7788 !important;
+    margin: 0 0 15px 0 !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid #e8e8e8 !important;
+  }
+  
+  /* Kontaktliste */
+  .pdf-contact-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .pdf-contact-list li {
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  
+  .pdf-contact-list li i {
+    width: 20px !important;
+    margin-right: 8px !important;
+    color: #2d7788 !important;
+    text-align: center !important;
+  }
+  
+  .pdf-contact-list a {
+    color: #333 !important;
+    text-decoration: none !important;
+  }
+  
+  /* Ausbildungs-Items */
+  .pdf-education-item {
+    margin-bottom: 15px !important;
+  }
+  
+  .pdf-education-item h4 {
+    font-size: 12pt !important;
+    margin: 0 0 3px 0 !important;
+    color: #333 !important;
+  }
+  
+  .pdf-education-item .meta {
+    font-size: 10pt !important;
+    color: #778492 !important;
+    margin: 0 0 2px 0 !important;
+  }
+  
+  .pdf-education-item .time {
+    font-size: 10pt !important;
+    color: #778492 !important;
+    font-style: italic !important;
+  }
+  
+  /* Sprachen-Items */
+  .pdf-language-item {
+    margin-bottom: 8px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+  
+  .pdf-language-item .language {
+    font-weight: bold !important;
+  }
+  
+  .pdf-language-item .level {
+    color: #778492 !important;
+  }
+  
+  /* Footer mit Seitenumbruch */
+  .pdf-cover-footer {
+    margin-top: auto !important;
+  }
+  
+  .pdf-page-break-after {
+    page-break-after: always !important;
+    height: 0 !important;
+  }
+  
+  /* Ausblenden des Original-Profils auf der ersten Seite */
+  body.printing .sidebar-wrapper,
+  body.printing .pdf-only-contact-section {
+    display: none !important;
+  }
+}

@@ -1,0 +1,148 @@
+/* print-override.css - Zusätzliche Druckformatierungen mit höchster Priorität */
+@media print {
+  /* Seitenumbruch- und Layout-Optimierungen */
+  @page {
+    size: A4 portrait !important;
+    margin: 15mm 12mm !important;
+  }
+  
+  /* Standard-Inhalte auf erster Seite ausblenden */
+  .pdf-cover-page ~ .wrapper .sidebar-wrapper,
+  .pdf-cover-page ~ .wrapper .pdf-only-contact-section,
+  .pdf-cover-page ~ .wrapper .compact-header-section {
+    display: none !important;
+  }
+  
+  /* Verhindern unschöner Seitenumbrüche */
+  h1, h2, h3, h4, h5, h6,
+  .item-heading, .item-title,
+  .summary, .section .section-inner,
+  .section-title, .section-title + p {
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Bei Abschnitten mit Unterpunkten enger zusammenhalten */
+  .section-title + .item:first-of-type {
+    page-break-before: avoid !important;
+  }
+  
+  /* Professionelle Kopfzeile und neu strukturierte erste Seite */
+  .pdf-professional-header {
+    display: flex !important;
+    width: 100% !important;
+    margin: 0 auto 20px auto !important;
+    padding: 0 0 15px 0 !important;
+    border-bottom: 2px solid #2d7788 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Profilbild im Header */
+  .pdf-header-image {
+    width: 150px !important;
+    height: auto !important;
+    border-radius: 5px !important;
+    border: 1px solid #e8e8e8 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    margin: 0 auto 10px !important;
+  }
+  
+  /* Inhalte für den Header-Block rechts */
+  .pdf-header-right {
+    width: 75% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  
+  /* Kontakte im Header */
+  .pdf-header-contacts {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-top: 5px !important;
+    font-size: 10pt !important;
+  }
+  
+  .pdf-contact-item {
+    margin-right: 20px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .pdf-contact-item a {
+    color: #2d7788 !important;
+    text-decoration: none !important;
+  }
+  
+  /* Ursprüngliche Profile-Container ausblenden */
+  .profile-container, 
+  .pdf-only-contact-section,
+  .compact-header-section {
+    display: none !important;
+  }
+  
+  /* Optimierte Überschriften und Text */
+  .section-title {
+    color: #2d7788 !important;
+    font-size: 16pt !important;
+    margin-bottom: 15px !important;
+    page-break-after: avoid !important;
+    border-bottom: 1px solid #e8e8e8 !important;
+    padding-bottom: 5px !important;
+  }
+  
+  /* Erfahrungsblöcke verbessern */
+  .experiences-section .item {
+    margin-bottom: 20px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .experiences-section .meta {
+    color: #6c757d !important;
+    font-weight: 500 !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .experiences-section .details {
+    line-height: 1.4 !important;
+  }
+  
+  /* Skill-Balken verbessern */
+  .skills-section .item {
+    margin-bottom: 15px !important;
+  }
+  
+  .level-bar {
+    background-color: #e8e8e8 !important;
+    height: 12px !important;
+  }
+  
+  .level-bar-inner {
+    background-color: #2d7788 !important;
+    height: 12px !important;
+  }
+  
+  /* Projekte besser formatieren */
+  .projects-section .item {
+    margin-bottom: 20px !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Allgemeine Text- und Farbverbesserungen */
+  body {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    color: #333 !important;
+    background-color: white !important;
+  }
+  
+  .sidebar-wrapper {
+    background-color: transparent !important;
+    color: #333 !important;
+  }
+  
+  a, a:link, a:visited {
+    color: #2d7788 !important;
+    text-decoration: none !important;
+  }
+}
