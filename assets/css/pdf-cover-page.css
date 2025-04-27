@@ -1,11 +1,11 @@
 /* PDF-Cover Seite Styling */
 @media print {
-  /* Cover-Seite Container */
+  /* Cover-Seite Container - ohne Seitenumbruch */
   .pdf-cover-page {
     display: block !important;
     width: 100% !important;
-    height: 100vh !important;
-    page-break-after: always !important;
+    height: auto !important; /* nicht mehr 100vh, damit keine Leerseite entsteht */
+    page-break-after: avoid !important;
     margin: 0 !important;
     padding: 0 !important;
     position: relative !important;
@@ -59,17 +59,30 @@
     padding: 0 !important;
   }
   
-  /* Inhalts-Bereich (zweispaltig) */
+  /* Inhalts-Bereich (zweispaltiger Aufbau) */
   .pdf-cover-content {
     display: flex !important;
-    flex-direction: row !important;
-    gap: 30px !important;
+    flex-direction: column !important;
+    gap: 20px !important;
     margin-bottom: 30px !important;
   }
   
-  /* Linke und rechte Spalte */
-  .pdf-cover-left, .pdf-cover-right {
-    flex: 1 !important;
+  /* Zeilenumbruch für Kontakt und Bildung/Sprachen */
+  .pdf-cover-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 30px !important;
+    width: 100% !important;
+  }
+  
+  /* Linke und rechte Spalte - nebeneinander */
+  .pdf-cover-left {
+    width: 45% !important;
+    padding: 0 !important;
+  }
+  
+  .pdf-cover-right {
+    width: 45% !important;
     padding: 0 !important;
   }
   
@@ -84,17 +97,19 @@
     border-bottom: 1px solid #e8e8e8 !important;
   }
   
-  /* Kontaktliste */
+  /* Kontaktliste - untereinander */
   .pdf-contact-list {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
+    display: block !important;
   }
   
   .pdf-contact-list li {
-    margin-bottom: 8px !important;
+    margin-bottom: 10px !important;
     display: flex !important;
     align-items: flex-start !important;
+    width: 100% !important;
   }
   
   .pdf-contact-list li i {
@@ -137,6 +152,7 @@
     margin-bottom: 8px !important;
     display: flex !important;
     justify-content: space-between !important;
+    width: 100% !important;
   }
   
   .pdf-language-item .language {
@@ -147,14 +163,9 @@
     color: #778492 !important;
   }
   
-  /* Footer mit Seitenumbruch */
-  .pdf-cover-footer {
-    margin-top: auto !important;
-  }
-  
-  .pdf-page-break-after {
-    page-break-after: always !important;
-    height: 0 !important;
+  /* Kein Seitenumbruch mehr am Ende des Covers */
+  .pdf-cover-page {
+    page-break-after: avoid !important;
   }
   
   /* Ausblenden des Original-Profils auf der ersten Seite */
