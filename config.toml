@@ -206,6 +206,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - **Auditierung & Protokollierung**: Lückenlose Dokumentation aller Verarbeitungsschritte sowie Speicherung der ursprünglichen E-Mail-Inhalte im Verarbeitungsprotokoll.
 - **Outlook-Management & SharePoint-Archivierung**: Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook; Archivierung von Original- und generierten Rechnungsdokumenten über Microsoft Graph API.
 - **Monitoring & Logging**: Echtzeit-Überwachung des End-to-End-Prozesses mit Kibana, inklusive Alerting und Dashboard-Erstellung.
+- **Team-Koordination**: Anleitung und Code-Reviews für die Entwickler im Team.
 
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
@@ -224,11 +225,12 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und Integration in bestehende SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination von der Idee bis zur Implementierung.
 
 **Schwerpunkte**:
-- Entwicklung von ML-Modellen: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
-- API-Integrationen: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
-- Prozessautomatisierung: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
-- CI/CD und Monitoring: Implementierung von Continuous Integration und Continuous Deployment Pipelines sowie Einsatz von Kibana für das Monitoring.
-- Entwicklung einer Streamlit-basierten Benutzeroberfläche zur Verbesserung der Testbarkeit.
+- **Entwicklung von ML-Modellen**: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
+- **API-Integrationen**: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
+- **Prozessautomatisierung**: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
+- **CI/CD und Monitoring**: Implementierung von Continuous Integration und Continuous Deployment Pipelines sowie Einsatz von Kibana für das Monitoring.
+- **Entwicklung einer Streamlit-basierten Benutzeroberfläche**: Zur Verbesserung der Testbarkeit und Visualisierung von Prozessergebnissen.
+- **Team-Betreuung**: Technische Anleitung der Entwickler mit regelmäßigen Code-Reviews und Problemlösungssessions.
 
 **Tools & Technologien**
 - Azure Functions: Für serverlose Anwendungsarchitekturen und die Ausführung von ML-Modellen.
