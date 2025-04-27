@@ -1,0 +1,218 @@
+/* Spezielle Druckformatierungen für bessere PDF-Ausgabe */
+@media print {
+  /* Allgemeine Druckeinstellungen */
+  body {
+    font-size: 11pt;
+    background-color: white !important;
+    color: #3F4650 !important;
+  }
+
+  .main-wrapper {
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    float: none !important;
+    width: 100% !important;
+  }
+  
+  .main-wrapper section {
+    padding: 15px 0 !important;
+  }
+
+  /* Kopfbereich mit Profil erstellen */
+  .sidebar-wrapper {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    background-color: white !important;
+    color: #3F4650 !important;
+    margin-bottom: 30px !important;
+    height: auto !important;
+    padding: 0 !important;
+    position: relative !important;
+  }
+  
+  /* Nur Profil anzeigen, Rest der Sidebar ausblenden */
+  .sidebar-wrapper > div:not(.profile-container) {
+    display: none !important;
+  }
+  
+  .sidebar-wrapper .profile-container {
+    background-color: white !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+    border-bottom: 2px solid #f5f5f5 !important;
+    padding-bottom: 20px !important;
+  }
+  
+  .sidebar-wrapper .profile-container h1.name,
+  .sidebar-wrapper .profile-container h3.tagline {
+    color: #2d7788 !important;
+  }
+  
+  .sidebar-wrapper .profile-container img.profile {
+    max-width: 150px !important;
+    margin-bottom: 15px !important;
+    border: 5px solid #f5f5f5 !important;
+  }
+
+  .wrapper {
+    display: block !important;
+    background-color: white !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Verbesserungen für die Farbdarstellung - KEIN blauer Hintergrund für die Sidebar */
+  .sidebar-wrapper a, 
+  .sidebar-wrapper .contact-list .fa {
+    color: #2d7788 !important;
+  }
+
+  .profile-img,
+  .sidebar-wrapper .profile {
+    max-width: 150px !important;
+    border-radius: 50% !important;
+    margin: 0 auto !important;
+    border: 4px solid #f5f5f5 !important;
+  }
+
+  /* Text und Überschriften */
+  .section-title {
+    color: #2d7788 !important;
+    border-bottom-color: #2d7788 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #2d7788 !important;
+  }
+
+  /* Skill-Leisten */
+  .skillset .level-bar-inner {
+    background-color: #2d7788 !important;
+  }
+
+  /* Links */
+  a, a:link, a:visited {
+    color: #2d7788 !important;
+    text-decoration: none !important;
+  }
+
+  /* Verhindern der URL-Anzeige beim Drucken */
+  a:link:after, a:visited:after {
+    content: "" !important;
+  }
+
+  /* Verbesserte Abschnittsformatierung */
+  section {
+    page-break-inside: avoid !important;
+    margin-bottom: 30px !important;
+    border-bottom: 1px solid #f5f5f5 !important;
+    padding-bottom: 20px !important;
+  }
+
+  /* PDF-Button verstecken */
+  .pdf-button-container {
+    display: none !important;
+  }
+
+  /* Zusammenfassung/Profile oben */
+  .summary-section {
+    margin-bottom: 40px !important;
+  }
+
+  /* Kopfzeile mit Namen */
+  .main-wrapper:before {
+    content: attr(data-name);
+    display: block !important;
+    font-size: 24pt !important;
+    font-weight: bold !important;
+    color: #2d7788 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    border-bottom: 2px solid #2d7788 !important;
+    padding-bottom: 10px !important;
+  }
+
+  /* Skills besser darstellen */
+  .skillset .item {
+    margin-bottom: 20px !important;
+  }
+
+  .skillset .level-title {
+    font-weight: bold !important;
+  }
+
+  .skillset .level-bar {
+    height: 12px !important;
+  }
+
+  /* Widget/Contact-Listen und Footer ausblenden */
+  .contact-container, .languages-container, .interests-container, .education-container, .footer {
+    display: none !important;
+  }
+  
+  /* Wichtige Informationen eines jeden Eintrags */
+  .item-title {
+    font-weight: bold !important;
+    font-size: 14pt !important;
+  }
+  
+  .meta {
+    color: #2d7788 !important;
+    font-weight: 500 !important;
+  }
+
+  /* Wichtige projektbasierte Inhalte hervorheben */
+  .project-title {
+    font-weight: bold !important;
+  }
+  
+  /* Metadaten in Einträgen */
+  .item-meta {
+    color: #2d7788 !important;
+  }
+
+  /* Seitenformatierung */
+  @page {
+    size: A4 portrait !important;
+    margin: 10mm 15mm 15mm 15mm !important; /* Oben, Rechts, Unten, Links */
+  }
+  
+  /* Verhindert leere erste Seite */
+  @page :first {
+    margin-top: 0 !important;
+  }
+  
+  /* Explizit letzte Seite konfigurieren */
+  @page :last {
+    margin-bottom: 0 !important;
+  }
+  
+  /* Entfernt unnötige Seitenumbrüche */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Footer vollständig ausblenden */
+  .footer, footer {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Verhindern des zweiten Profilbilds */
+  img.profile:not(:first-of-type),
+  .print-only-profile {
+    display: none !important;
+  }
+}
