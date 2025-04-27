@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     pdfButton.addEventListener('click', function(e) {
       e.preventDefault();
       
+      // Ursprünglichen Zustand speichern
+      saveOriginalStateBeforePrint();
+      
       // PDF-Optimierungen vornehmen
       preparePDFExport();
       
@@ -247,8 +250,40 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
   }
   
+  // Speichern des ursprünglichen Seitenzustands
+  const originalStyles = {};
+  
+  // Speichert den ursprünglichen Stil eines Elements
+  function saveOriginalStyles(element, properties) {
+    if (!element || !element.style) return;
+    
+    const id = element.id || `element_${Math.random().toString(36).substr(2, 9)}`;
+    if (!element.id) element.id = id;
+    
+    if (!originalStyles[id]) originalStyles[id] = {};
+    
+    properties.forEach(prop => {
+      originalStyles[id][prop] = element.style[prop];
+    });
+  }
+  
+  // Stellt den ursprünglichen Stil eines Elements wieder her
+  function restoreOriginalStyles() {
+    for (const id in originalStyles) {
+      const element = document.getElementById(id);
+      if (!element) continue;
+      
+      for (const prop in originalStyles[id]) {
+        element.style[prop] = originalStyles[id][prop] || '';
+      }
+    }
+  }
+  
   // Print-Events abfangen
   window.onbeforeprint = function() {
+    // Ursprünglichen Zustand speichern
+    saveOriginalStateBeforePrint();
+    
     document.body.classList.add('printing');
     preparePDFExport();
   };
@@ -258,5 +293,102 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Temporäre Styles entfernen
     document.querySelectorAll('style.pdf-temp-styles').forEach(s => s.remove());
+    
+    // Ursprünglichen Zustand wiederherstellen
+    restoreOriginalStateAfterPrint();
+  };
+  
+  // Speichert den ursprünglichen Zustand aller Elemente, die vom PDF-Export verändert werden
+  function saveOriginalStateBeforePrint() {
+    // Zurücksetzen der gespeicherten Stile
+    Object.keys(originalStyles).forEach(key => delete originalStyles[key]);
+    
+    // Sidebar-Wrapper
+    const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+    if (sidebarWrapper) {
+      saveOriginalStyles(sidebarWrapper, ['backgroundColor', 'color', 'width', 'display']);
+    }
+    
+    // Footer
+    const footer = document.querySelector('.footer');
+    if (footer) {
+      saveOriginalStyles(footer, ['display', 'height', 'margin', 'padding']);
+    }
+    
+    // Profilbild
+    const profileImage = document.querySelector('.profile-container .profile');
+    if (profileImage) {
+      saveOriginalStyles(profileImage, ['display', 'width', 'height', 'margin', 'border']);
+    }
+    
+    // Kontakt-Sektion
+    const contactSection = document.querySelector('.pdf-only-contact-section');
+    if (contactSection) {
+      saveOriginalStyles(contactSection, ['display', 'textAlign']);
+      
+      // Links in den Kontaktinformationen
+      contactSection.querySelectorAll('a').forEach((link, index) => {
+        saveOriginalStyles(link, ['color', 'borderBottom']);
+      });
+    }
+    
+    // Header-Sektion
+    const compactHeaderSection = document.querySelector('.compact-header-section');
+    if (compactHeaderSection) {
+      saveOriginalStyles(compactHeaderSection, [
+        'display', 'flexDirection', 'pageBreakAfter', 'pageBreakInside', 
+        'textAlign', 'paddingBottom', 'marginBottom'
+      ]);
+    }
+    
+    // Summary-Sektion
+    const summarySection = document.querySelector('.summary-section');
+    if (summarySection) {
+      saveOriginalStyles(summarySection, ['pageBreakAfter', 'pageBreakInside']);
+      
+      const summaryParagraph = summarySection?.querySelector('.summary p');
+      if (summaryParagraph) {
+        saveOriginalStyles(summaryParagraph, ['fontSize', 'lineHeight']);
+      }
+    }
+    
+    // Kontaktinformationen
+    const contactInfo = document.querySelector('.print-only-contact-info');
+    if (contactInfo) {
+      saveOriginalStyles(contactInfo, ['display']);
+      
+      contactInfo.querySelectorAll('a').forEach((link, index) => {
+        saveOriginalStyles(link, ['color', 'textDecoration']);
+      });
+    }
+    
+    // Skills-Level-Bars
+    document.querySelectorAll('.level-bar-inner').forEach((el, index) => {
+      saveOriginalStyles(el, ['width', 'transition']);
+    });
+    
+    // Wrapper-Element
+    const wrapper = document.querySelector('.wrapper');
+    if (wrapper) {
+      saveOriginalStyles(wrapper, ['padding', 'margin']);
+    }
+  }
+  
+  // Stellt den ursprünglichen Zustand aller Elemente wieder her
+  function restoreOriginalStateAfterPrint() {
+    // Ursprüngliche Stile wiederherstellen
+    restoreOriginalStyles();
+    
+    // Attribut entfernen
+    const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+    if (sidebarWrapper) {
+      sidebarWrapper.removeAttribute('data-print-mode');
+    }
+    
+    // Sicherstellen, dass die PDF-only-Elemente wieder ausgeblendet sind
+    const pdfOnlyElements = document.querySelectorAll('.pdf-only-contact-section, .print-only-contact-info');
+    pdfOnlyElements.forEach(el => {
+      if (el) el.style.display = 'none';
+    });
   };
 });
