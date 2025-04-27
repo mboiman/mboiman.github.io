@@ -163,27 +163,27 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
         dates = "08/2021 - 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend \n
-**Schwerpunkte** \n
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität \n
-- Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints \n
-- Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) \n
+**Testmanagement & Testkoordination**, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
+**Schwerpunkte** 
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
+- Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
+- Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
 - Einführung von QualityGates zur sicherung der Qualität innerhalb der CICD-Pipleine
-- Einführung von Gauge (BDD) \n
+- Einführung von Gauge (BDD) 
 - Einführung von Playwright und integration in bestehende CICD-Pipeline
-- Fachliche und technische Analyse von Incidents \n
-- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
-\n
-**Tools** \n
-- Intelij / Visual Studio Code \n
-- Java / Java-Script / Typescript \n
-- Playwright / Gauge / Taiko / Karate \n
-- CI/CD / Github – reusebale workflows \n
-- Helm / Container \n
-- JIRA / Confluence \n
-- Grafana \n
-- Behavier Driven Development \n
-- Consumer Driven Contracts (Pact.io) \n
+- Fachliche und technische Analyse von Incidents 
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
+
+**Tools** 
+- Intelij / Visual Studio Code 
+- Java / Java-Script / Typescript 
+- Playwright / Gauge / Taiko / Karate 
+- CI/CD / Github – reusebale workflows 
+- Helm / Container 
+- JIRA / Confluence 
+- Grafana 
+- Behavier Driven Development 
+- Consumer Driven Contracts (Pact.io) 
 """
 
 
@@ -249,32 +249,32 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
         details = """
-**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive Teamübergreifende Einarbeitung, Hilfestellung, Beratung, Schulung \n
-**Schwerpunkte** \n
-- Agile Qualitätssicherung durch Konzeption von QualityGates in der CICD Pipeline \n
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Kibana, Graylog, Grafana, Instana & Elastic Search \n
-- Performance Tests innerhalb der CICD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und  Instana \n
-- Dokumentation von Qualitätsmetriken über fortschritt der messbaren Qualität der Sprints \n
-- Aufbau und Konzeption von DatenTest CICD-Pipeline \n
-- Fachliche und technische Analyse von Problemen \n
-- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme \n
-- Aufbau von Junit, Unit-Integrationtests und Integrationstest unteranderen mit Java Cucumber \n
-- Entwicklung eine Hybriden App die zur Präsentation (Review) der Ergebnisse in einer Web oder Mobil en Plattform \n
-- Koordination Integrationstest zwischen Teams \n
-\n
-**Tools** \n
-- Intelij \n
-- Java \n
-- Cucumber / Cypress \n
+**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive Teamübergreifende Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Schwerpunkte** 
+- Agile Qualitätssicherung durch Konzeption von QualityGates in der CICD Pipeline 
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Performance Tests innerhalb der CICD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und  Instana 
+- Dokumentation von Qualitätsmetriken über fortschritt der messbaren Qualität der Sprints 
+- Aufbau und Konzeption von DatenTest CICD-Pipeline 
+- Fachliche und technische Analyse von Problemen 
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
+- Aufbau von Junit, Unit-Integrationtests und Integrationstest unteranderen mit Java Cucumber 
+- Entwicklung eine Hybriden App die zur Präsentation (Review) der Ergebnisse in einer Web oder Mobil en Plattform 
+- Koordination Integrationstest zwischen Teams 
+
+**Tools** 
+- Intelij 
+- Java 
+- Cucumber / Cypress 
 - J-Meter / Gatling
-- CI/CD / ·	GITLAB CI / Jenkins \n
-- Helm / Docker \n
-- JIRA / Confluence \n
-- Kibana / Grafana / Instana / Graylog \n
-- Behavier Driven Development \n
-- Consumer Driven Contracts (Spring Cloud Contract) \n
-- Ionic (Hybride App) \n
-- Selenium \n
+- CI/CD / ·	GITLAB CI / Jenkins 
+- Helm / Docker 
+- JIRA / Confluence 
+- Kibana / Grafana / Instana / Graylog 
+- Behavier Driven Development 
+- Consumer Driven Contracts (Spring Cloud Contract) 
+- Ionic (Hybride App) 
+- Selenium 
 """
 
 
@@ -283,23 +283,23 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
         details = """
-**Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests \n
-**Schwerpunkte** \n
-- Anforderungs-Management \n
-- Status Reports \n
-- Beratung der Kunden \n
-- Dokumentation in form von Testkonzepts, Analysen  „Management Summarys“ und Wiki-Dokumentation \n
-- Aufbau und Ausführung der Last und performance Tests \n
-- Analyse der Ergebnisse & perfomrance Logs\n
-\n
-**Tools** \n
-- Visual Studio \n
-- Eclipse \n
-- JMeter \n
-- GIT \n
-- JIRA / Confluence \n
-- Excel & Access VBS \n
-- Schnittstellen: HTTP, WS, REST, MQ, JMS  \n
+**Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
+**Schwerpunkte** 
+- Anforderungs-Management 
+- Status Reports 
+- Beratung der Kunden 
+- Dokumentation in form von Testkonzepts, Analysen  „Management Summarys“ und Wiki-Dokumentation 
+- Aufbau und Ausführung der Last und performance Tests 
+- Analyse der Ergebnisse & perfomrance Logs
+
+**Tools** 
+- Visual Studio 
+- Eclipse 
+- JMeter 
+- GIT 
+- JIRA / Confluence 
+- Excel & Access VBS 
+- Schnittstellen: HTTP, WS, REST, MQ, JMS  
 """
 
          [[params.jobs.list]]
@@ -307,19 +307,19 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
-**Senior IOS Developer** Weiterentwicklung der rebuild Version von der **Kundencenter App** der Deutschen Telekom, um neue Funktionalitäten zur IFA. \n
-**Schwerpunkte** \n
-- Swift \n
-- IOS 8 \n
-- Requests & responces to backend \n
-- Errorhandling \n
-- Ipad / Iphone \n
-- Scrum \n
-\n
-**Tools** \n
-- X-Code \n
-- GIT \n
-- JIRA \n
+**Senior IOS Developer** Weiterentwicklung der rebuild Version von der **Kundencenter App** der Deutschen Telekom, um neue Funktionalitäten zur IFA. 
+**Schwerpunkte** 
+- Swift 
+- IOS 8 
+- Requests & responces to backend 
+- Errorhandling 
+- Ipad / Iphone 
+- Scrum 
+
+**Tools** 
+- X-Code 
+- GIT 
+- JIRA 
 """
 
 
@@ -328,31 +328,31 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "05/2009 - 03/2015"
         company = "Siemens"
         details = """
-**QS, Testmanagement , Testautomatisierung, Requirementsmanagement** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführ \n
-**Projekte** \n
-- SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen \n
-- STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) \n
-- GPM2 - Aktien-Bonus-programm für Angestellte (Frontend: Web / Backend: JBoss) \n
-- PATAC \n
-- SOM - Verwaltung und Übersicht von OrgUnits \n
-\n
-**Schwerpunkte** \n
-- Erstellung Fachlicher Testkonzepte und Testpläne \n
-- Defect -Tracking \n
-- Verwaltung der CRs, Kommunikation zwischen Kunden und Entwickler \n
-- Test Automatisierungs erstellung, pflege und Ausführung \n
-- User Acceptance Tests \n
-- Schulung neuer Tester und Testautomatisierer \n
-- Betretung als Testmanager nach Projektschluss im Regelbetrieb \n
-- Aufbau von Abnahme-Tests \n
-- Übertragung der Fachspezifikation und Feinspezifikation ins Quality Center  \n
-- Überwachung der umgesetzten Anforderungen gegen das Feinkonzept \n
-\n
-**Tools** \n
-- HP ALM \n
-- HP UFT \n
-- HP QC \n
-- Quick Test Pro  \n
+**QS, Testmanagement , Testautomatisierung, Requirementsmanagement** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführ 
+**Projekte** 
+- SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
+- STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
+- GPM2 - Aktien-Bonus-programm für Angestellte (Frontend: Web / Backend: JBoss) 
+- PATAC 
+- SOM - Verwaltung und Übersicht von OrgUnits 
+
+**Schwerpunkte** 
+- Erstellung Fachlicher Testkonzepte und Testpläne 
+- Defect -Tracking 
+- Verwaltung der CRs, Kommunikation zwischen Kunden und Entwickler 
+- Test Automatisierungs erstellung, pflege und Ausführung 
+- User Acceptance Tests 
+- Schulung neuer Tester und Testautomatisierer 
+- Betretung als Testmanager nach Projektschluss im Regelbetrieb 
+- Aufbau von Abnahme-Tests 
+- Übertragung der Fachspezifikation und Feinspezifikation ins Quality Center  
+- Überwachung der umgesetzten Anforderungen gegen das Feinkonzept 
+
+**Tools** 
+- HP ALM 
+- HP UFT 
+- HP QC 
+- Quick Test Pro  
 """
 
 
@@ -361,14 +361,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "03/2009 - 05/2009"
         company = "ING-DIBA"
         details = """
-**Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal \n
-**Schwerpunkte** \n
-- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  \n
-- Durchführung von Lasttests und Analyse der Ergebnisse \n
-- Monitoring und Reporting \n
-\n
-**Tools** \n
-- Loadrunner \n
+**Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
+**Schwerpunkte** 
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
+- Durchführung von Lasttests und Analyse der Ergebnisse 
+- Monitoring und Reporting 
+
+**Tools** 
+- Loadrunner 
 """
 
          [[params.jobs.list]]
@@ -376,14 +376,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "01/2006 - 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
-**Last und Performance Tester / Tester** Verschiedene Projekte, die meisten Last & Performance tests\n
-**Schwerpunkte** \n
-- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  \n
-- Durchführung von Lasttests und Analyse der Ergebnisse \n
-- Monitoring und Reporting \n
-\n
-**Tools** \n
-- Loadrunner \n
+**Last und Performance Tester / Tester** Verschiedene Projekte, die meisten Last & Performance tests
+**Schwerpunkte** 
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
+- Durchführung von Lasttests und Analyse der Ergebnisse 
+- Monitoring und Reporting 
+
+**Tools** 
+- Loadrunner 
 """
 
     # Projects section
@@ -402,8 +402,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         title = "QualityCluster"
         url = "https://qualitycluster.de"
         tagline = """
-QualityCluster ist ein Zusammenschluss von QE-Experten (Quality Engineers), um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. \n
-Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirklichen. \n
+QualityCluster ist ein Zusammenschluss von QE-Experten (Quality Engineers), um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
+Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirklichen. 
 """
 
         [[params.projects.list]]
@@ -472,13 +472,13 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
 #        [[params.skills.list]]
 #        skill = """
-#        Testautomatisierung / Testmanagement: \n
-#         - Zephyre \n
-#         - Jira \n
-#         - QualityCenter/ALM \n
-#         - UFT \n
-#         - LoadRunner \n
-#         - Selenium & Cypress \n
+#        Testautomatisierung / Testmanagement: 
+#         - Zephyre 
+#         - Jira 
+#         - QualityCenter/ALM 
+#         - UFT 
+#         - LoadRunner 
+#         - Selenium & Cypress 
 #         - SOAP-Tools & SQL-Tools"""
 #        level = "90%"
 
@@ -492,9 +492,9 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = """
-        Dashboards & Analyse - \n
-        Kibana(+ES) & Greylog &  \n
-        Grafana & Instana \n
+        Dashboards & Analyse - 
+        Kibana(+ES) & Greylog &  
+        Grafana & Instana 
         """
         level = "90%"
 
