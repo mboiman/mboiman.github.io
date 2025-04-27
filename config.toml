@@ -488,12 +488,8 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "97%"
 
         [[params.skills.list]]
-        skill = "Cucumber & Gauge"
+        skill = "Cucumber / Gauge / Taiko"
         level = "99%"
-
-        [[params.skills.list]]
-        skill = "Taiko"
-        level = "97%"
 
         [[params.skills.list]]
         skill = "CDC - Spring Contract & Pact.io"
@@ -511,19 +507,6 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         skill = "REST & Postman"
         level = "95%"
 
-
-#        [[params.skills.list]]
-#        skill = """
-#        Testautomatisierung / Testmanagement: 
-#         - Zephyre 
-#         - Jira 
-#         - QualityCenter/ALM 
-#         - UFT 
-#         - LoadRunner 
-#         - Selenium & Cypress 
-#         - SOAP-Tools & SQL-Tools"""
-#        level = "90%"
-
         [[params.skills.list]]
         skill = "Last und performance Testing mit J-Meter, Gatling"
         level = "90%"
@@ -534,8 +517,8 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
 
         [[params.skills.list]]
         skill = """
-        Dashboards & Analyse - 
-        Kibana(+ES) & Greylog &  
+        Dashboards & Analyse - \n
+        Kibana(+ES) & Greylog &  \n
         Grafana & Instana 
         """
         level = "90%"
