@@ -6,11 +6,13 @@
 
 <body>
     <div class="wrapper">
-
+    
     {{ partial "sidebar.html" . }}
+    
+    {{ partial "pdf-contact-section.html" . }}
 
 	<div class="main-wrapper">
-
+    
     {{ if .Site.Params.summary.enable }}
 	{{ partial "summary.html" . }}
     {{ end }}
