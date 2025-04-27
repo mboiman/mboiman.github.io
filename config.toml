@@ -151,26 +151,19 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
     """
 
 
-# Konferenzen und Vorträge
-[params.jobs]
-    enable = true
-    icon = "fa-microphone"
-    title = "Konferenzen und Vorträge"
-
-    [[params.jobs.list]]
-    position = "Anwendungen von KI im Geschäftsumfeld"
-    dates = "2023"
-    company = "KI-Workshop zur Unternehmenseinbindung"
-    details = """
-    Bei diesem Workshop präsentierte ich innovative Anwendungen von KI-Technologien in der Geschäftswelt. Der Fokus lag auf der Live-Demonstration von ChatGPT zur Codegenerierung und der Umsetzung von KI in realen Geschäftsprozessen. Ich demonstrierte die Nutzung von KI für das Web Scraping, Datenanalyse und die Entwicklung eines interaktiven Chatbots. Weitere Details und Quellcode sind in meinem [GitHub-Repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot) verfügbar.
-    """
-
-
-    # Experiences section
+# Experiences section
     [params.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "Experiences"
+        
+        [[params.jobs.list]]
+        position = "Anwendungen von KI im Geschäftsumfeld"
+        dates = "2023"
+        company = "KI-Workshop zur Unternehmenseinbindung"
+        details = """
+        Bei diesem Workshop präsentierte ich innovative Anwendungen von KI-Technologien in der Geschäftswelt. Der Fokus lag auf der Live-Demonstration von ChatGPT zur Codegenerierung und der Umsetzung von KI in realen Geschäftsprozessen. Ich demonstrierte die Nutzung von KI für das Web Scraping, Datenanalyse und die Entwicklung eines interaktiven Chatbots. Weitere Details und Quellcode sind in meinem [GitHub-Repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot) verfügbar.
+        """
 
 
         [[params.jobs.list]]
