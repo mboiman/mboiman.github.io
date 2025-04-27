@@ -50,6 +50,25 @@ document.addEventListener('DOMContentLoaded', function() {
       profileImage.style.display = 'block';
     }
     
+    // Kontaktbereich für PDF-Export vorbereiten
+    const contactSection = document.querySelector('.pdf-only-contact-section');
+    if (contactSection) {
+      contactSection.style.display = 'block';
+    }
+    
+    // Kontaktinformationen für PDF optimieren
+    const contactInfo = document.querySelector('.print-only-contact-info');
+    if (contactInfo) {
+      contactInfo.style.display = 'block';
+      
+      // Links klickbar machen
+      const links = contactInfo.querySelectorAll('a');
+      links.forEach(link => {
+        link.style.color = '#2d7788';
+        link.style.textDecoration = 'underline';
+      });
+    }
+    
     // Alle Skills-Level-Bars aktualisieren für bessere Anzeige
     document.querySelectorAll('.level-bar-inner').forEach(function(el) {
       // Originale Breite sichern
