@@ -59,7 +59,7 @@
     padding: 0 !important;
   }
   
-  /* Inhalts-Bereich (einspaltiger Aufbau) */
+  /* Inhalts-Bereich (zweispaltiger Aufbau) */
   .pdf-cover-content {
     display: flex !important;
     flex-direction: column !important;
@@ -67,9 +67,22 @@
     margin-bottom: 30px !important;
   }
   
-  /* Linke und rechte Spalte - jetzt untereinander */
-  .pdf-cover-left, .pdf-cover-right {
+  /* Zeilenumbruch für Kontakt und Bildung/Sprachen */
+  .pdf-cover-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 30px !important;
     width: 100% !important;
+  }
+  
+  /* Linke und rechte Spalte - nebeneinander */
+  .pdf-cover-left {
+    width: 45% !important;
+    padding: 0 !important;
+  }
+  
+  .pdf-cover-right {
+    width: 45% !important;
     padding: 0 !important;
   }
   
@@ -139,6 +152,7 @@
     margin-bottom: 8px !important;
     display: flex !important;
     justify-content: space-between !important;
+    width: 100% !important;
   }
   
   .pdf-language-item .language {

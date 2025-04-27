@@ -11,44 +11,44 @@
     </div>
 
     <div class="pdf-cover-content">
-        <div class="pdf-cover-left">
-            {{ if .Site.Params.contact.enable }}
-            <div class="pdf-cover-contact">
-                <h3>Kontakt</h3>
-                <ul class="pdf-contact-list">
-                    {{ range .Site.Params.contact.list }}
-                    <li><i class="fa {{ .icon }}"></i> <a href="{{ .url }}">{{ .title }}</a></li>
+        <div class="pdf-cover-row">
+            <div class="pdf-cover-left">
+                {{ if .Site.Params.contact.enable }}
+                <div class="pdf-cover-contact">
+                    <h3>Kontakt</h3>
+                    <ul class="pdf-contact-list">
+                        {{ range .Site.Params.contact.list }}
+                        <li><i class="fa {{ .icon }}"></i> <a href="{{ .url }}">{{ .title }}</a></li>
+                        {{ end }}
+                    </ul>
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="pdf-cover-right">
+                {{ if .Site.Params.education.enable }}
+                <div class="pdf-cover-education">
+                    <h3>{{ .Site.Params.education.title }}</h3>
+                    {{ range .Site.Params.education.list }}
+                    <div class="pdf-education-item">
+                        <h4>{{ .degree }}</h4>
+                        {{ if .meta }}<div class="meta">{{ .meta }}</div>{{ end }}
+                        {{ if .time }}<div class="time">{{ .time }}</div>{{ end }}
+                    </div>
                     {{ end }}
-                </ul>
-            </div>
-            {{ end }}
-        </div>
-
-        <div class="pdf-cover-right">
-            {{ if .Site.Params.education.enable }}
-            <div class="pdf-cover-education">
-                <h3>{{ .Site.Params.education.title }}</h3>
-                {{ range .Site.Params.education.list }}
-                <div class="pdf-education-item">
-                    <h4>{{ .degree }}</h4>
-                    {{ if .meta }}<div class="meta">{{ .meta }}</div>{{ end }}
-                    {{ if .time }}<div class="time">{{ .time }}</div>{{ end }}
+                
+                    {{ if .Site.Params.languages.enable }}
+                    <h3>{{ .Site.Params.languages.title }}</h3>
+                    {{ range .Site.Params.languages.list }}
+                    <div class="pdf-language-item">
+                        <span class="language">{{ .language }}</span>
+                        <span class="level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                    {{ end }}
                 </div>
                 {{ end }}
             </div>
-            {{ end }}
-
-            {{ if .Site.Params.languages.enable }}
-            <div class="pdf-cover-languages">
-                <h3>{{ .Site.Params.languages.title }}</h3>
-                {{ range .Site.Params.languages.list }}
-                <div class="pdf-language-item">
-                    <span class="language">{{ .language }}</span>
-                    <span class="level">{{ .level }}</span>
-                </div>
-                {{ end }}
-            </div>
-            {{ end }}
         </div>
     </div>
     
