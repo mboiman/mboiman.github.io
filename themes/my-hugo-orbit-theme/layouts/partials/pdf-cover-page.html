@@ -37,9 +37,9 @@
                     </div>
                     {{ end }}
                 
-                    {{ if .Site.Params.languages.enable }}
-                    <h3>{{ .Site.Params.languages.title }}</h3>
-                    {{ range .Site.Params.languages.list }}
+                    {{ if .Site.Params.language.enable }}
+                    <h3>{{ .Site.Params.language.title }}</h3>
+                    {{ range .Site.Params.language.list }}
                     <div class="pdf-language-item">
                         <span class="language">{{ .language }}</span>
                         <span class="level">{{ .level }}</span>
