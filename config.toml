@@ -67,7 +67,13 @@ disable404 = true
         class = "github"
         icon = "fa-github"
         url = "//github.com/bks-lab"
-        title = "qualitycluster"
+        title = "Github-Profile"
+
+        [[params.contact.list]]
+        class = "github"
+        icon = "fa-github"
+        url = "//github.com/bks-lab"
+        title = "bks-lab"
 
         [[params.contact.list]]
         class = "twitter"
