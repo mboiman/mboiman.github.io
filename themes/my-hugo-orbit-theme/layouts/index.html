@@ -15,12 +15,12 @@
     
     <div class="compact-header-section">
         {{ partial "sidebar.html" . }}
-    </div>
-
-	<div class="main-wrapper">
+    </div>    <div class="main-wrapper">
     
     {{ if .Site.Params.summary.enable }}
+    <div class="pdf-summary-page">
 	{{ partial "summary.html" . }}
+    </div>
     {{ end }}
 
     {{ if .Site.Params.skills.enable }}
