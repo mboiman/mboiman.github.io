@@ -186,6 +186,29 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - Consumer Driven Contracts (Pact.io) 
 """
 
+        [[params.jobs.list]]
+        position = "Architect & Lead-Developer"
+        dates    = "05/2024 - 04/2025"
+        company  = "BKS"
+        details  = """
+**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach eines führenden Online-Stellenanbieters. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionsfreigabe.
+
+**Schwerpunkte**:
+- **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
+- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (ZUGFeRD, Factur-X), inklusive Struktur- und Inhalts-Parsing.
+- **Salesforce-Einspielung**: Weiterleitung der aufbereiteten Rechnungsdaten per E-Mail an das nachgelagerte System für den Salesforce-Import.
+- **Auditierung & Protokollierung**: Lückenlose Dokumentation aller Verarbeitungsschritte sowie Speicherung der ursprünglichen E-Mail-Inhalte im Verarbeitungsprotokoll.
+- **Outlook-Management & SharePoint-Archivierung**: Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook; Archivierung von Original- und generierten Rechnungsdokumenten über Microsoft Graph API.
+- **Monitoring & Logging**: Echtzeit-Überwachung des End-to-End-Prozesses mit Kibana, inklusive Alerting und Dashboard-Erstellung.
+
+**Tools & Technologien**
+- Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
+- Python: Implementierung der Kernlogik für Datenextraktion, Klassifizierung und Integration.
+- Microsoft Graph API: Zugriff auf Outlook-Postfächer und SharePoint-Dokumentbibliotheken.
+- GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
+- Kibana: Monitoring, Log-Analyse und Performance-Dashboards.
+"""
+
 
         [[params.jobs.list]]
         position = "Architect & Lead-Developer"
