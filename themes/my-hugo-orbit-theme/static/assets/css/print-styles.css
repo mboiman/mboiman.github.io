@@ -9,9 +9,9 @@
     line-height: 1.4 !important;
   }
   
-  /* Seitenlayout anpassen */
+  /* Seitenlayout anpassen - keine Leerseite */
   .main-wrapper {
-    margin-top: 30mm !important; /* Platz für die PDF-Titelseite */
+    margin-top: 0 !important; /* Kein zusätzlicher Abstand mehr */
   }
   
   /* Professionelle Kopfzeile für PDF-Export */
@@ -40,16 +40,17 @@
   .profile-container,
   .compact-header-section,
   .sidebar-wrapper,
-  .pdf-button-container {
+  .pdf-button-container,
+  .footer {
     display: none !important;
   }
   
-  /* PDF-spezifische Elemente einblenden */
+  /* PDF-spezifische Elemente einblenden - ohne Leerseite */
   .pdf-first-page {
     display: block !important;
     position: relative !important;
-    margin-bottom: 30px !important;
-    page-break-after: always !important;
+    margin-bottom: 0 !important; /* kein Abstand mehr */
+    page-break-after: avoid !important; /* kein Seitenumbruch */
   }
   
   .pdf-only-contact-section {
@@ -105,14 +106,13 @@
   .pdf-contact-list {
     list-style: none !important;
     padding-left: 0 !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 15px !important;
+    display: block !important;
   }
   
   .pdf-contact-list li {
-    width: calc(50% - 15px) !important;
+    width: 100% !important;
     margin-bottom: 10px !important;
+    display: block !important;
   }
   
   .pdf-content-columns {
