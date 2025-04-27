@@ -1,5 +1,11 @@
-/* PDF-Only-Bereich ausblenden in normaler Webansicht */
-.pdf-only-contact-section {
+/* PDF-Only-Bereiche ausblenden in normaler Webansicht */
+.pdf-first-page,
+.pdf-only-contact-section,
+.pdf-cover-page,
+.pdf-professional-header,
+.pdf-cover-header,
+.pdf-contact-content,
+.pdf-content-columns {
   display: none;
 }
 

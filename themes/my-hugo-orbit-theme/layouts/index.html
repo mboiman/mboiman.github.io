@@ -5,13 +5,16 @@
 </head>
 
 <body>
+    <!-- PDF-spezifische Elemente (nur für Druck sichtbar) -->
+    <div class="pdf-first-page">
+        {{ partial "pdf-cover-page.html" . }}
+        {{ partial "pdf-contact-section.html" . }}
+    </div>
+    
     <div class="wrapper">
     
-    <!-- Kompakter Header für PDF-Ausgabe -->
     <div class="compact-header-section">
         {{ partial "sidebar.html" . }}
-        
-        {{ partial "pdf-contact-section.html" . }}
     </div>
 
 	<div class="main-wrapper">

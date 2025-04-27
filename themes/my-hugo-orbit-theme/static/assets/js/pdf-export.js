@@ -3,25 +3,25 @@
  * Verbessert die Qualität des PDF-Exports
  */
 document.addEventListener('DOMContentLoaded', function() {
-  // PDF-Button Funktionalität
-  const pdfButton = document.querySelector('.pdf-button');
+  // PDF-Button Funktionalität - Deaktiviert, da onClick im HTML-Button verwendet wird
+  // const pdfButton = document.querySelector('.pdf-button');
   
-  if (pdfButton) {
-    pdfButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Ursprünglichen Zustand speichern
-      saveOriginalStateBeforePrint();
-      
-      // PDF-Optimierungen vornehmen
-      preparePDFExport();
-      
-      // Längere Verzögerung für bessere Renderergebnisse
-      setTimeout(function() {
-        window.print();
-      }, 500);
-    });
-  }
+  // if (pdfButton) {
+  //   pdfButton.addEventListener('click', function(e) {
+  //     e.preventDefault();
+  //     
+  //     // Ursprünglichen Zustand speichern
+  //     saveOriginalStateBeforePrint();
+  //     
+  //     // PDF-Optimierungen vornehmen
+  //     preparePDFExport();
+  //     
+  //     // Längere Verzögerung für bessere Renderergebnisse
+  //     setTimeout(function() {
+  //       window.print();
+  //     }, 500);
+  //   });
+  // }
   
   /**
    * Bereitet das Dokument für den PDF-Export vor
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function preparePDFExport() {
     // Name des Nutzers für die Kopfzeile extrahieren
     const profileName = document.querySelector('.profile-container .name, .sidebar-wrapper h1')?.textContent.trim() || 'Lebenslauf';
+    const profileTagline = document.querySelector('.profile-container .tagline')?.textContent.trim() || '';
     
     // Entfernt die blaue Hintergrundfarbe der Sidebar beim Drucken
     const sidebarWrapper = document.querySelector('.sidebar-wrapper');
@@ -43,40 +44,17 @@ document.addEventListener('DOMContentLoaded', function() {
       footer.style.display = 'none';
     }
     
-    // Profilbild optimieren - nur einmal anzeigen
+    // Profilbild optimieren und neu positionieren
     const profileImage = document.querySelector('.profile-container .profile');
     // Vorhandene temporäre Profilbilder entfernen
     document.querySelectorAll('.print-only-profile').forEach(img => img.remove());
     
+    // Hochwertige Kopfzeile für den PDF-Export erstellen
+    createPDFHeader(profileName, profileTagline, profileImage);
+    
     if (profileImage) {
-      // Sicherstellen, dass das Bild vollständig geladen ist
-      profileImage.style.display = 'block';
-    }
-    
-    // Eleganten Header für den PDF-Export vorbereiten (vertikal)
-    const contactSection = document.querySelector('.pdf-only-contact-section');
-    const compactHeaderSection = document.querySelector('.compact-header-section');
-    
-    if (contactSection) {
-      contactSection.style.display = 'block';
-      contactSection.style.textAlign = 'center';
-      
-      // Links in den Kontaktinformationen klickbar machen
-      const links = contactSection.querySelectorAll('a');
-      links.forEach(link => {
-        link.style.color = '#2d7788';
-        link.style.borderBottom = '1px dotted #c5d6db';
-      });
-    }
-    
-    if (compactHeaderSection) {
-      compactHeaderSection.style.display = 'block';
-      compactHeaderSection.style.flexDirection = 'column';
-      compactHeaderSection.style.pageBreakAfter = 'avoid';
-      compactHeaderSection.style.pageBreakInside = 'avoid';
-      compactHeaderSection.style.textAlign = 'center';
-      compactHeaderSection.style.paddingBottom = '10px';
-      compactHeaderSection.style.marginBottom = '10px';
+      // Standardprofil anpassen
+      profileImage.style.display = 'none'; // Originalbild ausblenden, wir nutzen eine Kopie
     }
     
     // Summary-Sektion optimieren
@@ -87,22 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Zusammenfassung verkürzen, falls zu lang
       const summaryParagraph = summarySection.querySelector('.summary p');
       if (summaryParagraph && summaryParagraph.offsetHeight > 100) {
-        summaryParagraph.style.fontSize = '9pt';
-        summaryParagraph.style.lineHeight = '1.3';
+        summaryParagraph.style.fontSize = '10pt';
+        summaryParagraph.style.lineHeight = '1.4';
       }
-    }
-    
-    // Kontaktinformationen für PDF optimieren
-    const contactInfo = document.querySelector('.print-only-contact-info');
-    if (contactInfo) {
-      contactInfo.style.display = 'block';
-      
-      // Links klickbar machen
-      const links = contactInfo.querySelectorAll('a');
-      links.forEach(link => {
-        link.style.color = '#2d7788';
-        link.style.textDecoration = 'underline';
-      });
     }
     
     // Alle Skills-Level-Bars aktualisieren für bessere Anzeige
@@ -137,6 +102,111 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   /**
+   * Erstellt eine professionelle Kopfzeile für den PDF-Export
+   */
+  function createPDFHeader(name, tagline, profileImage) {
+    // Bestehenden Header entfernen falls vorhanden
+    document.querySelectorAll('.pdf-professional-header').forEach(h => h.remove());
+    
+    // Neue professionelle Kopfzeile erstellen
+    const header = document.createElement('div');
+    header.className = 'pdf-professional-header';
+    header.style.cssText = 'display:flex; width:100%; margin:0 auto 20px; padding:0 0 15px; border-bottom:2px solid #2d7788; page-break-after:avoid; page-break-inside:avoid;';
+    
+    // Layout für die erste Seite erstellen
+    const headerHTML = `
+      <div class="pdf-header-left" style="width:25%; padding-right:20px; text-align:center;">
+        ${profileImage ? `<img class="pdf-header-image" src="${profileImage.src}" style="width:150px; height:auto; border-radius:5px; display:block; margin:0 auto 10px;" />` : ''}
+      </div>
+      <div class="pdf-header-right" style="width:75%; display:flex; flex-direction:column; justify-content:center;">
+        <h1 style="margin:0 0 5px; padding:0; color:#2d7788; font-size:24pt; line-height:1.2;">${name}</h1>
+        <p style="margin:0 0 15px; padding:0; color:#666; font-size:14pt; font-style:italic;">${tagline}</p>
+        
+        <!-- Kontaktzeile mit Icons -->
+        <div class="pdf-header-contacts" style="display:flex; flex-wrap:wrap; margin-top:5px; font-size:10pt;">
+          ${getContactItemsForHeader()}
+        </div>
+      </div>
+    `;
+    
+    header.innerHTML = headerHTML;
+    
+    // Header an den Anfang des Dokuments einfügen
+    const mainWrapper = document.querySelector('.main-wrapper');
+    if (mainWrapper && mainWrapper.parentNode) {
+      mainWrapper.parentNode.insertBefore(header, mainWrapper);
+    }
+    
+    // Kontakt-Sektion neu positionieren
+    repositionContactSection();
+  }
+  
+  /**
+   * Sammelt Kontaktinformationen für die Kopfzeile
+   */
+  function getContactItemsForHeader() {
+    const contactItems = [];
+    const contactList = document.querySelectorAll('.contact-container .list-unstyled li, .pdf-contact-list li');
+    
+    // Begrenzen auf maximal 4-5 Kontaktinformationen für eine saubere Darstellung
+    const maxItems = 5;
+    let count = 0;
+    
+    contactList.forEach(item => {
+      if (count < maxItems) {
+        const icon = item.querySelector('.fa');
+        const link = item.querySelector('a');
+        
+        if (icon && link) {
+          const iconClass = icon.className;
+          const linkText = link.textContent.trim();
+          const linkHref = link.getAttribute('href');
+          
+          contactItems.push(`
+            <div class="pdf-contact-item" style="margin-right:20px; margin-bottom:8px;">
+              <i class="${iconClass}" style="margin-right:5px; color:#2d7788;"></i>
+              <a href="${linkHref}" style="color:#2d7788; text-decoration:none;">${linkText}</a>
+            </div>
+          `);
+          
+          count++;
+        }
+      }
+    });
+    
+    return contactItems.join('');
+  }
+  
+  /**
+   * Positioniert die Kontakt-Sektion neu für das PDF-Layout
+   */
+  function repositionContactSection() {
+    const contactSection = document.querySelector('.pdf-only-contact-section');
+    const compactHeaderSection = document.querySelector('.compact-header-section');
+    
+    if (contactSection) {
+      // Verbesserte Darstellung für die Kontaktsektion
+      contactSection.style.display = 'none'; // Standardmäßig ausblenden, wir verwenden jetzt den Header
+    }
+    
+    if (compactHeaderSection) {
+      compactHeaderSection.style.display = 'none'; // Keine Verwendung mehr
+    }
+    
+    // Summary-Sektion optimieren und direkt nach dem Header platzieren
+    const summarySection = document.querySelector('.summary-section');
+    if (summarySection) {
+      summarySection.style.marginTop = '20px';
+      summarySection.style.marginBottom = '25px';
+      summarySection.style.pageBreakAfter = 'avoid';
+      summarySection.style.pageBreakInside = 'avoid';
+      
+      // Umfasst die gesamte Seitenbreite
+      summarySection.style.maxWidth = '100%';
+    }
+  }
+
+  /**
    * Erzeugt einen temporären Style-Tag mit zusätzlichen Print-Optimierungen
    */
   function createCustomPrintStyle() {
@@ -151,13 +221,14 @@ document.addEventListener('DOMContentLoaded', function() {
         /* Grundlegende Seitenformatierung */
         @page {
           size: A4 portrait !important;
-          margin: 8mm !important; /* Gleichmäßige Ränder für mehr Platz */
+          margin: 15mm 12mm !important; /* Professionelle Ränder */
         }
         
-        /* Zusätzliche Optimierungen für einseitige Darstellung */
+        /* Optimierungen für professionelles Erscheinungsbild */
         html, body {
-          font-size: 9pt !important;
-          line-height: 1.3 !important;
+          font-size: 10pt !important;
+          line-height: 1.4 !important;
+          color: #333 !important;
         }
         
         /* Verhindern leerer Seiten am Ende */
@@ -173,6 +244,16 @@ document.addEventListener('DOMContentLoaded', function() {
           display: none !important;
           height: 0 !important;
         }
+        
+        /* Professionelle Kopfzeile und Layout */
+        .pdf-professional-header {
+          display: flex !important;
+          width: 100% !important;
+          margin: 0 auto 20px auto !important;
+          padding: 0 0 15px 0 !important;
+          border-bottom: 2px solid #2d7788 !important;
+          page-break-after: avoid !important;
+          page-break-inside: avoid !important;
         }
         
         /* Verhindert leere erste Seite */
@@ -195,34 +276,33 @@ document.addEventListener('DOMContentLoaded', function() {
           max-width: 100% !important;
         }
         
-        /* Profil-Container optimieren */
+        /* Profil-Container ausblenden (wird ersetzt durch Header) */
         .sidebar-wrapper .profile-container {
-          margin: 0 0 30px 0 !important;
-          padding: 0 0 20px 0 !important;
-          background-color: white !important;
-          text-align: center !important;
-        }
-        
-        /* Profilbild optimieren */
-        .sidebar-wrapper .profile-container img.profile {
-          width: 150px !important;
-          height: auto !important;
-          margin: 0 auto 15px auto !important;
-          display: block !important;
-          border: none !important;
+          display: none !important;
         }
         
         /* Namen und Tagline optimieren */
-        .profile-container .name {
+        .pdf-professional-header h1 {
           color: #2d7788 !important;
           font-size: 24pt !important;
-          margin: 10px 0 5px 0 !important;
+          margin: 0 0 5px 0 !important;
+          line-height: 1.2 !important;
         }
         
-        .profile-container .tagline {
-          color: #778492 !important;
+        .pdf-professional-header p {
+          color: #666 !important;
           font-size: 14pt !important;
           margin: 0 0 15px 0 !important;
+          font-style: italic !important;
+        }
+        
+        /* Profilbild im Header */
+        .pdf-header-image {
+          width: 150px !important;
+          height: auto !important;
+          border-radius: 5px !important;
+          border: 1px solid #e8e8e8 !important;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
         }
         
         /* Skill-Bars richtig anzeigen */
@@ -233,6 +313,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         /* Abschnitte optimieren */
+        .section {
+          margin-bottom: 1.5em !important;
+          page-break-inside: avoid !important;
+        }
+        
         .summary-section { margin-bottom: 30px !important; }
         .skills-section { margin-top: 25px !important; }
         .experiences-section .item { margin-bottom: 25px !important; }
@@ -243,6 +328,33 @@ document.addEventListener('DOMContentLoaded', function() {
           width: 100% !important;
           padding: 0 !important;
           margin: 0 !important;
+        }
+        
+        /* Sidebar-Inhalte für PDF-Layout neu strukturieren */
+        .sidebar-wrapper {
+          background-color: transparent !important;
+          color: inherit !important;
+          page-break-after: avoid !important;
+          float: none !important;
+          width: 100% !important;
+        }
+        
+        /* Verbesserte Darstellung der Erfahrungen */
+        .experiences-section .item {
+          page-break-inside: avoid !important;
+        }
+        
+        /* Verbesserte Skill-Darstellung */
+        .skills-section {
+          page-break-before: auto !important;
+          page-break-inside: avoid !important;
+        }
+        
+        /* Kontaktbereich ausblenden (wird im Header gezeigt) */
+        .pdf-only-contact-section,
+        .compact-header-section,
+        .contact-container {
+          display: none !important;
         }
       }
     `;
@@ -279,24 +391,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Print-Events abfangen
-  window.onbeforeprint = function() {
-    // Ursprünglichen Zustand speichern
-    saveOriginalStateBeforePrint();
-    
-    document.body.classList.add('printing');
-    preparePDFExport();
-  };
-  
-  window.onafterprint = function() {
-    document.body.classList.remove('printing');
-    
-    // Temporäre Styles entfernen
-    document.querySelectorAll('style.pdf-temp-styles').forEach(s => s.remove());
-    
-    // Ursprünglichen Zustand wiederherstellen
-    restoreOriginalStateAfterPrint();
-  };
+  // Print-Events abfangen - Deaktiviert, da onclick im HTML-Button verwendet wird
+  // window.onbeforeprint = function() {
+  //   // Ursprünglichen Zustand speichern
+  //   saveOriginalStateBeforePrint();
+  //   
+  //   document.body.classList.add('printing');
+  //   preparePDFExport();
+  // };
+  // 
+  // window.onafterprint = function() {
+  //   document.body.classList.remove('printing');
+  //   
+  //   // Temporäre Styles entfernen
+  //   document.querySelectorAll('style.pdf-temp-styles').forEach(s => s.remove());
+  //   
+  //   // Ursprünglichen Zustand wiederherstellen
+  //   restoreOriginalStateAfterPrint();
+  // };
   
   // Speichert den ursprünglichen Zustand aller Elemente, die vom PDF-Export verändert werden
   function saveOriginalStateBeforePrint() {
@@ -313,6 +425,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const footer = document.querySelector('.footer');
     if (footer) {
       saveOriginalStyles(footer, ['display', 'height', 'margin', 'padding']);
+    }
+    
+    // Profile-Container
+    const profileContainer = document.querySelector('.profile-container');
+    if (profileContainer) {
+      saveOriginalStyles(profileContainer, ['display', 'margin', 'padding', 'textAlign']);
     }
     
     // Profilbild
@@ -352,16 +470,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    // Kontaktinformationen
-    const contactInfo = document.querySelector('.print-only-contact-info');
-    if (contactInfo) {
-      saveOriginalStyles(contactInfo, ['display']);
-      
-      contactInfo.querySelectorAll('a').forEach((link, index) => {
-        saveOriginalStyles(link, ['color', 'textDecoration']);
-      });
-    }
-    
     // Skills-Level-Bars
     document.querySelectorAll('.level-bar-inner').forEach((el, index) => {
       saveOriginalStyles(el, ['width', 'transition']);
@@ -385,10 +493,28 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebarWrapper.removeAttribute('data-print-mode');
     }
     
+    // Spezielle PDF-Header entfernen
+    document.querySelectorAll('.pdf-professional-header').forEach(el => el.remove());
+    
+    // Profile-Container wieder anzeigen
+    const profileContainer = document.querySelector('.profile-container');
+    if (profileContainer) {
+      profileContainer.style.display = 'block';
+    }
+    
+    // Profilbild wieder anzeigen
+    const profileImage = document.querySelector('.profile-container .profile');
+    if (profileImage) {
+      profileImage.style.display = 'block';
+    }
+    
     // Sicherstellen, dass die PDF-only-Elemente wieder ausgeblendet sind
     const pdfOnlyElements = document.querySelectorAll('.pdf-only-contact-section, .print-only-contact-info');
     pdfOnlyElements.forEach(el => {
       if (el) el.style.display = 'none';
     });
+    
+    // Entfernen aller temporären Elemente
+    document.body.classList.remove('pdf-export-mode');
   };
 });
