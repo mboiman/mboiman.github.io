@@ -67,7 +67,7 @@ disable404 = true
         class = "github"
         icon = "fa-github"
         url = "//github.com/bks-lab"
-        title = "Github-Profile"
+        title = "Github-Profil"
 
         [[params.contact.list]]
         class = "github"
@@ -194,7 +194,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 
         [[params.jobs.list]]
         position = "Technische Leitung & Entwicklung"
-        dates    = "05/2024 - 04/2025"
+        dates    = "012/2024 - 04/2025"
         company  = "BKS"
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach eines führenden Online-Stellenanbieters. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionsfreigabe.
