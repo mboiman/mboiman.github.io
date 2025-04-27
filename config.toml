@@ -444,7 +444,20 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         url = "#"
         tagline = "Integration von Microsoft Graph-API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
 
+        [[params.projects.list]]
+        title   = "MCP - Model Context Protokoll"
+        url     = "#"
+        tagline = "Umsetzung verschiedener Tools zur Modell-Kontext-Orchestrierung."
 
+        [[params.projects.list]]
+        title   = "AI-Automatisierungs-Functionsbausteine"
+        url     = "#"
+        tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
+
+        [[params.projects.list]]
+        title   = "AI-Beratung für Unternehmen"
+        url     = "#"
+        tagline = "Beratungen zum Einsatz von AI im Unternehmen."
 
     # Skills section
     [params.skills]
