@@ -32,7 +32,7 @@ disable404 = true
     # Profile section
     [params.profile]
         name = "Michael Boiman"
-        tagline = "Full Stack Quality Engineer & Automation & AI Expert"
+        tagline = "Full Stack Dev & Quality Engineer - AI Automation Expert"
         avatar = "profile.png"
 
     # Contact section
@@ -55,7 +55,7 @@ disable404 = true
         class = "website"
         icon = "fa-globe"
         url = "http://boiman-kupermann.com"
-        title = "Boiman.Kupermann.Solutions"
+        title = "BKS-Lab"
 
         [[params.contact.list]]
         class = "linkedin"
@@ -87,7 +87,7 @@ disable404 = true
         title = "Education"
 
         [[params.education.list]]
-        degree = "Dipl. Allg. Informatiker (FH)"
+        degree = "Diplom-Informatiker (FH)"
         college = "Fachhochschule Köln Abt. Gummersbach"
         dates = "2000 - 2005"
 
@@ -111,11 +111,11 @@ disable404 = true
 
         [[params.language.list]]
         language = "Russian"
-        level = "Independent"
+        level = "Conversational"
 
         [[params.language.list]]
         language = "Hebrew"
-        level = "Independent"
+        level = "Conversational"
 
     # Interests section
     [params.interests]
@@ -143,7 +143,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse.
 - **Geschäftsprozess-Automatisierung**: Effizienzsteigerung durch Automatisierung manueller Abläufe und Datenverarbeitung.
 - **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen.
-- **Erfahrung mit LLMs**: Einsatz von GPT, Claude, Gemini, LLaMA, Mistral u.a.
+- **Erfahrung mit LLMs**: Einsatz von GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A u.a.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
 - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Geschäftsprozesse.
@@ -154,6 +154,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - **Cloud-Technologien**: Kenntnisse in Kubernetes, Helm, Terraform, ArgoCD u.a.
 - **Mobile Entwicklung**: Fundierte Erfahrungen in der Entwicklung mobiler Anwendungen mit Swift und Flutter.
 - **Agile Methoden**: Praktische Anwendung von Scrum und SAFE.
+- **Teamleitung**: Leitung und Koordination von interdisziplinären Teams.
     """
 
 
@@ -173,22 +174,22 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 **Schwerpunkte** 
 - Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
-- Aufbau und Konzeption CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
-- Einführung von QualityGates zur sicherung der Qualität innerhalb der CICD-Pipleine
+- Aufbau und Konzeption einer CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
+- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CICD-Pipeline
 - Einführung von Gauge (BDD) 
-- Einführung von Playwright und integration in bestehende CICD-Pipeline
+- Einführung von Playwright und Integration in bestehende CICD-Pipeline
 - Fachliche und technische Analyse von Incidents 
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
 
 **Tools** 
-- Intelij / Visual Studio Code 
+- IntelliJ / Visual Studio Code 
 - Java / Java-Script / Typescript 
 - Playwright / Gauge / Taiko / Karate 
-- CI/CD / Github – reusebale workflows 
+- CI/CD / Github – reuseable workflows 
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
-- Behavier Driven Development 
+- Behavioral-Driven Development 
 - Consumer Driven Contracts (Pact.io) 
 """
 
@@ -197,16 +198,16 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
         dates    = "012/2024 - 04/2025"
         company  = "BKS"
         details  = """
-**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach eines führenden Online-Stellenanbieters. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionsfreigabe.
+**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
 **Schwerpunkte**:
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
-- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (ZUGFeRD, Factur-X), inklusive Struktur- und Inhalts-Parsing.
+- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung), inklusive Struktur- und Inhalts-Parsing.
 - **Salesforce-Einspielung**: Weiterleitung der aufbereiteten Rechnungsdaten per E-Mail an das nachgelagerte System für den Salesforce-Import.
 - **Auditierung & Protokollierung**: Lückenlose Dokumentation aller Verarbeitungsschritte sowie Speicherung der ursprünglichen E-Mail-Inhalte im Verarbeitungsprotokoll.
 - **Outlook-Management & SharePoint-Archivierung**: Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook; Archivierung von Original- und generierten Rechnungsdokumenten über Microsoft Graph API.
 - **Monitoring & Logging**: Echtzeit-Überwachung des End-to-End-Prozesses mit Kibana, inklusive Alerting und Dashboard-Erstellung.
-- **Team-Koordination**: Anleitung und Code-Reviews für die Entwickler im Team.
+- **Team-Koordination**: Steuerung des Entwickler-Teams inkl. Code-Reviews.
 
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
@@ -222,14 +223,14 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
         dates = "04/2023 - 04/2024"
         company = "Ryze"
         details = """
-**Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Verarbeitung eingehender E-Mails und Integration in bestehende SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination von der Idee bis zur Implementierung.
+**Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
 **Schwerpunkte**:
 - **Entwicklung von ML-Modellen**: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
 - **API-Integrationen**: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
 - **Prozessautomatisierung**: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
-- **CI/CD und Monitoring**: Implementierung von Continuous Integration und Continuous Deployment Pipelines sowie Einsatz von Kibana für das Monitoring.
-- **Entwicklung einer Streamlit-basierten Benutzeroberfläche**: Zur Verbesserung der Testbarkeit und Visualisierung von Prozessergebnissen.
+- **DevOps und Monitoring**: Implementierung von CI/CD Pipelines sowie Einsatz von Kibana für das Monitoring.
+- **Entwicklung einer Streamlit-basierten Benutzeroberfläche**: Verbesserung der Testbarkeit und Visualisierung von Prozessergebnissen.
 - **Team-Betreuung**: Technische Anleitung der Entwickler mit regelmäßigen Code-Reviews und Problemlösungssessions.
 
 **Tools & Technologien**
@@ -280,21 +281,21 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
         details = """
-**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive Teamübergreifende Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
-- Agile Qualitätssicherung durch Konzeption von QualityGates in der CICD Pipeline 
+- Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau vom fachlichen und technischen Dashboards  mit Kibana, Graylog, Grafana, Instana & Elastic Search 
-- Performance Tests innerhalb der CICD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und  Instana 
-- Dokumentation von Qualitätsmetriken über fortschritt der messbaren Qualität der Sprints 
-- Aufbau und Konzeption von DatenTest CICD-Pipeline 
+- Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana 
+- Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
+- Aufbau und Konzeption von CI/CD-Pipeline für Daten-Tests 
 - Fachliche und technische Analyse von Problemen 
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
-- Aufbau von Junit, Unit-Integrationtests und Integrationstest unteranderen mit Java Cucumber 
-- Entwicklung eine Hybriden App die zur Präsentation (Review) der Ergebnisse in einer Web oder Mobil en Plattform 
-- Koordination Integrationstest zwischen Teams 
+- Aufbau von Junit, Unit-Tests und Integrationstests unter anderen mit Java Cucumber 
+- Entwicklung einer hybriden App zur Präsentation (Review) der Ergebnisse in einer Web- oder mobilen Plattform 
+- Koordination Integrationstest zwischen den beteiligten Teams 
 
 **Tools** 
-- Intelij 
+- IntelliJ 
 - Java 
 - Cucumber / Cypress 
 - J-Meter / Gatling
@@ -310,7 +311,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
 
          [[params.jobs.list]]
-        position = "Last und perfomrance Testautomatisierung / Testmanagement"
+        position = "Last und Perfomance Tests / Testautomatisierung / Testmanagement"
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
         details = """
@@ -319,9 +320,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Anforderungs-Management 
 - Status Reports 
 - Beratung der Kunden 
-- Dokumentation in form von Testkonzepts, Analysen  „Management Summarys“ und Wiki-Dokumentation 
-- Aufbau und Ausführung der Last und performance Tests 
-- Analyse der Ergebnisse & perfomrance Logs
+- Dokumentation in Form von Testkonzepten, Analysen,  Management-Reporting und Wiki-Dokumentation 
+- Aufbau und Ausführung der Last und Performance Tests 
+- Analyse der Ergebnisse & Performance Logs
 
 **Tools** 
 - Visual Studio 
@@ -338,17 +339,17 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
-**Senior IOS Developer** Weiterentwicklung der rebuild Version von der **Kundencenter App** der Deutschen Telekom, um neue Funktionalitäten zur IFA. 
+**Senior IOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
 **Schwerpunkte** 
 - Swift 
 - IOS 8 
-- Requests & responces to backend 
+- Requests & Responses to Backend 
 - Errorhandling 
 - Ipad / Iphone 
 - Scrum 
 
 **Tools** 
-- X-Code 
+- XCode 
 - GIT 
 - JIRA 
 """
@@ -359,19 +360,19 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "05/2009 - 03/2015"
         company = "Siemens"
         details = """
-**QS, Testmanagement , Testautomatisierung, Requirementsmanagement** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführ 
+**QS, Testmanagement , Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführ 
 **Projekte** 
 - SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
 - STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
-- GPM2 - Aktien-Bonus-programm für Angestellte (Frontend: Web / Backend: JBoss) 
+- GPM2 - Aktien-Bonus-Programm für Angestellte (Frontend: Web / Backend: JBoss) 
 - PATAC 
 - SOM - Verwaltung und Übersicht von OrgUnits 
 
 **Schwerpunkte** 
-- Erstellung Fachlicher Testkonzepte und Testpläne 
-- Defect -Tracking 
+- Erstellung fachlicher Testkonzepte und Testpläne 
+- Defect - Tracking 
 - Verwaltung der CRs, Kommunikation zwischen Kunden und Entwickler 
-- Test Automatisierungs erstellung, pflege und Ausführung 
+- Erstellung, Pflege und Scheduling von Testautomatisierungen 
 - User Acceptance Tests 
 - Schulung neuer Tester und Testautomatisierer 
 - Betretung als Testmanager nach Projektschluss im Regelbetrieb 
@@ -407,7 +408,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "01/2006 - 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
-**Last und Performance Tester / Tester** Verschiedene Projekte, die meisten Last & Performance tests
+**Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
 **Schwerpunkte** 
 - Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
 - Durchführung von Lasttests und Analyse der Ergebnisse 
@@ -422,19 +423,19 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         enable = true
         icon = "fa-archive"
         title = "Projects"
-        intro = "**Weitere Projekte ausserhalb des normalen Buisness**"
+        intro = "**Weitere Projekte ausserhalb des Kerngeschäfts**"
 
         [[params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
-        tagline = "wecation ist die kollaborative Antwort auf die Organisation von jeglichen Treffen: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
+        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
 
         [[params.projects.list]]
         title = "QualityCluster"
         url = "https://qualitycluster.de"
         tagline = """
-QualityCluster ist ein Zusammenschluss von QE-Experten (Quality Engineers), um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
-Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirklichen. 
+QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
+Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
 """
 
         [[params.projects.list]]
@@ -450,7 +451,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         [[params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         url = "#"
-        tagline = "Integration von Microsoft Graph-API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
+        tagline = "Integration von Microsoft Graph API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
 
         [[params.projects.list]]
         title   = "MCP - Model Context Protokoll"
@@ -478,11 +479,15 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "96%"
 
         [[params.skills.list]]
+        skill = "Software-Entwicklung, -Design, -Architektur"
+        level = "99%"
+
+        [[params.skills.list]]
         skill = "Jira & Confluence"
         level = "98%"
                 
         [[params.skills.list]]
-        skill = "Intelij & VSC"
+        skill = "IntelliJ & VS Code"
         level = "93%"
 
         [[params.skills.list]]
@@ -498,7 +503,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "70%"
 
         [[params.skills.list]]
-        skill = "CICD-Workflows - Gitlab & Github & Jenkins"
+        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
         level = "90%"
 
         [[params.skills.list]]
@@ -510,7 +515,7 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         level = "95%"
 
         [[params.skills.list]]
-        skill = "Last und performance Testing mit J-Meter, Gatling"
+        skill = "Last und Performance Testing mit J-Meter, Gatling"
         level = "90%"
 
         [[params.skills.list]]
@@ -524,10 +529,6 @@ Unser Ziel ist es mehr Qualität durch höhere Automatisierungsgrade zu verwirkl
         Grafana & Instana 
         """
         level = "90%"
-
-        [[params.skills.list]]
-        skill =  "Azure-Portal" 
-        level = "70%"
 
         [[params.skills.list]]
         skill = "MobileDev - X-Code & Flutter & Swift"
