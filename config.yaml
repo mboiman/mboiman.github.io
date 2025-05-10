@@ -1,0 +1,26 @@
+baseurl: "https://mboiman.github.io/"
+theme: "my-hugo-orbit-theme"
+disableRSS: true
+disableSitemap: true
+disable404: true
+
+defaultContentLanguage: "de"
+defaultContentLanguageInSubdir: true
+
+languages:
+  de:
+    languageCode: "de-de"
+    languageName: "Deutsch"
+    title: "Michael Boiman CV"
+    contentDir: "content/de"
+    configFile: "config.de.toml"
+    weight: 1
+  en:
+    languageCode: "en-us"
+    languageName: "English"
+    title: "Michael Boiman CV"
+    contentDir: "content/en"
+    configFile: "config.en.toml"
+    weight: 2
+# Die Parameter werden aus den sprachabgängigen Dateien gelesen
+# siehe: config.de.toml und config.en.toml
