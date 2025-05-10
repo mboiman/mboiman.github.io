@@ -199,7 +199,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
         """
 
         [[languages.de.params.jobs.list]]
-        position = "Projektmanagement & Technische Leitung"
+        position = "Technische Leitung & Entwicklung"
         dates = "04/2023 - 04/2024"
         company = "Ryze"
         details = """
@@ -224,9 +224,9 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
         """
 
         [[languages.de.params.jobs.list]]
-        position = "KI-Workshop zur Unternehmenseinbindung"
+        position = "Anwendungen von KI im Geschäftsumfeld"
         dates = "2023"
-        company = "Anwendungen von KI im Geschäftsumfeld"
+        company = "KI-Workshop zur Unternehmenseinbindung"
         details = """
 **KI-Workshop** Umfassende Präsentation und Live-Demonstration innovativer KI-Anwendungen für die Geschäftswelt mit Fokus auf praktische Umsetzung, Theorie und Code-Beispiele
 
