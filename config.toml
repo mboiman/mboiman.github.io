@@ -195,129 +195,207 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - Microsoft Graph API: Zugriff auf Outlook-Postfächer und SharePoint-Dokumentbibliotheken.
 - GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
 - Kibana: Monitoring, Log-Analyse und Performance-Dashboards.
+- Streamlit: Für die Entwicklung einer interaktiven Webanwendung zur Visualisierung.
         """
 
-        # Weitere bestehende Einträge (Ryze, Workshop, DBV, usw.) – unverändert
-        # ... (aus Platzgründen ausgelassen, bleiben wie im Original)
+        [[languages.de.params.jobs.list]]
+        position = "Projektmanagement & Technische Leitung"
+        dates = "04/2023 - 04/2024"
+        company = "Ryze"
+        details = """
+**Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
-      [languages.de.params.projects]
-        enable = true
-        icon = "fa-archive"
-        title = "Projekte"
-        intro = "**Weitere Projekte außerhalb des Kerngeschäfts**"
+**Schwerpunkte**:
+- **Entwicklung von ML-Modellen**: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
+- **API-Integrationen**: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
+- **Prozessautomatisierung**: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
+- **DevOps und Monitoring**: Implementierung von CI/CD Pipelines sowie Einsatz von Kibana für das Monitoring.
+- **Entwicklung einer Streamlit-basierten Benutzeroberfläche**: Verbesserung der Testbarkeit und Visualisierung von Prozessergebnissen.
+- **Team-Betreuung**: Technische Anleitung der Entwickler mit regelmäßigen Code-Reviews und Problemlösungssessions.
 
-        [[languages.de.params.projects.list]]
-        title = "wecation"
-        url = "https://www.wecation.de"
-        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
-
-        [[languages.de.params.projects.list]]
-        title = "QualityCluster"
-        url = "https://qualitycluster.de"
-        tagline = """
-QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
-Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
-"""
-
-        [[languages.de.params.projects.list]]
-        title = "KI-basierter Chatbot für Messe-Interaktion"
-        url = "#"
-        tagline = "Entwicklung eines interaktiven Chatbots unter Verwendung von RAG und OpenAI, um die Benutzerinteraktion auf einer Messe-Website zu optimieren."
-
-        [[languages.de.params.projects.list]]
-        title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
-        url = "#"
-        tagline = "Einsatz von NLP-Technologien zur Effizienzsteigerung in der automatisierten Dokumentenanalyse."
-
-        [[languages.de.params.projects.list]]
-        title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
-        url = "#"
-        tagline = "Integration von Microsoft Graph API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
-
-        [[languages.de.params.projects.list]]
-        title   = "MCP - Model Context Protokoll"
-        url     = "#"
-        tagline = "Umsetzung verschiedener Tools zur Modell-Kontext-Orchestrierung."
-
-        [[languages.de.params.projects.list]]
-        title   = "AI-Automatisierungs-Functionsbausteine"
-        url     = "#"
-        tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
-
-        [[languages.de.params.projects.list]]
-        title   = "AI-Beratung für Unternehmen"
-        url     = "#"
-        tagline = "Beratungen zum Einsatz von AI im Unternehmen."
-
-      [languages.de.params.skills]
-        enable = true
-        icon = "fa-rocket"
-        title = "Fähigkeiten & Werkzeuge"
-
-        [[languages.de.params.skills.list]]
-        skill = "AI & Machine Learning"
-        level = "96%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Software-Entwicklung, -Design, -Architektur"
-        level = "99%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Jira & Confluence"
-        level = "98%"
-                
-        [[languages.de.params.skills.list]]
-        skill = "IntelliJ & VS Code"
-        level = "93%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Playwright"
-        level = "97%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Cucumber / Gauge / Taiko"
-        level = "99%"
-
-        [[languages.de.params.skills.list]]
-        skill = "CDC - Spring Contract & Pact.io"
-        level = "70%"
-
-        [[languages.de.params.skills.list]]
-        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
-        level = "90%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Kubernetes - Helm & Terraform & ArgoCD"
-        level = "80%"
-
-        [[languages.de.params.skills.list]]
-        skill = "REST & Postman"
-        level = "95%"
-
-        [[languages.de.params.skills.list]]
-        skill = "Last und Performance Testing mit J-Meter, Gatling"
-        level = "90%"
-
-        [[languages.de.params.skills.list]]
-        skill = "AWS & Google & Azure"
-        level = "80%"
-
-        [[languages.de.params.skills.list]]
-        skill = """
-        Dashboards & Analyse - \n
-        Kibana(+ES) & Greylog &  \n
-        Grafana & Instana 
+**Tools & Technologien**
+- Azure Functions: Für serverlose Anwendungsarchitekturen und die Ausführung von ML-Modellen.
+- Python: Hauptprogrammiersprache für die Entwicklung des E-Mail-Bots und der ML-Modelle.
+- Microsoft Graph API: Für den Zugriff und die Verarbeitung von E-Mails im Microsoft Outlook 365.
+- SAP API: Für die Abfrage von Kundendaten und die Kommunikation mit SAP-Systemen.
+- GitHub: Für Versionskontrolle, CI/CD Pipelines und den kollaborativen Entwicklungsprozess.
+- Kibana: Für das Echtzeit-Monitoring und die Analyse der Systemleistung.
+- Streamlit: Für die Entwicklung einer interaktiven Webanwendung zur Systemüberwachung.
         """
-        level = "90%"
 
-        [[languages.de.params.skills.list]]
-        skill = "MobileDev - X-Code & Flutter & Swift"
-        level = "90%"
+        [[languages.de.params.jobs.list]]
+        position = "KI-Workshop zur Unternehmenseinbindung"
+        dates = "2023"
+        company = "Anwendungen von KI im Geschäftsumfeld"
+        details = """
+**KI-Workshop** Umfassende Präsentation und Live-Demonstration innovativer KI-Anwendungen für die Geschäftswelt mit Fokus auf praktische Umsetzung, Theorie und Code-Beispiele
 
-      [languages.de.params.footer]
-        copyright = "Michael.Boiman"
+**Präsentationsinhalte**
+- Umfassender Überblick über KI-Bereiche und -Patterns (Supervised/Unsupervised/Semi-Supervised Learning)
+- Vertiefte Einblicke in Machine Learning, Deep Learning und Natural Language Processing
+- Detaillierte Betrachtung von GPT-Modellen und deren Funktionsweise (Next Token Prediction)
+- Praktisches Prompt Engineering mit Beispielen für verschiedene Anwendungsfälle
+- Vorstellung von Tools wie Hugging Face, Stable Diffusion, Midjourney und Auto-GPT
 
-  [languages.en]
+**Praktischer Workshop-Teil**
+- Entwicklung eines intelligenten Q&A-Bots mit OpenAI GPT-3.5-Turbo
+- Live-Entwicklung eines Webscrapers zur Datenakquise
+- Extraktion und Vektorisierung von Text-Embeddings mit OpenAI-Modellen
+- Implementierung von Similarity Search für kontextbezogene Antworten
+- Ähnlichkeitsanalyse und Visualisierung der Ergebnisse
+- Erstellung einer interaktiven Streamlit-Benutzeroberfläche für den Q&A-Bot
+
+**Eingesetzte Technologien**
+- OpenAI API (GPT-3.5-Turbo, Embedding-Ada-002)
+- Python mit Pandas, NumPy und Streamlit
+- Vector Embeddings und Cosine-Similarity für semantische Suche
+- Web-Scraping mit BeautifulSoup und Requests
+- Prompt Engineering und KI-Integration in Geschäftsprozesse
+- Integration über RESTful APIs
+
+Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0) verfügbar. Der komplette Quellcode des entwickelten Q&A-Bots ist in meinem [GitHub-Repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot) dokumentiert.
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "Quality-Lead"
+        dates = "01/2017 - 05/2021"
+        company = "DB Vertrieb"
+        details = """
+**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Schwerpunkte** 
+- Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
+- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana 
+- Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
+- Aufbau und Konzeption von CI/CD-Pipeline für Daten-Tests 
+- Fachliche und technische Analyse von Problemen 
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
+- Aufbau von Junit, Unit-Tests und Integrationstests unter anderen mit Java Cucumber 
+- Entwicklung einer hybriden App zur Präsentation (Review) der Ergebnisse in einer Web- oder mobilen Plattform 
+- Koordination Integrationstest zwischen den beteiligten Teams 
+
+**Tools** 
+- IntelliJ 
+- Java 
+- Cucumber / Cypress 
+- J-Meter / Gatling
+- CI/CD / GITLAB CI / Jenkins 
+- Helm / Docker 
+- JIRA / Confluence 
+- Kibana / Grafana / Instana / Graylog 
+- Behaviour Driven Development 
+- Consumer Driven Contracts (Spring Cloud Contract) 
+- Ionic (Hybride App) 
+- Selenium 
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "Last und Perfomance Tests / Testautomatisierung / Testmanagement"
+        dates = "09/2015 - 01/2017"
+        company = "DB Systel"
+        details = """
+**Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
+**Schwerpunkte** 
+- Anforderungs-Management 
+- Status Reports 
+- Beratung der Kunden 
+- Dokumentation in Form von Testkonzepten, Analysen, Management-Reporting und Wiki-Dokumentation 
+- Aufbau und Ausführung der Last und Performance Tests 
+- Analyse der Ergebnisse & Performance Logs
+
+**Tools** 
+- Visual Studio 
+- Eclipse 
+- JMeter 
+- GIT 
+- JIRA / Confluence 
+- Excel & Access VBS 
+- Schnittstellen: HTTP, WS, REST, MQ, JMS  
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "Senior IOS Developer"
+        dates = "04/2015 - 09/2015"
+        company = "Telekom"
+        details = """
+**Senior IOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
+**Schwerpunkte** 
+- Swift 
+- IOS 8 
+- Requests & Responses to Backend 
+- Errorhandling 
+- Ipad / Iphone 
+- Scrum 
+
+**Tools** 
+- XCode 
+- GIT 
+- JIRA 
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "QS, Testmanagement"
+        dates = "05/2009 - 03/2015"
+        company = "Siemens"
+        details = """
+**QS, Testmanagement , Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
+**Projekte** 
+- SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
+- STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
+- GPM2 - Aktien-Bonus-Programm für Angestellte (Frontend: Web / Backend: JBoss) 
+- PATAC 
+- SOM - Verwaltung und Übersicht von OrgUnits 
+
+**Schwerpunkte** 
+- Erstellung fachlicher Testkonzepte und Testpläne 
+- Defect - Tracking 
+- Verwaltung der CRs, Kommunikation zwischen Kunden und Entwickler 
+- Erstellung, Pflege und Scheduling von Testautomatisierungen 
+- User Acceptance Tests 
+- Schulung neuer Tester und Testautomatisierer 
+- Betretung als Testmanager nach Projektschluss im Regelbetrieb 
+- Aufbau von Abnahme-Tests 
+- Übertragung der Fachspezifikation und Feinspezifikation ins Quality Center  
+- Überwachung der umgesetzten Anforderungen gegen das Feinkonzept 
+
+**Tools** 
+- HP ALM 
+- HP UFT 
+- HP QC 
+- Quick Test Pro  
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "Last und Performance Tester"
+        dates = "03/2009 - 05/2009"
+        company = "ING-DIBA"
+        details = """
+**Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
+**Schwerpunkte** 
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
+- Durchführung von Lasttests und Analyse der Ergebnisse 
+- Monitoring und Reporting 
+
+**Tools** 
+- Loadrunner 
+        """
+
+        [[languages.de.params.jobs.list]]
+        position = "Zusammenfassung verschiedene Aktivitäten"
+        dates = "01/2006 - 12/2008"
+        company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
+        details = """
+**Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
+**Schwerpunkte** 
+- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
+- Durchführung von Lasttests und Analyse der Ergebnisse 
+- Monitoring und Reporting 
+
+**Tools** 
+- Loadrunner 
+        """
+
+      [languages.en]
     languageCode = "en-us"
     languageName = "English"
     title = "Michael Boiman CV"
@@ -420,7 +498,23 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         enable = true
         icon = "fa-user"
         title = "Career Profile"
-        summary = """(wie bereits vorhanden)"""
+        summary = """\
+With more than 20 years of experience in software development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
+- **AI Automation**: Optimising and implementing AI within existing business processes.
+- **Business-Process Automation**: Increasing efficiency by automating manual workflows and data processing.
+- **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems.
+- **Experience with LLMs**: GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A, among others.
+- **Test Automation**: Setting up quality gates within the CI/CD pipeline.
+- **Real-Time Monitoring**: Building systems that display quality status in real time.
+- **ML and DL Models**: Integrating machine-learning and deep-learning models into business processes.
+- **Performance Testing**: Conducting load and performance tests.
+- **Development**: Expertise in Java, JavaScript, Swift, Python and other languages.
+- **DevOps**: Experience with GitHub, GitLab, Jenkins and other CI/CD tools.
+- **Contract Testing**: Using Pact.io or Spring Contract.
+- **Cloud Technologies**: Proficient with Kubernetes, Helm, Terraform, ArgoCD, etc.
+- **Mobile Development**: Solid experience building mobile apps with Swift and Flutter.
+- **Agile Methods**: Practical application of Scrum and SAFe.
+- **Team Leadership**: Managing and coordinating cross-functional teams."""
 
       [languages.en.params.experiences]
         enable = true
@@ -464,7 +558,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
 **Focus areas**:
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
-- **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung), including structural and content parsing.
+- **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung), including structural and content parsing.
 - **Salesforce integration**: Forwarding prepared invoice data via email to the downstream system for Salesforce import.
 - **Auditing & logging**: Comprehensive documentation of all processing steps plus storage of original email content in the processing log.
 - **Outlook management & SharePoint archiving**: Automatic moving and categorising of emails into predefined Outlook folders; archiving of original and generated invoice documents via Microsoft Graph API.
@@ -477,11 +571,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 - Microsoft Graph API: Access to Outlook mailboxes and SharePoint libraries.
 - GitHub: Version control, CI/CD pipelines and collaborative development.
 - Kibana: Monitoring, log analysis and performance dashboards.
+- Streamlit: For developing an interactive web application for visualization.
         """
 
         [[languages.en.params.jobs.list]]
-        position = "Technical Lead & Development"
-        dates = "04/2023 – 04/2024"
+        position = "Project Management & Technical Lead"
+        dates = "04/2023 - 04/2024"
         company = "Ryze"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
@@ -505,9 +600,9 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         """
 
         [[languages.en.params.jobs.list]]
-        position = "Applying AI in Business Contexts"
+        position = "AI Workshop for Business Integration"
         dates = "2023"
-        company = "AI Workshop for Business Adoption"
+        company = "Applications of AI in Business Context"
         details = """
 **AI workshop**: Comprehensive presentation and live demonstration of innovative AI applications for business with a focus on practical implementation, theory and code examples.
 
@@ -539,7 +634,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.jobs.list]]
         position = "Quality Lead"
-        dates = "01/2017 – 05/2021"
+        dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
         details = """
 **Test management, test coordination, test automation – agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
@@ -572,7 +667,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.jobs.list]]
         position = "Load and Performance Testing / Test Automation / Test Management"
-        dates = "09/2015 – 01/2017"
+        dates = "09/2015 - 01/2017"
         company = "DB Systel"
         details = """
 **Load and performance tests and analysis – test manager, test designer, analyst**: Development, execution and analysis of load and performance tests
@@ -596,10 +691,10 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.jobs.list]]
         position = "Senior iOS Developer"
-        dates = "04/2015 – 09/2015"
+        dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
-**Senior iOS Developer**: Further development of the rebuild version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
+**Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
 **Key responsibilities**
 - Swift
 - iOS 8
@@ -609,34 +704,34 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Scrum
 
 **Tools**
-- XCode
+- Xcode
 - Git
 - JIRA
         """
 
         [[languages.en.params.jobs.list]]
-        position = "QS, Test Management"
-        dates = "05/2009 – 03/2015"
+        position = "QA, Test Management"
+        dates = "05/2009 - 03/2015"
         company = "Siemens"
         details = """
-**QS, test management, test automation, requirements engineering**: A total of 5 projects were accompanied and successfully introduced as QA & test manager
+**QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
 **Projects**
-- SIPCA – management system for employee annual goals and calculation of bonus payments
-- STM – application and travel expense recording (frontend: web / backend SAP)
-- GPM2 – stock bonus program for employees (frontend: web / backend: JBoss)
+- SIPCA - Management system for employee annual targets and bonus calculation
+- STM - Application and travel expense recording (Frontend: Web / Backend: SAP)
+- GPM2 - Share bonus program for employees (Frontend: Web / Backend: JBoss)
 - PATAC
-- SOM – management and overview of org units
+- SOM - Management and overview of OrgUnits
 
 **Key responsibilities**
-- Creation of functional test concepts and test plans
+- Creation of technical test concepts and test plans
 - Defect tracking
-- Management of change requests, communication between customers and developers
+- Management of CRs, communication between customers and developers
 - Creation, maintenance and scheduling of test automation
 - User acceptance tests
-- Training of new testers and test automators
-- Acting as test manager after project completion in regular operation
+- Training of new testers and test automation engineers
+- Support as test manager after project completion in regular operation
 - Setup of acceptance tests
-- Transfer of functional and detailed specifications to Quality Center
+- Transfer of functional specification and detailed specification to Quality Center
 - Monitoring of implemented requirements against the detailed concept
 
 **Tools**
@@ -648,46 +743,46 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.jobs.list]]
         position = "Load and Performance Tester"
-        dates = "03/2009 – 05/2009"
+        dates = "03/2009 - 05/2009"
         company = "ING-DIBA"
         details = """
-**Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of about 20 J2EE applications in a banking portal
+**Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of approx. 20 J2EE applications in a banking portal
 **Key responsibilities**
 - Creation of test scripts in LoadRunner with the http protocol
 - Execution of load tests and analysis of results
 - Monitoring and reporting
 
 **Tools**
-- Loadrunner
+- LoadRunner
         """
 
         [[languages.en.params.jobs.list]]
         position = "Summary of Various Activities"
-        dates = "01/2006 – 12/2008"
+        dates = "01/2006 - 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
-**Load and performance tester / tester**: Various projects, mainly load & performance tests
+**Load and performance tester / tester**: Various projects, predominantly load & performance tests
 **Key responsibilities**
 - Creation of test scripts in LoadRunner with the http protocol
 - Execution of load tests and analysis of results
 - Monitoring and reporting
 
 **Tools**
-- Loadrunner
+- LoadRunner
         """
 
-      [languages.en.params.projects]
+      [languages.de.params.projects]
         enable = true
         icon = "fa-archive"
-        title = "Projects"
-        intro = "**Weitere Projekte ausserhalb des Kerngeschäfts**"
+        title = "NEBENPROJEKTE"
+        intro = "**Weitere Projekte außerhalb des Kerngeschäfts**"
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title = "QualityCluster"
         url = "https://qualitycluster.de"
         tagline = """
@@ -695,53 +790,167 @@ QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam besse
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
 """
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
         url = "#"
         tagline = "Entwicklung eines interaktiven Chatbots unter Verwendung von RAG und OpenAI, um die Benutzerinteraktion auf einer Messe-Website zu optimieren."
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
         url = "#"
         tagline = "Einsatz von NLP-Technologien zur Effizienzsteigerung in der automatisierten Dokumentenanalyse."
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         url = "#"
         tagline = "Integration von Microsoft Graph API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title   = "MCP - Model Context Protokoll"
         url     = "#"
         tagline = "Umsetzung verschiedener Tools zur Modell-Kontext-Orchestrierung."
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title   = "AI-Automatisierungs-Functionsbausteine"
         url     = "#"
         tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
-        [[languages.en.params.projects.list]]
+        [[languages.de.params.projects.list]]
         title   = "AI-Beratung für Unternehmen"
         url     = "#"
         tagline = "Beratungen zum Einsatz von AI im Unternehmen."
 
-      [languages.en.params.skills]
+      [languages.en.params.projects]
+        enable = true
+        icon = "fa-archive"
+        title = "PROJECTS"
+        intro = "**Additional projects outside the core business**"
+
+        [[languages.en.params.projects.list]]
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together!"
+
+        [[languages.en.params.projects.list]]
+        title = "QualityCluster"
+        url = "https://qualitycluster.de"
+        tagline = """
+QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
+Our goal is to implement more quality through a higher degree of automation.  
+"""
+
+        [[languages.en.params.projects.list]]
+        title = "AI-Driven Chatbot for Trade-Fair Interaction"
+        url = "#"
+        tagline = "Development of an interactive chatbot using RAG and OpenAI to optimise user interaction on a trade-fair website."
+
+        [[languages.en.params.projects.list]]
+        title = "Automated NLP Analysis of PDF Documents"
+        url = "#"
+        tagline = "Using NLP technologies to boost efficiency in automated document analysis."
+
+        [[languages.en.params.projects.list]]
+        title = "Email Classification and Processing Workflow"
+        url = "#"
+        tagline = "Integration of Microsoft Graph API, SAP, Azure Functions, REST API, OpenAI, Elasticsearch and Kibana to optimise email processing."
+
+        [[languages.en.params.projects.list]]
+        title = "MCP – Model Context Protocol"
+        url = "#"
+        tagline = "Implementation of various tools for model-context orchestration."
+
+        [[languages.en.params.projects.list]]
+        title = "AI Automation Function Modules"
+        url = "#"
+        tagline = "Building function modules for faster rollout of AI automation."
+
+        [[languages.en.params.projects.list]]
+        title = "AI Consulting for Enterprises"
+        url = "#"
+        tagline = "Consultancy on the use of AI within companies."
+
+      [languages.de.params.skills]
         enable = true
         icon = "fa-rocket"
         title = "Skills & Tools"
+
+        [[languages.de.params.skills.list]]
+        skill = "AI & Machine Learning"
+        level = "96%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Software-Entwicklung, -Design, -Architektur"
+        level = "99%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Jira & Confluence"
+        level = "98%"
+                
+        [[languages.de.params.skills.list]]
+        skill = "IntelliJ & VS Code"
+        level = "93%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Playwright"
+        level = "97%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Cucumber / Gauge / Taiko"
+        level = "99%"
+
+        [[languages.de.params.skills.list]]
+        skill = "CDC - Spring Contract & Pact.io"
+        level = "70%"
+
+        [[languages.de.params.skills.list]]
+        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+        level = "90%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Kubernetes - Helm & Terraform & ArgoCD"
+        level = "80%"
+
+        [[languages.de.params.skills.list]]
+        skill = "REST & Postman"
+        level = "95%"
+
+        [[languages.de.params.skills.list]]
+        skill = "Last und Performance Testing mit J-Meter, Gatling"
+        level = "90%"
+
+        [[languages.de.params.skills.list]]
+        skill = "AWS & Google & Azure"
+        level = "80%"
+
+        [[languages.de.params.skills.list]]
+        skill = """
+        Dashboards & Analyse - \n
+        Kibana(+ES) & Greylog &  \n
+        Grafana & Instana 
+        """
+        level = "90%"
+
+        [[languages.de.params.skills.list]]
+        skill = "MobileDev - X-Code & Flutter & Swift"
+        level = "90%"
+
+      [languages.en.params.skills]
+        enable = true
+        icon = "fa-rocket"
+        title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
         skill = "AI & Machine Learning"
         level = "96%"
 
         [[languages.en.params.skills.list]]
-        skill = "Software-Entwicklung, -Design, -Architektur"
+        skill = "Software Development, Design, Architecture"
         level = "99%"
 
         [[languages.en.params.skills.list]]
-        skill = "Jira & Confluence"
+        skill = "JIRA & Confluence"
         level = "98%"
-                
+
         [[languages.en.params.skills.list]]
         skill = "IntelliJ & VS Code"
         level = "93%"
@@ -755,15 +964,15 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         level = "99%"
 
         [[languages.en.params.skills.list]]
-        skill = "CDC - Spring Contract & Pact.io"
+        skill = "CDC – Spring Contract & Pact.io"
         level = "70%"
 
         [[languages.en.params.skills.list]]
-        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+        skill = "CI/CD Workflows – GitLab, GitHub & Jenkins"
         level = "90%"
 
         [[languages.en.params.skills.list]]
-        skill = "Kubernetes - Helm & Terraform & ArgoCD"
+        skill = "Kubernetes – Helm, Terraform & ArgoCD"
         level = "80%"
 
         [[languages.en.params.skills.list]]
@@ -771,24 +980,24 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         level = "95%"
 
         [[languages.en.params.skills.list]]
-        skill = "Last und Performance Testing mit J-Meter, Gatling"
+        skill = "Load & Performance Testing with JMeter, Gatling"
         level = "90%"
 
         [[languages.en.params.skills.list]]
-        skill = "AWS & Google & Azure"
+        skill = "AWS, Google Cloud & Azure"
         level = "80%"
 
         [[languages.en.params.skills.list]]
         skill = """
-        Dashboards & Analyse - \n
-        Kibana(+ES) & Greylog &  \n
-        Grafana & Instana 
+Dashboards & Analytics –  
+Kibana (+ES) & Graylog &  
+Grafana & Instana
         """
         level = "90%"
 
         [[languages.en.params.skills.list]]
-        skill = "MobileDev - X-Code & Flutter & Swift"
+        skill = "Mobile Dev – Xcode, Flutter & Swift"
         level = "90%"
 
-      [languages.en.params.footer]
+      [languages.de.params.footer]
         copyright = "Michael.Boiman"
