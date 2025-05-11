@@ -1,0 +1,27 @@
+/* CSS für Präsentationsbereich */
+.presentations-section .presentations-list {
+  margin-bottom: 0;
+}
+
+.presentations-section .presentations-list li {
+  margin-bottom: 10px;
+}
+
+.presentations-section .presentations-list a {
+  color: #2d7788;
+  text-decoration: none;
+}
+
+.presentations-section .presentations-list a:hover {
+  text-decoration: underline;
+}
+
+.presentations-section .presentation-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.section-title .fa-television {
+  color: #2d7788;
+  margin-right: 8px;
+}

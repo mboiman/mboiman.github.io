@@ -3,7 +3,7 @@
 baseurl = "https://mboiman.github.io/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
-theme = "my-hugo-orbit-theme"
+theme = ["my-hugo-orbit-theme", "reveal-hugo"]
 #googleAnalytics = "UA-XXXXXXX-Y"
 
 # Do not build files for websites. Need them? Set to false
@@ -11,11 +11,26 @@ disableRSS = true
 disableSitemap = true
 disable404 = true
 
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputFormats.Reveal]
+baseName = "index"
+mediaType = "text/html"
+isHTML = true
+
 
 
 # Mehrsprachige Konfiguration
 defaultContentLanguage = "de"
 defaultContentLanguageInSubdir = true
+
+# Reveal-hugo Konfiguration
+[params.reveal_hugo]
+theme = "black"
+slide_number = true
+transition = "slide"
+transition_speed = "fast"
 
 [languages]
   [languages.de]
@@ -116,6 +131,14 @@ defaultContentLanguageInSubdir = true
 
         [[languages.de.params.interests.list]]
         interest = "Basketball"
+        
+      [languages.de.params.presentations]
+        enable = true
+        title = "Präsentationen"
+        
+        [[languages.de.params.presentations.list]]
+        title = "Gelöste Herausforderungen"
+        url = "/de/slides/solved-challenges/"
 
       [languages.de.params.summary]
         enable = true
@@ -493,6 +516,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.en.params.interests.list]]
         interest = "Basketball"
+        
+      [languages.en.params.presentations]
+        enable = true
+        title = "Presentations"
+        
+        [[languages.en.params.presentations.list]]
+        title = "Solved Challenges"
+        url = "/en/slides/solved-challenges/"
 
       [languages.en.params.summary]
         enable = true

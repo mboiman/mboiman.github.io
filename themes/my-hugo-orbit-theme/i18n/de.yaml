@@ -14,3 +14,7 @@
   translation: Zusammenfassung
 - id: conferences
   translation: "Konferenzen und Vorträge"
+- id: presentations
+  translation: "Präsentationen"
+- id: solved_challenges
+  translation: "Gelöste Herausforderungen"

@@ -14,3 +14,7 @@
   translation: Career Profile
 - id: conferences
   translation: "Conferences and Talks"
+- id: presentations
+  translation: "Presentations"
+- id: solved_challenges
+  translation: "Solved Challenges"
