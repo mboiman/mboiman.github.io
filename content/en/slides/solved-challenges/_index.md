@@ -1,6 +1,7 @@
 +++
 title = "Solved Challenges"
 outputs = ["Reveal"]
+aliases = ["/en/slides/solved-challenges/"]
 +++
 
 # Solved Challenges
