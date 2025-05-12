@@ -1,6 +1,7 @@
 +++
 title = "PDF-Export-Test"
 outputs = ["Reveal"]
+layout = "bundle"
 +++
 
 # PDF-Export-Test

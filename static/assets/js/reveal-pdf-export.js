@@ -128,8 +128,7 @@
       <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 5px;">
         <p style="margin-bottom: 20px;"><strong>Drucktipps:</strong> Für beste Ergebnisse verwenden Sie Chrome oder Edge und aktivieren Sie "Hintergrundgrafiken" in den Druckeinstellungen.</p>
         <button id="close-pdf-dialog" style="padding: 8px 15px; background-color: #f0f0f0; border: none; border-radius: 4px; cursor: pointer;">Abbrechen</button>
-      </div>
-    `;
+      </div>`;
 
     // Dialog zur Seite hinzufügen
     dialogContainer.appendChild(dialog);
@@ -270,10 +269,38 @@
     document.head.appendChild(link);
   }
 
-  // Initialisierung bei Dokumentenladung
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPdfExport);
-  } else {
-    initPdfExport();
-  }
+  // Direkte Event-Listener Registrierung für den PDF-Button
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log(
+      "[PDF-Export] DOM vollständig geladen, initialisiere PDF-Export..."
+    );
+
+    // Button direkt ansprechen
+    var pdfButton = document.querySelector(".pdf-download-button");
+    if (pdfButton) {
+      console.log("[PDF-Export] PDF-Button gefunden, füge Click-Handler hinzu");
+
+      pdfButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        console.log("[PDF-Export] Button wurde geklickt!");
+
+        // Einfache Weiterleitung zum PDF-Format
+        var currentUrl = window.location.href;
+        var pdfUrl =
+          currentUrl + (currentUrl.indexOf("?") >= 0 ? "&" : "?") + "print-pdf";
+
+        console.log("[PDF-Export] Leite weiter zu: " + pdfUrl);
+        window.location.href = pdfUrl;
+
+        return false;
+      });
+    } else {
+      console.error("[PDF-Export] PDF-Button nicht gefunden!");
+    }
+
+    // Prüfen, ob wir bereits im PDF-Modus sind
+    if (isPrintPdfMode()) {
+      prepareForPrinting();
+    }
+  });
 })();
