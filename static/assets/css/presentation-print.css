@@ -1,0 +1,232 @@
+/**
+ * Verbesserte Druckstile für Präsentationen
+ */
+@media print {
+  /* Grundlegende Optimierungen für den Druck */
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background-color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Verbesserte Text-Darstellung */
+  .reveal {
+    font-size: 20pt;
+    color: #000 !important;
+  }
+
+  .reveal h1,
+  .reveal h2,
+  .reveal h3 {
+    color: #222 !important;
+    text-transform: none !important;
+    font-weight: bold !important;
+    line-height: 1.2 !important;
+    letter-spacing: normal !important;
+  }
+
+  .reveal h1 {
+    font-size: 40pt !important;
+  }
+  .reveal h2 {
+    font-size: 32pt !important;
+  }
+  .reveal h3 {
+    font-size: 26pt !important;
+  }
+
+  /* Seitenumbrüche erzwingen für jede Folie */
+  .reveal .slides section {
+    page-break-before: always !important;
+    page-break-after: always !important;
+    page-break-inside: avoid !important;
+    height: 100% !important;
+  }
+
+  /* Verbesserte Listen-Darstellung */
+  .reveal ul,
+  .reveal ol {
+    margin: 0.5em 0 0.5em 1.5em !important;
+  }
+
+  .reveal li {
+    margin: 0.3em 0 !important;
+  }
+
+  /* Verbessertes Text-Rendering */
+  .reveal p,
+  .reveal li {
+    line-height: 1.4 !important;
+    text-shadow: none !important;
+  }
+
+  /* Verbesserte Code-Darstellung */
+  .reveal pre,
+  .reveal code {
+    font-family: monospace !important;
+    background-color: #f0f0f0 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+
+  .reveal pre code {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Bilder hochwertig darstellen */
+  .reveal img {
+    max-width: 90% !important;
+    max-height: 70vh !important;
+    margin: 0 auto !important;
+    display: block !important;
+    object-fit: contain !important;
+  }
+
+  /* Elemene ausblenden, die im Druck stören */
+  .reveal .controls,
+  .reveal .progress,
+  #download-pdf,
+  #keyboard-shortcut-hint {
+    display: none !important;
+  }
+
+  /* Hintergründe richtig drucken */
+  .reveal section[data-background] {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    color: #fff;
+  }
+
+  /* Bessere Darstellung von Links */
+  .reveal a {
+    color: #2a76dd !important;
+    text-decoration: underline !important;
+  } /* Foliennummern anzeigen */
+  .reveal .slide-number {
+    display: block !important;
+    right: 8px !important;
+    bottom: 8px !important;
+    color: #333 !important;
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    padding: 4px 8px !important;
+    font-size: 14px !important;
+    border-radius: 3px !important;
+  }
+
+  /* Eigene Seitennummern für den PDF-Export hinzufügen */
+  .reveal .slides section::after {
+    content: attr(data-slide-num) "/" attr(data-total-slides);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #666;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 3px 8px;
+    border-radius: 3px;
+    z-index: 100;
+  }
+
+  /* Verbesserte Seitenzahlen */
+  .page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px !important;
+    color: #666 !important;
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    padding: 3px 8px !important;
+    border-radius: 3px !important;
+    z-index: 100 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /* Zusätzliche Optimierungen für den PDF-Export (Mai 2023) */
+
+  /* Verbessere Code-Blöcke */
+  .reveal pre {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid !important;
+    margin: 20px auto !important;
+    width: 90% !important;
+  }
+
+  .reveal pre code {
+    max-height: none !important;
+    padding: 15px !important;
+    font-size: 0.8em !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Verbessere Bilder */
+  .reveal img:not(.slide-qr-code) {
+    max-height: 65vh !important;
+    max-width: 90% !important;
+    margin: 10px auto !important;
+    display: block !important;
+    page-break-inside: avoid !important;
+    object-fit: contain !important;
+  }
+
+  /* Verbessere Tabellen */
+  .reveal table {
+    page-break-inside: avoid !important;
+    border-collapse: collapse !important;
+    width: 90% !important;
+    margin: 20px auto !important;
+    font-size: 18pt !important;
+  }
+
+  .reveal table th {
+    background-color: #f2f2f2 !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+    padding: 8px 12px !important;
+    font-weight: bold !important;
+  }
+
+  .reveal table td {
+    border: 1px solid #ddd !important;
+    padding: 8px 12px !important;
+  }
+
+  /* Bessere Sichtbarkeit für Links */
+  .reveal a:link,
+  .reveal a:visited {
+    color: #2a76dd !important;
+    text-decoration: underline !important;
+    font-weight: bold !important;
+  }
+
+  /* Verbesserte Zitate */
+  .reveal blockquote {
+    border-left: 5px solid #42a8c0 !important;
+    padding-left: 15px !important;
+    margin-left: 10px !important;
+    font-style: italic !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Verbesserte Darstellung von Markierungen und Hervorhebungen */
+  .reveal mark,
+  .reveal .highlight {
+    background-color: #ffff00 !important;
+    color: #000 !important;
+    padding: 2px 4px !important;
+    border-radius: 2px !important;
+  }
+}

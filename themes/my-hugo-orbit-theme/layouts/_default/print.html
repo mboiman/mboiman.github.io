@@ -1,0 +1,136 @@
+<!-- Diese Datei wird nur verwendet, wenn die URL mit ?print-pdf aufgerufen wird -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>{{ .Title }} - PDF-Export</title>
+
+    <!-- Standardstile für Reveal.js -->
+    <link rel="stylesheet" href="/reveal-js/dist/reset.css" />
+    <link rel="stylesheet" href="/reveal-js/dist/reveal.css" />
+    <link rel="stylesheet" href="/reveal-js/dist/theme/{{ .Param "theme" |
+    default "black" }}.css" id="theme">
+    <link rel="stylesheet" href="/reveal-js/plugin/highlight/monokai.css" />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Spezielle Druck-Stile -->
+    <link rel="stylesheet" href="/reveal-js/dist/print/pdf.css" />
+    <link rel="stylesheet" href="/assets/css/presentation-print.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      .pdf-header {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        font-size: 8pt;
+        font-family: sans-serif;
+        color: #999;
+      }
+      .pdf-footer {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        z-index: 1000;
+        font-size: 8pt;
+        font-family: sans-serif;
+        color: #999;
+        width: 100%;
+        text-align: center;
+      }
+      .pdf-info {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 300px;
+        z-index: 10000;
+      }
+      .pdf-info h2 {
+        margin-top: 0;
+        font-size: 18px;
+      }
+      .pdf-info p {
+        font-size: 14px;
+        margin: 10px 0;
+      }
+      .pdf-info button {
+        background: #42a8c0;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      @media print {
+        .pdf-info {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pdf-info">
+      <h2>PDF-Export vorbereitet</h2>
+      <p>
+        Die Präsentation ist für den PDF-Export optimiert. Klicken Sie auf den
+        Button unten, um den Druckdialog zu öffnen.
+      </p>
+      <p>
+        <strong>Wichtig:</strong> Wählen Sie im Druckdialog "Als PDF speichern"
+        und stellen Sie sicher, dass Hintergründe mit gedruckt werden.
+      </p>
+      <button onclick="window.print()">Druckdialog öffnen</button>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        {{ range .Site.RegularPages }}
+        <section data-markdown>
+          <textarea data-template>
+                        {{ .RawContent }}
+                    </textarea
+          >
+        </section>
+        {{ end }}
+      </div>
+    </div>
+
+    <script src="/reveal-js/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.1,
+        hash: true,
+        center: true,
+        transition: "fade",
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+
+      // Automatisch Druckdialog öffnen nach kurzer Verzögerung
+      setTimeout(function () {
+        window.print();
+      }, 2000);
+    </script>
+  </body>
+</html>

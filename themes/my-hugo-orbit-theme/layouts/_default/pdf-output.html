@@ -1,0 +1,72 @@
+{{ define "main" }}
+<!-- Diese Layout-Datei wird für den spezifischen PDF-Export verwendet, wenn ?pdf im URL ist -->
+<div class="reveal">
+  <div class="slides">
+    {{ partial "reveal-hugo/slides" (slice .Page) }} {{ partial
+    "reveal-hugo/slides" (where .Pages "Kind" "page") }}
+  </div>
+</div>
+
+<div class="pdf-export-info">
+  <div class="pdf-export-info-content">
+    <h2>PDF-Export wird vorbereitet...</h2>
+    <p>
+      Bitte warten Sie einen Moment während die Präsentation für den PDF-Export
+      optimiert wird.
+    </p>
+    <p>Der Druck-Dialog wird automatisch geöffnet.</p>
+    <p class="pdf-export-tip">
+      Tipp: Wählen Sie "Als PDF speichern" und aktivieren Sie die Option
+      "Hintergrundgrafiken".
+    </p>
+  </div>
+</div>
+
+<style>
+  .pdf-export-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pdf-export-info-content {
+    max-width: 600px;
+    padding: 30px;
+  }
+
+  .pdf-export-info h2 {
+    margin-top: 0;
+    color: #42a8c0;
+  }
+
+  .pdf-export-tip {
+    margin-top: 20px;
+    font-style: italic;
+    color: #42a8c0;
+  }
+
+  @media print {
+    .pdf-export-info {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Nach einer kurzen Verzögerung automatisch drucken
+    setTimeout(function () {
+      window.print();
+    }, 1000);
+  });
+</script>
+{{ end }}

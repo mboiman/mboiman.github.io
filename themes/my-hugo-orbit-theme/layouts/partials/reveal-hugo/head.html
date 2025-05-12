@@ -1,0 +1,141 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+<link rel="stylesheet" href="/assets/css/presentation-print.css" />
+
+<script>
+  // Bereite PDF-Export für Präsentationen vor
+  document.addEventListener("DOMContentLoaded", function () {
+    // Prüfe, ob die URL den Parameter ?print-pdf enthält
+    var printPdf = window.location.search.match(/print-pdf/gi);
+
+    if (printPdf) {
+      // Lade das print-pdf Stylesheet von reveal.js
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+
+      // Versuche verschiedene mögliche Pfade für das PDF-Stylesheet
+      var possiblePaths = [
+        "/reveal-js/dist/print/pdf.css",
+        "/reveal-js/css/print/pdf.css",
+        "/reveal-js/print/pdf.css",
+      ];
+
+      // Prüfe, ob die Datei existiert und verwende den ersten gefundenen Pfad
+      var styleFound = false;
+      for (var i = 0; i < possiblePaths.length; i++) {
+        var path = possiblePaths[i];
+        var xhr = new XMLHttpRequest();
+        xhr.open("HEAD", path, false);
+        try {
+          xhr.send();
+          if (xhr.status === 200) {
+            link.href = path;
+            styleFound = true;
+            break;
+          }
+        } catch (e) {}
+      }
+
+      // Fallback, wenn keine Datei gefunden wurde
+      if (!styleFound) {
+        link.href = possiblePaths[0];
+      }
+
+      document.querySelector("head").appendChild(link);
+
+      // Füge Metadaten für den PDF-Export hinzu
+      var metaAuthor = document.createElement("meta");
+      metaAuthor.name = "author";
+      metaAuthor.content = document.title.split(" - ")[0] || "Präsentation";
+      document.querySelector("head").appendChild(metaAuthor);
+
+      // Füge ein benutzerdefiniertes Stylesheet für bessere PDF-Qualität hinzu
+      var customStyle = document.createElement("style");
+      customStyle.textContent = `
+            @media print {
+                @page {
+                    size: 1210px 681px;
+                    margin: 0;
+                }
+                .reveal .slides {
+                    height: 681px !important;
+                }
+                .reveal .slides section {
+                    page-break-after: always !important;
+                }
+                body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                #pdf-help-overlay, #download-pdf {
+                    display: none !important;
+                }
+            }
+        `;
+      document.querySelector("head").appendChild(customStyle);
+
+      // Erstelle eine Hilfsanleitung für den Benutzer
+      setTimeout(function () {
+        // Dem Benutzer etwas Zeit geben, um das Layout zu sehen, bevor der Druck-Dialog erscheint
+        var helpOverlay = document.createElement("div");
+        helpOverlay.id = "pdf-help-overlay";
+        helpOverlay.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 9999; color: white; padding: 40px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                    <h2>PDF-Export wird vorbereitet</h2>
+                    <p>Der Druckdialog wird automatisch geöffnet.</p>
+                    <p>Bitte wählen Sie <strong>"Als PDF speichern"</strong> oder <strong>"Drucken in Datei"</strong> und bestätigen Sie.</p>
+                    <p><strong style="color: #42A8C0;">Wichtig:</strong> Aktivieren Sie unter "Weitere Einstellungen" die Option <strong>"Hintergrundgrafiken"</strong>.</p>
+                    <div style="margin: 15px 0; border: 1px solid #42A8C0; padding: 10px; border-radius: 5px; background: rgba(66, 168, 192, 0.1); max-width: 500px; margin-left: auto; margin-right: auto;">
+                      <p style="margin: 0;"><strong>Tipps für bessere PDF-Ergebnisse:</strong></p>
+                      <ul style="text-align: left; margin-bottom: 0;">
+                        <li>Wählen Sie Querformat im Druckdialog</li>
+                        <li>Deaktivieren Sie "Kopf- und Fußzeilen"</li>
+                        <li>Aktivieren Sie "Hintergrundgrafiken"</li>
+                      </ul>
+                    </div>
+                    <p>Zum Abbrechen schließen Sie den Druckdialog und <a href="javascript:history.back()" style="color: #42A8C0; text-decoration: underline;">klicken Sie hier</a>.</p>
+                    <button onclick="window.print(); return false;" style="margin: 20px auto; padding: 10px 20px; background: #42A8C0; border: none; color: white; cursor: pointer;">Drucken starten</button>
+                </div>
+            `;
+        document.body.appendChild(helpOverlay);
+
+        // Nummeriere die Folien für den PDF-Export
+      setTimeout(function() {
+        // Zähle die Gesamtzahl der Folien
+        var slides = document.querySelectorAll('.reveal .slides section');
+        var totalSlides = slides.length;
+
+        // Setze die Nummerierung für jede Folie
+        slides.forEach(function(slide, index) {
+          slide.setAttribute('data-slide-num', (index + 1));
+          slide.setAttribute('data-total-slides', totalSlides);
+        });
+
+        // Automatisch den Druckdialog nach kurzer Verzögerung öffnen
+        setTimeout(function () {
+          window.print();
+        }, 1500);
+      }, 500);
+    }
+  });
+</script>
+
+<!-- Anleitung zum Drucken als PDF -->
+<style>
+  .pdf-helper {
+    display: none;
+  }
+  @media print {
+    .pdf-helper {
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #download-pdf {
+      display: none;
+    }
+  }
+</style>

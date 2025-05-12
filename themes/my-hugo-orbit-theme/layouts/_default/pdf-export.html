@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="generator" content="Hugo {{ hugo.Version }}" />
+    <title>{{ .Title }} - PDF-Export</title>
+
+    <!-- Reveal.js Basis-Stylesheets -->
+    <link rel="stylesheet" href="/reveal-js/dist/reset.css" />
+    <link rel="stylesheet" href="/reveal-js/dist/reveal.css" />
+    <link rel="stylesheet" href="/reveal-js/dist/theme/{{ .Param "theme" |
+    default "black" }}.css" id="theme">
+    <link rel="stylesheet" href="/reveal-js/plugin/highlight/monokai.css" />
+
+    <!-- Spezielle PDF-Export-Stile -->
+    <link rel="stylesheet" href="/assets/css/presentation-print.css" />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- PDF-Export-Bundle einbinden -->
+    <script src="/assets/js/build/presentation-pdf-bundle.js"></script>
+
+    <style>
+      body {
+        background-color: #f5f5f5;
+      }
+
+      .pdf-info-banner {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .pdf-info-banner button {
+        background-color: #42a8c0;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      @media print {
+        .pdf-info-banner {
+          display: none;
+        }
+
+        body {
+          background-color: white;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        {{ range .Site.Data.slides }}
+        <section data-markdown>
+          <textarea data-template>
+                        {{ . | markdownify }}
+                    </textarea
+          >
+        </section>
+        {{ end }} {{ range .Page.Resources.ByType "page" }}
+        <section data-markdown>
+          <textarea data-template>
+                        {{ .Content }}
+                    </textarea
+          >
+        </section>
+        {{ end }}
+      </div>
+    </div>
+
+    <div class="pdf-info-banner">
+      <span>Diese Seite ist für den PDF-Export optimiert</span>
+      <button onclick="window.print();">Als PDF drucken</button>
+      <a
+        href="javascript:history.back()"
+        style="color: white; text-decoration: underline"
+        >Zurück zur Präsentation</a
+      >
+    </div>
+
+    <script src="/reveal-js/dist/reveal.js"></script>
+    <script src="/reveal-js/plugin/markdown/markdown.js"></script>
+    <script src="/reveal-js/plugin/highlight/highlight.js"></script>
+    <script src="/reveal-js/plugin/notes/notes.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: false,
+        history: false,
+        controls: false,
+        slideNumber: true,
+        transition: "none",
+        fragments: false,
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>

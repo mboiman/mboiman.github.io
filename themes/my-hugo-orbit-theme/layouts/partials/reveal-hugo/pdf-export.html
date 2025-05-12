@@ -1,0 +1,26 @@
+<!-- PDF-Export-Vorlage für Präsentationen -->
+{{ define "pdf-export-head" }}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+<link rel="stylesheet" href="/assets/css/presentation-print.css" />
+<script src="/assets/js/build/presentation-pdf-bundle.js"></script>
+
+<!-- Anleitung zum Drucken als PDF -->
+<style>
+  .pdf-helper {
+    display: none;
+  }
+  @media print {
+    .pdf-helper {
+      display: block;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #download-pdf {
+      display: none;
+    }
+  }
+</style>
+{{ end }}

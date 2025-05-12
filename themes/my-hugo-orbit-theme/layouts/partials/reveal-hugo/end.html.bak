@@ -1,0 +1,64 @@
+<div
+  id="download-pdf"
+  style="position: fixed; bottom: 15px; left: 15px; z-index: 100"
+>
+  <a
+    href="#"
+    class="pdf-download-button"
+    style="
+      display: inline-flex;
+      align-items: center;
+      background-color: rgba(66, 168, 192, 0.9);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      gap: 8px;
+    "
+    onmouseover="this.style.backgroundColor='rgba(66, 168, 192, 1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.4)';"
+    onmouseout="this.style.backgroundColor='rgba(66, 168, 192, 0.9)'; this.style.boxShadow='0 2px 10px rgba(0, 0, 0, 0.3)';"
+  >
+    <i class="fas fa-file-pdf" style="font-size: 16px"></i> PDF herunterladen
+  </a>
+</div>
+
+<div
+  id="keyboard-shortcut-hint"
+  style="
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 100;
+    font-size: 14px;
+    color: #999;
+  "
+>
+  Drücken Sie
+  <kbd
+    style="
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-family: monospace;
+    "
+    >f</kbd
+  >
+  für Vollbild,
+  <kbd
+    style="
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      padding: 2px 5px;
+      font-family: monospace;
+    "
+    >o</kbd
+  >
+  für Übersicht
+</div>
