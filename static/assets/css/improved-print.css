@@ -1,0 +1,107 @@
+/**
+ * Verbessertes CSS für den PDF-Export von reveal.js Präsentationen
+ * Garantiert Querformat und richtige Seiteninhalte
+ */
+
+@page {
+  size: landscape !important; /* Erzwinge Querformat */
+  margin: 0 !important;
+}
+
+@media print {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .reveal .slides {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Verbesserte Seitenumbrüche */
+  .reveal .slides section {
+    min-height: 100% !important;
+    transform-style: flat !important;
+    page-break-before: always !important;
+    page-break-after: always !important;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+    display: block !important; /* Sicherstellen, dass alle Folien gerendert werden */
+  }
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Entferne Animations-Effekte */
+.reveal .slides section .fragment {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Verstecke Navigations-Elemente */
+.reveal .controls,
+.reveal .progress,
+.reveal .slide-number:not(.print-only) {
+  display: none !important;
+}
+
+/* Stelle sicher, dass alle Inhalte sichtbar sind */
+.reveal .slides section * {
+  page-break-inside: avoid;
+}
+
+/* Anpassungen für Bilder */
+.reveal img,
+.reveal video,
+.reveal iframe {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
+
+/* Verbesserte Seitenzahlen-Anzeige */
+.slide-page-number {
+  position: absolute !important;
+  bottom: 10px !important;
+  right: 20px !important;
+  font-size: 14px !important;
+  color: #555 !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  z-index: 2000 !important;
+  display: block !important;
+}
+
+/* Stellen Sie sicher, dass alle Folien im Viewport bleiben */
+@media print {
+  .reveal,
+  .reveal-viewport,
+  .reveal .slides {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    display: block !important;
+  }
+
+  /* Fix für mehrseitige Folien */
+  .reveal .slides section {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Sicherstellen, dass z-index keine Probleme verursacht */
+  html,
+  body {
+    overflow: visible !important;
+    height: auto !important;
+  }
+}

@@ -1,5 +1,57 @@
-<!-- PDF-Export-Skript-Einbindung für Präsentationen -->
-<script src="/assets/js/reveal-pdf-export-neu.js"></script>
+<!-- PDF/PPTX-Export-Skript-Einbindung für Präsentationen -->
+<script src="/assets/js/reveal-export-fix.js"></script>
+<script src="/assets/js/reveal-export-bundle.js"></script>
 <script>
-  console.log("Optimiertes PDF-Export-Skript geladen");
+  console.log("Verbessertes Export-Tool geladen (PDF + PPTX)");
+
+  // Stellen Sie sicher, dass DOM geladen ist, bevor die Initialisierung erfolgt
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialisiere das Export-Tool nach einem kurzen Timeout
+    // Das gibt Reveal.js Zeit, vollständig zu laden
+    setTimeout(function () {
+      if (typeof initExportTool === "function") {
+        initExportTool();
+        console.log("Export-Tool erfolgreich initialisiert");
+      }
+    }, 1000);
+  });
 </script>
+
+<!-- Zusätzliches CSS für korrekte Z-Indizes und Klickbarkeit -->
+<style>
+  /* Stelle sicher, dass die Export-Buttons über den Folien liegen */
+  .export-button,
+  .pdf-download-button,
+  #export-dialog,
+  .export-dialog {
+    z-index: 9999 !important;
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+
+  /* Zusätzliche Einstellung für Dialog */
+  #export-dialog .export-dialog-content,
+  .export-dialog .export-dialog-content {
+    z-index: 10000 !important;
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+
+  /* Stelle sicher, dass Buttons in den Dialogen klickbar sind */
+  #export-dialog button,
+  .export-dialog button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+
+  /* Verstecke einige Reveal-Elemente im PDF-Export-Modus */
+  @media print {
+    .export-button,
+    .pdf-download-button,
+    .reveal .controls,
+    .reveal .progress {
+      display: none !important;
+    }
+  }
+</style>
