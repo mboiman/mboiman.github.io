@@ -55,13 +55,18 @@ def add_bullet_slide(prs, title, bullets, placeholder=False, placeholder_text="S
         p.font.name = "SF Pro Display"  # Apple-ähnliche Schriftart
 
     if placeholder:
-        # Position für besseres visuelles Gleichgewicht anpassen
-        left, top, width, height = Inches(5.3), Inches(1.8), Inches(4), Inches(4)
+        # Zuerst den Platzhalter erstellen, damit er im Hintergrund ist
+        # Position ganz rechts für besseres Design
+        left, top, width, height = Inches(8.8), Inches(1.8), Inches(4), Inches(4)
         ph = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
         ph.fill.solid()
         ph.fill.fore_color.rgb = RGBColor(240, 240, 240)  # Sehr helles Grau (Apple-Stil)
         ph.line.color.rgb = RGBColor(220, 220, 220)  # Subtiler Rahmen
         ph.shadow.inherit = False  # Kein Schatten (klarer Apple-Look)
+        
+        # Den Platzhalter in den Hintergrund verschieben, indem wir zIndex anpassen
+        ph.zorder = 0
+        ph.zorder = 0
         
         # Placeholder-Text im Apple-Stil
         text_frame = ph.text_frame
@@ -146,13 +151,15 @@ def add_result_slide(prs, title, bullets, kpi_text, placeholder=False, placehold
     p.font.name = "SF Pro Display"
 
     if placeholder:
-        # Position für besseres visuelles Gleichgewicht
-        left, top, width, height = Inches(5.3), Inches(1.8), Inches(4), Inches(4)
+        # Position ganz rechts für besseres Design
+        left, top, width, height = Inches(8.8), Inches(1.8), Inches(4), Inches(4)
         ph = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, top, width, height)
         ph.fill.solid()
         ph.fill.fore_color.rgb = RGBColor(240, 240, 240)  # Sehr helles Grau (Apple-Stil)
         ph.line.color.rgb = RGBColor(220, 220, 220)  # Subtiler Rahmen
         ph.shadow.inherit = False  # Kein Schatten
+        # Den Platzhalter in den Hintergrund verschieben
+        ph.zorder = 0
         
         # Placeholder-Text
         text_frame = ph.text_frame
