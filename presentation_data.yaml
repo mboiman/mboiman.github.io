@@ -1,0 +1,236 @@
+---
+presentation:
+  title: "Freelance Success Stories – KI‑gestützte Qualität & Automatisierung"
+  subtitle: "Michael Boiman · Test‑ & Automatisierungs‑Experte"
+  settings:
+    width: 13.33 # in Inches, 16:9 aspect ratio
+    height: 7.5 # in Inches
+    font: "SF Pro Display"
+  slides:
+    - id: 1
+      type: title
+      title: "Freelance Success Stories – KI‑gestützte Qualität & Automatisierung"
+      subtitle: "Michael Boiman · Test‑ & Automatisierungs‑Experte"
+
+    - id: 2
+      type: bullet
+      title: "Agenda & Lesehinweis"
+      bullets:
+        - "So lesen Sie diese Präsentation: Jedes Projekt zeigt Problem → Lösung → messbarer Erfolg (mit grünem KPI-Badge)"
+        - "1. Ausgangssituation & relevante Herausforderungen"
+        - "2. Vier erfolgreiche Projekte mit nachweisbarem Impact"
+        - "3. Übergreifender Business Impact & Lessons Learned"
+        - "4. Kontaktmöglichkeiten für weitere Details oder Live-Demo"
+
+    - id: 3
+      type: bullet
+      title: "Ausgangssituation"
+      bullets:
+        - "In allen Projekten bestand ein konkreter Business-Bedarf nach mehr Effizienz und Transparenz:"
+        - "• Fragmentierte Tests & hoher manueller Aufwand bei Go/No-Go-Entscheidungen"
+        - "• Legacy‑Mainframe-Preiskalkulation ohne Nachweisbarkeit"
+        - "• Wachsende E‑Mail‑Flut mit steigendem SLA‑Risiko"
+        - "• Ziel: Geschwindigkeit, Transparenz und messbare Qualität"
+      placeholder:
+        text: "Pain‑Points‑Grafik"
+        note: "Hier: Visualisierung der Kernprobleme mit Icon für jede Herausforderung"
+
+    - id: 4
+      type: bullet
+      title: "PROJEKT 1: Quality Dashboard – Herausforderung"
+      bullets:
+        - "Ohne Gesamtüberblick war die Testqualität nicht messbar und Go/No-Go-Entscheidungen wurden verzögert:"
+        - "• >10 Test‑Tools, 5 Umgebungen, kein Gesamtstatus"
+        - "• Manuelle Rückfragen kosteten Zeit (mehrere Stunden pro Release)"
+        - "• Management hatte keine Entscheidungsgrundlage für Releases"
+      placeholder:
+        text: "Vorher-Situation"
+        note: "Hier: Chaotisches Dashboard/Whiteboard mit vielen verschiedenen Reports"
+
+    - id: 5
+      type: bullet
+      title: "PROJEKT 1: Quality Dashboard – Meine Lösung"
+      bullets:
+        - "Ich entwickelte eine vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht:"
+        - "• Pipeline: Reports aus allen Tools → Parser → zentrale DB → Dashboard/PDF"
+        - "• Echtzeit‑Filter nach Umgebung, Projekt, Applikation"
+        - "• Automatische Jira-Ticket-Erstellung bei kritischen Fehlern"
+        - "• Customizable Widgets für verschiedene Stakeholder"
+      placeholder:
+        text: "Flow‑Diagramm"
+        note: "Hier: Architekturdiagramm der Pipeline-Lösung mit Tools und Datenfluss"
+
+    - id: 6
+      type: result
+      title: "PROJEKT 1: Quality Dashboard – Ergebnis & Impact"
+      bullets:
+        - "Die Lösung revolutionierte den Release-Prozess und steigerte die Entwicklungsgeschwindigkeit:"
+        - "• Live‑Status in unter 5 Sekunden für alle Teams verfügbar"
+        - "• Trendanalysen über Historie ermöglichen Qualitätsprognosen"
+        - "• PDF-Reports auf Knopfdruck für Management-Meetings"
+      kpi_text: "IMPACT: -80% Rückfragen | Go/No-Go-Entscheidungen in Minuten statt Stunden"
+      placeholder:
+        text: "Dashboard‑Screenshot"
+        note: "Hier: Screenshot des Live-Dashboards mit Qualitätsampeln und Trends"
+
+    - id: 7
+      type: bullet
+      title: "PROJEKT 2: Dual‑Run Preiskalkulation – Problem"
+      bullets:
+        - "Die Ablösung eines kritischen Legacy-Mainframe-Systems stellte besondere Herausforderungen:"
+        - "• >1 Mio Kombinationsmöglichkeiten in der Preisberechnung"
+        - "• Kein vollständiges Testset möglich (zu komplex für manuelle Tests)"
+        - "• Hoher Druck: Fachbereiche brauchten Beweise für korrekte Funktion"
+      placeholder:
+        text: "Parameter‑Diagramm"
+        note: "Hier: Visualisierung der Parametervielfalt und Komplexität"
+
+    - id: 8
+      type: bullet
+      title: "PROJEKT 2: Dual‑Run Preiskalkulation – Meine Lösung"
+      bullets:
+        - "Ich entwickelte einen innovativen 'Dual-Run'-Ansatz mit kontinuierlichem Vergleich:"
+        - "• Zufallsgenerator erstellt und testet komplexe Szenarien 24/7"
+        - "• Parallele Ausführung in Alt- und Neusystem mit pixelgenauem Vergleich"
+        - "• Automatischer Ergebnisvergleich mit Drill-Down-Funktion im Dashboard"
+        - "• Self-Service für Fachanwender: Fehleranalyse ohne Entwicklersupport"
+      placeholder:
+        text: "Sequence‑Diagramm"
+        note: "Hier: Visualisierung des Dual-Run-Prozesses mit Vergleichslogik"
+
+    - id: 9
+      type: result
+      title: "PROJEKT 2: Dual‑Run Preiskalkulation – Ergebnis"
+      bullets:
+        - "Die Lösung ermöglichte die sichere Migration kritischer Business-Funktionen:"
+        - "• Automatisierte Tests deckten versteckte Fehler in beiden Systemen auf"
+        - "• Fachbereich kann selbständig jede Abweichung bis zur Einzelposition nachvollziehen"
+        - "• Management erhält verlässliche Migrationsmetriken für Go-Live-Entscheidung"
+      kpi_text: "IMPACT: Qualitätskennzahl von 30% auf 96% erhöht | Direkte Fehlerlokalisierung"
+      placeholder:
+        text: "Progress‑Chart"
+        note: "Hier: Fortschrittskurve mit steigender Übereinstimmungsrate 30% → 96%"
+
+    - id: 10
+      type: bullet
+      title: "PROJEKT 3: KI‑Testautomatisierung – Herausforderung & Lösungsansatz"
+      bullets:
+        - "Testautomatisierung war zu zeitaufwändig und inkonsistent - mein KI-Ansatz löste das:"
+        - "• Problem: Langsame Testerstellung und unterschiedliche Code-Qualität"
+        - "• Meine Lösung: Guideline-basierter KI-Agent im IDE für konsistenten Code"
+        - "• Erreicht: 80% des Test-Codes automatisch generiert"
+        - "• Innovation: Prompt-basierte Testgenerierung direkt aus Jira-Stories (60%)"
+      placeholder:
+        text: "IDE‑Screenshot"
+        note: "Hier: Screenshot des KI-Agenten bei der Code-Generierung im IDE"
+
+    - id: 11
+      type: result
+      title: "PROJEKT 3: KI‑Testautomatisierung – Ergebnis & Business Value"
+      bullets:
+        - "Der KI-Ansatz transformierte die Testentwicklung im gesamten Unternehmen:"
+        - "• Konsistente Code-Qualität über alle Teams hinweg"
+        - "• Verständliche Fachreports mit Screenshots für Nicht-Techniker"
+        - "• Self-Service-Reports für Fachbereiche ohne IT-Support"
+      kpi_text: "IMPACT: 50% weniger Entwicklungszeit pro Test-Case | Review-Aufwand -40%"
+      placeholder:
+        text: "Testreport‑Ausschnitt"
+        note: "Hier: Beispiel eines automatisch generierten Reports mit Screenshots"
+
+    - id: 12
+      type: bullet
+      title: "PROJEKT 4: KI‑E‑Mail‑Prozess – Herausforderung & Lösung"
+      bullets:
+        - "Hohe manuelle E-Mail-Bearbeitungszeit verursachte SLA-Risiken - meine KI-Lösung:"
+        - "• Problem: Große E-Mail-Mengen mit komplexem Routing und langer Bearbeitungszeit"
+        - "• Meine Lösung: End-to-End KI-Pipeline mit automatischer Klassifizierung"
+        - "• Prozess: Eingang → KI-Klassifikation → SAP/Salesforce-Integration → Teams-Notification"
+        - "• Audit-Sicherheit: Revisionssichere Logs & Echtzeit-Dashboard"
+      placeholder:
+        text: "Swimlane‑Diagramm"
+        note: "Hier: Workflow-Diagramm des E-Mail-Verarbeitungsprozesses"
+
+    - id: 13
+      type: result
+      title: "PROJEKT 4: KI‑E‑Mail‑Prozess – Ergebnis & Skalierung"
+      bullets:
+        - "Die Lösung eliminierte manuelle Verarbeitung und skalierte problemlos:"
+        - "• Vollautomatische E-Mail- und Anhang-Verarbeitung ohne menschlichen Eingriff"
+        - "• Echtzeit-Dashboard für SLA-Tracking und Lastverteilung"
+        - "• Problemlose Skalierung auf zweites Unternehmen ohne Mehraufwand"
+      kpi_text: "IMPACT: Bearbeitungszeit von Minuten auf Sekunden | 100% Audit-Trail"
+      placeholder:
+        text: "Heatmap‑Dashboard"
+        note: "Hier: Dashboard mit Heatmap nach Volumen/Stadt und SLA-Metriken"
+
+    - id: 14
+      type: bullet
+      title: "Business Impact (Gesamt)"
+      bullets:
+        - "Die kombinierten Lösungen lieferten signifikanten, messbaren Geschäftswert:"
+        - "• >120.000 € jährliche Einsparung durch Automatisierung & Effizienzsteigerung"
+        - "• Beschleunigte Release‑Entscheidungen: Von 2 Tagen auf 1 Stunde"
+        - "• Entlastung der Fachbereiche durch Self-Service & Transparenz"
+        - "• Qualitätssteigerung: Messbar bessere Software bei schnelleren Releases"
+      placeholder:
+        text: "Balkendiagramm"
+        note: "Hier: Visualisierung des Business-Impact in Zeit, Qualität & Kosten"
+
+    - id: 15
+      type: bullet
+      title: "Lessons Learned & Best Practices"
+      bullets:
+        - "Aus allen Projekten gewonnene Erkenntnisse für zukünftige Vorhaben:"
+        - "• Dashboards iterativ mit Stakeholdern entwickeln, nicht im Big-Bang"
+        - "• KI braucht klare Guidelines für konsistente Ergebnisse"
+        - "• Fachbereiche früh einbinden und Self-Service ermöglichen"
+        - "• Kommunikation wichtiger als perfekte technische Lösung"
+      placeholder:
+        text: "Idea‑Icon"
+        note: "Hier: Visualisierung der Key Learnings als Icons/Symbole"
+
+    - id: 16
+      type: bullet
+      title: "Kontakt & Live-Demos"
+      bullets:
+        - "Ich freue mich über die Gelegenheit, diese Lösungen live zu demonstrieren:"
+        - "• Live‑Demo (Textanalyse): demo‑app‑text‑analyze‑wdrcmwwnk7r9gsnaftxczk.streamlit.app"
+        - "• Elevator‑Pitch: demo‑app‑text‑analyze‑ehjk3syc4magebt7yvcydt2.streamlit.app"
+        - "• LinkedIn: linkedin.com/in/michael-boiman-ab709912"
+        - "• E‑Mail: mboiman@gmail.com"
+        - "• Website: boiman-kupermann.com"
+        - "\nLassen Sie uns gemeinsam Ihre Qualitäts- und Automatisierungsziele erreichen!"
+      placeholder:
+        text: "QR‑Codes"
+        note: "Hier: QR-Codes zu LinkedIn-Profil und Live-Demos"
+
+  styles:
+    title_slide:
+      title_font_size: 44
+      title_font_bold: true
+      subtitle_font_size: 28
+
+    bullet_slide:
+      title_font_size: 36
+      bullet_main_font_size: 24
+      bullet_main_bold: true
+      bullet_sub_font_size: 20
+      bullet_spacing_after_main: 14
+      bullet_spacing_before_sub: 10
+
+    result_slide:
+      kpi_badge:
+        color: "#28A745" # Sattes Grün (ähnlich Apple Success)
+        width: 4.5 # in Inches
+        height: 0.7 # in Inches
+        font_size: 24
+        font_color: "#FFFFFF" # Weiß
+
+    placeholder:
+      color: "#F0F0F0" # Sehr helles Grau
+      border_color: "#DCDCDC" # Subtiler Rahmen
+      width: 4 # in Inches
+      height: 4 # in Inches
+      font_size: 18
+      note_font_size: 14
+      note_font_color: "#646464" # Dunkelgrau
