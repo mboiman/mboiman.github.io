@@ -124,6 +124,7 @@ defaultContentLanguageInSubdir = true
         summary = """\
 Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
 - **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse.
+- **Python-Expertise**: Umfassende Erfahrung in der Entwicklung von KI-basierten Lösungen, Automatisierungen und Datenanalysen mit Python.
 - **Geschäftsprozess-Automatisierung**: Effizienzsteigerung durch Automatisierung manueller Abläufe und Datenverarbeitung.
 - **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen.
 - **Erfahrung mit LLMs**: Einsatz von GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A u.a.
@@ -165,6 +166,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 - IntelliJ / Visual Studio Code 
 - Java / Java-Script / Typescript 
 - Playwright / Gauge / Taiko / Karate 
+- Python für die Aufbereitung und Analyse von Test- und Reportdaten
 - CI/CD / Github – reuseable workflows 
 - Helm / Container 
 - JIRA / Confluence 
@@ -191,7 +193,7 @@ Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf
 
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
-- Python: Implementierung der Kernlogik für Datenextraktion, Klassifizierung und Integration.
+- Python: Implementierung der Kernlogik für Datenextraktion, Klassifizierung und Integration mit automatisierten CI/CD-Prozessen, Paketierung und umfassenden Unit- sowie Integrationstests zur Qualitätssicherung.
 - Microsoft Graph API: Zugriff auf Outlook-Postfächer und SharePoint-Dokumentbibliotheken.
 - GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
 - Kibana: Monitoring, Log-Analyse und Performance-Dashboards.
@@ -501,6 +503,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         summary = """\
 With more than 20 years of experience in software development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
 - **AI Automation**: Optimising and implementing AI within existing business processes.
+- **Python Expertise**: Extensive experience in developing AI-based solutions, automations, and data analysis using Python.
 - **Business-Process Automation**: Increasing efficiency by automating manual workflows and data processing.
 - **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems.
 - **Experience with LLMs**: GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A, among others.
@@ -541,6 +544,7 @@ With more than 20 years of experience in software development, I focus on automa
 - IntelliJ / Visual Studio Code
 - Java / JavaScript / TypeScript
 - Playwright / Gauge / Taiko / Karate
+- Python for processing and analysis of test and reporting data
 - CI/CD / GitHub – reusable workflows
 - Helm / Containers
 - JIRA / Confluence
@@ -567,7 +571,7 @@ With more than 20 years of experience in software development, I focus on automa
 
 **Tools & technologies**
 - Azure Functions: Serverless orchestration of automation workflows.
-- Python: Core logic for data extraction, classification and integration.
+- Python: Core logic for data extraction, classification and integration with automated CI/CD processes, packaging, and comprehensive unit and integration tests for quality assurance.
 - Microsoft Graph API: Access to Outlook mailboxes and SharePoint libraries.
 - GitHub: Version control, CI/CD pipelines and collaborative development.
 - Kibana: Monitoring, log analysis and performance dashboards.
@@ -632,7 +636,7 @@ With more than 20 years of experience in software development, I focus on automa
 The full presentation is available at [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0). The complete source code of the developed Q&A bot is documented in my [GitHub repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot).
         """
 
-        [[languages.en.params.jobs.list]]
+        [[languages.de.params.jobs.list]]
         position = "Quality Lead"
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
@@ -665,7 +669,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Selenium
         """
 
-        [[languages.en.params.jobs.list]]
+        [[languages.de.params.jobs.list]]
         position = "Load and Performance Testing / Test Automation / Test Management"
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
@@ -875,6 +879,10 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Skills & Tools"
 
         [[languages.de.params.skills.list]]
+        skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
+        level = "98%"
+        
+        [[languages.de.params.skills.list]]
         skill = "AI & Machine Learning"
         level = "96%"
 
@@ -940,9 +948,13 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
+        skill = "Python (Data Analysis, ML/AI, Automation)"
+        level = "98%"
+        
+        [[languages.en.params.skills.list]]
         skill = "AI & Machine Learning"
         level = "96%"
-
+        
         [[languages.en.params.skills.list]]
         skill = "Software Development, Design, Architecture"
         level = "99%"
