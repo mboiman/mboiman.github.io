@@ -1,0 +1,5 @@
+[languages.de.params.profile]
+tagline = "Individuell angepasstes Profil"
+
+[languages.en.params.profile]
+tagline = "Customized profile for the request"
