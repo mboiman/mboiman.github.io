@@ -10,6 +10,7 @@ This repository contains a Hugo site for generating a curriculum vitae. A helper
 
 ```bash
 ./scripts/generate_cv.sh path/to/your.toml [output.pdf] [--standalone]
+./scripts/generate_cv.sh config.cv.toml sample.pdf --standalone
 
 The `--standalone` flag can be placed anywhere after the custom config path.
 ```
