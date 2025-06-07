@@ -18,7 +18,11 @@ hugo --config "$BASE_CONFIG,$CUSTOM_CONFIG" -d "$BUILD_DIR"
 if [ ! -d node_modules ]; then
   npm ci --silent
 fi
-node scripts/html_to_pdf.js "$BUILD_DIR/index.html" "$OUTPUT_PDF"
+# Determine default language from merged configuration
+DEFAULT_LANG=$(grep -h "^defaultContentLanguage[[:space:]]*=" "$BASE_CONFIG" "$CUSTOM_CONFIG" | tail -n1 | cut -d'"' -f2)
+MAIN_PAGE="$BUILD_DIR/$DEFAULT_LANG/index.html"
+[ -f "$MAIN_PAGE" ] || MAIN_PAGE="$BUILD_DIR/index.html"
+node scripts/html_to_pdf.js "$MAIN_PAGE" "$OUTPUT_PDF"
 
 # Clean up
 rm -rf "$BUILD_DIR"

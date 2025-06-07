@@ -1,5 +1,7 @@
 [languages.de.params.profile]
+name = "Max Mustermann"
 tagline = "Individuell angepasstes Profil"
 
 [languages.en.params.profile]
+name = "John Doe"
 tagline = "Customized profile for the request"
