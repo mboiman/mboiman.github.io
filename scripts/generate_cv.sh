@@ -4,6 +4,10 @@ set -e
 BASE_CONFIG="config.toml"
 CUSTOM_CONFIG="$1"
 OUTPUT_PDF="${2:-cv_custom.pdf}"
+STANDALONE=0
+if [ "$3" = "--standalone" ]; then
+  STANDALONE=1
+fi
 BUILD_DIR=$(mktemp -d)
 
 if [ -z "$CUSTOM_CONFIG" ]; then
@@ -11,8 +15,12 @@ if [ -z "$CUSTOM_CONFIG" ]; then
   exit 1
 fi
 
-# Build site with base and custom configuration
-hugo --config "$BASE_CONFIG,$CUSTOM_CONFIG" -d "$BUILD_DIR"
+# Build site with base and custom configuration or standalone
+if [ "$STANDALONE" -eq 1 ]; then
+  hugo --config "$CUSTOM_CONFIG" -d "$BUILD_DIR"
+else
+  hugo --config "$BASE_CONFIG,$CUSTOM_CONFIG" -d "$BUILD_DIR"
+fi
 
 # Convert generated HTML to PDF using Puppeteer
 if [ ! -d node_modules ]; then

@@ -4,14 +4,14 @@ This repository contains a Hugo site for generating a curriculum vitae. A helper
 
 ## Usage
 
-1. Create a TOML file with the values you want to override. See `config.sample.custom.toml` for a minimal example.
+1. Create a TOML file with the values you want to override. See `config.sample.custom.toml` for a minimal example of disabling sections and changing text.
 2. Ensure you have Node.js and npm installed.
 3. Run the script:
 
 ```bash
-./scripts/generate_cv.sh path/to/your.toml [output.pdf]
+./scripts/generate_cv.sh path/to/your.toml [output.pdf] [--standalone]
 ```
 
-The script merges `config.toml` with your custom file, builds the site with Hugo, and converts the generated HTML to PDF using a headless Chromium instance via Puppeteer. The page in your configured default language is exported. Node dependencies are installed automatically on first run.
+The script merges `config.toml` with your custom file by default, builds the site with Hugo, and converts the generated HTML to PDF using a headless Chromium instance via Puppeteer. Pass `--standalone` to use only your file and ignore the base configuration.
 
-The original configuration remains untouched.
+Node dependencies are installed automatically on first run.
