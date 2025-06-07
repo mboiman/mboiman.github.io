@@ -14,8 +14,11 @@ fi
 # Build site with base and custom configuration
 hugo --config "$BASE_CONFIG,$CUSTOM_CONFIG" -d "$BUILD_DIR"
 
-# Convert generated HTML to PDF
-wkhtmltopdf --enable-local-file-access --print-media-type "$BUILD_DIR/index.html" "$OUTPUT_PDF"
+# Convert generated HTML to PDF using Puppeteer
+if [ ! -d node_modules ]; then
+  npm ci --silent
+fi
+node scripts/html_to_pdf.js "$BUILD_DIR/index.html" "$OUTPUT_PDF"
 
 # Clean up
 rm -rf "$BUILD_DIR"
