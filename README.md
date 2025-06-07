@@ -10,6 +10,8 @@ This repository contains a Hugo site for generating a curriculum vitae. A helper
 
 ```bash
 ./scripts/generate_cv.sh path/to/your.toml [output.pdf] [--standalone]
+
+The `--standalone` flag can be placed anywhere after the custom config path.
 ```
 
 The script merges `config.toml` with your custom file by default, builds the site with Hugo, and converts the generated HTML to PDF using a headless Chromium instance via Puppeteer.
