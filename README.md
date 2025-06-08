@@ -2,6 +2,12 @@
 
 This repository contains a Hugo site for generating a curriculum vitae. A helper script `scripts/generate_cv.sh` can build the site using an additional TOML configuration file and export it to PDF.
 
+## trennung de aus config.toml
+
+```bash
+ python3 split_config.py
+```
+
 ## Usage
 
 1. Create a TOML file with the values you want to override. See `config.sample.custom.toml` for a minimal example of disabling sections and changing text.
@@ -11,6 +17,7 @@ This repository contains a Hugo site for generating a curriculum vitae. A helper
 ```bash
 ./scripts/generate_cv.sh path/to/your.toml [output.pdf] [--standalone]
 ./scripts/generate_cv.sh config.cv.toml sample.pdf --standalone
+./scripts/generate_cv.sh config.de.toml sample.pdf --standalone
 
 The `--standalone` flag can be placed anywhere after the custom config path.
 ```
