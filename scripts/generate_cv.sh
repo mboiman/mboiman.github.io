@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BASE_CONFIG="config.toml"
+BASE_CONFIG="config.cv.toml"
 STANDALONE=0
 
 # Collect positional arguments while allowing --standalone anywhere
