@@ -636,7 +636,7 @@ With more than 20 years of experience in software development, I focus on automa
 The full presentation is available at [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0). The complete source code of the developed Q&A bot is documented in my [GitHub repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot).
         """
 
-        [[languages.de.params.jobs.list]]
+        [[languages.en.params.jobs.list]]
         position = "Quality Lead"
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
@@ -669,7 +669,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Selenium
         """
 
-        [[languages.de.params.jobs.list]]
+        [[languages.en.params.jobs.list]]
         position = "Load and Performance Testing / Test Automation / Test Management"
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
