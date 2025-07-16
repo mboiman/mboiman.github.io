@@ -1,46 +1,47 @@
 <!DOCTYPE html>
-    {{ partial "lang.html" . }}
+<html lang="{{ .Site.LanguageCode }}">
 <head>
     {{ partial "head.html" . }}
 </head>
+<body class="modern-cv-2025">
+    <div class="cv-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                {{ if .Site.Params.profile.avatar }}
+                <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Params.profile.avatar }}" 
+                     alt="{{ .Site.Params.profile.name }}" 
+                     class="hero-avatar">
+                {{ end }}
+                
+                <h1 class="hero-title">{{ .Site.Params.profile.name }}</h1>
+                <p class="hero-subtitle">{{ .Site.Params.profile.tagline }}</p>
+                
+                <div class="hero-cta">
+                    {{ partial "pdf-button.html" . }}
+                    {{ partial "language-switch.html" . }}
+                </div>
+            </div>
+        </section>
 
-<body>
-    <!-- PDF-spezifische Elemente (nur für Druck sichtbar) -->
-    <div class="pdf-first-page">
-        {{ partial "pdf-cover-page.html" . }}
-        {{ partial "pdf-contact-section.html" . }}
+        <!-- Main Content Grid -->
+        <div class="cv-grid">
+            <!-- Sidebar -->
+            <aside class="cv-sidebar">
+                {{ partial "contact-modern.html" . }}
+                {{ partial "skills-modern.html" . }}
+                {{ partial "education-modern.html" . }}
+                {{ partial "languages-modern.html" . }}
+            </aside>
+
+            <!-- Main Content -->
+            <main class="cv-main">
+                {{ partial "summary-modern.html" . }}
+                {{ partial "experience-modern.html" . }}
+                {{ partial "projects-modern.html" . }}
+            </main>
+        </div>
     </div>
-    
-    <div class="wrapper">
-    
-    <div class="compact-header-section">
-        {{ partial "sidebar.html" . }}
-    </div>    <div class="main-wrapper">
-    
-    {{ if .Site.Params.summary.enable }}
-    <div class="pdf-summary-page">
-	{{ partial "summary.html" . }}
-    </div>
-    {{ end }}
-
-    {{ if .Site.Params.skills.enable }}
-	{{ partial "skills.html" . }}
-    {{ end }}
-
-    {{ if .Site.Params.experiences.enable }}
-    <div class="pdf-experiences-page">
-    {{ partial "experiences.html" . }}
-    </div>
-    {{ end }}
-
-    {{ if .Site.Params.projects.enable }}
-    {{ partial "projects.html" . }}
-    {{ end }}
-
-	</div><!--//main-body-->
-    </div>
-
-	{{ partial "footer.html" . }}
 
     {{ partial "scripts.html" . }}
 </body>

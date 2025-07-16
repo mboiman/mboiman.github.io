@@ -1,10 +1,7 @@
-<div class="sidebar-wrapper">
-  {{ partial "profile.html" . }} {{ partial "pdf-button.html" . }} {{ if
-  .IsTranslated }} {{ partial "language-switch.html" . }} {{ end }} {{ if
-  .Site.Params.contact.enable }} {{ partial "contact.html" . }} {{ end }} {{ if
-  .Site.Params.education.enable }} {{ partial "education.html" . }} {{ end }} {{
-  if .Site.Params.language.enable }} {{ partial "language.html" . }} {{ end }}
-  {{ if .Site.Params.interests.enable }} {{ partial "interests.html" . }} {{ end
-  }}
-</div>
-<!--//sidebar-wrapper-->
+<div class="cv-sidebar">
+  {{ partial "language-switch.html" . }}
+  {{ partial "contact-modern.html" . }}
+  {{ partial "education-modern.html" . }}
+  {{ partial "languages-modern.html" . }}
+  {{ partial "pdf-button.html" . }}
+</div><!--//cv-sidebar-->

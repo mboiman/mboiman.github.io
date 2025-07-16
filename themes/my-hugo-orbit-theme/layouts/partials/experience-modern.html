@@ -1,10 +1,10 @@
 {{ if .Site.Params.experiences.enable }}
-<section class="modern-card cv-section" data-section="experience">
+<section class="modern-card">
     <div class="section-header">
         <div class="section-icon">
             <i class="fa fa-briefcase"></i>
         </div>
-        <h2 class="section-title">{{ i18n "experiences" }}</h2>
+        <h2 class="section-title">{{ .Site.Params.experiences.title }}</h2>
     </div>
     
     <div class="experience-timeline">
@@ -12,12 +12,12 @@
         <div class="experience-item">
             <div class="experience-header">
                 <div>
-                    <h3 class="experience-title job-title">{{ .position }}</h3>
-                    <div class="experience-company company-name">{{ .company }}</div>
+                    <h3 class="experience-title">{{ .position }}</h3>
+                    <div class="experience-company">{{ .company }}</div>
                 </div>
-                <div class="experience-duration employment-dates">{{ .dates }}</div>
+                <div class="experience-duration">{{ .dates }}</div>
             </div>
-            <div class="experience-description job-description">
+            <div class="experience-description">
                 {{ .details | markdownify }}
             </div>
         </div>

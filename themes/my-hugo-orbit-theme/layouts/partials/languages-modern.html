@@ -1,0 +1,21 @@
+{{ if .Site.Params.language.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-language"></i>
+        </div>
+        <h2 class="section-title">{{ .Site.Params.language.title }}</h2>
+    </div>
+    
+    <div class="languages-list">
+        {{ range .Site.Params.language.list }}
+        <div class="language-item">
+            <div class="language-name">{{ .language }}</div>
+            <div class="language-level">
+                <span class="badge badge-primary">{{ .level }}</span>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

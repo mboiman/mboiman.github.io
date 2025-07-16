@@ -1,0 +1,174 @@
+# Test Configuration - No redirect
+baseurl = "http://localhost:1313/"
+languageCode = "de-de"
+title = "Michael Boiman CV"
+theme = "my-hugo-orbit-theme"
+
+# Disable redirect for testing
+defaultContentLanguage = "de"
+defaultContentLanguageInSubdir = false
+
+# Do not build files for websites
+disableRSS = true
+disableSitemap = true
+disable404 = true
+
+[params]
+  description = "Lebenslauf von Michael Boiman"
+  author = "Michael Boiman"
+  styles = "styles-6.css"
+
+  [params.profile]
+    name = "Michael Boiman"
+    tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte"
+    avatar = "profile.png"
+
+  [params.contact]
+    enable = true
+
+    [[params.contact.list]]
+    class = "email"
+    icon = "fa-envelope"
+    url = "mailto:mboiman@gmail.com"
+    title = "mboiman@gmail.com"
+
+    [[params.contact.list]]
+    class = "phone"
+    icon = "fa-phone"
+    url = ""
+    title = "Auf Anfrage per E-Mail verfügbar"
+
+    [[params.contact.list]]
+    class = "website"
+    icon = "fa-globe"
+    url = "http://boiman-kupermann.com"
+    title = "BKS-Lab"
+
+    [[params.contact.list]]
+    class = "linkedin"
+    icon = "fa-linkedin"
+    url = "//linkedin.com/in/michael-boiman-ab709912"
+    title = "michael-boiman"
+
+    [[params.contact.list]]
+    class = "github"
+    icon = "fa-github"
+    url = "//github.com/bks-lab"
+    title = "GitHub Profil"
+
+  [params.education]
+    enable = true
+    title = "Ausbildung"
+
+    [[params.education.list]]
+    degree = "Diplom-Informatiker (FH)"
+    college = "Fachhochschule Köln, Gummersbach"
+    dates = "2000 – 2005"
+
+    [[params.education.list]]
+    degree = "ISTQB Certified Tester"
+    dates = "2005"
+
+  [params.language]
+    enable = true
+    title = "Sprachen"
+
+    [[params.language.list]]
+    language = "Deutsch"
+    level = "Muttersprache"
+
+    [[params.language.list]]
+    language = "Englisch"
+    level = "Fließend"
+
+  [params.skills]
+    enable = true
+    icon = "fa-rocket"
+    title = "Skills & Erfahrung"
+
+    [[params.skills.list]]
+    skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
+    level = "98%"
+    
+    [[params.skills.list]]
+    skill = "AI & Machine Learning"
+    level = "96%"
+
+    [[params.skills.list]]
+    skill = "Software-Entwicklung, -Design, -Architektur"
+    level = "99%"
+
+    [[params.skills.list]]
+    skill = "Playwright"
+    level = "97%"
+
+    [[params.skills.list]]
+    skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+    level = "90%"
+
+    [[params.skills.list]]
+    skill = "Kubernetes - Helm & Terraform & ArgoCD"
+    level = "80%"
+
+  [params.summary]
+    enable = true
+    icon = "fa-user"
+    title = "Zusammenfassung"
+    summary = """
+Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
+- **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse.
+- **Python-Expertise**: Umfassende Erfahrung in der Entwicklung von KI-basierten Lösungen, Automatisierungen und Datenanalysen mit Python.
+- **Geschäftsprozess-Automatisierung**: Effizienzsteigerung durch Automatisierung manueller Abläufe und Datenverarbeitung.
+"""
+
+  [params.experiences]
+    enable = true
+    icon = "fa-briefcase"
+    title = "Berufserfahrung"
+
+    [[params.jobs.list]]
+    position = "Quality Lead"
+    dates = "08/2021 – 05/2025"
+    company = "DVAG"
+    details = """
+**Testmanagement & Testkoordination** sowie Einführung von CICD mit Aufbau von QualityGates
+
+**Schwerpunkte:**
+- Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana
+- Dokumentation von Qualitätsmetriken
+- Aufbau und Konzeption einer CICD-Pipeline für verschiedene Entwicklungs-Teams
+- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CICD-Pipeline
+- Einführung von Playwright und Integration in bestehende CICD-Pipeline
+"""
+
+    [[params.jobs.list]]
+    position = "Technische Leitung & Entwicklung"
+    dates = "01/2024 – 04/2025"
+    company = "BKS"
+    details = """
+**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen.
+
+**Schwerpunkte:**
+- Workflow-Automatisierung mit Python und Azure Functions
+- E-Rechnungs-Klassifizierung & Daten-Extraction
+- Salesforce-Integration
+- Monitoring & Logging mit Kibana
+"""
+
+  [params.projects]
+    enable = true
+    icon = "fa-archive"
+    title = "PROJEKTE"
+
+    [[params.projects.list]]
+    title = "KI-basierter Chatbot für Messe-Interaktion"
+    url = "#"
+    tagline = "Entwicklung eines interaktiven Chatbots unter Verwendung von RAG und OpenAI"
+
+    [[params.projects.list]]
+    title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
+    url = "#"
+    tagline = "Einsatz von NLP-Technologien zur Effizienzsteigerung in der automatisierten Dokumentenanalyse"
+
+[params.footer]
+  copyright = "Michael.Boiman"

@@ -1,0 +1,404 @@
+/*
+ * ATS Optimization CSS
+ * Optimized for modern recruiting tools and applicant tracking systems
+ * Created by Michael Boiman
+ */
+
+/* ATS-Friendly Structure */
+.ats-friendly {
+  /* Ensure proper semantic structure */
+  font-family: 'Inter', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Structured Data Elements */
+.cv-section {
+  margin-bottom: 2rem;
+}
+
+.cv-section[data-section="contact"] {
+  /* ATS systems look for contact information */
+  border: 1px solid transparent;
+  padding: 1rem;
+}
+
+.cv-section[data-section="experience"] {
+  /* Work experience is critical for ATS */
+  border: 1px solid transparent;
+  padding: 1rem;
+}
+
+.cv-section[data-section="skills"] {
+  /* Skills matching is crucial */
+  border: 1px solid transparent;
+  padding: 1rem;
+}
+
+.cv-section[data-section="education"] {
+  /* Education requirements */
+  border: 1px solid transparent;
+  padding: 1rem;
+}
+
+/* Semantic HTML for ATS */
+.job-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.company-name {
+  font-weight: 500;
+  color: var(--primary-600);
+  margin-bottom: 0.25rem;
+}
+
+.employment-dates {
+  color: var(--neutral-600);
+  margin-bottom: 0.5rem;
+}
+
+.job-description {
+  margin-bottom: 1rem;
+}
+
+.skill-name {
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.skill-level {
+  font-size: 0.875rem;
+  color: var(--neutral-600);
+}
+
+/* Keywords Optimization */
+.keywords {
+  /* Hidden keywords for ATS but visible to screen readers */
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Contact Information Structure */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-type {
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.contact-value {
+  color: var(--neutral-700);
+}
+
+/* Experience Structure */
+.experience-list {
+  list-style: none;
+  padding: 0;
+}
+
+.experience-item {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-left: 3px solid var(--primary-200);
+}
+
+.experience-header {
+  margin-bottom: 1rem;
+}
+
+.experience-details {
+  margin-bottom: 1rem;
+}
+
+.experience-achievements {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.experience-achievements li {
+  margin-bottom: 0.5rem;
+}
+
+/* Skills Structure */
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-category {
+  background: var(--neutral-50);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.skill-category-title {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--primary-700);
+}
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.skill-item:last-child {
+  border-bottom: none;
+}
+
+/* Education Structure */
+.education-list {
+  list-style: none;
+  padding: 0;
+}
+
+.education-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--neutral-50);
+  border-radius: 8px;
+}
+
+.education-degree {
+  font-weight: 600;
+  color: var(--primary-700);
+  margin-bottom: 0.25rem;
+}
+
+.education-institution {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.education-date {
+  color: var(--neutral-600);
+  font-size: 0.875rem;
+}
+
+/* ATS-Friendly Text Formatting */
+.ats-text {
+  /* Ensure text is selectable and readable by ATS */
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  
+  /* Avoid complex animations that might confuse ATS */
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Print Optimization for ATS */
+@media print {
+  .ats-friendly {
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+  
+  .cv-section {
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+  
+  .experience-item {
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+  
+  .education-item {
+    page-break-inside: avoid;
+  }
+  
+  .skill-category {
+    page-break-inside: avoid;
+  }
+  
+  /* Remove colors that might not print well */
+  .job-title,
+  .company-name,
+  .skill-category-title,
+  .education-degree {
+    color: #000 !important;
+  }
+  
+  /* Ensure borders are visible in print */
+  .experience-item {
+    border-left: 2px solid #000 !important;
+  }
+  
+  /* Remove background colors */
+  .skill-category,
+  .education-item {
+    background: transparent !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
+/* Screen Reader Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus Management */
+.cv-section:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .cv-section {
+    border: 2px solid currentColor;
+  }
+  
+  .experience-item {
+    border-left: 4px solid currentColor;
+  }
+  
+  .skill-category,
+  .education-item {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .ats-friendly * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Keywords for ATS (hidden from visual users) */
+.ats-keywords {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  speak: none;
+}
+
+/* Machine-Readable Dates */
+.date-machine {
+  /* ISO 8601 format for machines */
+  display: none;
+}
+
+/* Structured Data Classes */
+.person-name { font-weight: 600; }
+.person-title { font-weight: 500; }
+.person-email { color: var(--primary-600); }
+.person-phone { color: var(--neutral-600); }
+.person-location { color: var(--neutral-600); }
+.person-website { color: var(--primary-600); }
+
+.job-position { font-weight: 600; }
+.job-company { font-weight: 500; }
+.job-location { color: var(--neutral-600); }
+.job-duration { color: var(--neutral-600); }
+.job-description { line-height: 1.6; }
+
+.skill-technical { font-weight: 500; }
+.skill-soft { font-weight: 400; }
+.skill-proficiency { font-size: 0.875rem; }
+
+.education-degree { font-weight: 600; }
+.education-school { font-weight: 500; }
+.education-field { color: var(--neutral-600); }
+.education-year { color: var(--neutral-600); }
+
+/* Language Attributes */
+[lang="en"] { font-family: 'Inter', Arial, sans-serif; }
+[lang="de"] { font-family: 'Inter', Arial, sans-serif; }
+[lang="fr"] { font-family: 'Inter', Arial, sans-serif; }
+[lang="es"] { font-family: 'Inter', Arial, sans-serif; }
+
+/* Microdata Support */
+.microdata {
+  /* Support for schema.org microdata */
+  display: contents;
+}
+
+/* JSON-LD Schema */
+.json-ld-schema {
+  display: none;
+}
+
+/* ATS-Friendly Tables */
+.ats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.ats-table th,
+.ats-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.ats-table th {
+  font-weight: 600;
+  background: var(--neutral-50);
+}
+
+/* Performance Optimization */
+.ats-optimized {
+  /* Ensure fast loading for ATS crawlers */
+  contain: layout style;
+  will-change: auto;
+}
+
+/* Mobile ATS Optimization */
+@media (max-width: 768px) {
+  .ats-friendly {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .cv-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .experience-item {
+    margin-bottom: 1.5rem;
+  }
+}

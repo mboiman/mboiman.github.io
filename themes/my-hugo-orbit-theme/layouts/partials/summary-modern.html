@@ -1,10 +1,10 @@
 {{ if .Site.Params.summary.enable }}
-<section class="modern-card cv-section" data-section="summary">
+<section class="modern-card">
     <div class="section-header">
         <div class="section-icon">
             <i class="fa fa-user-circle"></i>
         </div>
-        <h2 class="section-title">{{ i18n "summary" }}</h2>
+        <h2 class="section-title">{{ .Site.Params.summary.title }}</h2>
     </div>
     
     <div class="summary-content">

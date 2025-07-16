@@ -1,18 +1,16 @@
-name = "Orbit"
+# Modern CV Theme 2025
+# Created by Michael Boiman
+# Optimized for contemporary recruitment
+
+name = "Modern CV 2025"
 license = "MIT"
-licenselink = "//github.com/aerohub/hugo-orbit-theme/blob/master/LICENSE.md"
-description = "Responsive Resume/CV Theme for Developers"
-homepage = "//github.com/aerohub/hugo-orbit-theme"
-tags = ["cv", "resume", "colour schemes"]
-features = ["responsive", "colour schemes"]
-min_version = 0.16
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A modern, professional CV theme optimized for 2025 job market"
+homepage = "https://github.com/mboiman/modern-cv-2025"
+tags = ["cv", "resume", "professional", "modern", "responsive", "ats-friendly"]
+features = ["responsive", "pdf-export", "multilingual", "modern-design", "ats-optimized"]
+min_version = "0.120"
 
 [author]
-  name = "Pavel Kanyshev"
-  homepage = "//github.com/aerohub"
-
-# If porting an existing theme
-[original]
-  name = "Xiaoying Riley"
-  homepage = "//github.com/xriley"
-  repo = "//github.com/xriley/Orbit-Theme"
+  name = "Michael Boiman"
+  homepage = "https://github.com/mboiman"
