@@ -1,0 +1,119 @@
+/* Improved Skills Styling - CSS-only approach for better PDF compatibility */
+
+/* Skills Header Layout */
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.skill-name {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3F4650;
+}
+
+.skill-level {
+    font-size: 12px;
+    color: #97AAC3;
+    font-weight: 500;
+}
+
+/* Modern Skills Bar - CSS-only */
+.skill-bar {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background-color: #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.skill-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #42A8C0 0%, #6c92a3 100%);
+    border-radius: 4px;
+    width: var(--skill-width);
+    transition: width 0.8s ease-in-out;
+}
+
+/* Web Animation (will be disabled in PDF) */
+@media screen {
+    .skill-fill {
+        width: 0;
+        animation: fillSkill 0.8s ease-in-out forwards;
+        animation-delay: 0.2s;
+    }
+    
+    @keyframes fillSkill {
+        to {
+            width: var(--skill-width);
+        }
+    }
+}
+
+/* PDF-specific styles */
+@media print {
+    .skill-bar {
+        width: 100% !important;
+        height: 6px !important;
+        background: #e5e7eb !important;
+        border-radius: 3px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .skill-fill {
+        width: var(--skill-width) !important;
+        height: 100% !important;
+        background: linear-gradient(90deg, #2563eb, #3b82f6) !important;
+        border-radius: 3px !important;
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .skill-level {
+        font-size: 10pt !important;
+        color: #6b7280 !important;
+    }
+    
+    .skill-name {
+        font-size: 11pt !important;
+        color: #374151 !important;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pdf-skills-columns {
+        flex-direction: column;
+    }
+    
+    .pdf-skills-column {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+}
+
+/* Theme-specific colors for different style variants */
+.styles-2 .skill-fill {
+    background: linear-gradient(135deg, #7ec6bb 0%, #5fb3a3 100%);
+}
+
+.styles-3 .skill-fill {
+    background: linear-gradient(135deg, #90ce9d 0%, #7bb885 100%);
+}
+
+.styles-4 .skill-fill {
+    background: linear-gradient(135deg, #bf819e 0%, #a86986 100%);
+}
+
+.styles-5 .skill-fill {
+    background: linear-gradient(135deg, #fec892 0%, #f0b372 100%);
+}
+
+.styles-6 .skill-fill {
+    background: linear-gradient(135deg, #6c92a3 0%, #547a8b 100%);
+}

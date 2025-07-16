@@ -9,10 +9,13 @@
 
                         <div class="pdf-skills-column">
                             {{ range $firstHalf }}
-                            <div class="item">
-                                <h3 class="level-title">{{ .skill }}</h3>
-                                <div class="level-bar">
-                                    <div class="level-bar-inner" data-level="{{ .level }}">
+                            <div class="item skill-item">
+                                <div class="skill-header">
+                                    <h3 class="level-title skill-name">{{ .skill }}</h3>
+                                    <span class="skill-level">{{ .level }}</span>
+                                </div>
+                                <div class="level-bar skill-bar" style="--skill-width: {{ .level }}">
+                                    <div class="level-bar-inner skill-fill" data-level="{{ .level }}">
                                     </div>
                                 </div><!--//level-bar-->
                             </div><!--//item-->
@@ -21,10 +24,13 @@
 
                         <div class="pdf-skills-column">
                             {{ range $secondHalf }}
-                            <div class="item">
-                                <h3 class="level-title">{{ .skill }}</h3>
-                                <div class="level-bar">
-                                    <div class="level-bar-inner" data-level="{{ .level }}">
+                            <div class="item skill-item">
+                                <div class="skill-header">
+                                    <h3 class="level-title skill-name">{{ .skill }}</h3>
+                                    <span class="skill-level">{{ .level }}</span>
+                                </div>
+                                <div class="level-bar skill-bar" style="--skill-width: {{ .level }}">
+                                    <div class="level-bar-inner skill-fill" data-level="{{ .level }}">
                                     </div>
                                 </div><!--//level-bar-->
                             </div><!--//item-->

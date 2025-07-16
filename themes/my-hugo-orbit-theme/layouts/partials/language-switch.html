@@ -1,15 +1,33 @@
-<!-- Language Switcher im gleichen Stil wie der PDF-Button -->
-<div class="language-button-container">
-  {{ range .Translations }}
-  <a href="{{ .Permalink }}" class="btn btn-primary language-button">
-    <i class="fa fa-language"></i>
-    {{ if eq .Lang "de" }}
-      Deutsch
-    {{ else if eq .Lang "en" }}
-      English
-    {{ else }}
-      {{ upper .Lang }}
+<!-- Modern Language Switcher -->
+<div class="language-switcher">
+  <div class="language-toggle" onclick="toggleLanguageMenu()">
+    <span class="current-lang">
+      <i class="fa fa-globe"></i>
+      {{ .Site.Language.LanguageName }}
+    </span>
+    <i class="fa fa-chevron-down language-arrow"></i>
+  </div>
+  <div class="language-menu" id="languageMenu">
+    {{ range .Translations }}
+    <a href="{{ .Permalink }}" class="language-option {{ if eq .Lang $.Site.Language.Lang }}active{{ end }}">
+      <span class="lang-flag">{{ if eq .Lang "de" }}🇩🇪{{ else if eq .Lang "en" }}🇺🇸{{ end }}</span>
+      <span class="lang-name">{{ if eq .Lang "de" }}Deutsch{{ else if eq .Lang "en" }}English{{ end }}</span>
+    </a>
     {{ end }}
-  </a>
-  {{ end }}
+  </div>
 </div>
+
+<script>
+function toggleLanguageMenu() {
+  const menu = document.getElementById('languageMenu');
+  menu.classList.toggle('active');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+  const switcher = document.querySelector('.language-switcher');
+  if (!switcher.contains(event.target)) {
+    document.getElementById('languageMenu').classList.remove('active');
+  }
+});
+</script>
