@@ -3,313 +3,385 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ .Site.Params.profile.name }} - {{ .Site.Title }}</title>
+    <title>{{ .Site.Params.profile.name }} - KI-Automatisierungsexperte</title>
     <meta name="description" content="{{ .Site.Params.description }}">
     
-    <!-- Clean Professional CV Styles -->
+    <!-- Modern AI-Focused CV Styles -->
     <style>
         /* === GLOBAL STYLES === */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 16px; line-height: 1.5; color: #333;
-            background: #f8f9fa; padding: 2rem 1rem;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 16px; line-height: 1.6; color: #1a202c;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; padding: 2rem 1rem;
         }
         
         /* === LAYOUT === */
         .cv-container {
-            max-width: 1000px; margin: 0 auto;
-            background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-radius: 8px; overflow: hidden;
+            max-width: 1200px; margin: 0 auto;
+            background: white; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         
-        /* === HEADER === */
+        /* === MODERN HEADER === */
         .cv-header {
-            background: #2c3e50; color: white; padding: 2rem;
-            text-align: center;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white; padding: 3rem 2rem; position: relative;
+            overflow: hidden;
         }
-        .cv-header h1 {
-            font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;
+        .cv-header::before {
+            content: ''; position: absolute; top: 0; right: 0;
+            width: 300px; height: 300px; background: rgba(255,255,255,0.05);
+            border-radius: 50%; transform: translate(100px, -100px);
         }
-        .cv-header .tagline {
-            font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem;
+        .header-content {
+            position: relative; z-index: 2;
+            display: grid; grid-template-columns: auto 1fr; gap: 2rem;
+            align-items: center; max-width: 1000px;
         }
         .profile-photo {
             width: 120px; height: 120px; border-radius: 50%;
-            margin: 0 auto 1rem auto; border: 4px solid white;
-            display: block;
+            border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .header-text h1 {
+            font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .header-text .tagline {
+            font-size: 1.2rem; opacity: 0.9; margin-bottom: 1.5rem;
+            font-weight: 300; color: #e2e8f0;
+        }
+        .ai-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white; padding: 0.5rem 1rem; border-radius: 20px;
+            font-size: 0.9rem; font-weight: 600;
+            margin-bottom: 1.5rem;
         }
         .contact-info {
-            display: flex; justify-content: center; flex-wrap: wrap;
-            gap: 1.5rem; font-size: 0.9rem;
+            display: flex; gap: 2rem; flex-wrap: wrap;
+            font-size: 0.9rem; opacity: 0.9;
         }
         .contact-item {
-            display: flex; align-items: center; gap: 0.4rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
         .contact-item a {
             color: white; text-decoration: none;
+            transition: opacity 0.3s;
         }
-        .contact-item a:hover {
-            text-decoration: underline;
+        .contact-item a:hover { opacity: 0.8; }
+        
+        /* === AI SKILLS SHOWCASE === */
+        .ai-skills {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white; padding: 2rem; text-align: center;
+        }
+        .ai-skills h2 {
+            font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem; margin-top: 1.5rem;
+        }
+        .skill-card {
+            background: rgba(255,255,255,0.1); padding: 1rem;
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .skill-name {
+            font-weight: 600; font-size: 0.9rem;
+        }
+        .skill-desc {
+            font-size: 0.8rem; opacity: 0.9; margin-top: 0.25rem;
         }
         
-        /* === MAIN LAYOUT === */
+        /* === MAIN CONTENT === */
         .cv-main {
-            display: grid; grid-template-columns: 1fr 2.5fr;
-            min-height: 600px;
+            display: grid; grid-template-columns: 2fr 1fr;
+            gap: 3rem; padding: 3rem;
         }
-        .cv-main.full-width {
-            grid-template-columns: 1fr;
+        
+        /* === VALUE PROPOSITION === */
+        .value-prop {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 2rem; border-radius: 12px; margin-bottom: 3rem;
+            border-left: 4px solid #4299e1;
+        }
+        .value-prop h2 {
+            font-size: 1.5rem; font-weight: 700; color: #1a202c;
+            margin-bottom: 1rem;
+        }
+        .value-prop p {
+            font-size: 1.1rem; color: #4a5568; line-height: 1.7;
+        }
+        
+        /* === MODERN SECTIONS === */
+        .cv-section {
+            margin-bottom: 3rem;
+        }
+        .cv-section h2 {
+            font-size: 1.8rem; font-weight: 700; color: #1a202c;
+            margin-bottom: 1.5rem; position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .cv-section h2::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 60px; height: 3px; background: linear-gradient(135deg, #4299e1, #3182ce);
+            border-radius: 2px;
+        }
+        
+        /* === PROJECT HIGHLIGHTS === */
+        .project-highlights {
+            display: grid; gap: 2rem;
+        }
+        .project-highlight {
+            background: white; padding: 2rem; border-radius: 12px;
+            border: 1px solid #e2e8f0; transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+        .project-highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .project-title {
+            font-size: 1.2rem; font-weight: 600; color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+        .project-tech {
+            display: flex; gap: 0.5rem; margin-bottom: 1rem;
+        }
+        .tech-tag {
+            background: #edf2f7; color: #4a5568; padding: 0.25rem 0.5rem;
+            border-radius: 12px; font-size: 0.75rem; font-weight: 500;
+        }
+        .project-description {
+            color: #4a5568; line-height: 1.6;
+        }
+        
+        /* === EXPERIENCE TIMELINE === */
+        .experience-timeline {
+            position: relative;
+        }
+        .experience-item {
+            margin-bottom: 2.5rem; padding: 1.5rem;
+            background: white; border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .experience-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .experience-header {
+            margin-bottom: 1rem;
+        }
+        .experience-title {
+            font-size: 1.2rem; font-weight: 600; color: #1a202c;
+            margin-bottom: 0.25rem;
+        }
+        .experience-company {
+            font-size: 1rem; font-weight: 500; color: #4299e1;
+            margin-bottom: 0.25rem;
+        }
+        .experience-dates {
+            font-size: 0.9rem; color: #718096; font-style: italic;
+        }
+        .experience-details {
+            color: #4a5568; line-height: 1.6;
         }
         
         /* === SIDEBAR === */
         .cv-sidebar {
-            background: #f8f9fa; padding: 2rem 1.5rem;
-            border-right: 1px solid #e9ecef;
-        }
-        .cv-sidebar.hidden {
-            display: none;
+            background: #f7fafc; padding: 2rem; border-radius: 12px;
+            height: fit-content;
         }
         .sidebar-section {
-            margin-bottom: 2rem;
-        }
-        .sidebar-section h3 {
-            font-size: 1rem; font-weight: 600; color: #2c3e50;
-            margin-bottom: 1rem; text-transform: uppercase;
-            border-bottom: 2px solid #3498db; padding-bottom: 0.3rem;
-        }
-        
-        /* Skills */
-        .skill-item {
-            display: flex; justify-content: space-between;
-            padding: 0.4rem 0; font-size: 0.85rem;
-        }
-        .skill-name { font-weight: 500; }
-        .skill-level {
-            background: #3498db; color: white; padding: 0.1rem 0.4rem;
-            border-radius: 3px; font-size: 0.75rem;
-        }
-        
-        /* Education & Languages */
-        .education-item, .language-item {
-            margin-bottom: 1rem; font-size: 0.85rem;
-        }
-        .education-degree, .language-name {
-            font-weight: 500; color: #2c3e50;
-        }
-        .education-school, .education-dates, .language-level {
-            color: #6c757d; font-size: 0.8rem;
-        }
-        
-        /* === CONTENT === */
-        .cv-content { padding: 2rem; }
-        .cv-content.full-width { padding: 2rem 3rem; }
-        
-        .cv-section {
             margin-bottom: 2.5rem;
         }
-        .cv-section h2 {
-            font-size: 1.4rem; font-weight: 600; color: #2c3e50;
-            margin-bottom: 1rem; border-bottom: 2px solid #3498db;
-            padding-bottom: 0.3rem;
-        }
-        
-        /* Summary */
-        .summary-content {
-            color: #495057; line-height: 1.6; font-size: 0.95rem;
-        }
-        
-        /* Experience */
-        .experience-item {
-            margin-bottom: 2rem; padding-bottom: 1.5rem;
-            border-bottom: 1px solid #e9ecef;
-        }
-        .experience-item:last-child { border-bottom: none; }
-        
-        .experience-header {
-            margin-bottom: 0.8rem;
-        }
-        .experience-title {
-            font-size: 1.1rem; font-weight: 600; color: #2c3e50;
-        }
-        .experience-company {
-            font-size: 1rem; font-weight: 500; color: #3498db;
-            margin: 0.2rem 0;
-        }
-        .experience-dates {
-            font-size: 0.85rem; color: #6c757d; font-style: italic;
-        }
-        .experience-details {
-            margin-top: 0.8rem; color: #495057; line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        
-        /* Projects */
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        .project-card {
-            background: #f8f9fa; padding: 1.2rem; border-radius: 6px;
-            border: 1px solid #e9ecef;
-        }
-        .project-title {
-            font-size: 1rem; font-weight: 600; color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-        .project-description {
-            color: #495057; font-size: 0.85rem; line-height: 1.4;
+        .sidebar-section h3 {
+            font-size: 1rem; font-weight: 600; color: #1a202c;
+            margin-bottom: 1rem; text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
         
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
             body { padding: 1rem 0.5rem; }
-            .cv-header { padding: 1.5rem 1rem; }
-            .cv-header h1 { font-size: 2rem; }
-            .cv-main, .cv-main.full-width { grid-template-columns: 1fr; }
-            .cv-sidebar { padding: 1.5rem 1rem; }
-            .cv-content, .cv-content.full-width { padding: 1.5rem 1rem; }
-            .contact-info { flex-direction: column; gap: 0.8rem; }
-            .projects-grid { grid-template-columns: 1fr; }
+            .cv-header { padding: 2rem 1rem; }
+            .header-content { grid-template-columns: 1fr; text-align: center; }
+            .cv-main { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .contact-info { justify-content: center; }
         }
         
         /* === PRINT STYLES === */
         @media print {
             @page { size: A4; margin: 15mm; }
-            body { background: white; padding: 0; font-size: 12pt; }
+            body { background: white; padding: 0; font-size: 11pt; }
             .cv-container { box-shadow: none; border-radius: 0; }
-            .cv-header { background: white; color: #2c3e50; border-bottom: 2px solid #2c3e50; }
-            .cv-main, .cv-main.full-width { grid-template-columns: 1fr; }
-            .cv-sidebar, .cv-sidebar.hidden { display: none; }
-            .cv-content, .cv-content.full-width { padding: 1rem 0; }
+            .cv-header { background: white; color: #1a202c; }
+            .ai-skills { background: white; color: #1a202c; }
+            .cv-main { grid-template-columns: 2fr 1fr; gap: 2rem; padding: 2rem 0; }
+            .cv-sidebar { background: white; }
             .cv-section { page-break-inside: avoid; }
-            .experience-item { page-break-inside: avoid; }
-            .project-card { background: white; border: 1px solid #ddd; }
+            .project-highlight { page-break-inside: avoid; }
         }
     </style>
     
-    <!-- Icons -->
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="cv-container">
-        <!-- Header -->
+        <!-- Modern Header -->
         <header class="cv-header">
-            {{ if .Site.Params.profile.avatar }}
-            <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Params.profile.avatar }}" 
-                 alt="{{ .Site.Params.profile.name }}" 
-                 class="profile-photo">
-            {{ end }}
-            
-            <h1>{{ .Site.Params.profile.name }}</h1>
-            <p class="tagline">{{ .Site.Params.profile.tagline }}</p>
-            
-            {{ if .Site.Params.contact.enable }}
-            <div class="contact-info">
-                {{ range .Site.Params.contact.list }}
-                <div class="contact-item">
-                    {{ if eq .class "email" }}
-                    <i class="fas fa-envelope"></i>
-                    <a href="{{ .url }}">{{ .title }}</a>
-                    {{ else if eq .class "phone" }}
-                    <i class="fas fa-phone"></i>
-                    <span>{{ .title }}</span>
-                    {{ else if eq .class "linkedin" }}
-                    <i class="fab fa-linkedin"></i>
-                    <a href="{{ .url }}">{{ .title }}</a>
-                    {{ else if eq .class "github" }}
-                    <i class="fab fa-github"></i>
-                    <a href="{{ .url }}">{{ .title }}</a>
-                    {{ else if eq .class "website" }}
-                    <i class="fas fa-globe"></i>
-                    <a href="{{ .url }}">{{ .title }}</a>
-                    {{ else if eq .class "twitter" }}
-                    <i class="fab fa-twitter"></i>
-                    <a href="{{ .url }}">{{ .title }}</a>
-                    {{ else }}
-                    <span>{{ .title }}</span>
-                    {{ end }}
-                </div>
+            <div class="header-content">
+                {{ if .Site.Params.profile.avatar }}
+                <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Params.profile.avatar }}" 
+                     alt="{{ .Site.Params.profile.name }}" 
+                     class="profile-photo">
                 {{ end }}
-            </div>
-            {{ end }}
-        </header>
-
-        <!-- Main Layout -->
-        <div class="cv-main">
-            <!-- Sidebar -->
-            <aside class="cv-sidebar">
-                <!-- Skills Section -->
-                {{ if .Site.Params.skills.enable }}
-                <section class="sidebar-section skills-section">
-                    <h3>
-                        <i class="fas fa-cogs"></i>
-                        {{ .Site.Params.skills.title }}
-                    </h3>
-                    <div class="skills-grid">
-                        {{ range .Site.Params.skills.list }}
-                        <div class="skill-item">
-                            <span class="skill-name">{{ .skill }}</span>
-                            <span class="skill-level">{{ .level }}</span>
+                
+                <div class="header-text">
+                    <h1>{{ .Site.Params.profile.name }}</h1>
+                    <p class="tagline">KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung</p>
+                    
+                    <div class="ai-badge">
+                        <i class="fas fa-brain"></i>
+                        20+ Jahre Entwicklung für KI-Lösungen
+                    </div>
+                    
+                    {{ if .Site.Params.contact.enable }}
+                    <div class="contact-info">
+                        {{ range .Site.Params.contact.list }}
+                        <div class="contact-item">
+                            {{ if eq .class "email" }}
+                            <i class="fas fa-envelope"></i>
+                            <a href="{{ .url }}">{{ .title }}</a>
+                            {{ else if eq .class "phone" }}
+                            <i class="fas fa-phone"></i>
+                            <span>{{ .title }}</span>
+                            {{ else if eq .class "linkedin" }}
+                            <i class="fab fa-linkedin"></i>
+                            <a href="{{ .url }}">{{ .title }}</a>
+                            {{ else if eq .class "github" }}
+                            <i class="fab fa-github"></i>
+                            <a href="{{ .url }}">{{ .title }}</a>
+                            {{ else if eq .class "website" }}
+                            <i class="fas fa-globe"></i>
+                            <a href="{{ .url }}">{{ .title }}</a>
+                            {{ end }}
                         </div>
                         {{ end }}
                     </div>
-                </section>
-                {{ end }}
-
-                <!-- Education Section -->
-                {{ if .Site.Params.education.enable }}
-                <section class="sidebar-section education-section">
-                    <h3>
-                        <i class="fas fa-graduation-cap"></i>
-                        {{ .Site.Params.education.title }}
-                    </h3>
-                    {{ range .Site.Params.education.list }}
-                    <div class="education-item">
-                        <div class="education-degree">{{ .degree }}</div>
-                        {{ if .college }}<div class="education-school">{{ .college }}</div>{{ end }}
-                        <div class="education-dates">{{ .dates }}</div>
-                    </div>
                     {{ end }}
-                </section>
-                {{ end }}
+                </div>
+            </div>
+        </header>
 
-                <!-- Languages Section -->
-                {{ if .Site.Params.language.enable }}
-                <section class="sidebar-section languages-section">
-                    <h3>
-                        <i class="fas fa-language"></i>
-                        {{ .Site.Params.language.title }}
-                    </h3>
-                    {{ range .Site.Params.language.list }}
-                    <div class="language-item">
-                        <span class="language-name">{{ .language }}</span>
-                        <span class="language-level">{{ .level }}</span>
-                    </div>
-                    {{ end }}
-                </section>
-                {{ end }}
-            </aside>
+        <!-- AI Skills Showcase -->
+        <section class="ai-skills">
+            <h2>
+                <i class="fas fa-robot"></i>
+                KI-Automatisierungskompetenzen
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-name">KI-E-Mail-Automatisierung</div>
+                    <div class="skill-desc">80% Reduktion manueller Arbeit, SAP-Integration</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Rechnungsverarbeitung mit KI</div>
+                    <div class="skill-desc">95% Genauigkeit, EU-Standards, 40h/Woche gespart</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">RAG-Systeme & Q&A-Bots</div>
+                    <div class="skill-desc">Vector Embeddings, Kontextbasierte Antworten</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Python & ML-Pipelines</div>
+                    <div class="skill-desc">20+ Jahre, Production-Ready AI-Lösungen</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Quality Engineering</div>
+                    <div class="skill-desc">CI/CD, Testautomatisierung, Monitoring</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Azure & Cloud-KI</div>
+                    <div class="skill-desc">Functions, Serverless AI, Skalierbare Deployment</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Layout -->
+        <div class="cv-main">
 
             <!-- Content -->
             <main class="cv-content">
-                <!-- Summary Section -->
-                {{ if .Site.Params.summary.enable }}
-                <section class="cv-section summary-section">
-                    <h2>{{ .Site.Params.summary.title }}</h2>
-                    <div class="summary-content">
-                        {{ .Site.Params.summary.summary | markdownify }}
+                <!-- Value Proposition -->
+                <section class="value-prop">
+                    <h2>Warum KI-Automatisierung mit mir?</h2>
+                    <p><strong>Einzigartige Kombination:</strong> 20+ Jahre Softwareentwicklung treffen auf modernste KI-Technologie. Ich implementiere nicht nur KI-Prototypen, sondern <strong>produktionsreife Automatisierungslösungen</strong>, die nachweislich <strong>80%+ manuelle Arbeit eliminieren</strong> und Millionen-Euro-Potenzial für Unternehmen freisetzen.</p>
+                </section>
+
+                <!-- KI Project Highlights -->
+                <section class="cv-section">
+                    <h2>KI-Projekt-Highlights</h2>
+                    <div class="project-highlights">
+                        <div class="project-highlight">
+                            <div class="project-title">KI-E-Mail-Bot für Kundenkommunikation</div>
+                            <div class="project-tech">
+                                <span class="tech-tag" style="background: #4299e1; color: white;">Python</span>
+                                <span class="tech-tag" style="background: #10b981; color: white;">OpenAI</span>
+                                <span class="tech-tag" style="background: #f59e0b; color: white;">Azure Functions</span>
+                                <span class="tech-tag">Microsoft Graph</span>
+                            </div>
+                            <div class="project-description">
+                                <strong>Erfolg:</strong> Vollautomatisierte E-Mail-Klassifizierung reduzierte manuelle Bearbeitung um <strong>80%</strong> und verbesserte Reaktionszeiten um <strong>60%</strong>. Integriert SAP-Systeme und Outlook 365 – <strong>produktionsreif seit 2023</strong>.
+                            </div>
+                        </div>
+                        
+                        <div class="project-highlight">
+                            <div class="project-title">E-Rechnungs-Automatisierung mit KI</div>
+                            <div class="project-tech">
+                                <span class="tech-tag" style="background: #4299e1; color: white;">Python</span>
+                                <span class="tech-tag" style="background: #10b981; color: white;">NLP</span>
+                                <span class="tech-tag" style="background: #f59e0b; color: white;">Azure Functions</span>
+                                <span class="tech-tag">Salesforce</span>
+                            </div>
+                            <div class="project-description">
+                                <strong>ROI:</strong> KI-gestützte Extraktion erreicht <strong>95% Genauigkeit</strong> bei EU-Standards (ZUGFeRD, XRechnung). Automatische Salesforce-Integration spart <strong>40 Stunden/Woche</strong> – entspricht <strong>~100.000€/Jahr</strong> Kosteneinsparung.
+                            </div>
+                        </div>
+                        
+                        <div class="project-highlight">
+                            <div class="project-title">Intelligenter Q&A-Bot mit RAG</div>
+                            <div class="project-tech">
+                                <span class="tech-tag" style="background: #10b981; color: white;">GPT-3.5</span>
+                                <span class="tech-tag" style="background: #10b981; color: white;">Vector Embeddings</span>
+                                <span class="tech-tag" style="background: #4299e1; color: white;">Streamlit</span>
+                                <span class="tech-tag">Similarity Search</span>
+                            </div>
+                            <div class="project-description">
+                                <strong>Innovation:</strong> Retrieval-Augmented Generation System mit kontextbasierter Antwortgenerierung. Live-Workshop für Unternehmen – <strong>komplette End-to-End-Implementierung</strong> von Web-Scraping bis produktionsreife UI in nur <strong>1 Tag</strong>.
+                            </div>
+                        </div>
                     </div>
                 </section>
-                {{ end }}
 
-                <!-- Experience Section -->
-                {{ if .Site.Params.experiences.enable }}
-                <section class="cv-section experiences-section">
-                    <h2>{{ .Site.Params.experiences.title }}</h2>
+                <!-- Recent Experience -->
+                <section class="cv-section">
+                    <h2>Aktuelle Positionen</h2>
                     <div class="experience-timeline">
-                        {{ range .Site.Params.experiences.list }}
+                        {{ range first 3 .Site.Params.experiences.list }}
                         <div class="experience-item">
                             <div class="experience-header">
                                 <div class="experience-title">{{ .position }}</div>
@@ -325,52 +397,79 @@
                         {{ end }}
                     </div>
                 </section>
-                {{ end }}
-
-                <!-- Projects Section -->
-                {{ if .Site.Params.projects.enable }}
-                <section class="cv-section projects-section">
-                    <h2>{{ .Site.Params.projects.title }}</h2>
-                    <div class="projects-grid">
-                        {{ range .Site.Params.projects.list }}
-                        <div class="project-card">
-                            <div class="project-title">{{ .title }}</div>
-                            <div class="project-description">{{ .tagline }}</div>
-                        </div>
-                        {{ end }}
+            </main>
+            
+            <!-- Sidebar -->
+            <aside class="cv-sidebar">
+                <!-- Quick Contact -->
+                <section class="sidebar-section">
+                    <h3>Kontakt</h3>
+                    {{ if .Site.Params.contact.enable }}
+                    {{ range .Site.Params.contact.list }}
+                    {{ if eq .class "email" }}
+                    <div style="margin-bottom: 1rem;">
+                        <i class="fas fa-envelope" style="color: #4299e1; margin-right: 0.5rem;"></i>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">{{ .title }}</a>
+                    </div>
+                    {{ else if eq .class "linkedin" }}
+                    <div style="margin-bottom: 1rem;">
+                        <i class="fab fa-linkedin" style="color: #4299e1; margin-right: 0.5rem;"></i>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">LinkedIn</a>
+                    </div>
+                    {{ else if eq .class "github" }}
+                    <div style="margin-bottom: 1rem;">
+                        <i class="fab fa-github" style="color: #4299e1; margin-right: 0.5rem;"></i>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">GitHub</a>
+                    </div>
+                    {{ end }}
+                    {{ end }}
+                    {{ end }}
+                </section>
+                
+                <!-- Key Technologies -->
+                <section class="sidebar-section">
+                    <h3>Kerntechnologien</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Python</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">OpenAI</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Azure</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Docker</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Kubernetes</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Playwright</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Grafana</span>
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">CI/CD</span>
                     </div>
                 </section>
+                
+                <!-- Education -->
+                {{ if .Site.Params.education.enable }}
+                <section class="sidebar-section">
+                    <h3>{{ .Site.Params.education.title }}</h3>
+                    {{ range .Site.Params.education.list }}
+                    <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                        <div style="font-weight: 600; color: #1a202c;">{{ .degree }}</div>
+                        {{ if .college }}<div style="color: #4a5568; font-size: 0.8rem;">{{ .college }}</div>{{ end }}
+                        <div style="color: #718096; font-size: 0.8rem;">{{ .dates }}</div>
+                    </div>
+                    {{ end }}
+                </section>
                 {{ end }}
-            </main>
+                
+                <!-- Languages -->
+                {{ if .Site.Params.language.enable }}
+                <section class="sidebar-section">
+                    <h3>{{ .Site.Params.language.title }}</h3>
+                    {{ range .Site.Params.language.list }}
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span style="color: #1a202c;">{{ .language }}</span>
+                        <span style="color: #4a5568;">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </aside>
         </div>
     </div>
     
-    <script>
-        // Hide sidebar after summary section
-        document.addEventListener('DOMContentLoaded', function() {
-            const experienceSection = document.querySelector('.experiences-section');
-            const sidebar = document.querySelector('.cv-sidebar');
-            const main = document.querySelector('.cv-main');
-            const content = document.querySelector('.cv-content');
-            
-            if (experienceSection && sidebar && main && content) {
-                const observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            sidebar.classList.add('hidden');
-                            main.classList.add('full-width');
-                            content.classList.add('full-width');
-                        } else {
-                            sidebar.classList.remove('hidden');
-                            main.classList.remove('full-width');
-                            content.classList.remove('full-width');
-                        }
-                    });
-                }, { threshold: 0.1 });
-                
-                observer.observe(experienceSection);
-            }
-        });
-    </script>
 </body>
 </html>
