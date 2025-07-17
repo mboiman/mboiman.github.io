@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Site.Params.profile.name }} - {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Site.Params.description }}">
+    
+    <!-- Modern Web CV Styles -->
+    <style>
+        {{ $webCSS := resources.Get "assets/css/modern-web-cv-2025.css" }}
+        {{ $printCSS := resources.Get "assets/css/readable-cv-2025.css" }}
+        
+        {{ if $webCSS }}
+            /* Web Styles */
+            @media screen {
+                {{ $webCSS.Content | safeCSS }}
+            }
+        {{ end }}
+        
+        {{ if $printCSS }}
+            /* Print Styles */
+            @media print {
+                {{ $printCSS.Content | safeCSS }}
+                
+                /* Override web styles for print */
+                .hero-section { display: none !important; }
+                .cv-container { 
+                    background: white !important;
+                    box-shadow: none !important;
+                    border-radius: 0 !important;
+                    margin: 0 !important;
+                    padding: 15mm 20mm !important;
+                    max-width: none !important;
+                }
+                .cv-grid { 
+                    display: block !important;
+                    grid-template-columns: none !important;
+                    gap: 0 !important;
+                }
+                .cv-sidebar {
+                    position: static !important;
+                    top: auto !important;
+                }
+            }
+        {{ end }}
+    </style>
+    
+    <!-- Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="cv-container">
+        <!-- Hero Section (Web Only) -->
+        <section class="hero-section">
+            <div class="hero-content">
+                {{ if .Site.Params.profile.avatar }}
+                <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Params.profile.avatar }}" 
+                     alt="{{ .Site.Params.profile.name }}" 
+                     class="hero-avatar">
+                {{ end }}
+                
+                <h1 class="hero-title">{{ .Site.Params.profile.name }}</h1>
+                <p class="hero-subtitle">{{ .Site.Params.profile.tagline }}</p>
+                
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary" onclick="window.print(); return false;">
+                        <i class="fas fa-download"></i>
+                        PDF herunterladen
+                    </a>
+                    {{ partial "language-switch.html" . }}
+                </div>
+                
+                {{ if .Site.Params.contact.enable }}
+                <div class="contact-info">
+                    {{ range .Site.Params.contact.list }}
+                    <div class="contact-item">
+                        {{ if eq .class "email" }}
+                        <i class="fas fa-envelope"></i>
+                        {{ else if eq .class "phone" }}
+                        <i class="fas fa-phone"></i>
+                        {{ else if eq .class "linkedin" }}
+                        <i class="fab fa-linkedin"></i>
+                        {{ else if eq .class "github" }}
+                        <i class="fab fa-github"></i>
+                        {{ else if eq .class "website" }}
+                        <i class="fas fa-globe"></i>
+                        {{ end }}
+                        <span>{{ .title }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </section>
+
+        <!-- PDF Header (Print Only) -->
+        <header class="cv-header" style="display: none;">
+            <h1>{{ .Site.Params.profile.name }}</h1>
+            <p class="tagline">{{ .Site.Params.profile.tagline }}</p>
+            
+            {{ if .Site.Params.contact.enable }}
+            <div class="contact-info">
+                {{ range .Site.Params.contact.list }}
+                <div class="contact-item">
+                    {{ if eq .class "email" }}
+                    <span class="contact-icon">E-Mail:</span>
+                    {{ else if eq .class "phone" }}
+                    <span class="contact-icon">Tel:</span>
+                    {{ else if eq .class "linkedin" }}
+                    <span class="contact-icon">LinkedIn:</span>
+                    {{ else if eq .class "github" }}
+                    <span class="contact-icon">GitHub:</span>
+                    {{ else if eq .class "website" }}
+                    <span class="contact-icon">Web:</span>
+                    {{ end }}
+                    <span>{{ .title }}</span>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </header>
+
+        <!-- Main Grid Layout -->
+        <div class="cv-grid">
+            <!-- Sidebar (Web) -->
+            <aside class="cv-sidebar">
+                <!-- Skills Section -->
+                {{ if .Site.Params.skills.enable }}
+                <section class="sidebar-section skills-section">
+                    <h3>
+                        <i class="fas fa-cogs"></i>
+                        {{ .Site.Params.skills.title }}
+                    </h3>
+                    <div class="skills-grid">
+                        {{ range .Site.Params.skills.list }}
+                        <div class="skill-item">
+                            <span class="skill-name">{{ .skill }}</span>
+                            <span class="skill-level">{{ .level }}</span>
+                        </div>
+                        {{ end }}
+                    </div>
+                </section>
+                {{ end }}
+
+                <!-- Education Section -->
+                {{ if .Site.Params.education.enable }}
+                <section class="sidebar-section education-section">
+                    <h3>
+                        <i class="fas fa-graduation-cap"></i>
+                        {{ .Site.Params.education.title }}
+                    </h3>
+                    {{ range .Site.Params.education.list }}
+                    <div class="education-item">
+                        <div class="education-degree">{{ .degree }}</div>
+                        {{ if .college }}<div class="education-school">{{ .college }}</div>{{ end }}
+                        <div class="education-dates">{{ .dates }}</div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+
+                <!-- Languages Section -->
+                {{ if .Site.Params.language.enable }}
+                <section class="sidebar-section languages-section">
+                    <h3>
+                        <i class="fas fa-language"></i>
+                        {{ .Site.Params.language.title }}
+                    </h3>
+                    {{ range .Site.Params.language.list }}
+                    <div class="language-item">
+                        <span class="language-name">{{ .language }}</span>
+                        <span class="language-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </aside>
+
+            <!-- Main Content -->
+            <main class="cv-main">
+                <!-- Summary Section -->
+                {{ if .Site.Params.summary.enable }}
+                <section class="cv-section summary-section">
+                    <div class="section-header">
+                        <h2>{{ .Site.Params.summary.title }}</h2>
+                        <p class="section-subtitle">Was mich ausmacht und motiviert</p>
+                    </div>
+                    <div class="summary-content">
+                        {{ .Site.Params.summary.summary | markdownify }}
+                    </div>
+                </section>
+                {{ end }}
+
+                <!-- Experience Section -->
+                {{ if .Site.Params.experiences.enable }}
+                <section class="cv-section experiences-section">
+                    <div class="section-header">
+                        <h2>{{ .Site.Params.experiences.title }}</h2>
+                        <p class="section-subtitle">Mein beruflicher Werdegang im Detail</p>
+                    </div>
+                    <div class="experience-timeline">
+                        {{ range .Site.Params.experiences.list }}
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="experience-title">{{ .position }}</div>
+                                <div class="experience-company">{{ .company }}</div>
+                                <div class="experience-dates">{{ .dates }}</div>
+                            </div>
+                            {{ if .details }}
+                            <div class="experience-details">
+                                {{ .details | markdownify }}
+                            </div>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
+                </section>
+                {{ end }}
+
+                <!-- Projects Section -->
+                {{ if .Site.Params.projects.enable }}
+                <section class="cv-section projects-section">
+                    <div class="section-header">
+                        <h2>{{ .Site.Params.projects.title }}</h2>
+                        <p class="section-subtitle">Ausgewählte Projekte und Initiativen</p>
+                    </div>
+                    <div class="projects-grid">
+                        {{ range .Site.Params.projects.list }}
+                        <div class="project-card">
+                            <div class="project-title">{{ .title }}</div>
+                            <div class="project-description">{{ .tagline }}</div>
+                        </div>
+                        {{ end }}
+                    </div>
+                </section>
+                {{ end }}
+            </main>
+        </div>
+
+        <!-- Print Sections (Print Only) -->
+        <div style="display: none;" class="print-only">
+            <!-- Skills Section for Print -->
+            {{ if .Site.Params.skills.enable }}
+            <section class="cv-section compact-section skills-section">
+                <h2>{{ .Site.Params.skills.title }}</h2>
+                <div class="skills-grid">
+                    {{ range .Site.Params.skills.list }}
+                    <div class="skill-item">
+                        <span class="skill-name">{{ .skill }}</span>
+                        <span class="skill-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+            </section>
+            {{ end }}
+
+            <!-- Education & Languages for Print -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20pt; margin-top: 20pt;">
+                {{ if .Site.Params.education.enable }}
+                <section class="compact-section education-section">
+                    <h2>{{ .Site.Params.education.title }}</h2>
+                    {{ range .Site.Params.education.list }}
+                    <div class="education-item">
+                        <div>
+                            <div class="education-degree">{{ .degree }}</div>
+                            {{ if .college }}<div class="education-school">{{ .college }}</div>{{ end }}
+                        </div>
+                        <div class="education-dates">{{ .dates }}</div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+
+                {{ if .Site.Params.language.enable }}
+                <section class="compact-section languages-section">
+                    <h2>{{ .Site.Params.language.title }}</h2>
+                    {{ range .Site.Params.language.list }}
+                    <div class="language-item">
+                        <span class="language-name">{{ .language }}</span>
+                        <span class="language-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections
+            document.querySelectorAll('.cv-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Print handling
+            window.addEventListener('beforeprint', function() {
+                document.querySelector('.cv-header').style.display = 'block';
+                document.querySelector('.print-only').style.display = 'block';
+            });
+
+            window.addEventListener('afterprint', function() {
+                document.querySelector('.cv-header').style.display = 'none';
+                document.querySelector('.print-only').style.display = 'none';
+            });
+        });
+
+        // Interactive skill bars (optional enhancement)
+        function animateSkillBars() {
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+        }
+
+        // Call animation when skills section comes into view
+        const skillsSection = document.querySelector('.skills-section');
+        if (skillsSection) {
+            const skillsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateSkillBars();
+                        skillsObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            skillsObserver.observe(skillsSection);
+        }
+    </script>
+</body>
+</html>

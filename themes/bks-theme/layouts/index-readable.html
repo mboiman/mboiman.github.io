@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Site.Params.profile.name }} - {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Site.Params.description }}">
+    
+    <!-- Readable CV Styles - Inline -->
+    <style>
+        {{ $css := resources.Get "assets/css/readable-cv-2025.css" }}
+        {{ if $css }}
+            {{ $css.Content | safeCSS }}
+        {{ else }}
+            /* Emergency Fallback */
+            body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.4; color: #333; background: white; }
+            .cv-container { max-width: 210mm; margin: 0 auto; padding: 15mm 20mm; }
+            .cv-header { text-align: center; margin-bottom: 20pt; padding-bottom: 12pt; border-bottom: 2pt solid #2c3e50; }
+            .cv-header h1 { font-size: 20pt; font-weight: bold; color: #2c3e50; margin-bottom: 6pt; text-transform: uppercase; }
+            .cv-section { margin-bottom: 25pt; }
+            .cv-section h2 { font-size: 14pt; font-weight: bold; color: #2c3e50; text-transform: uppercase; margin-bottom: 12pt; border-bottom: 1pt solid #2c3e50; }
+            .experience-item { margin-bottom: 25pt; }
+            .experience-header { margin-bottom: 10pt; border-left: 3pt solid #3498db; padding-left: 12pt; background: #f8f9fa; padding: 8pt; }
+            .experience-title { font-size: 13pt; font-weight: bold; color: #2c3e50; }
+            .experience-company { font-size: 12pt; font-weight: bold; color: #3498db; }
+            .experience-dates { font-size: 10pt; color: #7f8c8d; font-style: italic; }
+            .compact-section { margin-bottom: 20pt; background: #f8f9fa; padding: 15pt; border-left: 4pt solid #3498db; }
+            @media print { 
+                @page { size: A4; margin: 15mm 20mm; }
+                .hero-section, .pdf-button, .language-switch, .screen-only { display: none !important; }
+                body { background: white; }
+            }
+        {{ end }}
+    </style>
+</head>
+<body class="readable-cv">
+    <div class="cv-container">
+        <!-- Header Section -->
+        <header class="cv-header">
+            <h1>{{ .Site.Params.profile.name }}</h1>
+            <p class="tagline">{{ .Site.Params.profile.tagline }}</p>
+            
+            {{ if .Site.Params.contact.enable }}
+            <div class="contact-info">
+                {{ range .Site.Params.contact.list }}
+                <div class="contact-item">
+                    {{ if eq .class "email" }}
+                    <span class="contact-icon">E-Mail:</span>
+                    {{ else if eq .class "phone" }}
+                    <span class="contact-icon">Tel:</span>
+                    {{ else if eq .class "linkedin" }}
+                    <span class="contact-icon">LinkedIn:</span>
+                    {{ else if eq .class "github" }}
+                    <span class="contact-icon">GitHub:</span>
+                    {{ else if eq .class "website" }}
+                    <span class="contact-icon">Web:</span>
+                    {{ end }}
+                    <span>{{ .title }}</span>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </header>
+
+        <!-- Web-only Hero Section -->
+        <section class="hero-section screen-only">
+            <div class="hero-content">
+                <div class="hero-cta">
+                    {{ partial "pdf-button.html" . }}
+                    {{ partial "language-switch.html" . }}
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Section -->
+        {{ if .Site.Params.summary.enable }}
+        <section class="cv-section summary-section">
+            <h2>{{ .Site.Params.summary.title }}</h2>
+            <div class="summary-content">
+                {{ .Site.Params.summary.summary | markdownify }}
+            </div>
+        </section>
+        {{ end }}
+
+        <!-- Experience Section -->
+        {{ if .Site.Params.experiences.enable }}
+        <section class="cv-section experiences-section">
+            <h2>{{ .Site.Params.experiences.title }}</h2>
+            {{ range .Site.Params.experiences.list }}
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">{{ .position }}</div>
+                    <div class="experience-company">{{ .company }}</div>
+                    <div class="experience-dates">{{ .dates }}</div>
+                </div>
+                {{ if .details }}
+                <div class="experience-details">
+                    {{ .details | markdownify }}
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </section>
+        {{ end }}
+
+        <!-- Skills Section -->
+        {{ if .Site.Params.skills.enable }}
+        <section class="cv-section compact-section skills-section">
+            <h2>{{ .Site.Params.skills.title }}</h2>
+            <div class="skills-grid">
+                {{ range .Site.Params.skills.list }}
+                <div class="skill-item">
+                    <span class="skill-name">{{ .skill }}</span>
+                    <span class="skill-level">{{ .level }}</span>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+
+        <!-- Projects Section -->
+        {{ if .Site.Params.projects.enable }}
+        <section class="cv-section projects-section">
+            <h2>{{ .Site.Params.projects.title }}</h2>
+            {{ range .Site.Params.projects.list }}
+            <div class="project-item">
+                <div class="project-title">{{ .title }}</div>
+                <div class="project-description">{{ .tagline }}</div>
+            </div>
+            {{ end }}
+        </section>
+        {{ end }}
+
+        <!-- Education & Languages in compact sections -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20pt; margin-top: 20pt;">
+            <!-- Education Section -->
+            {{ if .Site.Params.education.enable }}
+            <section class="compact-section education-section">
+                <h2>{{ .Site.Params.education.title }}</h2>
+                {{ range .Site.Params.education.list }}
+                <div class="education-item">
+                    <div>
+                        <div class="education-degree">{{ .degree }}</div>
+                        {{ if .college }}<div class="education-school">{{ .college }}</div>{{ end }}
+                    </div>
+                    <div class="education-dates">{{ .dates }}</div>
+                </div>
+                {{ end }}
+            </section>
+            {{ end }}
+
+            <!-- Languages Section -->
+            {{ if .Site.Params.language.enable }}
+            <section class="compact-section languages-section">
+                <h2>{{ .Site.Params.language.title }}</h2>
+                {{ range .Site.Params.language.list }}
+                <div class="language-item">
+                    <span class="language-name">{{ .language }}</span>
+                    <span class="language-level">{{ .level }}</span>
+                </div>
+                {{ end }}
+            </section>
+            {{ end }}
+        </div>
+    </div>
+
+    <script>
+        // PDF Export functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfButton = document.querySelector('.pdf-export-btn');
+            if (pdfButton) {
+                pdfButton.addEventListener('click', function() {
+                    window.print();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Hugo-based CV generation system that creates multilingual (German/English) curriculum vitae websites and converts them to PDF. The site uses a custom Hugo theme (`my-hugo-orbit-theme`) and includes automated build and PDF generation scripts.
+This is a Hugo-based CV generation system that creates multilingual (German/English) curriculum vitae websites and converts them to PDF. The site uses a custom Hugo theme (`bks-theme`) and includes automated build and PDF generation scripts.
 
 ## Build System & Development Commands
 
@@ -41,7 +41,7 @@ This is a Hugo-based CV generation system that creates multilingual (German/Engl
 - Content is organized by CV sections: `education/`, `experience/`, `projects/`, `skills/`, `summary/`
 
 ### Theme Structure
-- `themes/my-hugo-orbit-theme/` - Custom Hugo theme
+- `themes/bks-theme/` - Custom Hugo theme
 - `layouts/` - HTML templates for different CV sections
 - `static/assets/` - CSS, JavaScript, and image assets
 - Multiple theme variants available (`styles.css`, `styles-2.css`, etc.)
@@ -83,6 +83,9 @@ When making changes to the CV content or styling:
 4. Review the PDF output for formatting and content accuracy
 
 When modifying the theme:
-1. Edit files in `themes/my-hugo-orbit-theme/`
+1. Edit files in `themes/bks-theme/`
 2. Test with `hugo server`
 3. Ensure PDF generation still works correctly with the changes
+
+## Memories
+- `teste immer am ende das Ergebniss` - A reminder to always test the result at the end

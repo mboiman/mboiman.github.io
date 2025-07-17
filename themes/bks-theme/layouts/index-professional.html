@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Site.Params.profile.name }} - {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Site.Params.description }}">
+    
+    <!-- Professional CV Styles -->
+    <link rel="stylesheet" href="{{ .Site.BaseURL }}assets/css/professional-cv-2025.css">
+    
+    <!-- PDF Generation Optimization -->
+    <style>
+        @media print {
+            html, body {
+                width: 210mm;
+                height: 297mm;
+            }
+        }
+    </style>
+</head>
+<body class="professional-cv">
+    <div class="cv-container">
+        <!-- Header Section -->
+        <header class="cv-header">
+            <h1>{{ .Site.Params.profile.name }}</h1>
+            <p class="tagline">{{ .Site.Params.profile.tagline }}</p>
+            
+            {{ if .Site.Params.contact.enable }}
+            <div class="contact-info">
+                {{ range .Site.Params.contact.list }}
+                <div class="contact-item">
+                    {{ if eq .class "email" }}
+                    <span class="contact-icon">✉</span>
+                    {{ else if eq .class "phone" }}
+                    <span class="contact-icon">☎</span>
+                    {{ else if eq .class "linkedin" }}
+                    <span class="contact-icon">🔗</span>
+                    {{ else if eq .class "github" }}
+                    <span class="contact-icon">⚡</span>
+                    {{ else if eq .class "website" }}
+                    <span class="contact-icon">🌐</span>
+                    {{ end }}
+                    <span>{{ .title }}</span>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </header>
+
+        <!-- Main Grid Layout -->
+        <div class="cv-grid">
+            <!-- Sidebar -->
+            <aside class="cv-sidebar">
+                <!-- Skills Section -->
+                {{ if .Site.Params.skills.enable }}
+                <section class="section skills-section">
+                    <h2>{{ .Site.Params.skills.title }}</h2>
+                    <div class="skills-list">
+                        {{ range .Site.Params.skills.list }}
+                        <div class="skill-item">
+                            <span class="skill-name">{{ .skill }}</span>
+                            <span class="skill-level">{{ .level }}</span>
+                        </div>
+                        {{ end }}
+                    </div>
+                </section>
+                {{ end }}
+
+                <!-- Education Section -->
+                {{ if .Site.Params.education.enable }}
+                <section class="section education-section">
+                    <h2>{{ .Site.Params.education.title }}</h2>
+                    {{ range .Site.Params.education.list }}
+                    <div class="education-item">
+                        <div class="education-degree">{{ .degree }}</div>
+                        {{ if .college }}<div class="education-school">{{ .college }}</div>{{ end }}
+                        <div class="education-dates">{{ .dates }}</div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+
+                <!-- Languages Section -->
+                {{ if .Site.Params.language.enable }}
+                <section class="section languages-section">
+                    <h2>{{ .Site.Params.language.title }}</h2>
+                    {{ range .Site.Params.language.list }}
+                    <div class="language-item">
+                        <span class="language-name">{{ .language }}</span>
+                        <span class="language-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </aside>
+
+            <!-- Main Content -->
+            <main class="cv-main">
+                <!-- Summary Section -->
+                {{ if .Site.Params.summary.enable }}
+                <section class="section summary-section">
+                    <h2>{{ .Site.Params.summary.title }}</h2>
+                    <div class="summary-content">
+                        {{ .Site.Params.summary.summary | markdownify }}
+                    </div>
+                </section>
+                {{ end }}
+
+                <!-- Experience Section -->
+                {{ if .Site.Params.experiences.enable }}
+                <section class="section experiences-section">
+                    <h2>{{ .Site.Params.experiences.title }}</h2>
+                    {{ range .Site.Params.experiences.list }}
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">{{ .position }}</div>
+                            <div class="experience-company">{{ .company }}</div>
+                            <div class="experience-dates">{{ .dates }}</div>
+                        </div>
+                        {{ if .details }}
+                        <div class="experience-details">
+                            {{ .details | markdownify }}
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+
+                <!-- Projects Section -->
+                {{ if .Site.Params.projects.enable }}
+                <section class="section projects-section">
+                    <h2>{{ .Site.Params.projects.title }}</h2>
+                    {{ range .Site.Params.projects.list }}
+                    <div class="project-item">
+                        <div class="project-title">{{ .title }}</div>
+                        <div class="project-description">{{ .tagline }}</div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,349 @@
+/* 
+ * Readable CV Layout 2025
+ * Einspaltig, gut lesbar, professionell
+ * DIN A4, ATS-kompatibel, druckoptimiert
+ */
+
+/* === RESET & BASE === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* === TYPOGRAPHY & LAYOUT === */
+body {
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #333;
+    background: white;
+}
+
+.cv-container {
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 15mm 20mm;
+    background: white;
+}
+
+/* === HEADER SECTION === */
+.cv-header {
+    text-align: center;
+    margin-bottom: 20pt;
+    padding-bottom: 12pt;
+    border-bottom: 2pt solid #2c3e50;
+}
+
+.cv-header h1 {
+    font-size: 20pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 6pt;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+}
+
+.cv-header .tagline {
+    font-size: 12pt;
+    color: #7f8c8d;
+    font-weight: 500;
+    margin-bottom: 12pt;
+}
+
+.cv-header .contact-info {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20pt;
+    font-size: 10pt;
+    color: #555;
+}
+
+.cv-header .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 4pt;
+}
+
+.contact-icon {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* === MAIN SECTIONS === */
+.cv-section {
+    margin-bottom: 25pt;
+    page-break-inside: avoid;
+}
+
+.cv-section h2 {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #2c3e50;
+    text-transform: uppercase;
+    margin-bottom: 12pt;
+    padding-bottom: 4pt;
+    border-bottom: 1pt solid #2c3e50;
+    letter-spacing: 0.5pt;
+}
+
+/* === SUMMARY SECTION === */
+.summary-content {
+    font-size: 11pt;
+    line-height: 1.5;
+    text-align: justify;
+    margin-bottom: 15pt;
+}
+
+.summary-content ul {
+    margin-left: 18pt;
+    margin-top: 8pt;
+}
+
+.summary-content li {
+    margin-bottom: 6pt;
+    line-height: 1.4;
+}
+
+.summary-content strong {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/* === EXPERIENCE SECTION === */
+.experience-item {
+    margin-bottom: 25pt;
+    page-break-inside: avoid;
+    padding-left: 0;
+}
+
+.experience-header {
+    margin-bottom: 10pt;
+    border-left: 3pt solid #3498db;
+    padding-left: 12pt;
+    background: #f8f9fa;
+    padding-top: 8pt;
+    padding-bottom: 8pt;
+}
+
+.experience-title {
+    font-size: 13pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 3pt;
+}
+
+.experience-company {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #3498db;
+    margin-bottom: 3pt;
+}
+
+.experience-dates {
+    font-size: 10pt;
+    color: #7f8c8d;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.experience-details {
+    margin-top: 12pt;
+    font-size: 10.5pt;
+    line-height: 1.4;
+    padding-left: 15pt;
+}
+
+.experience-details p {
+    margin-bottom: 8pt;
+}
+
+.experience-details ul {
+    margin-left: 15pt;
+    margin-top: 6pt;
+}
+
+.experience-details li {
+    margin-bottom: 4pt;
+    line-height: 1.3;
+}
+
+.experience-details strong {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/* === COMPACT INFO SECTIONS === */
+.compact-section {
+    margin-bottom: 20pt;
+    background: #f8f9fa;
+    padding: 15pt;
+    border-radius: 3pt;
+    border-left: 4pt solid #3498db;
+}
+
+.compact-section h2 {
+    font-size: 12pt;
+    margin-bottom: 10pt;
+    color: #2c3e50;
+    border-bottom: none;
+}
+
+/* === SKILLS SECTION === */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8pt;
+    margin-top: 8pt;
+}
+
+.skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6pt 8pt;
+    background: white;
+    border: 1pt solid #e0e0e0;
+    border-radius: 2pt;
+    font-size: 9pt;
+}
+
+.skill-name {
+    font-weight: 500;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.skill-level {
+    font-weight: bold;
+    color: #3498db;
+    font-size: 8pt;
+    text-align: right;
+    min-width: 25pt;
+}
+
+/* === EDUCATION & LANGUAGES === */
+.education-item,
+.language-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6pt 0;
+    border-bottom: 0.5pt solid #e0e0e0;
+    font-size: 10pt;
+}
+
+.education-degree,
+.language-name {
+    font-weight: 500;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.education-dates,
+.language-level {
+    color: #7f8c8d;
+    font-style: italic;
+    text-align: right;
+    font-size: 9pt;
+}
+
+.education-school {
+    font-size: 9pt;
+    color: #7f8c8d;
+    margin-top: 2pt;
+}
+
+/* === PROJECTS SECTION === */
+.project-item {
+    margin-bottom: 12pt;
+    padding: 8pt;
+    background: white;
+    border: 1pt solid #e0e0e0;
+    border-radius: 2pt;
+}
+
+.project-title {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 4pt;
+}
+
+.project-description {
+    font-size: 10pt;
+    color: #555;
+    line-height: 1.3;
+}
+
+/* === PRINT OPTIMIZATION === */
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm 20mm;
+    }
+    
+    body {
+        font-size: 10pt;
+        line-height: 1.3;
+    }
+    
+    .cv-container {
+        padding: 0;
+        margin: 0;
+        max-width: none;
+        min-height: auto;
+    }
+    
+    .cv-section {
+        page-break-inside: avoid;
+    }
+    
+    .experience-item {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    .cv-header {
+        page-break-after: avoid;
+    }
+    
+    /* Keine Web-spezifischen Elemente */
+    .hero-section,
+    .pdf-button,
+    .language-switch,
+    .screen-only {
+        display: none !important;
+    }
+    
+    /* Optimiere Schriftgrößen für Druck */
+    .cv-header h1 {
+        font-size: 18pt;
+    }
+    
+    .cv-section h2 {
+        font-size: 12pt;
+    }
+    
+    .experience-title {
+        font-size: 11pt;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* === RESPONSIVE FALLBACKS === */
+@media screen and (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-header .contact-info {
+        flex-direction: column;
+        gap: 8pt;
+    }
+}
