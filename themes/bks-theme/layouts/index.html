@@ -267,14 +267,14 @@
         <!-- Modern Header -->
         <header class="cv-header">
             <div class="header-content">
-                {{ if .Site.Params.profile.avatar }}
-                <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Params.profile.avatar }}" 
-                     alt="{{ .Site.Params.profile.name }}" 
+                {{ if .Site.Language.Params.profile.avatar }}
+                <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Language.Params.profile.avatar }}" 
+                     alt="{{ .Site.Language.Params.profile.name }}" 
                      class="profile-photo">
                 {{ end }}
                 
                 <div class="header-text">
-                    <h1>{{ .Site.Params.profile.name }}</h1>
+                    <h1>{{ .Site.Language.Params.profile.name }}</h1>
                     <p class="tagline">KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung</p>
                     
                     <div class="ai-badge">
@@ -282,9 +282,9 @@
                         20+ Jahre Entwicklung für KI-Lösungen
                     </div>
                     
-                    {{ if .Site.Params.contact.enable }}
+                    {{ if .Site.Language.Params.contact.enable }}
                     <div class="contact-info">
-                        {{ range .Site.Params.contact.list }}
+                        {{ range .Site.Language.Params.contact.list }}
                         <div class="contact-item">
                             {{ if eq .class "email" }}
                             <i class="fas fa-envelope"></i>
@@ -360,8 +360,8 @@
                 <!-- Quick Contact -->
                 <section class="sidebar-section">
                     <h3>Kontakt</h3>
-                    {{ if .Site.Params.contact.enable }}
-                    {{ range .Site.Params.contact.list }}
+                    {{ if .Site.Language.Params.contact.enable }}
+                    {{ range .Site.Language.Params.contact.list }}
                     {{ if eq .class "email" }}
                     <div style="margin-bottom: 1rem;">
                         <i class="fas fa-envelope" style="color: #4299e1; margin-right: 0.5rem;"></i>
@@ -398,10 +398,10 @@
                 </section>
                 
                 <!-- Education -->
-                {{ if .Site.Params.education.enable }}
+                {{ if .Site.Language.Params.education.enable }}
                 <section class="sidebar-section">
-                    <h3>{{ .Site.Params.education.title }}</h3>
-                    {{ range .Site.Params.education.list }}
+                    <h3>{{ .Site.Language.Params.education.title }}</h3>
+                    {{ range .Site.Language.Params.education.list }}
                     <div style="margin-bottom: 1rem; font-size: 0.9rem;">
                         <div style="font-weight: 600; color: #1a202c;">{{ .degree }}</div>
                         {{ if .college }}<div style="color: #4a5568; font-size: 0.8rem;">{{ .college }}</div>{{ end }}
@@ -412,10 +412,10 @@
                 {{ end }}
                 
                 <!-- Languages -->
-                {{ if .Site.Params.language.enable }}
+                {{ if .Site.Language.Params.language.enable }}
                 <section class="sidebar-section">
-                    <h3>{{ .Site.Params.language.title }}</h3>
-                    {{ range .Site.Params.language.list }}
+                    <h3>{{ .Site.Language.Params.language.title }}</h3>
+                    {{ range .Site.Language.Params.language.list }}
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
                         <span style="color: #1a202c;">{{ .language }}</span>
                         <span style="color: #4a5568;">{{ .level }}</span>
@@ -477,7 +477,7 @@
             <section class="cv-section">
                 <h2>Aktuelle Positionen</h2>
                 <div class="experience-timeline">
-                    {{ range first 3 .Site.Params.experiences.list }}
+                    {{ range first 3 .Site.Language.Params.experiences.list }}
                     <div class="experience-item">
                         <div class="experience-header">
                             <div class="experience-title">{{ .position }}</div>
