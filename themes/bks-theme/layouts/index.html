@@ -348,11 +348,13 @@
         <div class="cv-main">
             <!-- Content -->
             <main class="cv-content">
-                <!-- Value Proposition -->
+                <!-- Summary from TOML -->
+                {{ if .Site.Language.Params.summary.enable }}
                 <section class="value-prop">
-                    <h2>Warum KI-Automatisierung mit mir?</h2>
-                    <p><strong>Einzigartige Kombination:</strong> 20+ Jahre Softwareentwicklung treffen auf modernste KI-Technologie. Ich implementiere nicht nur KI-Prototypen, sondern <strong>produktionsreife Automatisierungslösungen</strong>, die nachweislich <strong>80%+ manuelle Arbeit eliminieren</strong> und Millionen-Euro-Potenzial für Unternehmen freisetzen.</p>
+                    <h2>{{ .Site.Language.Params.summary.title }}</h2>
+                    <div>{{ .Site.Language.Params.summary.summary | markdownify }}</div>
                 </section>
+                {{ end }}
             </main>
             
             <!-- Sidebar -->
@@ -382,20 +384,17 @@
                     {{ end }}
                 </section>
                 
-                <!-- Key Technologies -->
+                <!-- Skills from TOML -->
+                {{ if .Site.Language.Params.skills.enable }}
                 <section class="sidebar-section">
-                    <h3>Kerntechnologien</h3>
+                    <h3>{{ .Site.Language.Params.skills.title }}</h3>
                     <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Python</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">OpenAI</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Azure</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Docker</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Kubernetes</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Playwright</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Grafana</span>
-                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">CI/CD</span>
+                        {{ range .Site.Language.Params.skills.list }}
+                        <span style="background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">{{ .skill }}</span>
+                        {{ end }}
                     </div>
                 </section>
+                {{ end }}
                 
                 <!-- Education -->
                 {{ if .Site.Language.Params.education.enable }}
@@ -428,56 +427,29 @@
 
         <!-- Full Width Section for Projects & Experience -->
         <div class="cv-fullwidth">
-            <!-- KI Project Highlights -->
+            <!-- Projects from TOML -->
+            {{ if .Site.Language.Params.projects.enable }}
             <section class="cv-section">
-                <h2>KI-Projekt-Highlights</h2>
+                <h2>{{ .Site.Language.Params.projects.title }}</h2>
                 <div class="project-highlights">
+                    {{ range .Site.Language.Params.projects.list }}
                     <div class="project-highlight">
-                        <div class="project-title">KI-E-Mail-Bot für Kundenkommunikation</div>
-                        <div class="project-tech">
-                            <span class="tech-tag" style="background: #4299e1; color: white;">Python</span>
-                            <span class="tech-tag" style="background: #10b981; color: white;">OpenAI</span>
-                            <span class="tech-tag" style="background: #f59e0b; color: white;">Azure Functions</span>
-                            <span class="tech-tag">Microsoft Graph</span>
-                        </div>
+                        <div class="project-title">{{ .title }}</div>
                         <div class="project-description">
-                            <strong>Erfolg:</strong> Vollautomatisierte E-Mail-Klassifizierung reduzierte manuelle Bearbeitung um <strong>80%</strong> und verbesserte Reaktionszeiten um <strong>60%</strong>. Integriert SAP-Systeme und Outlook 365 – <strong>produktionsreif seit 2023</strong>.
+                            {{ .tagline | markdownify }}
                         </div>
                     </div>
-                    
-                    <div class="project-highlight">
-                        <div class="project-title">E-Rechnungs-Automatisierung mit KI</div>
-                        <div class="project-tech">
-                            <span class="tech-tag" style="background: #4299e1; color: white;">Python</span>
-                            <span class="tech-tag" style="background: #10b981; color: white;">NLP</span>
-                            <span class="tech-tag" style="background: #f59e0b; color: white;">Azure Functions</span>
-                            <span class="tech-tag">Salesforce</span>
-                        </div>
-                        <div class="project-description">
-                            <strong>ROI:</strong> KI-gestützte Extraktion erreicht <strong>95% Genauigkeit</strong> bei EU-Standards (ZUGFeRD, XRechnung). Automatische Salesforce-Integration spart <strong>40 Stunden/Woche</strong> – entspricht <strong>~100.000€/Jahr</strong> Kosteneinsparung.
-                        </div>
-                    </div>
-                    
-                    <div class="project-highlight">
-                        <div class="project-title">Intelligenter Q&A-Bot mit RAG</div>
-                        <div class="project-tech">
-                            <span class="tech-tag" style="background: #10b981; color: white;">GPT-3.5</span>
-                            <span class="tech-tag" style="background: #10b981; color: white;">Vector Embeddings</span>
-                            <span class="tech-tag" style="background: #4299e1; color: white;">Streamlit</span>
-                            <span class="tech-tag">Similarity Search</span>
-                        </div>
-                        <div class="project-description">
-                            <strong>Innovation:</strong> Retrieval-Augmented Generation System mit kontextbasierter Antwortgenerierung. Live-Workshop für Unternehmen – <strong>komplette End-to-End-Implementierung</strong> von Web-Scraping bis produktionsreife UI in nur <strong>1 Tag</strong>.
-                        </div>
-                    </div>
+                    {{ end }}
                 </div>
             </section>
+            {{ end }}
 
-            <!-- Recent Experience -->
+            <!-- All Experience -->
+            {{ if .Site.Language.Params.experiences.enable }}
             <section class="cv-section">
-                <h2>Aktuelle Positionen</h2>
+                <h2>{{ .Site.Language.Params.experiences.title }}</h2>
                 <div class="experience-timeline">
-                    {{ range first 3 .Site.Language.Params.experiences.list }}
+                    {{ range .Site.Language.Params.experiences.list }}
                     <div class="experience-item">
                         <div class="experience-header">
                             <div class="experience-title">{{ .position }}</div>
@@ -493,6 +465,7 @@
                     {{ end }}
                 </div>
             </section>
+            {{ end }}
         </div>
     </div>
     
