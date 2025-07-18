@@ -467,5 +467,52 @@
         </div>
     </div>
     
+    <!-- PDF Generation Script -->
+    <script>
+    function generatePDF(lang) {
+        const pdfLink = document.querySelector('.pdf-link');
+        const pdfText = pdfLink.querySelector('.pdf-text');
+        const pdfLoading = pdfLink.querySelector('.pdf-loading');
+        
+        // Show loading state
+        pdfText.style.display = 'none';
+        pdfLoading.style.display = 'inline-flex';
+        pdfLink.style.pointerEvents = 'none';
+        
+        // Generate PDF via API call
+        const apiUrl = `http://localhost:3001/generate-pdf/${lang}`;
+        
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('PDF generation failed');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `Michael_Boiman_CV_${lang.toUpperCase()}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            })
+            .catch(error => {
+                console.error('PDF generation error:', error);
+                alert('PDF-Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.');
+            })
+            .finally(() => {
+                // Reset button state
+                pdfText.style.display = 'inline';
+                pdfLoading.style.display = 'none';
+                pdfLink.style.pointerEvents = 'auto';
+            });
+    }
+    </script>
+    
 </body>
 </html>
