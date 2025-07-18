@@ -172,23 +172,18 @@ defaultContentLanguageInSubdir = true
         title = "Karriereprofil"
         summary = """\
 Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisierter KI-Entwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
-- **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse mit messbaren Erfolgen (80% Reduktion manueller Arbeit, Bearbeitungszeit von Minuten auf Sekunden).
-- **Python-Expertise**: Umfassende Erfahrung in der Entwicklung von KI-basierten Lösungen, Automatisierungen und Datenanalysen mit Python.
-- **Quality Engineering Excellence**: Entwicklung von Quality Dashboards mit 80% weniger Rückfragen und Go/No-Go-Entscheidungen in Minuten statt Stunden.
-- **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen, 100% Audit-Trail.
-- **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case.
-- **Erfahrung mit LLMs**: Einsatz von GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG-Systeme, Vector Databases (Pinecone, Elasticsearch), Agentic AI, MCP (Model Context Protocol), A2A u.a.
-- **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
-- **Echtzeit-Monitoring**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
-- **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Geschäftsprozesse.
-- **Performance-Tests**: Durchführung von Last- und Performance-Tests.
-- **Entwicklung**: Expertise in Java, JavaScript, Swift, Python und weiteren Sprachen.
-- **DevOps**: Erfahrung mit GitHub, GitLab, Jenkins und anderen CI/CD-Tools.
-- **Contract-Testing**: Anwendung von Pact.io oder Spring Contract.
-- **Cloud-Technologien**: Kenntnisse in Kubernetes, Helm, Terraform, ArgoCD u.a.
-- **Mobile Entwicklung**: Fundierte Erfahrungen in der Entwicklung mobiler Anwendungen mit Swift und Flutter.
-- **Agile Methoden**: Praktische Anwendung von Scrum und SAFE.
-- **Teamleitung**: Leitung und Koordination von interdisziplinären Teams.
+- **KI-Automatisierung & Transparenz**: 80% Reduktion manueller Arbeit, Echtzeit-Dashboards, messbare Geschäftserfolge, Bearbeitungszeit von Minuten auf Sekunden.
+- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG-Systeme, Agentic AI, MCP (Model Context Protocol), A2A.
+- **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case, IDE-Integration.
+- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% weniger Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden.
+- **E-Mail-Automatisierung & SAP-Integration**: Automatisierte Verarbeitung, 100% Audit-Trail, Drittsystem-Abgleich.
+- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit.
+- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment.
+- **Python & ML Expertise**: KI-basierte Lösungen, Automatisierungen, Datenanalysen, Machine Learning Integration.
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing (Pact.io, Spring Contract).
+- **Performance & Monitoring**: Load Testing, Echtzeit-Überwachung, Incident Analysis, Instana, Azure Log Analytics, fachliches Logging, Qualitätsstatus-Darstellung.
+- **Full-Stack Development**: Java, JavaScript, Swift, Python, Mobile Apps (Flutter), fundierte Mehrsprachen-Expertise.
+- **Team Leadership & Agile**: Scrum, SAFe, interdisziplinäre Teams, 20+ Jahre Projektkoordination.
         """
 
       [languages.de.params.experiences]
@@ -597,23 +592,18 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         title = "Career Profile"
         summary = """\
 With more than 20 years of experience in automation and 4 years of specialized AI development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
-- **AI Automation**: Optimising and implementing AI within existing business processes with measurable success (80% reduction in manual work, processing time from minutes to seconds).
-- **Python Expertise**: Extensive experience in developing AI-based solutions, automations, and data analysis using Python.
-- **Quality Engineering Excellence**: Development of Quality Dashboards with 80% fewer inquiries and Go/No-Go decisions in minutes instead of hours.
-- **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems, 100% audit trail.
-- **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case.
-- **Experience with LLMs**: GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG systems, Vector Databases (Pinecone, Elasticsearch), Agentic AI, MCP (Model Context Protocol), A2A, among others.
-- **Test Automation**: Setting up quality gates within the CI/CD pipeline.
-- **Real-Time Monitoring**: Building systems that display quality status in real time.
-- **ML and DL Models**: Integrating machine-learning and deep-learning models into business processes.
-- **Performance Testing**: Conducting load and performance tests.
-- **Development**: Expertise in Java, JavaScript, Swift, Python and other languages.
-- **DevOps**: Experience with GitHub, GitLab, Jenkins and other CI/CD tools.
-- **Contract Testing**: Using Pact.io or Spring Contract.
-- **Cloud Technologies**: Proficient with Kubernetes, Helm, Terraform, ArgoCD, etc.
-- **Mobile Development**: Solid experience building mobile apps with Swift and Flutter.
-- **Agile Methods**: Practical application of Scrum and SAFe.
-- **Team Leadership**: Managing and coordinating cross-functional teams."""
+- **AI Automation & Transparency**: 80% reduction in manual work, real-time dashboards, measurable business success, processing time from minutes to seconds.
+- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG systems, Agentic AI, MCP (Model Context Protocol), A2A.
+- **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case, IDE integration.
+- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% fewer inquiries, Go/No-Go decisions in minutes instead of hours.
+- **Email Automation & SAP Integration**: Automated processing, 100% audit trail, third-party system synchronization.
+- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy.
+- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment.
+- **Python & ML Expertise**: AI-based solutions, automations, data analysis, machine learning integration.
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing (Pact.io, Spring Contract).
+- **Performance & Monitoring**: Load testing, real-time monitoring, incident analysis, Instana, Azure Log Analytics, domain-specific logging, quality status visualization.
+- **Full-Stack Development**: Java, JavaScript, Swift, Python, mobile apps (Flutter), comprehensive multi-language expertise.
+- **Team Leadership & Agile**: Scrum, SAFe, cross-functional teams, 20+ years project coordination."""
 
       [languages.en.params.experiences]
         enable = true
@@ -1186,7 +1176,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = """
         Dashboards & Analyse - \n
         Kibana(+ES) & Greylog &  \n
-        Grafana & Instana 
+        Grafana & Instana & Azure Log Analytics
         """
         level = "90%"
 
@@ -1291,7 +1281,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = """
 Dashboards & Analytics –  
 Kibana (+ES) & Graylog &  
-Grafana & Instana
+Grafana & Instana & Azure Log Analytics
         """
         level = "90%"
 
