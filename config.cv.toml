@@ -315,7 +315,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Technische Leitung & Entwicklung"
         dates = "04/2023 - 04/2024"
-        company = "Ryze"
+        company = "BKS im Auftrag für Ryze"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
@@ -802,9 +802,9 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Project Management & Technical Lead"
         dates = "04/2023 - 04/2024"
-        company = "Ryze"
+        company = "BKS on behalf of Ryze"
         details = """
-**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
+**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation."
 
 **Focus areas**:
 - **Development of ML models**: Design and training of specialized models for effective email classification, implemented via Azure Functions.
