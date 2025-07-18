@@ -909,7 +909,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
-        featured = false
+        featured = true
+        screenshot = "projects/nlpanalyse.png"
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
 
         [[languages.de.params.projects.list]]
@@ -1018,7 +1019,8 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Email Classification and Processing Workflow"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
-        featured = false
+        screenshot = "projects/nlpanalyse.png"
+        featured = true
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
 
         [[languages.en.params.projects.list]]
