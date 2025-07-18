@@ -517,4 +517,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Entfernen aller temporären Elemente
     document.body.classList.remove('pdf-export-mode');
   };
+  
+  // Globale Funktionen für PDF-Export verfügbar machen
+  window.preparePDFPrint = preparePDFExport;
+  window.preparePDFAndPrint = function() {
+    try {
+      preparePDFExport();
+      setTimeout(function() {
+        window.print();
+      }, 100);
+    } catch (error) {
+      console.error('PDF preparation error:', error);
+      window.print();
+    }
+  };
 });

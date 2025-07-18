@@ -15,12 +15,9 @@
     </div>
     
     <div class="pdf-actions">
-        <a href="#" class="pdf-link" onclick="generatePDF('{{ .Site.Language.Lang }}'); return false;">
+        <a href="#" class="pdf-link" onclick="window.print(); return false;">
             <i class="fas fa-download"></i>
             <span class="pdf-text">PDF</span>
-            <span class="pdf-loading" style="display: none;">
-                <i class="fas fa-spinner fa-spin"></i>
-            </span>
         </a>
     </div>
 </div>

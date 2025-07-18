@@ -90,3 +90,5 @@ When modifying the theme:
 ## Memories
 - `teste immer am ende das Ergebniss` - A reminder to always test the result at the end
 - `alle text bausteine müssen aus der toml kommen es darf nichts in den anderen dateien wie html liegen. also keine texte von wo anders` - Ensure all text components come from the TOML file, with no text residing in other files like HTML
+- `du sollst kein python hier ständig mir anbieten als server das ist hugo` - Reminder that Hugo is the preferred server, not Python
+- `du sollst nicht behaupten das der server läuft wenn es nicht so ist und du nicht getestet hast` - Do not claim the server is running if you have not tested it and it is not actually running
