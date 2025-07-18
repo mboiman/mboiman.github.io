@@ -881,11 +881,10 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
-        url = "https://qualitycluster.de"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitycluster-screenshot.png"
+        screenshot = "projects/qualitycluster.png"
         tagline = """
 QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
@@ -896,7 +895,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ai-chatbot-screenshot.png"
+        screenshot = "projects/ccwkibot.png"
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
 
         [[languages.de.params.projects.list]]
@@ -939,7 +938,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/quality-dashboard-screenshot.png"
+        screenshot = "projects/qualitydashboard.png"
         tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
 
         [[languages.de.params.projects.list]]
@@ -991,11 +990,10 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
-        url = "https://qualitycluster.de"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitycluster-screenshot.png"
+        screenshot = "projects/qualitycluster.png"
         tagline = """
 QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
 Our goal is to implement more quality through a higher degree of automation.  
@@ -1006,7 +1004,7 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ai-chatbot-screenshot.png"
+        screenshot = "projects/ccwkibot.png"
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
 
         [[languages.en.params.projects.list]]
@@ -1049,7 +1047,7 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/quality-dashboard-screenshot.png"
+        screenshot = "projects/qualitydashboard.png"
         tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
 
         [[languages.en.params.projects.list]]
