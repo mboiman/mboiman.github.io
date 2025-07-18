@@ -279,6 +279,33 @@ Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisie
         """
 
         [[languages.de.params.experiences.list]]
+        position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
+        dates = "2025"
+        company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
+        details = """
+**Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
+
+**Workshop-Inhalte**
+- Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung
+- Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
+- Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
+- Browser-Automation mit Playwright-MCP für automatisierte Test-Generierung
+- Live-Demos: Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
+- Prompt Engineering & Regel-basierte Agent-Steuerung (.cursorrules, Instructions)
+- TDD-Workflows mit AI-Assistenz und automatisierter PR-Erstellung
+- Task Master AI-Agent für Projektmanagement und Code-Scaffolding
+
+**Technologien & Tools**
+- OpenAI GPT-4o, Anthropic Claude, Google Gemini
+- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
+- GitHub Copilot, Cursor, VS Code AI-Extensions
+- Playwright, Browser-Automation, Web-Scraping
+- JSON-RPC, REST APIs, Multi-Agent Communication
+
+Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für moderne AI-gestützte Entwicklungsworkflows.
+        """
+        
+        [[languages.de.params.experiences.list]]
         position = "Anwendungen von KI im Geschäftsumfeld"
         dates = "2023"
         company = "KI-Workshop zur Unternehmenseinbindung"
@@ -706,6 +733,33 @@ With more than 20 years of experience in automation and 4 years of specialized A
 - Streamlit: For developing an interactive web application for system monitoring.
         """
 
+        [[languages.en.params.experiences.list]]
+        position = "Workshop: Development with Generative Language Models"
+        dates = "2025"
+        company = "Developer Workshop - Agent-based Software Development"
+        details = """
+**Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
+
+**Workshop Content**
+- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization
+- Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
+- Agent orchestration with JSON-RPC and multi-agent systems
+- Browser automation with Playwright-MCP for automated test generation
+- Live demos: Jira integration, Elasticsearch queries, GitHub workflows
+- Prompt engineering & rule-based agent control (.cursorrules, instructions)
+- TDD workflows with AI assistance and automated PR creation
+- Task Master AI agent for project management and code scaffolding
+
+**Technologies & Tools**
+- OpenAI GPT-4o, Anthropic Claude, Google Gemini
+- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
+- GitHub Copilot, Cursor, VS Code AI extensions
+- Playwright, browser automation, web scraping
+- JSON-RPC, REST APIs, multi-agent communication
+
+Complete workshop with slides, live demos, and practical exercises for modern AI-assisted development workflows.
+        """
+        
         [[languages.en.params.experiences.list]]
         position = "AI Workshop for Business Integration"
         dates = "2023"
