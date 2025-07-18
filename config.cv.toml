@@ -105,7 +105,7 @@ defaultContentLanguageInSubdir = true
         class = "github"
         icon = "fa-github"
         url = "//github.com/mboiman"
-        title = "GitHub Profil"
+        title = "Persönliches GitHub"
 
         [[languages.de.params.contact.list]]
         class = "github"
@@ -526,7 +526,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         class = "github"
         icon = "fa-github"
         url = "//github.com/mboiman"
-        title = "GitHub Profile"
+        title = "Personal GitHub"
 
         [[languages.en.params.contact.list]]
         class = "github"
@@ -865,20 +865,26 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
       [languages.de.params.projects]
         enable = true
-        icon = "fa-archive"
-        title = "NEBENPROJEKTE"
-        intro = "**Weitere Projekte außerhalb des Kerngeschäfts**"
+        icon = "fa-rocket"
+        title = "PROJEKTE & LÖSUNGEN"
+        intro = "**Innovative KI-Lösungen und Automatisierungstools**"
 
         [[languages.de.params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
         url = "https://qualitycluster.de"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster-screenshot.png"
         tagline = """
 QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
@@ -886,86 +892,108 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
-        url = "#"
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
+        category = "AI & Machine Learning"
+        featured = true
+        screenshot = "projects/ai-chatbot-screenshot.png"
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
 
         [[languages.de.params.projects.list]]
         title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
-        url = "#"
         tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten mit 95%+ Genauigkeit."
 
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
-        url = "#"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
 
         [[languages.de.params.projects.list]]
         title   = "MCP - Model Context Protokoll"
-        url     = "#"
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Umsetzung verschiedener Tools zur Modell-Kontext-Orchestrierung."
 
         [[languages.de.params.projects.list]]
         title   = "AI-Automatisierungs-Functionsbausteine"
-        url     = "#"
         tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
         title   = "AI-Beratung für Unternehmen"
-        url     = "#"
         tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        category = "Consulting & Strategy"
+        featured = false
         tagline = "Beratungen zum Einsatz von AI im Unternehmen."
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
-        url = "#"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/quality-dashboard-screenshot.png"
         tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
 
         [[languages.de.params.projects.list]]
         title = "Dual-Run Preiskalkulation Legacy-Migration"
-        url = "#"
         tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        category = "Quality Engineering"
+        featured = false
         tagline = "Innovativer Dual-Run-Ansatz für sichere Legacy-Mainframe-Migration mit 1M+ Kombinationsmöglichkeiten. Impact: Qualitätskennzahl von 30% auf 96% erhöht."
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
-        url = "#"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
+        category = "AI & Quality Engineering"
+        featured = false
         tagline = "Guideline-basierter KI-Agent im IDE mit Prompt-basierter Testgenerierung aus Jira-Stories. Impact: 80% automatisch generiert, 50% weniger Entwicklungszeit."
 
         [[languages.de.params.projects.list]]
         title = "Live-Demo Apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
+        featured = true
+        screenshot = "projects/demo-app-screenshot.png"
         tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
 
         [[languages.de.params.projects.list]]
         title = "Freelance Success Stories - KI-Präsentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
+        category = "Consulting & Strategy"
+        featured = false
         tagline = "Umfassende Präsentation mit 4 Projekt-Spotlights: Quality Dashboard, Dual-Run Migration, KI-Testautomatisierung und E-Mail-Prozesse mit messbaren Erfolgen."
 
       [languages.en.params.projects]
         enable = true
-        icon = "fa-archive"
-        title = "PROJECTS"
-        intro = "**Additional projects outside the core business**"
+        icon = "fa-rocket"
+        title = "PROJECTS & SOLUTIONS"
+        intro = "**Innovative AI solutions and automation tools**"
 
         [[languages.en.params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
         url = "https://qualitycluster.de"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster-screenshot.png"
         tagline = """
 QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
 Our goal is to implement more quality through a higher degree of automation.  
@@ -973,56 +1001,67 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
-        url = "#"
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
+        category = "AI & Machine Learning"
+        featured = true
+        screenshot = "projects/ai-chatbot-screenshot.png"
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
 
         [[languages.en.params.projects.list]]
         title = "Automated NLP Analysis of PDF Documents"
-        url = "#"
         tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification with 95%+ accuracy."
 
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
-        url = "#"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
 
         [[languages.en.params.projects.list]]
         title = "MCP – Model Context Protocol"
-        url = "#"
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Implementation of various tools for model-context orchestration."
 
         [[languages.en.params.projects.list]]
         title = "AI Automation Function Modules"
-        url = "#"
         tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
+        category = "AI & Machine Learning"
+        featured = false
         tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
         title = "AI Consulting for Enterprises"
-        url = "#"
         tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        category = "Consulting & Strategy"
+        featured = false
         tagline = "Consultancy on the use of AI within companies."
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
-        url = "#"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/quality-dashboard-screenshot.png"
         tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
 
         [[languages.en.params.projects.list]]
         title = "Dual-Run Price Calculation Legacy Migration"
-        url = "#"
         tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        category = "Quality Engineering"
+        featured = false
         tagline = "Innovative dual-run approach for secure legacy mainframe migration with 1M+ combination possibilities. Impact: Quality metrics improved from 30% to 96%."
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
-        url = "#"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
+        category = "AI & Quality Engineering"
+        featured = false
         tagline = "Guideline-based AI agent in IDE with prompt-based test generation from Jira stories. Impact: 80% automatically generated, 50% less development time."
 
         [[languages.en.params.projects.list]]
@@ -1035,6 +1074,8 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Freelance Success Stories - AI Presentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
+        category = "Consulting & Strategy"
+        featured = false
         tagline = "Comprehensive presentation featuring 4 project spotlights: Quality Dashboard, Dual-Run Migration, AI Test Automation, and Email Processes with measurable results."
 
       [languages.de.params.skills]

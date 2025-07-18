@@ -151,24 +151,111 @@
             width: 60px; height: 3px; background: linear-gradient(135deg, #4299e1, #3182ce);
             border-radius: 2px;
         }
+        .cv-section h2 i {
+            margin-right: 0.5rem; color: #4299e1;
+        }
+        .section-intro {
+            color: #4a5568; font-size: 1.1rem; margin-bottom: 2rem;
+            font-style: italic;
+        }
         
-        /* === PROJECT HIGHLIGHTS === */
-        .project-highlights {
-            display: grid; gap: 2.5rem;
+        /* === PROJECTS GRID === */
+        .projects-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem; margin-bottom: 3rem;
         }
-        .project-highlight {
-            padding: 2rem 0; border-bottom: 1px solid #e2e8f0;
-            transition: all 0.3s;
+        .project-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
         }
-        .project-highlight:last-child {
-            border-bottom: none;
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
-        .project-highlight:hover {
-            transform: translateY(-2px);
+        .project-image {
+            position: relative; height: 200px; overflow: hidden;
+        }
+        .project-screenshot {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover .project-screenshot {
+            transform: scale(1.05);
+        }
+        .project-placeholder {
+            width: 100%; height: 100%; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex; flex-direction: column; 
+            align-items: center; justify-content: center;
+            color: white; text-align: center;
+        }
+        .project-placeholder i {
+            font-size: 2rem; margin-bottom: 0.5rem;
+        }
+        .project-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7); opacity: 0;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+        .project-card.has-link:hover .project-overlay {
+            opacity: 1;
+        }
+        .project-link {
+            background: white; color: #1a202c; padding: 1rem;
+            border-radius: 50%; text-decoration: none;
+            font-size: 1.2rem; transition: all 0.3s ease;
+        }
+        .project-link:hover {
+            background: #4299e1; color: white;
+        }
+        .project-content {
+            padding: 1.5rem;
+        }
+        .project-header {
+            display: flex; justify-content: space-between; 
+            align-items: flex-start; margin-bottom: 1rem;
         }
         .project-title {
             font-size: 1.2rem; font-weight: 600; color: #1a202c;
-            margin-bottom: 0.5rem;
+            margin: 0;
+        }
+        .project-category {
+            background: #edf2f7; color: #4a5568;
+            padding: 0.25rem 0.75rem; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 500;
+        }
+        .project-description {
+            color: #4a5568; line-height: 1.6; margin-top: 1rem;
+        }
+        
+        /* === PROJECTS LIST === */
+        .projects-list {
+            display: grid; gap: 1.5rem;
+        }
+        .project-item {
+            background: #f7fafc; padding: 1.5rem; border-radius: 8px;
+            border-left: 4px solid #4299e1;
+            transition: all 0.3s ease;
+        }
+        .project-item:hover {
+            background: #edf2f7; transform: translateX(5px);
+        }
+        .project-info {
+            display: flex; justify-content: space-between; 
+            align-items: center; margin-bottom: 1rem;
+        }
+        .project-info .project-title {
+            font-size: 1.1rem; margin: 0;
+        }
+        .project-info .project-title a {
+            color: #1a202c; text-decoration: none;
+        }
+        .project-info .project-title a:hover {
+            color: #4299e1;
         }
         .project-tech {
             display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;
@@ -252,6 +339,10 @@
             .cv-fullwidth { padding: 0 1rem 2rem 1rem; }
             .skills-grid { grid-template-columns: 1fr; }
             .contact-info { justify-content: center; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-header { flex-direction: column; align-items: flex-start; }
+            .project-category { margin-top: 0.5rem; }
+            .project-info { flex-direction: column; align-items: flex-start; }
         }
         
         /* === PRINT STYLES === */
@@ -274,6 +365,39 @@
             .cv-sidebar { background: white; }
             .cv-section { page-break-inside: avoid; }
             .project-highlight { page-break-inside: avoid; }
+            .projects-grid { 
+                display: grid; 
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+                gap: 1.5rem; 
+                page-break-inside: avoid; 
+            }
+            .project-card { 
+                background: white; 
+                border: 1px solid #ddd; 
+                border-radius: 8px; 
+                overflow: hidden; 
+                box-shadow: none !important; 
+                transform: none !important; 
+                page-break-inside: avoid; 
+            }
+            .project-image { 
+                height: 120px; 
+                page-break-inside: avoid; 
+            }
+            .project-screenshot { 
+                transform: none !important; 
+                page-break-inside: avoid; 
+            }
+            .project-placeholder { 
+                background: #f0f0f0 !important; 
+                color: #333 !important; 
+            }
+            .project-overlay { 
+                display: none !important; 
+            }
+            .project-content { 
+                padding: 1rem; 
+            }
             .project-tech { 
                 display: flex; 
                 gap: 0.3rem; 
@@ -293,6 +417,17 @@
                 transform: none !important;
                 display: inline-block;
                 line-height: 1.2;
+            }
+            .projects-list { 
+                display: grid; 
+                gap: 1rem; 
+            }
+            .project-item { 
+                background: #f8f9fa; 
+                border-left: 3px solid #4299e1; 
+                padding: 1rem; 
+                transform: none !important; 
+                page-break-inside: avoid; 
             }
             .experience-company { color: #4299e1 !important; }
             .experience-dates { color: #718096 !important; }
@@ -409,7 +544,7 @@
                     {{ else if eq .class "github" }}
                     <div style="margin-bottom: 1rem;">
                         <i class="fab fa-github" style="color: #4299e1; margin-right: 0.5rem;"></i>
-                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">{{ $.Site.Language.Params.ui.github_label }}</a>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">{{ .title }}</a>
                     </div>
                     {{ end }}
                     {{ end }}
@@ -462,11 +597,68 @@
             <!-- Projects from TOML -->
             {{ if .Site.Language.Params.projects.enable }}
             <section class="cv-section">
-                <h2>{{ .Site.Language.Params.projects.title }}</h2>
-                <div class="project-highlights">
+                <h2>
+                    <i class="fas {{ .Site.Language.Params.projects.icon }}"></i>
+                    {{ .Site.Language.Params.projects.title }}
+                </h2>
+                <p class="section-intro">{{ .Site.Language.Params.projects.intro | markdownify }}</p>
+                
+                <!-- Featured Projects Grid -->
+                <div class="projects-grid">
                     {{ range .Site.Language.Params.projects.list }}
-                    <div class="project-highlight">
-                        <div class="project-title">{{ .title }}</div>
+                    {{ if .featured }}
+                    <div class="project-card featured{{ if .url }} has-link{{ end }}">
+                        <div class="project-image">
+                            {{ if .screenshot }}
+                            <img src="{{ $.Site.BaseURL }}assets/images/{{ .screenshot }}" alt="{{ .title }}" class="project-screenshot">
+                            {{ else }}
+                            <div class="project-placeholder">
+                                <i class="fas fa-code"></i>
+                                <span>{{ .category }}</span>
+                            </div>
+                            {{ end }}
+                            <div class="project-overlay">
+                                {{ if .url }}
+                                <a href="{{ .url }}" target="_blank" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {{ end }}
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">{{ .title }}</h3>
+                                <span class="project-category">{{ .category }}</span>
+                            </div>
+                            {{ if .tech_stack }}
+                            <div class="project-tech">
+                                {{ range .tech_stack }}
+                                <span class="tech-tag">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                            {{ end }}
+                            <p class="project-description">{{ .tagline | markdownify }}</p>
+                        </div>
+                    </div>
+                    {{ end }}
+                    {{ end }}
+                </div>
+                
+                <!-- Other Projects -->
+                <div class="projects-list">
+                    {{ range .Site.Language.Params.projects.list }}
+                    {{ if not .featured }}
+                    <div class="project-item">
+                        <div class="project-info">
+                            <h4 class="project-title">
+                                {{ if .url }}
+                                <a href="{{ .url }}" target="_blank">{{ .title }}</a>
+                                {{ else }}
+                                {{ .title }}
+                                {{ end }}
+                            </h4>
+                            <span class="project-category">{{ .category }}</span>
+                        </div>
                         {{ if .tech_stack }}
                         <div class="project-tech">
                             {{ range .tech_stack }}
@@ -474,10 +666,8 @@
                             {{ end }}
                         </div>
                         {{ end }}
-                        <div class="project-description">
-                            {{ .tagline | markdownify }}
-                        </div>
                     </div>
+                    {{ end }}
                     {{ end }}
                 </div>
             </section>
