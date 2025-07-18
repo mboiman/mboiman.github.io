@@ -58,12 +58,20 @@ defaultContentLanguageInSubdir = true
         description = "Vector Embeddings, LangChain, Q&A-Bots, Kontextbasierte Antworten"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Agentic AI & Advanced Orchestration"
-        description = "Model Context Protocol, A2A, Autonome Agenten, Tool-Integration"
+        name = "Agentic AI & Protokoll-Orchestrierung"
+        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, Secure Agent Communication, Multi-Agent Systems"
         
         [[languages.de.params.ai_showcase.list]]
         name = "KI-Quality Engineering"
         description = "80% auto-generierte Tests, CI/CD Quality Gates, Monitoring, Grafana Dashboards, 50% weniger Entwicklungszeit"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "KI-Testautomatisierung"
+        description = "80% auto-generierte Test-Cases, IDE-Integration, Jira-API, 50% weniger Entwicklungszeit"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "NLP & Dokumentenverarbeitung"
+        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
         
         [[languages.de.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
@@ -479,12 +487,20 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         description = "Vector embeddings, LangChain, Q&A bots, contextual responses"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Agentic AI & Advanced Orchestration"
-        description = "Model Context Protocol, A2A, autonomous agents, tool integration"
+        name = "Agentic AI & Protocol Orchestration"
+        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, secure agent communication, multi-agent systems"
         
         [[languages.en.params.ai_showcase.list]]
         name = "AI Quality Engineering"
         description = "80% auto-generated tests, CI/CD Quality Gates, monitoring, Grafana dashboards, 50% less dev time"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "AI Test Automation"
+        description = "80% auto-generated test cases, IDE integration, Jira API, 50% less development time"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "NLP & Document Processing"
+        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
