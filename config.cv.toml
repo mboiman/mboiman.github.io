@@ -46,28 +46,32 @@ defaultContentLanguageInSubdir = true
         enable = true
         
         [[languages.de.params.ai_showcase.list]]
-        name = "KI-E-Mail-Automatisierung"
-        description = "80% Reduktion manueller Arbeit, SAP-Integration"
+        name = "KI-gestützte Automatisierung"
+        description = "E-Mail-Bots, Rechnungsverarbeitung, SAP-Integration, 80% Aufwandsreduktion, Transparente Monitoring-Dashboards"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Rechnungsverarbeitung mit KI"
-        description = "95% Genauigkeit, EU-Standards, 40h/Woche gespart"
+        name = "Enterprise AI & NLP"
+        description = "Dokumentenanalyse, spaCy, NLTK, 95% Genauigkeit, EU-Standards"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "RAG-Systeme & Q&A-Bots"
-        description = "Vector Embeddings, Semantic Search, LangChain, Kontextbasierte Antworten"
+        name = "RAG-Systeme & Semantic Search"
+        description = "Vector Embeddings, LangChain, Q&A-Bots, Kontextbasierte Antworten"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Python & ML-Pipelines"
-        description = "20+ Jahre Python, 4+ Jahre AI-Lösungen"
+        name = "Agentic AI & Advanced Orchestration"
+        description = "Model Context Protocol, A2A, Autonome Agenten, Tool-Integration"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Quality Engineering"
-        description = "CI/CD, Testautomatisierung, Monitoring"
+        name = "KI-Quality Engineering"
+        description = "80% auto-generierte Tests, CI/CD Quality Gates, Monitoring, Grafana Dashboards, 50% weniger Entwicklungszeit"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Azure & Cloud-KI"
-        description = "Azure OpenAI Service, Functions, Serverless AI, Skalierbare Deployment, MLOps"
+        name = "Multi-Cloud AI Architecture"
+        description = "Azure OpenAI, Google Cloud AI, Serverless AI, MLOps, Echtzeit-Qualitätsmetriken, Skalierbare Deployment"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "Transparenz & Messbarkeit"
+        description = "Echtzeit-Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, 80% weniger Rückfragen"
 
       [languages.de.params.profile]
         name = "Michael Boiman"
@@ -467,28 +471,32 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         enable = true
         
         [[languages.en.params.ai_showcase.list]]
-        name = "AI Email Automation"
-        description = "80% reduction in manual work, SAP integration"
+        name = "AI-Powered Automation"
+        description = "Email bots, invoice processing, SAP integration, 80% workload reduction, transparent monitoring dashboards"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "AI Invoice Processing"
-        description = "95% accuracy, EU standards, 40h/week saved"
+        name = "Enterprise AI & NLP"
+        description = "Document analysis, spaCy, NLTK, 95% accuracy, EU standards"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "RAG Systems & Q&A Bots"
-        description = "Vector embeddings, semantic search, LangChain, contextual responses"
+        name = "RAG Systems & Semantic Search"
+        description = "Vector embeddings, LangChain, Q&A bots, contextual responses"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Python & ML Pipelines"
-        description = "20+ years Python, 4+ years AI solutions"
+        name = "Agentic AI & Advanced Orchestration"
+        description = "Model Context Protocol, A2A, autonomous agents, tool integration"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Quality Engineering"
-        description = "CI/CD, test automation, monitoring"
+        name = "AI Quality Engineering"
+        description = "80% auto-generated tests, CI/CD Quality Gates, monitoring, Grafana dashboards, 50% less dev time"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Azure & Cloud AI"
-        description = "Azure OpenAI Service, Functions, serverless AI, scalable deployment, MLOps"
+        name = "Multi-Cloud AI Architecture"
+        description = "Azure OpenAI, Google Cloud AI, serverless AI, MLOps, real-time quality metrics, scalable deployment"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "Transparency & Measurability"
+        description = "Real-time dashboards, quality visualization, end-to-end monitoring, 80% fewer inquiries"
 
       [languages.en.params.profile]
         name = "Michael Boiman"
