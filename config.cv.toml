@@ -312,6 +312,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Einführung von fachlichem Logging für Microservices zur transparenten Nachverfolgung von Berechnungen und Service-Interaktionen 
 - Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
 - Aufbau und Konzeption von CI/CD-Pipeline für Daten-Tests 
@@ -730,7 +731,8 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Test management, test coordination, test automation – agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
 **Key responsibilities**
 - Agile quality assurance through the design of quality gates in the CI/CD pipeline
-- Design and implementation of functional and technical dashboards with Kibana, Graylog, Grafana, Instana & Elastic Search
+- Design and implementation of functional and technical dashboards with Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Introduction of domain-specific logging for microservices to transparently track calculations and service interactions
 - Performance tests within CI/CD with Gatling / JMeter and analysis using Kibana, Graylog, Grafana and Instana
 - Documentation of quality metrics on the progress of measurable sprint quality
 - Design and setup of CI/CD pipelines for data tests
