@@ -336,61 +336,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Kibana: Für das Echtzeit-Monitoring und die Analyse der Systemleistung.
 - Streamlit: Für die Entwicklung einer interaktiven Webanwendung zur Systemüberwachung.
         """
-
-        [[languages.de.params.experiences.list]]
-        position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
-        dates = "04/2025"
-        company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
-        details = """
-**Unternehmenspräsentation** Demonstration moderner Automatisierungsansätze für zentrale, aktuelle Dokumentation und nachhaltigen Projekterfolg
-
-**Schwerpunkte**
-- Single Source of Truth: Zentrale Wahrheit in Confluence, Vermeidung redundanter Versionen
-- Shift-Left-Dokumentation: Parallele Code- und Dokumentationsentwicklung für höhere Aktualität
-- Automation First: Bots und CI/CD-Jobs für wiederkehrende Aufgaben, automatische Updates
-- OpenAPI-Dokumentation: Automatische Generierung bei Code-Merge, Consumer-Driven Contracts
-- Documentation Debt Management: Dashboard-basierte Sichtbarmachung, Tech-Debt Labels
-- Automatisierte Qualitätssicherung: Unit Tests, Integration, End-to-End-Reports
-
-**Technische Lösungen**
-- Template-basierte Standardisierung mit Pflicht- und Optional-Feldern
-- Label-System statt Ampeln für mehrdimensionale Filterung (status:draft, domain:payments)
-- Semantic Release für automatische Release Notes
-- Code-Änderungen mit Dokumentation abgleichen
-- KPI/OKR-Dashboards für messbare Fortschritte
-
-**Tools & Integration**
-- Confluence, GitHub, Jira, MkDocs, OpenAPI
-- CI/CD-Pipeline-Integration für Dokumentationsautomatisierung
-- Monitoring und Dashboard-Erstellung für Documentation Debt
-        """
-        
-        [[languages.de.params.experiences.list]]
-        position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
-        dates = "06/2025"
-        company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
-        details = """
-**Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
-
-**Workshop-Inhalte**
-- Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung
-- Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
-- Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
-- Browser-Automation mit Playwright-MCP für automatisierte Test-Generierung
-- Live-Demos: Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
-- Prompt Engineering & Regel-basierte Agent-Steuerung (.cursorrules, Instructions)
-- TDD-Workflows mit AI-Assistenz und automatisierter PR-Erstellung
-- Task Master AI-Agent für Projektmanagement und Code-Scaffolding
-
-**Technologien & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini
-- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
-- GitHub Copilot, Cursor, VS Code AI-Extensions
-- Playwright, Browser-Automation, Web-Scraping
-- JSON-RPC, REST APIs, Multi-Agent Communication
-
-Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für moderne AI-gestützte Entwicklungsworkflows.
-        """
         
         [[languages.de.params.experiences.list]]
         position = "Anwendungen von KI im Geschäftsumfeld"
@@ -746,6 +691,61 @@ With more than 20 years of experience in automation and 4 years of specialized A
         title = "Professional Experience"
 
         [[languages.en.params.experiences.list]]
+        position = "Workshop: Development with Generative Language Models"
+        dates = "06/2025"
+        company = "Developer Workshop - Agent-based Software Development"
+        details = """
+**Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
+
+**Workshop Content**
+- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization
+- Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
+- Agent orchestration with JSON-RPC and multi-agent systems
+- Browser automation with Playwright-MCP for automated test generation
+- Live demos: Jira integration, Elasticsearch queries, GitHub workflows
+- Prompt engineering & rule-based agent control (.cursorrules, instructions)
+- TDD workflows with AI assistance and automated PR creation
+- Task Master AI agent for project management and code scaffolding
+
+**Technologies & Tools**
+- OpenAI GPT-4o, Anthropic Claude, Google Gemini
+- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
+- GitHub Copilot, Cursor, VS Code AI extensions
+- Playwright, browser automation, web scraping
+- JSON-RPC, REST APIs, multi-agent communication
+
+Complete workshop with slides, live demos, and practical exercises for modern AI-assisted development workflows.
+        """
+        
+        [[languages.en.params.experiences.list]]
+        position = "Presentation: Efficient Documentation through Automation"
+        dates = "04/2025"
+        company = "Enterprise Presentation - AI-powered Documentation Workflows"
+        details = """
+**Enterprise Presentation**: Demonstration of modern automation approaches for centralized, current documentation and sustainable project success
+
+**Key Focus Areas**
+- Single Source of Truth: Central truth in Confluence, avoiding redundant versions
+- Shift-Left Documentation: Parallel code and documentation development for higher currency
+- Automation First: Bots and CI/CD jobs for recurring tasks, automatic updates
+- OpenAPI Documentation: Automatic generation on code merge, Consumer-Driven Contracts
+- Documentation Debt Management: Dashboard-based visibility, Tech-Debt labels
+- Automated Quality Assurance: Unit tests, integration, end-to-end reports
+
+**Technical Solutions**
+- Template-based standardization with mandatory and optional fields
+- Label system instead of traffic lights for multi-dimensional filtering (status:draft, domain:payments)
+- Semantic Release for automatic release notes
+- Code changes aligned with documentation
+- KPI/OKR dashboards for measurable progress
+
+**Tools & Integration**
+- Confluence, GitHub, Jira, MkDocs, OpenAPI
+- CI/CD pipeline integration for documentation automation
+- Monitoring and dashboard creation for Documentation Debt
+        """
+        
+        [[languages.en.params.experiences.list]]
         position = "Quality Lead"
         dates = "08/2021 – 05/2025"
         company = "DVAG"
@@ -822,61 +822,6 @@ With more than 20 years of experience in automation and 4 years of specialized A
 - GitHub: For version control, CI/CD pipelines and collaborative development.
 - Kibana: For real-time monitoring and system performance analysis.
 - Streamlit: For developing an interactive web application for system monitoring.
-        """
-
-        [[languages.en.params.experiences.list]]
-        position = "Presentation: Efficient Documentation through Automation"
-        dates = "04/2025"
-        company = "Enterprise Presentation - AI-powered Documentation Workflows"
-        details = """
-**Enterprise Presentation**: Demonstration of modern automation approaches for centralized, current documentation and sustainable project success
-
-**Key Focus Areas**
-- Single Source of Truth: Central truth in Confluence, avoiding redundant versions
-- Shift-Left Documentation: Parallel code and documentation development for higher currency
-- Automation First: Bots and CI/CD jobs for recurring tasks, automatic updates
-- OpenAPI Documentation: Automatic generation on code merge, Consumer-Driven Contracts
-- Documentation Debt Management: Dashboard-based visibility, Tech-Debt labels
-- Automated Quality Assurance: Unit tests, integration, end-to-end reports
-
-**Technical Solutions**
-- Template-based standardization with mandatory and optional fields
-- Label system instead of traffic lights for multi-dimensional filtering (status:draft, domain:payments)
-- Semantic Release for automatic release notes
-- Code changes aligned with documentation
-- KPI/OKR dashboards for measurable progress
-
-**Tools & Integration**
-- Confluence, GitHub, Jira, MkDocs, OpenAPI
-- CI/CD pipeline integration for documentation automation
-- Monitoring and dashboard creation for Documentation Debt
-        """
-        
-        [[languages.en.params.experiences.list]]
-        position = "Workshop: Development with Generative Language Models"
-        dates = "06/2025"
-        company = "Developer Workshop - Agent-based Software Development"
-        details = """
-**Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
-
-**Workshop Content**
-- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization
-- Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
-- Agent orchestration with JSON-RPC and multi-agent systems
-- Browser automation with Playwright-MCP for automated test generation
-- Live demos: Jira integration, Elasticsearch queries, GitHub workflows
-- Prompt engineering & rule-based agent control (.cursorrules, instructions)
-- TDD workflows with AI assistance and automated PR creation
-- Task Master AI agent for project management and code scaffolding
-
-**Technologies & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini
-- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
-- GitHub Copilot, Cursor, VS Code AI extensions
-- Playwright, browser automation, web scraping
-- JSON-RPC, REST APIs, multi-agent communication
-
-Complete workshop with slides, live demos, and practical exercises for modern AI-assisted development workflows.
         """
         
         [[languages.en.params.experiences.list]]
