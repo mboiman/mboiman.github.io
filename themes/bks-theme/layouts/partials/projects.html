@@ -17,6 +17,13 @@
                 {{ .title }}
                 {{ end }}
             </h3>
+            {{ if .tech_stack }}
+            <div class="tech-stack">
+                {{ range .tech_stack }}
+                <span class="tech-tag">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
             <p class="project-description">{{ .tagline | markdownify }}</p>
         </div>
         {{ end }}
