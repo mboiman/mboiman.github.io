@@ -1070,11 +1070,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
-        tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
+        tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitydashboard.png"
-        tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
+        tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
 
         [[languages.de.params.projects.list]]
         title = "Dual-Run Preiskalkulation Legacy-Migration"
@@ -1180,11 +1180,11 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
-        tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright"]
+        tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitydashboard.png"
-        tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
+        tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
 
         [[languages.en.params.projects.list]]
         title = "Dual-Run Price Calculation Legacy Migration"
