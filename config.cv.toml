@@ -30,8 +30,8 @@ defaultContentLanguageInSubdir = true
       author = "Michael Boiman"
       
       [languages.de.params.ui]
-        tagline = "KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung"
-        ai_badge = "20+ Jahre Entwicklung für KI-Lösungen"
+        tagline = "KI-Automatisierungsexperte mit 4+ Jahren KI-Erfahrung und 20+ Jahren Automatisierungserfahrung"
+        ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Automatisierung"
         ai_skills_title = "KI-Automatisierungskompetenzen"
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
@@ -51,11 +51,11 @@ defaultContentLanguageInSubdir = true
         
         [[languages.de.params.ai_showcase.list]]
         name = "RAG-Systeme & Q&A-Bots"
-        description = "Vector Embeddings, Kontextbasierte Antworten"
+        description = "Vector Embeddings, Semantic Search, LangChain, Kontextbasierte Antworten"
         
         [[languages.de.params.ai_showcase.list]]
         name = "Python & ML-Pipelines"
-        description = "20+ Jahre, Production-Ready AI-Lösungen"
+        description = "20+ Jahre Python, 4+ Jahre AI-Lösungen"
         
         [[languages.de.params.ai_showcase.list]]
         name = "Quality Engineering"
@@ -63,11 +63,11 @@ defaultContentLanguageInSubdir = true
         
         [[languages.de.params.ai_showcase.list]]
         name = "Azure & Cloud-KI"
-        description = "Functions, Serverless AI, Skalierbare Deployment"
+        description = "Azure OpenAI Service, Functions, Serverless AI, Skalierbare Deployment, MLOps"
 
       [languages.de.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte"
+        tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte (4J KI, 20J Automatisierung)"
         avatar = "profile.png"
 
       [languages.de.params.contact]
@@ -89,7 +89,7 @@ defaultContentLanguageInSubdir = true
         class = "website"
         icon = "fa-globe"
         url = "http://boiman-kupermann.com"
-        title = "BKS-Lab"
+        title = "BKS Homepage"
 
         [[languages.de.params.contact.list]]
         class = "linkedin"
@@ -100,8 +100,14 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "//github.com/mboiman"
         title = "GitHub Profil"
+
+        [[languages.de.params.contact.list]]
+        class = "github"
+        icon = "fa-github"
+        url = "//github.com/bks-lab"
+        title = "BKS-Lab Organisation"
 
         [[languages.de.params.contact.list]]
         class = "twitter"
@@ -157,12 +163,13 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-Mit mehr als 20 Jahren Erfahrung in der Softwareentwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
-- **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse.
+Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisierter KI-Entwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
+- **KI-Automatisierung**: Optimierung und Implementierung von KI in bestehende Geschäftsprozesse mit messbaren Erfolgen (80% Reduktion manueller Arbeit, Bearbeitungszeit von Minuten auf Sekunden).
 - **Python-Expertise**: Umfassende Erfahrung in der Entwicklung von KI-basierten Lösungen, Automatisierungen und Datenanalysen mit Python.
-- **Geschäftsprozess-Automatisierung**: Effizienzsteigerung durch Automatisierung manueller Abläufe und Datenverarbeitung.
-- **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen.
-- **Erfahrung mit LLMs**: Einsatz von GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A u.a.
+- **Quality Engineering Excellence**: Entwicklung von Quality Dashboards mit 80% weniger Rückfragen und Go/No-Go-Entscheidungen in Minuten statt Stunden.
+- **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen, 100% Audit-Trail.
+- **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case.
+- **Erfahrung mit LLMs**: Einsatz von GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG-Systeme, Vector Databases (Pinecone, Weaviate), Agentic AI, MCP (Model Context Protocol), A2A u.a.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
 - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Geschäftsprozesse.
@@ -444,8 +451,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       author = "Michael Boiman"
       
       [languages.en.params.ui]
-        tagline = "AI Automation Expert with 20+ Years Development Experience"
-        ai_badge = "20+ Years Developing AI Solutions"
+        tagline = "AI Automation Expert with 4+ Years AI Experience and 20+ Years Automation Experience"
+        ai_badge = "4+ Years AI Development, 20+ Years Automation"
         ai_skills_title = "AI Automation Competencies"
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
@@ -465,11 +472,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         
         [[languages.en.params.ai_showcase.list]]
         name = "RAG Systems & Q&A Bots"
-        description = "Vector embeddings, contextual responses"
+        description = "Vector embeddings, semantic search, LangChain, contextual responses"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Python & ML Pipelines"
-        description = "20+ years, production-ready AI solutions"
+        description = "20+ years Python, 4+ years AI solutions"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Quality Engineering"
@@ -477,11 +484,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         
         [[languages.en.params.ai_showcase.list]]
         name = "Azure & Cloud AI"
-        description = "Functions, serverless AI, scalable deployment"
+        description = "Azure OpenAI Service, Functions, serverless AI, scalable deployment, MLOps"
 
       [languages.en.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – AI Automation Expert"
+        tagline = "Full-Stack Dev & Quality Engineer – AI Automation Expert (4Y AI, 20Y Automation)"
         avatar = "profile.png"
 
       [languages.en.params.contact]
@@ -503,7 +510,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         class = "website"
         icon = "fa-globe"
         url = "http://boiman-kupermann.com"
-        title = "BKS-Lab"
+        title = "BKS Homepage"
 
         [[languages.en.params.contact.list]]
         class = "linkedin"
@@ -514,8 +521,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "//github.com/mboiman"
         title = "GitHub Profile"
+
+        [[languages.en.params.contact.list]]
+        class = "github"
+        icon = "fa-github"
+        url = "//github.com/bks-lab"
+        title = "BKS-Lab Organization"
 
         [[languages.en.params.contact.list]]
         class = "twitter"
@@ -571,12 +584,13 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-With more than 20 years of experience in software development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
-- **AI Automation**: Optimising and implementing AI within existing business processes.
+With more than 20 years of experience in automation and 4 years of specialized AI development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
+- **AI Automation**: Optimising and implementing AI within existing business processes with measurable success (80% reduction in manual work, processing time from minutes to seconds).
 - **Python Expertise**: Extensive experience in developing AI-based solutions, automations, and data analysis using Python.
-- **Business-Process Automation**: Increasing efficiency by automating manual workflows and data processing.
-- **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems.
-- **Experience with LLMs**: GPT, Claude, Gemini, Llama, Mistral, RAGs, Agentic AI, MCP, A2A, among others.
+- **Quality Engineering Excellence**: Development of Quality Dashboards with 80% fewer inquiries and Go/No-Go decisions in minutes instead of hours.
+- **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems, 100% audit trail.
+- **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case.
+- **Experience with LLMs**: GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG systems, Vector Databases (Pinecone, Weaviate), Agentic AI, MCP (Model Context Protocol), A2A, among others.
 - **Test Automation**: Setting up quality gates within the CI/CD pipeline.
 - **Real-Time Monitoring**: Building systems that display quality status in real time.
 - **ML and DL Models**: Integrating machine-learning and deep-learning models into business processes.
@@ -854,7 +868,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.de.params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
-        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis!"
+        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -867,17 +881,17 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
         url = "#"
-        tagline = "Entwicklung eines interaktiven Chatbots unter Verwendung von RAG und OpenAI, um die Benutzerinteraktion auf einer Messe-Website zu optimieren."
+        tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
 
         [[languages.de.params.projects.list]]
         title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
         url = "#"
-        tagline = "Einsatz von NLP-Technologien zur Effizienzsteigerung in der automatisierten Dokumentenanalyse."
+        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten mit 95%+ Genauigkeit."
 
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         url = "#"
-        tagline = "Integration von Microsoft Graph API, SAP, Azure Functions, REST-API, OpenAI, ElasticSearch und Kibana zur Optimierung der E-Mail-Verarbeitung."
+        tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
 
         [[languages.de.params.projects.list]]
         title   = "MCP - Model Context Protokoll"
@@ -894,6 +908,31 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         url     = "#"
         tagline = "Beratungen zum Einsatz von AI im Unternehmen."
 
+        [[languages.de.params.projects.list]]
+        title = "Quality Dashboard - Echtzeit-Übersicht"
+        url = "#"
+        tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
+
+        [[languages.de.params.projects.list]]
+        title = "Dual-Run Preiskalkulation Legacy-Migration"
+        url = "#"
+        tagline = "Innovativer Dual-Run-Ansatz für sichere Legacy-Mainframe-Migration mit 1M+ Kombinationsmöglichkeiten. Impact: Qualitätskennzahl von 30% auf 96% erhöht."
+
+        [[languages.de.params.projects.list]]
+        title = "KI-gesteuerte Testautomatisierung"
+        url = "#"
+        tagline = "Guideline-basierter KI-Agent im IDE mit Prompt-basierter Testgenerierung aus Jira-Stories. Impact: 80% automatisch generiert, 50% weniger Entwicklungszeit."
+
+        [[languages.de.params.projects.list]]
+        title = "Live-Demo Apps"
+        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
+        tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
+
+        [[languages.de.params.projects.list]]
+        title = "Freelance Success Stories - KI-Präsentation"
+        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
+        tagline = "Umfassende Präsentation mit 4 Projekt-Spotlights: Quality Dashboard, Dual-Run Migration, KI-Testautomatisierung und E-Mail-Prozesse mit messbaren Erfolgen."
+
       [languages.en.params.projects]
         enable = true
         icon = "fa-archive"
@@ -903,7 +942,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         [[languages.en.params.projects.list]]
         title = "wecation"
         url = "https://www.wecation.de"
-        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together!"
+        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
@@ -916,17 +955,17 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
         url = "#"
-        tagline = "Development of an interactive chatbot using RAG and OpenAI to optimise user interaction on a trade-fair website."
+        tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
 
         [[languages.en.params.projects.list]]
         title = "Automated NLP Analysis of PDF Documents"
         url = "#"
-        tagline = "Using NLP technologies to boost efficiency in automated document analysis."
+        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification with 95%+ accuracy."
 
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
         url = "#"
-        tagline = "Integration of Microsoft Graph API, SAP, Azure Functions, REST API, OpenAI, Elasticsearch and Kibana to optimise email processing."
+        tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
 
         [[languages.en.params.projects.list]]
         title = "MCP – Model Context Protocol"
@@ -942,6 +981,31 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "AI Consulting for Enterprises"
         url = "#"
         tagline = "Consultancy on the use of AI within companies."
+
+        [[languages.en.params.projects.list]]
+        title = "Quality Dashboard - Real-time Overview"
+        url = "#"
+        tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
+
+        [[languages.en.params.projects.list]]
+        title = "Dual-Run Price Calculation Legacy Migration"
+        url = "#"
+        tagline = "Innovative dual-run approach for secure legacy mainframe migration with 1M+ combination possibilities. Impact: Quality metrics improved from 30% to 96%."
+
+        [[languages.en.params.projects.list]]
+        title = "AI-driven Test Automation"
+        url = "#"
+        tagline = "Guideline-based AI agent in IDE with prompt-based test generation from Jira stories. Impact: 80% automatically generated, 50% less development time."
+
+        [[languages.en.params.projects.list]]
+        title = "Live Demo Apps"
+        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
+        tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
+
+        [[languages.en.params.projects.list]]
+        title = "Freelance Success Stories - AI Presentation"
+        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
+        tagline = "Comprehensive presentation featuring 4 project spotlights: Quality Dashboard, Dual-Run Migration, AI Test Automation, and Email Processes with measurable results."
 
       [languages.de.params.skills]
         enable = true
