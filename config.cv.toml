@@ -1091,8 +1091,20 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "98%"
         
         [[languages.de.params.skills.list]]
-        skill = "AI & Machine Learning"
-        level = "96%"
+        skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
+        level = "95%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
+        level = "90%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
+        level = "85%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
+        level = "80%"
 
         [[languages.de.params.skills.list]]
         skill = "Software-Entwicklung, -Design, -Architektur"
@@ -1137,6 +1149,30 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.de.params.skills.list]]
         skill = "AWS & Google & Azure"
         level = "80%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Azure Functions & Serverless Architectures"
+        level = "90%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Microsoft Graph API & Office 365 Integration"
+        level = "85%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Data Science - Pandas, NumPy, Streamlit"
+        level = "90%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Web Scraping & Data Extraction - Requests, PyPDF2"
+        level = "85%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Container & Orchestration - Docker, Kubernetes"
+        level = "80%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Enterprise APIs - SAP RFC, Microsoft Graph"
+        level = "75%"
 
         [[languages.de.params.skills.list]]
         skill = """
@@ -1160,8 +1196,20 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "98%"
         
         [[languages.en.params.skills.list]]
-        skill = "AI & Machine Learning"
-        level = "96%"
+        skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
+        level = "95%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
+        level = "90%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
+        level = "85%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
+        level = "80%"
         
         [[languages.en.params.skills.list]]
         skill = "Software Development, Design, Architecture"
@@ -1206,6 +1254,30 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.en.params.skills.list]]
         skill = "AWS, Google Cloud & Azure"
         level = "80%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Azure Functions & Serverless Architectures"
+        level = "90%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Microsoft Graph API & Office 365 Integration"
+        level = "85%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Data Science - Pandas, NumPy, Streamlit"
+        level = "90%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Web Scraping & Data Extraction - Requests, PyPDF2"
+        level = "85%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Container & Orchestration - Docker, Kubernetes"
+        level = "80%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Enterprise APIs - SAP RFC, Microsoft Graph"
+        level = "75%"
 
         [[languages.en.params.skills.list]]
         skill = """
