@@ -1048,11 +1048,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
 
         [[languages.de.params.projects.list]]
-        title   = "MCP - Model Context Protokoll"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration"]
+        title   = "MCP - Model Context Protokoll & A2A"
+        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Umsetzung verschiedener Tools zur Modell-Kontext-Orchestrierung."
+        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
 
         [[languages.de.params.projects.list]]
         title   = "AI-Automatisierungs-Functionsbausteine"
@@ -1158,11 +1158,11 @@ Our goal is to implement more quality through a higher degree of automation.
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
 
         [[languages.en.params.projects.list]]
-        title = "MCP – Model Context Protocol"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration"]
+        title = "MCP – Model Context Protocol & A2A"
+        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Implementation of various tools for model-context orchestration."
+        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
 
         [[languages.en.params.projects.list]]
         title = "AI Automation Function Modules"
