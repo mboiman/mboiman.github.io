@@ -179,11 +179,11 @@ Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisie
 - **E-Mail-Automatisierung & SAP-Integration**: Automatisierte Verarbeitung, 100% Audit-Trail, Drittsystem-Abgleich.
 - **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit.
 - **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment.
-- **Python & ML Expertise**: KI-basierte Lösungen, Automatisierungen, Datenanalysen, Machine Learning Integration.
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing (Pact.io, Spring Contract).
+- **Python & ML (Machine Learning) Expertise**: KI-basierte Lösungen, Automatisierungen, Datenanalysen, AI (Artificial Intelligence) Integration.
+- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing (Pact.io, Spring Contract).
 - **Performance & Monitoring**: Load Testing, Echtzeit-Überwachung, Incident Analysis, Instana, Azure Log Analytics, fachliches Logging, Qualitätsstatus-Darstellung.
 - **Full-Stack Development**: Java, JavaScript, Swift, Python, Mobile Apps (Flutter), fundierte Mehrsprachen-Expertise.
-- **Team Leadership & Agile**: Scrum, SAFe, interdisziplinäre Teams, 20+ Jahre Projektkoordination.
+- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, interdisziplinäre Teams, Projektkoordination.
         """
 
       [languages.de.params.experiences]
@@ -600,11 +600,11 @@ With more than 20 years of experience in automation and 4 years of specialized A
 - **Email Automation & SAP Integration**: Automated processing, 100% audit trail, third-party system synchronization.
 - **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy.
 - **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment.
-- **Python & ML Expertise**: AI-based solutions, automations, data analysis, machine learning integration.
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing (Pact.io, Spring Contract).
+- **Python & ML (Machine Learning) Expertise**: AI-based solutions, automations, data analysis, AI (Artificial Intelligence) integration.
+- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, container orchestration, contract testing (Pact.io, Spring Contract).
 - **Performance & Monitoring**: Load testing, real-time monitoring, incident analysis, Instana, Azure Log Analytics, domain-specific logging, quality status visualization.
 - **Full-Stack Development**: Java, JavaScript, Swift, Python, mobile apps (Flutter), comprehensive multi-language expertise.
-- **Team Leadership & Agile**: Scrum, SAFe, cross-functional teams, 20+ years project coordination."""
+- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, cross-functional teams, project coordination."""
 
       [languages.en.params.experiences]
         enable = true
