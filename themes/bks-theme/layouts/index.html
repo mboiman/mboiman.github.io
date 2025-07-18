@@ -158,6 +158,14 @@
             color: #4a5568; font-size: 1.1rem; margin-bottom: 2rem;
             font-style: italic;
         }
+        .license-notice {
+            background: #f7fafc; border: 1px solid #e2e8f0;
+            border-radius: 8px; padding: 1rem; margin-bottom: 2rem;
+            border-left: 4px solid #4299e1;
+        }
+        .license-notice p {
+            margin: 0; color: #4a5568; font-size: 0.9rem;
+        }
         
         /* === PROJECTS GRID === */
         .projects-grid {
@@ -330,6 +338,30 @@
             letter-spacing: 0.05em;
         }
         
+        /* === LICENSE FOOTER === */
+        .cv-footer {
+            background: #f8f9fa; border-top: 1px solid #e2e8f0;
+            padding: 2rem; margin-top: 3rem;
+        }
+        .license-section {
+            max-width: 1000px; margin: 0 auto; text-align: center;
+        }
+        .license-section h3 {
+            font-size: 1.2rem; font-weight: 600; color: #1a202c;
+            margin-bottom: 1rem;
+        }
+        .license-section p {
+            color: #4a5568; line-height: 1.6; margin-bottom: 1rem;
+        }
+        .attribution-format {
+            background: #edf2f7; border-radius: 6px; padding: 1rem;
+            margin-top: 1rem; text-align: left;
+        }
+        .attribution-format code {
+            background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: 'Courier New', monospace; font-size: 0.9rem;
+        }
+        
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
             body { padding: 1rem 0.5rem; }
@@ -435,6 +467,27 @@
             .value-prop { background: #f8f9fa; border-left: 4px solid #4299e1; }
             .value-prop h2 { color: #1a202c !important; }
             .value-prop p { color: #4a5568 !important; }
+            .license-notice { 
+                background: #f8f9fa; 
+                border: 1px solid #ddd; 
+                border-left: 3px solid #4299e1; 
+                page-break-inside: avoid; 
+            }
+            .cv-footer { 
+                background: #f8f9fa; 
+                border-top: 1px solid #ddd; 
+                page-break-inside: avoid; 
+            }
+            .license-section h3 { color: #1a202c !important; }
+            .license-section p { color: #4a5568 !important; }
+            .attribution-format { 
+                background: #f0f0f0; 
+                border: 1px solid #ddd; 
+            }
+            .attribution-format code { 
+                background: #e8e8e8; 
+                color: #333 !important; 
+            }
         }
     </style>
     
@@ -603,6 +656,12 @@
                 </h2>
                 <p class="section-intro">{{ .Site.Language.Params.projects.intro | markdownify }}</p>
                 
+                {{ if .Site.Language.Params.projects.license_notice }}
+                <div class="license-notice">
+                    <p>{{ .Site.Language.Params.projects.license_notice | markdownify }}</p>
+                </div>
+                {{ end }}
+                
                 <!-- Featured Projects Grid -->
                 <div class="projects-grid">
                     {{ range .Site.Language.Params.projects.list }}
@@ -696,6 +755,20 @@
             </section>
             {{ end }}
         </div>
+        
+        <!-- License Footer -->
+        {{ if .Site.Language.Params.footer.license_title }}
+        <footer class="cv-footer">
+            <div class="license-section">
+                <h3>{{ .Site.Language.Params.footer.license_title }}</h3>
+                <p>{{ .Site.Language.Params.footer.license_text }}</p>
+                <div class="attribution-format">
+                    <strong>Erforderliches Attributionsformat:</strong><br>
+                    <code>{{ .Site.Language.Params.footer.attribution_format }}</code>
+                </div>
+            </div>
+        </footer>
+        {{ end }}
     </div>
     
     
