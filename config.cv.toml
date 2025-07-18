@@ -279,8 +279,36 @@ Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisie
         """
 
         [[languages.de.params.experiences.list]]
+        position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
+        dates = "04/2025"
+        company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
+        details = """
+**Unternehmenspräsentation** Demonstration moderner Automatisierungsansätze für zentrale, aktuelle Dokumentation und nachhaltigen Projekterfolg
+
+**Schwerpunkte**
+- Single Source of Truth: Zentrale Wahrheit in Confluence, Vermeidung redundanter Versionen
+- Shift-Left-Dokumentation: Parallele Code- und Dokumentationsentwicklung für höhere Aktualität
+- Automation First: Bots und CI/CD-Jobs für wiederkehrende Aufgaben, automatische Updates
+- OpenAPI-Dokumentation: Automatische Generierung bei Code-Merge, Consumer-Driven Contracts
+- Documentation Debt Management: Dashboard-basierte Sichtbarmachung, Tech-Debt Labels
+- Automatisierte Qualitätssicherung: Unit Tests, Integration, End-to-End-Reports
+
+**Technische Lösungen**
+- Template-basierte Standardisierung mit Pflicht- und Optional-Feldern
+- Label-System statt Ampeln für mehrdimensionale Filterung (status:draft, domain:payments)
+- Semantic Release für automatische Release Notes
+- Code-Änderungen mit Dokumentation abgleichen
+- KPI/OKR-Dashboards für messbare Fortschritte
+
+**Tools & Integration**
+- Confluence, GitHub, Jira, MkDocs, OpenAPI
+- CI/CD-Pipeline-Integration für Dokumentationsautomatisierung
+- Monitoring und Dashboard-Erstellung für Documentation Debt
+        """
+        
+        [[languages.de.params.experiences.list]]
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
-        dates = "2025"
+        dates = "06/2025"
         company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
         details = """
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
@@ -734,8 +762,36 @@ With more than 20 years of experience in automation and 4 years of specialized A
         """
 
         [[languages.en.params.experiences.list]]
+        position = "Presentation: Efficient Documentation through Automation"
+        dates = "04/2025"
+        company = "Enterprise Presentation - AI-powered Documentation Workflows"
+        details = """
+**Enterprise Presentation**: Demonstration of modern automation approaches for centralized, current documentation and sustainable project success
+
+**Key Focus Areas**
+- Single Source of Truth: Central truth in Confluence, avoiding redundant versions
+- Shift-Left Documentation: Parallel code and documentation development for higher currency
+- Automation First: Bots and CI/CD jobs for recurring tasks, automatic updates
+- OpenAPI Documentation: Automatic generation on code merge, Consumer-Driven Contracts
+- Documentation Debt Management: Dashboard-based visibility, Tech-Debt labels
+- Automated Quality Assurance: Unit tests, integration, end-to-end reports
+
+**Technical Solutions**
+- Template-based standardization with mandatory and optional fields
+- Label system instead of traffic lights for multi-dimensional filtering (status:draft, domain:payments)
+- Semantic Release for automatic release notes
+- Code changes aligned with documentation
+- KPI/OKR dashboards for measurable progress
+
+**Tools & Integration**
+- Confluence, GitHub, Jira, MkDocs, OpenAPI
+- CI/CD pipeline integration for documentation automation
+- Monitoring and dashboard creation for Documentation Debt
+        """
+        
+        [[languages.en.params.experiences.list]]
         position = "Workshop: Development with Generative Language Models"
-        dates = "2025"
+        dates = "06/2025"
         company = "Developer Workshop - Agent-based Software Development"
         details = """
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
