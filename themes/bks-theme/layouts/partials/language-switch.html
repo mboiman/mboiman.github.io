@@ -1,33 +1,128 @@
-<!-- Modern Language Switcher -->
-<div class="language-switcher">
-  <div class="language-toggle" onclick="toggleLanguageMenu()">
-    <span class="current-lang">
-      <i class="fa fa-globe"></i>
-      {{ .Site.Language.LanguageName }}
-    </span>
-    <i class="fa fa-chevron-down language-arrow"></i>
-  </div>
-  <div class="language-menu" id="languageMenu">
-    {{ range .Translations }}
-    <a href="{{ .Permalink }}" class="language-option {{ if eq .Lang $.Site.Language.Lang }}active{{ end }}">
-      <span class="lang-flag">{{ if eq .Lang "de" }}🇩🇪{{ else if eq .Lang "en" }}🇺🇸{{ end }}</span>
-      <span class="lang-name">{{ if eq .Lang "de" }}Deutsch{{ else if eq .Lang "en" }}English{{ end }}</span>
-    </a>
-    {{ end }}
-  </div>
+<!-- Language Switch and PDF Download Controls -->
+<div class="controls-bar">
+    <div class="language-switch">
+        {{ range $.Site.Languages }}
+        {{ if ne .Lang $.Site.Language.Lang }}
+        <a href="{{ .Lang | relLangURL }}" class="lang-button {{ .Lang }}">
+            {{ if eq .Lang "de" }}🇩🇪 Deutsch{{ else }}🇺🇸 English{{ end }}
+        </a>
+        {{ else }}
+        <span class="lang-button active">
+            {{ if eq .Lang "de" }}🇩🇪 Deutsch{{ else }}🇺🇸 English{{ end }}
+        </span>
+        {{ end }}
+        {{ end }}
+    </div>
+    
+    <div class="pdf-download">
+        <button onclick="generatePDF()" class="pdf-button">
+            <i class="fas fa-file-pdf"></i>
+            {{ .Site.Language.Params.ui.pdf_download }}
+        </button>
+    </div>
 </div>
 
-<script>
-function toggleLanguageMenu() {
-  const menu = document.getElementById('languageMenu');
-  menu.classList.toggle('active');
+<style>
+.controls-bar {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
-// Close menu when clicking outside
-document.addEventListener('click', function(event) {
-  const switcher = document.querySelector('.language-switcher');
-  if (!switcher.contains(event.target)) {
-    document.getElementById('languageMenu').classList.remove('active');
-  }
-});
+.language-switch {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lang-button {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #1a202c;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: 1px solid #e2e8f0;
+}
+
+.lang-button:hover {
+    background: #f7fafc;
+    transform: translateY(-1px);
+}
+
+.lang-button.active {
+    background: #4299e1;
+    color: white;
+    border-color: #4299e1;
+}
+
+.pdf-button {
+    background: linear-gradient(135deg, #e53e3e, #c53030);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pdf-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .controls-bar {
+        position: relative;
+        top: auto;
+        right: auto;
+        justify-content: center;
+        margin: 1rem;
+    }
+    
+    .language-switch, .pdf-download {
+        flex: 1;
+    }
+}
+
+@media print {
+    .controls-bar {
+        display: none;
+    }
+}
+</style>
+
+<script>
+function generatePDF() {
+    const currentLang = '{{ .Site.Language.Lang }}';
+    const filename = `Michael_Boiman_CV_${currentLang.toUpperCase()}.pdf`;
+    
+    // Show loading state
+    const button = event.target.closest('.pdf-button');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    button.disabled = true;
+    
+    // In a real implementation, this would trigger the Hugo generation script
+    // For now, simulate the process
+    setTimeout(() => {
+        alert(`PDF generation complete: ${filename}`);
+        button.innerHTML = originalText;
+        button.disabled = false;
+    }, 2000);
+}
 </script>

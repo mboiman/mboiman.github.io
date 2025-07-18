@@ -29,6 +29,42 @@ defaultContentLanguageInSubdir = true
       description = "Lebenslauf von Michael Boiman"
       author = "Michael Boiman"
       styles = "styles-6.css"
+      
+      [languages.de.params.ui]
+        tagline = "KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung"
+        ai_badge = "20+ Jahre Entwicklung für KI-Lösungen"
+        ai_skills_title = "KI-Automatisierungskompetenzen"
+        contact_label = "Kontakt"
+        linkedin_label = "LinkedIn"
+        github_label = "GitHub"
+        pdf_download = "PDF herunterladen"
+        
+      [languages.de.params.ai_showcase]
+        enable = true
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "KI-E-Mail-Automatisierung"
+        description = "80% Reduktion manueller Arbeit, SAP-Integration"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "Rechnungsverarbeitung mit KI"
+        description = "95% Genauigkeit, EU-Standards, 40h/Woche gespart"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "RAG-Systeme & Q&A-Bots"
+        description = "Vector Embeddings, Kontextbasierte Antworten"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "Python & ML-Pipelines"
+        description = "20+ Jahre, Production-Ready AI-Lösungen"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "Quality Engineering"
+        description = "CI/CD, Testautomatisierung, Monitoring"
+        
+        [[languages.de.params.ai_showcase.list]]
+        name = "Azure & Cloud-KI"
+        description = "Functions, Serverless AI, Skalierbare Deployment"
 
       [languages.de.params.profile]
         name = "Michael Boiman"
@@ -408,6 +444,42 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       description = "CV of Michael Boiman"
       author = "Michael Boiman"
       styles = "styles-6.css"
+      
+      [languages.en.params.ui]
+        tagline = "AI Automation Expert with 20+ Years Development Experience"
+        ai_badge = "20+ Years Developing AI Solutions"
+        ai_skills_title = "AI Automation Competencies"
+        contact_label = "Contact"
+        linkedin_label = "LinkedIn"
+        github_label = "GitHub"
+        pdf_download = "Download PDF"
+        
+      [languages.en.params.ai_showcase]
+        enable = true
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "AI Email Automation"
+        description = "80% reduction in manual work, SAP integration"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "AI Invoice Processing"
+        description = "95% accuracy, EU standards, 40h/week saved"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "RAG Systems & Q&A Bots"
+        description = "Vector embeddings, contextual responses"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "Python & ML Pipelines"
+        description = "20+ years, production-ready AI solutions"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "Quality Engineering"
+        description = "CI/CD, test automation, monitoring"
+        
+        [[languages.en.params.ai_showcase.list]]
+        name = "Azure & Cloud AI"
+        description = "Functions, serverless AI, scalable deployment"
 
       [languages.en.params.profile]
         name = "Michael Boiman"

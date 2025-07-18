@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ .Site.Params.profile.name }} - KI-Automatisierungsexperte</title>
+    <title>{{ .Site.Language.Params.profile.name }} - {{ .Site.Language.Params.ui.tagline }}</title>
     <meta name="description" content="{{ .Site.Params.description }}">
     
     <!-- Modern AI-Focused CV Styles -->
@@ -263,6 +263,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    {{ partial "language-switch" . }}
+    
     <div class="cv-container">
         <!-- Modern Header -->
         <header class="cv-header">
@@ -275,11 +277,11 @@
                 
                 <div class="header-text">
                     <h1>{{ .Site.Language.Params.profile.name }}</h1>
-                    <p class="tagline">KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung</p>
+                    <p class="tagline">{{ .Site.Language.Params.ui.tagline }}</p>
                     
                     <div class="ai-badge">
                         <i class="fas fa-brain"></i>
-                        20+ Jahre Entwicklung für KI-Lösungen
+                        {{ .Site.Language.Params.ui.ai_badge }}
                     </div>
                     
                     {{ if .Site.Language.Params.contact.enable }}
@@ -311,38 +313,22 @@
         </header>
 
         <!-- AI Skills Showcase -->
+        {{ if .Site.Language.Params.ai_showcase.enable }}
         <section class="ai-skills">
             <h2>
                 <i class="fas fa-robot"></i>
-                KI-Automatisierungskompetenzen
+                {{ .Site.Language.Params.ui.ai_skills_title }}
             </h2>
             <div class="skills-grid">
+                {{ range .Site.Language.Params.ai_showcase.list }}
                 <div class="skill-card">
-                    <div class="skill-name">KI-E-Mail-Automatisierung</div>
-                    <div class="skill-desc">80% Reduktion manueller Arbeit, SAP-Integration</div>
+                    <div class="skill-name">{{ .name }}</div>
+                    <div class="skill-desc">{{ .description }}</div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-name">Rechnungsverarbeitung mit KI</div>
-                    <div class="skill-desc">95% Genauigkeit, EU-Standards, 40h/Woche gespart</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-name">RAG-Systeme & Q&A-Bots</div>
-                    <div class="skill-desc">Vector Embeddings, Kontextbasierte Antworten</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-name">Python & ML-Pipelines</div>
-                    <div class="skill-desc">20+ Jahre, Production-Ready AI-Lösungen</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-name">Quality Engineering</div>
-                    <div class="skill-desc">CI/CD, Testautomatisierung, Monitoring</div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-name">Azure & Cloud-KI</div>
-                    <div class="skill-desc">Functions, Serverless AI, Skalierbare Deployment</div>
-                </div>
+                {{ end }}
             </div>
         </section>
+        {{ end }}
 
         <!-- Main Layout - Two Column Section -->
         <div class="cv-main">
@@ -361,7 +347,7 @@
             <aside class="cv-sidebar">
                 <!-- Quick Contact -->
                 <section class="sidebar-section">
-                    <h3>Kontakt</h3>
+                    <h3>{{ .Site.Language.Params.ui.contact_label }}</h3>
                     {{ if .Site.Language.Params.contact.enable }}
                     {{ range .Site.Language.Params.contact.list }}
                     {{ if eq .class "email" }}
@@ -372,12 +358,12 @@
                     {{ else if eq .class "linkedin" }}
                     <div style="margin-bottom: 1rem;">
                         <i class="fab fa-linkedin" style="color: #4299e1; margin-right: 0.5rem;"></i>
-                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">LinkedIn</a>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">{{ $.Site.Language.Params.ui.linkedin_label }}</a>
                     </div>
                     {{ else if eq .class "github" }}
                     <div style="margin-bottom: 1rem;">
                         <i class="fab fa-github" style="color: #4299e1; margin-right: 0.5rem;"></i>
-                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">GitHub</a>
+                        <a href="{{ .url }}" style="color: #1a202c; text-decoration: none;">{{ $.Site.Language.Params.ui.github_label }}</a>
                     </div>
                     {{ end }}
                     {{ end }}

@@ -89,3 +89,4 @@ When modifying the theme:
 
 ## Memories
 - `teste immer am ende das Ergebniss` - A reminder to always test the result at the end
+- `alle text bausteine müssen aus der toml kommen es darf nichts in den anderen dateien wie html liegen. also keine texte von wo anders` - Ensure all text components come from the TOML file, with no text residing in other files like HTML
