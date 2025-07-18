@@ -12,8 +12,7 @@ defaultContentLanguageInSubdir = true
   [languages.en.params]
     description = "CV of Michael Boiman"
     author = "Michael Boiman"
-    styles = "styles-6.css"
-
+    
     [languages.en.params.profile]
       name = "Michael Boiman"
       tagline = "Full-Stack Dev & Quality Engineer – AI Automation Expert"

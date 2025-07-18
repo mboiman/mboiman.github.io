@@ -16,8 +16,7 @@ disable404 = true
 [params]
   description = "Lebenslauf von Michael Boiman"
   author = "Michael Boiman"
-  styles = "styles-6.css"
-
+  
   [params.profile]
     name = "Michael Boiman"
     tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte"

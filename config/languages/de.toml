@@ -12,8 +12,7 @@ defaultContentLanguageInSubdir = true
   [languages.de.params]
     description = "Lebenslauf von Michael Boiman"
     author = "Michael Boiman"
-    styles = "styles-6.css"
-
+    
     [languages.de.params.profile]
       name = "Michael Boiman"
       tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte"

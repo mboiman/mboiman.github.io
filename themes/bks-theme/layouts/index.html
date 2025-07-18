@@ -28,13 +28,24 @@
         /* === MODERN HEADER === */
         .cv-header {
             background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-            color: white; padding: 3rem 2rem; position: relative;
+            color: white; padding: 0; position: relative;
             overflow: hidden;
+        }
+        .header-top {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 2rem 0.5rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .header-content {
+            padding: 2rem 2rem 3rem 2rem;
         }
         .cv-header::before {
             content: ''; position: absolute; top: 0; right: 0;
             width: 300px; height: 300px; background: rgba(255,255,255,0.05);
             border-radius: 50%; transform: translate(100px, -100px);
+            z-index: 1;
         }
         .header-content {
             position: relative; z-index: 2;
@@ -263,11 +274,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    {{ partial "language-switch" . }}
-    
     <div class="cv-container">
         <!-- Modern Header -->
         <header class="cv-header">
+            <div class="header-top">
+                {{ partial "language-switch" . }}
+            </div>
             <div class="header-content">
                 {{ if .Site.Language.Params.profile.avatar }}
                 <img src="{{ .Site.BaseURL }}assets/images/{{ .Site.Language.Params.profile.avatar }}" 

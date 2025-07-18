@@ -28,7 +28,6 @@ defaultContentLanguageInSubdir = true
     [languages.de.params]
       description = "Lebenslauf von Michael Boiman"
       author = "Michael Boiman"
-      styles = "styles-6.css"
       
       [languages.de.params.ui]
         tagline = "KI-Automatisierungsexperte mit 20+ Jahren Entwicklungserfahrung"
@@ -443,7 +442,6 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
     [languages.en.params]
       description = "CV of Michael Boiman"
       author = "Michael Boiman"
-      styles = "styles-6.css"
       
       [languages.en.params.ui]
         tagline = "AI Automation Expert with 20+ Years Development Experience"
