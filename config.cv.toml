@@ -173,7 +173,7 @@ Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisie
 - **Quality Engineering Excellence**: Entwicklung von Quality Dashboards mit 80% weniger Rückfragen und Go/No-Go-Entscheidungen in Minuten statt Stunden.
 - **Entwicklung eines KI-Mail-Bots**: Automatisierte E-Mail-Verarbeitung und Datenabgleich mit Drittsystemen, 100% Audit-Trail.
 - **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case.
-- **Erfahrung mit LLMs**: Einsatz von GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG-Systeme, Vector Databases (Pinecone, Weaviate), Agentic AI, MCP (Model Context Protocol), A2A u.a.
+- **Erfahrung mit LLMs**: Einsatz von GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG-Systeme, Vector Databases (Pinecone, Elasticsearch), Agentic AI, MCP (Model Context Protocol), A2A u.a.
 - **Testautomatisierung**: Einrichtung von Quality-Gates innerhalb der CI/CD-Pipeline.
 - **Echtzeit-Monitoring**: Entwicklung von Systemen zur Darstellung des Qualitätsstands in Echtzeit.
 - **ML und DL-Modelle**: Integration von Machine Learning und Deep Learning in Geschäftsprozesse.
@@ -594,7 +594,7 @@ With more than 20 years of experience in automation and 4 years of specialized A
 - **Quality Engineering Excellence**: Development of Quality Dashboards with 80% fewer inquiries and Go/No-Go decisions in minutes instead of hours.
 - **Development of an AI Mail Bot**: Automated email processing and data synchronisation with third-party systems, 100% audit trail.
 - **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case.
-- **Experience with LLMs**: GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG systems, Vector Databases (Pinecone, Weaviate), Agentic AI, MCP (Model Context Protocol), A2A, among others.
+- **Experience with LLMs**: GPT-3.5/4/4o, Claude Sonnet/Haiku, Gemini Pro, Llama 2/3, Mistral 7B, RAG systems, Vector Databases (Pinecone, Elasticsearch), Agentic AI, MCP (Model Context Protocol), A2A, among others.
 - **Test Automation**: Setting up quality gates within the CI/CD pipeline.
 - **Real-Time Monitoring**: Building systems that display quality status in real time.
 - **ML and DL Models**: Integrating machine-learning and deep-learning models into business processes.

@@ -34,6 +34,17 @@ const path = require('path');
     waitUntil: ['networkidle0', 'domcontentloaded', 'load']
   });
   
+  // Fix image URLs to use local paths
+  await page.evaluate(() => {
+    // Convert absolute GitHub Pages URLs to relative paths
+    document.querySelectorAll('img').forEach(img => {
+      if (img.src.includes('mboiman.github.io')) {
+        const relativePath = img.src.replace(/.*mboiman\.github\.io/, '');
+        img.src = '../..' + relativePath;
+      }
+    });
+  });
+  
   console.log('⚡ Optimizing for PDF rendering...');
   
   // Disable animations and ensure skills bars are visible
