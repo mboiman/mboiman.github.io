@@ -523,44 +523,28 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         enable = true
         
         [[languages.en.params.ai_showcase.list]]
-        name = "AI-Powered Automation"
-        description = "Email bots, invoice processing, enterprise integration, 80% workload reduction, transparent monitoring dashboards"
+        name = "Enterprise AI Automation"
+        description = "Email bots, invoice processing, workflow automation: 80% workload reduction, measurable cost savings, processing time from hours to seconds"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Enterprise AI & NLP"
-        description = "Document analysis, spaCy, NLTK, 95% accuracy, EU standards"
+        name = "AI Quality Engineering Excellence"
+        description = "80% auto-generated tests & test cases, IDE integration, Go/No-Go in minutes instead of hours, 50% less development time, 80% fewer inquiries"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "RAG Systems & Semantic Search"
-        description = "Vector embeddings, LangChain, Q&A bots, contextual responses"
+        name = "Next-Gen AI Protocols & Agentic Systems"
+        description = "MCP & A2A protocol implementation, multi-agent orchestration, JSON-RPC, secure agent-to-agent communication, enterprise-ready"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Agentic AI & Protocol Orchestration"
-        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, secure agent communication, multi-agent systems"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Quality Engineering"
-        description = "80% auto-generated tests, CI/CD Quality Gates, monitoring, Grafana dashboards, 50% less dev time"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Test Automation"
-        description = "80% auto-generated test cases, IDE integration, Jira API, 50% less development time"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "NLP & Document Processing"
-        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
+        name = "RAG Systems & Enterprise NLP"
+        description = "Vector embeddings, LangChain, Q&A bots, spaCy/NLTK, 95% accuracy, EU standards, contextual intelligence"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, serverless AI, MLOps, real-time quality metrics, scalable deployment"
+        description = "Azure OpenAI, Google Cloud AI, serverless MLOps, auto-scaling, real-time monitoring, production-grade deployment"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Transparency & Measurability"
-        description = "Real-time dashboards, quality visualization, end-to-end monitoring, 80% fewer inquiries"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Documentation Automation"
-        description = "Single Source of Truth, Shift-Left Documentation, CI/CD integration, Documentation Debt Management"
+        name = "Transparency & Business Intelligence"
+        description = "Real-time dashboards, quality visualization, end-to-end monitoring, KPI automation, single source of truth"
 
       [languages.en.params.profile]
         name = "Michael Boiman"
@@ -660,19 +644,25 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-With more than 20 years of experience in automation and 4 years of specialized AI development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
-- **AI Automation & Transparency**: 80% reduction in manual work, real-time dashboards, measurable business success, processing time from minutes to seconds.
-- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG systems, Agentic AI, MCP (Model Context Protocol), A2A.
-- **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case, IDE integration.
-- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% fewer inquiries, Go/No-Go decisions in minutes instead of hours.
-- **Email Automation & Enterprise Integration**: Automated processing, 100% audit trail, third-party system synchronization.
-- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy.
-- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment.
-- **Python & ML (Machine Learning) Expertise**: AI-based solutions, automations, data analysis, AI (Artificial Intelligence) integration.
-- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, container orchestration, contract testing (Pact.io, Spring Contract).
-- **Performance & Monitoring**: Load testing, real-time monitoring, incident analysis, Instana, Azure Log Analytics, domain-specific logging, quality status visualization.
-- **Full-Stack Development**: Java, JavaScript, Swift, Python, mobile apps (Flutter), comprehensive multi-language expertise.
-- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, cross-functional teams, project coordination."""
+**Enterprise AI Automation Expert** with 20+ years of automation and 4 years of specialized AI development. Transform business processes through measurable, ROI-optimized automation:
+
+**🚀 Business Impact & ROI**
+- **80% workload reduction** in email automation & invoice processing with **measurable cost savings**
+- **Go/No-Go decisions in minutes** instead of hours through real-time quality dashboards
+- **50% less development time** through AI-generated tests and IDE integration
+- **80% fewer inquiries** through transparent end-to-end monitoring systems
+
+**🤖 Next-Generation AI Technology**
+- **Enterprise LLMs**: GPT-4, Claude, Gemini integration with production-grade security
+- **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
+- **RAG Systems**: Vector embeddings, 95% accuracy, EU standards-compliant NLP
+- **Multi-Cloud MLOps**: Azure OpenAI, auto-scaling, serverless AI architecture
+
+**⚡ Technical Excellence & Leadership**
+- **Full-Stack Expertise**: Java, Python, JavaScript, Swift, Flutter mobile development
+- **DevOps & Quality Engineering**: CI/CD quality gates, container orchestration, performance testing
+- **Team Leadership**: Scrum Master, Product Owner, cross-functional project coordination
+- **Enterprise Integration**: Microsoft Graph, LeanIX, multi-source data orchestration, SAP connectivity"""
 
       [languages.en.params.experiences]
         enable = true
