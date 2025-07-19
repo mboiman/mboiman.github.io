@@ -15,7 +15,8 @@
     </div>
     
     <div class="pdf-actions">
-        <a href="#" class="pdf-link" onclick="if(typeof preparePDFAndPrint === 'function') { preparePDFAndPrint(); } else { window.print(); } return false;">
+        {{ $pdfFile := printf "pdfs/Michael_Boiman_CV_%s.pdf" (upper .Site.Language.Lang) }}
+        <a href="{{ .Site.BaseURL }}{{ $pdfFile }}" class="pdf-link" download>
             <i class="fas fa-download"></i>
             <span class="pdf-text">PDF</span>
         </a>
