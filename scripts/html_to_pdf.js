@@ -507,9 +507,10 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
 }
 
 (async () => {
-  const [,, configPath, outputPdf] = process.argv;
+  const [,, configPath, outputPdf, language] = process.argv;
   if (!configPath || !outputPdf) {
-    console.error('Usage: node html_to_pdf.js <config.toml> <output.pdf>');
+    console.error('Usage: node html_to_pdf.js <config.toml> <output.pdf> [language]');
+    console.error('Available languages: de, en');
     process.exit(1);
   }
 
@@ -518,9 +519,17 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
   const configContent = fs.readFileSync(configPath, 'utf8');
   const config = toml.parse(configContent);
   
-  // Use German language configuration by default
-  const langConfig = config.languages.de.params;
-  console.log('🌐 Using German language configuration');
+  // Determine language - use parameter if provided, otherwise defaultContentLanguage
+  const targetLang = language || config.defaultContentLanguage || 'de';
+  
+  if (!config.languages[targetLang]) {
+    console.error(`❌ Language '${targetLang}' not found in configuration!`);
+    console.error('Available languages:', Object.keys(config.languages).join(', '));
+    process.exit(1);
+  }
+  
+  const langConfig = config.languages[targetLang].params;
+  console.log(`🌐 Using ${targetLang.toUpperCase()} language configuration`);
 
   console.log('🚀 Starting professional PDF generation...');
   console.log('📋 Config:', configPath);

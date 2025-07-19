@@ -20,10 +20,12 @@ set -- "${POSITIONAL[@]}"
 
 CUSTOM_CONFIG="$1"
 OUTPUT_PDF="${2:-cv_custom.pdf}"
+LANGUAGE="$3"
 BUILD_DIR=$(mktemp -d)
 
 if [ -z "$CUSTOM_CONFIG" ]; then
-  echo "Usage: $0 <custom_config.toml> [output.pdf]"
+  echo "Usage: $0 <custom_config.toml> [output.pdf] [language]"
+  echo "Available languages: de, en"
   exit 1
 fi
 
@@ -47,7 +49,11 @@ else
   CONFIG_FOR_PDF="$BASE_CONFIG"
 fi
 
-node scripts/html_to_pdf.js "$CONFIG_FOR_PDF" "$OUTPUT_PDF"
+if [ -n "$LANGUAGE" ]; then
+  node scripts/html_to_pdf.js "$CONFIG_FOR_PDF" "$OUTPUT_PDF" "$LANGUAGE"
+else
+  node scripts/html_to_pdf.js "$CONFIG_FOR_PDF" "$OUTPUT_PDF"
+fi
 
 # Clean up
 rm -rf "$BUILD_DIR"
