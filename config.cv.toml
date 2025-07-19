@@ -995,17 +995,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
-        title = "QualityCluster"
-        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
-        category = "Quality Engineering"
-        featured = true
-        screenshot = "projects/qualitycluster.png"
-        tagline = """
-QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
-Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
-"""
-
-        [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
@@ -1043,11 +1032,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
-        title   = "AI-Beratung für Unternehmen"
-        tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        title   = "Enterprise AI-Beratung & Strategieentwicklung"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Workshop Design"]
         category = "Consulting & Strategy"
         featured = false
-        tagline = "Beratungen zum Einsatz von AI im Unternehmen."
+        tagline = "Ganzheitliche AI-Beratung: Analyse bestehender Prozesse, Identifikation von Automatisierungspotenzialen, ROI-Bewertung, Strategieentwicklung und Umsetzungsbegleitung. Von der ersten Idee bis zur produktiven AI-Lösung."
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
@@ -1104,6 +1093,17 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Praxis-Workshop mit Live-Entwicklung eines intelligenten Q&A-Bots, Web-Scraping, Vector Embeddings und Similarity Search. Komplette Präsentation und Quellcode verfügbar."
 
         [[languages.de.params.projects.list]]
+        title = "QualityCluster"
+        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster.png"
+        tagline = """
+QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
+Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
+"""
+
+        [[languages.de.params.projects.list]]
         title = "Freelance Success Stories - KI-Präsentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
@@ -1118,17 +1118,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         intro = "**Innovative AI solutions and automation tools**"
         license_notice = "**License Notice:** All projects and concepts are subject to an Attribution-Required license. When using or drawing inspiration from these works, proper attribution and linking to Michael Boiman is required."
         non_featured_layout = "grid"
-
-        [[languages.en.params.projects.list]]
-        title = "QualityCluster"
-        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
-        category = "Quality Engineering"
-        featured = true
-        screenshot = "projects/qualitycluster.png"
-        tagline = """
-QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
-Our goal is to implement more quality through a higher degree of automation.  
-"""
 
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
@@ -1168,11 +1157,11 @@ Our goal is to implement more quality through a higher degree of automation.
         tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
-        title = "AI Consulting for Enterprises"
-        tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        title = "Enterprise AI Consulting & Strategy Development"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Workshop Design"]
         category = "Consulting & Strategy"
         featured = false
-        tagline = "Consultancy on the use of AI within companies."
+        tagline = "Comprehensive AI consulting: Analysis of existing processes, identification of automation potential, ROI assessment, strategy development and implementation support. From initial idea to productive AI solution."
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
@@ -1225,6 +1214,17 @@ Our goal is to implement more quality through a higher degree of automation.
         category = "Training & Workshops"
         featured = true
         tagline = "Practical workshop with live development of an intelligent Q&A bot, web scraping, vector embeddings and similarity search. Complete presentation and source code available."
+
+        [[languages.en.params.projects.list]]
+        title = "QualityCluster"
+        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster.png"
+        tagline = """
+QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
+Our goal is to implement more quality through a higher degree of automation.  
+"""
 
         [[languages.en.params.projects.list]]
         title = "Freelance Success Stories - AI Presentation"
