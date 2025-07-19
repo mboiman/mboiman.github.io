@@ -1032,11 +1032,22 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
-        title   = "Enterprise AI-Beratung & Strategieentwicklung"
-        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Workshop Design"]
+        title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
-        featured = false
-        tagline = "Ganzheitliche AI-Beratung: Analyse bestehender Prozesse, Identifikation von Automatisierungspotenzialen, ROI-Bewertung, Strategieentwicklung und Umsetzungsbegleitung. Von der ersten Idee bis zur produktiven AI-Lösung."
+        featured = true
+        screenshot = "projects/aistrategy.png"
+        tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
+
+**Beratungsleistungen:**
+• **Strategieentwicklung:** Von der AI-Vision zur messbaren Umsetzungsroadmap
+• **Prozess-Analyse:** Identifikation von Automatisierungspotenzialen, Quality-First Assessment
+• **ROI-Bewertung:** Business Cases, Kosteneinsparungen, Amortisationsrechnung
+• **Executive Workshops:** Hands-on Strategie-Sessions mit Live-Demo Business Cases
+• **Change Management:** Team-Adoption, Schulungskonzepte, Widerstandsmanagement
+• **Umsetzungsbegleitung:** Vom Konzept zur produktiven AI-Lösung
+
+**Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Executive Workshop, Umsetzungsbegleitung"""
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
@@ -1083,6 +1094,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
+        screenshot = "projects/aiagentworkshop.png"
         tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
 
 **Workshop-Inhalte:**
@@ -1095,22 +1107,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
 **Deliverables:** Vollständiger Quellcode, Folien, Hands-on-Übungen, Production-ready Templates"""
 
-        [[languages.de.params.projects.list]]
-        title = "Executive Workshop: AI Business Strategy & ROI Implementation"
-        tech_stack = ["AI Strategy", "ROI Assessment", "Process Analysis", "Change Management", "Quality Engineering", "Business Cases"]
-        category = "Training & Workshops"
-        featured = true
-        tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
-
-**Workshop-Inhalte:**
-• **AI-Strategie entwickeln:** Von der Vision zur messbaren Umsetzung
-• **ROI-Bewertung:** Business Cases, Kosteneinsparungen, Amortisationsrechnung
-• **Prozess-Analyse:** Identifikation von Automatisierungspotenzialen  
-• **Quality-First Approach:** Qualitätssicherung als Erfolgsfaktor für AI-Projekte
-• **Change Management:** Team-Adoption, Schulungskonzepte, Widerstandsmanagement
-• **Live-Demo Business Cases:** E-Mail-Automatisierung, Quality Dashboards, Testautomatisierung
-
-**Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Best-Practice-Guide"""
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -1177,11 +1173,22 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
-        title = "Enterprise AI Consulting & Strategy Development"
-        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Workshop Design"]
+        title = "Enterprise AI Consulting: From Strategy to Implementation"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
-        featured = false
-        tagline = "Comprehensive AI consulting: Analysis of existing processes, identification of automation potential, ROI assessment, strategy development and implementation support. From initial idea to productive AI solution."
+        featured = true
+        screenshot = "projects/aistrategy.png"
+        tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
+
+**Consulting Services:**
+• **Strategy Development:** From AI vision to measurable implementation roadmap
+• **Process Analysis:** Identification of automation potential, quality-first assessment
+• **ROI Assessment:** Business cases, cost savings, amortization calculations
+• **Executive Workshops:** Hands-on strategy sessions with live-demo business cases
+• **Change Management:** Team adoption, training concepts, resistance management
+• **Implementation Support:** From concept to productive AI solution
+
+**Deliverables:** AI strategy template, ROI calculator, implementation roadmap, executive workshop, implementation support"""
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
@@ -1226,6 +1233,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
+        screenshot = "projects/aiagentworkshop.png"
         tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
 
 **Workshop Content:**
@@ -1238,22 +1246,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
 **Deliverables:** Complete source code, slides, hands-on exercises, production-ready templates"""
 
-        [[languages.en.params.projects.list]]
-        title = "Executive Workshop: AI Business Strategy & ROI Implementation"
-        tech_stack = ["AI Strategy", "ROI Assessment", "Process Analysis", "Change Management", "Quality Engineering", "Business Cases"]
-        category = "Training & Workshops"
-        featured = true
-        tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
-
-**Workshop Content:**
-• **AI Strategy Development:** From vision to measurable implementation
-• **ROI Assessment:** Business cases, cost savings, amortization calculations
-• **Process Analysis:** Identification of automation potential
-• **Quality-First Approach:** Quality assurance as success factor for AI projects
-• **Change Management:** Team adoption, training concepts, resistance management
-• **Live-Demo Business Cases:** Email automation, quality dashboards, test automation
-
-**Deliverables:** AI strategy template, ROI calculator, implementation roadmap, best practice guide"""
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
