@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         body {
             font-family: 'Inter', 'Arial', sans-serif;
-            font-size: 8.5pt;
-            line-height: 1.4;
+            font-size: 7.5pt;
+            line-height: 1.3;
             color: #2c3e50;
             background: white;
             -webkit-font-smoothing: antialiased;
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .career-profile strong { font-weight: 600; color: #2d7788; }
         
         .experience-item {
-            margin-bottom: 12px; padding: 10px; background: #f8fafc;
+            margin-bottom: 8px; padding: 8px; background: #f8fafc;
             border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
         }
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .experience-details {
-            font-size: 6.5pt; line-height: 1.4; color: #3c4858;
+            font-size: 6pt; line-height: 1.3; color: #3c4858;
         }
         
         .experience-details p { margin-bottom: 4px; }
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .language-level { color: #5a6c7d; }
         
         .project-item {
-            margin-bottom: 10px; padding: 8px; background: #f8fafc;
+            margin-bottom: 6px; padding: 6px; background: #f8fafc;
             border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
         }
@@ -230,12 +230,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .project-tech { margin: 4px 0; }
         
         .tech-tag {
-            background: #e1e8ed; color: #3c4858; padding: 1px 4px;
-            border-radius: 2px; font-size: 5.5pt; font-weight: 500; margin-right: 3px;
+            background: #e1e8ed; color: #3c4858; padding: 1px 3px;
+            border-radius: 2px; font-size: 5pt; font-weight: 500; margin-right: 2px;
         }
         
         .project-description {
-            font-size: 6.5pt; line-height: 1.3; color: #3c4858; margin-top: 4px;
+            font-size: 5.5pt; line-height: 1.3; color: #3c4858; margin-top: 3px;
         }
         
         .page-break-before { page-break-before: always; }
@@ -348,6 +348,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     <div class="experience-item page-break-avoid">
                         <div class="experience-header">
+                            <div class="experience-title">Workshop: Entwicklung mit Generativen Sprach Modellen</div>
+                            <div class="experience-dates">06/2025</div>
+                        </div>
+                        <div class="experience-company">Developer Workshop - Agenten-basierte Software-Entwicklung</div>
+                        <div class="experience-details">
+                            <p><strong>Workshop für Entwickler:</strong> Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding</p>
+                            <p><strong>Workshop-Inhalte:</strong></p>
+                            <ul>
+                                <li>Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung</li>
+                                <li>Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation</li>
+                                <li>Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen</li>
+                                <li>Browser-Automation mit Playwright-MCP für automatisierte Test-Generierung</li>
+                                <li>Live-Demos: Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">Präsentation: Effiziente Dokumentation durch Automatisierung</div>
+                            <div class="experience-dates">04/2025</div>
+                        </div>
+                        <div class="experience-company">Enterprise Präsentation - AI-gestützte Dokumentationsworkflows</div>
+                        <div class="experience-details">
+                            <p><strong>Unternehmenspäsentation:</strong> Demonstration moderner Automatisierungsansätze für zentrale, aktuelle Dokumentation</p>
+                            <p><strong>Schwerpunkte:</strong></p>
+                            <ul>
+                                <li>Single Source of Truth: Zentrale Wahrheit in Confluence, Vermeidung redundanter Versionen</li>
+                                <li>Shift-Left-Dokumentation: Parallele Code- und Dokumentationsentwicklung</li>
+                                <li>Automation First: Bots und CI/CD-Jobs für wiederkehrende Aufgaben</li>
+                                <li>OpenAPI-Dokumentation: Automatische Generierung bei Code-Merge</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
                             <div class="experience-title">Quality Lead</div>
                             <div class="experience-dates">08/2021 – 05/2025</div>
                         </div>
@@ -357,9 +394,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p><strong>Schwerpunkte:</strong></p>
                             <ul>
                                 <li>Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität</li>
+                                <li>Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints</li>
                                 <li>Aufbau und Konzeption einer CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend)</li>
                                 <li>Einführung von QualityGates zur Sicherung der Qualität innerhalb der CICD-Pipeline</li>
                                 <li>Einführung von Gauge (BDD) und Playwright, Integration in bestehende CICD-Pipeline</li>
+                                <li>Fachliche und technische Analyse von Incidents</li>
+                                <li>Tools: IntelliJ/VS Code, Java/JavaScript/TypeScript, Playwright/Gauge/Taiko/Karate, Python, CI/CD/GitHub, Helm/Container, JIRA/Confluence, Grafana, BDD, Consumer Driven Contracts (Pact.io)</li>
                             </ul>
                         </div>
                     </div>
@@ -371,12 +411,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="experience-company">BKS</div>
                         <div class="experience-details">
-                            <p><strong>Technische Leitung & Entwicklung:</strong> Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform.</p>
+                            <p><strong>Technische Leitung & Entwicklung:</strong> Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.</p>
                             <p><strong>Schwerpunkte:</strong></p>
                             <ul>
                                 <li><strong>Workflow-Automatisierung:</strong> Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions</li>
-                                <li><strong>E-Rechnungs-Klassifizierung & Daten-Extraction:</strong> Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung)</li>
+                                <li><strong>E-Rechnungs-Klassifizierung & Daten-Extraction:</strong> Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung), inklusive Struktur- und Inhalts-Parsing</li>
+                                <li><strong>Salesforce-Einspielung:</strong> Weiterleitung der aufbereiteten Rechnungsdaten per E-Mail an das nachgelagerte System für den Salesforce-Import</li>
+                                <li><strong>Auditierung & Protokollierung:</strong> Lückenlose Dokumentation aller Verarbeitungsschritte sowie Speicherung der ursprünglichen E-Mail-Inhalte</li>
+                                <li><strong>Outlook-Management & SharePoint-Archivierung:</strong> Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook</li>
                                 <li><strong>Monitoring & Logging:</strong> Echtzeit-Überwachung des End-to-End-Prozesses mit Kibana, inklusive Alerting und Dashboard-Erstellung</li>
+                                <li><strong>Team-Koordination:</strong> Steuerung des Entwickler-Teams inkl. Code-Reviews</li>
+                                <li><strong>Tools:</strong> Azure Functions, Python, Microsoft Graph API, GitHub, Kibana, Streamlit</li>
                             </ul>
                         </div>
                     </div>
@@ -388,12 +433,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="experience-company">BKS im Auftrag für Ryze</div>
                         <div class="experience-details">
-                            <p><strong>Projektmanagement & Technische Leitung:</strong> Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme.</p>
+                            <p><strong>Projektmanagement & Technische Leitung:</strong> Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.</p>
                             <p><strong>Schwerpunkte:</strong></p>
                             <ul>
-                                <li><strong>Entwicklung von ML-Modellen:</strong> Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails</li>
-                                <li><strong>API-Integrationen:</strong> Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme</li>
+                                <li><strong>Entwicklung von ML-Modellen:</strong> Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions</li>
+                                <li><strong>API-Integrationen:</strong> Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten</li>
+                                <li><strong>Prozessautomatisierung:</strong> Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen</li>
                                 <li><strong>DevOps und Monitoring:</strong> Implementierung von CI/CD Pipelines sowie Einsatz von Kibana für das Monitoring</li>
+                                <li><strong>Entwicklung einer Streamlit-basierten Benutzeroberfläche:</strong> Verbesserung der Testbarkeit und Visualisierung von Prozessergebnissen</li>
+                                <li><strong>Team-Betreuung:</strong> Technische Anleitung der Entwickler mit regelmäßigen Code-Reviews und Problemlösungssessions</li>
+                                <li><strong>Tools:</strong> Azure Functions, Python, Microsoft Graph API, SAP API, GitHub, Kibana, Streamlit</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">Anwendungen von KI im Geschäftsumfeld</div>
+                            <div class="experience-dates">2023</div>
+                        </div>
+                        <div class="experience-company">KI-Workshop zur Unternehmenseinbindung</div>
+                        <div class="experience-details">
+                            <p><strong>KI-Workshop:</strong> Umfassende Präsentation und Live-Demonstration innovativer KI-Anwendungen für die Geschäftswelt mit Fokus auf praktische Umsetzung, Theorie und Code-Beispiele</p>
+                            <p><strong>Workshop-Inhalte:</strong></p>
+                            <ul>
+                                <li>Umfassender Überblick über KI-Bereiche und -Patterns (Supervised/Unsupervised/Semi-Supervised Learning)</li>
+                                <li>Vertiefte Einblicke in Machine Learning, Deep Learning und Natural Language Processing</li>
+                                <li>Entwicklung eines intelligenten Q&A-Bots mit OpenAI GPT-3.5-Turbo</li>
+                                <li>Live-Entwicklung eines Webscrapers zur Datenakquise</li>
+                                <li>Extraktion und Vektorisierung von Text-Embeddings mit OpenAI-Modellen</li>
+                                <li>Tools: OpenAI API (GPT-3.5-Turbo, Embedding-Ada-002), Python mit Pandas, NumPy und Streamlit, Vector Embeddings und Cosine-Similarity</li>
                             </ul>
                         </div>
                     </div>
@@ -405,19 +474,72 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="experience-company">DB Vertrieb</div>
                         <div class="experience-details">
-                            <p><strong>Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)</strong> Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung.</p>
+                            <p><strong>Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE):</strong> Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung</p>
                             <p><strong>Schwerpunkte:</strong></p>
                             <ul>
                                 <li>Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline</li>
                                 <li>Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search</li>
+                                <li>Einführung von fachlichem Logging für Microservices zur transparenten Nachverfolgung von Berechnungen und Service-Interaktionen</li>
                                 <li>Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana</li>
+                                <li>Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints</li>
+                                <li>Aufbau und Konzeption von CI/CD-Pipeline für Daten-Tests</li>
+                                <li>Entwicklung einer hybriden App zur Präsentation (Review) der Ergebnisse in einer Web- oder mobilen Plattform</li>
+                                <li>Tools: IntelliJ, Java, Cucumber/Cypress, J-Meter/Gatling, CI/CD/GITLAB CI/Jenkins, Helm/Docker, JIRA/Confluence, Kibana/Grafana/Instana/Graylog, BDD, Consumer Driven Contracts (Spring Cloud Contract), Ionic, Selenium</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">Last und Performance Tests / Testautomatisierung / Testmanagement</div>
+                            <div class="experience-dates">09/2015 - 01/2017</div>
+                        </div>
+                        <div class="experience-company">DB Systel</div>
+                        <div class="experience-details">
+                            <p><strong>Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst:</strong> Entwicklung, Durchführung und Analyse von Last und Performance Tests</p>
+                            <ul>
+                                <li>Anforderungs-Management, Status Reports, Beratung der Kunden</li>
+                                <li>Dokumentation in Form von Testkonzepten, Analysen, Management-Reporting und Wiki-Dokumentation</li>
+                                <li>Aufbau und Ausführung der Last und Performance Tests, Analyse der Ergebnisse & Performance Logs</li>
+                                <li>Tools: Visual Studio, Eclipse, JMeter, GIT, JIRA/Confluence, Excel & Access VBS, Schnittstellen: HTTP, WS, REST, MQ, JMS</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">Senior IOS Developer</div>
+                            <div class="experience-dates">04/2015 - 09/2015</div>
+                        </div>
+                        <div class="experience-company">Telekom</div>
+                        <div class="experience-details">
+                            <p><strong>Senior IOS Developer:</strong> Weiterentwicklung der Rebuild Version der Kundencenter App der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA.</p>
+                            <ul>
+                                <li>Swift, IOS 8, Requests & Responses to Backend, Errorhandling, Ipad/Iphone, Scrum</li>
+                                <li>Tools: XCode, GIT, JIRA</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">QS, Testmanagement</div>
+                            <div class="experience-dates">05/2009 - 03/2015</div>
+                        </div>
+                        <div class="experience-company">Siemens</div>
+                        <div class="experience-details">
+                            <p><strong>QS, Testmanagement, Testautomatisierung, Requirements Engineering:</strong> Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt</p>
+                            <ul>
+                                <li>Projekte: SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen, STM - Antrag und Reisekostenerfassung, GPM2 - Aktien-Bonus-Programm für Angestellte, PATAC, SOM - Verwaltung und Übersicht von OrgUnits</li>
+                                <li>Erstellung fachlicher Testkonzepte und Testpläne, Defect-Tracking, Verwaltung der CRs, Erstellung, Pflege und Scheduling von Testautomatisierungen</li>
+                                <li>Tools: HP ALM, HP UFT, HP QC, Quick Test Pro</li>
                             </ul>
                         </div>
                     </div>
                 </section>
 
                 <section class="cv-section page-break-before">
-                    <h2>Schlüsselprojekte</h2>
+                    <h2>Schlüsselprojekte & Lösungen</h2>
                     
                     <div class="project-item page-break-avoid">
                         <div class="project-title">Quality Dashboard - Echtzeit-Übersicht</div>
@@ -427,19 +549,26 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">CI/CD</span>
                             <span class="tech-tag">Playwright</span>
+                            <span class="tech-tag">Jira API</span>
+                            <span class="tech-tag">Confluence API</span>
+                            <span class="tech-tag">LeanIX</span>
                         </div>
-                        <div class="project-description">Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden.</div>
+                        <div class="project-description">Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden.</div>
                     </div>
 
                     <div class="project-item page-break-avoid">
-                        <div class="project-title">24/7 Automated Legacy Migration Validator</div>
+                        <div class="project-title">24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering</div>
                         <div class="project-tech">
                             <span class="tech-tag">Java</span>
                             <span class="tech-tag">Cucumber</span>
                             <span class="tech-tag">Kibana</span>
+                            <span class="tech-tag">Graylog</span>
                             <span class="tech-tag">Elasticsearch</span>
+                            <span class="tech-tag">Container</span>
+                            <span class="tech-tag">Mainframe</span>
+                            <span class="tech-tag">Dashboard Engineering</span>
                         </div>
-                        <div class="project-description">Enterprise Legacy-Transformation mit vollautomatischer Qualitätssicherung. 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse. Qualitätskennzahl von 30% auf 96% erhöht.</div>
+                        <div class="project-description">Enterprise Legacy-Transformation mit vollautomatischer Qualitätssicherung. 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse: Kontinuierliches Testing aller Variationen rund um die Uhr, Real-time Monitoring mit sofortiger Abweichungserkennung, vollständige Traceability und automated Root Cause Analysis. Measurable Impact: Qualitätskennzahl von 30% auf 96% erhöht - sichere Migration ohne Datenverlust.</div>
                     </div>
 
                     <div class="project-item page-break-avoid">
@@ -449,8 +578,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="tech-tag">Azure Functions</span>
                             <span class="tech-tag">OpenAI GPT-3.5</span>
                             <span class="tech-tag">Microsoft Graph API</span>
+                            <span class="tech-tag">Elasticsearch</span>
+                            <span class="tech-tag">Kibana</span>
+                            <span class="tech-tag">Docker</span>
                         </div>
-                        <div class="project-description">Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions, OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards - 80% Reduktion manueller Arbeit.</div>
+                        <div class="project-description">Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit.</div>
+                    </div>
+
+                    <div class="project-item page-break-avoid">
+                        <div class="project-title">KI-basierter Chatbot für Messe-Interaktion</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">OpenAI GPT-4</span>
+                            <span class="tech-tag">Streamlit</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Vector Embeddings</span>
+                        </div>
+                        <div class="project-description">Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites.</div>
                     </div>
 
                     <div class="project-item page-break-avoid">
@@ -458,10 +602,49 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="project-tech">
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">LLMs</span>
                             <span class="tech-tag">JSON-RPC</span>
                             <span class="tech-tag">A2A Protocol</span>
+                            <span class="tech-tag">SSE</span>
+                            <span class="tech-tag">HTTP(S)</span>
                         </div>
-                        <div class="project-description">Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: MCP (Anthropic, 2024) und A2A (Google, 2025) für sichere AI-zu-Tool-Verbindungen und Multi-Agent-Kollaboration.</div>
+                        <div class="project-description">Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: MCP (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. A2A (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen.</div>
+                    </div>
+
+                    <div class="project-item page-break-avoid">
+                        <div class="project-title">Enterprise AI-Beratung: Von der Strategie zur Umsetzung</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">AI Strategy</span>
+                            <span class="tech-tag">Process Analysis</span>
+                            <span class="tech-tag">ROI Assessment</span>
+                            <span class="tech-tag">Implementation Planning</span>
+                            <span class="tech-tag">Change Management</span>
+                            <span class="tech-tag">Executive Workshops</span>
+                        </div>
+                        <div class="project-description">Zielgruppe: C-Level, Management, Product Owner, Business Analysts. Beratungsleistungen: Strategieentwicklung von der AI-Vision zur messbaren Umsetzungsroadmap, Prozess-Analyse zur Identifikation von Automatisierungspotenzialen, ROI-Bewertung mit Business Cases und Kosteneinsparungen, Executive Workshops mit Hands-on Strategie-Sessions, Change Management für Team-Adoption, Umsetzungsbegleitung vom Konzept zur produktiven AI-Lösung. Deliverables: AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap.</div>
+                    </div>
+
+                    <div class="project-item page-break-avoid">
+                        <div class="project-title">KI-gesteuerte Testautomatisierung</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">OpenAI GPT-4</span>
+                            <span class="tech-tag">Playwright</span>
+                            <span class="tech-tag">IDE Integration</span>
+                            <span class="tech-tag">Jira API</span>
+                        </div>
+                        <div class="project-description">Guideline-basierter KI-Agent im IDE mit Prompt-basierter Testgenerierung aus Jira-Stories. Impact: 80% automatisch generiert, 50% weniger Entwicklungszeit.</div>
+                    </div>
+
+                    <div class="project-item page-break-avoid">
+                        <div class="project-title">wecation - Kollaborative Erlebnisplanung</div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Google Cloud</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Dart</span>
+                        </div>
+                        <div class="project-description">wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud. (www.wecation.de)</div>
                     </div>
                 </section>
             </div>

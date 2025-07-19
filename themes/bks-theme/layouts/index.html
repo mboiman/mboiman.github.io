@@ -773,12 +773,29 @@
     </div>
     
     
+    <!-- Load PDF Export Script First -->
+    <script src="{{ .Site.BaseURL }}assets/js/pdf-export.js?v={{ now.Unix }}"></script>
+    
     <!-- PDF Generation Script -->
     <script>
-    // Simple PDF export via browser print
+    // Enhanced PDF export using our PDF-optimized layout
     function exportToPDF() {
-        window.print();
+        if (typeof preparePDFAndPrint === 'function') {
+            preparePDFAndPrint();
+        } else {
+            // Fallback to simple print if script not loaded
+            console.warn('PDF export script not loaded, using fallback');
+            window.print();
+        }
     }
+    
+    // Also make preparePDFAndPrint available globally as exportToPDF
+    window.exportToPDF = exportToPDF;
+    
+    // Debug: Check if PDF script loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('PDF export function available:', typeof preparePDFAndPrint);
+    });
     </script>
     
 </body>

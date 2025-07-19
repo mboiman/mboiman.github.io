@@ -15,7 +15,7 @@
     </div>
     
     <div class="pdf-actions">
-        <a href="#" class="pdf-link" onclick="window.print(); return false;">
+        <a href="#" class="pdf-link" onclick="if(typeof preparePDFAndPrint === 'function') { preparePDFAndPrint(); } else { window.print(); } return false;">
             <i class="fas fa-download"></i>
             <span class="pdf-text">PDF</span>
         </a>
