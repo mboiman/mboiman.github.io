@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" class="pdf-cv-layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Site.Params.profile.name }} - Professional CV</title>
+    
+    <!-- PDF-specific styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4 portrait;
+            margin: 12mm 10mm 12mm 10mm;
+        }
+        
+        body {
+            font-family: 'Inter', 'Arial', sans-serif;
+            font-size: 8.5pt;
+            line-height: 1.4;
+            color: #2c3e50;
+            background: white;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        
+        .cv-container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Header Section */
+        .cv-header {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #2d7788;
+            margin-bottom: 15px;
+        }
+        
+        .profile-photo {
+            width: 75px;
+            height: 75px;
+            border-radius: 6px;
+            border: 2px solid #e1e8ed;
+            object-fit: cover;
+        }
+        
+        .header-content h1 {
+            font-size: 18pt;
+            font-weight: 700;
+            color: #2d7788;
+            margin-bottom: 3px;
+        }
+        
+        .header-tagline {
+            font-size: 9pt;
+            color: #5a6c7d;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 20px;
+            font-size: 7pt;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .contact-item i {
+            width: 10px;
+            color: #2d7788;
+            font-size: 6pt;
+        }
+        
+        .contact-item a {
+            color: #2d7788;
+            text-decoration: none;
+        }
+        
+        /* AI Skills Showcase */
+        .ai-showcase {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            border-left: 4px solid #2d7788;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .ai-showcase h2 {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .ai-skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .ai-skill-card {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        .ai-skill-name {
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 3px;
+        }
+        
+        .ai-skill-desc {
+            font-size: 6.5pt;
+            color: #5a6c7d;
+            line-height: 1.3;
+        }
+        
+        /* Two-column layout */
+        .cv-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        /* Section headers */
+        .cv-section h2 {
+            font-size: 10pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin: 12px 0 8px 0;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #2d7788;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Career Profile */
+        .career-profile {
+            background: #f8fafc;
+            border-left: 4px solid #2d7788;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .career-profile h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            border: none;
+            font-size: 10pt;
+        }
+        
+        .career-profile p {
+            font-size: 7pt;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+        
+        .career-profile strong {
+            font-weight: 600;
+            color: #2d7788;
+        }
+        
+        /* Experience Items */
+        .experience-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8fafc;
+            border-left: 3px solid #2d7788;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+        
+        .experience-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+        
+        .experience-title {
+            font-size: 8.5pt;
+            font-weight: 600;
+            color: #2d7788;
+        }
+        
+        .experience-dates {
+            font-size: 7pt;
+            color: #7a8b9a;
+            font-style: italic;
+        }
+        
+        .experience-company {
+            font-size: 7.5pt;
+            font-weight: 500;
+            color: #5a6c7d;
+            margin-bottom: 6px;
+        }
+        
+        .experience-details {
+            font-size: 6.5pt;
+            line-height: 1.4;
+            color: #3c4858;
+        }
+        
+        .experience-details p {
+            margin-bottom: 4px;
+        }
+        
+        .experience-details ul {
+            margin: 4px 0 0 12px;
+            padding: 0;
+        }
+        
+        .experience-details li {
+            margin-bottom: 2px;
+        }
+        
+        /* Sidebar */
+        .cv-sidebar {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 8pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        /* Skills in sidebar */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+        
+        .skill-tag {
+            background: #e3f2fd;
+            color: #2d7788;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 6pt;
+            font-weight: 500;
+            border: 1px solid #2d7788;
+        }
+        
+        /* Education */
+        .education-item {
+            margin-bottom: 8px;
+            font-size: 6.5pt;
+        }
+        
+        .education-degree {
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 1px;
+        }
+        
+        .education-school {
+            color: #5a6c7d;
+            margin-bottom: 1px;
+        }
+        
+        .education-dates {
+            color: #7a8b9a;
+            font-style: italic;
+        }
+        
+        /* Languages */
+        .language-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+            font-size: 6.5pt;
+        }
+        
+        .language-name {
+            font-weight: 500;
+            color: #2d7788;
+        }
+        
+        .language-level {
+            color: #5a6c7d;
+        }
+        
+        /* Projects (if needed in main section) */
+        .project-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8fafc;
+            border-left: 3px solid #2d7788;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+        
+        .project-title {
+            font-size: 8pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 3px;
+        }
+        
+        .project-tech {
+            margin: 4px 0;
+        }
+        
+        .tech-tag {
+            background: #e1e8ed;
+            color: #3c4858;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-size: 5.5pt;
+            font-weight: 500;
+            margin-right: 3px;
+        }
+        
+        .project-description {
+            font-size: 6.5pt;
+            line-height: 1.3;
+            color: #3c4858;
+            margin-top: 4px;
+        }
+        
+        /* Page breaks */
+        .page-break-before {
+            page-break-before: always;
+        }
+        
+        .page-break-avoid {
+            page-break-inside: avoid;
+        }
+        
+        /* Hide elements that shouldn't appear in PDF */
+        .no-print {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- Header Section -->
+        <header class="cv-header">
+            <div class="profile-image">
+                {{ if .Site.Params.profile.avatar }}
+                <img src="{{ .Site.BaseURL }}/images/{{ .Site.Params.profile.avatar }}" alt="{{ .Site.Params.profile.name }}" class="profile-photo">
+                {{ end }}
+            </div>
+            <div class="header-content">
+                <h1>{{ .Site.Params.profile.name }}</h1>
+                <div class="header-tagline">{{ .Site.Params.ui.tagline }}</div>
+                <div class="contact-grid">
+                    {{ range .Site.Params.contact.list }}
+                    <div class="contact-item">
+                        <i class="fa {{ .icon }}"></i>
+                        {{ if .url }}
+                        <a href="{{ .url }}">{{ .title }}</a>
+                        {{ else }}
+                        <span>{{ .title }}</span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </header>
+
+        <!-- AI Skills Showcase -->
+        {{ if .Site.Params.ai_showcase.enable }}
+        <section class="ai-showcase">
+            <h2>{{ .Site.Params.ui.ai_skills_title }}</h2>
+            <div class="ai-skills-grid">
+                {{ range .Site.Params.ai_showcase.list }}
+                <div class="ai-skill-card">
+                    <div class="ai-skill-name">{{ .name }}</div>
+                    <div class="ai-skill-desc">{{ .description }}</div>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+
+        <!-- Main Content -->
+        <div class="cv-main">
+            <!-- Left Column: Main Content -->
+            <div class="cv-content">
+                <!-- Career Profile -->
+                {{ if .Site.Params.summary.enable }}
+                <section class="career-profile page-break-avoid">
+                    <h2>{{ .Site.Params.summary.title }}</h2>
+                    {{ .Site.Params.summary.summary | markdownify }}
+                </section>
+                {{ end }}
+
+                <!-- Professional Experience -->
+                {{ if .Site.Params.experiences.enable }}
+                <section class="cv-section">
+                    <h2>{{ .Site.Params.experiences.title }}</h2>
+                    {{ range .Site.Params.experiences.list }}
+                    <div class="experience-item page-break-avoid">
+                        <div class="experience-header">
+                            <div class="experience-title">{{ .position }}</div>
+                            <div class="experience-dates">{{ .dates }}</div>
+                        </div>
+                        <div class="experience-company">{{ .company }}</div>
+                        <div class="experience-details">
+                            {{ .details | markdownify }}
+                        </div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+
+                <!-- Key Projects (featured only) -->
+                {{ if .Site.Params.projects.enable }}
+                <section class="cv-section page-break-before">
+                    <h2>Schlüsselprojekte</h2>
+                    {{ range first 6 (where .Site.Params.projects.list "featured" true) }}
+                    <div class="project-item page-break-avoid">
+                        <div class="project-title">{{ .title }}</div>
+                        {{ if .tech_stack }}
+                        <div class="project-tech">
+                            {{ range .tech_stack }}
+                            <span class="tech-tag">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                        <div class="project-description">{{ .tagline | markdownify }}</div>
+                    </div>
+                    {{ end }}
+                </section>
+                {{ end }}
+            </div>
+
+            <!-- Right Column: Sidebar -->
+            <div class="cv-sidebar">
+                <!-- Skills -->
+                {{ if .Site.Params.skills.enable }}
+                <div class="sidebar-section">
+                    <h3>Technische Skills</h3>
+                    <div class="skills-list">
+                        {{ range first 15 .Site.Params.skills.list }}
+                        <span class="skill-tag">{{ .skill }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
+
+                <!-- Education -->
+                {{ if .Site.Params.education.enable }}
+                <div class="sidebar-section">
+                    <h3>{{ .Site.Params.education.title }}</h3>
+                    {{ range .Site.Params.education.list }}
+                    <div class="education-item">
+                        <div class="education-degree">{{ .degree }}</div>
+                        {{ if .college }}
+                        <div class="education-school">{{ .college }}</div>
+                        {{ end }}
+                        <div class="education-dates">{{ .dates }}</div>
+                    </div>
+                    {{ end }}
+                </div>
+                {{ end }}
+
+                <!-- Languages -->
+                {{ if .Site.Params.language.enable }}
+                <div class="sidebar-section">
+                    <h3>{{ .Site.Params.language.title }}</h3>
+                    {{ range .Site.Params.language.list }}
+                    <div class="language-item">
+                        <span class="language-name">{{ .language }}</span>
+                        <span class="language-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+                {{ end }}
+
+                <!-- Additional Info -->
+                <div class="sidebar-section">
+                    <h3>Zusätzliche Qualifikationen</h3>
+                    <div class="skills-list">
+                        <span class="skill-tag">Scrum Master</span>
+                        <span class="skill-tag">Product Owner</span>
+                        <span class="skill-tag">ISTQB Certified</span>
+                        <span class="skill-tag">4+ Jahre KI-Entwicklung</span>
+                        <span class="skill-tag">20+ Jahre QE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+</html>
