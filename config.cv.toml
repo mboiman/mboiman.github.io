@@ -1058,11 +1058,23 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
 
         [[languages.de.params.projects.list]]
-        title = "Dual-Run Preiskalkulation Legacy-Migration"
-        tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
-        featured = false
-        tagline = "Innovativer Dual-Run-Ansatz für sichere Legacy-Mainframe-Migration mit 1M+ Kombinationsmöglichkeiten. Impact: Qualitätskennzahl von 30% auf 96% erhöht."
+        featured = true
+        screenshot = "projects/angebotstest.png"
+        tagline = """**Enterprise Legacy-Transformation mit vollautomatischer Qualitätssicherung**
+
+**Das Problem:** Komplexe Mainframe-Preiskalkulation mit Millionen von Kombinationsmöglichkeiten sollte sicher migriert werden - ohne Qualitätsverlust oder Datenfehler.
+
+**Die Lösung:** 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse
+• **Kontinuierliches Testing:** Zufallsgenerierte Tests aller Variationen rund um die Uhr
+• **Real-time Monitoring:** Live-Dashboard mit sofortiger Abweichungserkennung bei jedem Deployment
+• **Vollständige Traceability:** Jede Abweichung eindeutig geloggt mit technischem und fachlichem Kontext
+• **Automated Root Cause Analysis:** Direkter Zugriff auf Kalkulationswege und Fehlerursachen
+• **Quality Intelligence:** Kibana-Dashboards für End-to-End-Qualitätsübersicht
+
+**Measurable Impact:** Qualitätskennzahl von 30% auf 96% erhöht - sichere Migration ohne Datenverlust, vollständige Transparenz über den Migrationsstatus"""
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
@@ -1199,11 +1211,23 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
 
         [[languages.en.params.projects.list]]
-        title = "Dual-Run Price Calculation Legacy Migration"
-        tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
-        featured = false
-        tagline = "Innovative dual-run approach for secure legacy mainframe migration with 1M+ combination possibilities. Impact: Quality metrics improved from 30% to 96%."
+        featured = true
+        screenshot = "projects/angebotstest.png"
+        tagline = """**Enterprise Legacy Transformation with Fully Automated Quality Assurance**
+
+**The Challenge:** Complex mainframe price calculation with millions of combination possibilities needed secure migration - without quality loss or data errors.
+
+**The Solution:** 24/7 Dual-Run Validation System with intelligent deviation analysis
+• **Continuous Testing:** Randomly generated tests across all variations around the clock
+• **Real-time Monitoring:** Live dashboard with immediate deviation detection on every deployment
+• **Complete Traceability:** Every deviation uniquely logged with technical and business context
+• **Automated Root Cause Analysis:** Direct access to calculation paths and error sources
+• **Quality Intelligence:** Kibana dashboards for end-to-end quality overview
+
+**Measurable Impact:** Quality metrics improved from 30% to 96% - secure migration without data loss, complete transparency over migration status"""
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
