@@ -4,7 +4,6 @@ baseurl = "http://127.0.0.1:1313/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "bks-theme"
-#googleAnalytics = "UA-XXXXXXX-Y"
 
 # Do not build files for websites. Need them? Set to false
 disableRSS = true
@@ -46,44 +45,28 @@ defaultContentLanguageInSubdir = true
         enable = true
         
         [[languages.de.params.ai_showcase.list]]
-        name = "KI-gestützte Automatisierung"
-        description = "E-Mail-Bots, Rechnungsverarbeitung, SAP-Integration, 80% Aufwandsreduktion, Transparente Monitoring-Dashboards"
+        name = "Enterprise AI-Automatisierung"
+        description = "E-Mail-Bots, Rechnungsverarbeitung, Workflow-Automatisierung: 80% Aufwandsreduktion, ROI 300%+, Bearbeitungszeit von Stunden auf Sekunden"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Enterprise AI & NLP"
-        description = "Dokumentenanalyse, spaCy, NLTK, 95% Genauigkeit, EU-Standards"
+        name = "KI-Quality Engineering Excellence"
+        description = "80% auto-generierte Tests & Test-Cases, IDE-Integration, Go/No-Go in Minuten statt Stunden, 50% weniger Entwicklungszeit, 80% weniger Rückfragen"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "RAG-Systeme & Semantic Search"
-        description = "Vector Embeddings, LangChain, Q&A-Bots, Kontextbasierte Antworten"
+        name = "Next-Gen AI Protocols & Agentic Systems"
+        description = "MCP & A2A Protocol Implementation, Multi-Agent-Orchestrierung, JSON-RPC, sichere Agent-to-Agent Communication, Enterprise-ready"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Agentic AI & Protokoll-Orchestrierung"
-        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, Secure Agent Communication, Multi-Agent Systems"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Quality Engineering"
-        description = "80% auto-generierte Tests, CI/CD Quality Gates, Monitoring, Grafana Dashboards, 50% weniger Entwicklungszeit"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Testautomatisierung"
-        description = "80% auto-generierte Test-Cases, IDE-Integration, Jira-API, 50% weniger Entwicklungszeit"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "NLP & Dokumentenverarbeitung"
-        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
+        name = "RAG-Systeme & Enterprise NLP"
+        description = "Vector Embeddings, LangChain, Q&A-Bots, spaCy/NLTK, 95% Genauigkeit, EU-Standards, kontextbasierte Intelligenz"
         
         [[languages.de.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, Serverless AI, MLOps, Echtzeit-Qualitätsmetriken, Skalierbare Deployment"
+        description = "Azure OpenAI, Google Cloud AI, Serverless MLOps, Auto-Scaling, Echtzeit-Monitoring, Production-Grade Deployment"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Transparenz & Messbarkeit"
-        description = "Echtzeit-Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, 80% weniger Rückfragen"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Dokumentations-Automatisierung"
-        description = "Single Source of Truth, Shift-Left Documentation, CI/CD-Integration, Documentation Debt Management"
+        name = "Transparenz & Business Intelligence"
+        description = "Real-time Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, KPI-Automation, Single Source of Truth"
 
       [languages.de.params.profile]
         name = "Michael Boiman"
@@ -183,19 +166,25 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisierter KI-Entwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
-- **KI-Automatisierung & Transparenz**: 80% Reduktion manueller Arbeit, Echtzeit-Dashboards, messbare Geschäftserfolge, Bearbeitungszeit von Minuten auf Sekunden.
-- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG-Systeme, Agentic AI, MCP (Model Context Protocol), A2A.
-- **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case, IDE-Integration.
-- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% weniger Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden.
-- **E-Mail-Automatisierung & SAP-Integration**: Automatisierte Verarbeitung, 100% Audit-Trail, Drittsystem-Abgleich.
-- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit.
-- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment.
-- **Python & ML (Machine Learning) Expertise**: KI-basierte Lösungen, Automatisierungen, Datenanalysen, AI (Artificial Intelligence) Integration.
-- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing (Pact.io, Spring Contract).
-- **Performance & Monitoring**: Load Testing, Echtzeit-Überwachung, Incident Analysis, Instana, Azure Log Analytics, fachliches Logging, Qualitätsstatus-Darstellung.
-- **Full-Stack Development**: Java, JavaScript, Swift, Python, Mobile Apps (Flutter), fundierte Mehrsprachen-Expertise.
-- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, interdisziplinäre Teams, Projektkoordination.
+**Enterprise AI-Automatisierungsexperte** mit 20+ Jahren Automatisierung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare ROI-optimierte Lösungen:
+
+**🚀 Business Impact & ROI**
+- **80% Aufwandsreduktion** bei E-Mail-Automatisierung & Rechnungsverarbeitung mit **ROI 300%+**
+- **Go/No-Go-Entscheidungen in Minuten** statt Stunden durch Real-time Quality Dashboards
+- **50% weniger Entwicklungszeit** durch KI-generierte Tests und IDE-Integration
+- **80% weniger Rückfragen** durch transparente End-to-End-Monitoring-Systeme
+
+**🤖 Next-Generation AI Technology**
+- **Enterprise LLMs**: GPT-4, Claude, Gemini Integration mit Production-Grade Security
+- **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
+- **RAG-Systeme**: Vector Embeddings, 95% Genauigkeit, EU-Standards-konforme NLP
+- **Multi-Cloud MLOps**: Azure OpenAI, Auto-Scaling, Serverless AI Architecture
+
+**⚡ Technical Excellence & Leadership**
+- **Full-Stack Expertise**: Java, Python, JavaScript, Swift, Flutter Mobile Development
+- **DevOps & Quality Engineering**: CI/CD Quality Gates, Container-Orchestrierung, Performance Testing
+- **Team Leadership**: Scrum Master, Product Owner, interdisziplinäre Projektkoordination
+- **Enterprise Integration**: Microsoft Graph, LeanIX, Multi-Source Data Orchestration, SAP-Konnektivität
         """
 
       [languages.de.params.experiences]
