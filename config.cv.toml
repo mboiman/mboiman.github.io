@@ -179,15 +179,17 @@ defaultContentLanguageInSubdir = true
 - **80% weniger Rückfragen** durch transparente Quality-Monitoring-Systeme
 - **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
 
-**🤖 Next-Generation AI Technology**
+**🤖 AI Technology & NLP Excellence**
 - **Enterprise LLMs**: GPT-4, Claude, Gemini Integration mit Production-Grade Security
 - **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
-- **RAG-Systeme**: Vector Embeddings, 95% Genauigkeit, EU-Standards-konforme NLP
+- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit
+- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment
 
-**⚡ Technical Leadership & Integration**
+**⚡ DevOps & Technical Leadership**
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing
+- **Performance & Monitoring**: Load Testing, Incident Analysis, Instana, Azure Log Analytics
 - **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
 - **Team Leadership**: Scrum Master, Product Owner, Quality Lead für interdisziplinäre Teams
-- **Enterprise Integration**: Microsoft Graph, LeanIX, Multi-Source Data Orchestration
         """
 
       [languages.de.params.experiences]
@@ -660,15 +662,17 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - **80% fewer inquiries** through transparent quality monitoring systems
 - **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
 
-**🤖 Next-Generation AI Technology**
+**🤖 AI Technology & NLP Excellence**
 - **Enterprise LLMs**: GPT-4, Claude, Gemini integration with production-grade security
 - **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
-- **RAG Systems**: Vector embeddings, 95% accuracy, EU standards-compliant NLP
+- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy
+- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment
 
-**⚡ Technical Leadership & Integration**
+**⚡ DevOps & Technical Leadership**
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing
+- **Performance & Monitoring**: Load testing, incident analysis, Instana, Azure Log Analytics
 - **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
-- **Team Leadership**: Scrum Master, Product Owner, Quality Lead for cross-functional teams
-- **Enterprise Integration**: Microsoft Graph, LeanIX, multi-source data orchestration"""
+- **Team Leadership**: Scrum Master, Product Owner, Quality Lead for cross-functional teams"""
 
       [languages.en.params.experiences]
         enable = true
@@ -988,15 +992,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         title = "PROJEKTE & LÖSUNGEN"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
         license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte unterliegen einer Attribution-Required-Lizenz. Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung und Verlinkung zu Michael Boiman erforderlich."
-
-        [[languages.de.params.projects.list]]
-        title = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
-        featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
+        non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -1085,6 +1081,29 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
 
         [[languages.de.params.projects.list]]
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
+        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
+
+        [[languages.de.params.projects.list]]
+        title = "Workshop: Entwicklung mit Generativen Sprach Modellen"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC"]
+        category = "Training & Workshops"
+        featured = true
+        tagline = "Umfassender Developer-Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos, Live-Coding und Hands-on-Übungen. Fokus auf MCP, A2A-Protokolle, Browser-Automation und Multi-Agent-Systeme."
+
+        [[languages.de.params.projects.list]]
+        title = "KI-Workshop für Unternehmenseinbindung"
+        tech_stack = ["OpenAI API", "Python", "Streamlit", "Vector Embeddings", "RAG-Systeme", "Q&A-Bots"]
+        category = "Training & Workshops"
+        featured = true
+        tagline = "Praxis-Workshop mit Live-Entwicklung eines intelligenten Q&A-Bots, Web-Scraping, Vector Embeddings und Similarity Search. Komplette Präsentation und Quellcode verfügbar."
+
+        [[languages.de.params.projects.list]]
         title = "Freelance Success Stories - KI-Präsentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
@@ -1098,15 +1117,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
         license_notice = "**License Notice:** All projects and concepts are subject to an Attribution-Required license. When using or drawing inspiration from these works, proper attribution and linking to Michael Boiman is required."
-
-        [[languages.en.params.projects.list]]
-        title = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
-        featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
+        non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
@@ -1191,6 +1202,29 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
         screenshot = "projects/websiteanalyzer.png"
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
+
+        [[languages.en.params.projects.list]]
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
+        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
+
+        [[languages.en.params.projects.list]]
+        title = "Workshop: Development with Generative Language Models"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC"]
+        category = "Training & Workshops"
+        featured = true
+        tagline = "Comprehensive developer workshop on modern AI agent development with practical demos, live coding and hands-on exercises. Focus on MCP, A2A protocols, browser automation and multi-agent systems."
+
+        [[languages.en.params.projects.list]]
+        title = "AI Workshop for Business Integration"
+        tech_stack = ["OpenAI API", "Python", "Streamlit", "Vector Embeddings", "RAG Systems", "Q&A Bots"]
+        category = "Training & Workshops"
+        featured = true
+        tagline = "Practical workshop with live development of an intelligent Q&A bot, web scraping, vector embeddings and similarity search. Complete presentation and source code available."
 
         [[languages.en.params.projects.list]]
         title = "Freelance Success Stories - AI Presentation"
