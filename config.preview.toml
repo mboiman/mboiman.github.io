@@ -4,7 +4,6 @@ baseurl = "https://mboiman.github.io/preview/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "bks-theme"
-#googleAnalytics = "UA-XXXXXXX-Y"
 
 # Do not build files for websites. Need them? Set to false
 disableRSS = true
@@ -34,9 +33,9 @@ defaultContentLanguageInSubdir = true
       author = "Michael Boiman"
       
       [languages.de.params.ui]
-        tagline = "KI-Automatisierungsexperte mit 4+ Jahren KI-Erfahrung und 20+ Jahren Automatisierungserfahrung"
-        ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Automatisierung"
-        ai_skills_title = "KI-Automatisierungskompetenzen"
+        tagline = "Quality Engineering & KI-Automatisierungsexperte • 4+ Jahre KI-Entwicklung • 20+ Jahre Qualitätssicherung"
+        ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
+        ai_skills_title = "Quality Engineering & KI-Kompetenzen"
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -46,48 +45,32 @@ defaultContentLanguageInSubdir = true
         enable = true
         
         [[languages.de.params.ai_showcase.list]]
-        name = "KI-gestützte Automatisierung"
-        description = "E-Mail-Bots, Rechnungsverarbeitung, SAP-Integration, 80% Aufwandsreduktion, Transparente Monitoring-Dashboards"
+        name = "Quality Engineering & AI-Automatisierung"
+        description = "Quality-First Automatisierung: E-Mail-Bots, Rechnungsverarbeitung, Workflow-Automatisierung mit 80% Aufwandsreduktion, messbare Kosteneinsparungen, Bearbeitungszeit von Stunden auf Sekunden"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Enterprise AI & NLP"
-        description = "Dokumentenanalyse, spaCy, NLTK, 95% Genauigkeit, EU-Standards"
+        name = "KI-Quality Engineering Excellence"
+        description = "80% auto-generierte Tests & Test-Cases, IDE-Integration, Go/No-Go in Minuten statt Stunden, 50% weniger Entwicklungszeit, 80% weniger Rückfragen"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "RAG-Systeme & Semantic Search"
-        description = "Vector Embeddings, LangChain, Q&A-Bots, Kontextbasierte Antworten"
+        name = "Next-Gen AI Protocols & Agentic Systems"
+        description = "MCP & A2A Protocol Implementation, Multi-Agent-Orchestrierung, JSON-RPC, sichere Agent-to-Agent Communication, Enterprise-ready"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Agentic AI & Protokoll-Orchestrierung"
-        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, Secure Agent Communication, Multi-Agent Systems"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Quality Engineering"
-        description = "80% auto-generierte Tests, CI/CD Quality Gates, Monitoring, Grafana Dashboards, 50% weniger Entwicklungszeit"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Testautomatisierung"
-        description = "80% auto-generierte Test-Cases, IDE-Integration, Jira-API, 50% weniger Entwicklungszeit"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "NLP & Dokumentenverarbeitung"
-        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
+        name = "RAG-Systeme & Enterprise NLP"
+        description = "Vector Embeddings, LangChain, Q&A-Bots, spaCy/NLTK, 95% Genauigkeit, EU-Standards, kontextbasierte Intelligenz"
         
         [[languages.de.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, Serverless AI, MLOps, Echtzeit-Qualitätsmetriken, Skalierbare Deployment"
+        description = "Azure OpenAI, Google Cloud AI, Serverless MLOps, Auto-Scaling, Echtzeit-Monitoring, Production-Grade Deployment"
         
         [[languages.de.params.ai_showcase.list]]
-        name = "Transparenz & Messbarkeit"
-        description = "Echtzeit-Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, 80% weniger Rückfragen"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Dokumentations-Automatisierung"
-        description = "Single Source of Truth, Shift-Left Documentation, CI/CD-Integration, Documentation Debt Management"
+        name = "Transparenz & Business Intelligence"
+        description = "Real-time Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, KPI-Automation, Single Source of Truth"
 
       [languages.de.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte (4J KI, 20J Automatisierung)"
+        tagline = "Quality Engineering & KI-Experte – 20+ Jahre Qualitätssicherung, 4+ Jahre AI"
         avatar = "profile.png"
 
       [languages.de.params.contact]
@@ -183,19 +166,30 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-Mit mehr als 20 Jahren Erfahrung in der Automatisierung und 4 Jahren spezialisierter KI-Entwicklung liegt mein Fokus auf der Automatisierung von Geschäfts- und Qualitätsprozessen sowie der Integration künstlicher Intelligenz. Zu meinen fachlichen Schwerpunkten zählen:
-- **KI-Automatisierung & Transparenz**: 80% Reduktion manueller Arbeit, Echtzeit-Dashboards, messbare Geschäftserfolge, Bearbeitungszeit von Minuten auf Sekunden.
-- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG-Systeme, Agentic AI, MCP (Model Context Protocol), A2A.
-- **KI-Testautomatisierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit pro Test-Case, IDE-Integration.
-- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% weniger Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden.
-- **E-Mail-Automatisierung & SAP-Integration**: Automatisierte Verarbeitung, 100% Audit-Trail, Drittsystem-Abgleich.
-- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit.
-- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment.
-- **Python & ML (Machine Learning) Expertise**: KI-basierte Lösungen, Automatisierungen, Datenanalysen, AI (Artificial Intelligence) Integration.
-- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing (Pact.io, Spring Contract).
-- **Performance & Monitoring**: Load Testing, Echtzeit-Überwachung, Incident Analysis, Instana, Azure Log Analytics, fachliches Logging, Qualitätsstatus-Darstellung.
-- **Full-Stack Development**: Java, JavaScript, Swift, Python, Mobile Apps (Flutter), fundierte Mehrsprachen-Expertise.
-- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, interdisziplinäre Teams, Projektkoordination.
+**Quality Engineering & Enterprise AI-Experte** mit 20+ Jahren Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare, ROI-optimierte Quality-Automatisierung:
+
+**🎯 Quality Engineering Excellence**
+- **20+ Jahre QE-Expertise**: Testautomatisierung, CI/CD Quality Gates, End-to-End-Monitoring
+- **KI-gesteuerte Testgenerierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit
+- **Quality Dashboards**: Real-time Monitoring mit 10 Test-Tools, Go/No-Go in Minuten statt Stunden
+- **Performance Testing**: JMeter, Gatling, Load Testing mit automatisierter Analyse
+
+**🚀 Business Impact & ROI**
+- **80% Aufwandsreduktion** bei Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
+- **80% weniger Rückfragen** durch transparente Quality-Monitoring-Systeme
+- **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
+
+**🤖 AI Technology & NLP Excellence**
+- **Enterprise LLMs**: GPT-4, Claude, Gemini Integration mit Production-Grade Security
+- **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
+- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit
+- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment
+
+**⚡ DevOps & Technical Leadership**
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing
+- **Performance & Monitoring**: Load Testing, Incident Analysis, Instana, Azure Log Analytics
+- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
+- **Team Leadership**: Scrum Master, Product Owner, Quality Lead für interdisziplinäre Teams
         """
 
       [languages.de.params.experiences]
@@ -522,9 +516,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       author = "Michael Boiman"
       
       [languages.en.params.ui]
-        tagline = "AI Automation Expert with 4+ Years AI Experience and 20+ Years Automation Experience"
-        ai_badge = "4+ Years AI Development, 20+ Years Automation"
-        ai_skills_title = "AI Automation Competencies"
+        tagline = "Quality Engineering & AI Automation Expert • 4+ Years AI Development • 20+ Years Quality Assurance"
+        ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
+        ai_skills_title = "Quality Engineering & AI Competencies"
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -534,48 +528,32 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         enable = true
         
         [[languages.en.params.ai_showcase.list]]
-        name = "AI-Powered Automation"
-        description = "Email bots, invoice processing, SAP integration, 80% workload reduction, transparent monitoring dashboards"
+        name = "Quality Engineering & AI Automation"
+        description = "Quality-first automation: Email bots, invoice processing, workflow automation with 80% workload reduction, measurable cost savings, processing time from hours to seconds"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Enterprise AI & NLP"
-        description = "Document analysis, spaCy, NLTK, 95% accuracy, EU standards"
+        name = "AI Quality Engineering Excellence"
+        description = "80% auto-generated tests & test cases, IDE integration, Go/No-Go in minutes instead of hours, 50% less development time, 80% fewer inquiries"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "RAG Systems & Semantic Search"
-        description = "Vector embeddings, LangChain, Q&A bots, contextual responses"
+        name = "Next-Gen AI Protocols & Agentic Systems"
+        description = "MCP & A2A protocol implementation, multi-agent orchestration, JSON-RPC, secure agent-to-agent communication, enterprise-ready"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Agentic AI & Protocol Orchestration"
-        description = "MCP (Model Context Protocol), A2A (Agent-to-Agent Protocol), JSON-RPC, secure agent communication, multi-agent systems"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Quality Engineering"
-        description = "80% auto-generated tests, CI/CD Quality Gates, monitoring, Grafana dashboards, 50% less dev time"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Test Automation"
-        description = "80% auto-generated test cases, IDE integration, Jira API, 50% less development time"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "NLP & Document Processing"
-        description = "spaCy, NLTK, PyPDF2, Named Entity Recognition, Sentiment Analysis"
+        name = "RAG Systems & Enterprise NLP"
+        description = "Vector embeddings, LangChain, Q&A bots, spaCy/NLTK, 95% accuracy, EU standards, contextual intelligence"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, serverless AI, MLOps, real-time quality metrics, scalable deployment"
+        description = "Azure OpenAI, Google Cloud AI, serverless MLOps, auto-scaling, real-time monitoring, production-grade deployment"
         
         [[languages.en.params.ai_showcase.list]]
-        name = "Transparency & Measurability"
-        description = "Real-time dashboards, quality visualization, end-to-end monitoring, 80% fewer inquiries"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Documentation Automation"
-        description = "Single Source of Truth, Shift-Left Documentation, CI/CD integration, Documentation Debt Management"
+        name = "Transparency & Business Intelligence"
+        description = "Real-time dashboards, quality visualization, end-to-end monitoring, KPI automation, single source of truth"
 
       [languages.en.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – AI Automation Expert (4Y AI, 20Y Automation)"
+        tagline = "Quality Engineering & AI Expert – 20+ Years Quality Assurance, 4+ Years AI"
         avatar = "profile.png"
 
       [languages.en.params.contact]
@@ -671,19 +649,30 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-With more than 20 years of experience in automation and 4 years of specialized AI development, I focus on automating business and quality processes and integrating artificial intelligence. My professional strengths include:
-- **AI Automation & Transparency**: 80% reduction in manual work, real-time dashboards, measurable business success, processing time from minutes to seconds.
-- **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG systems, Agentic AI, MCP (Model Context Protocol), A2A.
-- **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case, IDE integration.
-- **Quality Engineering Excellence**: CI/CD Quality Gates, 80% fewer inquiries, Go/No-Go decisions in minutes instead of hours.
-- **Email Automation & SAP Integration**: Automated processing, 100% audit trail, third-party system synchronization.
-- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy.
-- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment.
-- **Python & ML (Machine Learning) Expertise**: AI-based solutions, automations, data analysis, AI (Artificial Intelligence) integration.
-- **DevOps & CI/CD (Continuous Integration/Continuous Deployment)**: GitHub, GitLab, Jenkins, container orchestration, contract testing (Pact.io, Spring Contract).
-- **Performance & Monitoring**: Load testing, real-time monitoring, incident analysis, Instana, Azure Log Analytics, domain-specific logging, quality status visualization.
-- **Full-Stack Development**: Java, JavaScript, Swift, Python, mobile apps (Flutter), comprehensive multi-language expertise.
-- **Team Leadership & Agile Management**: Scrum Master, SAFe, Product Owner, cross-functional teams, project coordination."""
+**Quality Engineering & Enterprise AI Expert** with 20+ years of quality assurance and 4 years of specialized AI development. Transform business processes through measurable, ROI-optimized quality automation:
+
+**🎯 Quality Engineering Excellence**
+- **20+ Years QE Expertise**: Test automation, CI/CD quality gates, end-to-end monitoring
+- **AI-driven Test Generation**: 80% automatically generated test cases, 50% less development time
+- **Quality Dashboards**: Real-time monitoring across 10 test tools, Go/No-Go decisions in minutes instead of hours
+- **Performance Testing**: JMeter, Gatling, load testing with automated analysis
+
+**🚀 Business Impact & ROI**
+- **80% workload reduction** in automation & invoice processing with **measurable cost savings**
+- **80% fewer inquiries** through transparent quality monitoring systems
+- **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
+
+**🤖 AI Technology & NLP Excellence**
+- **Enterprise LLMs**: GPT-4, Claude, Gemini integration with production-grade security
+- **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
+- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy
+- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment
+
+**⚡ DevOps & Technical Leadership**
+- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing
+- **Performance & Monitoring**: Load testing, incident analysis, Instana, Azure Log Analytics
+- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
+- **Team Leadership**: Scrum Master, Product Owner, Quality Lead for cross-functional teams"""
 
       [languages.en.params.experiences]
         enable = true
@@ -1003,26 +992,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         title = "PROJEKTE & LÖSUNGEN"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
         license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte unterliegen einer Attribution-Required-Lizenz. Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung und Verlinkung zu Michael Boiman erforderlich."
-
-        [[languages.de.params.projects.list]]
-        title = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
-        featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
-
-        [[languages.de.params.projects.list]]
-        title = "QualityCluster"
-        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
-        category = "Quality Engineering"
-        featured = true
-        screenshot = "projects/qualitycluster.png"
-        tagline = """
-QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
-Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
-"""
+        non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
@@ -1062,11 +1032,22 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
-        title   = "AI-Beratung für Unternehmen"
-        tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
-        featured = false
-        tagline = "Beratungen zum Einsatz von AI im Unternehmen."
+        featured = true
+        screenshot = "projects/aistrategy.png"
+        tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
+
+**Beratungsleistungen:**
+• **Strategieentwicklung:** Von der AI-Vision zur messbaren Umsetzungsroadmap
+• **Prozess-Analyse:** Identifikation von Automatisierungspotenzialen, Quality-First Assessment
+• **ROI-Bewertung:** Business Cases, Kosteneinsparungen, Amortisationsrechnung
+• **Executive Workshops:** Hands-on Strategie-Sessions mit Live-Demo Business Cases
+• **Change Management:** Team-Adoption, Schulungskonzepte, Widerstandsmanagement
+• **Umsetzungsbegleitung:** Vom Konzept zur produktiven AI-Lösung
+
+**Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Executive Workshop, Umsetzungsbegleitung"""
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
@@ -1077,11 +1058,23 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
 
         [[languages.de.params.projects.list]]
-        title = "Dual-Run Preiskalkulation Legacy-Migration"
-        tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
-        featured = false
-        tagline = "Innovativer Dual-Run-Ansatz für sichere Legacy-Mainframe-Migration mit 1M+ Kombinationsmöglichkeiten. Impact: Qualitätskennzahl von 30% auf 96% erhöht."
+        featured = true
+        screenshot = "projects/angebotstest.png"
+        tagline = """**Enterprise Legacy-Transformation mit vollautomatischer Qualitätssicherung**
+
+**Das Problem:** Komplexe Mainframe-Preiskalkulation mit Millionen von Kombinationsmöglichkeiten sollte sicher migriert werden - ohne Qualitätsverlust oder Datenfehler.
+
+**Die Lösung:** 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse
+• **Kontinuierliches Testing:** Zufallsgenerierte Tests aller Variationen rund um die Uhr
+• **Real-time Monitoring:** Live-Dashboard mit sofortiger Abweichungserkennung bei jedem Deployment
+• **Vollständige Traceability:** Jede Abweichung eindeutig geloggt mit technischem und fachlichem Kontext
+• **Automated Root Cause Analysis:** Direkter Zugriff auf Kalkulationswege und Fehlerursachen
+• **Quality Intelligence:** Kibana-Dashboards für End-to-End-Qualitätsübersicht
+
+**Measurable Impact:** Qualitätskennzahl von 30% auf 96% erhöht - sichere Migration ohne Datenverlust, vollständige Transparenz über den Migrationsstatus"""
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
@@ -1100,6 +1093,45 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
 
         [[languages.de.params.projects.list]]
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
+        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
+
+        [[languages.de.params.projects.list]]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        category = "Training & Workshops"
+        featured = true
+        screenshot = "projects/aiagentworkshop.png"
+        tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
+
+**Workshop-Inhalte:**
+• **Hands-on AI-Agent Development:** Live-Coding mit GPT-4o, Claude, Gemini
+• **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
+• **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
+• **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
+• **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
+• **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
+
+**Deliverables:** Vollständiger Quellcode, Folien, Hands-on-Übungen, Production-ready Templates"""
+
+
+        [[languages.de.params.projects.list]]
+        title = "QualityCluster"
+        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster.png"
+        tagline = """
+QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
+Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
+"""
+
+        [[languages.de.params.projects.list]]
         title = "Freelance Success Stories - KI-Präsentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
@@ -1113,26 +1145,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
         license_notice = "**License Notice:** All projects and concepts are subject to an Attribution-Required license. When using or drawing inspiration from these works, proper attribution and linking to Michael Boiman is required."
-
-        [[languages.en.params.projects.list]]
-        title = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
-        featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
-
-        [[languages.en.params.projects.list]]
-        title = "QualityCluster"
-        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
-        category = "Quality Engineering"
-        featured = true
-        screenshot = "projects/qualitycluster.png"
-        tagline = """
-QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
-Our goal is to implement more quality through a higher degree of automation.  
-"""
+        non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
@@ -1172,11 +1185,22 @@ Our goal is to implement more quality through a higher degree of automation.
         tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
-        title = "AI Consulting for Enterprises"
-        tech_stack = ["Consulting", "AI Strategy", "Workshop", "Pitch"]
+        title = "Enterprise AI Consulting: From Strategy to Implementation"
+        tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
-        featured = false
-        tagline = "Consultancy on the use of AI within companies."
+        featured = true
+        screenshot = "projects/aistrategy.png"
+        tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
+
+**Consulting Services:**
+• **Strategy Development:** From AI vision to measurable implementation roadmap
+• **Process Analysis:** Identification of automation potential, quality-first assessment
+• **ROI Assessment:** Business cases, cost savings, amortization calculations
+• **Executive Workshops:** Hands-on strategy sessions with live-demo business cases
+• **Change Management:** Team adoption, training concepts, resistance management
+• **Implementation Support:** From concept to productive AI solution
+
+**Deliverables:** AI strategy template, ROI calculator, implementation roadmap, executive workshop, implementation support"""
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
@@ -1187,11 +1211,23 @@ Our goal is to implement more quality through a higher degree of automation.
         tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
 
         [[languages.en.params.projects.list]]
-        title = "Dual-Run Price Calculation Legacy Migration"
-        tech_stack = ["Java", "Mainframe", "CI/CD", "Test Automation"]
+        title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
-        featured = false
-        tagline = "Innovative dual-run approach for secure legacy mainframe migration with 1M+ combination possibilities. Impact: Quality metrics improved from 30% to 96%."
+        featured = true
+        screenshot = "projects/angebotstest.png"
+        tagline = """**Enterprise Legacy Transformation with Fully Automated Quality Assurance**
+
+**The Challenge:** Complex mainframe price calculation with millions of combination possibilities needed secure migration - without quality loss or data errors.
+
+**The Solution:** 24/7 Dual-Run Validation System with intelligent deviation analysis
+• **Continuous Testing:** Randomly generated tests across all variations around the clock
+• **Real-time Monitoring:** Live dashboard with immediate deviation detection on every deployment
+• **Complete Traceability:** Every deviation uniquely logged with technical and business context
+• **Automated Root Cause Analysis:** Direct access to calculation paths and error sources
+• **Quality Intelligence:** Kibana dashboards for end-to-end quality overview
+
+**Measurable Impact:** Quality metrics improved from 30% to 96% - secure migration without data loss, complete transparency over migration status"""
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
@@ -1208,6 +1244,45 @@ Our goal is to implement more quality through a higher degree of automation.
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
         [[languages.en.params.projects.list]]
+        title = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
+        featured = true
+        screenshot = "projects/wecation.png"
+        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
+
+        [[languages.en.params.projects.list]]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        category = "Training & Workshops"
+        featured = true
+        screenshot = "projects/aiagentworkshop.png"
+        tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
+
+**Workshop Content:**
+• **Hands-on AI Agent Development:** Live coding with GPT-4o, Claude, Gemini
+• **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
+• **Browser Automation:** Playwright-MCP for automated test generation
+• **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
+• **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
+• **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
+
+**Deliverables:** Complete source code, slides, hands-on exercises, production-ready templates"""
+
+
+        [[languages.en.params.projects.list]]
+        title = "QualityCluster"
+        tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/qualitycluster.png"
+        tagline = """
+QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
+Our goal is to implement more quality through a higher degree of automation.  
+"""
+
+        [[languages.en.params.projects.list]]
         title = "Freelance Success Stories - AI Presentation"
         url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
         tech_stack = ["Gamma", "Presentation", "Case Studies"]
@@ -1221,6 +1296,18 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Skills & Tools"
 
         [[languages.de.params.skills.list]]
+        skill = "Quality Engineering & Testautomatisierung"
+        level = "99%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Playwright & End-to-End Testing"
+        level = "97%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Cucumber / Gauge / Taiko (BDD)"
+        level = "99%"
+
+        [[languages.de.params.skills.list]]
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
         level = "98%"
         
@@ -1232,14 +1319,6 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
         level = "90%"
         
-        [[languages.de.params.skills.list]]
-        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
-        level = "85%"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
-        level = "80%"
-
         [[languages.de.params.skills.list]]
         skill = "Software-Entwicklung, -Design, -Architektur"
         level = "99%"
@@ -1330,6 +1409,18 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
+        skill = "Quality Engineering & Test Automation"
+        level = "99%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Playwright & End-to-End Testing"
+        level = "97%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Cucumber / Gauge / Taiko (BDD)"
+        level = "99%"
+
+        [[languages.en.params.skills.list]]
         skill = "Python (Data Analysis, ML/AI, Automation)"
         level = "98%"
         
@@ -1340,14 +1431,6 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
         level = "90%"
-        
-        [[languages.en.params.skills.list]]
-        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
-        level = "85%"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
-        level = "80%"
         
         [[languages.en.params.skills.list]]
         skill = "Software Development, Design, Architecture"
