@@ -35,7 +35,7 @@ defaultContentLanguageInSubdir = true
       [languages.de.params.ui]
         tagline = "Quality Engineering & KI-Automatisierungsexperte • 4+ Jahre KI-Entwicklung • 20+ Jahre Qualitätssicherung"
         ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
-        ai_skills_title = "KI-Automatisierungskompetenzen"
+        ai_skills_title = "Quality Engineering & KI-Kompetenzen"
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -70,7 +70,7 @@ defaultContentLanguageInSubdir = true
 
       [languages.de.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte (4J KI, 20J Automatisierung)"
+        tagline = "Quality Engineering & KI-Experte – 20+ Jahre Qualitätssicherung, 4+ Jahre AI"
         avatar = "profile.png"
 
       [languages.de.params.contact]
@@ -168,23 +168,26 @@ defaultContentLanguageInSubdir = true
         summary = """\
 **Quality Engineering & Enterprise AI-Experte** mit 20+ Jahren Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare, ROI-optimierte Quality-Automatisierung:
 
+**🎯 Quality Engineering Excellence**
+- **20+ Jahre QE-Expertise**: Testautomatisierung, CI/CD Quality Gates, End-to-End-Monitoring
+- **KI-gesteuerte Testgenerierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit
+- **Quality Dashboards**: Real-time Monitoring mit 10 Test-Tools, Go/No-Go in Minuten statt Stunden
+- **Performance Testing**: JMeter, Gatling, Load Testing mit automatisierter Analyse
+
 **🚀 Business Impact & ROI**
-- **80% Aufwandsreduktion** bei E-Mail-Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
-- **Go/No-Go-Entscheidungen in Minuten** statt Stunden durch Real-time Quality Dashboards
-- **50% weniger Entwicklungszeit** durch KI-generierte Tests und IDE-Integration
-- **80% weniger Rückfragen** durch transparente End-to-End-Monitoring-Systeme
+- **80% Aufwandsreduktion** bei Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
+- **80% weniger Rückfragen** durch transparente Quality-Monitoring-Systeme
+- **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
 
 **🤖 Next-Generation AI Technology**
 - **Enterprise LLMs**: GPT-4, Claude, Gemini Integration mit Production-Grade Security
 - **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
 - **RAG-Systeme**: Vector Embeddings, 95% Genauigkeit, EU-Standards-konforme NLP
-- **Multi-Cloud MLOps**: Azure OpenAI, Auto-Scaling, Serverless AI Architecture
 
-**⚡ Technical Excellence & Leadership**
-- **Full-Stack Expertise**: Java, Python, JavaScript, Swift, Flutter Mobile Development
-- **DevOps & Quality Engineering**: CI/CD Quality Gates, Container-Orchestrierung, Performance Testing
-- **Team Leadership**: Scrum Master, Product Owner, interdisziplinäre Projektkoordination
-- **Enterprise Integration**: Microsoft Graph, LeanIX, Multi-Source Data Orchestration, SAP-Konnektivität
+**⚡ Technical Leadership & Integration**
+- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
+- **Team Leadership**: Scrum Master, Product Owner, Quality Lead für interdisziplinäre Teams
+- **Enterprise Integration**: Microsoft Graph, LeanIX, Multi-Source Data Orchestration
         """
 
       [languages.de.params.experiences]
@@ -513,7 +516,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       [languages.en.params.ui]
         tagline = "Quality Engineering & AI Automation Expert • 4+ Years AI Development • 20+ Years Quality Assurance"
         ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
-        ai_skills_title = "AI Automation Competencies"
+        ai_skills_title = "Quality Engineering & AI Competencies"
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -548,7 +551,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
       [languages.en.params.profile]
         name = "Michael Boiman"
-        tagline = "Full-Stack Dev & Quality Engineer – AI Automation Expert (4Y AI, 20Y Automation)"
+        tagline = "Quality Engineering & AI Expert – 20+ Years Quality Assurance, 4+ Years AI"
         avatar = "profile.png"
 
       [languages.en.params.contact]
@@ -646,23 +649,26 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         summary = """\
 **Quality Engineering & Enterprise AI Expert** with 20+ years of quality assurance and 4 years of specialized AI development. Transform business processes through measurable, ROI-optimized quality automation:
 
+**🎯 Quality Engineering Excellence**
+- **20+ Years QE Expertise**: Test automation, CI/CD quality gates, end-to-end monitoring
+- **AI-driven Test Generation**: 80% automatically generated test cases, 50% less development time
+- **Quality Dashboards**: Real-time monitoring across 10 test tools, Go/No-Go decisions in minutes instead of hours
+- **Performance Testing**: JMeter, Gatling, load testing with automated analysis
+
 **🚀 Business Impact & ROI**
-- **80% workload reduction** in email automation & invoice processing with **measurable cost savings**
-- **Go/No-Go decisions in minutes** instead of hours through real-time quality dashboards
-- **50% less development time** through AI-generated tests and IDE integration
-- **80% fewer inquiries** through transparent end-to-end monitoring systems
+- **80% workload reduction** in automation & invoice processing with **measurable cost savings**
+- **80% fewer inquiries** through transparent quality monitoring systems
+- **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
 
 **🤖 Next-Generation AI Technology**
 - **Enterprise LLMs**: GPT-4, Claude, Gemini integration with production-grade security
 - **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
 - **RAG Systems**: Vector embeddings, 95% accuracy, EU standards-compliant NLP
-- **Multi-Cloud MLOps**: Azure OpenAI, auto-scaling, serverless AI architecture
 
-**⚡ Technical Excellence & Leadership**
-- **Full-Stack Expertise**: Java, Python, JavaScript, Swift, Flutter mobile development
-- **DevOps & Quality Engineering**: CI/CD quality gates, container orchestration, performance testing
-- **Team Leadership**: Scrum Master, Product Owner, cross-functional project coordination
-- **Enterprise Integration**: Microsoft Graph, LeanIX, multi-source data orchestration, SAP connectivity"""
+**⚡ Technical Leadership & Integration**
+- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
+- **Team Leadership**: Scrum Master, Product Owner, Quality Lead for cross-functional teams
+- **Enterprise Integration**: Microsoft Graph, LeanIX, multi-source data orchestration"""
 
       [languages.en.params.experiences]
         enable = true
@@ -1200,6 +1206,18 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Skills & Tools"
 
         [[languages.de.params.skills.list]]
+        skill = "Quality Engineering & Testautomatisierung"
+        level = "99%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Playwright & End-to-End Testing"
+        level = "97%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Cucumber / Gauge / Taiko (BDD)"
+        level = "99%"
+
+        [[languages.de.params.skills.list]]
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
         level = "98%"
         
@@ -1211,14 +1229,6 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
         level = "90%"
         
-        [[languages.de.params.skills.list]]
-        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
-        level = "85%"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
-        level = "80%"
-
         [[languages.de.params.skills.list]]
         skill = "Software-Entwicklung, -Design, -Architektur"
         level = "99%"
@@ -1309,6 +1319,18 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
+        skill = "Quality Engineering & Test Automation"
+        level = "99%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Playwright & End-to-End Testing"
+        level = "97%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Cucumber / Gauge / Taiko (BDD)"
+        level = "99%"
+
+        [[languages.en.params.skills.list]]
         skill = "Python (Data Analysis, ML/AI, Automation)"
         level = "98%"
         
@@ -1319,14 +1341,6 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
         level = "90%"
-        
-        [[languages.en.params.skills.list]]
-        skill = "NLP & Text Processing - spaCy, NLTK, BeautifulSoup"
-        level = "85%"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Vector Databases - Pinecone, Elasticsearch, Semantic Search"
-        level = "80%"
         
         [[languages.en.params.skills.list]]
         skill = "Software Development, Design, Architecture"
