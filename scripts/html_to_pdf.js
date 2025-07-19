@@ -428,7 +428,15 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         .page-break-avoid { page-break-inside: avoid; }
         .no-print { display: none !important; }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome icons replaced with simple text symbols for PDF -->
+    <style>
+        .fa-envelope::before { content: "✉"; }
+        .fa-phone::before { content: "☎"; }
+        .fa-map-marker-alt::before { content: "📍"; }
+        .fa-linkedin::before { content: "💼"; }
+        .fa-github::before { content: "⚡"; }
+        .fa-globe::before { content: "🌐"; }
+    </style>
 </head>
 <body>
     <div class="cv-container">
