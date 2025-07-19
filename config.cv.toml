@@ -46,7 +46,7 @@ defaultContentLanguageInSubdir = true
         
         [[languages.de.params.ai_showcase.list]]
         name = "Enterprise AI-Automatisierung"
-        description = "E-Mail-Bots, Rechnungsverarbeitung, Workflow-Automatisierung: 80% Aufwandsreduktion, ROI 300%+, Bearbeitungszeit von Stunden auf Sekunden"
+        description = "E-Mail-Bots, Rechnungsverarbeitung, Workflow-Automatisierung: 80% Aufwandsreduktion, messbare Kosteneinsparungen, Bearbeitungszeit von Stunden auf Sekunden"
         
         [[languages.de.params.ai_showcase.list]]
         name = "KI-Quality Engineering Excellence"
@@ -166,10 +166,10 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-**Enterprise AI-Automatisierungsexperte** mit 20+ Jahren Automatisierung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare ROI-optimierte Lösungen:
+**Enterprise AI-Automatisierungsexperte** mit 20+ Jahren Automatisierung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare, ROI-optimierte Automatisierung:
 
 **🚀 Business Impact & ROI**
-- **80% Aufwandsreduktion** bei E-Mail-Automatisierung & Rechnungsverarbeitung mit **ROI 300%+**
+- **80% Aufwandsreduktion** bei E-Mail-Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
 - **Go/No-Go-Entscheidungen in Minuten** statt Stunden durch Real-time Quality Dashboards
 - **50% weniger Entwicklungszeit** durch KI-generierte Tests und IDE-Integration
 - **80% weniger Rückfragen** durch transparente End-to-End-Monitoring-Systeme
@@ -524,7 +524,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         
         [[languages.en.params.ai_showcase.list]]
         name = "AI-Powered Automation"
-        description = "Email bots, invoice processing, SAP integration, 80% workload reduction, transparent monitoring dashboards"
+        description = "Email bots, invoice processing, enterprise integration, 80% workload reduction, transparent monitoring dashboards"
         
         [[languages.en.params.ai_showcase.list]]
         name = "Enterprise AI & NLP"
@@ -665,7 +665,7 @@ With more than 20 years of experience in automation and 4 years of specialized A
 - **Enterprise AI Integration**: LLMs (GPT-4, Claude, Gemini), RAG systems, Agentic AI, MCP (Model Context Protocol), A2A.
 - **AI Test Automation**: 80% automatically generated test cases, 50% less development time per test case, IDE integration.
 - **Quality Engineering Excellence**: CI/CD Quality Gates, 80% fewer inquiries, Go/No-Go decisions in minutes instead of hours.
-- **Email Automation & SAP Integration**: Automated processing, 100% audit trail, third-party system synchronization.
+- **Email Automation & Enterprise Integration**: Automated processing, 100% audit trail, third-party system synchronization.
 - **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy.
 - **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment.
 - **Python & ML (Machine Learning) Expertise**: AI-based solutions, automations, data analysis, AI (Artificial Intelligence) integration.
