@@ -522,6 +522,13 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
     process.exit(1);
   }
 
+  // Ensure output directory exists
+  const outputDir = path.dirname(outputPdf);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+    console.log('📁 Created output directory:', outputDir);
+  }
+
   // Read and parse TOML configuration
   console.log('📋 Reading configuration from:', configPath);
   const configContent = fs.readFileSync(configPath, 'utf8');
