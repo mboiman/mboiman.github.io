@@ -3,6 +3,83 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 
+// Function to convert markdown-style formatting to HTML
+function formatMarkdownToHTML(text) {
+  if (!text) return '';
+  
+  let formatted = text;
+  
+  // Bold text: **text** -> <strong>text</strong>
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Convert bullet points and list items
+  formatted = formatted.replace(/^[\*\-]\s+(.+)/gm, '• $1');
+  
+  // Convert numbered lists
+  formatted = formatted.replace(/^\d+\.\s+(.+)/gm, '• $1');
+  
+  // Convert section headers (lines starting with **)
+  formatted = formatted.replace(/^\*\*([^*]+)\*\*$/gm, '<strong>$1</strong>');
+  
+  // Convert lines that end with : to be bold (section headers)
+  formatted = formatted.replace(/^([^•\n]+):$/gm, '<strong>$1:</strong>');
+  
+  // Handle emojis and preserve them
+  // No changes needed - emojis should work as-is
+  
+  return formatted;
+}
+
+// Function to split text into paragraphs and format as HTML
+function formatTextToParagraphs(text) {
+  if (!text) return '';
+  
+  const formatted = formatMarkdownToHTML(text);
+  
+  // Split by double line breaks for paragraphs
+  const paragraphs = formatted.split('\n\n').filter(p => p.trim());
+  
+  return paragraphs.map(p => {
+    const trimmed = p.trim();
+    if (!trimmed) return '';
+    
+    // Check if paragraph contains bullet points
+    if (trimmed.includes('•')) {
+      const lines = trimmed.split('\n');
+      let html = '';
+      let inList = false;
+      
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (trimmedLine.startsWith('•')) {
+          if (!inList) {
+            html += '<ul>';
+            inList = true;
+          }
+          html += `<li>${trimmedLine.substring(1).trim()}</li>`;
+        } else {
+          if (inList) {
+            html += '</ul>';
+            inList = false;
+          }
+          if (trimmedLine) {
+            html += `<p>${trimmedLine}</p>`;
+          }
+        }
+      }
+      
+      if (inList) {
+        html += '</ul>';
+      }
+      
+      return html;
+    } else {
+      // Regular paragraph
+      return `<p>${trimmed}</p>`;
+    }
+  }).join('');
+}
+
 // Function to generate HTML content from TOML configuration
 function generateHTMLFromConfig(langConfig, profileImageData) {
   // Generate contact items
@@ -27,11 +104,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
 
   // Generate experience items
   const experienceItems = langConfig.experiences.list.map(exp => {
-    // Clean up details text - remove markdown-style formatting for PDF
-    let details = exp.details || '';
-    details = details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
-    details = details.replace(/^\*\s+/gm, '• '); // Bullet points
-    details = details.replace(/^-\s+/gm, '• '); // Bullet points
+    const formattedDetails = formatTextToParagraphs(exp.details || '');
     
     return `
       <div class="experience-item page-break-avoid">
@@ -41,7 +114,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         </div>
         <div class="experience-company">${exp.company}</div>
         <div class="experience-details">
-          ${details.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}
+          ${formattedDetails}
         </div>
       </div>
     `;
@@ -69,13 +142,15 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
       }
     }
     
+    const formattedTagline = formatMarkdownToHTML(project.tagline);
+    
     if (hasScreenshot) {
       return `
         <div class="project-item with-screenshot page-break-avoid">
           <div class="project-content">
             <div class="project-title">${project.title}</div>
             <div class="project-tech">${techTags}</div>
-            <div class="project-description">${project.tagline}</div>
+            <div class="project-description">${formattedTagline}</div>
           </div>
           <img src="${screenshotBase64}" alt="${project.title}" class="project-screenshot">
         </div>
@@ -85,7 +160,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         <div class="project-item page-break-avoid">
           <div class="project-title">${project.title}</div>
           <div class="project-tech">${techTags}</div>
-          <div class="project-description">${project.tagline}</div>
+          <div class="project-description">${formattedTagline}</div>
         </div>
       `;
     }
@@ -238,6 +313,14 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
             font-size: 7pt; line-height: 1.4; margin-bottom: 6px;
         }
         
+        .career-profile ul {
+            margin: 4px 0 6px 12px; padding: 0; font-size: 7pt;
+        }
+        
+        .career-profile li {
+            margin-bottom: 2px; line-height: 1.3;
+        }
+        
         .career-profile strong { font-weight: 600; color: #2d7788; }
         
         .experience-item {
@@ -268,8 +351,9 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-details p { margin-bottom: 4px; }
-        .experience-details ul { margin: 4px 0 0 12px; padding: 0; }
-        .experience-details li { margin-bottom: 2px; }
+        .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
+        .experience-details li { margin-bottom: 2px; line-height: 1.3; }
+        .experience-details strong { font-weight: 600; color: #2d7788; }
         
         .project-item {
             margin-bottom: 8px; padding: 8px; background: #f8fafc;
@@ -372,7 +456,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
             <div class="cv-content">
                 <section class="career-profile page-break-avoid">
                     <h2>${langConfig.summary.title}</h2>
-                    ${langConfig.summary.summary.split('\n\n').map(p => `<p>${p.trim()}</p>`).join('')}
+                    ${formatTextToParagraphs(langConfig.summary.summary)}
                 </section>
 
                 <section class="cv-section">
