@@ -1079,18 +1079,38 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
-        title = "Workshop: Entwicklung mit Generativen Sprach Modellen"
-        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC"]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
-        tagline = "Umfassender Developer-Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos, Live-Coding und Hands-on-Übungen. Fokus auf MCP, A2A-Protokolle, Browser-Automation und Multi-Agent-Systeme."
+        tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
+
+**Workshop-Inhalte:**
+• **Hands-on AI-Agent Development:** Live-Coding mit GPT-4o, Claude, Gemini
+• **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
+• **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
+• **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
+• **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
+• **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
+
+**Deliverables:** Vollständiger Quellcode, Folien, Hands-on-Übungen, Production-ready Templates"""
 
         [[languages.de.params.projects.list]]
-        title = "KI-Workshop für Unternehmenseinbindung"
-        tech_stack = ["OpenAI API", "Python", "Streamlit", "Vector Embeddings", "RAG-Systeme", "Q&A-Bots"]
+        title = "Executive Workshop: AI Business Strategy & ROI Implementation"
+        tech_stack = ["AI Strategy", "ROI Assessment", "Process Analysis", "Change Management", "Quality Engineering", "Business Cases"]
         category = "Training & Workshops"
         featured = true
-        tagline = "Praxis-Workshop mit Live-Entwicklung eines intelligenten Q&A-Bots, Web-Scraping, Vector Embeddings und Similarity Search. Komplette Präsentation und Quellcode verfügbar."
+        tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
+
+**Workshop-Inhalte:**
+• **AI-Strategie entwickeln:** Von der Vision zur messbaren Umsetzung
+• **ROI-Bewertung:** Business Cases, Kosteneinsparungen, Amortisationsrechnung
+• **Prozess-Analyse:** Identifikation von Automatisierungspotenzialen  
+• **Quality-First Approach:** Qualitätssicherung als Erfolgsfaktor für AI-Projekte
+• **Change Management:** Team-Adoption, Schulungskonzepte, Widerstandsmanagement
+• **Live-Demo Business Cases:** E-Mail-Automatisierung, Quality Dashboards, Testautomatisierung
+
+**Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Best-Practice-Guide"""
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -1202,18 +1222,38 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
-        title = "Workshop: Development with Generative Language Models"
-        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC"]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
-        tagline = "Comprehensive developer workshop on modern AI agent development with practical demos, live coding and hands-on exercises. Focus on MCP, A2A protocols, browser automation and multi-agent systems."
+        tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
+
+**Workshop Content:**
+• **Hands-on AI Agent Development:** Live coding with GPT-4o, Claude, Gemini
+• **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
+• **Browser Automation:** Playwright-MCP for automated test generation
+• **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
+• **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
+• **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
+
+**Deliverables:** Complete source code, slides, hands-on exercises, production-ready templates"""
 
         [[languages.en.params.projects.list]]
-        title = "AI Workshop for Business Integration"
-        tech_stack = ["OpenAI API", "Python", "Streamlit", "Vector Embeddings", "RAG Systems", "Q&A Bots"]
+        title = "Executive Workshop: AI Business Strategy & ROI Implementation"
+        tech_stack = ["AI Strategy", "ROI Assessment", "Process Analysis", "Change Management", "Quality Engineering", "Business Cases"]
         category = "Training & Workshops"
         featured = true
-        tagline = "Practical workshop with live development of an intelligent Q&A bot, web scraping, vector embeddings and similarity search. Complete presentation and source code available."
+        tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
+
+**Workshop Content:**
+• **AI Strategy Development:** From vision to measurable implementation
+• **ROI Assessment:** Business cases, cost savings, amortization calculations
+• **Process Analysis:** Identification of automation potential
+• **Quality-First Approach:** Quality assurance as success factor for AI projects
+• **Change Management:** Team adoption, training concepts, resistance management
+• **Live-Demo Business Cases:** Email automation, quality dashboards, test automation
+
+**Deliverables:** AI strategy template, ROI calculator, implementation roadmap, best practice guide"""
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
