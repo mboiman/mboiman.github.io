@@ -53,13 +53,42 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
     
-    return `
-      <div class="project-item page-break-avoid">
-        <div class="project-title">${project.title}</div>
-        <div class="project-tech">${techTags}</div>
-        <div class="project-description">${project.tagline}</div>
-      </div>
-    `;
+    // Check if project has screenshot and try to load it
+    let screenshotBase64 = '';
+    let hasScreenshot = false;
+    
+    if (project.screenshot) {
+      const screenshotPath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', project.screenshot);
+      try {
+        const imageBuffer = fs.readFileSync(screenshotPath);
+        screenshotBase64 = `data:image/png;base64,${imageBuffer.toString('base64')}`;
+        hasScreenshot = true;
+        console.log(`✅ Screenshot loaded for project: ${project.title}`);
+      } catch (error) {
+        console.log(`⚠️  Could not load screenshot for ${project.title}: ${error.message}`);
+      }
+    }
+    
+    if (hasScreenshot) {
+      return `
+        <div class="project-item with-screenshot page-break-avoid">
+          <div class="project-content">
+            <div class="project-title">${project.title}</div>
+            <div class="project-tech">${techTags}</div>
+            <div class="project-description">${project.tagline}</div>
+          </div>
+          <img src="${screenshotBase64}" alt="${project.title}" class="project-screenshot">
+        </div>
+      `;
+    } else {
+      return `
+        <div class="project-item page-break-avoid">
+          <div class="project-title">${project.title}</div>
+          <div class="project-tech">${techTags}</div>
+          <div class="project-description">${project.tagline}</div>
+        </div>
+      `;
+    }
   }).join('');
 
   // Generate education items
@@ -243,9 +272,18 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         .experience-details li { margin-bottom: 2px; }
         
         .project-item {
-            margin-bottom: 6px; padding: 6px; background: #f8fafc;
+            margin-bottom: 8px; padding: 8px; background: #f8fafc;
             border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
+        }
+        
+        .project-item.with-screenshot {
+            display: grid; grid-template-columns: 1fr 60px;
+            gap: 8px; align-items: start;
+        }
+        
+        .project-content {
+            flex: 1;
         }
         
         .project-title {
@@ -261,6 +299,12 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         
         .project-description {
             font-size: 5.5pt; line-height: 1.3; color: #3c4858; margin-top: 3px;
+        }
+        
+        .project-screenshot {
+            width: 55px; height: 40px; object-fit: cover;
+            border-radius: 3px; border: 1px solid #e1e8ed;
+            background: #fff;
         }
         
         .cv-sidebar {
