@@ -97,7 +97,7 @@
         }
         .skills-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem; margin-top: 1.5rem;
+            gap: 1.5rem; margin-top: 1.5rem;
         }
         .skill-card {
             background: rgba(255,255,255,0.1); padding: 1rem;
@@ -126,15 +126,48 @@
         /* === VALUE PROPOSITION === */
         .value-prop {
             background: linear-gradient(135deg, #f7fafc, #edf2f7);
-            padding: 2rem; border-radius: 12px; margin-bottom: 3rem;
+            padding: 2.5rem; border-radius: 12px; margin-bottom: 3rem;
             border-left: 4px solid #4299e1;
         }
         .value-prop h2 {
             font-size: 1.5rem; font-weight: 700; color: #1a202c;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         .value-prop p {
-            font-size: 1.1rem; color: #4a5568; line-height: 1.7;
+            font-size: 1.1rem; color: #4a5568; line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .value-prop p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* === CAREER PROFILE STYLING === */
+        .value-prop strong {
+            display: block;
+            font-weight: 700;
+            color: #1a202c;
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+        .value-prop strong:first-child {
+            margin-top: 0;
+        }
+        .value-prop ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        .value-prop li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+        .value-prop li:last-child {
+            margin-bottom: 0;
+        }
+        .value-prop li strong {
+            display: inline;
+            margin: 0;
+            font-size: inherit;
         }
         
         /* === MODERN SECTIONS === */
@@ -221,7 +254,7 @@
             background: #4299e1; color: white;
         }
         .project-content {
-            padding: 1.5rem;
+            padding: 2rem;
         }
         .project-header {
             display: flex; justify-content: space-between; 
@@ -237,7 +270,7 @@
             font-size: 0.75rem; font-weight: 500;
         }
         .project-description {
-            color: #4a5568; line-height: 1.6; margin-top: 1rem;
+            color: #4a5568; line-height: 1.6; margin-top: 1.5rem;
         }
         
         /* === PROJECTS LIST === */
@@ -296,7 +329,7 @@
             position: relative;
         }
         .experience-item {
-            margin-bottom: 2.5rem; padding: 2rem 0;
+            margin-bottom: 3rem; padding: 2.5rem 0;
             border-bottom: 1px solid #e2e8f0;
             transition: all 0.3s ease;
         }
@@ -307,15 +340,15 @@
             transform: translateY(-2px);
         }
         .experience-header {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         .experience-title {
             font-size: 1.2rem; font-weight: 600; color: #1a202c;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
         }
         .experience-company {
             font-size: 1rem; font-weight: 500; color: #4299e1;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
         }
         .experience-dates {
             font-size: 0.9rem; color: #718096; font-style: italic;
@@ -330,7 +363,7 @@
             height: fit-content;
         }
         .sidebar-section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
         .sidebar-section h3 {
             font-size: 1rem; font-weight: 600; color: #1a202c;
@@ -367,7 +400,7 @@
             body { padding: 1rem 0.5rem; }
             .cv-header { padding: 2rem 1rem; }
             .header-content { grid-template-columns: 1fr; text-align: center; }
-            .cv-main { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1rem; }
+            .cv-main { grid-template-columns: 1fr; gap: 2.5rem; padding: 2rem 1rem; }
             .cv-fullwidth { padding: 0 1rem 2rem 1rem; }
             .skills-grid { grid-template-columns: 1fr; }
             .contact-info { justify-content: center; }
@@ -428,7 +461,7 @@
                 display: none !important; 
             }
             .project-content { 
-                padding: 1rem; 
+                padding: 1.5rem; 
             }
             .project-tech { 
                 display: flex; 
@@ -464,9 +497,26 @@
             .experience-company { color: #4299e1 !important; }
             .experience-dates { color: #718096 !important; }
             .experience-details { color: #4a5568 !important; }
-            .value-prop { background: #f8f9fa; border-left: 4px solid #4299e1; }
+            .value-prop { 
+                background: #f8f9fa; 
+                border-left: 4px solid #4299e1; 
+                padding: 2rem;
+                page-break-inside: avoid;
+            }
             .value-prop h2 { color: #1a202c !important; }
             .value-prop p { color: #4a5568 !important; }
+            .value-prop strong { 
+                color: #1a202c !important; 
+                margin: 1.2rem 0 0.5rem 0;
+                display: block;
+            }
+            .value-prop ul { 
+                margin-bottom: 1.2rem; 
+            }
+            .value-prop li { 
+                margin-bottom: 0.5rem; 
+                color: #4a5568 !important;
+            }
             .license-notice { 
                 background: #f8f9fa; 
                 border: 1px solid #ddd; 
