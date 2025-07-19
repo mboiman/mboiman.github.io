@@ -31,8 +31,8 @@ jobs:
 
       - name: Generate PDFs
         run: |
-          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf
-          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf
+          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de
+          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en
 
       - name: Build
         run: hugo --minify --config config.cv.toml
