@@ -37,6 +37,21 @@ const fs = require('fs');
   const fileUrl = 'file://' + path.resolve(inputHtml);
   console.log('🌐 Loading page:', fileUrl);
   
+  // Derive the base directory for resolving relative assets
+  const htmlDir = path.dirname(path.resolve(inputHtml));
+  console.log('📁 HTML directory:', htmlDir);
+  
+  // Read and encode the profile image as base64
+  const profileImagePath = path.join(__dirname, '..', 'static', 'assets', 'images', 'profile.png');
+  let profileImageBase64 = '';
+  try {
+    const imageBuffer = fs.readFileSync(profileImagePath);
+    profileImageBase64 = `data:image/png;base64,${imageBuffer.toString('base64')}`;
+    console.log('✅ Profile image loaded and encoded');
+  } catch (error) {
+    console.log('⚠️  Could not load profile image:', error.message);
+  }
+  
   // Wait for all resources to load
   await page.goto(fileUrl, {
     waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
@@ -46,7 +61,7 @@ const fs = require('fs');
   console.log('⚡ Optimizing for PDF...');
   
   // Check if we need to generate PDF-specific layout
-  await page.evaluate(() => {
+  await page.evaluate((baseDir, profileImageData) => {
     console.log('🎯 Checking for PDF-specific layout...');
     
     // Check if this is the regular website layout
@@ -56,7 +71,7 @@ const fs = require('fs');
       console.log('📄 Converting regular layout to PDF-optimized CV format...');
       
       // Create PDF-specific CV layout
-      const pdfTemplate = `
+      const pdfTemplate = /*html*/`
 <!DOCTYPE html>
 <html lang="de" class="pdf-cv-layout">
 <head>
@@ -272,7 +287,7 @@ const fs = require('fs');
     <div class="cv-container">
         <header class="cv-header">
             <div class="profile-image">
-                <img src="../images/profile.png" alt="Michael Boiman" class="profile-photo">
+                <img src="${profileImageData}" alt="Michael Boiman" class="profile-photo">
             </div>
             <div class="header-content">
                 <h1>Michael Boiman</h1>
@@ -758,7 +773,7 @@ const fs = require('fs');
     }
     
     console.log('✅ PDF optimizations completed');
-  });
+  }, htmlDir, profileImageBase64);
   
   // Wait for rendering
   await new Promise(resolve => setTimeout(resolve, 2000));
