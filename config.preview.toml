@@ -1,6 +1,6 @@
 # Page settings
 
-baseurl = "https://mboiman.github.io/"
+baseurl = "https://mboiman.github.io/preview/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "bks-theme"

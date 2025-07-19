@@ -25,7 +25,7 @@ jobs:
           hugo-version: "latest"
 
       - name: Build for Preview
-        run: hugo --minify --config config.preview.toml
+        run: hugo --minify --config config.preview.toml --baseURL "https://mboiman.github.io/preview/"
 
       - name: Deploy to Preview Branch
         uses: peaceiris/actions-gh-pages@v4
