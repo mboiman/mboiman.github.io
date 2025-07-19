@@ -34,19 +34,20 @@ else
   hugo --config "$BASE_CONFIG,$CUSTOM_CONFIG" -d "$BUILD_DIR"
 fi
 
-# Convert generated HTML to PDF using Puppeteer
+# Convert TOML configuration to PDF using Puppeteer
 if [ ! -d node_modules ]; then
   npm ci --silent
 fi
-# Determine default language from the active configuration(s)
-CFG_FILES=("$CUSTOM_CONFIG")
-if [ "$STANDALONE" -eq 0 ]; then
-  CFG_FILES=("$BASE_CONFIG" "$CUSTOM_CONFIG")
+
+# Use the configuration file for PDF generation
+if [ "$STANDALONE" -eq 1 ]; then
+  CONFIG_FOR_PDF="$CUSTOM_CONFIG"
+else
+  # For merged configs, we'll use the base config as it contains the full structure
+  CONFIG_FOR_PDF="$BASE_CONFIG"
 fi
-DEFAULT_LANG=$(grep -h "^defaultContentLanguage[[:space:]]*=" "${CFG_FILES[@]}" | tail -n1 | cut -d'"' -f2)
-MAIN_PAGE="$BUILD_DIR/$DEFAULT_LANG/index.html"
-[ -f "$MAIN_PAGE" ] || MAIN_PAGE="$BUILD_DIR/index.html"
-node scripts/html_to_pdf.js "$MAIN_PAGE" "$OUTPUT_PDF"
+
+node scripts/html_to_pdf.js "$CONFIG_FOR_PDF" "$OUTPUT_PDF"
 
 # Clean up
 rm -rf "$BUILD_DIR"
