@@ -181,7 +181,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-main {
-            display: grid; grid-template-columns: 1fr; /* Full width for main content as requested */
+            display: grid; grid-template-columns: 2fr 1fr; /* Keep sidebar but make experience section wider */
             gap: 20px; margin-top: 15px;
         }
         
@@ -190,6 +190,10 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
             margin: 12px 0 8px 0; padding-bottom: 3px;
             border-bottom: 1px solid #2d7788;
             text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        .cv-full-width {
+            margin-top: 20px;
         }
         
         .career-profile {
@@ -259,9 +263,9 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
             font-size: 5.5pt; line-height: 1.3; color: #3c4858; margin-top: 3px;
         }
         
-        .sidebar-content {
+        .cv-sidebar {
             background: #f8fafc; padding: 15px; border-radius: 6px;
-            border: 1px solid #e1e8ed; margin-top: 15px;
+            border: 1px solid #e1e8ed; height: fit-content;
         }
         
         .sidebar-section { margin-bottom: 15px; }
@@ -331,14 +335,9 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
                     <h2>${langConfig.projects.title}</h2>
                     ${projectItems}
                 </section>
-
-                <section class="cv-section page-break-before">
-                    <h2>${langConfig.experiences.title}</h2>
-                    ${experienceItems}
-                </section>
             </div>
 
-            <div class="sidebar-content">
+            <div class="cv-sidebar">
                 <div class="sidebar-section">
                     <h3>Technische Skills</h3>
                     <div class="skills-list">
@@ -367,6 +366,12 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
                 </div>
             </div>
         </div>
+
+        <!-- Full width section for experience -->
+        <section class="cv-section cv-full-width page-break-before">
+            <h2>${langConfig.experiences.title}</h2>
+            ${experienceItems}
+        </section>
     </div>
 </body>
 </html>
