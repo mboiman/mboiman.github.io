@@ -517,4 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Entfernen aller temporären Elemente
     document.body.classList.remove('pdf-export-mode');
   };
+  
+  // Globale Funktion für PDF-Export verfügbar machen
+  window.preparePDFPrint = preparePDFExport;
 });

@@ -1,142 +1,74 @@
-/* PDF-Only-Bereiche ausblenden in normaler Webansicht */
-.pdf-first-page,
-.pdf-only-contact-section,
-.pdf-cover-page,
-.pdf-professional-header,
-.pdf-cover-header,
-.pdf-contact-content,
-.pdf-content-columns {
-  display: none;
-}
-
-/* PDF Button Styles */
-.pdf-button-container {
-  text-align: center;
-  margin: 15px 0 25px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-  padding-bottom: 15px;
-}
-
-.pdf-button {
-  background-color: rgba(255,255,255,0.2);
-  color: white !important;
-  padding: 8px 15px;
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  width: 100%;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.pdf-button:hover {
-  background-color: rgba(255,255,255,0.3);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.pdf-hint {
-  font-size: 10px;
-  color: rgba(255,255,255,0.7);
-  margin-top: 6px;
-  text-align: center;
-  font-style: italic;
-}
-
-/* Button beim Drucken ausblenden */
-@media print {
-  .pdf-button-container {
-    display: none;
-  }
-  
-  /* Farbige Print-Optimierungen */
-  body {
-    font-size: 11pt;
-    -webkit-print-color-adjust: exact !important;
-    color: #3F4650;
-    background-color: white;
-  }
-  
-  .main-wrapper {
-    padding: 30px;
-    border: none;
-    box-shadow: none;
-    max-width: 100%;
-    margin: 0;
-  }
-  
-  .sidebar-wrapper {
-    position: relative;
-    width: 240px;
-    height: 100%;
-    float: left;
-    padding: 30px;
-    color: #fff;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .wrapper {
+/* Technology Stack Tags for Projects */
+.tech-stack {
     display: flex;
-    flex-direction: row;
-    background-color: white;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  
-  section {
-    page-break-inside: avoid;
-    margin-bottom: 20px;
-  }
-  
-  .main-wrapper section:first-child {
-    page-break-before: auto;
-    margin-top: 0;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: #2d7788 !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .section-title {
-    color: #2d7788 !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .skillset .level-bar-inner {
-    background-color: #2d7788 !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .sidebar-wrapper, .sidebar-wrapper .profile-container, .sidebar-wrapper a {
-    background-color: #2d7788 !important;
-    -webkit-print-color-adjust: exact !important;
-    color: white !important;
-  }
-  
-  a, a:link, a:visited {
-    color: #2d7788 !important;
-    text-decoration: none !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  /* Verhindert URL-Anhänge bei Links beim Drucken */
-  a:link:after, a:visited:after {
-    content: "" !important;
-  }
-  
-  img, .profile-image {
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  .item-meta {
-    color: #2d7788 !important;
-    -webkit-print-color-adjust: exact !important;
-  }
-  
-  /* Seitenformatierung */
-  @page {
-    size: A4;
-    margin: 0;
-  }
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.tech-tag {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Technology-specific colors */
+.tech-tag:nth-child(1) { background: linear-gradient(45deg, #0077be, #00a8ff); } /* Blue for main tech */
+.tech-tag:nth-child(2) { background: linear-gradient(45deg, #f39c12, #e74c3c); } /* Orange/Red for secondary */
+.tech-tag:nth-child(3) { background: linear-gradient(45deg, #27ae60, #2ecc71); } /* Green for frameworks */
+.tech-tag:nth-child(4) { background: linear-gradient(45deg, #8e44ad, #9b59b6); } /* Purple for APIs */
+.tech-tag:nth-child(5) { background: linear-gradient(45deg, #e67e22, #f39c12); } /* Orange for tools */
+.tech-tag:nth-child(6) { background: linear-gradient(45deg, #34495e, #2c3e50); } /* Dark for databases */
+.tech-tag:nth-child(7) { background: linear-gradient(45deg, #16a085, #1abc9c); } /* Teal for cloud */
+
+/* Project cards enhancement */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.project-card:hover .tech-tag {
+    transform: scale(1.05);
+}
+
+/* Print styles for tech tags */
+@media print {
+    .tech-stack {
+        margin: 0.5rem 0;
+    }
+    
+    .tech-tag {
+        background: #f8f9fa !important;
+        color: #333 !important;
+        border: 1px solid #ddd !important;
+        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .tech-stack {
+        gap: 0.3rem;
+    }
+    
+    .tech-tag {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
 }
