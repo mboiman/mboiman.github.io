@@ -373,26 +373,93 @@
         
         /* === LICENSE FOOTER === */
         .cv-footer {
-            background: #f8f9fa; border-top: 1px solid #e2e8f0;
-            padding: 2rem; margin-top: 3rem;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .cv-footer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            transform: scale(1.5);
+        }
+        .cv-footer::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(66, 153, 225, 0.1);
+            border-radius: 50%;
         }
         .license-section {
-            max-width: 1000px; margin: 0 auto; text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
         }
         .license-section h3 {
-            font-size: 1.2rem; font-weight: 600; color: #1a202c;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .license-section h3::before {
+            content: '⚖️';
+            font-size: 1.2rem;
         }
         .license-section p {
-            color: #4a5568; line-height: 1.6; margin-bottom: 1rem;
+            color: #e2e8f0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .attribution-format {
-            background: #edf2f7; border-radius: 6px; padding: 1rem;
-            margin-top: 1rem; text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .attribution-format strong {
+            color: #ffffff;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
         }
         .attribution-format code {
-            background: #e2e8f0; padding: 0.25rem 0.5rem; border-radius: 4px;
-            font-family: 'Courier New', monospace; font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            color: #4fc3f7;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            display: block;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            letter-spacing: 0.5px;
         }
         
         /* === RESPONSIVE === */
@@ -524,19 +591,42 @@
                 page-break-inside: avoid; 
             }
             .cv-footer { 
-                background: #f8f9fa; 
-                border-top: 1px solid #ddd; 
-                page-break-inside: avoid; 
+                background: #f8f9fa !important; 
+                color: #1a202c !important;
+                border-top: 2px solid #4299e1; 
+                page-break-inside: avoid;
+                margin-top: 2rem !important;
+                padding: 2rem !important;
             }
-            .license-section h3 { color: #1a202c !important; }
-            .license-section p { color: #4a5568 !important; }
+            .cv-footer::before, .cv-footer::after {
+                display: none !important;
+            }
+            .license-section h3 { 
+                color: #1a202c !important; 
+                font-size: 1.2rem !important;
+            }
+            .license-section h3::before {
+                display: none !important;
+            }
+            .license-section p { 
+                color: #4a5568 !important; 
+                font-size: 0.95rem !important;
+            }
             .attribution-format { 
-                background: #f0f0f0; 
-                border: 1px solid #ddd; 
+                background: #f0f0f0 !important; 
+                border: 1px solid #ddd !important; 
+                backdrop-filter: none !important;
+                border-radius: 6px !important;
+                padding: 1rem !important;
+            }
+            .attribution-format strong {
+                color: #1a202c !important;
             }
             .attribution-format code { 
-                background: #e8e8e8; 
+                background: #e8e8e8 !important; 
                 color: #333 !important; 
+                border: 1px solid #ccc !important;
+                font-size: 0.85rem !important;
             }
         }
     </style>
@@ -824,7 +914,7 @@
                 <h3>{{ .Site.Language.Params.footer.license_title }}</h3>
                 <p>{{ .Site.Language.Params.footer.license_text }}</p>
                 <div class="attribution-format">
-                    <strong>Erforderliches Attributionsformat:</strong><br>
+                    <strong>{{ if eq .Site.Language.Lang "de" }}Erforderliches Attributionsformat:{{ else }}Required Attribution Format:{{ end }}</strong>
                     <code>{{ .Site.Language.Params.footer.attribution_format }}</code>
                 </div>
             </div>
