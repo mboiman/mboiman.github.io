@@ -1,6 +1,6 @@
 # Page settings
 
-baseurl = "http://127.0.0.1:1313/"
+baseurl = "https://mboiman.github.io/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
 theme = "bks-theme"
