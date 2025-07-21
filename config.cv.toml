@@ -151,6 +151,11 @@ defaultContentLanguageInSubdir = true
         language = "Hebräisch"
         level = "Konversationslevel"
 
+      [languages.de.params.license_sidebar]
+        enable = true
+        title = "Lizenz"
+        notice = "Alle Projekte stehen unter [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Namensnennung erforderlich."
+
       [languages.de.params.interests]
         enable = false
         title  = "Interessen"
@@ -634,6 +639,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         language = "Hebrew"
         level = "Conversational"
 
+      [languages.en.params.license_sidebar]
+        enable = true
+        title = "License"
+        notice = "All projects are licensed under [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Attribution required."
+
       [languages.en.params.interests]
         enable = false
         title  = "Interests"
@@ -991,7 +1001,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         icon = "fa-rocket"
         title = "PROJEKTE & LÖSUNGEN"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
-        license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte stehen unter [CC BY 4.0 Lizenz](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung erforderlich."
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
@@ -1131,7 +1140,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         icon = "fa-rocket"
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
-        license_notice = "**License Notice:** All projects and concepts are licensed under [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). When using or drawing inspiration from these works, proper attribution is required."
         non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]

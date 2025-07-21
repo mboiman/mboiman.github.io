@@ -692,6 +692,16 @@
                     {{ end }}
                 </section>
                 {{ end }}
+                
+                <!-- License Sidebar -->
+                {{ if .Site.Language.Params.license_sidebar.enable }}
+                <section class="sidebar-section">
+                    <h3>{{ .Site.Language.Params.license_sidebar.title }}</h3>
+                    <div style="font-size: 0.8rem; color: #4a5568; line-height: 1.4; background: #f7fafc; padding: 1rem; border-radius: 6px; border-left: 3px solid #4299e1;">
+                        <p style="margin: 0;">{{ .Site.Language.Params.license_sidebar.notice | markdownify }}</p>
+                    </div>
+                </section>
+                {{ end }}
             </aside>
         </div>
 
