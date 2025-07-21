@@ -1024,12 +1024,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = false
         tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
 
-        [[languages.de.params.projects.list]]
-        title   = "AI-Automatisierungs-Functionsbausteine"
-        tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
         title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
@@ -1131,13 +1125,6 @@ QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam besse
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
 """
 
-        [[languages.de.params.projects.list]]
-        title = "Freelance Success Stories - KI-Präsentation"
-        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
-        tech_stack = ["Gamma", "Presentation", "Case Studies"]
-        category = "Consulting & Strategy"
-        featured = false
-        tagline = "Umfassende Präsentation mit 4 Projekt-Spotlights: Quality Dashboard, Dual-Run Migration, KI-Testautomatisierung und E-Mail-Prozesse mit messbaren Erfolgen."
 
       [languages.en.params.projects]
         enable = true
@@ -1177,12 +1164,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = false
         tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
 
-        [[languages.en.params.projects.list]]
-        title = "AI Automation Function Modules"
-        tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
         title = "Enterprise AI Consulting: From Strategy to Implementation"
@@ -1282,13 +1263,6 @@ QualityCluster is an alliance of quality engineers jointly developing better sol
 Our goal is to implement more quality through a higher degree of automation.  
 """
 
-        [[languages.en.params.projects.list]]
-        title = "Freelance Success Stories - AI Presentation"
-        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
-        tech_stack = ["Gamma", "Presentation", "Case Studies"]
-        category = "Consulting & Strategy"
-        featured = false
-        tagline = "Comprehensive presentation featuring 4 project spotlights: Quality Dashboard, Dual-Run Migration, AI Test Automation, and Email Processes with measurable results."
 
       [languages.de.params.skills]
         enable = true
