@@ -392,8 +392,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - IntelliJ 
 - Java 
 - Cucumber / Cypress 
-- J-Meter / Gatling
-- CI/CD / GITLAB CI / Jenkins 
+- JMeter / Gatling
+- CI/CD / GitLab CI / Jenkins 
 - Helm / Docker 
 - JIRA / Confluence 
 - Kibana / Grafana / Instana / Graylog 
@@ -428,21 +428,21 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         """
 
         [[languages.de.params.experiences.list]]
-        position = "Senior IOS Developer"
+        position = "Senior iOS Developer"
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
-**Senior IOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
+**Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
 **Schwerpunkte** 
 - Swift 
-- IOS 8 
+- iOS 8 
 - Requests & Responses to Backend 
 - Errorhandling 
-- Ipad / Iphone 
+- iPad / iPhone 
 - Scrum 
 
 **Tools** 
-- XCode 
+- Xcode 
 - GIT 
 - JIRA 
         """
@@ -879,7 +879,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - IntelliJ
 - Java
 - Cucumber / Cypress
-- J-Meter / Gatling
+- JMeter / Gatling
 - CI/CD / GitLab CI / Jenkins
 - Helm / Docker
 - JIRA / Confluence
@@ -1326,7 +1326,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "70%"
 
         [[languages.de.params.skills.list]]
-        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+        skill = "CI/CD-Workflows - GitLab & GitHub & Jenkins"
         level = "90%"
 
         [[languages.de.params.skills.list]]
@@ -1338,7 +1338,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "95%"
 
         [[languages.de.params.skills.list]]
-        skill = "Last und Performance Testing mit J-Meter, Gatling"
+        skill = "Last und Performance Testing mit JMeter, Gatling"
         level = "90%"
 
         [[languages.de.params.skills.list]]
@@ -1382,7 +1382,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "90%"
 
         [[languages.de.params.skills.list]]
-        skill = "MobileDev - X-Code & Flutter & Swift"
+        skill = "MobileDev - Xcode & Flutter & Swift"
         level = "90%"
 
       [languages.en.params.skills]
