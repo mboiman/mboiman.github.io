@@ -1500,12 +1500,20 @@ Grafana & Instana & Azure Log Analytics
 
       [languages.de.params.footer]
         copyright = "Michael.Boiman"
-        license_title = "Lizenzbestimmungen"
-        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen stehen unter Creative Commons Attribution 4.0 International Lizenz (CC BY 4.0). Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung zu Michael Boiman erforderlich. Vollständige Lizenzbedingungen: https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
-        attribution_format = "Basiert auf Arbeiten von Michael Boiman - https://github.com/mboiman"
+        license_title = "Open Source & Attribution 🚀"
+        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen stehen unter Creative Commons Attribution 4.0 International Lizenz (CC BY 4.0). Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung zu Michael Boiman erforderlich."
+        license_link = "https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
+        license_link_text = "📜 Vollständige Lizenzbedingungen"
+        attribution_format = "💡 Inspiration by Michael Boiman - https://github.com/mboiman"
+        attribution_link = "https://github.com/mboiman"
+        attribution_hint = "Copy & Paste für deine Projekte:"
 
       [languages.en.params.footer]
         copyright = "Michael.Boiman"
-        license_title = "License Terms"
-        license_text = "All projects, concepts and solutions presented here are licensed under Creative Commons Attribution 4.0 International License (CC BY 4.0). When using, adapting or drawing inspiration from these works, clear attribution to Michael Boiman is required. Full license terms: https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
-        attribution_format = "Based on work by Michael Boiman - https://github.com/mboiman"
+        license_title = "Open Source & Attribution 🚀"
+        license_text = "All projects, concepts and solutions presented here are licensed under Creative Commons Attribution 4.0 International License (CC BY 4.0). When using, adapting or drawing inspiration from these works, clear attribution to Michael Boiman is required."
+        license_link = "https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
+        license_link_text = "📜 Full License Terms"
+        attribution_format = "💡 Inspired by Michael Boiman - https://github.com/mboiman"
+        attribution_link = "https://github.com/mboiman"
+        attribution_hint = "Copy & Paste for your projects:"

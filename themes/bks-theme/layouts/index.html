@@ -450,6 +450,30 @@
             margin-bottom: 0.75rem;
             font-size: 1rem;
         }
+        .license-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(79, 195, 247, 0.1);
+        }
+        .license-link:hover {
+            color: #ffffff;
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4fc3f7;
+            transform: translateY(-1px);
+        }
+        .attribution-code-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
         .attribution-format code {
             background: rgba(0, 0, 0, 0.3);
             color: #4fc3f7;
@@ -457,9 +481,30 @@
             border-radius: 8px;
             font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
             font-size: 0.9rem;
-            display: block;
             border: 1px solid rgba(79, 195, 247, 0.3);
             letter-spacing: 0.5px;
+            flex: 1;
+            user-select: all;
+        }
+        .attribution-profile-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(79, 195, 247, 0.2);
+            color: #4fc3f7;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(79, 195, 247, 0.3);
+        }
+        .attribution-profile-link:hover {
+            background: #4fc3f7;
+            color: #1a202c;
+            transform: rotate(360deg) scale(1.1);
+            border-color: #4fc3f7;
         }
         
         /* === RESPONSIVE === */
@@ -622,11 +667,26 @@
             .attribution-format strong {
                 color: #1a202c !important;
             }
+            .license-link {
+                color: #4299e1 !important;
+                background: transparent !important;
+                border: 1px solid #4299e1 !important;
+                display: inline !important;
+                padding: 0.25rem 0.5rem !important;
+            }
+            .attribution-code-container {
+                display: block !important;
+            }
             .attribution-format code { 
                 background: #e8e8e8 !important; 
                 color: #333 !important; 
                 border: 1px solid #ccc !important;
                 font-size: 0.85rem !important;
+                display: block !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .attribution-profile-link {
+                display: none !important;
             }
         }
     </style>
@@ -912,10 +972,24 @@
         <footer class="cv-footer">
             <div class="license-section">
                 <h3>{{ .Site.Language.Params.footer.license_title }}</h3>
-                <p>{{ .Site.Language.Params.footer.license_text }}</p>
+                <p>{{ .Site.Language.Params.footer.license_text }}
+                {{ if .Site.Language.Params.footer.license_link }}
+                <br><br>
+                <a href="{{ .Site.Language.Params.footer.license_link }}" target="_blank" class="license-link">
+                    {{ .Site.Language.Params.footer.license_link_text }}
+                </a>
+                {{ end }}
+                </p>
                 <div class="attribution-format">
-                    <strong>{{ if eq .Site.Language.Lang "de" }}Erforderliches Attributionsformat:{{ else }}Required Attribution Format:{{ end }}</strong>
-                    <code>{{ .Site.Language.Params.footer.attribution_format }}</code>
+                    <strong>{{ .Site.Language.Params.footer.attribution_hint }}</strong>
+                    <div class="attribution-code-container">
+                        <code>{{ .Site.Language.Params.footer.attribution_format }}</code>
+                        {{ if .Site.Language.Params.footer.attribution_link }}
+                        <a href="{{ .Site.Language.Params.footer.attribution_link }}" target="_blank" class="attribution-profile-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {{ end }}
+                    </div>
                 </div>
             </div>
         </footer>
