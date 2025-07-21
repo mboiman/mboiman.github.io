@@ -151,6 +151,11 @@ defaultContentLanguageInSubdir = true
         language = "Hebräisch"
         level = "Konversationslevel"
 
+      [languages.de.params.license_sidebar]
+        enable = true
+        title = "Lizenz"
+        notice = "Alle Projekte stehen unter [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Namensnennung erforderlich."
+
       [languages.de.params.interests]
         enable = false
         title  = "Interessen"
@@ -257,23 +262,23 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
+**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
 **Schwerpunkte** 
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
+- Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
-- Aufbau und Konzeption einer CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
-- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CICD-Pipeline
+- Aufbau und Konzeption einer CI/CD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
+- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CI/CD-Pipeline
 - Einführung von Gauge (BDD) 
-- Einführung von Playwright und Integration in bestehende CICD-Pipeline
+- Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
 
 **Tools** 
 - IntelliJ / Visual Studio Code 
-- Java / Java-Script / Typescript 
+- Java / JavaScript / TypeScript 
 - Playwright / Gauge / Taiko / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
-- CI/CD / Github – reuseable workflows 
+- CI/CD / GitHub – reusable workflows 
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
@@ -372,7 +377,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
 - Einführung von fachlichem Logging für Microservices zur transparenten Nachverfolgung von Berechnungen und Service-Interaktionen 
 - Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
@@ -387,8 +392,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - IntelliJ 
 - Java 
 - Cucumber / Cypress 
-- J-Meter / Gatling
-- CI/CD / GITLAB CI / Jenkins 
+- JMeter / Gatling
+- CI/CD / GitLab CI / Jenkins 
 - Helm / Docker 
 - JIRA / Confluence 
 - Kibana / Grafana / Instana / Graylog 
@@ -423,21 +428,21 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         """
 
         [[languages.de.params.experiences.list]]
-        position = "Senior IOS Developer"
+        position = "Senior iOS Developer"
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
-**Senior IOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
+**Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
 **Schwerpunkte** 
 - Swift 
-- IOS 8 
+- iOS 8 
 - Requests & Responses to Backend 
 - Errorhandling 
-- Ipad / Iphone 
+- iPad / iPhone 
 - Scrum 
 
 **Tools** 
-- XCode 
+- Xcode 
 - GIT 
 - JIRA 
         """
@@ -633,6 +638,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.language.list]]
         language = "Hebrew"
         level = "Conversational"
+
+      [languages.en.params.license_sidebar]
+        enable = true
+        title = "License"
+        notice = "All projects are licensed under [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Attribution required."
 
       [languages.en.params.interests]
         enable = false
@@ -869,7 +879,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - IntelliJ
 - Java
 - Cucumber / Cypress
-- J-Meter / Gatling
+- JMeter / Gatling
 - CI/CD / GitLab CI / Jenkins
 - Helm / Docker
 - JIRA / Confluence
@@ -991,7 +1001,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         icon = "fa-rocket"
         title = "PROJEKTE & LÖSUNGEN"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
-        license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte unterliegen einer Attribution-Required-Lizenz. Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung und Verlinkung zu Michael Boiman erforderlich."
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
@@ -1024,12 +1033,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = false
         tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
 
-        [[languages.de.params.projects.list]]
-        title   = "AI-Automatisierungs-Functionsbausteine"
-        tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Aufbau von Functions-Bausteinen zur schnelleren Einführung von AI-Automatisierung."
 
         [[languages.de.params.projects.list]]
         title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
@@ -1131,20 +1134,12 @@ QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam besse
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
 """
 
-        [[languages.de.params.projects.list]]
-        title = "Freelance Success Stories - KI-Präsentation"
-        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
-        tech_stack = ["Gamma", "Presentation", "Case Studies"]
-        category = "Consulting & Strategy"
-        featured = false
-        tagline = "Umfassende Präsentation mit 4 Projekt-Spotlights: Quality Dashboard, Dual-Run Migration, KI-Testautomatisierung und E-Mail-Prozesse mit messbaren Erfolgen."
 
       [languages.en.params.projects]
         enable = true
         icon = "fa-rocket"
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
-        license_notice = "**License Notice:** All projects and concepts are subject to an Attribution-Required license. When using or drawing inspiration from these works, proper attribution and linking to Michael Boiman is required."
         non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
@@ -1177,12 +1172,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = false
         tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
 
-        [[languages.en.params.projects.list]]
-        title = "AI Automation Function Modules"
-        tech_stack = ["Python", "Azure Functions", "OpenAI", "LangChain"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Building function modules for faster rollout of AI automation."
 
         [[languages.en.params.projects.list]]
         title = "Enterprise AI Consulting: From Strategy to Implementation"
@@ -1282,13 +1271,6 @@ QualityCluster is an alliance of quality engineers jointly developing better sol
 Our goal is to implement more quality through a higher degree of automation.  
 """
 
-        [[languages.en.params.projects.list]]
-        title = "Freelance Success Stories - AI Presentation"
-        url = "https://gamma.app/docs/Michael-Boiman-xv9axu8ruq5h99w"
-        tech_stack = ["Gamma", "Presentation", "Case Studies"]
-        category = "Consulting & Strategy"
-        featured = false
-        tagline = "Comprehensive presentation featuring 4 project spotlights: Quality Dashboard, Dual-Run Migration, AI Test Automation, and Email Processes with measurable results."
 
       [languages.de.params.skills]
         enable = true
@@ -1344,7 +1326,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "70%"
 
         [[languages.de.params.skills.list]]
-        skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+        skill = "CI/CD-Workflows - GitLab & GitHub & Jenkins"
         level = "90%"
 
         [[languages.de.params.skills.list]]
@@ -1356,7 +1338,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "95%"
 
         [[languages.de.params.skills.list]]
-        skill = "Last und Performance Testing mit J-Meter, Gatling"
+        skill = "Last und Performance Testing mit JMeter, Gatling"
         level = "90%"
 
         [[languages.de.params.skills.list]]
@@ -1400,7 +1382,7 @@ Our goal is to implement more quality through a higher degree of automation.
         level = "90%"
 
         [[languages.de.params.skills.list]]
-        skill = "MobileDev - X-Code & Flutter & Swift"
+        skill = "MobileDev - Xcode & Flutter & Swift"
         level = "90%"
 
       [languages.en.params.skills]
@@ -1518,12 +1500,20 @@ Grafana & Instana & Azure Log Analytics
 
       [languages.de.params.footer]
         copyright = "Michael.Boiman"
-        license_title = "Lizenzbestimmungen"
-        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen sind urheberrechtlich geschützt. Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung und Verlinkung zu Michael Boiman (mboiman@gmail.com) erforderlich."
-        attribution_format = "Basiert auf Arbeiten von Michael Boiman - https://github.com/mboiman"
+        license_title = "Open Source & Attribution 🚀"
+        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen stehen unter Creative Commons Attribution 4.0 International Lizenz (CC BY 4.0). Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung zu Michael Boiman erforderlich."
+        license_link = "https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
+        license_link_text = "📜 Vollständige Lizenzbedingungen"
+        attribution_format = "💡 Inspiration by Michael Boiman - https://github.com/mboiman"
+        attribution_link = "https://github.com/mboiman"
+        attribution_hint = "Copy & Paste für deine Projekte:"
 
       [languages.en.params.footer]
         copyright = "Michael.Boiman"
-        license_title = "License Terms"
-        license_text = "All projects, concepts and solutions presented here are protected by copyright. When using, adapting or drawing inspiration from these works, clear attribution and linking to Michael Boiman (mboiman@gmail.com) is required."
-        attribution_format = "Based on work by Michael Boiman - https://github.com/mboiman"
+        license_title = "Open Source & Attribution 🚀"
+        license_text = "All projects, concepts and solutions presented here are licensed under Creative Commons Attribution 4.0 International License (CC BY 4.0). When using, adapting or drawing inspiration from these works, clear attribution to Michael Boiman is required."
+        license_link = "https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
+        license_link_text = "📜 Full License Terms"
+        attribution_format = "💡 Inspired by Michael Boiman - https://github.com/mboiman"
+        attribution_link = "https://github.com/mboiman"
+        attribution_hint = "Copy & Paste for your projects:"
