@@ -991,7 +991,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         icon = "fa-rocket"
         title = "PROJEKTE & LÖSUNGEN"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
-        license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte unterliegen einer Attribution-Required-Lizenz. Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung und Verlinkung zu Michael Boiman erforderlich."
+        license_notice = "**Lizenzhinweis:** Alle Projekte und Konzepte stehen unter [CC BY 4.0 Lizenz](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). Bei Verwendung oder Inspiration durch diese Arbeiten ist eine Namensnennung erforderlich."
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
@@ -1131,7 +1131,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         icon = "fa-rocket"
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
-        license_notice = "**License Notice:** All projects and concepts are subject to an Attribution-Required license. When using or drawing inspiration from these works, proper attribution and linking to Michael Boiman is required."
+        license_notice = "**License Notice:** All projects and concepts are licensed under [CC BY 4.0](https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE). When using or drawing inspiration from these works, proper attribution is required."
         non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
@@ -1493,11 +1493,11 @@ Grafana & Instana & Azure Log Analytics
       [languages.de.params.footer]
         copyright = "Michael.Boiman"
         license_title = "Lizenzbestimmungen"
-        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen sind urheberrechtlich geschützt. Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung und Verlinkung zu Michael Boiman (mboiman@gmail.com) erforderlich."
+        license_text = "Alle hier präsentierten Projekte, Konzepte und Lösungen stehen unter Creative Commons Attribution 4.0 International Lizenz (CC BY 4.0). Bei Verwendung, Adaptation oder Inspiration durch diese Arbeiten ist eine eindeutige Namensnennung zu Michael Boiman erforderlich. Vollständige Lizenzbedingungen: https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
         attribution_format = "Basiert auf Arbeiten von Michael Boiman - https://github.com/mboiman"
 
       [languages.en.params.footer]
         copyright = "Michael.Boiman"
         license_title = "License Terms"
-        license_text = "All projects, concepts and solutions presented here are protected by copyright. When using, adapting or drawing inspiration from these works, clear attribution and linking to Michael Boiman (mboiman@gmail.com) is required."
+        license_text = "All projects, concepts and solutions presented here are licensed under Creative Commons Attribution 4.0 International License (CC BY 4.0). When using, adapting or drawing inspiration from these works, clear attribution to Michael Boiman is required. Full license terms: https://github.com/mboiman/mboiman.github.io/blob/main/LICENSE"
         attribution_format = "Based on work by Michael Boiman - https://github.com/mboiman"
