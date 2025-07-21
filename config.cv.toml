@@ -262,23 +262,23 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CICD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
+**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
 **Schwerpunkte** 
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
+- Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
-- Aufbau und Konzeption einer CICD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
-- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CICD-Pipeline
+- Aufbau und Konzeption einer CI/CD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
+- Einführung von QualityGates zur Sicherung der Qualität innerhalb der CI/CD-Pipeline
 - Einführung von Gauge (BDD) 
-- Einführung von Playwright und Integration in bestehende CICD-Pipeline
+- Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
 
 **Tools** 
 - IntelliJ / Visual Studio Code 
-- Java / Java-Script / Typescript 
+- Java / JavaScript / TypeScript 
 - Playwright / Gauge / Taiko / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
-- CI/CD / Github – reuseable workflows 
+- CI/CD / GitHub – reusable workflows 
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
@@ -377,7 +377,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
-- Konzeption und Aufbau vom fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
+- Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
 - Einführung von fachlichem Logging für Microservices zur transparenten Nachverfolgung von Berechnungen und Service-Interaktionen 
 - Performance Tests innerhalb der CI/CD mit Gatling / JMeter und Analyse mittels Kibana, Graylog, Grafana und Instana 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
