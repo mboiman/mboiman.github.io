@@ -1,0 +1,24 @@
+{{ if .Site.Params.skills.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-rocket"></i>
+        </div>
+        <h2 class="section-title">{{ .Site.Params.skills.title }}</h2>
+    </div>
+    
+    <div class="skills-grid">
+        {{ range .Site.Params.skills.list }}
+        <div class="skill-card">
+            <div class="skill-header">
+                <h3 class="skill-name">{{ .skill }}</h3>
+                <span class="skill-level">{{ .level }}</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-progress" style="width: {{ .level }}"></div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

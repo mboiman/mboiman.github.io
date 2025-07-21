@@ -1,0 +1,81 @@
+# Deutsche Sprachkonfiguration
+defaultContentLanguage = "de"
+defaultContentLanguageInSubdir = true
+
+[languages.de]
+  languageCode = "de-de"
+  languageName = "Deutsch"
+  title = "Michael Boiman CV"
+  contentDir = "content/de"
+  weight = 1
+
+  [languages.de.params]
+    description = "Lebenslauf von Michael Boiman"
+    author = "Michael Boiman"
+    
+    [languages.de.params.profile]
+      name = "Michael Boiman"
+      tagline = "Full-Stack Dev & Quality Engineer – KI-Automatisierungsexperte"
+      avatar = "profile.png"
+
+    [languages.de.params.contact]
+      enable = true
+
+      [[languages.de.params.contact.list]]
+      class = "email"
+      icon = "fa-envelope"
+      url = "mailto:mboiman@gmail.com"
+      title = "mboiman@gmail.com"
+
+      [[languages.de.params.contact.list]]
+      class = "phone"
+      icon = "fa-phone"
+      url = ""
+      title = "Auf Anfrage per E-Mail verfügbar"
+
+      [[languages.de.params.contact.list]]
+      class = "website"
+      icon = "fa-globe"
+      url = "http://boiman-kupermann.com"
+      title = "BKS-Lab"
+
+      [[languages.de.params.contact.list]]
+      class = "linkedin"
+      icon = "fa-linkedin"
+      url = "//linkedin.com/in/michael-boiman-ab709912"
+      title = "michael-boiman"
+
+      [[languages.de.params.contact.list]]
+      class = "github"
+      icon = "fa-github"
+      url = "//github.com/bks-lab"
+      title = "GitHub Profil"
+
+    [languages.de.params.skills]
+      enable = true
+      icon = "fa-rocket"
+      title = "Skills & Tools"
+
+      [[languages.de.params.skills.list]]
+      skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
+      level = "98%"
+      
+      [[languages.de.params.skills.list]]
+      skill = "AI & Machine Learning"
+      level = "96%"
+
+      [[languages.de.params.skills.list]]
+      skill = "Software-Entwicklung, -Design, -Architektur"
+      level = "99%"
+
+      [[languages.de.params.skills.list]]
+      skill = "Playwright"
+      level = "97%"
+
+      [[languages.de.params.skills.list]]
+      skill = "CI/CD-Workflows - Gitlab & Github & Jenkins"
+      level = "90%"
+
+      [[languages.de.params.skills.list]]
+      skill = "Kubernetes - Helm & Terraform & ArgoCD"
+      level = "80%"

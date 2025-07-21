@@ -1,0 +1,32 @@
+{{ if .Site.Params.projects.enable }}
+<section class="modern-card cv-section" data-section="projects">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-folder-open"></i>
+        </div>
+        <h2 class="section-title">{{ i18n "projects" }}</h2>
+    </div>
+    
+    <div class="projects-grid">
+        {{ range .Site.Params.projects.list }}
+        <div class="project-card">
+            <h3 class="project-title">
+                {{ if .url }}
+                <a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}</a>
+                {{ else }}
+                {{ .title }}
+                {{ end }}
+            </h3>
+            {{ if .tech_stack }}
+            <div class="tech-stack">
+                {{ range .tech_stack }}
+                <span class="tech-tag">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
+            <p class="project-description">{{ .tagline | markdownify }}</p>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

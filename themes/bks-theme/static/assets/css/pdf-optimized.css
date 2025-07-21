@@ -1,0 +1,400 @@
+/*
+ * Professional PDF Optimization Styles
+ * Ensures consistent, high-quality PDF output across all generation methods
+ */
+
+/* Base PDF page setup */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm 15mm 10mm;
+    orphans: 3;
+    widows: 3;
+  }
+  
+  @page :first {
+    margin-top: 8mm;
+  }
+
+  /* Reset and base typography */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+  }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+
+  html, body {
+    background: white;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Layout optimization */
+  .wrapper {
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .main-wrapper {
+    float: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-wrapper {
+    background-color: transparent;
+    color: inherit;
+    float: none;
+    width: 100%;
+    page-break-after: avoid;
+  }
+
+  /* Hide unnecessary elements */
+  .footer, footer,
+  .copyright,
+  .pdf-button-container,
+  .btn {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Enhanced professional header */
+  .pdf-professional-header {
+    display: flex !important;
+    width: 100% !important;
+    margin: 0 auto 20px auto !important;
+    padding: 0 0 15px 0 !important;
+    border-bottom: 2px solid #2d7788 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .pdf-professional-header h1 {
+    color: #2d7788 !important;
+    font-size: 24pt !important;
+    margin: 0 0 5px 0 !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+  }
+
+  .pdf-professional-header p {
+    color: #666 !important;
+    font-size: 14pt !important;
+    margin: 0 0 15px 0 !important;
+    font-style: italic !important;
+  }
+
+  /* Profile image optimization */
+  .pdf-header-image {
+    width: 150px !important;
+    height: auto !important;
+    border-radius: 5px !important;
+    border: 1px solid #e8e8e8 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+  }
+
+  /* Hide original profile container */
+  .sidebar-wrapper .profile-container {
+    display: none !important;
+  }
+
+  /* Contact information in header */
+  .pdf-header-contacts {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-top: 5px !important;
+    font-size: 10pt !important;
+  }
+
+  .pdf-contact-item {
+    margin-right: 20px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .pdf-contact-item i {
+    margin-right: 5px !important;
+    color: #2d7788 !important;
+  }
+
+  .pdf-contact-item a {
+    color: #2d7788 !important;
+    text-decoration: none !important;
+  }
+
+  /* Section optimization */
+  .section {
+    margin-bottom: 1.5em !important;
+    page-break-inside: avoid !important;
+  }
+
+  .section-title, .section h2 {
+    color: #2d7788 !important;
+    font-size: 14pt !important;
+    font-weight: 600 !important;
+    margin: 0 0 15px 0 !important;
+    page-break-after: avoid !important;
+    border-bottom: 1px solid #e8e8e8 !important;
+    padding-bottom: 5px !important;
+  }
+
+  /* Summary section */
+  .summary-section {
+    margin-bottom: 30px !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .summary-section p {
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    text-align: justify !important;
+  }
+
+  /* Skills section */
+  .skills-section {
+    margin-top: 25px !important;
+    page-break-before: auto !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Enhanced skill bars */
+  .level-bar,
+  .level-bar-inner {
+    position: relative !important;
+    display: block !important;
+    height: 8px !important;
+    background: linear-gradient(90deg, #2d7788, #1a5f6d) !important;
+    border-radius: 2px !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
+    opacity: 1 !important;
+  }
+
+  .skill-fill {
+    background: linear-gradient(90deg, #2d7788, #1a5f6d) !important;
+    border-radius: 2px !important;
+    height: 8px !important;
+    display: block !important;
+  }
+
+  .skill-item {
+    margin-bottom: 12px !important;
+    page-break-inside: avoid !important;
+  }
+
+  .skill-item .skill-name {
+    font-weight: 500 !important;
+    margin-bottom: 4px !important;
+    font-size: 9pt !important;
+  }
+
+  /* Experience section */
+  .experiences-section {
+    page-break-before: auto !important;
+  }
+
+  .experiences-section .item {
+    margin-bottom: 25px !important;
+    page-break-inside: avoid !important;
+    border-left: 3px solid #e8e8e8 !important;
+    padding-left: 15px !important;
+  }
+
+  .experiences-section .job-title,
+  .experiences-section .title {
+    color: #2d7788 !important;
+    font-weight: 600 !important;
+    font-size: 11pt !important;
+    margin: 0 0 3px 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  .experiences-section .company {
+    color: #666 !important;
+    font-weight: 500 !important;
+    font-size: 10pt !important;
+    margin: 0 0 5px 0 !important;
+    page-break-before: avoid !important;
+  }
+
+  .experiences-section .time {
+    color: #888 !important;
+    font-size: 9pt !important;
+    font-style: italic !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  .experiences-section .job-details ul,
+  .experiences-section .details ul {
+    margin: 0 0 0 15px !important;
+    padding: 0 !important;
+    list-style-type: disc !important;
+  }
+
+  .experiences-section .job-details li,
+  .experiences-section .details li {
+    margin: 0 0 5px 0 !important;
+    font-size: 9pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Education section */
+  .education-section .item {
+    margin-bottom: 20px !important;
+    page-break-inside: avoid !important;
+    padding-left: 15px !important;
+    border-left: 3px solid #e8e8e8 !important;
+  }
+
+  /* Projects section */
+  .projects-section .item {
+    margin-bottom: 20px !important;
+    page-break-inside: avoid !important;
+    padding-left: 15px !important;
+    border-left: 3px solid #e8e8e8 !important;
+  }
+
+  /* Enhanced tech tags */
+  .tech-stack {
+    margin: 0.5rem 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+
+  .tech-tag {
+    background: #f8f9fa !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+    margin-right: 6px !important;
+    margin-bottom: 4px !important;
+    padding: 0.2rem 0.4rem !important;
+    font-size: 0.7rem !important;
+    border-radius: 0.25rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Languages section */
+  .languages-section .lang-item {
+    margin-bottom: 10px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .languages-section .lang-name {
+    font-weight: 500 !important;
+    font-size: 9pt !important;
+  }
+
+  .languages-section .lang-level {
+    color: #666 !important;
+    font-size: 8pt !important;
+    font-style: italic !important;
+  }
+
+  /* Interests section */
+  .interests-section .interests-list {
+    columns: 2 !important;
+    column-gap: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .interests-section .interests-list li {
+    font-size: 9pt !important;
+    margin-bottom: 5px !important;
+    break-inside: avoid !important;
+  }
+
+  /* Typography enhancements */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+    margin: 0 0 10px 0 !important;
+  }
+
+  p {
+    orphans: 3 !important;
+    widows: 3 !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  ul, ol {
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+
+  /* Image optimization */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    image-rendering: -webkit-optimize-contrast !important;
+  }
+
+  /* Hide contact sections that are now in header */
+  .pdf-only-contact-section,
+  .compact-header-section,
+  .contact-container {
+    display: none !important;
+  }
+
+  /* Ensure proper spacing at page ends */
+  .section:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* Special handling for very long content */
+  @media print and (min-height: 2200px) {
+    @page {
+      margin: 8mm 8mm 10mm 8mm;
+    }
+    
+    html, body {
+      font-size: 9.5pt;
+    }
+    
+    .section {
+      margin-bottom: 1.2em !important;
+    }
+    
+    .experiences-section .item {
+      margin-bottom: 18px !important;
+    }
+    
+    .summary-section {
+      margin-bottom: 20px !important;
+    }
+  }
+}
+
+/* Screen display optimizations (for preview) */
+@media screen {
+  .pdf-professional-header {
+    display: none;
+  }
+  
+  .pdf-only-contact-section,
+  .compact-header-section {
+    display: block;
+  }
+}

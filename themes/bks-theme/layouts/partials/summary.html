@@ -1,0 +1,14 @@
+{{ if .Site.Params.summary.enable }}
+<section class="modern-card cv-section" data-section="summary">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-user-circle"></i>
+        </div>
+        <h2 class="section-title">{{ i18n "summary" }}</h2>
+    </div>
+    
+    <div class="summary-content">
+        {{ .Site.Params.summary.summary | markdownify }}
+    </div>
+</section>
+{{ end }}

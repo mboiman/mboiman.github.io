@@ -21,6 +21,19 @@ jobs:
           hugo-version: "latest"
           # extended: true
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate PDFs
+        run: |
+          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de
+          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en
+
       - name: Build
         run: hugo --minify --config config.cv.toml
 

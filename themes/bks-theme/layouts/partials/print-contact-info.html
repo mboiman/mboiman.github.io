@@ -1,0 +1,54 @@
+<div class="pdf-contact-info-section">
+    <h2 class="section-title"><i class="fa fa-address-card"></i>Kontaktinformationen</h2>
+    <div class="contact-info-wrapper">
+        <!-- Kontakt-Informationen -->
+        {{ if .Site.Params.contact.enable }}
+        <div class="pdf-contact-block">
+            <h3>Kontakt</h3>
+            <ul class="pdf-contact-list">
+            {{ range .Site.Params.contact.list }}
+                <li><i class="fa {{ .icon }}"></i> <a href="{{ .url }}">{{ .title }}</a></li>
+            {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+
+        <!-- Ausbildung -->
+        {{ if .Site.Params.education.enable }}
+        <div class="pdf-education-block">
+            <h3>{{ i18n "education" }}</h3>
+            {{ range .Site.Params.education.list }}
+            <div class="pdf-education-item">
+                <h4>{{ .degree }}</h4>
+                <div class="meta">{{ .college }}</div>
+                <div class="time">{{ .dates }}</div>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+
+        <!-- Sprachen -->
+        {{ if .Site.Params.language.enable }}
+        <div class="pdf-languages-block">
+            <h3>{{ i18n "language" }}</h3>
+            <ul>
+            {{ range .Site.Params.language.list }}
+                <li>{{ .language }} <span>({{ .level }})</span></li>
+            {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+
+        <!-- Interessen -->
+        {{ if .Site.Params.interests.enable }}
+        <div class="pdf-interests-block">
+            <h3>{{ i18n "interests" }}</h3>
+            <ul>
+            {{ range .Site.Params.interests.list }}
+                <li>{{ .interest }}</li>
+            {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+    </div>
+</div>

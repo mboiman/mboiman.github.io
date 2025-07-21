@@ -1,0 +1,27 @@
+{{ if .Site.Params.experiences.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-briefcase"></i>
+        </div>
+        <h2 class="section-title">{{ .Site.Params.experiences.title }}</h2>
+    </div>
+    
+    <div class="experience-timeline">
+        {{ range .Site.Params.jobs.list }}
+        <div class="experience-item">
+            <div class="experience-header">
+                <div>
+                    <h3 class="experience-title">{{ .position }}</h3>
+                    <div class="experience-company">{{ .company }}</div>
+                </div>
+                <div class="experience-duration">{{ .dates }}</div>
+            </div>
+            <div class="experience-description">
+                {{ .details | markdownify }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

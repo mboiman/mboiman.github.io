@@ -1,0 +1,22 @@
+{{ if .Site.Params.education.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-graduation-cap"></i>
+        </div>
+        <h2 class="section-title">{{ .Site.Params.education.title }}</h2>
+    </div>
+    
+    <div class="education-list">
+        {{ range .Site.Params.education.list }}
+        <div class="education-item">
+            <h3 class="education-degree">{{ .degree }}</h3>
+            {{ if .college }}
+            <div class="education-college">{{ .college }}</div>
+            {{ end }}
+            <div class="education-dates">{{ .dates }}</div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

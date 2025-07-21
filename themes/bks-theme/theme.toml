@@ -1,0 +1,16 @@
+# Modern CV Theme 2025
+# Created by Michael Boiman
+# Optimized for contemporary recruitment
+
+name = "BKS Theme"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A modern, professional CV theme optimized for 2025 job market"
+homepage = "https://github.com/mboiman/modern-cv-2025"
+tags = ["cv", "resume", "professional", "modern", "responsive", "ats-friendly"]
+features = ["responsive", "pdf-export", "multilingual", "modern-design", "ats-optimized"]
+min_version = "0.120"
+
+[author]
+  name = "Michael Boiman"
+  homepage = "https://github.com/mboiman"

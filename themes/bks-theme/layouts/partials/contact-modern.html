@@ -1,0 +1,25 @@
+{{ if .Site.Params.contact.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-user"></i>
+        </div>
+        <h2 class="section-title">Kontakt</h2>
+    </div>
+    
+    <div class="contact-grid">
+        {{ range .Site.Params.contact.list }}
+        <a href="{{ .url }}" class="contact-item" 
+           {{ if hasPrefix .url "mailto:" }}target="_self"{{ else }}target="_blank"{{ end }}>
+            <div class="contact-icon">
+                <i class="fa {{ .icon }}"></i>
+            </div>
+            <div class="contact-info">
+                <div class="contact-label">{{ .class }}</div>
+                <div class="contact-value">{{ .title }}</div>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

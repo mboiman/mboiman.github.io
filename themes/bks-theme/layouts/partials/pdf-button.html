@@ -1,0 +1,10 @@
+<div class="pdf-button-container">
+  <button
+    onclick="preparePDFAndPrint();"
+    class="btn btn-primary pdf-button"
+  >
+    <i class="fa fa-file-pdf-o"></i>
+    {{ if eq .Site.Language.Lang "de" }} Als PDF exportieren {{ else }} Export
+    as PDF {{ end }}
+  </button>
+</div>

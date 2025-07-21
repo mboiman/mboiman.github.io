@@ -1,0 +1,57 @@
+<!-- PDF-Cover-Seite (nur für Druck sichtbar) -->
+<div class="pdf-cover-page">
+    <div class="pdf-cover-header">
+        <div class="pdf-cover-profile">
+            <img class="pdf-header-image" src="{{ .Site.BaseURL }}assets/images/profile.png" alt="" />
+        </div>
+        <div class="pdf-cover-title">
+            <h1 class="name">{{ .Site.Params.profile.name }}</h1>
+            <h2 class="tagline">{{ .Site.Params.profile.tagline }}</h2>
+        </div>
+    </div>
+
+    <div class="pdf-cover-content">
+        <div class="pdf-cover-row">
+            <div class="pdf-cover-left">
+                {{ if .Site.Params.contact.enable }}
+                <div class="pdf-cover-contact">
+                    <h3>Kontakt</h3>
+                    <ul class="pdf-contact-list">
+                        {{ range .Site.Params.contact.list }}
+                        <li><i class="fa {{ .icon }}"></i> <a href="{{ .url }}">{{ .title }}</a></li>
+                        {{ end }}
+                    </ul>
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="pdf-cover-right">
+                {{ if .Site.Params.education.enable }}
+                <div class="pdf-cover-education">
+                    <h3>{{ .Site.Params.education.title }}</h3>
+                    {{ range .Site.Params.education.list }}
+                    <div class="pdf-education-item">
+                        <h4>{{ .degree }}</h4>
+                        {{ if .meta }}<div class="meta">{{ .meta }}</div>{{ end }}
+                        {{ if .time }}<div class="time">{{ .time }}</div>{{ end }}
+                    </div>
+                    {{ end }}
+                
+                    {{ if .Site.Params.language.enable }}
+                    <h3>{{ .Site.Params.language.title }}</h3>
+                    {{ range .Site.Params.language.list }}
+                    <div class="pdf-language-item">
+                        <span class="language">{{ .language }}</span>
+                        <span class="level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    
+<!-- Leere Seite wurde entfernt -->
+    
+</div>

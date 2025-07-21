@@ -1,0 +1,16 @@
+- id: education
+  translation: Ausbildung
+- id: experiences
+  translation: Projekte
+- id: interests
+  translation: Interessen
+- id: language
+  translation: Sprachen
+- id: projects
+  translation: Projekte
+- id: skills
+  translation: Skills & Erfahrung
+- id: summary
+  translation: Zusammenfassung
+- id: conferences
+  translation: "Konferenzen und Vorträge"

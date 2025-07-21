@@ -1,0 +1,25 @@
+{{ if .Site.Params.projects.enable }}
+<section class="modern-card">
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="fa fa-folder-open"></i>
+        </div>
+        <h2 class="section-title">{{ .Site.Params.projects.title }}</h2>
+    </div>
+    
+    <div class="projects-grid">
+        {{ range .Site.Params.projects.list }}
+        <div class="project-card">
+            <h3 class="project-title">
+                {{ if .url }}
+                <a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}</a>
+                {{ else }}
+                {{ .title }}
+                {{ end }}
+            </h3>
+            <p class="project-description">{{ .tagline | markdownify }}</p>
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}

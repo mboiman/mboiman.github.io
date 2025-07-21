@@ -1,0 +1,30 @@
+<!-- Modern JavaScript -->
+<script type="text/javascript" src="{{ .Site.BaseURL }}assets/js/modern-interactions.js"></script>
+
+<!-- Legacy Support (minimal) -->
+<script type="text/javascript" src="{{ .Site.BaseURL }}assets/js/main.js"></script>
+
+<!-- PDF Export -->
+<script type="text/javascript" src="{{ .Site.BaseURL }}assets/js/pdf-export.js"></script>
+
+<!-- Analytics (Privacy-focused) -->
+{{ if .Site.Config.Services.GoogleAnalytics.ID }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Config.Services.GoogleAnalytics.ID }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ .Site.Config.Services.GoogleAnalytics.ID }}', {
+    anonymize_ip: true,
+    cookie_flags: 'SameSite=None;Secure'
+  });
+</script>
+{{ end }}
+
+<!-- Performance Monitoring -->
+<script>
+  // Performance monitoring
+  if ('performance' in window && 'mark' in performance) {
+    performance.mark('cv-load-complete');
+  }
+</script>
