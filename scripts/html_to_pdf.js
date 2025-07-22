@@ -222,8 +222,8 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         
         .cv-header {
             display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 15px;
+            grid-template-columns: 110px 1fr;
+            gap: 20px;
             align-items: center;
             padding: 15px 0;
             border-bottom: 2px solid #2d7788;
@@ -231,7 +231,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .profile-photo {
-            width: 75px; height: 75px; border-radius: 6px;
+            width: 105px; height: 105px; border-radius: 6px;
             border: 2px solid #e1e8ed; object-fit: cover;
         }
         
@@ -240,7 +240,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .header-tagline {
-            font-size: 9pt; color: #5a6c7d; font-style: italic; margin-bottom: 8px;
+            font-size: 9pt; color: #5a6c7d; font-weight: 600; margin-bottom: 8px;
         }
         
         .contact-grid {
