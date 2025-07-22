@@ -94,3 +94,5 @@ When modifying the theme:
 - `du sollst nicht behaupten das der server läuft wenn es nicht so ist und du nicht getestet hast` - Do not claim the server is running if you have not tested it and it is not actually running
 - `die pdf und die web ansicht sind unterschiedlich generiert und in unterschiedlichen stellen verordnet` - The PDF and web views are generated differently and organized in different places
 - `merke das pdf anpassungen im @scripts/html_to_pdf.js anzupassen ist` - Remember to adjust PDF-related changes in the @scripts/html_to_pdf.js file
+- `wenn du mich bewirbst immer auch den link des CVs geben unter https://mboiman.github.io` - When applying, always provide the link to the CV under https://mboiman.github.io
+- `meine linkedin adresse ist unter https://www.linkedin.com/in/mboiman/ zu finden` - My LinkedIn address can be found under https://www.linkedin.com/in/mboiman/

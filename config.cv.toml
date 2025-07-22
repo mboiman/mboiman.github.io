@@ -97,7 +97,7 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "linkedin"
         icon = "fa-linkedin"
-        url = "//linkedin.com/in/michael-boiman-ab709912"
+        url = "https://www.linkedin.com/in/mboiman/"
         title = "michael-boiman"
 
         [[languages.de.params.contact.list]]
@@ -585,7 +585,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "linkedin"
         icon = "fa-linkedin"
-        url = "//linkedin.com/in/michael-boiman-ab709912"
+        url = "https://www.linkedin.com/in/mboiman/"
         title = "michael-boiman"
 
         [[languages.en.params.contact.list]]
