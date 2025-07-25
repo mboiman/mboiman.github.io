@@ -4,7 +4,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=200&section=header&text=bks-lab&fontSize=90&fontAlignY=35&desc=Where%20AI%20Meets%20Enterprise%20Excellence&descAlignY=55&animation=twinkling" width="100%" />
 
 <!-- Dynamic Typing Animation -->
-<img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=22&duration=3000&pause=1000&color=2D7788&center=true&vCenter=true&multiline=true&repeat=true&random=false&width=1000&height=100&lines=🚀+Enterprise+AI+Solutions+That+Deliver+Real+ROI;🧪+20%2B+Years+Quality+Engineering+Excellence;🤖+Cutting-Edge+AI+Integration+%7C+MCP+%26+A2A+Protocols;⚡+80%25+Process+Automation+%7C+95%25%2B+Accuracy" />
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=22&duration=3000&pause=1000&color=2D7788&center=true&vCenter=true&multiline=true&repeat=true&random=false&width=1000&height=100&lines=🚀+Enterprise+AI+Solutions+That+Deliver+Real+ROI;🧪+20%2B+Years+Quality+Engineering+Excellence;🤖+Cutting-Edge+AI+Integration+|+MCP+%26+A2A+Protocols;⚡+80%25+Process+Automation+|+95%25%2B+Accuracy)](https://readme-typing-svg.demolab.com)
 
 <!-- Live Metrics Dashboard -->
 <div align="center">
