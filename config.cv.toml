@@ -1124,6 +1124,34 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
 
         [[languages.de.params.projects.list]]
+        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        tech_stack = ["Django", "Python", "PostgreSQL", "Celery", "Redis", "Chart.js", "WebSockets", "Docker", "REST API"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/django-sla-dashboard.jpg"
+        tagline = """**Enterprise SLA Monitoring Dashboard für Service Level Agreements**
+
+Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Evaluierung (2023-2025) zur Überwachung von Service Level Agreements mit Echtzeit-Metriken und automatisierter Alarmierung.
+
+**Kernfunktionen:**
+• **Echtzeit-Monitoring:** 24/7 Überwachung von 24+ Services mit Response Time Tracking (Ø 147ms)
+• **SLA Compliance:** Automatische Berechnung und Visualisierung von SLA-Metriken (99.97% Availability)
+• **Incident Management:** Aktive Incident-Verfolgung mit Medium/Low Priority Classification
+• **Performance Analytics:** Response Time Distribution mit detaillierten Histogrammen (<50ms bis >500ms)
+• **Availability Timeline:** 24h-Verlauf mit minutengenauer Auflösung und Trend-Analyse
+• **Alert System:** Proaktive Alarmierung bei SLA-Verletzungen und Performance-Degradation
+
+**Technische Highlights:**
+• Django 4.2 mit async Views für hochperformante Datenverarbeitung
+• PostgreSQL mit TimescaleDB Extension für Time-Series Data
+• Celery + Redis für Background Tasks und Real-time Updates
+• WebSocket Integration für Live-Dashboard-Updates
+• RESTful API für Service-Integration und CSV-Export
+• Docker-basiertes Deployment mit Kubernetes-ready Architecture
+
+**Impact:** Reduzierung der MTTR (Mean Time To Repair) um 60%, proaktive Incident-Vermeidung durch Trend-Analyse"""
+
+        [[languages.de.params.projects.list]]
         title = "QualityCluster"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
@@ -1261,6 +1289,34 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
 
         [[languages.en.params.projects.list]]
+        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        tech_stack = ["Django", "Python", "PostgreSQL", "Celery", "Redis", "Chart.js", "WebSockets", "Docker", "REST API"]
+        category = "Quality Engineering"
+        featured = true
+        screenshot = "projects/django-sla-dashboard.jpg"
+        tagline = """**Enterprise SLA Monitoring Dashboard for Service Level Agreements**
+
+Development of a comprehensive SLA monitoring system as part of a BKS evaluation project (2023-2025) for monitoring Service Level Agreements with real-time metrics and automated alerting.
+
+**Core Features:**
+• **Real-time Monitoring:** 24/7 monitoring of 24+ services with response time tracking (Ø 147ms)
+• **SLA Compliance:** Automatic calculation and visualization of SLA metrics (99.97% availability)
+• **Incident Management:** Active incident tracking with medium/low priority classification
+• **Performance Analytics:** Response time distribution with detailed histograms (<50ms to >500ms)
+• **Availability Timeline:** 24h history with minute-level resolution and trend analysis
+• **Alert System:** Proactive alerting for SLA violations and performance degradation
+
+**Technical Highlights:**
+• Django 4.2 with async views for high-performance data processing
+• PostgreSQL with TimescaleDB extension for time-series data
+• Celery + Redis for background tasks and real-time updates
+• WebSocket integration for live dashboard updates
+• RESTful API for service integration and CSV export
+• Docker-based deployment with Kubernetes-ready architecture
+
+**Impact:** 60% reduction in MTTR (Mean Time To Repair), proactive incident prevention through trend analysis"""
+
+        [[languages.en.params.projects.list]]
         title = "QualityCluster"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
@@ -1299,6 +1355,10 @@ Our goal is to implement more quality through a higher degree of automation.
         
         [[languages.de.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
+        level = "90%"
+        
+        [[languages.de.params.skills.list]]
+        skill = "Django & Django REST Framework"
         level = "90%"
         
         [[languages.de.params.skills.list]]
@@ -1412,6 +1472,10 @@ Our goal is to implement more quality through a higher degree of automation.
         
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
+        level = "90%"
+        
+        [[languages.en.params.skills.list]]
+        skill = "Django & Django REST Framework"
         level = "90%"
         
         [[languages.en.params.skills.list]]
