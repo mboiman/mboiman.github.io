@@ -1125,6 +1125,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
         category = "Quality Engineering"
         featured = true
@@ -1290,6 +1291,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
         category = "Quality Engineering"
         featured = true
