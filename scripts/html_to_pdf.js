@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
+const sharp = require('sharp');
 
 // Function to convert markdown-style formatting to HTML
 function formatMarkdownToHTML(text) {
@@ -81,7 +82,7 @@ function formatTextToParagraphs(text) {
 }
 
 // Function to generate HTML content from TOML configuration
-function generateHTMLFromConfig(langConfig, profileImageData) {
+async function generateHTMLFromConfig(langConfig, profileImageData) {
   // Generate contact items
   const contactItems = langConfig.contact.list.map(item => {
     const href = item.url ? `href="${item.url}"` : '';
@@ -121,7 +122,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
   }).join('');
 
   // Generate project items (projects before experience as requested)
-  const projectItems = langConfig.projects.list.filter(project => project.featured).map(project => {
+  const projectItems = await Promise.all(langConfig.projects.list.filter(project => project.featured).map(async project => {
     const techTags = project.tech_stack ? project.tech_stack.map(tech => 
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
@@ -133,10 +134,22 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
     if (project.screenshot) {
       const screenshotPath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', project.screenshot);
       try {
-        const imageBuffer = fs.readFileSync(screenshotPath);
-        screenshotBase64 = `data:image/png;base64,${imageBuffer.toString('base64')}`;
+        // Komprimiere das Bild mit sharp
+        const compressedImage = await sharp(screenshotPath)
+          .resize(110, 80, { // Kleine Größe für PDF
+            fit: 'cover',
+            position: 'center'
+          })
+          .jpeg({ quality: 70 }) // JPEG mit reduzierter Qualität
+          .toBuffer();
+        
+        screenshotBase64 = `data:image/jpeg;base64,${compressedImage.toString('base64')}`;
         hasScreenshot = true;
-        console.log(`✅ Screenshot loaded for project: ${project.title}`);
+        
+        const originalSize = fs.statSync(screenshotPath).size;
+        const compressedSize = compressedImage.length;
+        const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+        console.log(`✅ Screenshot komprimiert für ${project.title}: ${(originalSize/1024/1024).toFixed(2)}MB → ${(compressedSize/1024).toFixed(1)}KB (-${reduction}%)`);
       } catch (error) {
         console.log(`⚠️  Could not load screenshot for ${project.title}: ${error.message}`);
       }
@@ -164,7 +177,8 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
         </div>
       `;
     }
-  }).join('');
+  }));
+  const projectItemsHtml = projectItems.join('');
 
   // Generate education items
   const educationItems = langConfig.education.list.map(edu => `
@@ -389,6 +403,8 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
             width: 55px; height: 40px; object-fit: cover;
             border-radius: 3px; border: 1px solid #e1e8ed;
             background: #fff;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
         
         .cv-sidebar {
@@ -469,7 +485,7 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
 
                 <section class="cv-section">
                     <h2>${langConfig.projects.title}</h2>
-                    ${projectItems}
+                    ${projectItemsHtml}
                 </section>
             </div>
 
@@ -578,15 +594,27 @@ function generateHTMLFromConfig(langConfig, profileImageData) {
   const profileImagePath = path.join(__dirname, '..', 'static', 'assets', 'images', 'profile.png');
   let profileImageBase64 = '';
   try {
-    const imageBuffer = fs.readFileSync(profileImagePath);
-    profileImageBase64 = `data:image/png;base64,${imageBuffer.toString('base64')}`;
-    console.log('✅ Profile image loaded and encoded');
+    // Komprimiere das Profilbild
+    const compressedProfile = await sharp(profileImagePath)
+      .resize(210, 210, { // Doppelte Größe für Retina, wird im CSS auf 105x105 angezeigt
+        fit: 'cover',
+        position: 'center'
+      })
+      .jpeg({ quality: 85 }) // Höhere Qualität für Profilbild
+      .toBuffer();
+    
+    profileImageBase64 = `data:image/jpeg;base64,${compressedProfile.toString('base64')}`;
+    
+    const originalSize = fs.statSync(profileImagePath).size;
+    const compressedSize = compressedProfile.length;
+    const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+    console.log(`✅ Profilbild komprimiert: ${(originalSize/1024).toFixed(1)}KB → ${(compressedSize/1024).toFixed(1)}KB (-${reduction}%)`);
   } catch (error) {
     console.log('⚠️  Could not load profile image:', error.message);
   }
   
   // Generate HTML content directly from TOML config
-  const htmlContent = generateHTMLFromConfig(langConfig, profileImageBase64);
+  const htmlContent = await generateHTMLFromConfig(langConfig, profileImageBase64);
   
   await page.setContent(htmlContent, {
     waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
