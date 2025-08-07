@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.18.2",
+    "pdf-lib": "^1.17.1",
     "puppeteer": "^24.10.0",
     "sharp": "^0.34.3",
     "toml": "^3.0.0"

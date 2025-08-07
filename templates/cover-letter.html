@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="{{LANGUAGE}}" class="pdf-cover-letter">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{NAME}} - Bewerbung {{COMPANY}}</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        @page {
+            size: A4 portrait;
+            margin: 12mm 10mm 12mm 10mm;
+        }
+        
+        body {
+            font-family: 'Inter', 'Arial', sans-serif;
+            font-size: 10pt;
+            line-height: 1.5;
+            color: #2c3e50;
+            background: white;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        
+        .cover-letter-container { max-width: 100%; margin: 0; padding: 0; }
+        
+        /* Header (same as CV) */
+        .cv-header {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #2d7788;
+            margin-bottom: 30px;
+        }
+        
+        .profile-photo {
+            width: 105px; height: 105px; border-radius: 6px;
+            border: 2px solid #e1e8ed; object-fit: cover;
+        }
+        
+        .header-content h1 {
+            font-size: 18pt; font-weight: 700; color: #2d7788; margin-bottom: 3px;
+        }
+        
+        .header-tagline {
+            font-size: 9pt; color: #5a6c7d; font-weight: 600; margin-bottom: 8px;
+        }
+        
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4px 20px; font-size: 7pt;
+        }
+        
+        .contact-item {
+            display: flex; align-items: center; gap: 4px;
+        }
+        
+        .contact-item i { width: 10px; color: #2d7788; font-size: 6pt; }
+        .contact-item a { color: #2d7788; text-decoration: none; }
+        
+        /* Letter content */
+        .letter-meta {
+            margin-bottom: 30px;
+            font-size: 9pt;
+            color: #5a6c7d;
+        }
+        
+        .letter-date {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        
+        .letter-address {
+            margin-bottom: 20px;
+        }
+        
+        .letter-subject {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d7788;
+        }
+        
+        .letter-content {
+            font-size: 10pt;
+            line-height: 1.6;
+        }
+        
+        .letter-content p {
+            margin-bottom: 15px;
+        }
+        
+        .letter-greeting {
+            margin-bottom: 15px;
+        }
+        
+        .letter-closing {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        
+        /* Requirement mapping section */
+        .requirements-mapping {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+            border-left: 4px solid #2d7788;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+        
+        .requirements-mapping h3 {
+            font-size: 12pt;
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 12px;
+        }
+        
+        .requirement-item {
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .requirement-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .requirement-label {
+            font-weight: 600;
+            color: #2d7788;
+            margin-bottom: 3px;
+        }
+        
+        .requirement-response {
+            color: #3c4858;
+            font-size: 9pt;
+        }
+        
+        .cv-reference {
+            color: #7a8b9a;
+            font-style: italic;
+            font-size: 8pt;
+            margin-top: 3px;
+        }
+        
+        .signature-area {
+            margin-top: 40px;
+        }
+        
+        /* Font Awesome icons replaced with simple text symbols for PDF */
+        .fa-envelope::before { content: "✉"; }
+        .fa-phone::before { content: "☎"; }
+        .fa-map-marker-alt::before { content: "📍"; }
+        .fa-linkedin::before { content: "💼"; }
+        .fa-github::before { content: "⚡"; }
+        .fa-globe::before { content: "🌐"; }
+    </style>
+</head>
+<body>
+    <div class="cover-letter-container">
+        <header class="cv-header">
+            <div class="profile-image">
+                <img src="{{PROFILE_IMAGE}}" alt="{{NAME}}" class="profile-photo">
+            </div>
+            <div class="header-content">
+                <h1>{{NAME}}</h1>
+                <div class="header-tagline">{{TAGLINE}}</div>
+                <div class="contact-grid">
+                    {{CONTACT_ITEMS}}
+                </div>
+            </div>
+        </header>
+
+        <div class="letter-meta">
+            <div class="letter-date">{{DATE}}</div>
+            <div class="letter-address">
+                <strong>{{COMPANY}}</strong><br>
+                {{ADDRESS}}<br>
+                {{CONTACT_PERSON}}
+            </div>
+        </div>
+
+        <div class="letter-subject">
+            <strong>{{SUBJECT}}</strong>
+        </div>
+
+        <div class="letter-content">
+            <div class="letter-greeting">{{GREETING}}</div>
+            
+            {{INTRO_PARAGRAPH}}
+
+            <div class="requirements-mapping">
+                <h3>🎯 Ihre Anforderungen → Meine Qualifikationen</h3>
+                {{REQUIREMENTS_MAPPING}}
+            </div>
+
+            {{CLOSING_PARAGRAPH}}
+
+            <div class="letter-closing">
+                Mit freundlichen Grüßen<br><br>
+                <div class="signature-area">
+                    {{NAME}}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

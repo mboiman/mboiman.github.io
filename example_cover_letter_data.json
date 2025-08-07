@@ -1,0 +1,37 @@
+{
+  "language": "de",
+  "company": "Tech Innovators GmbH",
+  "address": "Tech Innovators GmbH\nTechnologiestr. 42\n10115 Berlin",
+  "contactPerson": "Frau Sarah Schmidt, HR",
+  "subject": "Bewerbung als Senior Quality Engineer (KI & Automation)",
+  "greeting": "Sehr geehrte Frau Schmidt,",
+  "introParagraph": "<p>mit großem Interesse habe ich Ihre Stellenausschreibung für einen Senior Quality Engineer mit Fokus auf KI und Automation gelesen. Als Quality Engineering-Experte mit 20+ Jahren Erfahrung und 4 Jahren spezialisierter KI-Entwicklung bringe ich genau die Expertise mit, die Sie für Ihre innovativen Projekte benötigen.</p>",
+  "closingParagraph": "<p>Meine Kombination aus fundierter Quality Engineering-Erfahrung und moderner KI-Automatisierung macht mich zum idealen Kandidaten für Ihr Team. Gerne stelle ich Ihnen in einem persönlichen Gespräch vor, wie ich mit meiner Expertise zur Weiterentwicklung Ihrer Qualitätsprozesse beitragen kann.</p>",
+  "requirements": [
+    {
+      "requirement": "5+ Jahre Erfahrung in Quality Engineering und Testautomatisierung",
+      "response": "20+ Jahre QE-Expertise mit CI/CD Quality Gates, End-to-End-Monitoring und Testautomatisierung mit Playwright, Cucumber/Gauge",
+      "cvReference": "→ Siehe CV: Berufserfahrung DVAG & DB Vertrieb (Seite 3-4), Skills & Tools (Sidebar)"
+    },
+    {
+      "requirement": "KI/ML-Kenntnisse zur Prozessautomatisierung und Effizienzsteigerung",
+      "response": "4 Jahre spezialisierte KI-Entwicklung mit messbaren Erfolgen: 80% Aufwandsreduktion bei E-Mail-Automatisierung, 80% auto-generierte Test-Cases",
+      "cvReference": "→ Siehe CV: KI-Kompetenzen Showcase (Seite 1), Projekte E-Mail-Klassifizierung & KI-Testautomatisierung (Seite 2)"
+    },
+    {
+      "requirement": "Erfahrung mit modernen Test-Frameworks und CI/CD-Pipelines",
+      "response": "Extensive Erfahrung mit Playwright, Cucumber/Gauge, GitHub Actions, Kubernetes sowie Konzeption kompletter CI/CD-Pipelines mit Quality Gates",
+      "cvReference": "→ Siehe CV: Berufserfahrung DVAG - CI/CD Pipeline-Aufbau (Seite 3), Skills Playwright/CI/CD (Sidebar)"
+    },
+    {
+      "requirement": "Teamführung und Koordination interdisziplinärer Entwicklungsteams",
+      "response": "Quality-Lead für übergreifende QA-Teams mit Einarbeitung, Beratung und Schulung. Technische Leitung mit Code-Reviews und Problemlösungssessions",
+      "cvReference": "→ Siehe CV: Quality Lead DVAG & BKS (Seite 3), Team-Koordination und technische Anleitung"
+    },
+    {
+      "requirement": "Monitoring und Dashboard-Entwicklung für Qualitätsmetriken",
+      "response": "Konzeption und Aufbau von Quality Dashboards mit Grafana, Kibana, Elasticsearch - Real-time Monitoring mit 80% weniger Rückfragen",
+      "cvReference": "→ Siehe CV: Quality Dashboard-Projekt (Seite 2), DVAG Dashboard-Erfahrung (Seite 3)"
+    }
+  ]
+}
