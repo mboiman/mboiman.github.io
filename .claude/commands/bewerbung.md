@@ -152,3 +152,55 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 - **Personalisierung**: 100% firmenspezifisch  
 - **CV-Anhang-Hinweis**: Automatisch in jeder Bewerbung
 - **Professionelle Standards**: DIN 5008 konform
+
+## Learnings & Optimierungen (2025-08)
+
+### JSON-Format für Cover Letter
+**Problem**: Script-Error durch falsche JSON-Struktur  
+**Lösung**: Korrektes Format für `application_to_pdf.js`:
+```json
+{
+  "language": "de",
+  "company": "[Firmenname]",
+  "address": "[Stadt/Adresse]", 
+  "contactPerson": "[Ansprechperson]",
+  "position": "[Stellentitel]",
+  "requirements": [
+    {
+      "requirement": "🎯 [Anforderung]",
+      "response": "[CV-Match Beschreibung]",
+      "cvReference": ""
+    }
+  ],
+  "signOff": "Mit freundlichen Grüßen\n\n[Name]"
+}
+```
+
+### Firmenname-Generierung  
+**Problem**: Hardcoded "wematch" im Dateinamen  
+**Lösung**: Dynamische Dateinamen basierend auf Firmennamen
+- `cover_letter_[firmenname_slug].json`
+- `bewerbung_[firmenname_slug].pdf`
+
+### Script-Parameter
+**Korrekte Syntax**: `./scripts/generate_application.sh <config> <output.pdf> <language> <cover_letter.json>`
+- Alle 4 Parameter sind erforderlich
+- Language Parameter: "de" oder "en"
+
+### Formatierung-Fix
+
+**Problem**: Fehlende Zeilenumbrüche im Abschluss ("Mit freundlichen GrüßenMichael Boiman")  
+**Lösung**: 
+- JSON: `"signOff": "Mit freundlichen Grüßen\n\n[Name]"` (doppelter Zeilenumbruch)
+- Script: `application_to_pdf.js` korrigiert um `\n` → `<br>` Konvertierung
+
+### Performance-Optimierungen
+- ✅ Automatische Bildkompression (99%+ Reduktion)  
+- ✅ 10-Seiten-PDF in <30 Sekunden
+- ✅ Parallele PDF-Generierung (Anschreiben + CV)
+
+### Workflow-Verbesserungen
+1. **TodoWrite für Tracking**: 6-Phasen-Workflow mit Status-Updates
+2. **Interactive Review**: User-Bestätigung vor PDF-Generierung  
+3. **Requirement-Mapping**: Strukturierte Anforderungs-Zuordnung
+4. **Error Recovery**: Robuste JSON-Parsing und File-Handling

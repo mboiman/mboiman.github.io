@@ -74,7 +74,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
       ${coverLetterData.availability ? `<p>${formatMarkdownToHTML(coverLetterData.availability)}</p>` : ''}
       ${coverLetterData.closing ? `<p>${formatMarkdownToHTML(coverLetterData.closing)}</p>` : ''}
     `)
-    .replace(/{{SIGN_OFF}}/g, coverLetterData.signOff || 'Mit freundlichen Grüßen');
+    .replace(/{{SIGN_OFF}}/g, formatMarkdownToHTML(coverLetterData.signOff || 'Mit freundlichen Grüßen').replace(/\n/g, '<br>'));
 
   return template;
 }
