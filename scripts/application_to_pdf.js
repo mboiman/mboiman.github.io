@@ -65,11 +65,16 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{DATE}}/g, coverLetterData.date || new Date().toLocaleDateString('de-DE'))
     .replace(/{{ADDRESS}}/g, coverLetterData.address || '')
     .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
-    .replace(/{{SUBJECT}}/g, coverLetterData.subject)
+    .replace(/{{SUBJECT}}/g, `Bewerbung als ${coverLetterData.position}`)
     .replace(/{{GREETING}}/g, coverLetterData.greeting)
-    .replace(/{{INTRO_PARAGRAPH}}/g, coverLetterData.introParagraph)
+    .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
     .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
-    .replace(/{{CLOSING_PARAGRAPH}}/g, coverLetterData.closingParagraph);
+    .replace(/{{CLOSING_PARAGRAPH}}/g, `
+      ${coverLetterData.addedValue ? `<p>${formatMarkdownToHTML(coverLetterData.addedValue)}</p>` : ''}
+      ${coverLetterData.availability ? `<p>${formatMarkdownToHTML(coverLetterData.availability)}</p>` : ''}
+      ${coverLetterData.closing ? `<p>${formatMarkdownToHTML(coverLetterData.closing)}</p>` : ''}
+    `)
+    .replace(/{{SIGN_OFF}}/g, coverLetterData.signOff || 'Mit freundlichen Grüßen');
 
   return template;
 }
