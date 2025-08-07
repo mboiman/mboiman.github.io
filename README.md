@@ -104,6 +104,62 @@ The GitHub Actions workflow automatically:
 3. Builds the Hugo site
 4. Deploys to GitHub Pages
 
+## 🚀 NEW: Application Generation System
+
+Generate professional applications with tailored cover letters that map your CV qualifications directly to job requirements!
+
+### Quick Application Generation
+
+```bash
+# Interactive workflow via Claude Command
+/bewerbung
+
+# Direct script usage
+./scripts/generate_application.sh config.cv.toml bewerbung_firma.pdf de cover_letter_data.json
+```
+
+### Application System Features
+
+- **🎯 Requirement Mapping**: Cover letter shows exactly where in CV each qualification is found
+- **📄 Professional Layout**: Consistent design between cover letter and CV  
+- **🤖 AI-Assisted**: Claude Command guides through the entire process
+- **⚡ Fast Generation**: Complete application in minutes instead of hours
+- **📈 Higher Success Rate**: Direct requirement mapping increases relevance
+
+### Application Workflow
+
+1. **Use `/bewerbung` command** → Interactive process with Claude
+2. **Analyze job posting** → Extract requirements and company info
+3. **Generate cover letter data** → Create requirement mapping
+4. **Generate application PDF** → Cover letter + CV combined
+
+### Cover Letter Structure
+
+The generated cover letter includes:
+- **Header**: Same design as CV for consistency
+- **Company-specific introduction**
+- **🎯 Requirement Mapping Section**: 
+  - "You need: [Requirement]"
+  - "I offer: [Your qualification]" 
+  - "See CV: [Page reference]"
+- **Professional closing**
+
+### Example Usage
+
+```bash
+# 1. Use interactive command
+/bewerbung
+
+# 2. Or generate directly with prepared data
+./scripts/generate_application.sh config.cv.toml "Bewerbung_TechCorp.pdf" de cover_letter_data.json
+```
+
+The result is a professional PDF with your cover letter as page 1 and complete CV following.
+
+---
+
+## Standard CV Generation
+
 ## Requirements
 
 - Hugo (static site generator)
