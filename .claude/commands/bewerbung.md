@@ -193,6 +193,15 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 **Lösung**: 
 - JSON: `"signOff": "Mit freundlichen Grüßen\n\n[Name]"` (doppelter Zeilenumbruch)
 - Script: `application_to_pdf.js` korrigiert um `\n` → `<br>` Konvertierung
+- Template: `cover-letter.html` - doppelte Name-Anzeige entfernt
+
+### Layout-Optimierung
+
+**Problem**: Anschreiben zu lang, unnötige Seitenumbrüche  
+**Lösung**: Kompaktere Abstände in `cover-letter.html`:
+- Requirements-Mapping: `padding: 12px` (statt 15px), `margin: 18px` (statt 25px)
+- Paragraph-Abstände: `margin-bottom: 12px` (statt 15px)  
+- Requirement-Items: `padding: 6px` (statt 8px), `margin-bottom: 8px` (statt 12px)
 
 ### Performance-Optimierungen
 - ✅ Automatische Bildkompression (99%+ Reduktion)  
