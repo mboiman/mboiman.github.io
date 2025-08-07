@@ -165,6 +165,9 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
   "address": "[Stadt/Adresse]", 
   "contactPerson": "[Ansprechperson]",
   "position": "[Stellentitel]",
+  "date": "[Datum]",
+  "greeting": "Sehr geehrter Herr [Nachname]",
+  "opening": "[Einleitungstext]",
   "requirements": [
     {
       "requirement": "🎯 [Anforderung]",
@@ -172,9 +175,20 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
       "cvReference": ""
     }
   ],
+  "addedValue": "[Zusätzlicher Mehrwert]",
+  "availability": "[Verfügbarkeit]",
+  "closing": "[Abschlusstext]",
   "signOff": "Mit freundlichen Grüßen\n\n[Name]"
 }
 ```
+
+**WICHTIG**: Die folgenden Felder werden vom Script erwartet:
+- `greeting`: Persönliche Anrede
+- `opening`: Einleitungsparagraph
+- `addedValue`: Optionaler Mehrwert-Paragraph
+- `availability`: Optionale Verfügbarkeitsangabe
+- `closing`: Abschlussparagraph
+- ALTERNATIV: `introduction` und `closing` (vereinfachte Version)
 
 ### Firmenname-Generierung  
 **Problem**: Hardcoded "wematch" im Dateinamen  
