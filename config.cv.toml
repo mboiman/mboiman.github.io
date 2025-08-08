@@ -1337,103 +1337,78 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.de.params.skills.list]]
         skill = "Quality Engineering & Testautomatisierung"
-        level = "99%"
         
         [[languages.de.params.skills.list]]
         skill = "Playwright & End-to-End Testing"
-        level = "97%"
         
         [[languages.de.params.skills.list]]
         skill = "Cucumber / Gauge / Taiko (BDD)"
-        level = "99%"
 
         [[languages.de.params.skills.list]]
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
-        level = "98%"
         
         [[languages.de.params.skills.list]]
         skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
-        level = "95%"
         
         [[languages.de.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
-        level = "90%"
         
         [[languages.de.params.skills.list]]
         skill = "Django & Django REST Framework"
-        level = "90%"
         
         [[languages.de.params.skills.list]]
         skill = "Software-Entwicklung, -Design, -Architektur"
-        level = "99%"
 
         [[languages.de.params.skills.list]]
         skill = "Jira & Confluence"
-        level = "98%"
                 
         [[languages.de.params.skills.list]]
         skill = "IntelliJ & VS Code"
-        level = "93%"
 
         [[languages.de.params.skills.list]]
         skill = "Playwright"
-        level = "97%"
 
         [[languages.de.params.skills.list]]
         skill = "Cucumber / Gauge / Taiko"
-        level = "99%"
 
         [[languages.de.params.skills.list]]
         skill = "CDC - Spring Contract & Pact.io"
-        level = "70%"
 
         [[languages.de.params.skills.list]]
         skill = "CI/CD-Workflows - GitLab & GitHub & Jenkins"
-        level = "90%"
 
         [[languages.de.params.skills.list]]
         skill = "Kubernetes - Helm & Terraform & ArgoCD"
-        level = "80%"
 
         [[languages.de.params.skills.list]]
         skill = "REST & Postman"
-        level = "95%"
 
         [[languages.de.params.skills.list]]
         skill = "Last und Performance Testing mit JMeter, Gatling"
-        level = "90%"
 
         [[languages.de.params.skills.list]]
         skill = "AWS & Google & Azure"
-        level = "80%"
         
         [[languages.de.params.skills.list]]
         skill = "Azure Functions & Serverless Architectures"
-        level = "90%"
         
         [[languages.de.params.skills.list]]
         skill = "Microsoft Graph API & Office 365 Integration"
-        level = "85%"
         
         [[languages.de.params.skills.list]]
         skill = "Data Science - Pandas, NumPy, Streamlit"
-        level = "90%"
         
         [[languages.de.params.skills.list]]
         skill = "Web Scraping & Data Extraction - Requests, PyPDF2, PDF Generation"
-        level = "85%"
         
         [[languages.de.params.skills.list]]
         skill = "Container & Orchestration - Docker, Kubernetes"
-        level = "80%"
         
         [[languages.de.params.skills.list]]
         skill = "Enterprise APIs - SAP RFC, Microsoft Graph, LeanIX, Confluence API"
-        level = "85%"
         
         [[languages.de.params.skills.list]]
         skill = "Multi-Source Data Integration & API Orchestration"
-        level = "90%"
 
         [[languages.de.params.skills.list]]
         skill = """
@@ -1441,11 +1416,9 @@ Our goal is to implement more quality through a higher degree of automation.
         Kibana(+ES) & Greylog &  \n
         Grafana & Instana & Azure Log Analytics
         """
-        level = "90%"
 
         [[languages.de.params.skills.list]]
         skill = "MobileDev - Xcode & Flutter & Swift"
-        level = "90%"
 
       [languages.en.params.skills]
         enable = true
@@ -1454,103 +1427,78 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.skills.list]]
         skill = "Quality Engineering & Test Automation"
-        level = "99%"
         
         [[languages.en.params.skills.list]]
         skill = "Playwright & End-to-End Testing"
-        level = "97%"
         
         [[languages.en.params.skills.list]]
         skill = "Cucumber / Gauge / Taiko (BDD)"
-        level = "99%"
 
         [[languages.en.params.skills.list]]
         skill = "Python (Data Analysis, ML/AI, Automation)"
-        level = "98%"
         
         [[languages.en.params.skills.list]]
         skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
-        level = "95%"
         
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
-        level = "90%"
         
         [[languages.en.params.skills.list]]
         skill = "Django & Django REST Framework"
-        level = "90%"
         
         [[languages.en.params.skills.list]]
         skill = "Software Development, Design, Architecture"
-        level = "99%"
 
         [[languages.en.params.skills.list]]
         skill = "JIRA & Confluence"
-        level = "98%"
 
         [[languages.en.params.skills.list]]
         skill = "IntelliJ & VS Code"
-        level = "93%"
 
         [[languages.en.params.skills.list]]
         skill = "Playwright"
-        level = "97%"
 
         [[languages.en.params.skills.list]]
         skill = "Cucumber / Gauge / Taiko"
-        level = "99%"
 
         [[languages.en.params.skills.list]]
         skill = "CDC – Spring Contract & Pact.io"
-        level = "70%"
 
         [[languages.en.params.skills.list]]
         skill = "CI/CD Workflows – GitLab, GitHub & Jenkins"
-        level = "90%"
 
         [[languages.en.params.skills.list]]
         skill = "Kubernetes – Helm, Terraform & ArgoCD"
-        level = "80%"
 
         [[languages.en.params.skills.list]]
         skill = "REST & Postman"
-        level = "95%"
 
         [[languages.en.params.skills.list]]
         skill = "Load & Performance Testing with JMeter, Gatling"
-        level = "90%"
 
         [[languages.en.params.skills.list]]
         skill = "AWS, Google Cloud & Azure"
-        level = "80%"
         
         [[languages.en.params.skills.list]]
         skill = "Azure Functions & Serverless Architectures"
-        level = "90%"
         
         [[languages.en.params.skills.list]]
         skill = "Microsoft Graph API & Office 365 Integration"
-        level = "85%"
         
         [[languages.en.params.skills.list]]
         skill = "Data Science - Pandas, NumPy, Streamlit"
-        level = "90%"
         
         [[languages.en.params.skills.list]]
         skill = "Web Scraping & Data Extraction - Requests, PyPDF2, PDF Generation"
-        level = "85%"
         
         [[languages.en.params.skills.list]]
         skill = "Container & Orchestration - Docker, Kubernetes"
-        level = "80%"
         
         [[languages.en.params.skills.list]]
         skill = "Enterprise APIs - SAP RFC, Microsoft Graph, LeanIX, Confluence API"
-        level = "85%"
         
         [[languages.en.params.skills.list]]
         skill = "Multi-Source Data Integration & API Orchestration"
-        level = "90%"
 
         [[languages.en.params.skills.list]]
         skill = """
@@ -1558,11 +1506,9 @@ Dashboards & Analytics –
 Kibana (+ES) & Graylog &  
 Grafana & Instana & Azure Log Analytics
         """
-        level = "90%"
 
         [[languages.en.params.skills.list]]
         skill = "Mobile Dev – Xcode, Flutter & Swift"
-        level = "90%"
 
       [languages.de.params.footer]
         copyright = "Michael.Boiman"
