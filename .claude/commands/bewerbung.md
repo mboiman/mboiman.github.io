@@ -56,7 +56,14 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 ### Phase 4: Anschreiben-Generierung
 - Personalisierte Anrede und Firmenadresse  
 - Strukturiertes Requirement-Mapping als Kernstück
-- Professioneller Abschluss mit Kontaktdaten
+- **Wichtiger Fokus**: MCP & A2A Agent-Entwicklung bei KI-Anwendungsfällen hervorheben
+- **Konkrete Projekte statt Prozente**: Weniger Zahlen, mehr technische Tiefe
+- **KI-Schulungen prominent**: Workshops und Wissenstransfer betonen
+- Professioneller Abschluss mit **vollständigen Kontaktdaten**:
+  - E-Mail: mboiman@gmail.com
+  - Telefon: 015233822623  
+  - LinkedIn: https://www.linkedin.com/in/mboiman/
+  - Online-CV: https://mboiman.github.io
 - **CV-Hinweis**: Automatischer "📎 Anlage: Vollständiger Lebenslauf..." 
 
 ### Phase 5: PDF-Erstellung  
@@ -178,7 +185,13 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
   "addedValue": "[Zusätzlicher Mehrwert]",
   "availability": "[Verfügbarkeit]",
   "closing": "[Abschlusstext]",
-  "signOff": "Mit freundlichen Grüßen\n\n[Name]"
+  "signOff": "Mit freundlichen Grüßen\n\n[Name]",
+  "contactInfo": {
+    "email": "mboiman@gmail.com",
+    "phone": "015233822623",
+    "linkedin": "https://www.linkedin.com/in/mboiman/",
+    "website": "https://mboiman.github.io"
+  }
 }
 ```
 
@@ -227,3 +240,21 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 2. **Interactive Review**: User-Bestätigung vor PDF-Generierung  
 3. **Requirement-Mapping**: Strukturierte Anforderungs-Zuordnung
 4. **Error Recovery**: Robuste JSON-Parsing und File-Handling
+
+### Wichtige Defaults & Standards (2025-08-11)
+
+**Kontaktdaten-Block (immer am Ende)**:
+- E-Mail: mboiman@gmail.com
+- Telefon: 015233822623
+- LinkedIn: https://www.linkedin.com/in/mboiman/  
+- Online-CV: https://mboiman.github.io
+
+**Content-Fokus für KI-Positionen**:
+- **MCP & A2A Agent-Entwicklung** prominent erwähnen
+- **Konkrete Projekte** statt Prozentzahlen
+- **KI-Workshops und Schulungen** als Expertise-Nachweis
+- **Technische Tiefe** über oberflächliche Metriken
+
+**Verfügbarkeit**: 
+- Standard: "ab sofort verfügbar"
+- Keine Projektlisten im Word-Format anbieten
