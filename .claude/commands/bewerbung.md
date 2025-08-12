@@ -243,6 +243,11 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 
 ### Wichtige Defaults & Standards (2025-08-11)
 
+**Standort & Datum-Generierung**:
+- **Standard-Standort**: "Frankfurt am Main" (NICHT Berlin)
+- **Datum-Format**: "Frankfurt am Main, [DD. MMMM YYYY]"
+- **Script-Default**: Bei fehlendem Datum wird automatisch Frankfurt als Standort verwendet
+
 **Kontaktdaten-Block (immer am Ende)**:
 - E-Mail: mboiman@gmail.com
 - Telefon: 015233822623

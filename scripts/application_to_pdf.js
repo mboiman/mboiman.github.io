@@ -62,7 +62,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{TAGLINE}}/g, langConfig.ui.tagline)
     .replace(/{{PROFILE_IMAGE}}/g, profileImageData)
     .replace(/{{CONTACT_ITEMS}}/g, contactItems)
-    .replace(/{{DATE}}/g, coverLetterData.date || new Date().toLocaleDateString('de-DE'))
+    .replace(/{{DATE}}/g, coverLetterData.date || `Frankfurt am Main, ${new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}`)
     .replace(/{{ADDRESS}}/g, coverLetterData.address || '')
     .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
     .replace(/{{SUBJECT}}/g, `Bewerbung als ${coverLetterData.position}`)
