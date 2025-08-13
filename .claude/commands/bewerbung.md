@@ -6,9 +6,9 @@ wave-enabled: false
 performance-profile: "standard"
 ---
 
-# /bewerbung - Professionelle Deutsche Bewerbung
+# /bewerbung - Professionelle Bewerbung (Deutsch/Englisch)
 
-Generiert eine maßgeschneiderte deutsche Bewerbung mit personalisiertem Anschreiben und vollständigem CV.
+Generiert eine maßgeschneiderte Bewerbung mit personalisiertem Anschreiben und vollständigem CV in Deutsch oder Englisch.
 
 ## Überblick
 
@@ -35,12 +35,19 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 /bewerbung [Stellenausschreibung-Text]
 ```
 
+### Sprach-Optionen
+- **Deutsch (Standard)**: Anschreiben wird automatisch auf Deutsch generiert
+- **Englisch**: Bei englischen Stellenausschreibungen oder explizitem Hinweis "auf Englisch"
+- **Automatische Erkennung**: Sprache wird aus Stellenausschreibung erkannt
+
 ## Workflow
 
 ### Phase 1: Stellenanalyse
+- **Datum-Verifikation**: Aktuelles Datum wird immer überprüft und korrekt gesetzt
 - Automatische Extraktion von Kernanforderungen
 - Identifikation von Must-have vs. Nice-to-have Skills
 - Erkennung von Firmendaten und Ansprechpersonen
+- **Spracherkennung**: Automatische Erkennung ob Deutsch oder Englisch benötigt wird
 
 ### Phase 2: Requirement-Mapping
 - Zuordnung CV-Qualifikationen zu Stellenanforderungen
@@ -74,6 +81,8 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 ## Features
 
 - ✅ **Interactive Review Mode**: Volltext-Vorschau vor PDF-Erstellung
+- ✅ **Mehrsprachigkeit**: Deutsch und Englisch unterstützt (automatische Erkennung)
+- ✅ **Datum-Verifikation**: Aktuelles Datum wird immer überprüft
 - ✅ **Automatische Stellenanalyse**: KI-basierte Extraktion der Kernanforderungen
 - ✅ **CV-Integration**: Verwendet bestehende `config.cv.toml` Konfiguration
 - ✅ **Requirement-Mapping**: Direkte Zuordnung mit CV-Referenzen
@@ -212,7 +221,20 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 ### Script-Parameter
 **Korrekte Syntax**: `./scripts/generate_application.sh <config> <output.pdf> <language> <cover_letter.json>`
 - Alle 4 Parameter sind erforderlich
-- Language Parameter: "de" oder "en"
+- **Language Parameter**: "de" oder "en" - WICHTIG für korrekte Sprache!
+- Das Script nutzt den Language-Parameter für:
+  - Auswahl der richtigen Sprachsektion aus config.cv.toml
+  - Generierung des Anschreibens in der korrekten Sprache
+  - Formatierung von Datum und Kontaktdaten
+
+**Beispiele**:
+```bash
+# Deutsche Bewerbung
+./scripts/generate_application.sh config.cv.toml bewerbung_firma.pdf de cover_letter_de.json
+
+# Englische Bewerbung
+./scripts/generate_application.sh config.cv.toml application_company.pdf en cover_letter_en.json
+```
 
 ### Formatierung-Fix
 
@@ -241,11 +263,13 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 3. **Requirement-Mapping**: Strukturierte Anforderungs-Zuordnung
 4. **Error Recovery**: Robuste JSON-Parsing und File-Handling
 
-### Wichtige Defaults & Standards (2025-08-11)
+### Wichtige Defaults & Standards (2025-08-13)
 
 **Standort & Datum-Generierung**:
 - **Standard-Standort**: "Frankfurt am Main" (NICHT Berlin)
-- **Datum-Format**: "Frankfurt am Main, [DD. MMMM YYYY]"
+- **Datum-Format Deutsch**: "Frankfurt am Main, [DD. MMMM YYYY]"
+- **Datum-Format Englisch**: "Frankfurt am Main, [Month DD, YYYY]"
+- **Datum-Verifikation**: IMMER aktuelles Datum prüfen mit `date` Command
 - **Script-Default**: Bei fehlendem Datum wird automatisch Frankfurt als Standort verwendet
 
 **Kontaktdaten-Block (immer am Ende)**:
@@ -260,6 +284,38 @@ Dieser Command automatisiert die Erstellung einer vollständigen deutschen Bewer
 - **KI-Workshops und Schulungen** als Expertise-Nachweis
 - **Technische Tiefe** über oberflächliche Metriken
 
-**Verfügbarkeit**: 
-- Standard: "ab sofort verfügbar"
+**Verfügbarkeit**:
+
+- Standard Deutsch: "ab sofort verfügbar"
+- Standard Englisch: "available immediately"
 - Keine Projektlisten im Word-Format anbieten
+
+### Englische Bewerbungen (2025-08-13)
+
+**Automatische Spracherkennung**:
+
+- Englische Keywords in Stellenausschreibung → Englisches Anschreiben
+- Expliziter Hinweis "auf Englisch" → Englisches Anschreiben
+- International companies → Default to English
+
+**Workflow für Englische Bewerbungen**:
+
+1. **Datum prüfen**: `date "+%B %d, %Y"` für korrektes englisches Format
+2. **Cover Letter JSON**: Language-Feld auf "en" setzen
+3. **Script-Aufruf**: `./scripts/generate_application.sh config.cv.toml output.pdf en cover_letter.json`
+4. **CV-Sprache**: Englische Sections aus config.cv.toml werden automatisch verwendet
+
+**Script-Integration**:
+
+- Das `generate_application.sh` Script nutzt den 3. Parameter als Sprache
+- Bei `en` wird automatisch die englische Sektion aus config.cv.toml verwendet
+- Die Scripts `application_to_pdf.js` und `html_to_pdf.js` verwenden beide den Language-Parameter
+- Alle Texte, Formatierungen und Datumsangaben werden automatisch angepasst
+
+**Englische Formulierungen**:
+
+- Greeting: "Dear Hiring Manager" oder "Dear Mr./Ms. [Name]"
+- Opening: Focus on direct value proposition
+- Requirements: "Your Requirements → My Expertise" format
+- Closing: "Best regards" statt "Mit freundlichen Grüßen"
+- Contact: International phone format (+49...)
