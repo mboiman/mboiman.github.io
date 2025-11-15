@@ -228,7 +228,31 @@ defaultContentLanguageInSubdir = true
 
 Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für moderne AI-gestützte Entwicklungsworkflows.
         """
-        
+
+        [[languages.de.params.experiences.list]]
+        position = "Quality Engineering Lead"
+        dates = "09/2025 – heute"
+        company = "TÜV Süd"
+        details = """
+**Quality Engineering & Technische Führung** für IDAS (Intelligent Document Analysis Solution), eine Enterprise-Plattform für KI-gestützte Dokumentenverarbeitung mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+
+**Schwerpunkte**
+- **E2E-Testautomatisierung**: Aufbau eines skalierbaren Test-Frameworks mit Playwright, TypeScript und Page Object Model für AI-powered Document Processing Pipeline
+- **Performance & Monitoring**: Entwicklung von Azure Monitor Workbooks mit KQL für End-to-End-Überwachung; Identifikation kritischer Monitoring-Lücken in AI-Service-Integration (Azure OpenAI)
+- **Bug Analysis & Quality Intelligence**: Implementierung eines umfassenden Bug-Tracking-Systems mit automatisierten Dashboards, Age-Analysis und Executive Reporting
+- **Log-Analyse & Observability**: Systematische Identifikation fehlender Logs in Microservices-Architektur; Entwicklung von Best Practices für strukturiertes Logging
+- **Dokumentations-Infrastruktur**: Repository-Organisation (2.5GB Monorepo) mit klarer Trennung zwischen Knowledge Base und Evidence Base
+- **AI-gestützte Automatisierung**: Entwicklung von Automation Skills für Workflow-Optimierung, Bug-Analyse und Incident-Response mit messbarer Zeitersparnis
+
+**Tools & Technologien**
+- Testing: Playwright, TypeScript, Page Object Model, Fixtures, PostgreSQL
+- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Azure OpenAI Service
+- Backend: FastAPI, Python, SQLModel, Azure Functions
+- Frontend: React, TypeScript, Vite, TanStack Router
+- AI Integration: Azure OpenAI, LangChain, Embeddings, Chat Completions
+- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage
+        """
+
         [[languages.de.params.experiences.list]]
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
         dates = "04/2025"
@@ -301,6 +325,10 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Outlook-Management & SharePoint-Archivierung**: Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook; Archivierung von Original- und generierten Rechnungsdokumenten über Microsoft Graph API.
 - **Monitoring & Logging**: Echtzeit-Überwachung des End-to-End-Prozesses mit Kibana, inklusive Alerting und Dashboard-Erstellung.
 - **Team-Koordination**: Steuerung des Entwickler-Teams inkl. Code-Reviews.
+- **AI Workflow Automation**: Entwicklung von AI Skills zur Automatisierung von Task-Tracking, Issue-Management und Projekt-Dokumentation
+- **Intelligent Documentation System**: Automatisierte Wiki-Synchronisierung mit Git-Commit-Analyse und natürlichsprachlicher Dokumentations-Generierung
+- **Automated Status Reporting**: KI-gesteuerte Mail-Updates mit automatischer Projekt-Fortschritts-Analyse
+- **MCP & A2A Protocol Implementation**: Next-Generation AI-Protokolle für Tool-Integration und Multi-Agent-Kommunikation
 
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
@@ -309,6 +337,8 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
 - Kibana: Monitoring, Log-Analyse und Performance-Dashboards.
 - Streamlit: Für die Entwicklung einer interaktiven Webanwendung zur Visualisierung.
+- AI Automation: Claude AI, Custom Skills Development, Git Analysis, Natural Language Processing
+- Protocols: Model Context Protocol (MCP), Agent-to-Agent (A2A), JSON-RPC 2.0
         """
 
         [[languages.de.params.experiences.list]]
@@ -715,7 +745,31 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
 Complete workshop with slides, live demos, and practical exercises for modern AI-assisted development workflows.
         """
-        
+
+        [[languages.en.params.experiences.list]]
+        position = "Quality Engineering Lead"
+        dates = "09/2025 – present"
+        company = "TÜV Süd"
+        details = """
+**Quality Engineering & Technical Leadership** for IDAS (Intelligent Document Analysis Solution), an enterprise platform for AI-powered document processing with AI chat integration and data pipeline automation.
+
+**Key Responsibilities**
+- **E2E Test Automation**: Development of scalable test framework using Playwright, TypeScript, and Page Object Model for AI-powered document processing pipeline
+- **Performance & Monitoring**: Creation of Azure Monitor Workbooks with KQL for end-to-end monitoring; identification of critical monitoring gaps in AI service integration (Azure OpenAI)
+- **Bug Analysis & Quality Intelligence**: Implementation of comprehensive bug tracking system with automated dashboards, age analysis, and executive reporting
+- **Log Analysis & Observability**: Systematic identification of missing logs in microservices architecture; development of best practices for structured logging
+- **Documentation Infrastructure**: Repository organization (2.5GB monorepo) with clear separation between Knowledge Base and Evidence Base
+- **AI-Powered Automation**: Development of automation skills for workflow optimization, bug analysis, and incident response with measurable time savings
+
+**Tools & Technologies**
+- Testing: Playwright, TypeScript, Page Object Model, Fixtures, PostgreSQL
+- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Azure OpenAI Service
+- Backend: FastAPI, Python, SQLModel, Azure Functions
+- Frontend: React, TypeScript, Vite, TanStack Router
+- AI Integration: Azure OpenAI, LangChain, Embeddings, Chat Completions
+- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage
+        """
+
         [[languages.en.params.experiences.list]]
         position = "Presentation: Efficient Documentation through Automation"
         dates = "04/2025"
@@ -788,6 +842,10 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Outlook management & SharePoint archiving**: Automatic moving and categorising of emails into predefined Outlook folders; archiving of original and generated invoice documents via Microsoft Graph API.
 - **Monitoring & logging**: End‑to‑end real‑time monitoring with Kibana, including alerting and dashboard creation.
 - **Team coordination**: Managing the developer team incl. code reviews.
+- **AI Workflow Automation**: Development of AI skills for automating task tracking, issue management, and project documentation
+- **Intelligent Documentation System**: Automated wiki synchronization with git commit analysis and natural language documentation generation
+- **Automated Status Reporting**: AI-driven email updates with automatic project progress analysis
+- **MCP & A2A Protocol Implementation**: Next-generation AI protocols for tool integration and multi-agent communication
 
 **Tools & technologies**
 - Azure Functions: Serverless orchestration of automation workflows.
@@ -796,6 +854,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - GitHub: Version control, CI/CD pipelines and collaborative development.
 - Kibana: Monitoring, log analysis and performance dashboards.
 - Streamlit: For developing an interactive web application for visualization.
+- AI Automation: Claude AI, Custom Skills Development, Git Analysis, Natural Language Processing
+- Protocols: Model Context Protocol (MCP), Agent-to-Agent (A2A), JSON-RPC 2.0
         """
 
         [[languages.en.params.experiences.list]]
