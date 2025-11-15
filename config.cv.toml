@@ -230,6 +230,29 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
+        position = "LLM Infrastructure Architect & Automation Engineer"
+        dates = "06/2025 – heute"
+        company = "BKS - AI Research & Development"
+        details = """
+**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows.
+
+**Schwerpunkte**
+- **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
+- **MCP Navigation Server**: Entwicklung eines Model Context Protocol Servers (Python) mit intelligenter Hierarchie-Navigation, automatischer Content-Discovery und SharePoint-Integration
+- **GitHub Project Automation**: LLM-gesteuertes Issue-Management mit 7-Pflichtfelder-System, automatischer Kategorisierung, Smart Repository Mapping und Review Queue Management
+- **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
+- **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
+- **Time Tracking Integration**: Commit-basierte Arbeitszeitanalyse mit automatischer Clockify-Synchronisierung, intelligenter Projekt-Zuordnung und BKS-Formatierung
+
+**Tools & Technologien**
+- LLM Orchestration: Model Context Protocol (MCP), Claude AI, Custom Skills Development
+- Backend: Python, FastAPI, JSON-RPC 2.0, Git Submodules
+- Automation: GitHub Actions, GitHub GraphQL API, gh CLI
+- Integration: SharePoint API, Clockify API, Natural Language Processing
+- Development: Bash Scripting, jq, Multi-Agent Systems
+        """
+
+        [[languages.de.params.experiences.list]]
         position = "Quality Engineering Lead"
         dates = "09/2025 – heute"
         company = "TÜV Süd"
@@ -744,6 +767,29 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - JSON-RPC, REST APIs, multi-agent communication
 
 Complete workshop with slides, live demos, and practical exercises for modern AI-assisted development workflows.
+        """
+
+        [[languages.en.params.experiences.list]]
+        position = "LLM Infrastructure Architect & Automation Engineer"
+        dates = "06/2025 – present"
+        company = "BKS - AI Research & Development"
+        details = """
+**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows.
+
+**Key Responsibilities**
+- **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
+- **MCP Navigation Server**: Development of Model Context Protocol server (Python) with intelligent hierarchy navigation, automatic content discovery, and SharePoint integration
+- **GitHub Project Automation**: LLM-driven issue management with 7-mandatory-field system, automatic categorization, smart repository mapping, and review queue management
+- **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
+- **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
+- **Time Tracking Integration**: Commit-based work time analysis with automatic Clockify synchronization, intelligent project assignment, and BKS formatting
+
+**Tools & Technologies**
+- LLM Orchestration: Model Context Protocol (MCP), Claude AI, Custom Skills Development
+- Backend: Python, FastAPI, JSON-RPC 2.0, Git Submodules
+- Automation: GitHub Actions, GitHub GraphQL API, gh CLI
+- Integration: SharePoint API, Clockify API, Natural Language Processing
+- Development: Bash Scripting, jq, Multi-Agent Systems
         """
 
         [[languages.en.params.experiences.list]]
