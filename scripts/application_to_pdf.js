@@ -67,10 +67,12 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
     .replace(/{{SUBJECT}}/g, `Bewerbung als ${coverLetterData.position}`)
     .replace(/{{GREETING}}/g, coverLetterData.greeting)
+    .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="margin: 0 0 25px 0; padding: 20px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 6px solid #2d7788; border-radius: 0 8px 8px 0; page-break-inside: avoid;"><div style="font-size: 11pt; line-height: 1.6;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div></div>` : '')
     .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
     .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
     .replace(/{{CLOSING_PARAGRAPH}}/g, `
       ${coverLetterData.addedValue ? `<p>${formatMarkdownToHTML(coverLetterData.addedValue)}</p>` : ''}
+      ${coverLetterData.aiDisclosure ? `<div style="margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #2d7788; border-radius: 0 4px 4px 0;"><p>${formatMarkdownToHTML(coverLetterData.aiDisclosure)}</p></div>` : ''}
       ${coverLetterData.availability ? `<p>${formatMarkdownToHTML(coverLetterData.availability)}</p>` : ''}
       ${coverLetterData.closing ? `<p>${formatMarkdownToHTML(coverLetterData.closing)}</p>` : ''}
     `)
