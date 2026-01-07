@@ -197,12 +197,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </div>
   `).join('');
 
-  // Generate skills from the skills section (sample skills for sidebar)
-  const skillTags = [
-    'Quality Engineering', 'Playwright', 'Cucumber/Gauge', 'Python', 'LLMs & AI APIs',
-    'LangChain', 'CI/CD', 'Kubernetes', 'Azure Functions', 'Grafana', 'Elasticsearch',
-    'REST APIs', 'Docker', 'JMeter', 'Gatling'
-  ].map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+  // Generate skills from TOML config
+  const skillTags = (langConfig.ui.sidebar_skills || [])
+    .map(skill => `<span class="skill-tag">${skill}</span>`).join('');
 
   return `
 <!DOCTYPE html>
@@ -491,7 +488,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
             <div class="cv-sidebar">
                 <div class="sidebar-section">
-                    <h3>Technische Skills</h3>
+                    <h3>${langConfig.ui.sidebar_skills_title || 'Technical Skills'}</h3>
                     <div class="skills-list">
                         ${skillTags}
                     </div>
@@ -508,7 +505,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
                 </div>
 
                 <div class="sidebar-section">
-                    <h3>Zusätzliche Qualifikationen</h3>
+                    <h3>${langConfig.ui.sidebar_qualifications_title || 'Additional Qualifications'}</h3>
                     <div class="skills-list">
                         <span class="skill-tag">Scrum Master</span>
                         <span class="skill-tag">Product Owner</span>
