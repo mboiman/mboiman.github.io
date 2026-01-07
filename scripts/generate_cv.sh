@@ -3,6 +3,17 @@ set -e
 
 BASE_CONFIG="config.cv.toml"
 STANDALONE=0
+BUILD_DIR=""
+
+# Cleanup function for trap
+cleanup() {
+    if [ -n "$BUILD_DIR" ] && [ -d "$BUILD_DIR" ]; then
+        rm -rf "$BUILD_DIR"
+    fi
+}
+
+# Set trap to cleanup on exit, error, or interrupt
+trap cleanup EXIT INT TERM
 
 # Collect positional arguments while allowing --standalone anywhere
 POSITIONAL=()
@@ -55,7 +66,10 @@ else
   node scripts/html_to_pdf.js "$CONFIG_FOR_PDF" "$OUTPUT_PDF"
 fi
 
-# Clean up
-rm -rf "$BUILD_DIR"
+# Validate PDF was created
+if [ ! -f "$OUTPUT_PDF" ]; then
+  echo "❌ Failed to generate PDF: $OUTPUT_PDF"
+  exit 1
+fi
 
-echo "PDF generated at $OUTPUT_PDF"
+echo "✅ PDF generated at $OUTPUT_PDF"

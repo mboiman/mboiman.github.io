@@ -3,30 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-
-// Function to convert markdown-style formatting to HTML (copied from html_to_pdf.js)
-function formatMarkdownToHTML(text) {
-  if (!text) return '';
-  
-  let formatted = text;
-  
-  // Bold text: **text** -> <strong>text</strong>
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
-  // Convert bullet points and list items
-  formatted = formatted.replace(/^[\*\-]\s+(.+)/gm, '• $1');
-  
-  // Convert numbered lists
-  formatted = formatted.replace(/^\d+\.\s+(.+)/gm, '• $1');
-  
-  // Convert section headers (lines starting with **)
-  formatted = formatted.replace(/^\*\*([^*]+)\*\*$/gm, '<strong>$1</strong>');
-  
-  // Convert lines that end with : to be bold (section headers)
-  formatted = formatted.replace(/^([^•\n]+):$/gm, '<strong>$1:</strong>');
-  
-  return formatted;
-}
+const { formatMarkdownToHTML } = require('./lib/markdown-utils');
 
 // Function to generate cover letter HTML from template and data
 async function generateCoverLetterHTML(coverLetterData, langConfig, profileImageData) {
@@ -65,11 +42,13 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{DATE}}/g, coverLetterData.date || `Frankfurt am Main, ${new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}`)
     .replace(/{{ADDRESS}}/g, coverLetterData.address || '')
     .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
-    .replace(/{{SUBJECT}}/g, `Bewerbung als ${coverLetterData.position}`)
+    .replace(/{{SUBJECT}}/g, `${langConfig.ui.application_subject_prefix || 'Application for'} ${coverLetterData.position}`)
     .replace(/{{GREETING}}/g, coverLetterData.greeting)
     .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="margin: 0 0 25px 0; padding: 20px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 6px solid #2d7788; border-radius: 0 8px 8px 0; page-break-inside: avoid;"><div style="font-size: 11pt; line-height: 1.6;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div></div>` : '')
     .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
+    .replace(/{{REQUIREMENTS_MAPPING_TITLE}}/g, langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications')
     .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
+    .replace(/{{ATTACHMENT_LABEL}}/g, langConfig.ui.attachment_label || 'Attachment: Complete CV')
     .replace(/{{CLOSING_PARAGRAPH}}/g, `
       ${coverLetterData.addedValue ? `<p>${formatMarkdownToHTML(coverLetterData.addedValue)}</p>` : ''}
       ${coverLetterData.aiDisclosure ? `<div style="margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #2d7788; border-radius: 0 4px 4px 0;"><p>${formatMarkdownToHTML(coverLetterData.aiDisclosure)}</p></div>` : ''}

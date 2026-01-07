@@ -3,83 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-
-// Function to convert markdown-style formatting to HTML
-function formatMarkdownToHTML(text) {
-  if (!text) return '';
-  
-  let formatted = text;
-  
-  // Bold text: **text** -> <strong>text</strong>
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
-  // Convert bullet points and list items
-  formatted = formatted.replace(/^[\*\-]\s+(.+)/gm, '• $1');
-  
-  // Convert numbered lists
-  formatted = formatted.replace(/^\d+\.\s+(.+)/gm, '• $1');
-  
-  // Convert section headers (lines starting with **)
-  formatted = formatted.replace(/^\*\*([^*]+)\*\*$/gm, '<strong>$1</strong>');
-  
-  // Convert lines that end with : to be bold (section headers)
-  formatted = formatted.replace(/^([^•\n]+):$/gm, '<strong>$1:</strong>');
-  
-  // Handle emojis and preserve them
-  // No changes needed - emojis should work as-is
-  
-  return formatted;
-}
-
-// Function to split text into paragraphs and format as HTML
-function formatTextToParagraphs(text) {
-  if (!text) return '';
-  
-  const formatted = formatMarkdownToHTML(text);
-  
-  // Split by double line breaks for paragraphs
-  const paragraphs = formatted.split('\n\n').filter(p => p.trim());
-  
-  return paragraphs.map(p => {
-    const trimmed = p.trim();
-    if (!trimmed) return '';
-    
-    // Check if paragraph contains bullet points
-    if (trimmed.includes('•')) {
-      const lines = trimmed.split('\n');
-      let html = '';
-      let inList = false;
-      
-      for (const line of lines) {
-        const trimmedLine = line.trim();
-        if (trimmedLine.startsWith('•')) {
-          if (!inList) {
-            html += '<ul>';
-            inList = true;
-          }
-          html += `<li>${trimmedLine.substring(1).trim()}</li>`;
-        } else {
-          if (inList) {
-            html += '</ul>';
-            inList = false;
-          }
-          if (trimmedLine) {
-            html += `<p>${trimmedLine}</p>`;
-          }
-        }
-      }
-      
-      if (inList) {
-        html += '</ul>';
-      }
-      
-      return html;
-    } else {
-      // Regular paragraph
-      return `<p>${trimmed}</p>`;
-    }
-  }).join('');
-}
+const { formatMarkdownToHTML, formatTextToParagraphs } = require('./lib/markdown-utils');
 
 // Function to generate HTML content from TOML configuration
 async function generateHTMLFromConfig(langConfig, profileImageData) {
@@ -197,12 +121,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </div>
   `).join('');
 
-  // Generate skills from the skills section (sample skills for sidebar)
-  const skillTags = [
-    'Quality Engineering', 'Playwright', 'Cucumber/Gauge', 'Python', 'LLMs & AI APIs',
-    'LangChain', 'CI/CD', 'Kubernetes', 'Azure Functions', 'Grafana', 'Elasticsearch',
-    'REST APIs', 'Docker', 'JMeter', 'Gatling'
-  ].map(skill => `<span class="skill-tag">${skill}</span>`).join('');
+  // Generate skills from TOML config
+  const skillTags = (langConfig.ui.sidebar_skills || [])
+    .map(skill => `<span class="skill-tag">${skill}</span>`).join('');
 
   return `
 <!DOCTYPE html>
@@ -491,7 +412,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
             <div class="cv-sidebar">
                 <div class="sidebar-section">
-                    <h3>Technische Skills</h3>
+                    <h3>${langConfig.ui.sidebar_skills_title || 'Technical Skills'}</h3>
                     <div class="skills-list">
                         ${skillTags}
                     </div>
@@ -508,7 +429,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
                 </div>
 
                 <div class="sidebar-section">
-                    <h3>Zusätzliche Qualifikationen</h3>
+                    <h3>${langConfig.ui.sidebar_qualifications_title || 'Additional Qualifications'}</h3>
                     <div class="skills-list">
                         <span class="skill-tag">Scrum Master</span>
                         <span class="skill-tag">Product Owner</span>
@@ -617,8 +538,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
   const htmlContent = await generateHTMLFromConfig(langConfig, profileImageBase64);
   
   await page.setContent(htmlContent, {
-    waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
-    timeout: 30000
+    waitUntil: ['domcontentloaded'],
+    timeout: 60000
   });
   
   console.log('⚡ Optimizing for PDF...');

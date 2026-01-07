@@ -1,6 +1,18 @@
 #!/bin/bash
 set -e
 
+TEMP_DIR=""
+
+# Cleanup function for trap
+cleanup() {
+    if [ -n "$TEMP_DIR" ] && [ -d "$TEMP_DIR" ]; then
+        rm -rf "$TEMP_DIR"
+    fi
+}
+
+# Set trap to cleanup on exit, error, or interrupt
+trap cleanup EXIT INT TERM
+
 # Usage function
 usage() {
     echo "Usage: $0 <config.toml> <output.pdf> <language> <cover_letter_data.json>"
@@ -67,7 +79,6 @@ node scripts/application_to_pdf.js "$CONFIG_FILE" "$COVER_LETTER_PDF" "$LANGUAGE
 
 if [ ! -f "$COVER_LETTER_PDF" ]; then
     echo "❌ Failed to generate cover letter PDF"
-    rm -rf "$TEMP_DIR"
     exit 1
 fi
 
@@ -77,7 +88,6 @@ node scripts/html_to_pdf.js "$CONFIG_FILE" "$CV_PDF" "$LANGUAGE"
 
 if [ ! -f "$CV_PDF" ]; then
     echo "❌ Failed to generate CV PDF"
-    rm -rf "$TEMP_DIR"
     exit 1
 fi
 
@@ -87,12 +97,8 @@ node scripts/combine_pdfs.js "$COVER_LETTER_PDF" "$CV_PDF" "$OUTPUT_PDF"
 
 if [ ! -f "$OUTPUT_PDF" ]; then
     echo "❌ Failed to combine PDFs"
-    rm -rf "$TEMP_DIR"
     exit 1
 fi
-
-# Cleanup
-rm -rf "$TEMP_DIR"
 
 echo "✅ Application PDF generated successfully: $OUTPUT_PDF"
 echo ""
