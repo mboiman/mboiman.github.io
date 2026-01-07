@@ -3,30 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-
-// Function to convert markdown-style formatting to HTML (copied from html_to_pdf.js)
-function formatMarkdownToHTML(text) {
-  if (!text) return '';
-  
-  let formatted = text;
-  
-  // Bold text: **text** -> <strong>text</strong>
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
-  // Convert bullet points and list items
-  formatted = formatted.replace(/^[\*\-]\s+(.+)/gm, '• $1');
-  
-  // Convert numbered lists
-  formatted = formatted.replace(/^\d+\.\s+(.+)/gm, '• $1');
-  
-  // Convert section headers (lines starting with **)
-  formatted = formatted.replace(/^\*\*([^*]+)\*\*$/gm, '<strong>$1</strong>');
-  
-  // Convert lines that end with : to be bold (section headers)
-  formatted = formatted.replace(/^([^•\n]+):$/gm, '<strong>$1:</strong>');
-  
-  return formatted;
-}
+const { formatMarkdownToHTML } = require('./lib/markdown-utils');
 
 // Function to generate cover letter HTML from template and data
 async function generateCoverLetterHTML(coverLetterData, langConfig, profileImageData) {
