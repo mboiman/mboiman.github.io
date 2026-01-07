@@ -1,10 +1,6 @@
 <!-- Modern JavaScript -->
 <script type="text/javascript" src="{{ .Site.BaseURL }}assets/js/modern-interactions.js"></script>
 
-<!-- Legacy Support (minimal) -->
-<script type="text/javascript" src="{{ .Site.BaseURL }}assets/js/main.js"></script>
-
-
 <!-- Analytics (Privacy-focused) -->
 {{ if .Site.Config.Services.GoogleAnalytics.ID }}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Config.Services.GoogleAnalytics.ID }}"></script>
