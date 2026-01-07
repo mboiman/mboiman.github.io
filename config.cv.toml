@@ -59,6 +59,10 @@ defaultContentLanguageInSubdir = true
           "JMeter",
           "Gatling"
         ]
+        # Cover letter strings
+        application_subject_prefix = "Bewerbung als"
+        requirements_mapping_title = "Ihre Anforderungen → Meine Qualifikationen"
+        attachment_label = "Anlage: Vollständiger Lebenslauf mit detaillierten Projektbeschreibungen, Technologiestack und Referenzen"
 
       [languages.de.params.ai_showcase]
         enable = true
@@ -648,6 +652,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "JMeter",
           "Gatling"
         ]
+        # Cover letter strings
+        application_subject_prefix = "Application for"
+        requirements_mapping_title = "Your Requirements → My Qualifications"
+        attachment_label = "Attachment: Complete CV with detailed project descriptions, technology stack and references"
 
       [languages.en.params.ai_showcase]
         enable = true
