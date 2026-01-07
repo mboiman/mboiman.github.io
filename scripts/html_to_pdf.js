@@ -538,8 +538,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
   const htmlContent = await generateHTMLFromConfig(langConfig, profileImageBase64);
   
   await page.setContent(htmlContent, {
-    waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
-    timeout: 30000
+    waitUntil: ['domcontentloaded'],
+    timeout: 60000
   });
   
   console.log('⚡ Optimizing for PDF...');
