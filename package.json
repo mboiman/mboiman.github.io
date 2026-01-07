@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.22.1",
     "pdf-lib": "^1.17.1",
-    "puppeteer": "^24.10.0",
-    "sharp": "^0.34.3",
+    "puppeteer": "^24.34.0",
+    "sharp": "^0.34.5",
     "toml": "^3.0.0"
   },
   "scripts": {

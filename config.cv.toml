@@ -277,6 +277,35 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
+        position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
+        dates = "07/2024 – 01/2025"
+        company = "AkkuSwap Startup"
+        details = """
+**QA-Führung für EU-weite Batterie-Tausch-Infrastruktur**: AI-gestütztes Simulationswerkzeug für Batterietausch-Stationsnetzwerk mit Energie-Infrastruktur-Integration
+
+**Hauptverantwortlichkeiten**
+- QA-Konzept, Design und Implementierung für AI-gesteuerte Simulation der EU-weiten Infrastruktur
+- Entwicklung eines QA-Frameworks für inhouse AI-Server-Infrastruktur
+- Proof-of-Concept für automatisiertes Testen von AI-gesteuerten Simulationen
+
+**Energiesektor-Verbindung**
+- **50 Hertz Beteiligung**: 50 Hertz (Elia Group Tochtergesellschaft) nahm am Forschungsprojekt eHaul teil, dem Vorgänger von AkkuSwap
+- Direkte Erfahrung im Energiesektor mit Qualitätsanforderungen für kritische Infrastruktur
+- Verständnis für 99,99% Zuverlässigkeitsstandards für Energieübertragungssysteme
+
+**Technischer Stack**
+- Infrastruktur: Linux, Docker, Azure OpenAI
+- Automatisierung: pytest, AI-Code-Generierung Integrationsmuster
+- Monitoring: Grafana, Azure Monitoring
+- Energiesysteme: Batterietausch-Infrastruktur, Grid-Integrations-Simulation
+
+**Wichtige Erfolge**
+- Etablierung einer QA-Methodik für AI-gesteuerte Infrastruktursimulation
+- Erstellung eines Test-Frameworks für kritische Systeme im Energiesektor
+- Validierung des Proof-of-Concept mit messbaren Zuverlässigkeitsverbesserungen
+        """
+
+        [[languages.de.params.experiences.list]]
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
         dates = "04/2025"
         company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
@@ -814,6 +843,35 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Frontend: React, TypeScript, Vite, TanStack Router
 - AI Integration: Azure OpenAI, LangChain, Embeddings, Chat Completions
 - DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage
+        """
+
+        [[languages.en.params.experiences.list]]
+        position = "AI-driven Automated QA Environment for Energy Infrastructure"
+        dates = "07/2024 – 01/2025"
+        company = "AkkuSwap Startup"
+        details = """
+**QA Leadership for EU-wide Battery Swap Infrastructure**: AI-driven simulation tool for battery swap station network with energy infrastructure integration
+
+**Key Responsibilities**
+- QA concept, design and implementation for AI-driven simulation of EU-wide infrastructure
+- QA framework development for inhouse AI server infrastructure
+- Proof-of-concept for automated testing of AI-driven simulations
+
+**Energy Sector Connection**
+- **50 Hertz Participation**: 50 Hertz (Elia Group subsidiary) participated in research project eHaul, the predecessor of AkkuSwap
+- Direct energy sector experience with critical infrastructure quality requirements
+- Understanding of 99.99% reliability standards for energy transmission systems
+
+**Technical Stack**
+- Infrastructure: Linux, Docker, Azure OpenAI
+- Automation: pytest, AI code generation integration patterns
+- Monitoring: Grafana, Azure Monitoring
+- Energy Systems: Battery swap infrastructure, grid integration simulation
+
+**Key Achievements**
+- Established QA methodology for AI-driven infrastructure simulation
+- Created testing framework for energy sector critical systems
+- Validated proof-of-concept with measurable reliability improvements
         """
 
         [[languages.en.params.experiences.list]]
