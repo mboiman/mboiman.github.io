@@ -47,8 +47,11 @@ defaultContentLanguageInSubdir = true
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs & AI APIs",
+          "LLMs (GPT-4/Claude/Gemini)",
+          "MCP & A2A Protocols",
+          "Google ADK",
           "LangChain",
+          "Peppol/E-Invoicing",
           "CI/CD",
           "Kubernetes",
           "Azure Functions",
@@ -77,7 +80,7 @@ defaultContentLanguageInSubdir = true
         
         [[languages.de.params.ai_showcase.list]]
         name = "Next-Gen AI Protocols & Agentic Systems"
-        description = "MCP & A2A Protocol Implementation, Multi-Agent-Orchestrierung, JSON-RPC, sichere Agent-to-Agent Communication, Enterprise-ready"
+        description = "MCP & A2A Protocol Implementation, Google Agent Development Kit (ADK), Multi-Agent-Orchestrierung, JSON-RPC, sichere Agent-to-Agent Communication, Enterprise-ready"
         
         [[languages.de.params.ai_showcase.list]]
         name = "RAG-Systeme & Enterprise NLP"
@@ -114,8 +117,8 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "website"
         icon = "fa-globe"
-        url = "http://boiman-kupermann.com"
-        title = "BKS Homepage"
+        url = "https://bks-lab.com"
+        title = "BKS-Lab Homepage"
 
         [[languages.de.params.contact.list]]
         class = "linkedin"
@@ -233,8 +236,9 @@ defaultContentLanguageInSubdir = true
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
 
 **Workshop-Inhalte**
-- Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung
+- Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung - alle drei Modelle gleichwertig in Projekten eingesetzt
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
+- Google Agent Development Kit (ADK) für Multi-Agent-Systeme und Tool-Integration
 - Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
 - Browser-Automation mit Playwright-MCP für automatisierte Test-Generierung
 - Live-Demos: Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
@@ -243,8 +247,8 @@ defaultContentLanguageInSubdir = true
 - Task Master AI-Agent für Projektmanagement und Code-Scaffolding
 
 **Technologien & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini
-- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
+- OpenAI GPT-4o, Anthropic Claude, Google Gemini (gleichwertige Expertise in allen drei LLMs)
+- Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI-Extensions
 - Playwright, Browser-Automation, Web-Scraping
 - JSON-RPC, REST APIs, Multi-Agent Communication
@@ -257,46 +261,55 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "06/2025 – heute"
         company = "BKS - AI Research & Development"
         details = """
-**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows.
+**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit gleichwertiger Expertise in GPT-4, Claude und Gemini.
 
 **Schwerpunkte**
+- **Open Source MCP Server Portfolio**: Entwicklung und Veröffentlichung von 3+ MCP Servern auf GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) mit uvx-Distribution, Claude Desktop Integration und Multi-Format Support (Markdown, JSON, YAML)
+- **Multi-Agent Orchestration System**: Implementierung eines produktionsreifen A2A-Systems mit Orchestrator Agent (Routing Hub) und Knowledge Agent für inter-agent Kommunikation, capability-based Agent Cards und JSON-RPC 2.0
 - **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
 - **MCP Navigation Server**: Entwicklung eines Model Context Protocol Servers (Python) mit intelligenter Hierarchie-Navigation, automatischer Content-Discovery und SharePoint-Integration
+- **Google ADK Integration**: Einsatz des Google Agent Development Kit für Multi-Agent-Systeme und erweiterte Tool-Integration
 - **GitHub Project Automation**: LLM-gesteuertes Issue-Management mit 7-Pflichtfelder-System, automatischer Kategorisierung, Smart Repository Mapping und Review Queue Management
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
 - **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
 - **Time Tracking Integration**: Commit-basierte Arbeitszeitanalyse mit automatischer Clockify-Synchronisierung, intelligenter Projekt-Zuordnung und BKS-Formatierung
 
 **Tools & Technologien**
-- LLM Orchestration: Model Context Protocol (MCP), Claude AI, Custom Skills Development
-- Backend: Python, FastAPI, JSON-RPC 2.0, Git Submodules
+- LLM Orchestration: GPT-4, Claude AI, Google Gemini (gleichwertige Expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
+- Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Clockify API, Natural Language Processing
-- Development: Bash Scripting, jq, Multi-Agent Systems
+- Development: Bash Scripting, jq, Docker, Multi-Agent Systems
         """
 
         [[languages.de.params.experiences.list]]
         position = "Quality Engineering Lead"
-        dates = "09/2025 – heute"
+        dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering & Technische Führung** für IDAS (Intelligent Document Analysis Solution), eine Enterprise-Plattform für KI-gestützte Dokumentenverarbeitung mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+**Quality Engineering & Technische Führung** für IDAS (Intelligent Document Analysis Solution), eine Enterprise-Plattform für KI-gestützte Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+
+**Quantifizierbare Erfolge**
+- **820 BDD Test-Szenarien** in 28 Feature-Files mit 100% API-Coverage (66/66 Endpoints)
+- **88 KQL Queries** für Azure Monitor Workbooks verifiziert, 8 Workbooks getestet, 2 neu erstellt
+- **207 Commits** im IDAS Repository, 54% Szenarien-Reduktion durch Äquivalenzklassen-Optimierung
 
 **Schwerpunkte**
-- **E2E-Testautomatisierung**: Aufbau eines skalierbaren Test-Frameworks mit Playwright, TypeScript und Page Object Model für AI-powered Document Processing Pipeline
-- **Performance & Monitoring**: Entwicklung von Azure Monitor Workbooks mit KQL für End-to-End-Überwachung; Identifikation kritischer Monitoring-Lücken in AI-Service-Integration (Azure OpenAI)
-- **Bug Analysis & Quality Intelligence**: Implementierung eines umfassenden Bug-Tracking-Systems mit automatisierten Dashboards, Age-Analysis und Executive Reporting
-- **Log-Analyse & Observability**: Systematische Identifikation fehlender Logs in Microservices-Architektur; Entwicklung von Best Practices für strukturiertes Logging
-- **Dokumentations-Infrastruktur**: Repository-Organisation (2.5GB Monorepo) mit klarer Trennung zwischen Knowledge Base und Evidence Base
+- **BDD API Test Framework**: Aufbau eines vollständigen Test-Frameworks mit Python/Behave, Self-Healing Authentication, HTML-Report-Generator mit eingebetteten API-Responses
+- **E2E-Testautomatisierung**: Playwright E2E Test Suite für komplette User Journey (Setup -> Upload -> Transformation -> Download) mit 500er Error-Handling und Route-Mocking
+- **Performance & Monitoring**: Entwicklung von Azure Monitor Workbooks (QA Live Testing Companion, Error Investigation Assistant) mit KQL für End-to-End-Überwachung
+- **Bug Analysis & Quality Intelligence**: Implementierung eines umfassenden Bug-Tracking-Systems mit WIQL Queries, automatisierten Dashboards und Executive PDF-Reporting
+- **Pipeline Integration**: Test-Automatisierung in Azure DevOps CI/CD Pipelines mit HTML Report Upload zu Azure Test Results
 - **AI-gestützte Automatisierung**: Entwicklung von Automation Skills für Workflow-Optimierung, Bug-Analyse und Incident-Response mit messbarer Zeitersparnis
 
 **Tools & Technologien**
-- Testing: Playwright, TypeScript, Page Object Model, Fixtures, PostgreSQL
-- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Azure OpenAI Service
-- Backend: FastAPI, Python, SQLModel, Azure Functions
+- Testing: Behave, Playwright, TypeScript, Python, pytest, Page Object Model, Fixtures
+- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Log Analytics
+- Backend: FastAPI, Python, Pydantic, SQLModel, Azure Functions, Azure Service Bus
 - Frontend: React, TypeScript, Vite, TanStack Router
-- AI Integration: Azure OpenAI, LangChain, Embeddings, Chat Completions
-- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage
+- AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
+- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
         """
 
         [[languages.de.params.experiences.list]]
@@ -394,7 +407,10 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
 **Schwerpunkte**:
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
-- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung), inklusive Struktur- und Inhalts-Parsing.
+- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
+- **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk via Storecove Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
+- **SAP ByDesign Kopplung**: Automatische Übertragung validierter Rechnungsdaten an SAP ByDesign für nahtlose ERP-Integration.
+- **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit und Austauschbarkeit von Infrastruktur-Komponenten.
 - **Salesforce-Einspielung**: Weiterleitung der aufbereiteten Rechnungsdaten per E-Mail an das nachgelagerte System für den Salesforce-Import.
 - **Auditierung & Protokollierung**: Lückenlose Dokumentation aller Verarbeitungsschritte sowie Speicherung der ursprünglichen E-Mail-Inhalte im Verarbeitungsprotokoll.
 - **Outlook-Management & SharePoint-Archivierung**: Automatisches Verschieben und Kategorisieren von E-Mails in vordefinierte Zielordner in Outlook; Archivierung von Original- und generierten Rechnungsdokumenten über Microsoft Graph API.
@@ -408,6 +424,8 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
 - Python: Implementierung der Kernlogik für Datenextraktion, Klassifizierung und Integration mit automatisierten CI/CD-Prozessen, Paketierung und umfassenden Unit- sowie Integrationstests zur Qualitätssicherung.
+- E-Invoicing: Peppol Network, Storecove API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
+- ERP Integration: SAP ByDesign, Salesforce
 - Microsoft Graph API: Zugriff auf Outlook-Postfächer und SharePoint-Dokumentbibliotheken.
 - GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
 - Kibana: Monitoring, Log-Analyse und Performance-Dashboards.
@@ -640,8 +658,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs & AI APIs",
+          "LLMs (GPT-4/Claude/Gemini)",
+          "MCP & A2A Protocols",
+          "Google ADK",
           "LangChain",
+          "Peppol/E-Invoicing",
           "CI/CD",
           "Kubernetes",
           "Azure Functions",
@@ -670,7 +691,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         
         [[languages.en.params.ai_showcase.list]]
         name = "Next-Gen AI Protocols & Agentic Systems"
-        description = "MCP & A2A protocol implementation, multi-agent orchestration, JSON-RPC, secure agent-to-agent communication, enterprise-ready"
+        description = "MCP & A2A protocol implementation, Google Agent Development Kit (ADK), multi-agent orchestration, JSON-RPC, secure agent-to-agent communication, enterprise-ready"
         
         [[languages.en.params.ai_showcase.list]]
         name = "RAG Systems & Enterprise NLP"
@@ -707,8 +728,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "website"
         icon = "fa-globe"
-        url = "http://boiman-kupermann.com"
-        title = "BKS Homepage"
+        url = "https://bks-lab.com"
+        title = "BKS-Lab Homepage"
 
         [[languages.en.params.contact.list]]
         class = "linkedin"
@@ -825,8 +846,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
 
 **Workshop Content**
-- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization
+- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization - all three models used equally in projects
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
+- Google Agent Development Kit (ADK) for multi-agent systems and tool integration
 - Agent orchestration with JSON-RPC and multi-agent systems
 - Browser automation with Playwright-MCP for automated test generation
 - Live demos: Jira integration, Elasticsearch queries, GitHub workflows
@@ -835,8 +857,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Task Master AI agent for project management and code scaffolding
 
 **Technologies & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini
-- Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
+- OpenAI GPT-4o, Anthropic Claude, Google Gemini (equal expertise across all three LLMs)
+- Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI extensions
 - Playwright, browser automation, web scraping
 - JSON-RPC, REST APIs, multi-agent communication
@@ -849,46 +871,55 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "06/2025 – present"
         company = "BKS - AI Research & Development"
         details = """
-**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows.
+**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with equal expertise in GPT-4, Claude, and Gemini.
 
 **Key Responsibilities**
+- **Open Source MCP Server Portfolio**: Development and publication of 3+ MCP servers on GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) with uvx distribution, Claude Desktop integration, and multi-format support (Markdown, JSON, YAML)
+- **Multi-Agent Orchestration System**: Implementation of production-ready A2A system with Orchestrator Agent (routing hub) and Knowledge Agent for inter-agent communication, capability-based Agent Cards, and JSON-RPC 2.0
 - **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
 - **MCP Navigation Server**: Development of Model Context Protocol server (Python) with intelligent hierarchy navigation, automatic content discovery, and SharePoint integration
+- **Google ADK Integration**: Implementation of Google Agent Development Kit for multi-agent systems and advanced tool integration
 - **GitHub Project Automation**: LLM-driven issue management with 7-mandatory-field system, automatic categorization, smart repository mapping, and review queue management
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
 - **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
 - **Time Tracking Integration**: Commit-based work time analysis with automatic Clockify synchronization, intelligent project assignment, and BKS formatting
 
 **Tools & Technologies**
-- LLM Orchestration: Model Context Protocol (MCP), Claude AI, Custom Skills Development
-- Backend: Python, FastAPI, JSON-RPC 2.0, Git Submodules
+- LLM Orchestration: GPT-4, Claude AI, Google Gemini (equal expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
+- Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Clockify API, Natural Language Processing
-- Development: Bash Scripting, jq, Multi-Agent Systems
+- Development: Bash Scripting, jq, Docker, Multi-Agent Systems
         """
 
         [[languages.en.params.experiences.list]]
         position = "Quality Engineering Lead"
-        dates = "09/2025 – present"
+        dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering & Technical Leadership** for IDAS (Intelligent Document Analysis Solution), an enterprise platform for AI-powered document processing with AI chat integration and data pipeline automation.
+**Quality Engineering & Technical Leadership** for IDAS (Intelligent Document Analysis Solution), an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
+
+**Quantifiable Achievements**
+- **820 BDD test scenarios** across 28 feature files with 100% API coverage (66/66 endpoints)
+- **88 KQL queries** verified for Azure Monitor Workbooks, 8 workbooks tested, 2 newly created
+- **207 commits** in IDAS repository, 54% scenario reduction through equivalence class optimization
 
 **Key Responsibilities**
-- **E2E Test Automation**: Development of scalable test framework using Playwright, TypeScript, and Page Object Model for AI-powered document processing pipeline
-- **Performance & Monitoring**: Creation of Azure Monitor Workbooks with KQL for end-to-end monitoring; identification of critical monitoring gaps in AI service integration (Azure OpenAI)
-- **Bug Analysis & Quality Intelligence**: Implementation of comprehensive bug tracking system with automated dashboards, age analysis, and executive reporting
-- **Log Analysis & Observability**: Systematic identification of missing logs in microservices architecture; development of best practices for structured logging
-- **Documentation Infrastructure**: Repository organization (2.5GB monorepo) with clear separation between Knowledge Base and Evidence Base
+- **BDD API Test Framework**: Development of comprehensive test framework with Python/Behave, self-healing authentication, HTML report generator with embedded API responses
+- **E2E Test Automation**: Playwright E2E test suite for complete user journey (Setup -> Upload -> Transformation -> Download) with 500 error handling and route mocking
+- **Performance & Monitoring**: Development of Azure Monitor Workbooks (QA Live Testing Companion, Error Investigation Assistant) with KQL for end-to-end monitoring
+- **Bug Analysis & Quality Intelligence**: Implementation of comprehensive bug tracking system with WIQL queries, automated dashboards, and executive PDF reporting
+- **Pipeline Integration**: Test automation in Azure DevOps CI/CD pipelines with HTML report upload to Azure Test Results
 - **AI-Powered Automation**: Development of automation skills for workflow optimization, bug analysis, and incident response with measurable time savings
 
 **Tools & Technologies**
-- Testing: Playwright, TypeScript, Page Object Model, Fixtures, PostgreSQL
-- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Azure OpenAI Service
-- Backend: FastAPI, Python, SQLModel, Azure Functions
+- Testing: Behave, Playwright, TypeScript, Python, pytest, Page Object Model, Fixtures
+- Monitoring: Azure Monitor Workbooks, KQL, Application Insights, Log Analytics
+- Backend: FastAPI, Python, Pydantic, SQLModel, Azure Functions, Azure Service Bus
 - Frontend: React, TypeScript, Vite, TanStack Router
-- AI Integration: Azure OpenAI, LangChain, Embeddings, Chat Completions
-- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage
+- AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
+- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
         """
 
         [[languages.en.params.experiences.list]]
@@ -986,7 +1017,10 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
 **Focus areas**:
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
-- **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung), including structural and content parsing.
+- **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
+- **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point for automated invoice receipt and dispatch with UBL/CII formats.
+- **SAP ByDesign Integration**: Automatic transfer of validated invoice data to SAP ByDesign for seamless ERP integration.
+- **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability and interchangeability of infrastructure components.
 - **Salesforce integration**: Forwarding prepared invoice data via email to the downstream system for Salesforce import.
 - **Auditing & logging**: Comprehensive documentation of all processing steps plus storage of original email content in the processing log.
 - **Outlook management & SharePoint archiving**: Automatic moving and categorising of emails into predefined Outlook folders; archiving of original and generated invoice documents via Microsoft Graph API.
@@ -1000,6 +1034,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Tools & technologies**
 - Azure Functions: Serverless orchestration of automation workflows.
 - Python: Core logic for data extraction, classification and integration with automated CI/CD processes, packaging, and comprehensive unit and integration tests for quality assurance.
+- E-Invoicing: Peppol Network, Storecove API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
+- ERP Integration: SAP ByDesign, Salesforce
 - Microsoft Graph API: Access to Outlook mailboxes and SharePoint libraries.
 - GitHub: Version control, CI/CD pipelines and collaborative development.
 - Kibana: Monitoring, log analysis and performance dashboards.
@@ -1369,9 +1405,57 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
         featured = true
         screenshot = "projects/qualitycluster.png"
         tagline = """
-QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln. 
-Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen. 
+QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln.
+Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen.
 """
+
+        [[languages.de.params.projects.list]]
+        title = "E-Invoicing Automation Platform"
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        category = "Enterprise Integration"
+        featured = true
+        tagline = """**Vollautomatische E-Rechnungsverarbeitung nach EU-Standards**
+
+**Kernfunktionen:**
+• **Peppol Network Integration**: Anbindung an europäisches E-Invoicing-Netzwerk via Storecove Access Point
+• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 konform)
+• **ERP-Kopplung**: Automatische Übertragung an SAP ByDesign mit Validierung und Fehlerbehandlung
+• **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit
+• **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
+
+**Impact:** Produktives System (v2.1.0) mit vollständiger EU-Compliance und 100% automatisierter Rechnungsverarbeitung"""
+
+        [[languages.de.params.projects.list]]
+        title = "Medical Transcription System"
+        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
+        category = "Healthcare AI"
+        featured = true
+        tagline = """**DSGVO-konforme Transkription von Arzt-Patient-Gesprächen**
+
+**Kernfunktionen:**
+• **100% Lokal**: Keine Cloud-Uploads, alle Verarbeitung auf lokalem Rechner (Privacy-by-Design)
+• **Speaker Diarization**: Automatische Unterscheidung Arzt/Patient mit Pyannote 3.1 (2.6% WER)
+• **SOAP-Protokoll-Generierung**: Automatische Erstellung strukturierter medizinischer Protokolle
+• **Open Source AI**: Ollama mit Llama 3.2 für intelligente Zusammenfassungen ohne API-Kosten
+• **Apple Silicon Optimiert**: Native Performance auf M1/M2/M3 Macs
+
+**Impact:** Healthcare-ready AI-Lösung mit vollständiger DSGVO-Compliance und Zero-Cloud-Dependency"""
+
+        [[languages.de.params.projects.list]]
+        title = "AI Learning Platform"
+        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
+        category = "E-Learning & Compliance"
+        featured = true
+        tagline = """**EU-KI-Verordnung konforme Lernplattform für KI-Workshops**
+
+**Kernfunktionen:**
+• **Artikel 4 Compliance**: EU-KI-Verordnung konforme Zertifizierungen mit Audit-Trail
+• **15+ Lernkartentypen**: Interaktive Quizze, Übungen, adaptive Tests mit Punktesystem
+• **6 visuelle Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Fortschrittsverfolgung**: localStorage-basiertes Tracking mit HR-Export-Funktion
+• **85 automatisierte Tests**: Qualitätsgesicherte Lernplattform
+
+**Impact:** Enterprise-ready E-Learning für AI Governance und strukturierte Qualifizierungsprogramme"""
 
 
       [languages.en.params.projects]
@@ -1535,9 +1619,57 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
         featured = true
         screenshot = "projects/qualitycluster.png"
         tagline = """
-QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.  
-Our goal is to implement more quality through a higher degree of automation.  
+QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.
+Our goal is to implement more quality through a higher degree of automation.
 """
+
+        [[languages.en.params.projects.list]]
+        title = "E-Invoicing Automation Platform"
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        category = "Enterprise Integration"
+        featured = true
+        tagline = """**Fully Automated E-Invoice Processing to EU Standards**
+
+**Core Features:**
+• **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point
+• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 compliant)
+• **ERP Integration**: Automatic transfer to SAP ByDesign with validation and error handling
+• **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability
+• **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
+
+**Impact:** Production system (v2.1.0) with full EU compliance and 100% automated invoice processing"""
+
+        [[languages.en.params.projects.list]]
+        title = "Medical Transcription System"
+        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
+        category = "Healthcare AI"
+        featured = true
+        tagline = """**GDPR-Compliant Transcription of Doctor-Patient Conversations**
+
+**Core Features:**
+• **100% Local**: No cloud uploads, all processing on local machine (Privacy-by-Design)
+• **Speaker Diarization**: Automatic doctor/patient distinction with Pyannote 3.1 (2.6% WER)
+• **SOAP Protocol Generation**: Automatic creation of structured medical protocols
+• **Open Source AI**: Ollama with Llama 3.2 for intelligent summaries without API costs
+• **Apple Silicon Optimized**: Native performance on M1/M2/M3 Macs
+
+**Impact:** Healthcare-ready AI solution with full GDPR compliance and zero cloud dependency"""
+
+        [[languages.en.params.projects.list]]
+        title = "AI Learning Platform"
+        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
+        category = "E-Learning & Compliance"
+        featured = true
+        tagline = """**EU AI Act Compliant Learning Platform for AI Workshops**
+
+**Core Features:**
+• **Article 4 Compliance**: EU AI Act compliant certifications with audit trail
+• **15+ Learning Card Types**: Interactive quizzes, exercises, adaptive tests with scoring system
+• **6 Visual Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Progress Tracking**: localStorage-based tracking with HR export functionality
+• **85 Automated Tests**: Quality-assured learning platform
+
+**Impact:** Enterprise-ready e-learning for AI governance and structured qualification programs"""
 
 
       [languages.de.params.skills]
