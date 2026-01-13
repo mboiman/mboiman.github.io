@@ -60,11 +60,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
       try {
         // Komprimiere das Bild mit sharp
         const compressedImage = await sharp(screenshotPath)
-          .resize(110, 80, { // Kleine Größe für PDF
+          .resize(170, 120, { // Größere Screenshots für visuelle Wirkung
             fit: 'cover',
             position: 'center'
           })
-          .jpeg({ quality: 70 }) // JPEG mit reduzierter Qualität
+          .jpeg({ quality: 80 }) // Bessere Qualität
           .toBuffer();
         
         screenshotBase64 = `data:image/jpeg;base64,${compressedImage.toString('base64')}`;
@@ -146,7 +146,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         body {
             font-family: 'Inter', 'Arial', sans-serif;
             font-size: 7.5pt;
-            line-height: 1.3;
+            line-height: 1.35;
             color: #2c3e50;
             background: white;
             -webkit-font-smoothing: antialiased;
@@ -209,6 +209,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .ai-skill-card {
             background: white; padding: 8px; border-radius: 4px;
             border: 1px solid #e1e8ed;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         
         .ai-skill-name {
@@ -216,7 +217,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .ai-skill-desc {
-            font-size: 6.5pt; color: #5a6c7d; line-height: 1.3;
+            font-size: 7pt; color: #5a6c7d; line-height: 1.35;
         }
         
         .cv-main {
@@ -225,10 +226,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-section h2 {
-            font-size: 10pt; font-weight: 600; color: #2d7788;
-            margin: 12px 0 8px 0; padding-bottom: 3px;
-            border-bottom: 1px solid #2d7788;
-            text-transform: uppercase; letter-spacing: 0.5px;
+            font-size: 10pt; font-weight: 700; color: #2d7788;
+            margin: 12px 0 10px 0; padding-bottom: 4px;
+            border-bottom: 2px solid #2d7788;
+            text-transform: uppercase; letter-spacing: 0.8px;
         }
         
         .cv-full-width {
@@ -270,7 +271,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-title {
-            font-size: 8.5pt; font-weight: 600; color: #2d7788;
+            font-size: 8.5pt; font-weight: 700; color: #2d7788;
         }
         
         .experience-dates {
@@ -278,11 +279,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-company {
-            font-size: 7.5pt; font-weight: 500; color: #5a6c7d; margin-bottom: 6px;
+            font-size: 7.5pt; font-weight: 600; color: #3c4858; margin-bottom: 5px;
         }
         
         .experience-details {
-            font-size: 6pt; line-height: 1.3; color: #3c4858;
+            font-size: 6.5pt; line-height: 1.35; color: #3c4858;
         }
         
         .experience-details p { margin-bottom: 4px; }
@@ -290,42 +291,53 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .experience-details li { margin-bottom: 2px; line-height: 1.3; }
         .experience-details strong { font-weight: 600; color: #2d7788; }
         
+        .projects-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
         .project-item {
-            margin-bottom: 8px; padding: 8px; background: #f8fafc;
+            width: calc(50% - 4px);
+            margin-bottom: 0; padding: 8px; background: #f8fafc;
             border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
+            box-sizing: border-box;
         }
-        
+
         .project-item.with-screenshot {
-            display: grid; grid-template-columns: 1fr 60px;
-            gap: 8px; align-items: start;
+            display: flex;
+            gap: 8px; align-items: flex-start;
         }
-        
+
         .project-content {
             flex: 1;
+            min-width: 0;
         }
-        
+
         .project-title {
-            font-size: 8pt; font-weight: 600; color: #2d7788; margin-bottom: 3px;
+            font-size: 8.5pt; font-weight: 700; color: #2d7788; margin-bottom: 4px;
         }
-        
-        .project-tech { margin: 4px 0; }
-        
+
+        .project-tech { margin: 3px 0; }
+
         .tech-tag {
-            background: #e1e8ed; color: #3c4858; padding: 1px 3px;
-            border-radius: 2px; font-size: 5pt; font-weight: 500; margin-right: 2px;
+            background: #e1e8ed; color: #3c4858; padding: 2px 4px;
+            border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
+            display: inline-block; margin-bottom: 2px;
         }
-        
+
         .project-description {
-            font-size: 5.5pt; line-height: 1.3; color: #3c4858; margin-top: 3px;
+            font-size: 6.5pt; line-height: 1.35; color: #3c4858; margin-top: 4px;
         }
-        
+
         .project-screenshot {
-            width: 55px; height: 40px; object-fit: cover;
-            border-radius: 3px; border: 1px solid #e1e8ed;
-            background: #fff;
+            width: 85px; height: 60px; object-fit: cover;
+            border-radius: 4px; border: 1px solid #d1d9e0;
+            background: #fff; flex-shrink: 0;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
         }
         
         .cv-sidebar {
@@ -340,25 +352,25 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;
         }
         
-        .skills-list { display: flex; flex-wrap: wrap; gap: 3px; }
-        
+        .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
+
         .skill-tag {
-            background: #e3f2fd; color: #2d7788; padding: 2px 6px;
-            border-radius: 3px; font-size: 6pt; font-weight: 500;
+            background: #e3f2fd; color: #2d7788; padding: 3px 6px;
+            border-radius: 3px; font-size: 6.5pt; font-weight: 500;
             border: 1px solid #2d7788;
         }
         
-        .education-item { margin-bottom: 8px; font-size: 6.5pt; }
-        .education-degree { font-weight: 600; color: #2d7788; margin-bottom: 1px; }
-        .education-school { color: #5a6c7d; margin-bottom: 1px; }
+        .education-item { margin-bottom: 8px; font-size: 7pt; }
+        .education-degree { font-weight: 600; color: #2d7788; margin-bottom: 2px; }
+        .education-school { color: #5a6c7d; margin-bottom: 2px; }
         .education-dates { color: #7a8b9a; font-style: italic; }
-        
+
         .language-item {
             display: flex; justify-content: space-between;
-            margin-bottom: 3px; font-size: 6.5pt;
+            margin-bottom: 4px; font-size: 7pt;
         }
-        
-        .language-name { font-weight: 500; color: #2d7788; }
+
+        .language-name { font-weight: 600; color: #2d7788; }
         .language-level { color: #5a6c7d; }
         
         .page-break-before { page-break-before: always; }
@@ -403,11 +415,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
                     <h2>${langConfig.summary.title}</h2>
                     ${formatTextToParagraphs(langConfig.summary.summary)}
                 </section>
-
-                <section class="cv-section">
-                    <h2>${langConfig.projects.title}</h2>
-                    ${projectItemsHtml}
-                </section>
             </div>
 
             <div class="cv-sidebar">
@@ -440,8 +447,16 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             </div>
         </div>
 
+        <!-- Full width section for projects -->
+        <section class="cv-section cv-full-width">
+            <h2>${langConfig.projects.title}</h2>
+            <div class="projects-grid">
+                ${projectItemsHtml}
+            </div>
+        </section>
+
         <!-- Full width section for experience -->
-        <section class="cv-section cv-full-width page-break-before">
+        <section class="cv-section cv-full-width">
             <h2>${langConfig.experiences.title}</h2>
             ${experienceItems}
         </section>
