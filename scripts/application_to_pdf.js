@@ -44,14 +44,14 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
     .replace(/{{SUBJECT}}/g, `${langConfig.ui.application_subject_prefix || 'Application for'} ${coverLetterData.position}`)
     .replace(/{{GREETING}}/g, coverLetterData.greeting)
-    .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="margin: 0 0 25px 0; padding: 20px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 6px solid #2d7788; border-radius: 0 8px 8px 0; page-break-inside: avoid;"><div style="font-size: 11pt; line-height: 1.6;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div></div>` : '')
+    .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="text-align: right; margin: 0 0 15px 0; font-size: 8pt; color: #7a8b9a; font-style: italic;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div>` : '')
     .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
     .replace(/{{REQUIREMENTS_MAPPING_TITLE}}/g, langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications')
     .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
     .replace(/{{ATTACHMENT_LABEL}}/g, langConfig.ui.attachment_label || 'Attachment: Complete CV')
     .replace(/{{CLOSING_PARAGRAPH}}/g, `
       ${coverLetterData.addedValue ? `<p>${formatMarkdownToHTML(coverLetterData.addedValue)}</p>` : ''}
-      ${coverLetterData.aiDisclosure ? `<div style="margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 4px solid #2d7788; border-radius: 0 4px 4px 0;"><p>${formatMarkdownToHTML(coverLetterData.aiDisclosure)}</p></div>` : ''}
+      ${coverLetterData.aiDisclosure ? `<p style="margin-top: 15px; font-size: 8pt; color: #7a8b9a; font-style: italic;">${formatMarkdownToHTML(coverLetterData.aiDisclosure)}</p>` : ''}
       ${coverLetterData.availability ? `<p>${formatMarkdownToHTML(coverLetterData.availability)}</p>` : ''}
       ${coverLetterData.closing ? `<p>${formatMarkdownToHTML(coverLetterData.closing)}</p>` : ''}
     `)

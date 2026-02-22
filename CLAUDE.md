@@ -231,3 +231,6 @@ IMMER dokumentieren:
 - `meine linkedin adresse ist unter https://www.linkedin.com/in/mboiman/ zu finden` - My LinkedIn address can be found under https://www.linkedin.com/in/mboiman/
 - `applications/README.md ist das zentrale Dashboard für alle Bewerbungen` - The central dashboard for all applications is applications/README.md
 - `nach jeder Bewerbungseinreichung IMMER BEWERBUNGEN.md UND README.md aktualisieren` - After each application submission, ALWAYS update both BEWERBUNGEN.md AND README.md
+- `Elasticsearch & Kibana Erfahrung: Bei BKS alle Projekte über ES/Kibana visualisiert - Vega Pipeline Dashboard, Executive Dashboards für Peppol Operations, E-Invoice Germany Dashboard. Fachliche und technische Logs plus Kommunikationsmetriken (Sentiment, Vertrauen)` - Extensive Kibana experience at BKS with specific dashboard names
+- `CI/CD Erfahrung: Bei DB Vertrieb und DVAG CI/CD-Pipelines gebaut. Bei TÜV Süd KEINE CI/CD gebaut` - CI/CD experience is from DB Vertrieb and DVAG, NOT from TÜV Süd
+- `50 Hertz / AkkuSwap: Nicht zu prominent erwähnen, war nur Randbeteiligung` - Don't emphasize 50 Hertz involvement too much
