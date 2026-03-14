@@ -14,16 +14,44 @@ const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
   description={ui.tagline}
   lang="de"
 >
+  <!-- ═══ FLOATING NAV ═══ -->
+  <nav class="fixed top-0 left-0 right-0 z-50 no-print" id="floating-nav">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href={`/pdfs/Michael_Boiman_CV_DE.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer" style="color: var(--text-secondary)" id="nav-pdf">
+        PDF
+      </a>
+      <div class="flex items-center gap-4 opacity-0 transition-all duration-500" id="nav-right">
+        <a href="/de/" class="text-xs font-semibold" style="color: var(--text)">DE</a>
+        <span class="text-xs" style="color: var(--text-secondary); opacity: 0.3">|</span>
+        <a href="/en/" class="text-xs opacity-50 hover:opacity-100 transition-opacity" style="color: var(--text-secondary)">EN</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    const navPdf = document.getElementById('nav-pdf');
+    const navRight = document.getElementById('nav-right');
+    window.addEventListener('scroll', () => {
+      const show = window.scrollY > 200;
+      [navPdf, navRight].forEach(el => {
+        if (show) { el?.classList.remove('opacity-0'); el?.classList.add('opacity-100'); }
+        else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
+      });
+    });
+  </script>
+
   <!-- ═══ ACT 1: THE STATEMENT ═══ -->
   <section class="act" aria-label="Statement">
     <div class="text-center max-w-5xl reveal">
-      <h1 class="text-[clamp(2.5rem,8vw,8rem)] leading-[0.95] tracking-tight mb-8">
-        Here's to the ones who<br>
-        <em class="italic">automate the impossible.</em>
-      </h1>
-      <p class="text-lg tracking-[0.15em] uppercase" style="color: var(--text-secondary)">
+      <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
         Quality Engineer &middot; AI Architect &middot; System Thinker
       </p>
+      <h1 class="text-[clamp(2.8rem,7.5vw,7.5rem)] leading-[1] tracking-tight opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]">
+        Here's to the ones<br>who <em class="italic" style="color: var(--accent)">automate<br class="sm:hidden"> the impossible.</em>
+      </h1>
+      <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
+        <div class="teal-rule"></div>
+      </div>
     </div>
   </section>
 
