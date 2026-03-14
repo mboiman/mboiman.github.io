@@ -297,12 +297,12 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering & Technische Führung** für IDAS (Intelligent Document Analysis Solution), eine Enterprise-Plattform für KI-gestützte Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+**Quality Engineering & Technische Führung** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
 
 **Quantifizierbare Erfolge**
 - **820 BDD Test-Szenarien** in 28 Feature-Files mit 100% API-Coverage (66/66 Endpoints)
 - **88 KQL Queries** für Azure Monitor Workbooks verifiziert, 8 Workbooks getestet, 2 neu erstellt
-- **207 Commits** im IDAS Repository, 54% Szenarien-Reduktion durch Äquivalenzklassen-Optimierung
+- **54% Szenarien-Reduktion** durch systematische Äquivalenzklassen-Optimierung
 
 **Schwerpunkte**
 - **BDD API Test Framework**: Aufbau eines vollständigen Test-Frameworks mit Python/Behave, Self-Healing Authentication, HTML-Report-Generator mit eingebetteten API-Responses
@@ -916,12 +916,12 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering & Technical Leadership** for IDAS (Intelligent Document Analysis Solution), an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
+**Quality Engineering & Technical Leadership** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
 
 **Quantifiable Achievements**
 - **820 BDD test scenarios** across 28 feature files with 100% API coverage (66/66 endpoints)
 - **88 KQL queries** verified for Azure Monitor Workbooks, 8 workbooks tested, 2 newly created
-- **207 commits** in IDAS repository, 54% scenario reduction through equivalence class optimization
+- **54% scenario reduction** through systematic equivalence class optimization
 
 **Key Responsibilities**
 - **BDD API Test Framework**: Development of comprehensive test framework with Python/Behave, self-healing authentication, HTML report generator with embedded API responses
