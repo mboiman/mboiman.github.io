@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import AIShowcase from '../../components/AIShowcase.astro';
+import CareerProfile from '../../components/CareerProfile.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import ProjectsGrid from '../../components/ProjectsGrid.astro';
+import ExperienceTimeline from '../../components/ExperienceTimeline.astro';
+import Footer from '../../components/Footer.astro';
+import { getCVData } from '../../lib/toml-loader';
+
+const data = getCVData('de');
+---
+
+<BaseLayout
+  title={`${data.profile.name} - ${data.profile.tagline}`}
+  description={data.ui.tagline}
+  lang="de"
+>
+  <Header data={data} lang="de" />
+
+  {data.ai_showcase.enable && (
+    <AIShowcase title={data.ui.ai_skills_title} items={data.ai_showcase.list} />
+  )}
+
+  <main id="main-content" class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10">
+      <!-- Main content -->
+      <div class="space-y-12">
+        {data.summary.enable && (
+          <CareerProfile title={data.summary.title} summary={data.summary.summary} />
+        )}
+
+        {data.projects.enable && (
+          <ProjectsGrid
+            title={data.projects.title}
+            intro={data.projects.intro}
+            projects={data.projects.list}
+          />
+        )}
+
+        {data.experiences.enable && (
+          <ExperienceTimeline
+            title={data.experiences.title}
+            experiences={data.experiences.list}
+          />
+        )}
+      </div>
+
+      <!-- Sidebar -->
+      <Sidebar data={data} />
+    </div>
+  </main>
+
+  <Footer data={data} />
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import { formatMarkdown } from '../lib/markdown';
+import type { ProjectItem } from '../lib/types';
+
+interface Props {
+  project: ProjectItem;
+}
+
+const { project } = Astro.props;
+const taglineHtml = formatMarkdown(project.tagline);
+---
+
+<div class="card group cursor-pointer">
+  <div class="flex flex-col h-full">
+    {project.screenshot && (
+      <div class="mb-4 overflow-hidden rounded-lg">
+        <img
+          src={`/assets_images/projects/${project.screenshot}`}
+          alt={project.title}
+          class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+    )}
+
+    <div class="flex-1">
+      {project.category && (
+        <span class="text-xs font-medium uppercase tracking-wider text-[var(--color-accent)]">
+          {project.category}
+        </span>
+      )}
+
+      <h3 class="font-heading font-semibold mt-1 mb-2">
+        {project.url ? (
+          <a href={project.url} target="_blank" rel="noopener" class="hover:text-[var(--color-accent)] transition-colors">
+            {project.title}
+          </a>
+        ) : (
+          project.title
+        )}
+      </h3>
+
+      {project.tech_stack?.length > 0 && (
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          {project.tech_stack.map((tech) => (
+            <span class="tech-tag text-[10px]">{tech}</span>
+          ))}
+        </div>
+      )}
+
+      <div class="text-sm text-[var(--color-muted)] leading-relaxed" set:html={taglineHtml} />
+    </div>
+  </div>
+</div>

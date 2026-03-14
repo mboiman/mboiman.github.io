@@ -1,7 +1,8 @@
 {
   "name": "cv-generator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "express": "^4.22.1",
     "pdf-lib": "^1.17.1",
@@ -10,7 +11,18 @@
     "toml": "^3.0.0"
   },
   "scripts": {
-    "start-pdf-service": "node generate_pdf_endpoint.js",
-    "dev": "hugo server & npm run start-pdf-service"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "pdf:de": "./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de",
+    "pdf:en": "./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en",
+    "start-pdf-service": "node generate_pdf_endpoint.js"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^6.0.4",
+    "tailwindcss": "^3.4.19"
   }
 }

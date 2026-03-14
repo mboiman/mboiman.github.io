@@ -1,0 +1,30 @@
+---
+import type { AIShowcaseItem } from '../lib/types';
+
+interface Props {
+  title: string;
+  items: AIShowcaseItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<section class="py-8 px-6 bg-[var(--color-surface-alt)]">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-center text-2xl font-heading font-bold mb-8" style="color: var(--color-accent)">
+      {title}
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {items.map((item) => (
+        <div class="card backdrop-blur-sm">
+          <h3 class="font-heading font-semibold text-sm mb-2" style="color: var(--color-accent)">
+            {item.name}
+          </h3>
+          <p class="text-sm text-[var(--color-muted)] leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

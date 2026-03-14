@@ -1,0 +1,62 @@
+---
+import type { CVData } from '../lib/types';
+
+interface Props {
+  data: CVData;
+}
+
+const { data } = Astro.props;
+---
+
+<aside class="space-y-8 lg:sticky lg:top-8 lg:self-start">
+  <!-- Skills Tags -->
+  <div>
+    <h3 class="section-title">{data.ui.sidebar_skills_title}</h3>
+    <div class="flex flex-wrap gap-2">
+      {data.ui.sidebar_skills.map((skill) => (
+        <span class="tech-tag">{skill}</span>
+      ))}
+    </div>
+  </div>
+
+  <!-- Education -->
+  {data.education.enable && (
+    <div>
+      <h3 class="section-title">{data.education.title}</h3>
+      <div class="space-y-3">
+        {data.education.list.map((edu) => (
+          <div>
+            <p class="font-semibold text-sm">{edu.degree}</p>
+            {edu.college && <p class="text-xs text-[var(--color-muted)]">{edu.college}</p>}
+            <p class="text-xs text-[var(--color-muted)] italic">{edu.dates}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Languages -->
+  {data.language.enable && (
+    <div>
+      <h3 class="section-title">{data.language.title}</h3>
+      <div class="space-y-1">
+        {data.language.list.map((lang) => (
+          <div class="flex justify-between text-sm">
+            <span>{lang.language}</span>
+            <span class="text-[var(--color-muted)]">{lang.level}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Qualifications -->
+  <div>
+    <h3 class="section-title">{data.ui.sidebar_qualifications_title}</h3>
+    <div class="flex flex-wrap gap-2">
+      <span class="tech-tag">ISTQB Certified</span>
+      <span class="tech-tag">Agile (Scrum/Kanban)</span>
+      <span class="tech-tag">{data.ui.ai_badge}</span>
+    </div>
+  </div>
+</aside>

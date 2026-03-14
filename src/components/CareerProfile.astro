@@ -1,0 +1,18 @@
+---
+import { formatToHTML } from '../lib/markdown';
+
+interface Props {
+  title: string;
+  summary: string;
+}
+
+const { title, summary } = Astro.props;
+const html = formatToHTML(summary);
+---
+
+<section>
+  <h2 class="section-title">{title}</h2>
+  <div class="accent-border rounded-r-lg p-5 bg-[var(--color-surface)]">
+    <div class="prose prose-sm max-w-none dark:prose-invert text-[var(--color-text)]" set:html={html} />
+  </div>
+</section>

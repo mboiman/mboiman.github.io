@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #FAFAFA;
+    --color-text: #0F172A;
+    --color-accent: #2d7788;
+    --color-accent-light: #3d97a8;
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F1F5F9;
+    --color-muted: #64748B;
+    --color-border: #E2E8F0;
+    --color-header-bg: #0F172A;
+    --color-header-text: #F8FAFC;
+    --color-tag-bg: #E0F2F1;
+    --color-tag-text: #1a5c6a;
+  }
+
+  .dark {
+    --color-bg: #0F172A;
+    --color-text: #F8FAFC;
+    --color-accent: #3d97a8;
+    --color-accent-light: #5bb8c9;
+    --color-surface: #1E293B;
+    --color-surface-alt: #334155;
+    --color-muted: #94A3B8;
+    --color-border: #334155;
+    --color-header-bg: #020617;
+    --color-header-text: #F8FAFC;
+    --color-tag-bg: #164e5a;
+    --color-tag-text: #a7f3d0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply text-sm font-bold tracking-wider uppercase pb-2 mb-6;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .card {
+    @apply rounded-xl p-6 transition-all duration-300;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .card:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
+  }
+
+  .dark .card:hover {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  }
+
+  .tech-tag {
+    @apply inline-block text-xs font-medium px-2.5 py-1 rounded-full transition-colors duration-200;
+    background-color: var(--color-tag-bg);
+    color: var(--color-tag-text);
+  }
+
+  .accent-border {
+    border-left: 4px solid var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+}
