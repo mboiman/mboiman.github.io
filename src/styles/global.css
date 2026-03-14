@@ -104,6 +104,46 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes scrollHint {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(6px); }
+}
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 50ms linear;
+  pointer-events: none;
+}
+
+/* Project band with bg image */
+.project-band-bg {
+  position: relative;
+}
+.project-band-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Compact experience */
+.exp-compact {
+  @apply py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.exp-compact:last-child {
+  border-bottom: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
