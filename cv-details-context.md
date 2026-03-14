@@ -267,8 +267,8 @@ Test Management Tool Expertise:
 
 ### Certifications
 - ISTQB Certified Tester (Foundation Level) - Since 2005
-- Scrum Master - 2018
-- Product Owner - 2019
+- Certified Dynatrace Diagnostics Basic Training - 2025
+- ❌ KEINE Scrum Master oder Product Owner Zertifikate (siehe Fabrication Incidents oben)
 
 ---
 

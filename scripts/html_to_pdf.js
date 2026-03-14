@@ -438,9 +438,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
                 <div class="sidebar-section">
                     <h3>${langConfig.ui.sidebar_qualifications_title || 'Additional Qualifications'}</h3>
                     <div class="skills-list">
-                        <span class="skill-tag">Scrum Master</span>
-                        <span class="skill-tag">Product Owner</span>
                         <span class="skill-tag">ISTQB Certified</span>
+                        <span class="skill-tag">Agile (Scrum/Kanban)</span>
                         <span class="skill-tag">${langConfig.ui.ai_badge}</span>
                     </div>
                 </div>

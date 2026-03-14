@@ -157,6 +157,10 @@ defaultContentLanguageInSubdir = true
         degree = "ISTQB Certified Tester"
         dates = "2005"
 
+        [[languages.de.params.education.list]]
+        degree = "Certified Dynatrace Diagnostics Basic Training"
+        dates = "2025"
+
       [languages.de.params.language]
         enable = true
         title = "Sprachen"
@@ -220,7 +224,7 @@ defaultContentLanguageInSubdir = true
 - **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing
 - **Performance & Monitoring**: Load Testing, Incident Analysis, Instana, Azure Log Analytics
 - **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
-- **Team Leadership**: Scrum Master, Product Owner, Quality Lead für interdisziplinäre Teams
+- **Team Leadership**: Quality Lead, agile Koordination (Scrum/Kanban) für interdisziplinäre Teams
         """
 
       [languages.de.params.experiences]
@@ -273,13 +277,18 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
 - **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
 - **Time Tracking Integration**: Commit-basierte Arbeitszeitanalyse mit automatischer Clockify-Synchronisierung, intelligenter Projekt-Zuordnung und BKS-Formatierung
+- **Claude Code Plugin-Ecosystem**: Entwicklung von 40+ produktiven Skills für Enterprise-Workflows — Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
+- **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit ecosystem.yaml als Single Source of Truth für 20+ Repositories, automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
+- **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen — Branch-Schutz, Secret-Erkennung und Deployment-Gates
+- **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
 
 **Tools & Technologien**
 - LLM Orchestration: GPT-4, Claude AI, Google Gemini (gleichwertige Expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
-- Integration: SharePoint API, Clockify API, Natural Language Processing
+- Integration: SharePoint API, Clockify API, Elasticsearch, Natural Language Processing
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems
         """
 
@@ -768,6 +777,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         degree = "ISTQB Certified Tester"
         dates = "2005"
 
+        [[languages.en.params.education.list]]
+        degree = "Certified Dynatrace Diagnostics Basic Training"
+        dates = "2025"
+
       [languages.en.params.language]
         enable = true
         title = "Languages"
@@ -831,7 +844,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing
 - **Performance & Monitoring**: Load testing, incident analysis, Instana, Azure Log Analytics
 - **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
-- **Team Leadership**: Scrum Master, Product Owner, Quality Lead for cross-functional teams"""
+- **Team Leadership**: Quality Lead, agile coordination (Scrum/Kanban) for cross-functional teams"""
 
       [languages.en.params.experiences]
         enable = true
@@ -883,13 +896,18 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
 - **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
 - **Time Tracking Integration**: Commit-based work time analysis with automatic Clockify synchronization, intelligent project assignment, and BKS formatting
+- **Claude Code Plugin Ecosystem**: Development of 40+ production skills for enterprise workflows — log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
+- **Context Orchestrator**: Central multi-repo control system with ecosystem.yaml as single source of truth for 20+ repositories, automatic cross-repo navigation and structured work tracking with archiving
+- **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations — branch protection, secret detection and deployment gates
+- **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform — automated incident management, log analysis, weekly reporting and go-live tracking
 
 **Tools & Technologies**
 - LLM Orchestration: GPT-4, Claude AI, Google Gemini (equal expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
-- Integration: SharePoint API, Clockify API, Natural Language Processing
+- Integration: SharePoint API, Clockify API, Elasticsearch, Natural Language Processing
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems
         """
 
@@ -1279,6 +1297,22 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = false
         tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
 
+        [[languages.de.params.projects.list]]
+        title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
+        category = "AI & DevOps"
+        featured = true
+        tagline = """**Zentrales Steuerungssystem für Enterprise AI-Development**
+
+**Kernfunktionen:**
+• **Context Orchestrator**: ecosystem.yaml als Single Source of Truth für 20+ Repos, Kunden, Infrastruktur und Skills
+• **40+ Production Skills**: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
+• **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln (Branch-Schutz, Secret-Erkennung, Deployment-Gates)
+• **Strukturiertes Arbeits-Tracking**: Automatische Dokumentation mit Tages-/Wochen-Archivierung und Cross-Project Kanban Board
+• **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
+
+**Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows — von Incident-Response bis Meeting-Protokollierung vollautomatisiert"""
+
 
         [[languages.de.params.projects.list]]
         title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
@@ -1494,6 +1528,22 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "AI & Machine Learning"
         featured = false
         tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
+
+        [[languages.en.params.projects.list]]
+        title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
+        category = "AI & DevOps"
+        featured = true
+        tagline = """**Central Control System for Enterprise AI Development**
+
+**Core Features:**
+• **Context Orchestrator**: ecosystem.yaml as single source of truth for 20+ repos, customers, infrastructure and skills
+• **40+ Production Skills**: Log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
+• **Hook-based Permission System**: Smart Guard with project-specific security rules (branch protection, secret detection, deployment gates)
+• **Structured Work Tracking**: Automatic documentation with daily/weekly archiving and cross-project Kanban board
+• **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
+
+**Impact:** Productivity boost through AI-driven workflows — from incident response to meeting documentation fully automated"""
 
 
         [[languages.en.params.projects.list]]
