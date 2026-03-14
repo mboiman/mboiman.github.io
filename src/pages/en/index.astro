@@ -65,7 +65,7 @@ const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
         { num: '4', label: 'languages spoken', delay: 300 },
         { num: '1', label: 'obsession: systems that think', delay: 400 },
       ].map(item => (
-        <div class="reveal flex items-baseline gap-6 py-6 border-b border-white/5 last:border-0" style={`transition-delay: ${item.delay}ms`}>
+        <div class="reveal flex items-baseline gap-8 py-8 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${item.delay}ms`}>
           <span class="text-[clamp(3rem,12vw,10rem)] font-bold leading-none tracking-tighter" style="font-family: 'Playfair Display', serif">
             {item.num}
           </span>
@@ -114,7 +114,7 @@ const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
   <!-- ═══ ACT 5: THE SYSTEM THINKER ═══ -->
   <section class="act" aria-label="System">
     <div class="max-w-3xl mx-auto w-full py-20">
-      <div class="reveal terminal p-8 rounded-lg" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.05)">
+      <div class="reveal terminal p-10 sm:p-12" style="background: var(--bg-alt); border-left: 2px solid var(--accent)">
         <p><span class="prompt">$</span> cockpit status</p>
         <br>
         <p>&nbsp;&nbsp;repos: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23 active</p>
@@ -169,7 +169,7 @@ const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
   <!-- ═══ ACT 8: CLOSE ═══ -->
   <section class="act" aria-label="Contact">
     <div class="text-center reveal">
-      <p class="text-4xl sm:text-5xl mb-4" style="font-family: 'Playfair Display', serif">{profile.name}</p>
+      <p class="text-5xl sm:text-7xl mb-6 tracking-tight" style="font-family: 'Playfair Display', serif">{profile.name}</p>
       <p class="text-sm tracking-[0.15em] uppercase mb-8" style="color: var(--text-secondary)">
         BKS-Lab — AI Engineering
       </p>
