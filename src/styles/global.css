@@ -10,15 +10,15 @@
     --bg-alt: #111111;
     --text: #f0f0f0;
     --text-secondary: #888888;
-    --accent: #2d7788;
-    --accent-hover: #3d97a8;
+    --accent: #3a8fa0;
+    --accent-hover: #4dabbf;
   }
 
   .light {
     --bg: #fafaf8;
     --bg-alt: #f0eeeb;
     --text: #1a1a1a;
-    --text-secondary: #666666;
+    --text-secondary: #555555;
     --accent: #2d7788;
     --accent-hover: #236470;
   }
@@ -52,7 +52,6 @@
 }
 
 @layer components {
-  /* Act sections */
   .act {
     @apply min-h-screen flex items-center justify-center px-6;
     background-color: var(--bg);
@@ -62,12 +61,10 @@
     background-color: var(--bg-alt);
   }
 
-  /* Prose column */
   .prose-column {
     @apply max-w-[680px] mx-auto;
   }
 
-  /* Scroll reveal */
   .reveal {
     opacity: 0;
     transform: translateY(12px);
@@ -79,7 +76,6 @@
     transform: translateY(0);
   }
 
-  /* The single teal line */
   .teal-rule {
     @apply mx-auto;
     width: 80px;
@@ -87,7 +83,6 @@
     background-color: var(--accent);
   }
 
-  /* Monospace terminal style */
   .terminal {
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
@@ -96,6 +91,13 @@
 
   .terminal .prompt {
     color: var(--accent);
+  }
+
+  /* Floating nav backdrop */
+  .nav-glass {
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 }
 
@@ -109,7 +111,6 @@
   50% { opacity: 0.6; transform: translateY(6px); }
 }
 
-/* Scroll progress bar */
 #scroll-progress {
   position: fixed;
   top: 0;
@@ -121,21 +122,6 @@
   pointer-events: none;
 }
 
-/* Project band with bg image */
-.project-band-bg {
-  position: relative;
-}
-.project-band-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.04;
-  pointer-events: none;
-}
-
-/* Compact experience */
 .exp-compact {
   @apply py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1;
   border-bottom: 1px solid rgba(255,255,255,0.03);
@@ -158,4 +144,7 @@
   .act { min-height: auto; padding: 2rem 1rem; }
   .no-print { display: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
+  #scroll-progress { display: none !important; }
+  [style*="color: var(--accent)"] { color: #333 !important; }
+  img { mix-blend-mode: normal !important; }
 }
