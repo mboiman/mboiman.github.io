@@ -47,7 +47,7 @@ defaultContentLanguageInSubdir = true
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs (GPT-4/Claude/Gemini)",
+          "LLMs (Claude/Gemini/GPT/Copilot)",
           "MCP & A2A Protocols",
           "Google ADK",
           "LangChain",
@@ -215,7 +215,7 @@ defaultContentLanguageInSubdir = true
 - **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
 
 **🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: GPT-4, Claude, Gemini Integration mit Production-Grade Security
+- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot mit Production-Grade Security
 - **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
 - **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit
 - **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment
@@ -265,7 +265,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "06/2025 – heute"
         company = "BKS - AI Research & Development"
         details = """
-**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit gleichwertiger Expertise in GPT-4, Claude und Gemini.
+**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit gleichwertiger Expertise in Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
 - **Open Source MCP Server Portfolio**: Entwicklung und Veröffentlichung von 3+ MCP Servern auf GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) mit uvx-Distribution, Claude Desktop Integration und Multi-Format Support (Markdown, JSON, YAML)
@@ -283,7 +283,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
 
 **Tools & Technologien**
-- LLM Orchestration: GPT-4, Claude AI, Google Gemini (gleichwertige Expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot (gleichwertige Expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -397,7 +397,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Tools** 
 - IntelliJ / Visual Studio Code 
 - Java / JavaScript / TypeScript 
-- Playwright / Gauge / Taiko / Karate 
+- Playwright / Gauge / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
 - CI/CD / GitHub – reusable workflows 
 - Helm / Container 
@@ -667,7 +667,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs (GPT-4/Claude/Gemini)",
+          "LLMs (Claude/Gemini/GPT/Copilot)",
           "MCP & A2A Protocols",
           "Google ADK",
           "LangChain",
@@ -835,7 +835,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
 
 **🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: GPT-4, Claude, Gemini integration with production-grade security
+- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot with production-grade security
 - **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
 - **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy
 - **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment
@@ -884,7 +884,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "06/2025 – present"
         company = "BKS - AI Research & Development"
         details = """
-**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with equal expertise in GPT-4, Claude, and Gemini.
+**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with equal expertise in Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
 - **Open Source MCP Server Portfolio**: Development and publication of 3+ MCP servers on GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) with uvx distribution, Claude Desktop integration, and multi-format support (Markdown, JSON, YAML)
@@ -902,7 +902,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform — automated incident management, log analysis, weekly reporting and go-live tracking
 
 **Tools & Technologies**
-- LLM Orchestration: GPT-4, Claude AI, Google Gemini (equal expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot (equal expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -1016,7 +1016,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Tools**
 - IntelliJ / Visual Studio Code
 - Java / JavaScript / TypeScript
-- Playwright / Gauge / Taiko / Karate
+- Playwright / Gauge / Karate
 - Python for processing and analysis of test and reporting data
 - CI/CD / GitHub – reusable workflows
 - Helm / Containers
@@ -1740,7 +1740,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
         
         [[languages.de.params.skills.list]]
-        skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
+        skill = "LLMs & AI APIs - Claude, Gemini, OpenAI GPT, GitHub Copilot, Llama"
         
         [[languages.de.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
@@ -1830,7 +1830,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Python (Data Analysis, ML/AI, Automation)"
         
         [[languages.en.params.skills.list]]
-        skill = "LLMs & AI APIs - OpenAI GPT-4, Claude, Gemini, Llama, Mistral"
+        skill = "LLMs & AI APIs - Claude, Gemini, OpenAI GPT, GitHub Copilot, Llama"
         
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
