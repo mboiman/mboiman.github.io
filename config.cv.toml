@@ -240,7 +240,7 @@ defaultContentLanguageInSubdir = true
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
 
 **Workshop-Inhalte**
-- Entwicklung mit LLMs (GPT-4o, Claude, Gemini) und Token-Optimierung - alle drei Modelle gleichwertig in Projekten eingesetzt
+- Entwicklung mit LLMs (Claude, Gemini, GPT-4o) und Token-Optimierung - alle drei Modelle gleichwertig in Projekten eingesetzt
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
 - Google Agent Development Kit (ADK) für Multi-Agent-Systeme und Tool-Integration
 - Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
@@ -251,7 +251,7 @@ defaultContentLanguageInSubdir = true
 - Task Master AI-Agent für Projektmanagement und Code-Scaffolding
 
 **Technologien & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini (gleichwertige Expertise in allen drei LLMs)
+- Anthropic Claude, Google Gemini, OpenAI GPT-4o (gleichwertige Expertise in allen drei LLMs)
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI-Extensions
 - Playwright, Browser-Automation, Web-Scraping
@@ -859,7 +859,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
 
 **Workshop Content**
-- Development with LLMs (GPT-4o, Claude, Gemini) and token optimization - all three models used equally in projects
+- Development with LLMs (Claude, Gemini, GPT-4o) and token optimization - all three models used equally in projects
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
 - Google Agent Development Kit (ADK) for multi-agent systems and tool integration
 - Agent orchestration with JSON-RPC and multi-agent systems
@@ -870,7 +870,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Task Master AI agent for project management and code scaffolding
 
 **Technologies & Tools**
-- OpenAI GPT-4o, Anthropic Claude, Google Gemini (equal expertise across all three LLMs)
+- Anthropic Claude, Google Gemini, OpenAI GPT-4o (equal expertise across all three LLMs)
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI extensions
 - Playwright, browser automation, web scraping
@@ -1386,14 +1386,14 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
-        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
         screenshot = "projects/aiagentworkshop.png"
         tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
 
 **Workshop-Inhalte:**
-• **Hands-on AI-Agent Development:** Live-Coding mit GPT-4o, Claude, Gemini
+• **Hands-on AI-Agent Development:** Live-Coding mit Claude, Gemini, GPT-4o
 • **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
 • **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
 • **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
@@ -1616,14 +1616,14 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
-        tech_stack = ["OpenAI GPT-4o", "Anthropic Claude", "Google Gemini", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
         screenshot = "projects/aiagentworkshop.png"
         tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
 
 **Workshop Content:**
-• **Hands-on AI Agent Development:** Live coding with GPT-4o, Claude, Gemini
+• **Hands-on AI Agent Development:** Live coding with Claude, Gemini, GPT-4o
 • **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
 • **Browser Automation:** Playwright-MCP for automated test generation
 • **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
@@ -1734,7 +1734,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Playwright & End-to-End Testing"
         
         [[languages.de.params.skills.list]]
-        skill = "Cucumber / Gauge / Taiko (BDD)"
+        skill = "Cucumber / Gauge (BDD)"
 
         [[languages.de.params.skills.list]]
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
@@ -1761,7 +1761,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Playwright"
 
         [[languages.de.params.skills.list]]
-        skill = "Cucumber / Gauge / Taiko"
+        skill = "Cucumber / Gauge"
 
         [[languages.de.params.skills.list]]
         skill = "CDC - Spring Contract & Pact.io"
@@ -1824,7 +1824,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Playwright & End-to-End Testing"
         
         [[languages.en.params.skills.list]]
-        skill = "Cucumber / Gauge / Taiko (BDD)"
+        skill = "Cucumber / Gauge (BDD)"
 
         [[languages.en.params.skills.list]]
         skill = "Python (Data Analysis, ML/AI, Automation)"
@@ -1851,7 +1851,7 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "Playwright"
 
         [[languages.en.params.skills.list]]
-        skill = "Cucumber / Gauge / Taiko"
+        skill = "Cucumber / Gauge"
 
         [[languages.en.params.skills.list]]
         skill = "CDC – Spring Contract & Pact.io"
