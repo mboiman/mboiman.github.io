@@ -13,9 +13,9 @@ const { title, experiences } = Astro.props;
 <section>
   <h2 class="section-title">{title}</h2>
 
-  <div class="relative border-l-2 border-[var(--color-border)] ml-1.5">
-    {experiences.map((exp) => (
-      <ExperienceItem experience={exp} />
+  <div class="timeline-line">
+    {experiences.map((exp, i) => (
+      <ExperienceItem experience={exp} index={i} />
     ))}
   </div>
 </section>

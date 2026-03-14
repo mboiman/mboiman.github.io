@@ -4,35 +4,36 @@ import type { ProjectItem } from '../lib/types';
 
 interface Props {
   project: ProjectItem;
+  index?: number;
 }
 
-const { project } = Astro.props;
+const { project, index = 0 } = Astro.props;
 const taglineHtml = formatMarkdown(project.tagline);
 ---
 
-<div class="card group cursor-pointer">
+<div class="card group reveal" style={`transition-delay: ${index * 80}ms`}>
   <div class="flex flex-col h-full">
     {project.screenshot && (
-      <div class="mb-4 overflow-hidden rounded-lg">
+      <div class="mb-4 -mx-6 -mt-6 overflow-hidden rounded-t-2xl">
         <img
           src={`/images/${project.screenshot}`}
           alt={project.title}
-          class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+          class="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
       </div>
     )}
 
-    <div class="flex-1">
+    <div class="flex-1 flex flex-col">
       {project.category && (
-        <span class="text-xs font-medium uppercase tracking-wider text-[var(--color-accent)]">
+        <span class="text-[10px] font-bold uppercase tracking-[0.15em] mb-2" style="color: var(--color-accent)">
           {project.category}
         </span>
       )}
 
-      <h3 class="font-heading font-semibold mt-1 mb-2">
+      <h3 class="font-heading font-semibold text-base mb-3 leading-tight">
         {project.url ? (
-          <a href={project.url} target="_blank" rel="noopener" class="hover:text-[var(--color-accent)] transition-colors">
+          <a href={project.url} target="_blank" rel="noopener" class="hover:text-[var(--color-accent)] transition-colors duration-300">
             {project.title}
           </a>
         ) : (
@@ -41,14 +42,17 @@ const taglineHtml = formatMarkdown(project.tagline);
       </h3>
 
       {project.tech_stack?.length > 0 && (
-        <div class="flex flex-wrap gap-1.5 mb-3">
-          {project.tech_stack.map((tech) => (
-            <span class="tech-tag text-[10px]">{tech}</span>
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          {project.tech_stack.slice(0, 6).map((tech) => (
+            <span class="tech-tag">{tech}</span>
           ))}
+          {project.tech_stack.length > 6 && (
+            <span class="tech-tag opacity-60">+{project.tech_stack.length - 6}</span>
+          )}
         </div>
       )}
 
-      <div class="text-sm text-[var(--color-muted)] leading-relaxed" set:html={taglineHtml} />
+      <div class="flex-1 text-sm text-[var(--color-muted)] leading-relaxed line-clamp-4" set:html={taglineHtml} />
     </div>
   </div>
 </div>

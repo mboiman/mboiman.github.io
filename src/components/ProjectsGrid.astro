@@ -15,18 +15,17 @@ const other = projects.filter((p) => !p.featured);
 
 <section>
   <h2 class="section-title">{title}</h2>
-  {intro && <p class="mb-6 text-sm text-[var(--color-muted)]" set:html={intro} />}
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {featured.map((project) => (
-      <ProjectCard project={project} />
+    {featured.map((project, i) => (
+      <ProjectCard project={project} index={i} />
     ))}
   </div>
 
   {other.length > 0 && (
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {other.map((project) => (
-        <ProjectCard project={project} />
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {other.map((project, i) => (
+        <ProjectCard project={project} index={i + featured.length} />
       ))}
     </div>
   )}
