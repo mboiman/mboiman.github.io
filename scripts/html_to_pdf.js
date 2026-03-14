@@ -230,6 +230,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin: 12px 0 10px 0; padding-bottom: 4px;
             border-bottom: 2px solid #2d7788;
             text-transform: uppercase; letter-spacing: 0.8px;
+            page-break-after: avoid;
         }
         
         .cv-full-width {
