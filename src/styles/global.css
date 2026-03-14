@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,30 +9,34 @@
     --color-bg: #FAFAFA;
     --color-text: #0F172A;
     --color-accent: #2d7788;
-    --color-accent-light: #3d97a8;
+    --color-accent-light: #e0f2f1;
+    --color-accent-glow: rgba(45, 119, 136, 0.15);
     --color-surface: #FFFFFF;
     --color-surface-alt: #F1F5F9;
     --color-muted: #64748B;
     --color-border: #E2E8F0;
-    --color-header-bg: #0F172A;
-    --color-header-text: #F8FAFC;
+    --color-header-from: #0F172A;
+    --color-header-to: #1E293B;
     --color-tag-bg: #E0F2F1;
     --color-tag-text: #1a5c6a;
+    --color-card-shadow: rgba(0, 0, 0, 0.08);
   }
 
   .dark {
-    --color-bg: #0F172A;
-    --color-text: #F8FAFC;
-    --color-accent: #3d97a8;
-    --color-accent-light: #5bb8c9;
+    --color-bg: #0B1120;
+    --color-text: #E2E8F0;
+    --color-accent: #5bb8c9;
+    --color-accent-light: #164e5a;
+    --color-accent-glow: rgba(91, 184, 201, 0.12);
     --color-surface: #1E293B;
-    --color-surface-alt: #334155;
+    --color-surface-alt: #0F172A;
     --color-muted: #94A3B8;
     --color-border: #334155;
-    --color-header-bg: #020617;
-    --color-header-text: #F8FAFC;
-    --color-tag-bg: #164e5a;
-    --color-tag-text: #a7f3d0;
+    --color-header-from: #020617;
+    --color-header-to: #0F172A;
+    --color-tag-bg: rgba(91, 184, 201, 0.15);
+    --color-tag-text: #7dd3e8;
+    --color-card-shadow: rgba(0, 0, 0, 0.3);
   }
 
   html {
@@ -44,16 +48,23 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: 1.65;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: white;
   }
 }
 
 @layer components {
   .section-title {
-    @apply text-sm font-bold tracking-wider uppercase pb-2 mb-6;
+    @apply text-xs font-bold tracking-[0.15em] uppercase pb-3 mb-6;
     color: var(--color-accent);
     border-bottom: 2px solid var(--color-accent);
   }
@@ -62,25 +73,32 @@
     @apply rounded-xl p-6 transition-all duration-300;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
+    box-shadow: 0 1px 3px var(--color-card-shadow);
   }
 
   .card:hover {
     @apply -translate-y-1;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
-  }
-
-  .dark .card:hover {
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 40px -12px var(--color-card-shadow);
+    border-color: var(--color-accent);
   }
 
   .tech-tag {
-    @apply inline-block text-xs font-medium px-2.5 py-1 rounded-full transition-colors duration-200;
+    @apply inline-block text-[11px] font-medium px-2.5 py-1 rounded-md transition-all duration-200;
     background-color: var(--color-tag-bg);
     color: var(--color-tag-text);
   }
 
+  .tech-tag:hover {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
   .accent-border {
-    border-left: 4px solid var(--color-accent);
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .glow {
+    box-shadow: 0 0 20px var(--color-accent-glow);
   }
 }
 
@@ -90,14 +108,14 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 }
 
 @media print {
   .no-print { display: none !important; }
-  body { background: white; color: black; }
-  .card { box-shadow: none; border: 1px solid #ddd; }
+  body { background: white !important; color: black !important; font-size: 11pt; }
+  .card { box-shadow: none !important; border: 1px solid #ccc !important; break-inside: avoid; }
+  .section-title { color: #333 !important; border-color: #333 !important; }
+  .tech-tag { background: #f0f0f0 !important; color: #333 !important; }
+  a { color: inherit !important; text-decoration: none !important; }
 }
