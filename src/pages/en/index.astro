@@ -1,54 +1,169 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Header from '../../components/Header.astro';
-import AIShowcase from '../../components/AIShowcase.astro';
-import CareerProfile from '../../components/CareerProfile.astro';
-import Sidebar from '../../components/Sidebar.astro';
-import ProjectsGrid from '../../components/ProjectsGrid.astro';
-import ExperienceTimeline from '../../components/ExperienceTimeline.astro';
-import Footer from '../../components/Footer.astro';
 import { getCVData } from '../../lib/toml-loader';
+import { formatToHTML } from '../../lib/markdown';
 
 const data = getCVData('en');
+const { profile, contact, ui, experiences, projects, summary } = data;
+
+const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
 ---
 
 <BaseLayout
-  title={`${data.profile.name} - ${data.profile.tagline}`}
-  description={data.ui.tagline}
+  title={`${profile.name} — ${profile.tagline}`}
+  description={ui.tagline}
   lang="en"
 >
-  <Header data={data} lang="en" />
-
-  {data.ai_showcase.enable && (
-    <AIShowcase title={data.ui.ai_skills_title} items={data.ai_showcase.list} />
-  )}
-
-  <main id="main-content" class="max-w-6xl mx-auto px-6 py-10">
-    <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10">
-      <div class="space-y-12">
-        {data.summary.enable && (
-          <CareerProfile title={data.summary.title} summary={data.summary.summary} />
-        )}
-
-        {data.projects.enable && (
-          <ProjectsGrid
-            title={data.projects.title}
-            intro={data.projects.intro}
-            projects={data.projects.list}
-          />
-        )}
-
-        {data.experiences.enable && (
-          <ExperienceTimeline
-            title={data.experiences.title}
-            experiences={data.experiences.list}
-          />
-        )}
-      </div>
-
-      <Sidebar data={data} />
+  <!-- ═══ ACT 1: THE STATEMENT ═══ -->
+  <section class="act" aria-label="Statement">
+    <div class="text-center max-w-5xl reveal">
+      <h1 class="text-[clamp(2.5rem,8vw,8rem)] leading-[0.95] tracking-tight mb-8">
+        Here's to the ones who<br>
+        <em class="italic">automate the impossible.</em>
+      </h1>
+      <p class="text-lg tracking-[0.15em] uppercase" style="color: var(--text-secondary)">
+        Quality Engineer &middot; AI Architect &middot; System Thinker
+      </p>
     </div>
-  </main>
+  </section>
 
-  <Footer data={data} />
+  <!-- ═══ ACT 2: THE NUMBER WALL ═══ -->
+  <section class="act act-alt" id="main" aria-label="Key Numbers">
+    <div class="max-w-4xl mx-auto w-full py-20">
+      {[
+        { num: '20+', label: 'years shipping software quality', delay: 0 },
+        { num: '40+', label: 'production AI skills built', delay: 100 },
+        { num: '20+', label: 'repositories — one cockpit', delay: 200 },
+        { num: '4', label: 'languages spoken', delay: 300 },
+        { num: '1', label: 'obsession: systems that think', delay: 400 },
+      ].map(item => (
+        <div class="reveal flex items-baseline gap-6 py-6 border-b border-white/5 last:border-0" style={`transition-delay: ${item.delay}ms`}>
+          <span class="text-[clamp(3rem,12vw,10rem)] font-bold leading-none tracking-tighter" style="font-family: 'Playfair Display', serif">
+            {item.num}
+          </span>
+          <span class="text-base tracking-wide" style="color: var(--text-secondary)">
+            {item.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ ACT 3: THE ORIGIN ═══ -->
+  <section class="act" aria-label="Career Profile">
+    <div class="prose-column py-20">
+      <div class="reveal">
+        <div class="teal-rule mb-16"></div>
+        <div class="text-lg leading-[2] [&_strong]:text-[var(--accent)] [&_strong]:font-normal" set:html={formatToHTML(summary.summary)} />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT 4: SELECTED WORKS ═══ -->
+  <section aria-label="Projects">
+    {featuredProjects.map((project, i) => (
+      <div class={`px-6 py-20 reveal`} style={`transition-delay: ${i * 80}ms; background-color: ${i % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)'}`}>
+        <div class="max-w-5xl mx-auto">
+          <p class="text-xs tracking-[0.2em] uppercase mb-3" style="color: var(--text-secondary)">{project.category}</p>
+          <h3 class="text-2xl sm:text-3xl mb-4 tracking-tight">{project.title}</h3>
+
+          {project.tech_stack?.length > 0 && (
+            <p class="text-sm mb-6" style="color: var(--text-secondary)">
+              {project.tech_stack.join(' · ')}
+            </p>
+          )}
+
+          <div class="max-w-3xl text-base leading-relaxed" style="color: var(--text-secondary)" set:html={formatToHTML(project.tagline).replace(/<p>/g, '<p class="mb-3">')} />
+
+          {i < featuredProjects.length - 1 && (
+            <div class="teal-rule mt-16"></div>
+          )}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- ═══ ACT 5: THE SYSTEM THINKER ═══ -->
+  <section class="act" aria-label="System">
+    <div class="max-w-3xl mx-auto w-full py-20">
+      <div class="reveal terminal p-8 rounded-lg" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.05)">
+        <p><span class="prompt">$</span> cockpit status</p>
+        <br>
+        <p>&nbsp;&nbsp;repos: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23 active</p>
+        <p>&nbsp;&nbsp;skills: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40+ production</p>
+        <p>&nbsp;&nbsp;agents: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;multi-agent orchestration</p>
+        <p>&nbsp;&nbsp;protocols: &nbsp;&nbsp;&nbsp;MCP, A2A, JSON-RPC 2.0</p>
+        <p>&nbsp;&nbsp;languages: &nbsp;&nbsp;&nbsp;Python, Rust, Go, TypeScript</p>
+        <p>&nbsp;&nbsp;spoken: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-secondary)">DE&nbsp; EN&nbsp; RU&nbsp; HE</span></p>
+        <p>&nbsp;&nbsp;philosophy: &nbsp;&nbsp;one cockpit. every system. zero friction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ACT 6: BELIEFS ═══ -->
+  <section class="act act-alt" aria-label="Beliefs">
+    <div class="text-center max-w-4xl mx-auto py-20 space-y-16">
+      {[
+        'Quality is architecture, not afterthought.',
+        'AI that can\'t explain itself isn\'t intelligent — it\'s dangerous.',
+        'The best automation is the one nobody notices.',
+        'Teach the craft. Don\'t hoard it.',
+      ].map((belief, i) => (
+        <p class="text-xl sm:text-2xl leading-relaxed reveal italic" style={`transition-delay: ${i * 150}ms; font-family: 'Playfair Display', serif;`}>
+          {belief}
+        </p>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ ACT 7: EXPERIENCE ═══ -->
+  <section class="px-6 py-20" aria-label="Professional Experience">
+    <div class="max-w-4xl mx-auto">
+      <div class="teal-rule mb-16"></div>
+      <h2 class="text-3xl text-center mb-16 reveal">Professional Experience</h2>
+
+      {experiences.list.map((exp, i) => (
+        <div class="reveal mb-12 last:mb-0" style={`transition-delay: ${Math.min(i * 40, 400)}ms`}>
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-3">
+            <h3 class="text-lg font-sans font-medium" style="color: var(--accent)">{exp.position}</h3>
+            <span class="text-sm whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
+          </div>
+          <p class="text-sm mb-3" style="color: var(--text-secondary)">{exp.company}</p>
+          <div class="text-sm leading-relaxed [&_strong]:text-[var(--accent)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
+          {i < experiences.list.length - 1 && (
+            <div class="border-b border-white/5 mt-12"></div>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ ACT 8: CLOSE ═══ -->
+  <section class="act" aria-label="Contact">
+    <div class="text-center reveal">
+      <p class="text-4xl sm:text-5xl mb-4" style="font-family: 'Playfair Display', serif">{profile.name}</p>
+      <p class="text-sm tracking-[0.15em] uppercase mb-8" style="color: var(--text-secondary)">
+        BKS-Lab — AI Engineering
+      </p>
+      <p class="mb-2">
+        <a href="mailto:mboiman@gmail.com" class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">
+          mboiman@gmail.com
+        </a>
+      </p>
+      <p class="text-sm" style="color: var(--text-secondary)">
+        <a href="https://www.linkedin.com/in/mboiman/" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">LinkedIn</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/mboiman" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">GitHub</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://bks-lab.com" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">BKS-Lab</a>
+      </p>
+
+      <p class="mt-12 text-xs no-print" style="color: var(--text-secondary); opacity: 0.5">
+        <a href={`/pdfs/Michael_Boiman_CV_EN.pdf`} class="hover:opacity-100 transition-opacity">Download PDF</a>
+        &nbsp;&middot;&nbsp;
+        <a href="/de/" class="hover:opacity-100 transition-opacity">Deutsche Version</a>
+      </p>
+    </div>
+  </section>
+
 </BaseLayout>
