@@ -93,10 +93,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
       </div>
     `;
   }).join('') + (olderExps.length > 0 ? `
-    <div style="margin-top: 10px; border-top: 1px solid #E2E8F0; padding-top: 8px;">
+    <div style="margin-top: 10px; border-top: 1px solid #2A3544; padding-top: 8px;">
       <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 0.15em; color: #7a8b9a; margin-bottom: 6px;">Frühere Positionen</div>
       ${olderExps.map(exp => `
-        <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.04);">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
           <div><span style="font-weight: 600; font-size: 7.5pt;">${exp.position}</span> <span style="color: #7a8b9a; font-size: 7pt;">— ${exp.company}</span></div>
           <span style="font-size: 6.5pt; color: #7a8b9a; white-space: nowrap;">${exp.dates}</span>
         </div>
@@ -219,17 +219,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         
         @page {
             size: A4 portrait;
-            margin: 12mm 10mm 12mm 10mm;
+            margin: 0;
         }
         
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             font-size: 7.5pt;
             line-height: 1.35;
-            color: #1E293B;
-            background: white;
+            color: #E2E8F0;
+            background: #0B1120;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
+            padding: 10mm;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
         
         .cv-container { max-width: 100%; margin: 0; padding: 0; }
@@ -241,8 +244,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             align-items: center;
             background: linear-gradient(135deg, #0B1120, #162032);
             color: #F0F0F0;
-            margin: -12mm -10mm 0 -10mm;
-            padding: 14mm 10mm 14px 10mm;
+            margin: -10mm -10mm 0 -10mm;
+            padding: 10mm 10mm 14px 10mm;
             border-bottom: 3px solid #3a8fa0;
         }
 
@@ -276,61 +279,59 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .contact-item a { color: #3a8fa0; text-decoration: none; }
         .contact-item span { color: rgba(255,255,255,0.5); }
 
-        /* Impact strip between header and AI showcase */
+        /* Impact strip — light cards on gray page */
         .impact-strip {
             display: grid; grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px; margin: 12px 0;
+            gap: 10px; margin: 14px 0;
         }
         .impact-card {
-            background: #0F1419; border-radius: 5px;
+            background: rgba(255,255,255,0.05); border-radius: 5px;
             padding: 10px 14px; text-align: center;
-            border-top: 2px solid #3a8fa0;
+            border-top: 3px solid #3a8fa0;
         }
         .impact-number {
             font-family: Georgia, 'Times New Roman', serif;
             font-size: 22pt; font-weight: 900; color: #3a8fa0;
             line-height: 1; letter-spacing: -0.02em;
         }
-        .impact-label { font-size: 7.5pt; font-weight: 600; color: #F0F0F0; margin-top: 3px; }
-        .impact-detail { font-size: 6.5pt; color: #8899AA; margin-top: 2px; }
+        .impact-label { font-size: 7.5pt; font-weight: 600; color: #E2E8F0; margin-top: 3px; }
+        .impact-detail { font-size: 6.5pt; color: #7A8B9A; margin-top: 2px; }
         
         .ai-showcase {
-            background: linear-gradient(135deg, #E8EEF4 0%, #DCE6EF 100%);
-            border: 1px solid #CBD5E1;
+            background: rgba(255,255,255,0.03);
             border-left: 4px solid #3a8fa0;
-            padding: 14px 16px; margin: 12px 0;
+            margin: 0 0 14px 0;
+            padding: 14px 16px;
             border-radius: 0 6px 6px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            border: 1px solid #2A3544;
         }
-        
+
         .ai-showcase h2 {
             font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
-            font-size: 11pt; font-weight: 600; color: #3a8fa0;
-            margin-bottom: 8px; text-align: center;
+            font-size: 10pt; font-weight: 600; color: #3a8fa0;
+            margin-bottom: 8px; border: none;
         }
-        
+
         .ai-skills-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
         }
-        
+
         .ai-skill-card {
-            background: #F0F4F8; padding: 9px 10px; border-radius: 5px;
-            border: 1px solid #C4CDD8;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            transition: none;
+            background: rgba(255,255,255,0.05); padding: 7px 10px; border-radius: 4px;
+            border: 1px solid #2A3544;
         }
-        
+
         .ai-skill-name {
-            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 3px;
+            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 2px;
         }
-        
+
         .ai-skill-desc {
-            font-size: 7pt; color: #475569; line-height: 1.35;
+            font-size: 6.5pt; color: #94A3B8; line-height: 1.35;
         }
         
         .cv-main {
             display: grid; grid-template-columns: 2fr 1fr; /* Keep sidebar but make experience section wider */
-            gap: 20px; margin-top: 15px;
+            gap: 20px; margin-top: 20px;
         }
         
         .cv-section h2 {
@@ -347,13 +348,15 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #E8EEF4; border-left: 4px solid #3a8fa0;
+            background: #1A2332; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         
         .career-profile h2 {
             font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
+            color: #3a8fa0;
         }
         
         .career-profile p {
@@ -371,10 +374,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 10px; padding: 10px 12px; background: #EDF2F7;
+            margin-bottom: 10px; padding: 10px 12px; background: #1A2332;
             border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         
         .experience-header {
@@ -391,11 +394,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-company {
-            font-size: 7.5pt; font-weight: 600; color: #334155; margin-bottom: 5px;
+            font-size: 7.5pt; font-weight: 600; color: #CBD5E0; margin-bottom: 5px;
         }
         
         .experience-details {
-            font-size: 6.5pt; line-height: 1.35; color: #334155;
+            font-size: 6.5pt; line-height: 1.35; color: #CBD5E0;
         }
         
         .experience-details p { margin-bottom: 4px; }
@@ -411,11 +414,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 10px 12px; background: #EDF2F7;
+            margin-bottom: 0; padding: 10px 12px; background: #1A2332;
             border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
         .project-item.with-screenshot {
@@ -435,29 +438,31 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: #D1DAE6; color: #334155; padding: 2px 4px;
+            background: rgba(255,255,255,0.08); color: #CBD5E0; padding: 2px 4px;
             border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
 
         .project-description {
-            font-size: 6.5pt; line-height: 1.35; color: #334155; margin-top: 4px;
+            font-size: 6.5pt; line-height: 1.35; color: #CBD5E0; margin-top: 4px;
         }
+
+        .project-description strong { font-weight: 600; color: #3a8fa0; }
 
         .project-screenshot {
             width: 85px; height: 60px; object-fit: cover;
-            border-radius: 4px; border: 1px solid #d1d9e0;
-            background: #fff; flex-shrink: 0;
+            border-radius: 4px; border: 1px solid #2A3544;
+            background: #1A2332; flex-shrink: 0;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
         }
         
         .cv-sidebar {
-            background: linear-gradient(180deg, #E8EEF4 0%, #DDE5EE 100%);
+            background: #1A2332;
             padding: 15px; border-radius: 8px;
-            border: 1px solid #B8C5D3; height: fit-content;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            border: 1px solid #2A3544; height: fit-content;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         
         .sidebar-section { margin-bottom: 15px; }
@@ -470,14 +475,14 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #D4E4EA; color: #1E293B; padding: 3px 7px;
+            background: rgba(58,143,160,0.15); color: #E2E8F0; padding: 3px 7px;
             border-radius: 4px; font-size: 6.5pt; font-weight: 500;
             border: 1px solid rgba(58,143,160,0.5);
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
         .education-degree { font-weight: 600; color: #3a8fa0; margin-bottom: 2px; }
-        .education-school { color: #475569; margin-bottom: 2px; }
+        .education-school { color: #94A3B8; margin-bottom: 2px; }
         .education-dates { color: #7a8b9a; font-style: italic; }
 
         .language-item {
@@ -486,7 +491,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
 
         .language-name { font-weight: 600; color: #3a8fa0; }
-        .language-level { color: #475569; }
+        .language-level { color: #94A3B8; }
         
         .page-break-before { page-break-before: always; }
         .page-break-avoid { page-break-inside: avoid; }
@@ -494,12 +499,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </style>
     <!-- Font Awesome icons replaced with simple text symbols for PDF -->
     <style>
-        .fa-envelope::before { content: "✉"; }
-        .fa-phone::before { content: "☎"; }
-        .fa-map-marker-alt::before { content: "📍"; }
-        .fa-linkedin::before { content: "💼"; }
-        .fa-github::before { content: "⚡"; }
-        .fa-globe::before { content: "🌐"; }
+        .fa-envelope::before { content: "▸ "; }
+        .fa-phone::before { content: "▸ "; }
+        .fa-map-marker-alt::before { content: "▸ "; }
+        .fa-linkedin::before { content: "▸ "; }
+        .fa-github::before { content: "▸ "; }
+        .fa-globe::before { content: "▸ "; }
     </style>
 </head>
 <body>
@@ -727,10 +732,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     preferCSSPageSize: false,
     displayHeaderFooter: false,
     margin: {
-      top: '8mm',
-      bottom: '10mm',
-      left: '8mm',
-      right: '8mm'
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0'
     },
     scale: 1.0,
     tagged: true
