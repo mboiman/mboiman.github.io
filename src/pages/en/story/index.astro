@@ -142,29 +142,58 @@ const darkScreenshots: Record<string, string> = {
     </div>
   </section>
 
-  <!-- ═══ ACT 4: SELECTED WORKS ═══ -->
-  <section aria-label="Projekte">
+  <!-- ═══ ACT 4: SELECTED WORKS (Gamma-style) ═══ -->
+  <section aria-label="Projects">
     {featuredProjects.map((project, i) => {
       const bgImage = darkScreenshots[project.title];
+      const hasGamma = project.challenge && project.metric;
       return (
         <div
-          class={`relative px-6 py-24 reveal overflow-hidden`}
+          class="relative px-6 py-28 reveal overflow-hidden"
           style={`transition-delay: ${i * 80}ms; background-color: ${i % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)'}`}
         >
           {bgImage && (
             <div class="absolute inset-0 opacity-[0.04] bg-cover bg-center" style={`background-image: url('${bgImage}')`}></div>
           )}
           <div class="relative max-w-5xl mx-auto">
-            <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{project.category}</p>
-            <h3 class="text-2xl sm:text-4xl mb-5 tracking-tight" style="font-family: 'Playfair Display', serif">{project.title}</h3>
+            <div class="flex flex-wrap items-center gap-4 mb-8">
+              <span class="text-[10px] tracking-[0.25em] uppercase" style="color: var(--accent)">{project.category}</span>
+              {project.tech_stack?.length > 0 && (
+                <span class="text-[10px] tracking-wider uppercase hidden sm:inline" style="color: var(--text-secondary); opacity: 0.5">
+                  {project.tech_stack.slice(0, 4).join(' / ')}
+                </span>
+              )}
+            </div>
 
-            {project.tech_stack?.length > 0 && (
-              <p class="text-sm mb-8 tracking-wide" style="color: var(--text-secondary)">
-                {project.tech_stack.join(' · ')}
-              </p>
+            <h3 class="text-2xl sm:text-4xl lg:text-5xl mb-12 tracking-tight leading-tight" style="font-family: 'Playfair Display', serif">{project.title}</h3>
+
+            {hasGamma ? (
+              <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-start">
+                <div class="space-y-10">
+                  <div>
+                    <p class="text-[10px] tracking-[0.25em] uppercase mb-3" style="color: var(--accent); opacity: 0.7">Challenge</p>
+                    <p class="text-base sm:text-lg leading-relaxed font-light" style="color: var(--text-secondary)">{project.challenge}</p>
+                  </div>
+                  <div>
+                    <p class="text-[10px] tracking-[0.25em] uppercase mb-3" style="color: var(--accent); opacity: 0.7">Solution</p>
+                    <p class="text-base leading-relaxed" style="color: var(--text-secondary)">{project.solution}</p>
+                  </div>
+                  {project.impact && (
+                    <div class="pt-4" style="border-top: 1px solid rgba(255,255,255,0.05)">
+                      <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">
+                        <span style="color: var(--accent)">→</span> {project.impact}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div class="flex flex-col items-start lg:items-end justify-center lg:min-w-[180px]">
+                  <span class="text-[clamp(3rem,10vw,6rem)] font-black leading-none tracking-tight" style="font-family: 'Playfair Display', serif; color: var(--accent)">{project.metric}</span>
+                  <span class="text-sm mt-2 tracking-wide" style="color: var(--text-secondary)">{project.metric_label}</span>
+                </div>
+              </div>
+            ) : (
+              <div class="max-w-3xl text-base leading-relaxed [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
             )}
-
-            <div class="max-w-3xl text-base leading-relaxed [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
           </div>
         </div>
       );

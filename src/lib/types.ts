@@ -36,6 +36,11 @@ export interface ProjectItem {
   featured: boolean;
   screenshot?: string;
   tagline: string;
+  challenge?: string;
+  solution?: string;
+  metric?: string;
+  metric_label?: string;
+  impact?: string;
 }
 
 export interface SkillItem {
