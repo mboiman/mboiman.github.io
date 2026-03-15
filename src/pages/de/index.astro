@@ -75,8 +75,31 @@ const otherProjects = projects.list.filter(p => !p.featured);
         {summary.enable && (
           <section>
             <h2 class="cv-section-title">{summary.title}</h2>
-            <div class="p-6 rounded-xl border-l-4 bg-[var(--bg-alt)]" style="border-color: var(--accent)">
-              <div class="text-[15px] leading-[1.85] [&_strong]:font-semibold [&_strong]:text-[var(--accent)]" set:html={formatToHTML(summary.summary)} />
+
+            <!-- Intro -->
+            <p class="text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
+              Quality Engineer und KI-Automatisierungsexperte mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren.
+            </p>
+
+            <!-- Impact-Highlights -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              {[
+                { metric: '-80%', label: 'Rückfragen', detail: 'durch Quality-Monitoring' },
+                { metric: '96%', label: 'Qualität', detail: 'nach Migration (vorher 30%)' },
+                { metric: '80%', label: 'auto-generiert', detail: 'KI-gestützte Test-Cases' },
+              ].map(item => (
+                <div class="p-4 rounded-xl text-center" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.03)">
+                  <p class="text-2xl font-bold font-heading" style="color: var(--accent)">{item.metric}</p>
+                  <p class="text-sm font-medium mt-1">{item.label}</p>
+                  <p class="text-xs mt-0.5" style="color: var(--text-secondary)">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <!-- Details -->
+            <div class="space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
+              <p>In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.</p>
+              <p>Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein <strong style="color: var(--accent); font-weight: 500">40+ Skills</strong> umfassendes Automatisierungs-Ökosystem.</p>
             </div>
           </section>
         )}

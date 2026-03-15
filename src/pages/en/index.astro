@@ -71,12 +71,32 @@ const otherProjects = projects.list.filter(p => !p.featured);
       <!-- Main Content (70%) -->
       <main class="lg:w-[70%] space-y-14">
 
-        <!-- Karriereprofil -->
+        <!-- Career Profile -->
         {summary.enable && (
           <section>
             <h2 class="cv-section-title">{summary.title}</h2>
-            <div class="p-6 rounded-xl border-l-4 bg-[var(--bg-alt)]" style="border-color: var(--accent)">
-              <div class="text-[15px] leading-[1.85] [&_strong]:font-semibold [&_strong]:text-[var(--accent)]" set:html={formatToHTML(summary.summary)} />
+
+            <p class="text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
+              Quality Engineer and AI Automation Expert with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              {[
+                { metric: '-80%', label: 'Inquiries', detail: 'through quality monitoring' },
+                { metric: '96%', label: 'Quality', detail: 'after migration (was 30%)' },
+                { metric: '80%', label: 'Auto-generated', detail: 'AI-driven test cases' },
+              ].map(item => (
+                <div class="p-4 rounded-xl text-center" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.03)">
+                  <p class="text-2xl font-bold font-heading" style="color: var(--accent)">{item.metric}</p>
+                  <p class="text-sm font-medium mt-1">{item.label}</p>
+                  <p class="text-xs mt-0.5" style="color: var(--text-secondary)">{item.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
+              <p>In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.</p>
+              <p>Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems, e-invoicing platforms to EU standards, and a <strong style="color: var(--accent); font-weight: 500">40+ skill</strong> automation ecosystem.</p>
             </div>
           </section>
         )}
