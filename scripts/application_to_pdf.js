@@ -149,7 +149,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
   // The CV will be added by the orchestration script
   
   await page.setContent(coverLetterHTML, {
-    waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
+    waitUntil: 'domcontentloaded',
     timeout: 30000
   });
   

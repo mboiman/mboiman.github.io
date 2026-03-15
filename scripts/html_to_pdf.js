@@ -134,7 +134,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     <title>${langConfig.profile.name} - Professional CV</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        /* System fonts only — no external dependencies */
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -144,7 +144,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         body {
-            font-family: 'Inter', 'Arial', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             font-size: 7.5pt;
             line-height: 1.35;
             color: #2c3e50;
@@ -171,7 +171,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .header-content h1 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
         }
         
@@ -199,7 +199,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .ai-showcase h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             font-size: 11pt; font-weight: 600; color: #3a8fa0;
             margin-bottom: 8px; text-align: center;
         }
@@ -228,7 +228,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             font-size: 10pt; font-weight: 700; color: #3a8fa0;
             margin: 12px 0 10px 0; padding-bottom: 4px;
             border-bottom: 2px solid #3a8fa0;
@@ -246,7 +246,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile h2 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
         }
         
