@@ -40,10 +40,58 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
     </div>
   `).join('');
 
-  // Generate experience items
-  const experienceItems = langConfig.experiences.list.map(exp => {
-    const formattedDetails = formatTextToParagraphs(exp.details || '');
+  // Truncate experience details — keep intro + tools, remove verbose bullets
+  function truncateForPDF(details) {
+    if (!details) return '';
+    const lines = details.split('\n');
+    const introLines = [];
+    const toolLines = [];
+    let inTools = false, inBullets = false;
+    for (const line of lines) {
+      if (line.match(/^\*\*(Schwerpunkte|Key Responsibilities|Workshop-Inhalte|Workshop Content|Practical|Projekte\b|Energiesektor|Quantifizierbare|Quantifiable|Focus areas|Key Focus|Hauptverantwortlichkeiten|Präsentationsinhalte|Wichtige Erfolge|Key Achievements|Technische Lösungen|Technical Solutions)/)) {
+        inBullets = true; inTools = false; continue;
+      }
+      if (line.match(/^\*\*(Tools|Technologien|Technologies|Eingesetzte|Technical Stack|Technischer)/)) {
+        inBullets = false; inTools = true; toolLines.push(line); continue;
+      }
+      // Also catch bare tool lines (- IntelliJ, - Java, etc.) after a Tools header
+      if (inBullets && line.match(/^- [A-Z]/) && !line.match(/^- \*\*/)) {
+        continue; // skip bullet items in Schwerpunkte sections
+      }
+      if (!inBullets && !inTools) introLines.push(line);
+      else if (inTools) toolLines.push(line);
+    }
+    let intro = introLines.join('\n').trim();
+    const words = intro.split(/\s+/);
+    if (words.length > 45) intro = words.slice(0, 45).join(' ') + '...';
+    // Compact tool lines: if individual items (- Tool), join into one line
+    let tools = toolLines.join('\n').trim();
+    const toolItems = tools.split('\n').filter(l => l.startsWith('- ')).map(l => l.replace(/^- /, ''));
+    if (toolItems.length > 3) {
+      // Compress individual tool lines into a comma-separated list
+      const header = toolLines.find(l => l.startsWith('**')) || '**Tools & Technologien**';
+      tools = header + '\n' + toolItems.join(' · ');
+    }
+    // Limit tools section length
+    const toolWords = tools.split(/\s+/);
+    if (toolWords.length > 40) tools = toolWords.slice(0, 40).join(' ') + '...';
+    return tools ? intro + '\n\n' + tools : intro;
+  }
 
+  // Sort experiences: employment first, workshops/presentations last
+  const allExps = [...langConfig.experiences.list];
+  const isWorkshop = (exp) => /Workshop|Präsentation|Presentation/i.test(exp.position);
+  const mainExps = allExps.filter(e => !isWorkshop(e));
+  const workshopExps = allExps.filter(e => isWorkshop(e));
+  const sortedExps = [...mainExps, ...workshopExps];
+
+  // Split: recent with details, older as compact
+  const recentExps = sortedExps.slice(0, 5);
+  const olderExps = sortedExps.slice(5);
+
+  const experienceItems = recentExps.map(exp => {
+    const truncated = truncateForPDF(exp.details);
+    const formattedDetails = formatTextToParagraphs(truncated);
     return `
       <div class="experience-item page-break-avoid">
         <div class="experience-header">
@@ -51,15 +99,27 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
           <div class="experience-dates">${exp.dates}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
-        <div class="experience-details">
-          ${formattedDetails}
-        </div>
+        <div class="experience-details">${formattedDetails}</div>
       </div>
     `;
   }).join('');
 
+  const olderExpItems = olderExps.length > 0 ? `
+    <div style="margin-top: 12px; border-top: 1px solid #E2E8F0; padding-top: 10px;">
+      <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 0.15em; color: #7a8b9a; margin-bottom: 8px;">
+        ${isDE ? 'Frühere Positionen' : 'Earlier Positions'}
+      </div>
+      ${olderExps.map(exp => `
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.04);">
+          <div><span style="font-weight: 600; font-size: 8pt;">${exp.position}</span> <span style="color: #7a8b9a; font-size: 7.5pt;">— ${exp.company}</span></div>
+          <span style="font-size: 7pt; color: #7a8b9a; white-space: nowrap;">${exp.dates}</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
   // Generate project items — compact, no screenshots
-  const projectItems = langConfig.projects.list.filter(project => project.featured).map(project => {
+  const projectItems = langConfig.projects.list.filter(project => project.featured).slice(0, 6).map(project => {
     const techTags = project.tech_stack ? project.tech_stack.map(tech =>
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
@@ -130,14 +190,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
         /* --- DARK HEADER --- */
         .cv-header {
             display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 20px;
+            grid-template-columns: 90px 1fr;
+            gap: 16px;
             align-items: center;
-            padding: 20px 24px;
             background: #0F1419;
             margin: -12mm -10mm 15px -10mm;
-            padding-left: calc(10mm + 4px);
-            padding-right: calc(10mm + 4px);
+            padding: 16mm 10mm 14px 10mm;
         }
 
         .profile-photo {
@@ -397,6 +455,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
         <section class="cv-section">
             <h2>${langConfig.experiences.title}</h2>
             ${experienceItems}
+            ${olderExpItems}
         </section>
 
         <section class="cv-section">
