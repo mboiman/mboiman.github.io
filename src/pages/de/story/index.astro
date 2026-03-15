@@ -87,6 +87,9 @@ const darkScreenshots: Record<string, string> = {
       <p class="text-center mt-2 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
         Frankfurt am Main
       </p>
+      <p class="text-center mt-8 text-sm leading-relaxed max-w-xs mx-auto" style="color: var(--text-secondary)">
+        Freiberuflicher Quality Engineer & KI-Architekt. Verfuegbar fuer Projekte, Architektur-Reviews und AI-Workshops.
+      </p>
     </div>
   </section>
 
@@ -221,8 +224,8 @@ const darkScreenshots: Record<string, string> = {
         { text: 'Automatisierung ohne Messbarkeit\nist nur schnelleres Raten.', align: 'text-left' },
       ].map((belief, i) => (
         <div class={`reveal py-14 ${i < 3 ? 'border-b border-white/[0.03]' : ''}`} style={`transition-delay: ${i * 200}ms`}>
-          <div class={`relative max-w-2xl ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
-            <span class="absolute -top-6 -left-3 text-[5rem] leading-none select-none pointer-events-none" style="font-family: 'Playfair Display', serif; color: var(--accent); opacity: 0.06;" aria-hidden="true">&ldquo;</span>
+          <div class={`relative max-w-lg ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
+            <span class={`absolute -top-6 text-[5rem] leading-none select-none pointer-events-none ${belief.align === 'text-right' ? '-right-3' : '-left-3'}`} style="font-family: 'Playfair Display', serif; color: var(--accent); opacity: 0.06;" aria-hidden="true">{belief.align === 'text-right' ? '\u201D' : '\u201C'}</span>
             <p class={`text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)">
               {belief.text}
             </p>
@@ -246,7 +249,7 @@ const darkScreenshots: Record<string, string> = {
             <span class="text-sm whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
           </div>
           <p class="text-sm mb-4" style="color: var(--text-secondary)">{exp.company}</p>
-          <div class="text-sm leading-[1.9] [&_strong]:text-[var(--accent)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
+          <div class="text-sm leading-[1.9] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
           {i < recentExp.length - 1 && (
             <div class="border-b border-white/[0.03] mt-16"></div>
           )}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,15 +12,6 @@
     --text-secondary: #888888;
     --accent: #3a8fa0;
     --accent-hover: #4dabbf;
-  }
-
-  .light {
-    --bg: #fafaf8;
-    --bg-alt: #f0eeeb;
-    --text: #1a1a1a;
-    --text-secondary: #555555;
-    --accent: #2d7788;
-    --accent-hover: #236470;
   }
 
   html {

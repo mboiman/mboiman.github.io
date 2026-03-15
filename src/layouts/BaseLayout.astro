@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { title, description, lang } = Astro.props;
+const otherLang = lang === 'de' ? 'en' : 'de';
+const currentPath = Astro.url.pathname;
+const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
 ---
 
 <!DOCTYPE html>
@@ -22,6 +25,13 @@ const { title, description, lang } = Astro.props;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://mboiman.github.io/images/profile_.jpg" />
+  <meta property="og:url" content={`https://mboiman.github.io${currentPath}`} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="canonical" href={`https://mboiman.github.io${currentPath}`} />
+  <link rel="alternate" hreflang={lang} href={`https://mboiman.github.io${currentPath}`} />
+  <link rel="alternate" hreflang={otherLang} href={`https://mboiman.github.io${otherPath}`} />
 </head>
 <body class="min-h-screen">
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded focus:text-sm" style="background: var(--accent); color: white;">

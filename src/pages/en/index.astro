@@ -183,7 +183,7 @@ const otherProjects = projects.list.filter(p => !p.featured);
                       </div>
                       <span class="text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start" style="background: rgba(58,143,160,0.12); color: var(--accent)">{exp.dates}</span>
                     </div>
-                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--accent)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
+                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
                   </div>
                 </div>
               ))}
