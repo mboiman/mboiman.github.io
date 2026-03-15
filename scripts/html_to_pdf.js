@@ -58,15 +58,26 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     return tools ? intro + '\n\n' + tools : intro;
   }
 
-  // Sort: employment first, workshops/presentations last
+  // Sort: priority employers first, workshops last
   const isWorkshop = (exp) => /Workshop|Präsentation|Presentation/i.test(exp.position);
+  const priorityEmployers = ['TÜV', 'DVAG', 'DB Vertrieb', 'DB Systel', 'BKS'];
   const mainExps = langConfig.experiences.list.filter(e => !isWorkshop(e));
   const workshopExps = langConfig.experiences.list.filter(e => isWorkshop(e));
+
+  // Bring priority employers to the top within mainExps
+  mainExps.sort((a, b) => {
+    const aHasPrio = priorityEmployers.some(p => a.company.includes(p));
+    const bHasPrio = priorityEmployers.some(p => b.company.includes(p));
+    if (aHasPrio && !bHasPrio) return -1;
+    if (!aHasPrio && bHasPrio) return 1;
+    return 0; // keep original order within same priority
+  });
+
   const sortedExps = [...mainExps, ...workshopExps];
 
-  // Recent 5 with truncated details, older as compact one-liners
-  const recentExps = sortedExps.slice(0, 5);
-  const olderExps = sortedExps.slice(5);
+  // Top 7 with truncated details (to include DB Vertrieb), older as compact
+  const recentExps = sortedExps.slice(0, 7);
+  const olderExps = sortedExps.slice(7);
 
   const experienceItems = recentExps.map(exp => {
     const truncated = truncateForPDF(exp.details);
@@ -104,10 +115,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     'KI-basierter Chatbot',             // Messe
     'AI-Driven Chatbot',                // EN version
   ];
-  // Skip side-projects, limit to top 8
-  const skipProjects = ['Live-Demo', 'wecation', 'QualityCluster', 'Django SLA'];
-  const featuredProjects = langConfig.projects.list
-    .filter(p => p.featured && !skipProjects.some(s => p.title.includes(s)));
+  const featuredProjects = langConfig.projects.list.filter(p => p.featured);
   featuredProjects.sort((a, b) => {
     const aIdx = priorityProjects.findIndex(p => a.title.includes(p));
     const bIdx = priorityProjects.findIndex(p => b.title.includes(p));
@@ -150,11 +158,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
       }
     }
     
-    // Truncate long taglines for PDF — max ~200 chars
-    let tagline = project.tagline || '';
-    const tagWords = tagline.split(/\s+/);
-    if (tagWords.length > 30) tagline = tagWords.slice(0, 30).join(' ') + '...';
-    const formattedTagline = formatMarkdownToHTML(tagline);
+    const formattedTagline = formatMarkdownToHTML(project.tagline);
     
     if (hasScreenshot) {
       return `
@@ -291,10 +295,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .impact-detail { font-size: 6.5pt; color: #8899AA; margin-top: 2px; }
         
         .ai-showcase {
-            background: #F8FAFC; border: 1px solid #E2E8F0;
+            background: linear-gradient(135deg, #F8FAFC 0%, #F0F7FA 100%);
+            border: 1px solid #E2E8F0;
             border-left: 4px solid #3a8fa0;
-            padding: 12px 15px; margin: 15px 0;
-            border-radius: 0 4px 4px 0;
+            padding: 14px 16px; margin: 12px 0;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
         
         .ai-showcase h2 {
@@ -308,9 +314,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .ai-skill-card {
-            background: white; padding: 8px; border-radius: 4px;
-            border: 1px solid #CBD5E1;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            background: white; padding: 9px 10px; border-radius: 5px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            transition: none;
         }
         
         .ai-skill-name {
@@ -364,9 +371,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 8px; padding: 8px; background: #F8FAFC;
-            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
+            margin-bottom: 10px; padding: 10px 12px; background: #FAFBFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
         
         .experience-header {
@@ -403,10 +411,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 8px; background: #F8FAFC;
-            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
+            margin-bottom: 0; padding: 10px 12px; background: #FAFBFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
         }
 
         .project-item.with-screenshot {
@@ -445,8 +454,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-sidebar {
-            background: #F8FAFC; padding: 15px; border-radius: 6px;
-            border: 1px solid #CBD5E1; height: fit-content;
+            background: linear-gradient(180deg, #F8FAFC 0%, #F0F4F8 100%);
+            padding: 15px; border-radius: 8px;
+            border: 1px solid #E2E8F0; height: fit-content;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
         
         .sidebar-section { margin-bottom: 15px; }
@@ -459,9 +470,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #F1F5F9; color: #334155; padding: 3px 6px;
-            border-radius: 3px; font-size: 6.5pt; font-weight: 500;
-            border: 1px solid #3a8fa0;
+            background: #F0F7FA; color: #1E293B; padding: 3px 7px;
+            border-radius: 4px; font-size: 6.5pt; font-weight: 500;
+            border: 1px solid rgba(58,143,160,0.4);
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
