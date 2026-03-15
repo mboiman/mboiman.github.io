@@ -93,8 +93,28 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </div>
   ` : '');
 
-  // Generate project items (projects before experience as requested)
-  const projectItems = await Promise.all(langConfig.projects.list.filter(project => project.featured).map(async project => {
+  // Sort projects: Enterprise/Impact projects first, side projects last
+  const priorityProjects = [
+    '24/7 Automated Legacy Migration',  // DB/Bahn
+    'Quality Dashboard',                 // DVAG
+    'E-Invoicing Automation',            // Stepstone
+    'E-Mail-Klassifizierung',            // Ryze
+    'Email Classification',             // EN version
+    'AI Context Orchestrator',           // BKS
+    'KI-basierter Chatbot',             // Messe
+    'AI-Driven Chatbot',                // EN version
+  ];
+  const featuredProjects = langConfig.projects.list.filter(p => p.featured);
+  featuredProjects.sort((a, b) => {
+    const aIdx = priorityProjects.findIndex(p => a.title.includes(p));
+    const bIdx = priorityProjects.findIndex(p => b.title.includes(p));
+    const aPrio = aIdx >= 0 ? aIdx : 100;
+    const bPrio = bIdx >= 0 ? bIdx : 100;
+    return aPrio - bPrio;
+  });
+
+  // Generate project items
+  const projectItems = await Promise.all(featuredProjects.map(async project => {
     const techTags = project.tech_stack ? project.tech_stack.map(tech => 
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
