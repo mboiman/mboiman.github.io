@@ -27,10 +27,50 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </div>
   `).join('');
 
-  // Generate experience items
-  const experienceItems = langConfig.experiences.list.map(exp => {
-    const formattedDetails = formatTextToParagraphs(exp.details || '');
-    
+  // Truncate verbose experience details for PDF — keep intro + tools, remove bullet lists
+  function truncateForPDF(details) {
+    if (!details) return '';
+    const lines = details.split('\n');
+    const introLines = [], toolLines = [];
+    let inTools = false, inBullets = false;
+    for (const line of lines) {
+      if (line.match(/^\*\*(Schwerpunkte|Key Responsibilities|Workshop-Inhalte|Workshop Content|Practical|Projekte\b|Energiesektor|Quantifizierbare|Quantifiable|Focus areas|Key Focus|Hauptverantwortlichkeiten|Präsentationsinhalte|Wichtige Erfolge|Technische Lösungen)/)) {
+        inBullets = true; inTools = false; continue;
+      }
+      if (line.match(/^\*\*(Tools|Technologien|Technologies|Eingesetzte|Technical Stack|Technischer)/)) {
+        inBullets = false; inTools = true; toolLines.push(line); continue;
+      }
+      if (!inBullets && !inTools) introLines.push(line);
+      else if (inTools) toolLines.push(line);
+    }
+    let intro = introLines.join('\n').trim();
+    const words = intro.split(/\s+/);
+    if (words.length > 50) intro = words.slice(0, 50).join(' ') + '...';
+    // Compact tool lines into middot-separated
+    let tools = toolLines.join('\n').trim();
+    const toolItems = tools.split('\n').filter(l => l.startsWith('- ')).map(l => l.replace(/^- /, ''));
+    if (toolItems.length > 3) {
+      const header = toolLines.find(l => l.startsWith('**')) || '**Tools & Technologien**';
+      tools = header + '\n' + toolItems.join(' · ');
+    }
+    const toolWords = tools.split(/\s+/);
+    if (toolWords.length > 40) tools = toolWords.slice(0, 40).join(' ') + '...';
+    return tools ? intro + '\n\n' + tools : intro;
+  }
+
+  // Sort: employment first, workshops/presentations last
+  const isWorkshop = (exp) => /Workshop|Präsentation|Presentation/i.test(exp.position);
+  const mainExps = langConfig.experiences.list.filter(e => !isWorkshop(e));
+  const workshopExps = langConfig.experiences.list.filter(e => isWorkshop(e));
+  const sortedExps = [...mainExps, ...workshopExps];
+
+  // Recent 5 with truncated details, older as compact one-liners
+  const recentExps = sortedExps.slice(0, 5);
+  const olderExps = sortedExps.slice(5);
+
+  const experienceItems = recentExps.map(exp => {
+    const truncated = truncateForPDF(exp.details);
+    const formattedDetails = formatTextToParagraphs(truncated);
     return `
       <div class="experience-item page-break-avoid">
         <div class="experience-header">
@@ -38,12 +78,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
           <div class="experience-dates">${exp.dates}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
-        <div class="experience-details">
-          ${formattedDetails}
-        </div>
+        <div class="experience-details">${formattedDetails}</div>
       </div>
     `;
-  }).join('');
+  }).join('') + (olderExps.length > 0 ? `
+    <div style="margin-top: 10px; border-top: 1px solid #E2E8F0; padding-top: 8px;">
+      <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 0.15em; color: #7a8b9a; margin-bottom: 6px;">Frühere Positionen</div>
+      ${olderExps.map(exp => `
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.04);">
+          <div><span style="font-weight: 600; font-size: 7.5pt;">${exp.position}</span> <span style="color: #7a8b9a; font-size: 7pt;">— ${exp.company}</span></div>
+          <span style="font-size: 6.5pt; color: #7a8b9a; white-space: nowrap;">${exp.dates}</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '');
 
   // Generate project items (projects before experience as requested)
   const projectItems = await Promise.all(langConfig.projects.list.filter(project => project.featured).map(async project => {
