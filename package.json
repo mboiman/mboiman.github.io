@@ -2,7 +2,6 @@
   "name": "cv-generator",
   "version": "2.0.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "express": "^4.22.1",
     "pdf-lib": "^1.17.1",

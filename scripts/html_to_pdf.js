@@ -56,7 +56,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     let hasScreenshot = false;
     
     if (project.screenshot) {
-      const screenshotPath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', project.screenshot);
+      const screenshotPath = path.join(__dirname, '..', 'assets', 'images', project.screenshot);
       try {
         // Komprimiere das Bild mit sharp
         const compressedImage = await sharp(screenshotPath)
@@ -527,7 +527,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
   console.log('🎯 Generating PDF content from TOML configuration...');
   
   // Read and encode the profile image as base64
-  const profileImagePath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', 'profile.png');
+  const profileImagePath = path.join(__dirname, '..', 'assets', 'images', 'profile.png');
   let profileImageBase64 = '';
   try {
     // Komprimiere das Profilbild

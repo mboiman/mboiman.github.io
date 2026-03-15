@@ -125,7 +125,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
   console.log('🎯 Generating application content...');
   
   // Read and encode the profile image as base64
-  const profileImagePath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', 'profile.png');
+  const profileImagePath = path.join(__dirname, '..', 'assets', 'images', 'profile.png');
   let profileImageBase64 = '';
   try {
     const compressedProfile = await sharp(profileImagePath)
