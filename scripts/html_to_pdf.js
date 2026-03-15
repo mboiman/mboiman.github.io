@@ -104,7 +104,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     'KI-basierter Chatbot',             // Messe
     'AI-Driven Chatbot',                // EN version
   ];
-  const featuredProjects = langConfig.projects.list.filter(p => p.featured);
+  // Skip side-projects, limit to top 8
+  const skipProjects = ['Live-Demo', 'wecation', 'QualityCluster', 'Django SLA'];
+  const featuredProjects = langConfig.projects.list
+    .filter(p => p.featured && !skipProjects.some(s => p.title.includes(s)));
   featuredProjects.sort((a, b) => {
     const aIdx = priorityProjects.findIndex(p => a.title.includes(p));
     const bIdx = priorityProjects.findIndex(p => b.title.includes(p));
@@ -147,7 +150,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
       }
     }
     
-    const formattedTagline = formatMarkdownToHTML(project.tagline);
+    // Truncate long taglines for PDF — max ~200 chars
+    let tagline = project.tagline || '';
+    const tagWords = tagline.split(/\s+/);
+    if (tagWords.length > 30) tagline = tagWords.slice(0, 30).join(' ') + '...';
+    const formattedTagline = formatMarkdownToHTML(tagline);
     
     if (hasScreenshot) {
       return `
