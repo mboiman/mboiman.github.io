@@ -111,6 +111,25 @@ const darkScreenshots: Record<string, string> = {
     </div>
   </section>
 
+  <!-- ═══ ACT 2.5: IMPACT HIGHLIGHTS ═══ -->
+  <section class="py-20 px-6" aria-label="Impact">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {[
+          { metric: '-80%', label: 'Inquiries', detail: 'through quality monitoring systems' },
+          { metric: '96%', label: 'Quality after migration', detail: 'previously 30% — 24/7 validation' },
+          { metric: '80%', label: 'Auto-generated tests', detail: 'AI-driven test automation' },
+        ].map((item, i) => (
+          <div class="text-center py-8 reveal" style={`transition-delay: ${i * 150}ms`}>
+            <p class="text-4xl sm:text-5xl font-black tracking-tight" style="font-family: 'Playfair Display', serif; color: var(--accent)">{item.metric}</p>
+            <p class="text-sm font-medium mt-3">{item.label}</p>
+            <p class="text-xs mt-1" style="color: var(--text-secondary)">{item.detail}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ ACT 3: THE ORIGIN (kompakt) ═══ -->
   <section class="py-32 px-6" aria-label="Profil">
     <div class="prose-column">
