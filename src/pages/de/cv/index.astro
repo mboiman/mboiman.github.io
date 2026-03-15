@@ -99,7 +99,14 @@ const otherProjects = projects.list.filter(p => !p.featured);
                     </div>
                   )}
                   <div class="p-5">
-                    <h3 class="text-base font-semibold font-heading mb-2 leading-tight">{project.title}</h3>
+                    <h3 class="text-base font-semibold font-heading mb-2 leading-tight">
+                      {project.url ? (
+                        <a href={project.url} target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition-colors inline-flex items-center gap-1.5">
+                          {project.title}
+                          <svg class="w-3.5 h-3.5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                        </a>
+                      ) : project.title}
+                    </h3>
 
                     {project.tech_stack?.length > 0 && (
                       <div class="flex flex-wrap gap-1.5 mb-3">
@@ -112,7 +119,7 @@ const otherProjects = projects.list.filter(p => !p.featured);
                       </div>
                     )}
 
-                    <div class="text-sm leading-relaxed line-clamp-3 [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
+                    <div class="text-[13px] leading-[1.8] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
                   </div>
                 </div>
               ))}
@@ -138,19 +145,21 @@ const otherProjects = projects.list.filter(p => !p.featured);
         {experiences.enable && (
           <section>
             <h2 class="cv-section-title">{experiences.title}</h2>
-            <div class="space-y-5 relative ml-3 pl-7" style="border-left: 2px solid rgba(58,143,160,0.2)">
+            <div class="space-y-6 relative ml-3 pl-7" style="border-left: 2px solid rgba(58,143,160,0.15)">
               {experiences.list.map((exp, i) => (
                 <div class="relative">
                   <!-- Timeline dot -->
                   <div class="absolute -left-[33px] top-2 w-3 h-3 rounded-full border-2 bg-[var(--bg)]" style="border-color: var(--accent)"></div>
 
-                  <div class="p-5 rounded-xl bg-[var(--bg-alt)] border border-white/[0.03]">
-                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
-                      <h3 class="text-[15px] font-semibold font-heading leading-snug" style="color: var(--accent)">{exp.position}</h3>
+                  <div class="p-6 rounded-xl bg-[var(--bg-alt)] border border-white/[0.03]">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                      <div>
+                        <h3 class="text-[15px] font-semibold font-heading leading-snug" style="color: var(--accent)">{exp.position}</h3>
+                        <p class="text-sm mt-1 font-medium" style="color: var(--text-secondary)">{exp.company}</p>
+                      </div>
                       <span class="text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start" style="background: rgba(58,143,160,0.12); color: var(--accent)">{exp.dates}</span>
                     </div>
-                    <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary)">{exp.company}</p>
-                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--accent)]" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
+                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--accent)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
                   </div>
                 </div>
               ))}
