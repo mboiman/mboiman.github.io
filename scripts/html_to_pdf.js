@@ -295,8 +295,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .impact-detail { font-size: 6.5pt; color: #8899AA; margin-top: 2px; }
         
         .ai-showcase {
-            background: linear-gradient(135deg, #F8FAFC 0%, #F0F7FA 100%);
-            border: 1px solid #E2E8F0;
+            background: linear-gradient(135deg, #E8EEF4 0%, #DCE6EF 100%);
+            border: 1px solid #CBD5E1;
             border-left: 4px solid #3a8fa0;
             padding: 14px 16px; margin: 12px 0;
             border-radius: 0 6px 6px 0;
@@ -314,8 +314,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .ai-skill-card {
-            background: white; padding: 9px 10px; border-radius: 5px;
-            border: 1px solid #E2E8F0;
+            background: #F0F4F8; padding: 9px 10px; border-radius: 5px;
+            border: 1px solid #C4CDD8;
             box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             transition: none;
         }
@@ -347,7 +347,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #F8FAFC; border-left: 4px solid #3a8fa0;
+            background: #E8EEF4; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
         }
         
@@ -371,7 +371,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 10px; padding: 10px 12px; background: #FAFBFC;
+            margin-bottom: 10px; padding: 10px 12px; background: #EDF2F7;
             border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
             box-shadow: 0 1px 2px rgba(0,0,0,0.04);
@@ -411,7 +411,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 10px 12px; background: #FAFBFC;
+            margin-bottom: 0; padding: 10px 12px; background: #EDF2F7;
             border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
@@ -435,7 +435,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: #E2E8F0; color: #475569; padding: 2px 4px;
+            background: #D1DAE6; color: #334155; padding: 2px 4px;
             border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
@@ -454,9 +454,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-sidebar {
-            background: linear-gradient(180deg, #F8FAFC 0%, #F0F4F8 100%);
+            background: linear-gradient(180deg, #E8EEF4 0%, #DDE5EE 100%);
             padding: 15px; border-radius: 8px;
-            border: 1px solid #E2E8F0; height: fit-content;
+            border: 1px solid #B8C5D3; height: fit-content;
             box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         }
         
@@ -470,9 +470,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #F0F7FA; color: #1E293B; padding: 3px 7px;
+            background: #D4E4EA; color: #1E293B; padding: 3px 7px;
             border-radius: 4px; font-size: 6.5pt; font-weight: 500;
-            border: 1px solid rgba(58,143,160,0.4);
+            border: 1px solid rgba(58,143,160,0.5);
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
