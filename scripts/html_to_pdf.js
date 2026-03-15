@@ -239,8 +239,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
 
         .impact-number {
             font-family: Georgia, 'Times New Roman', serif;
-            font-size: 20pt; font-weight: 700; color: #3a8fa0;
-            line-height: 1.1; margin-bottom: 2px;
+            font-size: 24pt; font-weight: 900; color: #3a8fa0;
+            line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em;
         }
 
         .impact-label {
@@ -300,7 +300,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
         /* --- CAREER PROFILE --- */
         .career-profile {
             background: #F8FAFC; border-left: 4px solid #3a8fa0;
-            padding: 12px; margin: 0 0 14px 0; border-radius: 0 4px 4px 0;
+            padding: 14px 16px; margin: 0 0 14px 0; border-radius: 0 4px 4px 0;
+            max-width: 95%;
         }
 
         .career-profile h2 {
@@ -397,12 +398,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, language) {
     </style>
     <!-- Font Awesome icons replaced with simple text symbols for PDF -->
     <style>
-        .fa-envelope::before { content: "\\2709"; }
-        .fa-phone::before { content: "\\260E"; }
-        .fa-map-marker-alt::before { content: "\\1F4CD"; }
-        .fa-linkedin::before { content: "\\1F4BC"; }
-        .fa-github::before { content: "\\26A1"; }
-        .fa-globe::before { content: "\\1F310"; }
+        .fa-envelope::before { content: "\\203A"; }
+        .fa-phone::before { content: "\\203A"; }
+        .fa-map-marker-alt::before { content: "\\203A"; }
+        .fa-linkedin::before { content: "\\203A"; }
+        .fa-github::before { content: "\\203A"; }
+        .fa-globe::before { content: "\\203A"; }
     </style>
 </head>
 <body>
