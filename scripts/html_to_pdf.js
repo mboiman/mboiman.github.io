@@ -134,7 +134,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     <title>${langConfig.profile.name} - Professional CV</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -161,7 +161,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             gap: 20px;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 2px solid #2d7788;
+            border-bottom: 2px solid #3a8fa0;
             margin-bottom: 15px;
         }
         
@@ -171,7 +171,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .header-content h1 {
-            font-size: 18pt; font-weight: 700; color: #2d7788; margin-bottom: 3px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
         }
         
         .header-tagline {
@@ -187,18 +188,19 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             display: flex; align-items: center; gap: 4px;
         }
         
-        .contact-item i { width: 10px; color: #2d7788; font-size: 6pt; }
-        .contact-item a { color: #2d7788; text-decoration: none; }
+        .contact-item i { width: 10px; color: #3a8fa0; font-size: 6pt; }
+        .contact-item a { color: #3a8fa0; text-decoration: none; }
         
         .ai-showcase {
             background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
-            border-left: 4px solid #2d7788;
+            border-left: 4px solid #3a8fa0;
             padding: 12px 15px; margin: 15px 0;
             border-radius: 0 4px 4px 0;
         }
         
         .ai-showcase h2 {
-            font-size: 11pt; font-weight: 600; color: #2d7788;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11pt; font-weight: 600; color: #3a8fa0;
             margin-bottom: 8px; text-align: center;
         }
         
@@ -213,7 +215,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .ai-skill-name {
-            font-size: 7.5pt; font-weight: 600; color: #2d7788; margin-bottom: 3px;
+            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 3px;
         }
         
         .ai-skill-desc {
@@ -226,9 +228,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-section h2 {
-            font-size: 10pt; font-weight: 700; color: #2d7788;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 10pt; font-weight: 700; color: #3a8fa0;
             margin: 12px 0 10px 0; padding-bottom: 4px;
-            border-bottom: 2px solid #2d7788;
+            border-bottom: 2px solid #3a8fa0;
             text-transform: uppercase; letter-spacing: 0.8px;
             page-break-after: avoid;
         }
@@ -238,11 +241,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #f8fafc; border-left: 4px solid #2d7788;
+            background: #f8fafc; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
         }
         
         .career-profile h2 {
+            font-family: 'Space Grotesk', sans-serif;
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
         }
         
@@ -258,11 +262,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin-bottom: 2px; line-height: 1.3;
         }
         
-        .career-profile strong { font-weight: 600; color: #2d7788; }
+        .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
             margin-bottom: 8px; padding: 8px; background: #f8fafc;
-            border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
         }
         
@@ -272,7 +276,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-title {
-            font-size: 8.5pt; font-weight: 700; color: #2d7788;
+            font-size: 8.5pt; font-weight: 700; color: #3a8fa0;
         }
         
         .experience-dates {
@@ -290,7 +294,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .experience-details p { margin-bottom: 4px; }
         .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
         .experience-details li { margin-bottom: 2px; line-height: 1.3; }
-        .experience-details strong { font-weight: 600; color: #2d7788; }
+        .experience-details strong { font-weight: 600; color: #3a8fa0; }
         
         .projects-grid {
             display: flex;
@@ -301,7 +305,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .project-item {
             width: calc(50% - 4px);
             margin-bottom: 0; padding: 8px; background: #f8fafc;
-            border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
         }
@@ -317,7 +321,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
 
         .project-title {
-            font-size: 8.5pt; font-weight: 700; color: #2d7788; margin-bottom: 4px;
+            font-size: 8.5pt; font-weight: 700; color: #3a8fa0; margin-bottom: 4px;
         }
 
         .project-tech { margin: 3px 0; }
@@ -349,20 +353,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .sidebar-section { margin-bottom: 15px; }
         
         .sidebar-section h3 {
-            font-size: 8pt; font-weight: 600; color: #2d7788;
+            font-size: 8pt; font-weight: 600; color: #3a8fa0;
             margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;
         }
         
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #e3f2fd; color: #2d7788; padding: 3px 6px;
+            background: #e3f2fd; color: #3a8fa0; padding: 3px 6px;
             border-radius: 3px; font-size: 6.5pt; font-weight: 500;
-            border: 1px solid #2d7788;
+            border: 1px solid #3a8fa0;
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
-        .education-degree { font-weight: 600; color: #2d7788; margin-bottom: 2px; }
+        .education-degree { font-weight: 600; color: #3a8fa0; margin-bottom: 2px; }
         .education-school { color: #5a6c7d; margin-bottom: 2px; }
         .education-dates { color: #7a8b9a; font-style: italic; }
 
@@ -371,7 +375,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin-bottom: 4px; font-size: 7pt;
         }
 
-        .language-name { font-weight: 600; color: #2d7788; }
+        .language-name { font-weight: 600; color: #3a8fa0; }
         .language-level { color: #5a6c7d; }
         
         .page-break-before { page-break-before: always; }
