@@ -85,8 +85,15 @@
 
   .terminal {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 2;
+    overflow-x: auto;
+  }
+
+  @media (min-width: 640px) {
+    .terminal {
+      font-size: 14px;
+    }
   }
 
   .terminal .prompt {

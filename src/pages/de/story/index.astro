@@ -65,20 +65,26 @@ const darkScreenshots: Record<string, string> = {
   <main>
 
   <!-- ═══ ACT 1.5: THE PORTRAIT REVEAL ═══ -->
-  <section class="flex flex-col items-center justify-center py-24 px-6" aria-label="Portrait">
+  <section class="flex flex-col items-center justify-center pt-0 pb-32 px-6 -mt-16 relative z-10" aria-label="Portrait">
     <div class="reveal max-w-md mx-auto">
-      <img
-        src="/images/profile_.jpg"
-        alt={profile.name}
-        class="w-full max-w-[360px] mx-auto rounded-sm"
-        style="filter: contrast(1.05); mix-blend-mode: luminosity;"
-        width="360"
-        height="480"
-      />
-      <p class="text-center mt-8 text-3xl sm:text-4xl tracking-tight" style="font-family: 'Playfair Display', serif">
+      <div class="relative">
+        <div class="absolute -inset-8 rounded-full opacity-[0.06] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
+        <img
+          src="/images/profile_.jpg"
+          alt={profile.name}
+          class="relative w-full max-w-[360px] mx-auto rounded-sm"
+          style="filter: contrast(1.05); mix-blend-mode: luminosity;"
+          width="360"
+          height="480"
+        />
+      </div>
+      <p class="text-center mt-10 text-3xl sm:text-4xl tracking-tight" style="font-family: 'Playfair Display', serif">
         {profile.name}
       </p>
-      <p class="text-center mt-3 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
+      <p class="text-center mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">
+        Quality Engineer &middot; AI Architect
+      </p>
+      <p class="text-center mt-2 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
         Frankfurt am Main
       </p>
     </div>
@@ -93,7 +99,7 @@ const darkScreenshots: Record<string, string> = {
         { num: '96%', label: 'Qualität nach Migration — vorher 30%' },
         { num: '4', label: 'Sprachen — DE EN RU HE' },
       ].map((item, i) => (
-        <div class="reveal flex items-baseline gap-8 py-10 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${i * 120}ms`}>
+        <div class="reveal flex flex-col sm:flex-row sm:items-baseline sm:gap-8 py-10 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${i * 120}ms`}>
           <span class="text-[clamp(3.5rem,14vw,12rem)] font-black leading-none tracking-[-0.04em]" style="font-family: 'Playfair Display', serif">
             {item.num}
           </span>
@@ -149,33 +155,61 @@ const darkScreenshots: Record<string, string> = {
   <!-- ═══ ACT 5: THE SYSTEM THINKER ═══ -->
   <section class="py-32 px-6" aria-label="System">
     <div class="max-w-3xl mx-auto w-full">
-      <div class="reveal terminal p-10 sm:p-14" style="background: var(--bg-alt); border-left: 2px solid var(--accent)">
-        <p><span class="prompt">$</span> cockpit status</p>
-        <br>
-        <p>&nbsp;&nbsp;repos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23 active</p>
-        <p>&nbsp;&nbsp;skills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40+ production</p>
-        <p>&nbsp;&nbsp;agents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;multi-agent orchestration</p>
-        <p>&nbsp;&nbsp;protocols &nbsp;&nbsp;&nbsp;&nbsp;MCP, A2A, JSON-RPC 2.0</p>
-        <p>&nbsp;&nbsp;stack &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Python, Rust, Go, TypeScript</p>
-        <p>&nbsp;&nbsp;spoken &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-secondary)">DE&nbsp; EN&nbsp; RU&nbsp; HE</span></p>
-        <br>
-        <p>&nbsp;&nbsp;<span style="color: var(--text-secondary)">one cockpit. every system. zero friction.</span></p>
+      <div class="reveal overflow-hidden rounded-lg" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.06)">
+        <!-- Terminal title bar -->
+        <div class="flex items-center gap-2 px-5 py-3" style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.04)">
+          <span class="w-3 h-3 rounded-full" style="background: #ff5f57"></span>
+          <span class="w-3 h-3 rounded-full" style="background: #febc2e"></span>
+          <span class="w-3 h-3 rounded-full" style="background: #28c840"></span>
+          <span class="ml-4 text-xs" style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">cockpit — zsh</span>
+        </div>
+
+        <!-- Terminal body -->
+        <div class="terminal p-6 sm:p-12">
+          <p class="mb-6"><span class="prompt">$</span> cockpit status</p>
+
+          <div class="grid gap-y-1" style="grid-template-columns: max-content 1fr;">
+            {[
+              ['repos', '23 active'],
+              ['skills', '40+ production'],
+              ['agents', 'multi-agent orchestration'],
+              ['protocols', 'MCP, A2A, JSON-RPC 2.0'],
+              ['stack', 'Python, Rust, Go, TypeScript'],
+              ['spoken', 'DE  EN  RU  HE'],
+            ].map(([key, value]) => (
+              <>
+                <span class="pr-4 sm:pr-6" style="color: var(--text)">&nbsp;&nbsp;{key}</span>
+                <span style={`color: ${key === 'spoken' ? 'var(--text-secondary)' : 'var(--text)'}`}>{value}</span>
+              </>
+            ))}
+          </div>
+
+          <p class="mt-6">
+            &nbsp;&nbsp;<span style="color: var(--text-secondary)">one cockpit. every system. zero friction.</span>
+            <span class="inline-block w-2 h-4 ml-1 animate-pulse" style="background: var(--accent); vertical-align: middle;" aria-hidden="true"></span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ═══ ACT 6: BELIEFS ═══ -->
-  <section class="py-32 px-6" aria-label="Ueberzeugungen" style="background-color: var(--bg-alt)">
-    <div class="text-center max-w-3xl mx-auto space-y-20">
+  <section class="py-32 px-6" aria-label="Überzeugungen" style="background-color: var(--bg-alt)">
+    <div class="max-w-4xl mx-auto">
       {[
-        'Wenn du 10 Tools hast\nund keine Übersicht,\nhast du null Tools.',
-        'Eine Million Kombinationen\ntestet kein Mensch.\nAber eine Maschine,\ndie nie schläft, schon.',
-        'Der beste Test ist der,\nden ein Entwickler\nnie schreiben musste.',
-        'Automatisierung ohne Messbarkeit\nist nur schnelleres Raten.',
+        { text: 'Wenn du 10 Tools hast\nund keine Übersicht,\nhast du null Tools.', align: 'text-left' },
+        { text: 'Eine Million Kombinationen\ntestet kein Mensch.\nAber eine Maschine,\ndie nie schläft, schon.', align: 'text-center' },
+        { text: 'Der beste Test ist der,\nden ein Entwickler\nnie schreiben musste.', align: 'text-right' },
+        { text: 'Automatisierung ohne Messbarkeit\nist nur schnelleres Raten.', align: 'text-left' },
       ].map((belief, i) => (
-        <p class="text-2xl sm:text-3xl leading-snug reveal whitespace-pre-line" style={`transition-delay: ${i * 200}ms; font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)`}>
-          {belief}
-        </p>
+        <div class={`reveal py-14 ${i < 3 ? 'border-b border-white/[0.03]' : ''}`} style={`transition-delay: ${i * 200}ms`}>
+          <div class={`relative max-w-2xl ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
+            <span class="absolute -top-6 -left-3 text-[5rem] leading-none select-none pointer-events-none" style="font-family: 'Playfair Display', serif; color: var(--accent); opacity: 0.06;" aria-hidden="true">&ldquo;</span>
+            <p class={`text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)">
+              {belief.text}
+            </p>
+          </div>
+        </div>
       ))}
     </div>
   </section>
