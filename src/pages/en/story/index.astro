@@ -10,6 +10,7 @@ const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
 const recentExp = experiences.list.slice(0, 5);
 const olderExp = experiences.list.slice(5);
 
+// Screenshots that work on dark backgrounds
 const darkScreenshots: Record<string, string> = {
   'Quality Dashboard - Real-time Overview': '/images/projects/qualitydashboard.png',
   'Email Classification and Processing Workflow': '/images/projects/nlpanalyse.png',
@@ -21,21 +22,26 @@ const darkScreenshots: Record<string, string> = {
   description={ui.tagline}
   lang="en"
 >
+  <!-- Scroll progress bar -->
   <div id="scroll-progress" style="width: 0%"></div>
 
+  <!-- ═══ FLOATING NAV ═══ -->
   <header>
     <nav class="fixed top-0 left-0 right-0 z-50 no-print nav-glass" id="floating-nav">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-        <a href="/pdfs/Michael_Boiman_CV_EN.pdf" download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">Download PDF</a>
+        <a href="/pdfs/Michael_Boiman_CV_EN.pdf" download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">
+          Download PDF
+        </a>
         <div class="flex items-center gap-2 opacity-0 transition-all duration-500" id="nav-right">
-          <a href="/de/" class="text-xs opacity-50 hover:opacity-100 transition-opacity min-h-[44px] min-w-[44px] flex items-center justify-center" style="color: var(--text-secondary)" tabindex="-1">DE</a>
+          <a href="/de/story/" class="text-xs opacity-50 hover:opacity-100 transition-opacity min-h-[44px] min-w-[44px] flex items-center justify-center" style="color: var(--text-secondary)" tabindex="-1">DE</a>
           <span class="text-xs" style="color: var(--text-secondary); opacity: 0.3">|</span>
-          <a href="/en/" class="text-xs font-semibold min-h-[44px] min-w-[44px] flex items-center justify-center" style="color: var(--text)" tabindex="-1">EN</a>
+          <a href="/en/story/" class="text-xs font-semibold min-h-[44px] min-w-[44px] flex items-center justify-center" style="color: var(--text)" tabindex="-1">EN</a>
         </div>
       </div>
     </nav>
   </header>
 
+  <!-- ═══ ACT 1: THE STATEMENT ═══ -->
   <section class="act" aria-label="Statement">
     <div class="text-center max-w-5xl">
       <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
@@ -47,6 +53,7 @@ const darkScreenshots: Record<string, string> = {
       <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
         <div class="teal-rule"></div>
       </div>
+      <!-- Scroll hint -->
       <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeIn_1s_ease_2.5s_forwards] no-print" aria-hidden="true">
         <svg class="w-5 h-5 animate-[scrollHint_2s_ease-in-out_infinite]" style="color: var(--text-secondary)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7" />
@@ -57,51 +64,87 @@ const darkScreenshots: Record<string, string> = {
 
   <main>
 
-  <section class="flex flex-col items-center justify-center py-24 px-6" aria-label="Portrait">
+  <!-- ═══ ACT 1.5: THE PORTRAIT REVEAL ═══ -->
+  <section class="flex flex-col items-center justify-center pt-0 pb-32 px-6 -mt-16 relative z-10" aria-label="Portrait">
     <div class="reveal max-w-md mx-auto">
-      <img src="/images/profile_.jpg" alt={profile.name} class="w-full max-w-[360px] mx-auto rounded-sm" style="filter: contrast(1.05); mix-blend-mode: luminosity;" width="360" height="480" />
-      <p class="text-center mt-8 text-3xl sm:text-4xl tracking-tight" style="font-family: 'Playfair Display', serif">{profile.name}</p>
-      <p class="text-center mt-3 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">Frankfurt am Main</p>
+      <div class="relative">
+        <div class="absolute -inset-8 rounded-full opacity-[0.06] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
+        <img
+          src="/images/profile_.jpg"
+          alt={profile.name}
+          class="relative w-full max-w-[360px] mx-auto rounded-sm"
+          style="filter: contrast(1.05); mix-blend-mode: luminosity;"
+          width="360"
+          height="480"
+        />
+      </div>
+      <p class="text-center mt-10 text-3xl sm:text-4xl tracking-tight" style="font-family: 'Playfair Display', serif">
+        {profile.name}
+      </p>
+      <p class="text-center mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">
+        Quality Engineer &middot; AI Architect
+      </p>
+      <p class="text-center mt-2 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
+        Frankfurt am Main
+      </p>
     </div>
   </section>
 
-  <section class="py-32 px-6" id="main" aria-label="Numbers" style="background-color: var(--bg-alt)">
+  <!-- ═══ ACT 2: THE NUMBER WALL ═══ -->
+  <section class="py-32 px-6" id="main" aria-label="Zahlen" style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       {[
-        { num: '20+', label: 'years shipping software quality' },
-        { num: '40+', label: 'production AI skills built' },
-        { num: '20+', label: 'repositories — one cockpit' },
-        { num: '4', label: 'languages spoken' },
+        { num: '20+', label: 'years in Quality Engineering' },
+        { num: '80%', label: 'workload reduction through automation' },
+        { num: '96%', label: 'quality after migration — previously 30%' },
+        { num: '4', label: 'languages — DE EN RU HE' },
       ].map((item, i) => (
-        <div class="reveal flex items-baseline gap-8 py-10 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${i * 120}ms`}>
-          <span class="text-[clamp(3.5rem,14vw,12rem)] font-black leading-none tracking-[-0.04em]" style="font-family: 'Playfair Display', serif">{item.num}</span>
-          <span class="text-base sm:text-lg tracking-wide" style="color: var(--text-secondary)">{item.label}</span>
+        <div class="reveal flex flex-col sm:flex-row sm:items-baseline sm:gap-8 py-10 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${i * 120}ms`}>
+          <span class="text-[clamp(3.5rem,14vw,12rem)] font-black leading-none tracking-[-0.04em]" style="font-family: 'Playfair Display', serif">
+            {item.num}
+          </span>
+          <span class="text-base sm:text-lg tracking-wide" style="color: var(--text-secondary)">
+            {item.label}
+          </span>
         </div>
       ))}
     </div>
   </section>
 
-  <section class="py-32 px-6" aria-label="Profile">
+  <!-- ═══ ACT 3: THE ORIGIN (kompakt) ═══ -->
+  <section class="py-32 px-6" aria-label="Profil">
     <div class="prose-column">
       <div class="reveal">
         <div class="teal-rule mb-20"></div>
         <p class="text-xl sm:text-2xl leading-[1.8] font-light" style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)">
-          20 years of quality engineering. Then AI arrived — and the same principles held: structure, observability, relentless automation. The tools changed. The thinking didn't.
+          Everything AI needs today — reliability, measurability, self-correction — I spent 20 years building into systems that couldn't yet think. When LLMs arrived, I didn't need a new beginning. I just needed the last puzzle piece.
         </p>
       </div>
     </div>
   </section>
 
-  <section aria-label="Projects">
+  <!-- ═══ ACT 4: SELECTED WORKS ═══ -->
+  <section aria-label="Projekte">
     {featuredProjects.map((project, i) => {
       const bgImage = darkScreenshots[project.title];
       return (
-        <div class="relative px-6 py-24 reveal overflow-hidden" style={`transition-delay: ${i * 80}ms; background-color: ${i % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)'}`}>
-          {bgImage && (<div class="absolute inset-0 opacity-[0.04] bg-cover bg-center" style={`background-image: url('${bgImage}')`}></div>)}
+        <div
+          class={`relative px-6 py-24 reveal overflow-hidden`}
+          style={`transition-delay: ${i * 80}ms; background-color: ${i % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)'}`}
+        >
+          {bgImage && (
+            <div class="absolute inset-0 opacity-[0.04] bg-cover bg-center" style={`background-image: url('${bgImage}')`}></div>
+          )}
           <div class="relative max-w-5xl mx-auto">
             <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{project.category}</p>
             <h3 class="text-2xl sm:text-4xl mb-5 tracking-tight" style="font-family: 'Playfair Display', serif">{project.title}</h3>
-            {project.tech_stack?.length > 0 && (<p class="text-sm mb-8 tracking-wide" style="color: var(--text-secondary)">{project.tech_stack.join(' · ')}</p>)}
+
+            {project.tech_stack?.length > 0 && (
+              <p class="text-sm mb-8 tracking-wide" style="color: var(--text-secondary)">
+                {project.tech_stack.join(' · ')}
+              </p>
+            )}
+
             <div class="max-w-3xl text-base leading-relaxed [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
           </div>
         </div>
@@ -109,39 +152,75 @@ const darkScreenshots: Record<string, string> = {
     })}
   </section>
 
+  <!-- ═══ ACT 5: THE SYSTEM THINKER ═══ -->
   <section class="py-32 px-6" aria-label="System">
     <div class="max-w-3xl mx-auto w-full">
-      <div class="reveal terminal p-10 sm:p-14" style="background: var(--bg-alt); border-left: 2px solid var(--accent)">
-        <p><span class="prompt">$</span> cockpit status</p>
-        <br>
-        <p>&nbsp;&nbsp;repos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23 active</p>
-        <p>&nbsp;&nbsp;skills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40+ production</p>
-        <p>&nbsp;&nbsp;agents &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;multi-agent orchestration</p>
-        <p>&nbsp;&nbsp;protocols &nbsp;&nbsp;&nbsp;&nbsp;MCP, A2A, JSON-RPC 2.0</p>
-        <p>&nbsp;&nbsp;stack &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Python, Rust, Go, TypeScript</p>
-        <p>&nbsp;&nbsp;spoken &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-secondary)">DE&nbsp; EN&nbsp; RU&nbsp; HE</span></p>
-        <br>
-        <p>&nbsp;&nbsp;<span style="color: var(--text-secondary)">one cockpit. every system. zero friction.</span></p>
+      <div class="reveal overflow-hidden rounded-lg" style="background: var(--bg-alt); border: 1px solid rgba(255,255,255,0.06)">
+        <!-- Terminal title bar -->
+        <div class="flex items-center gap-2 px-5 py-3" style="background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.04)">
+          <span class="w-3 h-3 rounded-full" style="background: #ff5f57"></span>
+          <span class="w-3 h-3 rounded-full" style="background: #febc2e"></span>
+          <span class="w-3 h-3 rounded-full" style="background: #28c840"></span>
+          <span class="ml-4 text-xs" style="color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">cockpit — zsh</span>
+        </div>
+
+        <!-- Terminal body -->
+        <div class="terminal p-6 sm:p-12">
+          <p class="mb-6"><span class="prompt">$</span> cockpit status</p>
+
+          <div class="grid gap-y-1" style="grid-template-columns: max-content 1fr;">
+            {[
+              ['repos', '23 active'],
+              ['skills', '40+ production'],
+              ['agents', 'multi-agent orchestration'],
+              ['protocols', 'MCP, A2A, JSON-RPC 2.0'],
+              ['stack', 'Python, Rust, Go, TypeScript'],
+              ['spoken', 'DE  EN  RU  HE'],
+            ].map(([key, value]) => (
+              <>
+                <span class="pr-4 sm:pr-6" style="color: var(--text)">&nbsp;&nbsp;{key}</span>
+                <span style={`color: ${key === 'spoken' ? 'var(--text-secondary)' : 'var(--text)'}`}>{value}</span>
+              </>
+            ))}
+          </div>
+
+          <p class="mt-6">
+            &nbsp;&nbsp;<span style="color: var(--text-secondary)">one cockpit. every system. zero friction.</span>
+            <span class="inline-block w-2 h-4 ml-1 animate-pulse" style="background: var(--accent); vertical-align: middle;" aria-hidden="true"></span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══ ACT 6: BELIEFS ═══ -->
   <section class="py-32 px-6" aria-label="Beliefs" style="background-color: var(--bg-alt)">
-    <div class="text-center max-w-3xl mx-auto space-y-20">
+    <div class="max-w-4xl mx-auto">
       {[
-        'Quality is architecture,\nnot afterthought.',
-        'The best automation\nis the one nobody notices.',
-        'Teach the craft.\nDon\'t hoard it.',
+        { text: 'When you have 10 tools\nand no overview,\nyou have zero tools.', align: 'text-left' },
+        { text: 'A million combinations\nno human can test.\nBut a machine\nthat never sleeps, can.', align: 'text-center' },
+        { text: 'The best test is the one\na developer\nnever had to write.', align: 'text-right' },
+        { text: 'Automation without measurability\nis just faster guessing.', align: 'text-left' },
       ].map((belief, i) => (
-        <p class="text-2xl sm:text-3xl leading-snug reveal whitespace-pre-line" style={`transition-delay: ${i * 200}ms; font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)`}>{belief}</p>
+        <div class={`reveal py-14 ${i < 3 ? 'border-b border-white/[0.03]' : ''}`} style={`transition-delay: ${i * 200}ms`}>
+          <div class={`relative max-w-2xl ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
+            <span class="absolute -top-6 -left-3 text-[5rem] leading-none select-none pointer-events-none" style="font-family: 'Playfair Display', serif; color: var(--accent); opacity: 0.06;" aria-hidden="true">&ldquo;</span>
+            <p class={`text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)">
+              {belief.text}
+            </p>
+          </div>
+        </div>
       ))}
     </div>
   </section>
 
-  <section class="py-32 px-6" aria-label="Experience">
+  <!-- ═══ ACT 7: EXPERIENCE ═══ -->
+  <section class="py-32 px-6" aria-label="Professional Experience">
     <div class="max-w-4xl mx-auto">
       <div class="teal-rule mb-20"></div>
       <h2 class="text-3xl sm:text-4xl text-center mb-20 reveal" style="font-family: 'Playfair Display', serif">Professional Experience</h2>
+
+      <!-- Recent: full details -->
       {recentExp.map((exp, i) => (
         <div class="reveal mb-16 last:mb-0" style={`transition-delay: ${Math.min(i * 60, 300)}ms`}>
           <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-3">
@@ -150,14 +229,18 @@ const darkScreenshots: Record<string, string> = {
           </div>
           <p class="text-sm mb-4" style="color: var(--text-secondary)">{exp.company}</p>
           <div class="text-sm leading-[1.9] [&_strong]:text-[var(--accent)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
-          {i < recentExp.length - 1 && (<div class="border-b border-white/[0.03] mt-16"></div>)}
+          {i < recentExp.length - 1 && (
+            <div class="border-b border-white/[0.03] mt-16"></div>
+          )}
         </div>
       ))}
+
+      <!-- Older: compact -->
       {olderExp.length > 0 && (
         <div class="mt-20 reveal">
           <div class="border-b border-white/[0.03] mb-10"></div>
           <p class="text-xs tracking-[0.2em] uppercase mb-8" style="color: var(--text-secondary)">Earlier Positions</p>
-          {olderExp.map(exp => (
+          {olderExp.map((exp) => (
             <div class="exp-compact">
               <div>
                 <span class="text-sm font-medium" style="color: var(--text)">{exp.position}</span>
@@ -171,9 +254,11 @@ const darkScreenshots: Record<string, string> = {
     </div>
   </section>
 
+  <!-- ═══ ACT 7.5: EDUCATION & SKILLS ═══ -->
   <section class="py-20 px-6" aria-label="Education" style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto reveal">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 text-sm">
+        <!-- Education -->
         <div>
           <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{education.title}</p>
           {education.list.map(edu => (
@@ -184,6 +269,8 @@ const darkScreenshots: Record<string, string> = {
             </div>
           ))}
         </div>
+
+        <!-- Languages -->
         <div>
           <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{langs.title}</p>
           {langs.list.map(l => (
@@ -193,9 +280,13 @@ const darkScreenshots: Record<string, string> = {
             </div>
           ))}
         </div>
+
+        <!-- Key Skills -->
         <div>
           <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">Skills</p>
-          <p class="leading-relaxed" style="color: var(--text-secondary)">{ui.sidebar_skills.join(' · ')}</p>
+          <p class="leading-relaxed" style="color: var(--text-secondary)">
+            {ui.sidebar_skills.join(' · ')}
+          </p>
         </div>
       </div>
     </div>
@@ -203,12 +294,17 @@ const darkScreenshots: Record<string, string> = {
 
   </main>
 
+  <!-- ═══ ACT 8: CLOSE ═══ -->
   <footer>
-  <section class="act" aria-label="Contact">
+  <section class="act" aria-label="Kontakt">
     <div class="text-center reveal">
       <p class="text-5xl sm:text-7xl lg:text-8xl mb-6 tracking-tight" style="font-family: 'Playfair Display', serif">{profile.name}</p>
-      <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">BKS-Lab — AI Engineering &middot; Frankfurt am Main</p>
-      <a href="mailto:mboiman@gmail.com" class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">mboiman@gmail.com</a>
+      <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">
+        BKS-Lab — AI Engineering &middot; Frankfurt am Main
+      </p>
+      <a href="mailto:mboiman@gmail.com" class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">
+        mboiman@gmail.com
+      </a>
       <p class="mt-4 text-sm" style="color: var(--text-secondary)">
         <a href="https://www.linkedin.com/in/mboiman/" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">LinkedIn</a>
         &nbsp;&middot;&nbsp;
@@ -216,6 +312,7 @@ const darkScreenshots: Record<string, string> = {
         &nbsp;&middot;&nbsp;
         <a href="https://bks-lab.com" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">BKS-Lab</a>
       </p>
+
       <p class="mt-16 text-xs no-print" style="color: var(--text-secondary); opacity: 0.4">
         <a href="/en/" class="hover:opacity-100 transition-opacity">Classic CV</a>
         &nbsp;&middot;&nbsp;
@@ -228,22 +325,31 @@ const darkScreenshots: Record<string, string> = {
 
   </footer>
 
+  <!-- Scripts -->
   <script>
+    // Floating nav
     const navPdf = document.getElementById('nav-pdf');
     const navRight = document.getElementById('nav-right');
+    // Scroll progress
     const progressBar = document.getElementById('scroll-progress');
+
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
+      // Nav visibility + tabindex
       const show = y > 300;
       [navPdf, navRight].forEach(el => {
         if (show) { el?.classList.remove('opacity-0'); el?.classList.add('opacity-100'); }
         else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
       });
+      // Make nav links tabbable only when visible
       document.querySelectorAll('#floating-nav a').forEach(a => {
         (a as HTMLElement).tabIndex = show ? 0 : -1;
       });
+      // Progress bar
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progressBar && max > 0) progressBar.style.width = `${(y / max) * 100}%`;
+      if (progressBar && max > 0) {
+        progressBar.style.width = `${(y / max) * 100}%`;
+      }
     });
   </script>
 </BaseLayout>
