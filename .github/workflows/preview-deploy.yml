@@ -6,43 +6,39 @@ on:
       branch:
         description: 'Branch to deploy'
         required: true
-        default: 'feature/improved-cv-system'
+        default: 'feature/astro-redesign'
         type: string
 
 jobs:
   preview-deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.branch }}
-          submodules: true
-          fetch-depth: 0
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: "latest"
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Generate PDFs
         run: |
-          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de
-          ./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
 
-      - name: Build for Preview
-        run: hugo --minify --config config.preview.toml --baseURL "https://mboiman.github.io/preview/"
+      - name: Build Astro for Preview
+        run: npx astro build
+        env:
+          ASTRO_SITE: "https://mboiman.github.io/preview/"
 
-      - name: Deploy to Preview Branch
+      - name: Deploy to Preview
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./dist
           destination_dir: preview

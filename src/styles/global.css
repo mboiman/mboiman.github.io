@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* === CSS Variables (outside Tailwind layers) === */
+:root {
+  --bg: #0a0a0a;
+  --bg-alt: #111111;
+  --text: #f0f0f0;
+  --text-secondary: #888888;
+  --accent: #3a8fa0;
+  --accent-hover: #4dabbf;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 300;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* === Custom Components === */
+.act {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: var(--bg);
+}
+
+.act-alt {
+  background-color: var(--bg-alt);
+}
+
+.prose-column {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teal-rule {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80px;
+  height: 1px;
+  background-color: var(--accent);
+}
+
+.terminal {
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
+  font-size: 13px;
+  line-height: 2;
+  overflow-x: auto;
+}
+
+@media (min-width: 640px) {
+  .terminal {
+    font-size: 14px;
+  }
+}
+
+.terminal .prompt {
+  color: var(--accent);
+}
+
+.nav-glass {
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.exp-compact {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+@media (min-width: 640px) {
+  .exp-compact {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+
+.exp-compact:last-child {
+  border-bottom: none;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollHint {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(6px); }
+}
+
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 50ms linear;
+  pointer-events: none;
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* === Print === */
+@media print {
+  body { background: white !important; color: black !important; font-size: 11pt; }
+  .act { min-height: auto; padding: 2rem 1rem; }
+  .no-print { display: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  #scroll-progress { display: none !important; }
+  img { mix-blend-mode: normal !important; }
+}

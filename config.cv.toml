@@ -201,30 +201,11 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-**Quality Engineering & Enterprise AI-Experte** mit 20+ Jahren Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare, ROI-optimierte Quality-Automatisierung:
+**Quality Engineer und KI-Automatisierungsexperte** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren — von der Testgenerierung bis zur Rechnungsverarbeitung.
 
-**🎯 Quality Engineering Excellence**
-- **20+ Jahre QE-Expertise**: Testautomatisierung, CI/CD Quality Gates, End-to-End-Monitoring
-- **KI-gesteuerte Testgenerierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit
-- **Quality Dashboards**: Real-time Monitoring mit 10 Test-Tools, Go/No-Go in Minuten statt Stunden
-- **Performance Testing**: JMeter, Gatling, Load Testing mit automatisierter Analyse
+In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, die Go/No-Go-Entscheidungen von Stunden auf Minuten verkürzt haben, KI-gestützte Testautomatisierung eingeführt, die 80% der Test-Cases automatisch generiert, und Legacy-Migrationen mit 24/7-Validierung von 30% auf 96% Qualität gebracht.
 
-**🚀 Business Impact & ROI**
-- **80% Aufwandsreduktion** bei Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
-- **80% weniger Rückfragen** durch transparente Quality-Monitoring-Systeme
-- **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
-
-**🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot mit Production-Grade Security
-- **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
-- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit
-- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment
-
-**⚡ DevOps & Technical Leadership**
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing
-- **Performance & Monitoring**: Load Testing, Incident Analysis, Instana, Azure Log Analytics
-- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
-- **Team Leadership**: Quality Lead, agile Koordination (Scrum/Kanban) für interdisziplinäre Teams
+Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein 40+ Skills umfassendes Automatisierungs-Ökosystem für Enterprise-Workflows.
         """
 
       [languages.de.params.experiences]
@@ -821,30 +802,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-**Quality Engineering & Enterprise AI Expert** with 20+ years of quality assurance and 4 years of specialized AI development. Transform business processes through measurable, ROI-optimized quality automation:
+**Quality Engineer and AI Automation Expert** with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation — from test generation to invoice processing.
 
-**🎯 Quality Engineering Excellence**
-- **20+ Years QE Expertise**: Test automation, CI/CD quality gates, end-to-end monitoring
-- **AI-driven Test Generation**: 80% automatically generated test cases, 50% less development time
-- **Quality Dashboards**: Real-time monitoring across 10 test tools, Go/No-Go decisions in minutes instead of hours
-- **Performance Testing**: JMeter, Gatling, load testing with automated analysis
+In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems that cut Go/No-Go decisions from hours to minutes, introduced AI-driven test automation that generates 80% of test cases automatically, and validated legacy migrations 24/7 — improving quality from 30% to 96%.
 
-**🚀 Business Impact & ROI**
-- **80% workload reduction** in automation & invoice processing with **measurable cost savings**
-- **80% fewer inquiries** through transparent quality monitoring systems
-- **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
-
-**🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot with production-grade security
-- **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
-- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy
-- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment
-
-**⚡ DevOps & Technical Leadership**
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing
-- **Performance & Monitoring**: Load testing, incident analysis, Instana, Azure Log Analytics
-- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
-- **Team Leadership**: Quality Lead, agile coordination (Scrum/Kanban) for cross-functional teams"""
+Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows."""
 
       [languages.en.params.experiences]
         enable = true
@@ -1274,6 +1236,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = true
         screenshot = "projects/ccwkibot.png"
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
+        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer — hohe Absprungrate und verpasste Leads."
+        solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
+        metric = "RAG"
+        metric_label = "kontextgenaue Antworten"
+        impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch sofortige, relevante Antworten."
 
         [[languages.de.params.projects.list]]
         title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
@@ -1289,6 +1256,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = true
         screenshot = "projects/nlpanalyse.png"
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
+        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden — zeitintensiv und fehleranfällig."
+        solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
+        metric = "-80%"
+        metric_label = "manuelle Arbeit"
+        impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
 
         [[languages.de.params.projects.list]]
         title   = "MCP - Model Context Protokoll & A2A"
@@ -1312,6 +1284,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
 
 **Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows — von Incident-Response bis Meeting-Protokollierung vollautomatisiert"""
+        challenge = "Enterprise-Entwicklung über 20+ Repos, mehrere Kunden und diverse Tools erforderte ständigen Kontextwechsel und manuelle Koordination."
+        solution = "Zentrales Steuerungssystem mit ecosystem.yaml als Single Source of Truth, 40+ Production Skills und Hook-basiertem Permission System."
+        metric = "40+"
+        metric_label = "Production Skills"
+        impact = "Vollautomatisierte AI-Workflows — von Incident-Response bis Meeting-Protokollierung ohne manuellen Aufwand."
 
 
         [[languages.de.params.projects.list]]
@@ -1331,6 +1308,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Umsetzungsbegleitung:** Vom Konzept zur produktiven AI-Lösung
 
 **Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Executive Workshop, Umsetzungsbegleitung"""
+        challenge = "Unternehmen erkennen AI-Potenziale, aber es fehlt der strukturierte Weg von der Vision zur messbaren Umsetzung."
+        solution = "Ganzheitliche Beratung mit Strategieentwicklung, ROI-Bewertung, Executive Workshops und Umsetzungsbegleitung."
+        metric = "E2E"
+        metric_label = "Vision bis Produktion"
+        impact = "Messbare AI-Roadmaps mit konkreten Business Cases — von der Strategie direkt zur produktiven Lösung."
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
@@ -1339,6 +1321,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = true
         screenshot = "projects/qualitydashboard.png"
         tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
+        challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools, 5 Umgebungen und mehreren Datenquellen."
+        solution = "Vollautomatische End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischer PDF-Report-Generierung."
+        metric = "-80%"
+        metric_label = "weniger Rückfragen"
+        impact = "Go/No-Go in Minuten statt Stunden. Management-Entscheidungen datenbasiert und in Echtzeit."
 
         [[languages.de.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
@@ -1506,6 +1493,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = true
         screenshot = "projects/ccwkibot.png"
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
+        challenge = "Trade-fair visitors struggled to find relevant information on the website — high bounce rates and missed leads."
+        solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
+        metric = "RAG"
+        metric_label = "context-accurate answers"
+        impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through instant, relevant responses."
 
         [[languages.en.params.projects.list]]
         title = "Automated NLP Analysis of PDF Documents"
@@ -1521,6 +1513,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         screenshot = "projects/nlpanalyse.png"
         featured = true
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
+        challenge = "Incoming emails had to be manually read, classified and transferred to SAP — time-consuming and error-prone."
+        solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
+        metric = "-80%"
+        metric_label = "manual work"
+        impact = "Emails automatically classified, processed and transferred to ERP."
 
         [[languages.en.params.projects.list]]
         title = "MCP – Model Context Protocol & A2A"
@@ -1544,6 +1541,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
 
 **Impact:** Productivity boost through AI-driven workflows — from incident response to meeting documentation fully automated"""
+        challenge = "Enterprise development across 20+ repos, multiple customers and diverse tools required constant context switching and manual coordination."
+        solution = "Central control system with ecosystem.yaml as single source of truth, 40+ production skills and hook-based permission system."
+        metric = "40+"
+        metric_label = "production skills"
+        impact = "Fully automated AI workflows — from incident response to meeting documentation without manual effort."
 
 
         [[languages.en.params.projects.list]]
@@ -1563,6 +1565,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Implementation Support:** From concept to productive AI solution
 
 **Deliverables:** AI strategy template, ROI calculator, implementation roadmap, executive workshop, implementation support"""
+        challenge = "Organizations recognize AI potential but lack a structured path from vision to measurable implementation."
+        solution = "End-to-end consulting with strategy development, ROI assessment, executive workshops and implementation support."
+        metric = "E2E"
+        metric_label = "vision to production"
+        impact = "Measurable AI roadmaps with concrete business cases — from strategy directly to productive solutions."
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
@@ -1571,6 +1578,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = true
         screenshot = "projects/qualitydashboard.png"
         tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
+        challenge = "Go/No-Go decisions required hours of manual data gathering across 10 test tools, 5 environments and multiple data sources."
+        solution = "Fully automated end-to-end pipeline with real-time dashboard, multi-source integration and automatic PDF report generation."
+        metric = "-80%"
+        metric_label = "fewer inquiries"
+        impact = "Go/No-Go in minutes instead of hours. Management decisions data-driven and in real-time."
 
         [[languages.en.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"

@@ -1,0 +1,27 @@
+---
+import { formatMarkdown } from '../lib/markdown';
+import type { CVData } from '../lib/types';
+
+interface Props {
+  data: CVData;
+}
+
+const { data } = Astro.props;
+const { footer } = data;
+---
+
+<footer class="py-8 px-6 bg-[var(--color-surface-alt)] border-t border-[var(--color-border)]">
+  <div class="max-w-6xl mx-auto text-center text-sm text-[var(--color-muted)]">
+    <h3 class="font-heading font-semibold mb-2">{footer.license_title}</h3>
+    <p class="mb-3 max-w-2xl mx-auto" set:html={formatMarkdown(footer.license_text)} />
+    <a
+      href={footer.license_link}
+      target="_blank"
+      rel="noopener"
+      class="inline-block text-[var(--color-accent)] hover:underline"
+    >
+      {footer.license_link_text}
+    </a>
+    <p class="mt-4 text-xs opacity-60">&copy; {new Date().getFullYear()} {footer.copyright}</p>
+  </div>
+</footer>

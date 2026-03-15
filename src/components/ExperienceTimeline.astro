@@ -1,0 +1,21 @@
+---
+import ExperienceItem from './ExperienceItem.astro';
+import type { ExperienceItem as ExpType } from '../lib/types';
+
+interface Props {
+  title: string;
+  experiences: ExpType[];
+}
+
+const { title, experiences } = Astro.props;
+---
+
+<section>
+  <h2 class="section-title">{title}</h2>
+
+  <div class="timeline-line">
+    {experiences.map((exp, i) => (
+      <ExperienceItem experience={exp} index={i} />
+    ))}
+  </div>
+</section>

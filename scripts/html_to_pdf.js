@@ -56,7 +56,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     let hasScreenshot = false;
     
     if (project.screenshot) {
-      const screenshotPath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', project.screenshot);
+      const screenshotPath = path.join(__dirname, '..', 'assets', 'images', project.screenshot);
       try {
         // Komprimiere das Bild mit sharp
         const compressedImage = await sharp(screenshotPath)
@@ -134,7 +134,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     <title>${langConfig.profile.name} - Professional CV</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* System fonts only — no external dependencies */
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -144,10 +144,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         body {
-            font-family: 'Inter', 'Arial', sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             font-size: 7.5pt;
             line-height: 1.35;
-            color: #2c3e50;
+            color: #1E293B;
             background: white;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
@@ -161,21 +161,22 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             gap: 20px;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 2px solid #2d7788;
+            border-bottom: 2px solid #3a8fa0;
             margin-bottom: 15px;
         }
         
         .profile-photo {
             width: 105px; height: 105px; border-radius: 6px;
-            border: 2px solid #e1e8ed; object-fit: cover;
+            border: 2px solid #CBD5E1; object-fit: cover;
         }
         
         .header-content h1 {
-            font-size: 18pt; font-weight: 700; color: #2d7788; margin-bottom: 3px;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
         }
         
         .header-tagline {
-            font-size: 9pt; color: #5a6c7d; font-weight: 600; margin-bottom: 8px;
+            font-size: 9pt; color: #475569; font-weight: 600; margin-bottom: 8px;
         }
         
         .contact-grid {
@@ -187,18 +188,19 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             display: flex; align-items: center; gap: 4px;
         }
         
-        .contact-item i { width: 10px; color: #2d7788; font-size: 6pt; }
-        .contact-item a { color: #2d7788; text-decoration: none; }
+        .contact-item i { width: 10px; color: #3a8fa0; font-size: 6pt; }
+        .contact-item a { color: #3a8fa0; text-decoration: none; }
         
         .ai-showcase {
-            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
-            border-left: 4px solid #2d7788;
+            background: #F8FAFC; border: 1px solid #E2E8F0;
+            border-left: 4px solid #3a8fa0;
             padding: 12px 15px; margin: 15px 0;
             border-radius: 0 4px 4px 0;
         }
         
         .ai-showcase h2 {
-            font-size: 11pt; font-weight: 600; color: #2d7788;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 11pt; font-weight: 600; color: #3a8fa0;
             margin-bottom: 8px; text-align: center;
         }
         
@@ -208,16 +210,16 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         
         .ai-skill-card {
             background: white; padding: 8px; border-radius: 4px;
-            border: 1px solid #e1e8ed;
+            border: 1px solid #CBD5E1;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         
         .ai-skill-name {
-            font-size: 7.5pt; font-weight: 600; color: #2d7788; margin-bottom: 3px;
+            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 3px;
         }
         
         .ai-skill-desc {
-            font-size: 7pt; color: #5a6c7d; line-height: 1.35;
+            font-size: 7pt; color: #475569; line-height: 1.35;
         }
         
         .cv-main {
@@ -226,9 +228,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-section h2 {
-            font-size: 10pt; font-weight: 700; color: #2d7788;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 10pt; font-weight: 700; color: #3a8fa0;
             margin: 12px 0 10px 0; padding-bottom: 4px;
-            border-bottom: 2px solid #2d7788;
+            border-bottom: 2px solid #3a8fa0;
             text-transform: uppercase; letter-spacing: 0.8px;
             page-break-after: avoid;
         }
@@ -238,11 +241,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #f8fafc; border-left: 4px solid #2d7788;
+            background: #F8FAFC; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
         }
         
         .career-profile h2 {
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
         }
         
@@ -258,11 +262,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin-bottom: 2px; line-height: 1.3;
         }
         
-        .career-profile strong { font-weight: 600; color: #2d7788; }
+        .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 8px; padding: 8px; background: #f8fafc;
-            border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
+            margin-bottom: 8px; padding: 8px; background: #F8FAFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
         }
         
@@ -272,7 +276,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-title {
-            font-size: 8.5pt; font-weight: 700; color: #2d7788;
+            font-size: 8.5pt; font-weight: 700; color: #3a8fa0;
         }
         
         .experience-dates {
@@ -280,17 +284,17 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-company {
-            font-size: 7.5pt; font-weight: 600; color: #3c4858; margin-bottom: 5px;
+            font-size: 7.5pt; font-weight: 600; color: #334155; margin-bottom: 5px;
         }
         
         .experience-details {
-            font-size: 6.5pt; line-height: 1.35; color: #3c4858;
+            font-size: 6.5pt; line-height: 1.35; color: #334155;
         }
         
         .experience-details p { margin-bottom: 4px; }
         .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
         .experience-details li { margin-bottom: 2px; line-height: 1.3; }
-        .experience-details strong { font-weight: 600; color: #2d7788; }
+        .experience-details strong { font-weight: 600; color: #3a8fa0; }
         
         .projects-grid {
             display: flex;
@@ -300,8 +304,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 8px; background: #f8fafc;
-            border-left: 3px solid #2d7788; border-radius: 0 4px 4px 0;
+            margin-bottom: 0; padding: 8px; background: #F8FAFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
         }
@@ -317,19 +321,19 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
 
         .project-title {
-            font-size: 8.5pt; font-weight: 700; color: #2d7788; margin-bottom: 4px;
+            font-size: 8.5pt; font-weight: 700; color: #3a8fa0; margin-bottom: 4px;
         }
 
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: #e1e8ed; color: #3c4858; padding: 2px 4px;
+            background: #E2E8F0; color: #475569; padding: 2px 4px;
             border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
 
         .project-description {
-            font-size: 6.5pt; line-height: 1.35; color: #3c4858; margin-top: 4px;
+            font-size: 6.5pt; line-height: 1.35; color: #334155; margin-top: 4px;
         }
 
         .project-screenshot {
@@ -342,28 +346,28 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-sidebar {
-            background: #f8fafc; padding: 15px; border-radius: 6px;
-            border: 1px solid #e1e8ed; height: fit-content;
+            background: #F8FAFC; padding: 15px; border-radius: 6px;
+            border: 1px solid #CBD5E1; height: fit-content;
         }
         
         .sidebar-section { margin-bottom: 15px; }
         
         .sidebar-section h3 {
-            font-size: 8pt; font-weight: 600; color: #2d7788;
+            font-size: 8pt; font-weight: 600; color: #3a8fa0;
             margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.3px;
         }
         
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #e3f2fd; color: #2d7788; padding: 3px 6px;
+            background: #F1F5F9; color: #334155; padding: 3px 6px;
             border-radius: 3px; font-size: 6.5pt; font-weight: 500;
-            border: 1px solid #2d7788;
+            border: 1px solid #3a8fa0;
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
-        .education-degree { font-weight: 600; color: #2d7788; margin-bottom: 2px; }
-        .education-school { color: #5a6c7d; margin-bottom: 2px; }
+        .education-degree { font-weight: 600; color: #3a8fa0; margin-bottom: 2px; }
+        .education-school { color: #475569; margin-bottom: 2px; }
         .education-dates { color: #7a8b9a; font-style: italic; }
 
         .language-item {
@@ -371,8 +375,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
             margin-bottom: 4px; font-size: 7pt;
         }
 
-        .language-name { font-weight: 600; color: #2d7788; }
-        .language-level { color: #5a6c7d; }
+        .language-name { font-weight: 600; color: #3a8fa0; }
+        .language-level { color: #475569; }
         
         .page-break-before { page-break-before: always; }
         .page-break-avoid { page-break-inside: avoid; }
@@ -527,7 +531,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
   console.log('🎯 Generating PDF content from TOML configuration...');
   
   // Read and encode the profile image as base64
-  const profileImagePath = path.join(__dirname, '..', 'themes', 'bks-theme', 'static', 'assets', 'images', 'profile.png');
+  const profileImagePath = path.join(__dirname, '..', 'assets', 'images', 'profile.png');
   let profileImageBase64 = '';
   try {
     // Komprimiere das Profilbild

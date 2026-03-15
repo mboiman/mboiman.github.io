@@ -1,0 +1,29 @@
+---
+interface Props {
+  currentLang: 'de' | 'en';
+}
+
+const { currentLang } = Astro.props;
+---
+
+<nav aria-label="Language" class="flex items-center gap-1 text-sm">
+  <a
+    href="/de/"
+    class:list={[
+      'px-2 py-1 rounded transition-colors duration-200',
+      currentLang === 'de'
+        ? 'bg-white/20 font-semibold'
+        : 'opacity-70 hover:opacity-100 hover:bg-white/10',
+    ]}
+  >DE</a>
+  <span class="opacity-40">|</span>
+  <a
+    href="/en/"
+    class:list={[
+      'px-2 py-1 rounded transition-colors duration-200',
+      currentLang === 'en'
+        ? 'bg-white/20 font-semibold'
+        : 'opacity-70 hover:opacity-100 hover:bg-white/10',
+    ]}
+  >EN</a>
+</nav>

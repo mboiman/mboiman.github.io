@@ -1,0 +1,102 @@
+---
+import DarkModeToggle from './DarkModeToggle.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import type { CVData } from '../lib/types';
+
+interface Props {
+  data: CVData;
+  lang: 'de' | 'en';
+}
+
+const { data, lang } = Astro.props;
+const { profile, contact, ui } = data;
+const pdfUrl = `/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`;
+
+const iconPaths: Record<string, { d: string; fill: boolean }> = {
+  'fa-envelope': { d: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', fill: false },
+  'fa-phone': { d: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z', fill: false },
+  'fa-globe': { d: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9', fill: false },
+  'fa-linkedin': { d: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z', fill: true },
+  'fa-github': { d: 'M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z', fill: true },
+  'fa-twitter': { d: 'M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z', fill: false },
+};
+---
+
+<header class="relative overflow-hidden min-h-[320px] flex flex-col" style={`background: linear-gradient(160deg, var(--color-header-from) 0%, var(--color-header-to) 50%, #1a3a4a 100%)`}>
+  <!-- Animated gradient orb -->
+  <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20 blur-3xl animate-pulse" style="background: radial-gradient(circle, #2d7788 0%, transparent 70%)"></div>
+  <div class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, #5bb8c9 0%, transparent 70%)"></div>
+
+  <!-- Dot pattern overlay -->
+  <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.8) 1px, transparent 0); background-size: 32px 32px;"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto w-full flex-1 flex flex-col">
+    <!-- Top bar -->
+    <div class="flex items-center justify-between px-6 sm:px-8 pt-5 no-print">
+      <a
+        href={pdfUrl}
+        download
+        class="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-all duration-300 cursor-pointer group border border-white/10 rounded-full px-4 py-2 hover:border-white/30 hover:bg-white/5"
+      >
+        <svg class="w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <span class="font-medium">{ui.pdf_download}</span>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <LanguageSwitch currentLang={lang} />
+        <div class="w-px h-5 bg-white/10"></div>
+        <DarkModeToggle />
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="flex-1 flex items-center px-6 sm:px-8 pb-10 pt-8">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8 w-full">
+        <!-- Profile photo with glass ring -->
+        <div class="relative flex-shrink-0 group">
+          <div class="absolute -inset-2 rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-500" style="background: conic-gradient(from 0deg, #2d7788, #5bb8c9, #7dd3e8, #2d7788); filter: blur(8px);"></div>
+          <img
+            src="/images/profile.png"
+            alt={profile.name}
+            class="relative w-36 h-36 rounded-full border-[3px] border-white/10 shadow-2xl object-cover"
+            width="144"
+            height="144"
+          />
+        </div>
+
+        <div class="text-center sm:text-left text-white">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight leading-[1.1]">
+            {profile.name}
+          </h1>
+          <p class="mt-4 text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
+            {ui.tagline}
+          </p>
+
+          <!-- Contact -->
+          {contact.enable && (
+            <div class="mt-6 flex flex-wrap gap-x-5 gap-y-3 justify-center sm:justify-start">
+              {contact.list.map((item) => {
+                const icon = iconPaths[item.icon] || iconPaths['fa-globe'];
+                return (
+                  <a
+                    href={item.url || '#'}
+                    target={item.url?.startsWith('mailto:') ? '_self' : '_blank'}
+                    rel="noopener"
+                    class="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-all duration-300 cursor-pointer"
+                  >
+                    <svg class="w-4 h-4 flex-shrink-0 opacity-60" fill={icon.fill ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke={icon.fill ? 'none' : 'currentColor'} stroke-width="1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d={icon.d} />
+                    </svg>
+                    <span>{item.title}</span>
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
