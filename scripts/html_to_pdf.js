@@ -192,7 +192,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .contact-item a { color: #3a8fa0; text-decoration: none; }
         
         .ai-showcase {
-            background: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%);
+            background: #F8FAFC; border: 1px solid #E2E8F0;
             border-left: 4px solid #3a8fa0;
             padding: 12px 15px; margin: 15px 0;
             border-radius: 0 4px 4px 0;
@@ -241,7 +241,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #F0FDFA; border-left: 4px solid #3a8fa0;
+            background: #F8FAFC; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
         }
         
@@ -265,7 +265,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 8px; padding: 8px; background: #F0FDFA;
+            margin-bottom: 8px; padding: 8px; background: #F8FAFC;
             border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
         }
@@ -304,7 +304,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 8px; background: #F0FDFA;
+            margin-bottom: 0; padding: 8px; background: #F8FAFC;
             border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
@@ -327,7 +327,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: #CBD5E1; color: #334155; padding: 2px 4px;
+            background: #E2E8F0; color: #475569; padding: 2px 4px;
             border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
@@ -346,7 +346,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .cv-sidebar {
-            background: #F0FDFA; padding: 15px; border-radius: 6px;
+            background: #F8FAFC; padding: 15px; border-radius: 6px;
             border: 1px solid #CBD5E1; height: fit-content;
         }
         
@@ -360,7 +360,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: #e3f2fd; color: #3a8fa0; padding: 3px 6px;
+            background: #F1F5F9; color: #334155; padding: 3px 6px;
             border-radius: 3px; font-size: 6.5pt; font-weight: 500;
             border: 1px solid #3a8fa0;
         }
