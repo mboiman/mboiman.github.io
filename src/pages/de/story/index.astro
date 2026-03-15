@@ -48,7 +48,7 @@ const darkScreenshots: Record<string, string> = {
         Quality Engineer &middot; AI Architect &middot; System Thinker
       </p>
       <h1 class="text-[clamp(2.5rem,7vw,7rem)] leading-[1.05] tracking-tight opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]">
-        Here's to the ones<br>who <em class="italic" style="color: var(--accent)">automate<br class="sm:hidden"> the impossible.</em>
+        Here's to the ones<br>who taught machines<br class="sm:hidden"> <em class="italic" style="color: var(--accent)">to care about quality.</em>
       </h1>
       <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
         <div class="teal-rule"></div>
@@ -88,10 +88,10 @@ const darkScreenshots: Record<string, string> = {
   <section class="py-32 px-6" id="main" aria-label="Zahlen" style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       {[
-        { num: '20+', label: 'Jahre Software-Qualität' },
-        { num: '40+', label: 'produktive AI Skills gebaut' },
-        { num: '20+', label: 'Repositories — ein Cockpit' },
-        { num: '4', label: 'Sprachen' },
+        { num: '20+', label: 'Jahre im Quality Engineering' },
+        { num: '80%', label: 'weniger Aufwand durch Automatisierung' },
+        { num: '96%', label: 'Qualität nach Migration — vorher 30%' },
+        { num: '4', label: 'Sprachen — DE EN RU HE' },
       ].map((item, i) => (
         <div class="reveal flex items-baseline gap-8 py-10 border-b border-white/[0.03] last:border-0" style={`transition-delay: ${i * 120}ms`}>
           <span class="text-[clamp(3.5rem,14vw,12rem)] font-black leading-none tracking-[-0.04em]" style="font-family: 'Playfair Display', serif">
@@ -111,7 +111,7 @@ const darkScreenshots: Record<string, string> = {
       <div class="reveal">
         <div class="teal-rule mb-20"></div>
         <p class="text-xl sm:text-2xl leading-[1.8] font-light" style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)">
-          20 Jahre Quality Engineering. Dann kam KI — und die gleichen Prinzipien galten: Struktur, Observability, konsequente Automatisierung. Die Werkzeuge änderten sich. Das Denken nicht.
+          20 Jahre lang habe ich Systeme gebaut, die Fehler finden, bevor sie jemand bemerkt. Dann kamen LLMs — und ich merkte: Das gleiche Denken funktioniert. Nur die Geschwindigkeit hat sich geändert.
         </p>
       </div>
     </div>
@@ -168,9 +168,10 @@ const darkScreenshots: Record<string, string> = {
   <section class="py-32 px-6" aria-label="Ueberzeugungen" style="background-color: var(--bg-alt)">
     <div class="text-center max-w-3xl mx-auto space-y-20">
       {[
-        'Qualität ist Architektur,\nnicht Nachgedanke.',
-        'Die beste Automatisierung ist die,\ndie niemand bemerkt.',
-        'Lehre das Handwerk.\nBehalte es nicht für dich.',
+        'Wenn du 10 Tools hast\nund keine Übersicht,\nhast du null Tools.',
+        'Eine Million Kombinationen\ntestet kein Mensch.\nAber eine Maschine,\ndie nie schläft, schon.',
+        'Der beste Test ist der,\nden ein Entwickler\nnie schreiben musste.',
+        'Automatisierung ohne Messbarkeit\nist nur schnelleres Raten.',
       ].map((belief, i) => (
         <p class="text-2xl sm:text-3xl leading-snug reveal whitespace-pre-line" style={`transition-delay: ${i * 200}ms; font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-secondary)`}>
           {belief}

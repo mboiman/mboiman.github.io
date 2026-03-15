@@ -201,30 +201,11 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-**Quality Engineering & Enterprise AI-Experte** mit 20+ Jahren Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Transformiere Geschäftsprozesse durch messbare, ROI-optimierte Quality-Automatisierung:
+**Quality Engineer und KI-Automatisierungsexperte** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren — von der Testgenerierung bis zur Rechnungsverarbeitung.
 
-**🎯 Quality Engineering Excellence**
-- **20+ Jahre QE-Expertise**: Testautomatisierung, CI/CD Quality Gates, End-to-End-Monitoring
-- **KI-gesteuerte Testgenerierung**: 80% automatisch generierte Test-Cases, 50% weniger Entwicklungszeit
-- **Quality Dashboards**: Real-time Monitoring mit 10 Test-Tools, Go/No-Go in Minuten statt Stunden
-- **Performance Testing**: JMeter, Gatling, Load Testing mit automatisierter Analyse
+In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, die Go/No-Go-Entscheidungen von Stunden auf Minuten verkürzt haben, KI-gestützte Testautomatisierung eingeführt, die 80% der Test-Cases automatisch generiert, und Legacy-Migrationen mit 24/7-Validierung von 30% auf 96% Qualität gebracht.
 
-**🚀 Business Impact & ROI**
-- **80% Aufwandsreduktion** bei Automatisierung & Rechnungsverarbeitung mit **messbaren Kosteneinsparungen**
-- **80% weniger Rückfragen** durch transparente Quality-Monitoring-Systeme
-- **Quality-First Automation**: Playwright, Cucumber, Gauge Integration in CI/CD-Pipelines
-
-**🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot mit Production-Grade Security
-- **Agentic AI & Protocols**: MCP, A2A Implementation für Multi-Agent-Orchestrierung
-- **NLP & Dokumentenverarbeitung**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% Genauigkeit
-- **Multi-Cloud AI Architecture**: Azure OpenAI, Serverless AI, MLOps, skalierbare Deployment
-
-**⚡ DevOps & Technical Leadership**
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, Container-Orchestrierung, Contract-Testing
-- **Performance & Monitoring**: Load Testing, Incident Analysis, Instana, Azure Log Analytics
-- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ Jahre Software-Architektur
-- **Team Leadership**: Quality Lead, agile Koordination (Scrum/Kanban) für interdisziplinäre Teams
+Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein 40+ Skills umfassendes Automatisierungs-Ökosystem für Enterprise-Workflows.
         """
 
       [languages.de.params.experiences]
@@ -821,30 +802,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-**Quality Engineering & Enterprise AI Expert** with 20+ years of quality assurance and 4 years of specialized AI development. Transform business processes through measurable, ROI-optimized quality automation:
+**Quality Engineer and AI Automation Expert** with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation — from test generation to invoice processing.
 
-**🎯 Quality Engineering Excellence**
-- **20+ Years QE Expertise**: Test automation, CI/CD quality gates, end-to-end monitoring
-- **AI-driven Test Generation**: 80% automatically generated test cases, 50% less development time
-- **Quality Dashboards**: Real-time monitoring across 10 test tools, Go/No-Go decisions in minutes instead of hours
-- **Performance Testing**: JMeter, Gatling, load testing with automated analysis
+In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems that cut Go/No-Go decisions from hours to minutes, introduced AI-driven test automation that generates 80% of test cases automatically, and validated legacy migrations 24/7 — improving quality from 30% to 96%.
 
-**🚀 Business Impact & ROI**
-- **80% workload reduction** in automation & invoice processing with **measurable cost savings**
-- **80% fewer inquiries** through transparent quality monitoring systems
-- **Quality-First Automation**: Playwright, Cucumber, Gauge integration in CI/CD pipelines
-
-**🤖 AI Technology & NLP Excellence**
-- **Enterprise LLMs**: Claude, Gemini, OpenAI GPT, GitHub Copilot with production-grade security
-- **Agentic AI & Protocols**: MCP, A2A implementation for multi-agent orchestration
-- **NLP & Document Processing**: spaCy, NLTK, Vector Databases (Pinecone, Elasticsearch), 95% accuracy
-- **Multi-Cloud AI Architecture**: Azure OpenAI, serverless AI, MLOps, scalable deployment
-
-**⚡ DevOps & Technical Leadership**
-- **DevOps & CI/CD**: GitHub, GitLab, Jenkins, container orchestration, contract testing
-- **Performance & Monitoring**: Load testing, incident analysis, Instana, Azure Log Analytics
-- **Full-Stack Development**: Java, Python, JavaScript, Swift, 20+ years software architecture
-- **Team Leadership**: Quality Lead, agile coordination (Scrum/Kanban) for cross-functional teams"""
+Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows."""
 
       [languages.en.params.experiences]
         enable = true
