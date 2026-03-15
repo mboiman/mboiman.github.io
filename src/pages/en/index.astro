@@ -8,6 +8,42 @@ const { profile, contact, ui, experiences, projects, summary, education, languag
 
 const featuredProjects = projects.list.filter(p => p.featured);
 const otherProjects = projects.list.filter(p => !p.featured);
+
+function truncateDetails(details: string): string {
+  const lines = details.split('\n');
+  const introLines: string[] = [];
+  const toolLines: string[] = [];
+  let inTools = false;
+  let inSchwerpunkte = false;
+
+  for (const line of lines) {
+    if (line.match(/^\*\*(Schwerpunkte|Key Responsibilities|Workshop-Inhalte|Workshop Content|Practical|Projekte\b|Energy Sector|Quantifiable|Technical Solutions|Focus areas|Key Focus|Key responsibilities)/)) {
+      inSchwerpunkte = true;
+      inTools = false;
+      continue;
+    }
+    if (line.match(/^\*\*(Tools|Technologien|Technologies|Technical Stack|Technischer)/)) {
+      inSchwerpunkte = false;
+      inTools = true;
+      toolLines.push(line);
+      continue;
+    }
+    if (!inSchwerpunkte && !inTools) {
+      introLines.push(line);
+    } else if (inTools) {
+      toolLines.push(line);
+    }
+  }
+
+  let intro = introLines.join('\n').trim();
+  const introWords = intro.split(/\s+/);
+  if (introWords.length > 80) {
+    intro = introWords.slice(0, 80).join(' ') + '...';
+  }
+
+  const tools = toolLines.join('\n').trim();
+  return tools ? intro + '\n\n' + tools : intro;
+}
 ---
 
 <BaseLayout
@@ -183,7 +219,7 @@ const otherProjects = projects.list.filter(p => !p.featured);
                       </div>
                       <span class="text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start" style="background: rgba(58,143,160,0.12); color: var(--accent)">{exp.dates}</span>
                     </div>
-                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
+                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(truncateDetails(exp.details))} />
                   </div>
                 </div>
               ))}

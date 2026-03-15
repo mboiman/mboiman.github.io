@@ -68,11 +68,11 @@ const darkScreenshots: Record<string, string> = {
   <section class="flex flex-col items-center justify-center pt-0 pb-32 px-6 -mt-16 relative z-10" aria-label="Portrait">
     <div class="reveal max-w-md mx-auto">
       <div class="relative">
-        <div class="absolute -inset-8 rounded-full opacity-[0.06] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
+        <div class="absolute -inset-16 rounded-full opacity-[0.1] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
         <img
           src="/images/profile_.jpg"
           alt={profile.name}
-          class="relative w-full max-w-[360px] mx-auto rounded-sm"
+          class="relative w-full max-w-[360px] mx-auto"
           style="filter: contrast(1.05); mix-blend-mode: luminosity;"
           width="360"
           height="480"
@@ -321,6 +321,10 @@ const darkScreenshots: Record<string, string> = {
       <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">
         BKS-Lab — AI Engineering &middot; Frankfurt am Main
       </p>
+      <p class="text-sm italic mb-10 max-w-md mx-auto" style="color: var(--text-secondary); font-family: 'Playfair Display', serif">
+        The impossible just takes a system that doesn't sleep.
+      </p>
+
       <a href="mailto:mboiman@gmail.com" class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">
         mboiman@gmail.com
       </a>
