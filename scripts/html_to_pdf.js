@@ -27,61 +27,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </div>
   `).join('');
 
-  // Truncate verbose experience details for PDF — keep intro + tools, remove bullet lists
-  function truncateForPDF(details) {
-    if (!details) return '';
-    const lines = details.split('\n');
-    const introLines = [], toolLines = [];
-    let inTools = false, inBullets = false;
-    for (const line of lines) {
-      if (line.match(/^\*\*(Schwerpunkte|Key Responsibilities|Workshop-Inhalte|Workshop Content|Practical|Projekte\b|Energiesektor|Quantifizierbare|Quantifiable|Focus areas|Key Focus|Hauptverantwortlichkeiten|Präsentationsinhalte|Wichtige Erfolge|Technische Lösungen)/)) {
-        inBullets = true; inTools = false; continue;
-      }
-      if (line.match(/^\*\*(Tools|Technologien|Technologies|Eingesetzte|Technical Stack|Technischer)/)) {
-        inBullets = false; inTools = true; toolLines.push(line); continue;
-      }
-      if (!inBullets && !inTools) introLines.push(line);
-      else if (inTools) toolLines.push(line);
-    }
-    let intro = introLines.join('\n').trim();
-    const words = intro.split(/\s+/);
-    if (words.length > 50) intro = words.slice(0, 50).join(' ') + '...';
-    // Compact tool lines into middot-separated
-    let tools = toolLines.join('\n').trim();
-    const toolItems = tools.split('\n').filter(l => l.startsWith('- ')).map(l => l.replace(/^- /, ''));
-    if (toolItems.length > 3) {
-      const header = toolLines.find(l => l.startsWith('**')) || '**Tools & Technologien**';
-      tools = header + '\n' + toolItems.join(' · ');
-    }
-    const toolWords = tools.split(/\s+/);
-    if (toolWords.length > 40) tools = toolWords.slice(0, 40).join(' ') + '...';
-    return tools ? intro + '\n\n' + tools : intro;
-  }
-
-  // Sort: priority employers first, workshops last
-  const isWorkshop = (exp) => /Workshop|Präsentation|Presentation/i.test(exp.position);
-  const priorityEmployers = ['TÜV', 'DVAG', 'DB Vertrieb', 'DB Systel', 'BKS'];
-  const mainExps = langConfig.experiences.list.filter(e => !isWorkshop(e));
-  const workshopExps = langConfig.experiences.list.filter(e => isWorkshop(e));
-
-  // Bring priority employers to the top within mainExps
-  mainExps.sort((a, b) => {
-    const aHasPrio = priorityEmployers.some(p => a.company.includes(p));
-    const bHasPrio = priorityEmployers.some(p => b.company.includes(p));
-    if (aHasPrio && !bHasPrio) return -1;
-    if (!aHasPrio && bHasPrio) return 1;
-    return 0; // keep original order within same priority
-  });
-
-  const sortedExps = [...mainExps, ...workshopExps];
-
-  // Top 7 with truncated details (to include DB Vertrieb), older as compact
-  const recentExps = sortedExps.slice(0, 7);
-  const olderExps = sortedExps.slice(7);
-
-  const experienceItems = recentExps.map(exp => {
-    const truncated = truncateForPDF(exp.details);
-    const formattedDetails = formatTextToParagraphs(truncated);
+  // Generate experience items
+  const experienceItems = langConfig.experiences.list.map(exp => {
+    const formattedDetails = formatTextToParagraphs(exp.details || '');
+    
     return `
       <div class="experience-item page-break-avoid">
         <div class="experience-header">
@@ -89,43 +38,15 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
           <div class="experience-dates">${exp.dates}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
-        <div class="experience-details">${formattedDetails}</div>
+        <div class="experience-details">
+          ${formattedDetails}
+        </div>
       </div>
     `;
-  }).join('') + (olderExps.length > 0 ? `
-    <div style="margin-top: 10px; border-top: 1px solid #2A3544; padding-top: 8px;">
-      <div style="font-size: 7pt; text-transform: uppercase; letter-spacing: 0.15em; color: #7a8b9a; margin-bottom: 6px;">Frühere Positionen</div>
-      ${olderExps.map(exp => `
-        <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
-          <div><span style="font-weight: 600; font-size: 7.5pt;">${exp.position}</span> <span style="color: #7a8b9a; font-size: 7pt;">— ${exp.company}</span></div>
-          <span style="font-size: 6.5pt; color: #7a8b9a; white-space: nowrap;">${exp.dates}</span>
-        </div>
-      `).join('')}
-    </div>
-  ` : '');
+  }).join('');
 
-  // Sort projects: Enterprise/Impact projects first, side projects last
-  const priorityProjects = [
-    '24/7 Automated Legacy Migration',  // DB/Bahn
-    'Quality Dashboard',                 // DVAG
-    'E-Invoicing Automation',            // Stepstone
-    'E-Mail-Klassifizierung',            // Ryze
-    'Email Classification',             // EN version
-    'AI Context Orchestrator',           // BKS
-    'KI-basierter Chatbot',             // Messe
-    'AI-Driven Chatbot',                // EN version
-  ];
-  const featuredProjects = langConfig.projects.list.filter(p => p.featured);
-  featuredProjects.sort((a, b) => {
-    const aIdx = priorityProjects.findIndex(p => a.title.includes(p));
-    const bIdx = priorityProjects.findIndex(p => b.title.includes(p));
-    const aPrio = aIdx >= 0 ? aIdx : 100;
-    const bPrio = bIdx >= 0 ? bIdx : 100;
-    return aPrio - bPrio;
-  });
-
-  // Generate project items
-  const projectItems = await Promise.all(featuredProjects.map(async project => {
+  // Generate project items (projects before experience as requested)
+  const projectItems = await Promise.all(langConfig.projects.list.filter(project => project.featured).map(async project => {
     const techTags = project.tech_stack ? project.tech_stack.map(tech => 
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
@@ -219,124 +140,96 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         
         @page {
             size: A4 portrait;
-            margin: 0;
+            margin: 12mm 10mm 12mm 10mm;
         }
         
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             font-size: 7.5pt;
             line-height: 1.35;
-            color: #E2E8F0;
-            background: #0B1120;
+            color: #1E293B;
+            background: white;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
-            padding: 10mm;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
         }
         
         .cv-container { max-width: 100%; margin: 0; padding: 0; }
         
         .cv-header {
             display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 18px;
+            grid-template-columns: 110px 1fr;
+            gap: 20px;
             align-items: center;
-            background: linear-gradient(135deg, #0B1120, #162032);
-            color: #F0F0F0;
-            margin: -10mm -10mm 0 -10mm;
-            padding: 10mm 10mm 14px 10mm;
-            border-bottom: 3px solid #3a8fa0;
+            padding: 15px 0;
+            border-bottom: 2px solid #3a8fa0;
+            margin-bottom: 15px;
         }
-
+        
         .profile-photo {
-            width: 95px; height: 95px; border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.15); object-fit: cover;
-            box-shadow: 0 0 15px rgba(58,143,160,0.2);
+            width: 105px; height: 105px; border-radius: 6px;
+            border: 2px solid #CBD5E1; object-fit: cover;
         }
-
+        
         .header-content h1 {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
-            font-size: 20pt; color: #F0F0F0; margin-bottom: 3px;
-            letter-spacing: -0.02em;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
         }
-
+        
         .header-tagline {
-            font-size: 8.5pt; color: rgba(255,255,255,0.7); font-weight: 500; margin-bottom: 8px;
+            font-size: 9pt; color: #475569; font-weight: 600; margin-bottom: 8px;
         }
-
+        
         .contact-grid {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 4px 20px; font-size: 7pt;
         }
-
+        
         .contact-item {
             display: flex; align-items: center; gap: 4px;
-            color: rgba(255,255,255,0.5);
         }
-
+        
         .contact-item i { width: 10px; color: #3a8fa0; font-size: 6pt; }
         .contact-item a { color: #3a8fa0; text-decoration: none; }
-        .contact-item span { color: rgba(255,255,255,0.5); }
-
-        /* Impact strip — light cards on gray page */
-        .impact-strip {
-            display: grid; grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px; margin: 14px 0;
-        }
-        .impact-card {
-            background: rgba(255,255,255,0.05); border-radius: 5px;
-            padding: 10px 14px; text-align: center;
-            border-top: 3px solid #3a8fa0;
-        }
-        .impact-number {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: 22pt; font-weight: 900; color: #3a8fa0;
-            line-height: 1; letter-spacing: -0.02em;
-        }
-        .impact-label { font-size: 7.5pt; font-weight: 600; color: #E2E8F0; margin-top: 3px; }
-        .impact-detail { font-size: 6.5pt; color: #7A8B9A; margin-top: 2px; }
         
         .ai-showcase {
-            background: rgba(255,255,255,0.03);
+            background: #F8FAFC; border: 1px solid #E2E8F0;
             border-left: 4px solid #3a8fa0;
-            margin: 0 0 14px 0;
-            padding: 14px 16px;
-            border-radius: 0 6px 6px 0;
-            border: 1px solid #2A3544;
+            padding: 12px 15px; margin: 15px 0;
+            border-radius: 0 4px 4px 0;
         }
-
+        
         .ai-showcase h2 {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
-            font-size: 10pt; font-weight: 600; color: #3a8fa0;
-            margin-bottom: 8px; border: none;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 11pt; font-weight: 600; color: #3a8fa0;
+            margin-bottom: 8px; text-align: center;
         }
-
+        
         .ai-skills-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
         }
-
+        
         .ai-skill-card {
-            background: rgba(255,255,255,0.05); padding: 7px 10px; border-radius: 4px;
-            border: 1px solid #2A3544;
+            background: white; padding: 8px; border-radius: 4px;
+            border: 1px solid #CBD5E1;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
+        
         .ai-skill-name {
-            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 2px;
+            font-size: 7.5pt; font-weight: 600; color: #3a8fa0; margin-bottom: 3px;
         }
-
+        
         .ai-skill-desc {
-            font-size: 6.5pt; color: #94A3B8; line-height: 1.35;
+            font-size: 7pt; color: #475569; line-height: 1.35;
         }
         
         .cv-main {
             display: grid; grid-template-columns: 2fr 1fr; /* Keep sidebar but make experience section wider */
-            gap: 20px; margin-top: 20px;
+            gap: 20px; margin-top: 15px;
         }
         
         .cv-section h2 {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
-            font-size: 11pt; font-weight: 700; color: #3a8fa0;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
+            font-size: 10pt; font-weight: 700; color: #3a8fa0;
             margin: 12px 0 10px 0; padding-bottom: 4px;
             border-bottom: 2px solid #3a8fa0;
             text-transform: uppercase; letter-spacing: 0.8px;
@@ -348,15 +241,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .career-profile {
-            background: #1A2332; border-left: 4px solid #3a8fa0;
+            background: #F8FAFC; border-left: 4px solid #3a8fa0;
             padding: 12px; margin: 12px 0; border-radius: 0 4px 4px 0;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         
         .career-profile h2 {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-weight: 700;
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
-            color: #3a8fa0;
         }
         
         .career-profile p {
@@ -374,10 +265,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .career-profile strong { font-weight: 600; color: #3a8fa0; }
         
         .experience-item {
-            margin-bottom: 10px; padding: 10px 12px; background: #1A2332;
-            border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
+            margin-bottom: 8px; padding: 8px; background: #F8FAFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         
         .experience-header {
@@ -394,11 +284,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
         
         .experience-company {
-            font-size: 7.5pt; font-weight: 600; color: #CBD5E0; margin-bottom: 5px;
+            font-size: 7.5pt; font-weight: 600; color: #334155; margin-bottom: 5px;
         }
         
         .experience-details {
-            font-size: 6.5pt; line-height: 1.35; color: #CBD5E0;
+            font-size: 6.5pt; line-height: 1.35; color: #334155;
         }
         
         .experience-details p { margin-bottom: 4px; }
@@ -414,11 +304,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
 
         .project-item {
             width: calc(50% - 4px);
-            margin-bottom: 0; padding: 10px 12px; background: #1A2332;
-            border-left: 3px solid #3a8fa0; border-radius: 0 6px 6px 0;
+            margin-bottom: 0; padding: 8px; background: #F8FAFC;
+            border-left: 3px solid #3a8fa0; border-radius: 0 4px 4px 0;
             page-break-inside: avoid;
             box-sizing: border-box;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
         .project-item.with-screenshot {
@@ -438,31 +327,27 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: rgba(255,255,255,0.08); color: #CBD5E0; padding: 2px 4px;
+            background: #E2E8F0; color: #475569; padding: 2px 4px;
             border-radius: 2px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
 
         .project-description {
-            font-size: 6.5pt; line-height: 1.35; color: #CBD5E0; margin-top: 4px;
+            font-size: 6.5pt; line-height: 1.35; color: #334155; margin-top: 4px;
         }
-
-        .project-description strong { font-weight: 600; color: #3a8fa0; }
 
         .project-screenshot {
             width: 85px; height: 60px; object-fit: cover;
-            border-radius: 4px; border: 1px solid #2A3544;
-            background: #1A2332; flex-shrink: 0;
+            border-radius: 4px; border: 1px solid #d1d9e0;
+            background: #fff; flex-shrink: 0;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
         }
         
         .cv-sidebar {
-            background: #1A2332;
-            padding: 15px; border-radius: 8px;
-            border: 1px solid #2A3544; height: fit-content;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            background: #F8FAFC; padding: 15px; border-radius: 6px;
+            border: 1px solid #CBD5E1; height: fit-content;
         }
         
         .sidebar-section { margin-bottom: 15px; }
@@ -475,14 +360,14 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         .skills-list { display: flex; flex-wrap: wrap; gap: 4px; }
 
         .skill-tag {
-            background: rgba(58,143,160,0.15); color: #E2E8F0; padding: 3px 7px;
-            border-radius: 4px; font-size: 6.5pt; font-weight: 500;
-            border: 1px solid rgba(58,143,160,0.5);
+            background: #F1F5F9; color: #334155; padding: 3px 6px;
+            border-radius: 3px; font-size: 6.5pt; font-weight: 500;
+            border: 1px solid #3a8fa0;
         }
         
         .education-item { margin-bottom: 8px; font-size: 7pt; }
         .education-degree { font-weight: 600; color: #3a8fa0; margin-bottom: 2px; }
-        .education-school { color: #94A3B8; margin-bottom: 2px; }
+        .education-school { color: #475569; margin-bottom: 2px; }
         .education-dates { color: #7a8b9a; font-style: italic; }
 
         .language-item {
@@ -491,7 +376,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
         }
 
         .language-name { font-weight: 600; color: #3a8fa0; }
-        .language-level { color: #94A3B8; }
+        .language-level { color: #475569; }
         
         .page-break-before { page-break-before: always; }
         .page-break-avoid { page-break-inside: avoid; }
@@ -499,12 +384,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     </style>
     <!-- Font Awesome icons replaced with simple text symbols for PDF -->
     <style>
-        .fa-envelope::before { content: "▸ "; }
-        .fa-phone::before { content: "▸ "; }
-        .fa-map-marker-alt::before { content: "▸ "; }
-        .fa-linkedin::before { content: "▸ "; }
-        .fa-github::before { content: "▸ "; }
-        .fa-globe::before { content: "▸ "; }
+        .fa-envelope::before { content: "✉"; }
+        .fa-phone::before { content: "☎"; }
+        .fa-map-marker-alt::before { content: "📍"; }
+        .fa-linkedin::before { content: "💼"; }
+        .fa-github::before { content: "⚡"; }
+        .fa-globe::before { content: "🌐"; }
     </style>
 </head>
 <body>
@@ -521,24 +406,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
                 </div>
             </div>
         </header>
-
-        <div class="impact-strip">
-            <div class="impact-card">
-                <div class="impact-number">-80%</div>
-                <div class="impact-label">weniger Rückfragen</div>
-                <div class="impact-detail">durch Quality-Monitoring</div>
-            </div>
-            <div class="impact-card">
-                <div class="impact-number">96%</div>
-                <div class="impact-label">Qualität nach Migration</div>
-                <div class="impact-detail">vorher 30%</div>
-            </div>
-            <div class="impact-card">
-                <div class="impact-number">80%</div>
-                <div class="impact-label">KI-gestützte Tests</div>
-                <div class="impact-detail">auto-generiert</div>
-            </div>
-        </div>
 
         <section class="ai-showcase">
             <h2>${langConfig.ui.ai_skills_title}</h2>
@@ -732,10 +599,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData) {
     preferCSSPageSize: false,
     displayHeaderFooter: false,
     margin: {
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0'
+      top: '8mm',
+      bottom: '10mm',
+      left: '8mm',
+      right: '8mm'
     },
     scale: 1.0,
     tagged: true

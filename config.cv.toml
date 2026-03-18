@@ -274,11 +274,11 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
-        position = "Quality Engineer"
+        position = "Quality Engineering Lead"
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+**Quality Engineering & Technische Führung** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
 
 **Quantifizierbare Erfolge**
 - **820 BDD Test-Szenarien** in 28 Feature-Files mit 100% API-Coverage (66/66 Endpoints)
@@ -874,11 +874,11 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         """
 
         [[languages.en.params.experiences.list]]
-        position = "Quality Engineer"
+        position = "Quality Engineering Lead"
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
+**Quality Engineering & Technical Leadership** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
 
 **Quantifiable Achievements**
 - **820 BDD test scenarios** across 28 feature files with 100% API coverage (66/66 endpoints)
@@ -1614,6 +1614,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "Live Demo Apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
+        featured = true
         screenshot = "projects/websiteanalyzer.png"
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
