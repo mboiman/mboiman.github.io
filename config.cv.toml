@@ -1614,6 +1614,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "Live Demo Apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
+        featured = true
         screenshot = "projects/websiteanalyzer.png"
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
