@@ -159,7 +159,7 @@ defaultContentLanguageInSubdir = true
 
         [[languages.de.params.education.list]]
         degree = "Certified Dynatrace Diagnostics Basic Training"
-        dates = "2025"
+        dates = "2007"
 
       [languages.de.params.language]
         enable = true
@@ -760,7 +760,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.en.params.education.list]]
         degree = "Certified Dynatrace Diagnostics Basic Training"
-        dates = "2025"
+        dates = "2007"
 
       [languages.en.params.language]
         enable = true
