@@ -206,12 +206,30 @@ defaultContentLanguageInSubdir = true
 In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, die Go/No-Go-Entscheidungen von Stunden auf Minuten verkürzt haben, KI-gestützte Testautomatisierung eingeführt, die 80% der Test-Cases automatisch generiert, und Legacy-Migrationen mit 24/7-Validierung von 30% auf 96% Qualität gebracht.
 
 Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein 40+ Skills umfassendes Automatisierungs-Ökosystem für Enterprise-Workflows.
+
+Ergänzend gebe ich dieses Wissen weiter — in Entwickler- und Business-Workshops sowie als geladener Impulsgeber (TU Darmstadt) — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.
         """
 
       [languages.de.params.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "Berufserfahrung"
+
+        [[languages.de.params.experiences.list]]
+        position = "Impulsvortrag: KI-gestützte Software-Entwicklung in der Praxis"
+        dates = "04/2026"
+        company = "TU Darmstadt — Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
+        details = """
+**Geladener Impulsgeber** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren — direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
+
+**Inhalte**
+- Vom Prompt zum Prototyp: KI-Werkzeugketten, mit denen ein MVP in Stunden statt Wochen steht
+- Agentisches Coding in der Praxis — wo es skaliert, wo die Reibung sitzt, wo Tools kippen
+- Live-Demos aus dem eigenen Skill-Ökosystem, on-demand zu Fragen aus der Gruppe
+- Erfahrungswerte aus produktiven KI-Projekten statt Folien-Theorie
+
+Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~25 Studierende mit gemischtem Vorwissen.
+        """
 
         [[languages.de.params.experiences.list]]
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
@@ -806,12 +824,30 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
 In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems that cut Go/No-Go decisions from hours to minutes, introduced AI-driven test automation that generates 80% of test cases automatically, and validated legacy migrations 24/7 — improving quality from 30% to 96%.
 
-Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows."""
+Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows.
+
+I also pass this knowledge on — in developer and business workshops and as an invited guest speaker (TU Darmstadt) — translating hands-on AI for technical and non-technical audiences alike."""
 
       [languages.en.params.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "Professional Experience"
+
+        [[languages.en.params.experiences.list]]
+        position = "Guest Lecture: AI-Assisted Software Development in Practice"
+        dates = "04/2026"
+        company = "TU Darmstadt — Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
+        details = """
+**Invited guest speaker** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects — directly applicable to the students' subsequent team work on their own startup ideas.
+
+**Topics**
+- From prompt to prototype: AI toolchains that get an MVP done in hours, not weeks
+- Agentic coding in practice — where it scales, where the friction sits, where tools break down
+- Live demos from my own skill ecosystem, on demand in response to the group's questions
+- Lessons from production AI projects rather than slide theory
+
+Format: moderated impulse talk with interactive live demonstrations. Audience: ~25 students with mixed prior knowledge.
+        """
 
         [[languages.en.params.experiences.list]]
         position = "Workshop: Development with Generative Language Models"
