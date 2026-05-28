@@ -18,6 +18,16 @@ const { profile, contact, ui, experiences, projects, summary, education, languag
 const featuredProjects = projects.list.filter(p => p.featured);
 const otherProjects = projects.list.filter(p => !p.featured);
 
+// Separate talks/workshops from regular positions (mirrors the PDF's isWorkshopOrPresentation)
+const isTalk = (exp: { position: string; company?: string }) => {
+  const p = (exp.position || '').toLowerCase();
+  const c = (exp.company || '').toLowerCase();
+  return /workshop|präsentation|presentation|impulsvortrag|vortrag|lecture|anwendungen von ki/.test(p)
+      || /workshop|präsentation/.test(c);
+};
+const jobs = experiences.list.filter(e => !isTalk(e));
+const talks = experiences.list.filter(isTalk);
+
 // Keep intro + tools section, remove verbose middle (Schwerpunkte bullet lists)
 function truncateDetails(details: string): string {
   const lines = details.split('\n');
@@ -220,7 +230,7 @@ function truncateDetails(details: string): string {
           <section>
             <h2 class="cv-section-title">{experiences.title}</h2>
             <div class="space-y-6 relative ml-3 pl-7" style="border-left: 2px solid rgba(58,143,160,0.15)">
-              {experiences.list.map((exp, i) => (
+              {jobs.map((exp, i) => (
                 <div class="relative">
                   <!-- Timeline dot -->
                   <div class="absolute -left-[33px] top-2 w-3 h-3 rounded-full border-2 bg-[var(--bg)]" style="border-color: var(--accent)"></div>
@@ -235,6 +245,22 @@ function truncateDetails(details: string): string {
                     </div>
                     <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(truncateDetails(exp.details))} />
                   </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Vorträge & Workshops -->
+        {talks.length > 0 && (
+          <section>
+            <h2 class="cv-section-title">{t.talksTitle}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {talks.map(talk => (
+                <div class="p-4 rounded-lg bg-[var(--bg-alt)] border border-white/[0.03]">
+                  <h3 class="text-sm font-semibold font-heading leading-snug" style="color: var(--accent)">{talk.position}</h3>
+                  <p class="text-xs mt-1" style="color: var(--text-secondary)">{talk.company}</p>
+                  <span class="inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md" style="background: rgba(58,143,160,0.12); color: var(--accent)">{talk.dates}</span>
                 </div>
               ))}
             </div>

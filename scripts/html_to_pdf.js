@@ -177,6 +177,10 @@ function isWorkshopOrPresentation(exp) {
   return lowerPos.includes('workshop') ||
     lowerPos.includes('präsentation') ||
     lowerPos.includes('presentation') ||
+    lowerPos.includes('impulsvortrag') ||
+    lowerPos.includes('vortrag') ||
+    lowerPos.includes('guest lecture') ||
+    lowerPos.includes('lecture') ||
     lowerPos.includes('anwendungen von ki') ||
     lowerCompany.includes('workshop') ||
     lowerCompany.includes('präsentation');
