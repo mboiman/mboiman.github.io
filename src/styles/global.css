@@ -8,6 +8,15 @@
   --text-secondary: #888888;
   --accent: #3a8fa0;
   --accent-hover: #4dabbf;
+  /* Darker accent for white text on accent backgrounds — meets WCAG AA (4.5:1) */
+  --accent-cta: #2c7888;
+}
+
+/* Visible keyboard focus everywhere (Tailwind preflight strips defaults) */
+:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 html {
@@ -33,7 +42,7 @@ h1, h2, h3, h4 {
 }
 
 ::selection {
-  background-color: var(--accent);
+  background-color: var(--accent-cta);
   color: white;
 }
 
