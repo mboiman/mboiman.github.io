@@ -67,6 +67,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     careerDetails: [
       'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.',
       'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein <strong style="color: var(--accent); font-weight: 500">40+ Skills</strong> umfassendes Automatisierungs-Ökosystem.',
+      'Dieses Wissen gebe ich weiter — in Entwickler- und Business-Workshops sowie als geladener <strong style="color: var(--accent); font-weight: 500">Impulsgeber an der TU Darmstadt</strong> — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
     ],
     cvImpactMetrics: [
       { metric: '-80%', label: 'Rückfragen', detail: 'durch Quality-Monitoring' },
@@ -112,6 +113,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     careerDetails: [
       'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.',
       'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems, e-invoicing platforms to EU standards, and a <strong style="color: var(--accent); font-weight: 500">40+ skill</strong> automation ecosystem.',
+      'I also pass this knowledge on — in developer and business workshops and as an invited <strong style="color: var(--accent); font-weight: 500">guest speaker at TU Darmstadt</strong> — translating hands-on AI for technical and non-technical audiences alike.',
     ],
     cvImpactMetrics: [
       { metric: '-80%', label: 'Inquiries', detail: 'through quality monitoring' },
