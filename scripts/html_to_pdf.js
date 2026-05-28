@@ -451,8 +451,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .header-tagline {
-            font-size: 9pt; color: #475569; font-weight: 600; margin-bottom: 8px;
+            font-size: 9pt; color: #475569; font-weight: 600; margin-bottom: 4px;
         }
+
+        .header-meta {
+            font-size: 7.5pt; color: #334155; font-weight: 600; margin-bottom: 8px;
+        }
+        .header-meta .sep { color: #94A3B8; font-weight: 400; padding: 0 4px; }
 
         .contact-grid {
             display: grid; grid-template-columns: 1fr 1fr;
@@ -797,6 +802,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             <div class="header-content">
                 <h1>${langConfig.profile.name}</h1>
                 <div class="header-tagline">${langConfig.ui.tagline}</div>
+                ${(langConfig.ui.location || langConfig.ui.availability) ? `<div class="header-meta">${langConfig.ui.location || ''}${langConfig.ui.location && langConfig.ui.availability ? '<span class="sep">·</span>' : ''}${langConfig.ui.availability || ''}</div>` : ''}
                 <div class="contact-grid">
                     ${contactItems}
                 </div>

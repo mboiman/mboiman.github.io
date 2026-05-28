@@ -34,6 +34,8 @@ defaultContentLanguageInSubdir = true
       
       [languages.de.params.ui]
         tagline = "Freiberuflicher Quality Engineer & KI-Architekt • 20+ Jahre QA • 4+ Jahre KI-Entwicklung"
+        location = "Frankfurt am Main"
+        availability = "Freiberuflich · verfügbar für neue Projekte"
         ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
         ai_skills_title = "Quality Engineering & KI-Kompetenzen"
         contact_label = "Kontakt"
@@ -653,6 +655,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       
       [languages.en.params.ui]
         tagline = "Freelance Quality Engineer & AI Architect • 20+ Years QA • 4+ Years AI Development"
+        location = "Frankfurt am Main, Germany"
+        availability = "Freelance · available for new projects"
         ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
         ai_skills_title = "Quality Engineering & AI Competencies"
         contact_label = "Contact"
