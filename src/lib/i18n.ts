@@ -24,6 +24,7 @@ export interface I18nStrings {
   ariaEducation: string;
   // CV-specific
   careerIntro: string;
+  talksTitle: string;
   careerDetails: string[];
   cvImpactMetrics: ImpactMetric[];
   cvFooterOtherLang: string;
@@ -64,9 +65,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     ariaBeliefs: 'Überzeugungen',
     ariaEducation: 'Ausbildung',
     careerIntro: 'Quality Engineer und KI-Automatisierungsexperte mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren.',
+    talksTitle: 'Vorträge & Workshops',
     careerDetails: [
       'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.',
       'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein <strong style="color: var(--accent); font-weight: 500">40+ Skills</strong> umfassendes Automatisierungs-Ökosystem.',
+      'Dieses Wissen gebe ich weiter — in Entwickler- und Business-Workshops sowie als geladener <strong style="color: var(--accent); font-weight: 500">Impulsgeber an der TU Darmstadt</strong> — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
     ],
     cvImpactMetrics: [
       { metric: '-80%', label: 'Rückfragen', detail: 'durch Quality-Monitoring' },
@@ -109,9 +112,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     ariaBeliefs: 'Beliefs',
     ariaEducation: 'Education',
     careerIntro: 'Quality Engineer and AI Automation Expert with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation.',
+    talksTitle: 'Speaking & Workshops',
     careerDetails: [
       'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.',
       'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems, e-invoicing platforms to EU standards, and a <strong style="color: var(--accent); font-weight: 500">40+ skill</strong> automation ecosystem.',
+      'I also pass this knowledge on — in developer and business workshops and as an invited <strong style="color: var(--accent); font-weight: 500">guest speaker at TU Darmstadt</strong> — translating hands-on AI for technical and non-technical audiences alike.',
     ],
     cvImpactMetrics: [
       { metric: '-80%', label: 'Inquiries', detail: 'through quality monitoring' },

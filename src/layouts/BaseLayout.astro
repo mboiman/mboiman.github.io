@@ -32,9 +32,10 @@ const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
   <link rel="canonical" href={`https://mboiman.github.io${currentPath}`} />
   <link rel="alternate" hreflang={lang} href={`https://mboiman.github.io${currentPath}`} />
   <link rel="alternate" hreflang={otherLang} href={`https://mboiman.github.io${otherPath}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://mboiman.github.io${currentPath}`} />
 </head>
 <body class="min-h-screen">
-  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded focus:text-sm" style="background: var(--accent); color: white;">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded focus:text-sm" style="background: var(--accent-cta); color: white;">
     {lang === 'de' ? 'Zum Inhalt springen' : 'Skip to content'}
   </a>
 

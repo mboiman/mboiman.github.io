@@ -33,7 +33,9 @@ defaultContentLanguageInSubdir = true
       author = "Michael Boiman"
       
       [languages.de.params.ui]
-        tagline = "Quality Engineering & KI-Automatisierungsexperte • 4+ Jahre KI-Entwicklung • 20+ Jahre Qualitätssicherung"
+        tagline = "Freiberuflicher Quality Engineer & KI-Architekt • 20+ Jahre QA • 4+ Jahre KI-Entwicklung"
+        location = "Frankfurt am Main"
+        availability = "Freiberuflich · verfügbar für neue Projekte"
         ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
         ai_skills_title = "Quality Engineering & KI-Kompetenzen"
         contact_label = "Kontakt"
@@ -96,7 +98,7 @@ defaultContentLanguageInSubdir = true
 
       [languages.de.params.profile]
         name = "Michael Boiman"
-        tagline = "Quality Engineering & KI-Experte – 20+ Jahre Qualitätssicherung, 4+ Jahre AI"
+        tagline = "Freiberuflicher Quality Engineer & KI-Architekt – 20+ Jahre QA, 4+ Jahre KI"
         avatar = "profile.png"
 
       [languages.de.params.contact]
@@ -159,7 +161,7 @@ defaultContentLanguageInSubdir = true
 
         [[languages.de.params.education.list]]
         degree = "Certified Dynatrace Diagnostics Basic Training"
-        dates = "2025"
+        dates = "2007"
 
       [languages.de.params.language]
         enable = true
@@ -201,17 +203,35 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-**Quality Engineer und KI-Automatisierungsexperte** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren — von der Testgenerierung bis zur Rechnungsverarbeitung.
+**Quality Engineer und KI-Architekt** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Was KI heute braucht — Zuverlässigkeit, Messbarkeit, Selbstkorrektur — habe ich zwei Jahrzehnte lang in Systeme gebaut; mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren, von der Testgenerierung bis zur Rechnungsverarbeitung.
 
-In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, die Go/No-Go-Entscheidungen von Stunden auf Minuten verkürzt haben, KI-gestützte Testautomatisierung eingeführt, die 80% der Test-Cases automatisch generiert, und Legacy-Migrationen mit 24/7-Validierung von 30% auf 96% Qualität gebracht.
+In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.
 
 Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein 40+ Skills umfassendes Automatisierungs-Ökosystem für Enterprise-Workflows.
+
+Ergänzend gebe ich dieses Wissen weiter — in Entwickler- und Business-Workshops sowie als geladener Impulsgeber (TU Darmstadt) — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.
         """
 
       [languages.de.params.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "Berufserfahrung"
+
+        [[languages.de.params.experiences.list]]
+        position = "Impulsvortrag: KI-gestützte Software-Entwicklung in der Praxis"
+        dates = "04/2026"
+        company = "TU Darmstadt — Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
+        details = """
+**Geladener Impulsgeber** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren — direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
+
+**Inhalte**
+- Vom Prompt zum Prototyp: KI-Werkzeugketten, mit denen ein MVP in Stunden statt Wochen steht
+- Agentisches Coding in der Praxis — wo es skaliert, wo die Reibung sitzt, wo Tools kippen
+- Live-Demos aus dem eigenen Skill-Ökosystem, on-demand zu Fragen aus der Gruppe
+- Erfahrungswerte aus produktiven KI-Projekten statt Folien-Theorie
+
+Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~25 Studierende mit gemischtem Vorwissen.
+        """
 
         [[languages.de.params.experiences.list]]
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
@@ -221,7 +241,7 @@ Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokol
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
 
 **Workshop-Inhalte**
-- Entwicklung mit LLMs (Claude, Gemini, GPT-4o) und Token-Optimierung - alle drei Modelle gleichwertig in Projekten eingesetzt
+- Entwicklung mit LLMs (Claude, Gemini, GPT-4o) und Token-Optimierung — projektübergreifend eingesetzt
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
 - Google Agent Development Kit (ADK) für Multi-Agent-Systeme und Tool-Integration
 - Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
@@ -232,7 +252,7 @@ Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokol
 - Task Master AI-Agent für Projektmanagement und Code-Scaffolding
 
 **Technologien & Tools**
-- Anthropic Claude, Google Gemini, OpenAI GPT-4o (gleichwertige Expertise in allen drei LLMs)
+- Anthropic Claude, Google Gemini, OpenAI GPT-4o
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI-Extensions
 - Playwright, Browser-Automation, Web-Scraping
@@ -246,7 +266,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "06/2025 – heute"
         company = "BKS - AI Research & Development"
         details = """
-**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit gleichwertiger Expertise in Claude, Gemini und OpenAI GPT.
+**Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
 - **Open Source MCP Server Portfolio**: Entwicklung und Veröffentlichung von 3+ MCP Servern auf GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) mit uvx-Distribution, Claude Desktop Integration und Multi-Format Support (Markdown, JSON, YAML)
@@ -264,7 +284,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
 
 **Tools & Technologien**
-- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot (gleichwertige Expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -274,11 +294,11 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
-        position = "Quality Engineer"
+        position = "Quality Engineering Lead"
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
+**Quality Engineering & Technische Führung** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
 
 **Quantifizierbare Erfolge**
 - **820 BDD Test-Szenarien** in 28 Feature-Files mit 100% API-Coverage (66/66 Endpoints)
@@ -317,7 +337,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Energiesektor-Verbindung**
 - **50 Hertz Beteiligung**: 50 Hertz (Elia Group Tochtergesellschaft) nahm am Forschungsprojekt eHaul teil, dem Vorgänger von AkkuSwap
 - Direkte Erfahrung im Energiesektor mit Qualitätsanforderungen für kritische Infrastruktur
-- Verständnis für 99,99% Zuverlässigkeitsstandards für Energieübertragungssysteme
+- Umfeld kritischer Energie-Infrastruktur (Übertragungsnetz-Kontext)
 
 **Technischer Stack**
 - Infrastruktur: Linux, Docker, Azure OpenAI
@@ -634,7 +654,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       author = "Michael Boiman"
       
       [languages.en.params.ui]
-        tagline = "Quality Engineering & AI Automation Expert • 4+ Years AI Development • 20+ Years Quality Assurance"
+        tagline = "Freelance Quality Engineer & AI Architect • 20+ Years QA • 4+ Years AI Development"
+        location = "Frankfurt am Main, Germany"
+        availability = "Freelance · available for new projects"
         ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
         ai_skills_title = "Quality Engineering & AI Competencies"
         contact_label = "Contact"
@@ -697,7 +719,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
       [languages.en.params.profile]
         name = "Michael Boiman"
-        tagline = "Quality Engineering & AI Expert – 20+ Years Quality Assurance, 4+ Years AI"
+        tagline = "Freelance Quality Engineer & AI Architect – 20+ Years QA, 4+ Years AI"
         avatar = "profile.png"
 
       [languages.en.params.contact]
@@ -760,7 +782,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.en.params.education.list]]
         degree = "Certified Dynatrace Diagnostics Basic Training"
-        dates = "2025"
+        dates = "2007"
 
       [languages.en.params.language]
         enable = true
@@ -802,16 +824,34 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-**Quality Engineer and AI Automation Expert** with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation — from test generation to invoice processing.
+**Quality Engineer and AI Architect** with 20+ years in software quality assurance and 4 years of specialized AI development. What AI needs today — reliability, measurability, self-correction — I spent two decades building into systems; my focus: transforming business processes through measurable automation, from test generation to invoice processing.
 
-In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems that cut Go/No-Go decisions from hours to minutes, introduced AI-driven test automation that generates 80% of test cases automatically, and validated legacy migrations 24/7 — improving quality from 30% to 96%.
+In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.
 
-Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows."""
+Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, e-invoicing platforms to EU standards, and a 40+ skill automation ecosystem for enterprise workflows.
+
+I also pass this knowledge on — in developer and business workshops and as an invited guest speaker (TU Darmstadt) — translating hands-on AI for technical and non-technical audiences alike."""
 
       [languages.en.params.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "Professional Experience"
+
+        [[languages.en.params.experiences.list]]
+        position = "Guest Lecture: AI-Assisted Software Development in Practice"
+        dates = "04/2026"
+        company = "TU Darmstadt — Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
+        details = """
+**Invited guest speaker** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects — directly applicable to the students' subsequent team work on their own startup ideas.
+
+**Topics**
+- From prompt to prototype: AI toolchains that get an MVP done in hours, not weeks
+- Agentic coding in practice — where it scales, where the friction sits, where tools break down
+- Live demos from my own skill ecosystem, on demand in response to the group's questions
+- Lessons from production AI projects rather than slide theory
+
+Format: moderated impulse talk with interactive live demonstrations. Audience: ~25 students with mixed prior knowledge.
+        """
 
         [[languages.en.params.experiences.list]]
         position = "Workshop: Development with Generative Language Models"
@@ -832,7 +872,7 @@ Today I combine quality engineering with AI architecture: MCP and A2A protocols,
 - Task Master AI agent for project management and code scaffolding
 
 **Technologies & Tools**
-- Anthropic Claude, Google Gemini, OpenAI GPT-4o (equal expertise across all three LLMs)
+- Anthropic Claude, Google Gemini, OpenAI GPT-4o
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
 - GitHub Copilot, Cursor, VS Code AI extensions
 - Playwright, browser automation, web scraping
@@ -846,7 +886,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "06/2025 – present"
         company = "BKS - AI Research & Development"
         details = """
-**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with equal expertise in Claude, Gemini, and OpenAI GPT.
+**Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
 - **Open Source MCP Server Portfolio**: Development and publication of 3+ MCP servers on GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) with uvx distribution, Claude Desktop integration, and multi-format support (Markdown, JSON, YAML)
@@ -864,7 +904,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform — automated incident management, log analysis, weekly reporting and go-live tracking
 
 **Tools & Technologies**
-- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot (equal expertise), Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -874,11 +914,11 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         """
 
         [[languages.en.params.experiences.list]]
-        position = "Quality Engineer"
+        position = "Quality Engineering Lead"
         dates = "09/2025 – 02/2026"
         company = "TÜV Süd"
         details = """
-**Quality Engineering** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
+**Quality Engineering & Technical Leadership** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
 
 **Quantifiable Achievements**
 - **820 BDD test scenarios** across 28 feature files with 100% API coverage (66/66 endpoints)
@@ -917,7 +957,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Energy Sector Connection**
 - **50 Hertz Participation**: 50 Hertz (Elia Group subsidiary) participated in research project eHaul, the predecessor of AkkuSwap
 - Direct energy sector experience with critical infrastructure quality requirements
-- Understanding of 99.99% reliability standards for energy transmission systems
+- Context of critical energy infrastructure (transmission-grid environment)
 
 **Technical Stack**
 - Infrastructure: Linux, Docker, Azure OpenAI
@@ -1417,7 +1457,7 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
 • RESTful API für Service-Integration und CSV-Export
 • Docker-basiertes Deployment mit Kubernetes-ready Architecture
 
-**Impact:** Reduzierung der MTTR (Mean Time To Repair) um 60%, proaktive Incident-Vermeidung durch Trend-Analyse"""
+**Kontext:** Internes Evaluierungs-/Demonstrations-Dashboard mit simulierten SLA-Metriken — Architektur-Referenz für Time-Series-Monitoring (kein Produktivsystem)."""
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -1614,6 +1654,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "Live Demo Apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
+        featured = true
         screenshot = "projects/websiteanalyzer.png"
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
@@ -1672,7 +1714,7 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
 • RESTful API for service integration and CSV export
 • Docker-based deployment with Kubernetes-ready architecture
 
-**Impact:** 60% reduction in MTTR (Mean Time To Repair), proactive incident prevention through trend analysis"""
+**Context:** Internal evaluation/demonstration dashboard with simulated SLA metrics — an architecture reference for time-series monitoring (not a production system)."""
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
@@ -1817,7 +1859,7 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.de.params.skills.list]]
         skill = """
         Dashboards & Analyse - \n
-        Kibana(+ES) & Greylog &  \n
+        Kibana(+ES) & Graylog &  \n
         Grafana & Instana & Azure Log Analytics
         """
 
