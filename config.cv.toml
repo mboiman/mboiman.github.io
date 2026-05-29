@@ -69,33 +69,6 @@ defaultContentLanguageInSubdir = true
         requirements_mapping_title = "Ihre Anforderungen → Meine Qualifikationen"
         attachment_label = "Anlage: Vollständiger Lebenslauf mit detaillierten Projektbeschreibungen, Technologiestack und Referenzen"
 
-      [languages.de.params.ai_showcase]
-        enable = true
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "Quality Engineering & AI-Automatisierung"
-        description = "Quality-First Automatisierung: E-Mail-Bots, Rechnungsverarbeitung, Workflow-Automatisierung mit 80% Aufwandsreduktion, messbare Kosteneinsparungen, Bearbeitungszeit von Stunden auf Sekunden"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "KI-Quality Engineering Excellence"
-        description = "80% auto-generierte Tests & Test-Cases, IDE-Integration, Go/No-Go in Minuten statt Stunden, 50% weniger Entwicklungszeit, 80% weniger Rückfragen"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "Next-Gen AI Protocols & Agentic Systems"
-        description = "MCP & A2A Protocol Implementation, Google Agent Development Kit (ADK), Multi-Agent-Orchestrierung, JSON-RPC, sichere Agent-to-Agent Communication, Enterprise-ready"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "RAG-Systeme & Enterprise NLP"
-        description = "Vector Embeddings, LangChain, Q&A-Bots, spaCy/NLTK, 95% Genauigkeit, EU-Standards, kontextbasierte Intelligenz"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, Serverless MLOps, Auto-Scaling, Echtzeit-Monitoring, Production-Grade Deployment"
-        
-        [[languages.de.params.ai_showcase.list]]
-        name = "Transparenz & Business Intelligence"
-        description = "Real-time Dashboards, Qualitäts-Visualisierung, End-to-End-Monitoring, KPI-Automation, Single Source of Truth"
-
       [languages.de.params.profile]
         name = "Michael Boiman"
         tagline = "Freiberuflicher Quality Engineer & KI-Architekt – 20+ Jahre QA, 4+ Jahre KI"
@@ -113,8 +86,8 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "phone"
         icon = "fa-phone"
-        url = ""
-        title = "Auf Anfrage per E-Mail verfügbar"
+        url = "tel:+4915233822623"
+        title = "+49 152 33822623"
 
         [[languages.de.params.contact.list]]
         class = "website"
@@ -281,7 +254,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Claude Code Plugin-Ecosystem**: Entwicklung von 40+ produktiven Skills für Enterprise-Workflows — Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
 - **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit ecosystem.yaml als Single Source of Truth für 20+ Repositories, automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
 - **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen — Branch-Schutz, Secret-Erkennung und Deployment-Gates
-- **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
+- **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA) — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
 
 **Tools & Technologien**
 - LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
@@ -413,7 +386,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates    = "01/2024 – 04/2025"
         company  = "BKS"
         details  = """
-**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform. Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
+**Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
 **Schwerpunkte**:
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
@@ -690,33 +663,6 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         requirements_mapping_title = "Your Requirements → My Qualifications"
         attachment_label = "Attachment: Complete CV with detailed project descriptions, technology stack and references"
 
-      [languages.en.params.ai_showcase]
-        enable = true
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "Quality Engineering & AI Automation"
-        description = "Quality-first automation: Email bots, invoice processing, workflow automation with 80% workload reduction, measurable cost savings, processing time from hours to seconds"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "AI Quality Engineering Excellence"
-        description = "80% auto-generated tests & test cases, IDE integration, Go/No-Go in minutes instead of hours, 50% less development time, 80% fewer inquiries"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "Next-Gen AI Protocols & Agentic Systems"
-        description = "MCP & A2A protocol implementation, Google Agent Development Kit (ADK), multi-agent orchestration, JSON-RPC, secure agent-to-agent communication, enterprise-ready"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "RAG Systems & Enterprise NLP"
-        description = "Vector embeddings, LangChain, Q&A bots, spaCy/NLTK, 95% accuracy, EU standards, contextual intelligence"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "Multi-Cloud AI Architecture"
-        description = "Azure OpenAI, Google Cloud AI, serverless MLOps, auto-scaling, real-time monitoring, production-grade deployment"
-        
-        [[languages.en.params.ai_showcase.list]]
-        name = "Transparency & Business Intelligence"
-        description = "Real-time dashboards, quality visualization, end-to-end monitoring, KPI automation, single source of truth"
-
       [languages.en.params.profile]
         name = "Michael Boiman"
         tagline = "Freelance Quality Engineer & AI Architect – 20+ Years QA, 4+ Years AI"
@@ -734,8 +680,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "phone"
         icon = "fa-phone"
-        url = ""
-        title = "Available on request via email"
+        url = "tel:+4915233822623"
+        title = "+49 152 33822623"
 
         [[languages.en.params.contact.list]]
         class = "website"
@@ -901,7 +847,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Claude Code Plugin Ecosystem**: Development of 40+ production skills for enterprise workflows — log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
 - **Context Orchestrator**: Central multi-repo control system with ecosystem.yaml as single source of truth for 20+ repositories, automatic cross-repo navigation and structured work tracking with archiving
 - **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations — branch protection, secret detection and deployment gates
-- **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform — automated incident management, log analysis, weekly reporting and go-live tracking
+- **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform (under NDA) — automated incident management, log analysis, weekly reporting and go-live tracking
 
 **Tools & Technologies**
 - LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
@@ -1033,7 +979,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates    = "01/2024 – 04/2025"
         company  = "BKS"
         details  = """
-**Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform. Full responsibility from requirements analysis through implementation to production go‑live.
+**Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
 
 **Focus areas**:
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
