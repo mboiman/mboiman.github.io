@@ -358,4 +358,92 @@ const olderExp = experiences.list.slice(5);
       }
     });
   </script>
+
+  <!-- Presentation navigation: step act-to-act with arrow keys (Story page only) -->
+  <script>
+    (function () {
+      // Each top-level <section> is a step; the "Selected Works" act has multiple
+      // direct <div> children (one per project) → each becomes its own step.
+      const steps: Element[] = [];
+      document.querySelectorAll('section').forEach((sec) => {
+        const divs = Array.from(sec.children).filter((c) => c.tagName === 'DIV');
+        if (divs.length > 1) divs.forEach((d) => steps.push(d));
+        else steps.push(sec);
+      });
+      if (steps.length < 2) return;
+
+      // A presentation always opens on the first act — don't restore a mid-scroll position.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+
+      let current = 0;
+      let navigating = false;   // true while a programmatic (key-driven) scroll is in flight
+      let navTimer = 0;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const counter = document.createElement('div');
+      counter.className = 'no-print';
+      counter.setAttribute('aria-hidden', 'true');
+      counter.style.cssText = 'position:fixed;bottom:1.5rem;right:1.75rem;z-index:60;font-size:12px;letter-spacing:.18em;font-variant-numeric:tabular-nums;pointer-events:none';
+      document.body.appendChild(counter);
+
+      const hint = document.createElement('div');
+      hint.className = 'no-print';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.innerHTML = '<span style="font-size:13px;letter-spacing:.05em">← →</span><span>Navigieren</span>';
+      hint.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-secondary);opacity:.4;transition:opacity .8s ease;pointer-events:none';
+      document.body.appendChild(hint);
+      let hintTimer = window.setTimeout(() => { hint.style.opacity = '0'; }, 4500);
+
+      const pad = (n: number) => String(n).padStart(2, '0');
+      const update = () => {
+        counter.innerHTML = '<span style="color:var(--accent)">' + pad(current + 1) + '</span>'
+          + '<span style="color:var(--text-secondary);opacity:.55"> / ' + pad(steps.length) + '</span>';
+      };
+      const fadeHint = () => { clearTimeout(hintTimer); hint.style.opacity = '0'; };
+
+      // Keep `current` in sync when the user scrolls manually (rAF-throttled).
+      const syncFromScroll = () => {
+        const mark = window.innerHeight * 0.33;
+        let idx = 0;
+        for (let i = 0; i < steps.length; i++) {
+          if (steps[i].getBoundingClientRect().top <= mark) idx = i;
+        }
+        current = idx; update();
+      };
+
+      // Synchronous index → fast repeated key presses step reliably (no observer lag).
+      const goTo = (i: number) => {
+        current = Math.max(0, Math.min(i, steps.length - 1));
+        update();
+        const el = steps[current];
+        // Show the destination at once — don't wait for the reveal observer (no half-faded jump).
+        el.classList.add('visible');
+        el.querySelectorAll('.reveal').forEach((r) => r.classList.add('visible'));
+        // Suppress scroll-sync while we animate, so it can't fight the target index.
+        navigating = true;
+        clearTimeout(navTimer);
+        navTimer = window.setTimeout(() => { navigating = false; }, 700);
+        el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      };
+
+      document.addEventListener('keydown', (e) => {
+        const tgt = e.target as HTMLElement | null;
+        if (tgt && tgt.closest && tgt.closest('input,textarea,select,[contenteditable]')) return;
+        if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); goTo(current + 1); fadeHint(); }
+        else if (['ArrowUp', 'ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); goTo(current - 1); fadeHint(); }
+        else if (e.key === 'Home') { e.preventDefault(); goTo(0); fadeHint(); }
+        else if (e.key === 'End') { e.preventDefault(); goTo(steps.length - 1); fadeHint(); }
+      });
+
+      let raf = 0;
+      window.addEventListener('scroll', () => {
+        if (navigating) return;   // don't let manual-scroll sync override key navigation mid-animation
+        if (raf) return;
+        raf = requestAnimationFrame(() => { raf = 0; syncFromScroll(); });
+      }, { passive: true });
+
+      syncFromScroll();
+    })();
+  </script>
 </BaseLayout>
