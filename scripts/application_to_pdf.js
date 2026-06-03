@@ -22,14 +22,19 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     `;
   }).join('');
 
-  // Generate requirements mapping
-  const requirementsMapping = coverLetterData.requirements.map(req => `
+  // Generate requirements mapping (optional — flowing prose letters set requirements: [])
+  const requirementsList = coverLetterData.requirements || [];
+  const requirementsMapping = requirementsList.map(req => `
     <div class="requirement-item">
       <div class="requirement-label">${req.requirement}</div>
       <div class="requirement-response">${req.response}</div>
       <div class="cv-reference">${req.cvReference}</div>
     </div>
   `).join('');
+  // Only render the 🎯 box when there are requirements; otherwise the letter is pure prose
+  const requirementsSection = requirementsList.length
+    ? `<div class="requirements-mapping"><h3>🎯 ${langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications'}</h3>${requirementsMapping}</div>`
+    : '';
 
   // Replace placeholders
   template = template
@@ -46,6 +51,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     .replace(/{{GREETING}}/g, coverLetterData.greeting)
     .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="text-align: right; margin: 0 0 15px 0; font-size: 8pt; color: #7a8b9a; font-style: italic;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div>` : '')
     .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
+    .replace(/{{REQUIREMENTS_SECTION}}/g, requirementsSection)
     .replace(/{{REQUIREMENTS_MAPPING_TITLE}}/g, langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications')
     .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
     .replace(/{{ATTACHMENT_LABEL}}/g, langConfig.ui.attachment_label || 'Attachment: Complete CV')
