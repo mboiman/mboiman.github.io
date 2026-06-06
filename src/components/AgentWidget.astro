@@ -7,6 +7,13 @@
 // message/stream (SSE) preferred, message/send (buffered) fallback, contextId
 // persisted in localStorage.
 //
+// Rendering is escape-FIRST: every agent response is HTML-escaped in full before a
+// small, audited markdown subset (tables, lists, code, headings, bold/links) is
+// re-introduced — a prompt-injected agent can never emit live HTML (see safeMarkdown).
+//
+// The panel can be enlarged (maximize toggle) or freely drag-resized (top-left
+// grip); the chosen size persists in localStorage. Mobile stays fullscreen.
+//
 // All user-facing strings come from src/lib/i18n.ts (no hardcoded copy here).
 // The widget is JS-injected at runtime and carries `@media print { display:none }`,
 // so it is excluded from the Puppeteer-generated PDF (which is built from a
@@ -45,18 +52,47 @@ const widgetStrings = {
     aria-labelledby="agent-widget-title"
     hidden
   >
+    <!-- Free-resize grip. Top-left because the panel is anchored bottom-right,
+         so the top-left corner is the only one that grows the panel "outward". -->
+    <div id="agent-widget-resize" class="aw-resize-handle" aria-hidden="true" title="">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="11" x2="11" y2="3"></line>
+        <line x1="6" y1="12" x2="12" y2="6"></line>
+      </svg>
+    </div>
+
     <header id="agent-widget-header">
       <div class="aw-header-text">
         <h2 id="agent-widget-title"></h2>
         <p id="agent-widget-subtitle"></p>
       </div>
-      <button id="agent-widget-close" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+      <div class="aw-header-actions">
+        <!-- Maximize / restore toggle. Icon swaps via .aw-is-max on the panel. -->
+        <button id="agent-widget-maximize" type="button" class="aw-icon-btn">
+          <svg class="aw-ico-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <svg class="aw-ico-restore" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
+        <button id="agent-widget-close" type="button" class="aw-icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </header>
 
     <div id="agent-widget-messages" aria-live="polite" aria-atomic="false"></div>
@@ -80,23 +116,58 @@ const widgetStrings = {
 </div>
 
 <style>
-  /* Scoped to the widget; all colors pull from the site's CSS variables so the
-     widget tracks whatever --bg / --text / --accent resolve to (light or dark). */
+  /* Scoped to the widget. Colors pull from the site CSS vars so light/dark just
+     work. Spacing / radius / typography / elevation map to DESIGN.md tokens
+     (token name in the comment beside each value). */
   #agent-widget-root {
-    --aw-panel-w: 380px;
-    --aw-panel-h: 560px;
-    --aw-radius: 14px;
+    /* --- size state: JS overrides --aw-w / --aw-h for free-resize & maximize --- */
+    --aw-w: 380px;                 /* default panel width  */
+    --aw-h: 560px;                 /* default panel height */
+    --aw-max-w: min(720px, 92vw);  /* maximize target W */
+    --aw-max-h: min(840px, 90vh);  /* maximize target H */
+
+    /* radius — DESIGN.md rounded.* */
+    --aw-radius: 16px;             /* rounded.xl — panel (CTA-container tier) */
+    --aw-radius-md: 8px;           /* rounded.md — bubbles, input, send button */
+    --aw-radius-sm: 4px;           /* rounded.sm — bubble tail */
+
+    /* spacing — DESIGN.md spacing.* */
+    --aw-pad: 16px;                /* spacing.md — panel inner padding */
+    --aw-gap: 8px;                 /* spacing.sm — vertical rhythm between bubbles */
+
+    /* hairline border — tracks --text so it reads in both themes */
     --aw-border: color-mix(in srgb, var(--text) 14%, transparent);
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    font-weight: 300;
+    --aw-border-strong: color-mix(in srgb, var(--text) 22%, transparent);
+
+    /* accent gradient — DESIGN.md accent-from → accent-to, used ONLY on launcher
+       + send (decorative/CTA). Falls back to the site accent if vars absent. */
+    --aw-grad: linear-gradient(135deg,
+      var(--accent-cta, var(--accent)) 0%,
+      var(--accent-hover, var(--accent)) 100%);
+
+    /* elevation — DESIGN.md shadow-hover (panel) + proposed shadow-overlay */
+    --aw-elev-panel: 0 16px 48px -8px rgba(0,0,0,0.18), 0 4px 12px -4px rgba(0,0,0,0.10);
+    --aw-elev-launcher: 0 8px 24px -6px rgba(0,0,0,0.28), 0 2px 6px -2px rgba(0,0,0,0.18);
+
+    /* typography — DESIGN.md: Inter, light at large sizes; system stack since we
+       cannot ship Google Fonts (GDPR) — San Francisco is Inter's closest cousin */
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+    font-weight: 400;
   }
 
-  /* Hide from print as a belt-and-suspenders measure (the PDF pipeline does not
-     load this layout, but this guarantees it even if a page is ever printed). */
+  /* darker overlay alpha in dark mode (DESIGN.md: soften/strengthen per theme) */
+  :global(html.dark) #agent-widget-root,
+  :global(.dark) #agent-widget-root {
+    --aw-elev-panel: 0 16px 48px -8px rgba(0,0,0,0.55), 0 4px 12px -4px rgba(0,0,0,0.35);
+    --aw-elev-launcher: 0 8px 24px -6px rgba(0,0,0,0.6), 0 2px 6px -2px rgba(0,0,0,0.4);
+  }
+
+  /* Belt-and-suspenders: never print the widget. */
   @media print {
     #agent-widget-root { display: none !important; }
   }
 
+  /* ───────────────────────── Launcher (FAB) ───────────────────────── */
   #agent-widget-launcher {
     position: fixed;
     bottom: 1.25rem;
@@ -104,145 +175,262 @@ const widgetStrings = {
     z-index: 9998;
     width: 56px;
     height: 56px;
-    border-radius: 50%;
+    border-radius: 9999px;          /* rounded.full */
     border: none;
     cursor: pointer;
-    background: var(--accent-cta, var(--accent));
+    background: var(--aw-grad);      /* accent gradient — decorative CTA */
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-    transition: transform 0.18s ease, background-color 0.18s ease;
+    box-shadow: var(--aw-elev-launcher);
+    /* DESIGN.md motion rule: transform/opacity only — no color transitions */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, filter 0.2s ease-out;
   }
   #agent-widget-launcher:hover {
-    background: var(--accent-hover, var(--accent));
-    transform: translateY(-2px);
+    transform: translateY(-2px);    /* DESIGN.md hover lift = -2px */
+    filter: brightness(1.06);       /* luminance, not a color-channel tween */
+  }
+  #agent-widget-launcher:active { transform: translateY(0); }
+  #agent-widget-launcher:focus-visible {
+    outline: 2px solid var(--accent-hover, var(--accent));
+    outline-offset: 3px;
   }
   #agent-widget-launcher svg { width: 26px; height: 26px; }
   #agent-widget-launcher.aw-hidden { display: none; }
 
+  /* ───────────────────────── Panel ───────────────────────── */
   #agent-widget-panel {
     position: fixed;
     bottom: 1.25rem;
     right: 1.25rem;
     z-index: 9999;
-    width: var(--aw-panel-w);
-    height: var(--aw-panel-h);
-    max-height: calc(100vh - 2.5rem);
+    width: var(--aw-w);
+    height: var(--aw-h);
+    max-width: 95vw;
+    max-height: 92vh;
+    min-width: 320px;
+    min-height: 420px;
     display: flex;
     flex-direction: column;
     background: var(--bg);
     color: var(--text);
     border: 1px solid var(--aw-border);
-    border-radius: var(--aw-radius);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+    border-radius: 16px;            /* rounded.xl */
+    box-shadow: var(--aw-elev-panel);
     overflow: hidden;
-    animation: aw-pop 0.18s ease;
+    animation: aw-pop 0.2s ease-out; /* 200ms ease-out per DESIGN.md */
   }
+  /* While dragging: kill the transition so the panel tracks the pointer 1:1. */
+  #agent-widget-panel.aw-resizing { animation: none; user-select: none; }
+  #agent-widget-panel.aw-is-max {
+    width: var(--aw-max-w);
+    height: var(--aw-max-h);
+  }
+
   @keyframes aw-pop {
     from { opacity: 0; transform: translateY(12px) scale(0.98); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
+  /* ───────────────────────── Resize grip ───────────────────────── */
+  .aw-resize-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    z-index: 2;
+    cursor: nwse-resize;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5px 0 0 5px;
+    color: var(--text-secondary);
+    opacity: 0.55;
+    transition: opacity 0.18s ease-out;   /* opacity only — DESIGN.md motion rule */
+    touch-action: none;                    /* let JS own the gesture; no scroll-steal */
+  }
+  .aw-resize-handle:hover { opacity: 1; }
+  .aw-resize-handle svg { width: 12px; height: 12px; }
+
+  /* ───────────────────────── Header ───────────────────────── */
   #agent-widget-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0.75rem 0.9rem;
-    background: var(--bg-alt, var(--bg));
+    gap: var(--aw-gap);            /* spacing.sm */
+    padding: 14px 14px 14px 26px;  /* l-pad clears the 22px top-left grip */
+    background: color-mix(in srgb, var(--text) 3%, var(--bg));
     border-bottom: 1px solid var(--aw-border);
   }
   .aw-header-text { min-width: 0; }
+  .aw-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
   #agent-widget-title {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    line-height: 1.2;
+    /* DESIGN.md card-title (h4 20/500) scaled to a dense UI title */
+    font-size: 0.9375rem;          /* 15px */
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
     margin: 0;
     color: var(--text);
   }
   #agent-widget-subtitle {
-    font-size: 0.72rem;
-    line-height: 1.3;
-    margin: 2px 0 0;
+    font-size: 0.75rem;            /* body-sm/meta */
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 3px 0 0;
     color: var(--text-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  #agent-widget-close {
+
+  /* icon buttons (maximize + close) share one quiet style */
+  .aw-icon-btn {
     flex-shrink: 0;
     background: transparent;
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 4px;
-    border-radius: 6px;
-    display: flex;
-    transition: color 0.15s ease, background-color 0.15s ease;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;            /* rounded.md */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease-out;
   }
-  #agent-widget-close:hover {
+  .aw-icon-btn:hover {
     color: var(--text);
-    background: color-mix(in srgb, var(--text) 10%, transparent);
+    background: color-mix(in srgb, var(--text) 9%, transparent);
   }
-  #agent-widget-close svg { width: 18px; height: 18px; }
+  .aw-icon-btn:focus-visible {
+    outline: 2px solid var(--accent-hover, var(--accent));
+    outline-offset: 1px;
+  }
+  .aw-icon-btn svg { width: 16px; height: 16px; }
 
+  /* maximize icon swap: expand at default, restore when maximized */
+  .aw-ico-restore { display: none; }
+  #agent-widget-panel.aw-is-max .aw-ico-expand { display: none; }
+  #agent-widget-panel.aw-is-max .aw-ico-restore { display: inline-flex; }
+
+  /* ───────────────────────── Messages ───────────────────────── */
   #agent-widget-messages {
-    flex: 1;
+    flex: 1 1 auto;                /* flexes; layout never breaks when wide/tall */
+    min-height: 0;                 /* critical: lets the scroll area shrink in flex */
     overflow-y: auto;
-    padding: 0.9rem;
+    overscroll-behavior: contain;
+    padding: var(--aw-pad);        /* spacing.md */
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    font-size: 0.85rem;
-    line-height: 1.55;
+    gap: var(--aw-gap);            /* spacing.sm vertical rhythm */
+    font-size: 0.875rem;           /* body-md scaled to 14px */
+    line-height: 1.6;              /* DESIGN.md: line-height 1.6 is mandatory */
   }
 
+  /* custom scrollbar — quiet, theme-tracking */
+  #agent-widget-messages { scrollbar-width: thin; scrollbar-color: var(--aw-border-strong) transparent; }
+  #agent-widget-messages::-webkit-scrollbar { width: 8px; }
+  #agent-widget-messages::-webkit-scrollbar-track { background: transparent; }
+  #agent-widget-messages::-webkit-scrollbar-thumb {
+    background: var(--aw-border-strong);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  #agent-widget-messages::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--text) 32%, transparent);
+    background-clip: padding-box;
+  }
+
+  /* ───────────────────────── Bubbles ───────────────────────── */
   .aw-msg {
-    max-width: 85%;
-    padding: 0.5rem 0.75rem;
+    max-width: 82%;
+    padding: 8px 12px;
     border-radius: 12px;
     word-wrap: break-word;
     overflow-wrap: anywhere;
+    animation: aw-msg-in 0.18s ease-out;
   }
+  @keyframes aw-msg-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* USER — accent gradient fill, anchored right, tail bottom-right */
   .aw-msg.aw-user {
     align-self: flex-end;
-    background: var(--accent-cta, var(--accent));
+    background: var(--aw-grad);
     color: #fff;
     border-bottom-right-radius: 4px;
   }
+  .aw-msg.aw-user a { color: #fff; }
+
+  /* AGENT — subtle surface, hairline border, anchored left, tail bottom-left */
   .aw-msg.aw-agent {
     align-self: flex-start;
-    background: var(--bg-alt, color-mix(in srgb, var(--text) 8%, var(--bg)));
+    background: color-mix(in srgb, var(--text) 6%, var(--bg));
     border: 1px solid var(--aw-border);
     color: var(--text);
     border-bottom-left-radius: 4px;
   }
   .aw-msg.aw-error {
     align-self: flex-start;
-    background: color-mix(in srgb, #c0392b 18%, var(--bg));
-    border: 1px solid color-mix(in srgb, #c0392b 40%, transparent);
+    background: color-mix(in srgb, #c0392b 16%, var(--bg));
+    border: 1px solid color-mix(in srgb, #c0392b 38%, transparent);
     color: var(--text);
+    border-bottom-left-radius: 4px;
   }
-  .aw-msg a { color: inherit; text-decoration: underline; }
+  .aw-msg a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .aw-msg.aw-agent a { color: var(--accent-hover, var(--accent)); }
   .aw-msg strong { font-weight: 600; }
+  .aw-msg p:first-child { margin-top: 0; }
+  .aw-msg p:last-child { margin-bottom: 0; }
 
-  /* Working / streaming indicator */
+  /* retry affordance on error bubbles */
+  .aw-retry {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.7rem;
+    font: inherit;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+    color: var(--text);
+    transition: background-color 0.15s ease-out, opacity 0.15s ease-out;
+  }
+  .aw-retry:hover:not(:disabled) { background: color-mix(in srgb, var(--text) 16%, transparent); }
+  .aw-retry:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ───────────── Working / typing indicator ───────────── */
   .aw-working {
     align-self: flex-start;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.78rem;
+    gap: var(--aw-gap);
+    font-size: 0.75rem;
     color: var(--text-secondary);
-    padding: 0.25rem 0.25rem;
+    padding: 4px 12px;
+    background: color-mix(in srgb, var(--text) 6%, var(--bg));
+    border: 1px solid var(--aw-border);
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    max-width: 82%;
+    animation: aw-msg-in 0.18s ease-out;
   }
-  .aw-dots { display: inline-flex; gap: 3px; }
+  .aw-dots { display: inline-flex; gap: 3px; flex-shrink: 0; }
   .aw-dots span {
-    width: 5px; height: 5px; border-radius: 50%;
+    width: 5px; height: 5px; border-radius: 9999px;
     background: var(--accent);
     animation: aw-blink 1.2s infinite ease-in-out both;
   }
@@ -253,68 +441,189 @@ const widgetStrings = {
     40% { opacity: 1; }
   }
   .aw-step {
-    font-style: italic;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 230px;
+    min-width: 0;
+    font-size: 0.6875rem;          /* 11px — label-caps eyebrow tone */
+    letter-spacing: 0.04em;
   }
 
+  /* ───────────── Safe-markdown block elements (agent bubbles only) ───────────── */
+  .aw-msg.aw-agent .aw-md-p, .aw-msg.aw-error .aw-md-p { margin: 0 0 0.5rem; }
+  .aw-msg.aw-agent .aw-md-p:last-child, .aw-msg.aw-error .aw-md-p:last-child { margin-bottom: 0; }
+
+  .aw-msg.aw-agent .aw-md-h {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0.6rem 0 0.35rem;
+    color: var(--text);
+  }
+  .aw-msg.aw-agent h4.aw-md-h { font-size: 1rem; }
+  .aw-msg.aw-agent h5.aw-md-h { font-size: 0.9rem; }
+  .aw-msg.aw-agent h6.aw-md-h { font-size: 0.82rem; color: var(--text-secondary); }
+  .aw-msg.aw-agent .aw-md-h:first-child { margin-top: 0; }
+
+  .aw-msg.aw-agent .aw-md-list {
+    margin: 0.25rem 0 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .aw-msg.aw-agent .aw-md-list li { margin: 0.1rem 0; }
+  .aw-msg.aw-agent .aw-md-nested {
+    margin: 0.15rem 0 0.15rem;
+    padding-left: 1.1rem;
+  }
+  .aw-msg.aw-agent ul.aw-md-list { list-style: disc; }
+  .aw-msg.aw-agent ol.aw-md-list { list-style: decimal; }
+
+  .aw-msg.aw-agent .aw-md-quote {
+    margin: 0.4rem 0;
+    padding: 0.3rem 0.7rem;
+    border-left: 3px solid color-mix(in srgb, var(--accent) 60%, transparent);
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+    color: var(--text-secondary);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .aw-msg.aw-agent .aw-md-code,
+  .aw-msg.aw-agent .aw-md-pre code {
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.8em;
+  }
+  .aw-msg.aw-agent .aw-md-code {
+    background: color-mix(in srgb, var(--text) 10%, transparent);
+    border: 1px solid var(--aw-border);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+    white-space: nowrap;
+  }
+  .aw-msg.aw-agent .aw-md-pre {
+    margin: 0.4rem 0;
+    padding: 0.6rem 0.7rem;
+    background: color-mix(in srgb, var(--text) 7%, var(--bg));
+    border: 1px solid var(--aw-border);
+    border-radius: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .aw-msg.aw-agent .aw-md-pre code {
+    display: block;
+    white-space: pre;
+    color: var(--text);
+  }
+
+  /* GFM TABLES — compact, horizontally scrollable on overflow */
+  .aw-msg.aw-agent .aw-md-table-wrap {
+    margin: 0.45rem 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--aw-border);
+    border-radius: 8px;
+  }
+  .aw-msg.aw-agent .aw-md-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .aw-msg.aw-agent .aw-md-table th,
+  .aw-msg.aw-agent .aw-md-table td {
+    padding: 0.32rem 0.55rem;
+    border-bottom: 1px solid var(--aw-border);
+    border-right: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+  .aw-msg.aw-agent .aw-md-table th:last-child,
+  .aw-msg.aw-agent .aw-md-table td:last-child { border-right: none; }
+  .aw-msg.aw-agent .aw-md-table thead th {
+    background: color-mix(in srgb, var(--accent) 16%, var(--bg));
+    color: var(--text);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+  }
+  .aw-msg.aw-agent .aw-md-table tbody tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--text) 4%, transparent);
+  }
+  .aw-msg.aw-agent .aw-md-table tbody tr:last-child td { border-bottom: none; }
+  .aw-msg.aw-agent .aw-md-table code.aw-md-code { white-space: normal; }
+
+  /* ───────────────────────── Composer ───────────────────────── */
   #agent-widget-form {
     display: flex;
-    gap: 0.5rem;
-    padding: 0.6rem 0.7rem;
+    align-items: flex-end;
+    gap: var(--aw-gap);
+    padding: 10px 12px;
     border-top: 1px solid var(--aw-border);
-    background: var(--bg-alt, var(--bg));
+    background: color-mix(in srgb, var(--text) 3%, var(--bg));
   }
   #agent-widget-input {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
-    padding: 0.5rem 0.7rem;
-    border-radius: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;            /* rounded.md */
     border: 1px solid var(--aw-border);
     background: var(--bg);
     color: var(--text);
-    font-size: 0.85rem;
+    font-size: 0.875rem;           /* 14px */
     font-family: inherit;
+    line-height: 1.4;
+    transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
   }
   #agent-widget-input::placeholder { color: var(--text-secondary); }
   #agent-widget-input:focus-visible {
-    outline: 2px solid var(--accent-hover, var(--accent));
-    outline-offset: 1px;
+    outline: none;
+    border-color: var(--accent-hover, var(--accent));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
   }
   #agent-widget-send {
     flex-shrink: 0;
     width: 38px;
     height: 38px;
     border: none;
-    border-radius: 10px;
-    background: var(--accent-cta, var(--accent));
+    border-radius: 8px;            /* rounded.md */
+    background: var(--aw-grad);     /* accent gradient — CTA */
     color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.15s ease, opacity 0.15s ease;
+    transition: transform 0.15s ease-out, filter 0.15s ease-out, opacity 0.15s ease-out;
   }
-  #agent-widget-send:hover:not(:disabled) { background: var(--accent-hover, var(--accent)); }
+  #agent-widget-send:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
+  #agent-widget-send:active:not(:disabled) { transform: translateY(0); }
+  #agent-widget-send:focus-visible { outline: 2px solid var(--accent-hover, var(--accent)); outline-offset: 2px; }
   #agent-widget-send:disabled { opacity: 0.5; cursor: not-allowed; }
   #agent-widget-send svg { width: 17px; height: 17px; }
 
-  /* Mobile: fullscreen panel under 640px */
+  /* ───────────────────────── Mobile: fullscreen ───────────────────────── */
   @media (max-width: 639px) {
-    #agent-widget-panel {
+    #agent-widget-panel,
+    #agent-widget-panel.aw-is-max {
       inset: 0;
-      width: 100%;
-      height: 100%;
+      width: 100% !important;       /* override JS-set --aw-w */
+      height: 100% !important;
+      max-width: 100%;
       max-height: 100%;
+      min-width: 0;
+      min-height: 0;
       border-radius: 0;
       border: none;
     }
+    .aw-resize-handle { display: none; }
+    #agent-widget-maximize { display: none; }
+    #agent-widget-header { padding-left: 16px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #agent-widget-panel { animation: none; }
+    #agent-widget-panel,
+    .aw-msg,
+    .aw-working { animation: none; }
+    #agent-widget-launcher,
+    #agent-widget-send { transition: none; }
     .aw-dots span { animation: none; opacity: 0.6; }
   }
 </style>
@@ -328,14 +637,27 @@ const widgetStrings = {
     launcherLabel: string; headerTitle: string; headerSubtitle: string;
     inputPlaceholder: string; send: string; close: string; greeting: string;
     connecting: string; working: string; errorConnect: string;
-    errorSend: string; emptyAnswer: string;
+    errorSend: string; errorAgent: string; emptyAnswer: string; retry: string;
+    maximize?: string; restore?: string; resize?: string;
   };
+
+  // Every handler resolves to exactly one of these. send() decides what to render.
+  type Outcome =
+    | { kind: 'answer'; text: string }
+    | { kind: 'agent-error'; text: string }
+    | { kind: 'empty' };
+
+  // Terminal A2A task states that mean "the agent stopped without an answer".
+  // Both spellings of cancel(l)ed — A2A spec uses 'canceled', some agents emit 'cancelled'.
+  const FAILED_STATES = new Set(['failed', 'canceled', 'cancelled', 'rejected', 'unknown']);
 
   const root = document.getElementById('agent-widget-root');
   if (root) {
     const launcher = document.getElementById('agent-widget-launcher') as HTMLButtonElement;
     const panel = document.getElementById('agent-widget-panel') as HTMLElement;
     const closeBtn = document.getElementById('agent-widget-close') as HTMLButtonElement;
+    const maximizeBtn = document.getElementById('agent-widget-maximize') as HTMLButtonElement | null;
+    const resizeHandle = document.getElementById('agent-widget-resize') as HTMLElement | null;
     const messagesEl = document.getElementById('agent-widget-messages') as HTMLElement;
     const form = document.getElementById('agent-widget-form') as HTMLFormElement;
     const input = document.getElementById('agent-widget-input') as HTMLInputElement;
@@ -348,14 +670,23 @@ const widgetStrings = {
     const bundles = JSON.parse(root.getAttribute('data-i18n') || '{}') as Record<string, WidgetStr>;
     const t: WidgetStr = bundles[lang] || bundles.de;
 
+    // --- mutable state (declared early to avoid TDZ in event handlers) ---
+    let panelOpen = false;
+    let greeted = false;
+    let cardFetched = false;
+    let streamingSupported = true; // default true; agent card refines this
+    let cardEverReached = false;   // true once any agent endpoint answered (card or POST)
+    let busy = false;
+    let lastUserMessage = '';
+
     // --- Agent URL resolution -------------------------------------------------
     // Priority: ?agent= query param > localStorage('bridgeAgentUrl') > host-based.
     const CONTEXT_KEY = 'bridgeAgentContextId';
     const OVERRIDE_KEY = 'bridgeAgentUrl';
     function trimSlash(u: string): string { return u.replace(/\/+$/, ''); }
-    // Only accept an override that points at a trusted host. A crafted
-    // ?agent= link must never be able to repoint the widget at an attacker
-    // endpoint and exfiltrate what a visitor types. Allowlist: localhost + *.bks-lab.com.
+    // Only accept an override that points at a trusted host. A crafted ?agent=
+    // link must never repoint the widget at an attacker endpoint and exfiltrate
+    // what a visitor types. Allowlist: localhost + *.bks-lab.com.
     function isAllowedAgent(u: string): boolean {
       try {
         const h = new URL(u).hostname;
@@ -403,39 +734,228 @@ const widgetStrings = {
     }
     const contextId = getContextId();
 
-    // --- Security: escape first, then minimal safe markdown -------------------
-    // We NEVER inject the raw agent response — a visitor could prompt-inject the
-    // agent into emitting <script>. So: HTML-escape, then re-introduce only a
-    // tiny, audited markdown subset (bold, links, line breaks).
+    // =========================================================================
+    // SAFE rich-text renderer — escape-FIRST, then re-introduce an audited subset.
+    //
+    // THREAT MODEL: the agent's output is influenced by untrusted public visitors
+    // (prompt injection). A visitor may try to make the agent emit <script>,
+    // onerror=, javascript:/data: URLs, entity-encoded tags that re-form, etc.
+    //
+    // CORE INVARIANT: escapeHtml() runs ONCE on the WHOLE raw string FIRST. After
+    // that, the working text contains no live `< > " '`. Every subsequent step only
+    // (1) inserts OUR OWN hardcoded tags, or (2) pattern-matches on already-escaped
+    // text. No visitor byte is ever re-interpreted as HTML. innerHTML never sees
+    // raw model text — only this function's output.
+    // =========================================================================
+
+    /** HTML-escape EVERYTHING. The one and only entry point for untrusted bytes. */
     function escapeHtml(s: string): string {
       return s
-        .replace(/&/g, '&amp;')
+        .replace(/&/g, '&amp;')   // MUST be first — so we don't double-escape our own entities
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
     }
-    function safeMarkdown(raw: string): string {
-      let s = escapeHtml(raw);
-      // [text](url) — only http(s)/mailto, on already-escaped content.
-      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+)\)/g,
-        (_m, text, url) => {
-          // url came from escaped text, so quotes are already &quot; / &#39;.
-          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+
+    /** Validate + sanitise a link target. Operates on ALREADY-ESCAPED text.
+     *  Returns a safe href, or null if the URL is not allowlisted. */
+    function safeUrl(escapedUrl: string): string | null {
+      const probe = escapedUrl.replace(/&amp;/g, '&');
+      if (!/^https?:\/\//i.test(probe) && !/^mailto:/i.test(probe)) return null;
+      if (!/^[A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=%&#]+$/.test(escapedUrl)) return null;
+      return escapedUrl; // already escaped → safe inside a double-quoted attribute
+    }
+
+    /** Inline formatting — applied ONLY to already-escaped text runs.
+     *  Code spans are isolated via split (no sentinel char) so * _ ~ [ ] inside
+     *  code stay literal and the other inline rules never touch code content. */
+    function inlineFormat(escaped: string): string {
+      const segs = escaped.split(/(`[^`]+`)/g);
+      return segs.map((seg) => {
+        // a captured code span: starts and ends with a backtick (char 96)
+        if (seg.length >= 2 && seg.charCodeAt(0) === 96 && seg.charCodeAt(seg.length - 1) === 96) {
+          return '<code class="aw-md-code">' + seg.slice(1, -1) + '</code>';
+        }
+        let s = seg.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, text, url) => {
+          const href = safeUrl(url);
+          if (!href) return m; // not allowlisted -> leave as literal escaped text
+          return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + text + '</a>';
         });
-      // **bold**
-      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      // line breaks
-      s = s.replace(/\n/g, '<br>');
-      return s;
+        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        s = s.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+        s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+        return s;
+      }).join('');
+    }
+
+    /** Split a GFM pipe-table row into cells, honouring escaped \| literals. */
+    function splitRow(line: string): string[] {
+      let tt = line.trim();
+      if (tt.startsWith('|')) tt = tt.slice(1);
+      if (tt.endsWith('|')) tt = tt.slice(0, -1);
+      const cells: string[] = [];
+      let cur = '';
+      for (let i = 0; i < tt.length; i++) {
+        if (tt[i] === '\\' && tt[i + 1] === '|') { cur += '|'; i++; continue; }
+        if (tt[i] === '|') { cells.push(cur); cur = ''; continue; }
+        cur += tt[i];
+      }
+      cells.push(cur);
+      return cells.map((c) => c.trim());
+    }
+
+    /** Is this line a GFM separator row?  |---|:--:|---:|  → returns alignments. */
+    function parseAlignRow(line: string): ('left' | 'right' | 'center' | 'none')[] | null {
+      const cells = splitRow(line);
+      if (cells.length === 0) return null;
+      const aligns: ('left' | 'right' | 'center' | 'none')[] = [];
+      for (const c of cells) {
+        if (!/^:?-+:?$/.test(c)) return null;
+        const left = c.startsWith(':');
+        const right = c.endsWith(':');
+        aligns.push(left && right ? 'center' : right ? 'right' : left ? 'left' : 'none');
+      }
+      return aligns;
+    }
+
+    /** List builder with one level of nesting. Operates on already-escaped lines. */
+    function buildList(lines: string[], start: number, kind: 'ul' | 'ol'): { html: string; next: number } {
+      const anyItem = /^(\s*)(?:\d+\.|[-*+])\s+(.*)$/;
+      const isOlLine = (s: string) => /^\s*\d+\.\s+/.test(s);
+      let i = start;
+      let html = '<' + kind + ' class="aw-md-list">';
+      let inNested = false;
+      while (i < lines.length) {
+        const m = anyItem.exec(lines[i]);
+        if (!m) break;
+        const indent = m[1].length;
+        const content = inlineFormat(m[2]);
+        if (indent >= 2) {
+          if (!inNested) { html += '<ul class="aw-md-list aw-md-nested">'; inNested = true; }
+          html += '<li>' + content + '</li>';
+        } else {
+          if ((kind === 'ol') !== isOlLine(lines[i])) break; // top-level kind switch ends the list
+          if (inNested) { html += '</ul>'; inNested = false; }
+          html += '<li>' + content + '</li>';
+        }
+        i++;
+      }
+      if (inNested) html += '</ul>';
+      html += '</' + kind + '>';
+      return { html, next: i };
+    }
+
+    /** MAIN ENTRY. raw = untrusted agent text. Returns sanitised HTML for innerHTML. */
+    function safeMarkdown(raw: string): string {
+      const escaped = escapeHtml(raw ?? '');
+      const lines = escaped.split('\n');
+      const out: string[] = [];
+      let i = 0;
+      let para: string[] = [];
+      const flushPara = () => {
+        if (!para.length) return;
+        out.push('<p class="aw-md-p">' + para.map(inlineFormat).join('<br>') + '</p>');
+        para = [];
+      };
+
+      while (i < lines.length) {
+        const line = lines[i];
+        const trimmed = line.trim();
+
+        // Fenced code block ``` — emitted verbatim (already escaped), no inline rules.
+        if (/^```/.test(trimmed)) {
+          flushPara();
+          i++;
+          const code: string[] = [];
+          while (i < lines.length && !/^```/.test(lines[i].trim())) { code.push(lines[i]); i++; }
+          i++;
+          out.push('<pre class="aw-md-pre"><code>' + code.join('\n') + '</code></pre>');
+          continue;
+        }
+
+        if (trimmed === '') { flushPara(); i++; continue; }
+
+        // GFM table: current line has a pipe AND the next line is a valid separator.
+        if (trimmed.includes('|') && i + 1 < lines.length) {
+          const aligns = parseAlignRow(lines[i + 1]);
+          if (aligns) {
+            flushPara();
+            const headerCells = splitRow(line);
+            const colCount = Math.max(headerCells.length, aligns.length);
+            const alignAttr = (idx: number) => {
+              const a = aligns[idx] || 'none';
+              return a === 'none' ? '' : ' style="text-align:' + a + '"';
+            };
+            const padCells = (cells: string[]) => {
+              const r = cells.slice(0, colCount);
+              while (r.length < colCount) r.push('');
+              return r;
+            };
+            let html = '<div class="aw-md-table-wrap"><table class="aw-md-table"><thead><tr>';
+            padCells(headerCells).forEach((c, idx) => { html += '<th' + alignAttr(idx) + '>' + inlineFormat(c) + '</th>'; });
+            html += '</tr></thead><tbody>';
+            i += 2;
+            while (i < lines.length && lines[i].trim().includes('|') && lines[i].trim() !== '') {
+              if (/^```/.test(lines[i].trim())) break;
+              html += '<tr>';
+              padCells(splitRow(lines[i])).forEach((c, idx) => { html += '<td' + alignAttr(idx) + '>' + inlineFormat(c) + '</td>'; });
+              html += '</tr>';
+              i++;
+            }
+            html += '</tbody></table></div>';
+            out.push(html);
+            continue;
+          }
+        }
+
+        // Headings # ## ### -> h4 h5 h6 (scaled for the small panel)
+        const h = /^(#{1,6})\s+(.*)$/.exec(trimmed);
+        if (h) {
+          flushPara();
+          const level = Math.min(6, h[1].length);
+          const tag = level <= 1 ? 'h4' : level === 2 ? 'h5' : 'h6';
+          out.push('<' + tag + ' class="aw-md-h">' + inlineFormat(h[2].trim()) + '</' + tag + '>');
+          i++;
+          continue;
+        }
+
+        // Blockquote > ...  ('>' is '&gt;' after escaping)
+        if (/^&gt;\s?/.test(trimmed)) {
+          flushPara();
+          const quote: string[] = [];
+          while (i < lines.length && /^&gt;\s?/.test(lines[i].trim())) {
+            quote.push(lines[i].trim().replace(/^&gt;\s?/, ''));
+            i++;
+          }
+          out.push('<blockquote class="aw-md-quote">' + quote.map(inlineFormat).join('<br>') + '</blockquote>');
+          continue;
+        }
+
+        // Lists (unordered - / * / + , ordered 1.)
+        const isUl = /^([-*+])\s+/.test(trimmed);
+        const isOl = /^(\d+)\.\s+/.test(trimmed);
+        if (isUl || isOl) {
+          flushPara();
+          const r = buildList(lines, i, isOl ? 'ol' : 'ul');
+          out.push(r.html);
+          i = r.next;
+          continue;
+        }
+
+        para.push(line);
+        i++;
+      }
+      flushPara();
+      return out.join('');
     }
 
     // --- DOM helpers ----------------------------------------------------------
     function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
 
-    function addBubble(role: 'user' | 'agent' | 'error', text: string): HTMLElement {
+    function addBubble(role: 'user' | 'agent', text: string): HTMLElement {
       const el = document.createElement('div');
-      el.className = 'aw-msg ' + (role === 'user' ? 'aw-user' : role === 'error' ? 'aw-error' : 'aw-agent');
+      el.className = 'aw-msg ' + (role === 'user' ? 'aw-user' : 'aw-agent');
       if (role === 'user') {
         el.textContent = text; // user input is plain text, never interpreted
       } else {
@@ -444,6 +964,37 @@ const widgetStrings = {
       messagesEl.appendChild(el);
       scrollToBottom();
       return el;
+    }
+
+    // Error bubble with a retry affordance. The failures we surface (agent
+    // unreachable / agent-reported error) are transient, so re-sending the last
+    // user message is the right UX. The button removes its own bubble before
+    // re-sending so there's never a stale retry control and the busy-lock holds.
+    function addErrorBubble(text: string): HTMLElement {
+      const wrap = document.createElement('div');
+      wrap.className = 'aw-msg aw-error';
+      const msg = document.createElement('div');
+      msg.innerHTML = safeMarkdown(text); // escape-first, same as agent bubbles
+      wrap.appendChild(msg);
+
+      if (lastUserMessage) {
+        const retryBtn = document.createElement('button');
+        retryBtn.type = 'button';
+        retryBtn.className = 'aw-retry';
+        retryBtn.textContent = t.retry;
+        retryBtn.disabled = busy;
+        retryBtn.addEventListener('click', () => {
+          if (busy) return;
+          const msgToRetry = lastUserMessage;
+          wrap.remove();
+          send(msgToRetry);
+        });
+        wrap.appendChild(retryBtn);
+      }
+
+      messagesEl.appendChild(wrap);
+      scrollToBottom();
+      return wrap;
     }
 
     function makeWorkingIndicator(): { el: HTMLElement; setStep: (s: string) => void } {
@@ -467,8 +1018,7 @@ const widgetStrings = {
       return parts.filter((p) => p && p.kind === 'text').map((p) => p.text).join('\n');
     }
 
-    // --- Agent card (capability detection) ------------------------------------
-    let streamingSupported = true; // default true; agent card refines this
+    // --- Agent card (capability + reachability detection) ---------------------
     async function fetchAgentCard(): Promise<void> {
       try {
         const res = await fetch(`${agentUrl}/.well-known/agent-card.json`, {
@@ -478,6 +1028,7 @@ const widgetStrings = {
           signal: AbortSignal.timeout(8000),
         });
         if (res.ok) {
+          cardEverReached = true; // agent host is reachable
           const card = await res.json();
           if (card && card.capabilities && typeof card.capabilities.streaming === 'boolean') {
             streamingSupported = card.capabilities.streaming;
@@ -518,138 +1069,308 @@ const widgetStrings = {
       });
     }
 
-    // --- Streaming (SSE over fetch + ReadableStream) --------------------------
-    async function handleStream(res: Response, indicator: { el: HTMLElement; setStep: (s: string) => void }): Promise<void> {
+    // --- Streaming (SSE over fetch + ReadableStream) → Outcome ----------------
+    async function handleStream(
+      res: Response,
+      indicator: { el: HTMLElement; setStep: (s: string) => void },
+    ): Promise<Outcome> {
       const reader = res.body?.getReader();
       if (!reader) throw new Error('no-stream-body');
       const decoder = new TextDecoder();
       let buffer = '';
-      let finalContent = '';
+      let finalContent = '';     // from 'completed' status-update or 'message' frames
+      let artifactContent = '';  // from 'artifact-update' — fallback answer carrier
+      let errorText = '';        // surfaced text of a terminal failure state
+      let sawError = false;
       let bubble: HTMLElement | null = null;
 
       function ensureBubble(): HTMLElement {
         if (!bubble) bubble = addBubble('agent', '');
         return bubble;
       }
+      function renderLive(text: string) {
+        ensureBubble().innerHTML = safeMarkdown(text);
+        scrollToBottom();
+      }
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-          let event: any;
-          try { event = JSON.parse(data); } catch { continue; }
-          if (event.jsonrpc !== '2.0' || !event.result) {
-            if (event.error) throw new Error(event.error.message || 'agent-error');
-            continue;
-          }
-          const result = event.result;
-          if (result.kind === 'status-update' && result.status) {
-            const status = result.status;
-            const txt = extractText(status.message?.parts || []);
-            if (status.state === 'working' && txt) {
-              indicator.setStep(txt);
-            } else if (status.state === 'completed' && txt) {
-              finalContent = txt.trim();
-              ensureBubble().innerHTML = safeMarkdown(finalContent);
-              scrollToBottom();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
+            let event: any;
+            try { event = JSON.parse(data); } catch { continue; }
+
+            if (event.jsonrpc !== '2.0' || !event.result) {
+              if (event.error) { sawError = true; errorText = event.error.message || errorText; }
+              continue;
             }
-          } else if (result.kind === 'message' && result.parts) {
-            const txt = extractText(result.parts);
-            if (txt) {
-              finalContent += txt;
-              ensureBubble().innerHTML = safeMarkdown(finalContent);
-              scrollToBottom();
+            const result = event.result;
+
+            // artifact-update — the answer's authoritative carrier
+            if (result.kind === 'artifact-update' && result.artifact) {
+              const txt = extractText(result.artifact.parts || []);
+              if (txt) {
+                artifactContent = txt;
+                if (!finalContent.trim()) renderLive(artifactContent.trim());
+              }
+              continue;
+            }
+
+            // status-update — working / completed / terminal-failure
+            if (result.kind === 'status-update' && result.status) {
+              const status = result.status;
+              const txt = extractText(status.message?.parts || []);
+              const state = status.state;
+              if (state === 'working') {
+                if (txt) indicator.setStep(txt);
+              } else if (state === 'completed') {
+                if (txt) { finalContent = txt.trim(); renderLive(finalContent); }
+              } else if (FAILED_STATES.has(state)) {
+                sawError = true;
+                if (txt) errorText = txt.trim();
+              }
+              continue;
+            }
+
+            // message frame (legacy/buffered-style mid-stream) — append.
+            if (result.kind === 'message' && result.parts) {
+              const txt = extractText(result.parts);
+              if (txt) { finalContent += txt; renderLive(finalContent); }
             }
           }
         }
+      } finally {
+        indicator.el.remove();
       }
 
-      indicator.el.remove();
-      if (!finalContent.trim()) {
-        if (bubble) bubble.remove();
-        addBubble('agent', t.emptyAnswer);
-      } else if (bubble) {
-        bubble.innerHTML = safeMarkdown(finalContent.trim());
+      const answer = (finalContent.trim() || artifactContent.trim());
+      if (answer) {
+        if (bubble) bubble.innerHTML = safeMarkdown(answer);
+        return { kind: 'answer', text: answer };
       }
+      if (bubble) bubble.remove(); // empty live bubble — drop it
+      if (sawError) return { kind: 'agent-error', text: errorText || t.errorAgent };
+      return { kind: 'empty' };
     }
 
-    // --- Buffered (message/send) fallback -------------------------------------
-    function parseBuffered(data: any): string {
-      if (data && data.jsonrpc === '2.0' && data.result) {
-        const result = data.result;
-        if (result.kind === 'task' && result.status?.message?.parts) {
-          const txt = extractText(result.status.message.parts);
-          if (txt) return txt.trim();
-        }
-        if (result.parts) {
-          const txt = extractText(result.parts);
-          if (txt) return txt;
-        }
-        if (result.message?.parts) {
-          const txt = extractText(result.message.parts);
-          if (txt) return txt;
-        }
-        if (typeof result === 'string') return result;
-        return result.text || result.content || '';
+    // --- Buffered (message/send) fallback → Outcome ---------------------------
+    function parseBuffered(data: any): Outcome {
+      if (data && data.error) return { kind: 'agent-error', text: data.error.message || t.errorAgent };
+      if (!data || data.jsonrpc !== '2.0' || !data.result) return { kind: 'empty' };
+
+      const result = data.result;
+      let artifactText = '';
+      if (Array.isArray(result.artifacts)) {
+        artifactText = result.artifacts
+          .map((a: any) => extractText(a && a.parts ? a.parts : []))
+          .filter(Boolean)
+          .join('\n')
+          .trim();
       }
-      if (data && data.error) throw new Error(data.error.message || 'agent-error');
-      return '';
+      const taskState = result.status?.state;
+      const statusText = extractText(result.status?.message?.parts || []).trim();
+      const taskFailed = taskState && FAILED_STATES.has(taskState);
+
+      let plain = '';
+      if (result.parts) plain = extractText(result.parts).trim();
+      else if (result.message?.parts) plain = extractText(result.message.parts).trim();
+      else if (typeof result === 'string') plain = (result as string).trim();
+      else if (typeof result.text === 'string') plain = result.text.trim();
+      else if (typeof result.content === 'string') plain = result.content.trim();
+
+      const answer = artifactText || plain || (!taskFailed ? statusText : '');
+      if (answer) return { kind: 'answer', text: answer };
+      if (taskFailed) return { kind: 'agent-error', text: statusText || t.errorAgent };
+      return { kind: 'empty' };
     }
 
-    async function handleBuffered(res: Response, indicator: { el: HTMLElement; setStep: (s: string) => void }): Promise<void> {
-      const data = await res.json();
-      indicator.el.remove();
-      const text = parseBuffered(data);
-      addBubble('agent', text && text.trim() ? text.trim() : t.emptyAnswer);
+    async function handleBuffered(
+      res: Response,
+      indicator: { el: HTMLElement; setStep: (s: string) => void },
+    ): Promise<Outcome> {
+      let data: any;
+      try {
+        data = await res.json();
+      } finally {
+        indicator.el.remove();
+      }
+      return parseBuffered(data);
     }
 
     // --- Send orchestration ---------------------------------------------------
-    let busy = false;
     function setBusy(b: boolean) {
       busy = b;
       sendBtn.disabled = b;
       input.disabled = b;
     }
 
+    function renderOutcome(outcome: Outcome): void {
+      if (outcome.kind === 'answer') addBubble('agent', outcome.text);
+      else if (outcome.kind === 'empty') addBubble('agent', t.emptyAnswer);
+      else addErrorBubble(outcome.text);
+    }
+
     async function send(message: string): Promise<void> {
       if (!message.trim() || busy) return;
+      lastUserMessage = message;
       setBusy(true);
       addBubble('user', message);
-      const indicator = makeWorkingIndicator();
+
+      let reached = false;
+      let indicator: { el: HTMLElement; setStep: (s: string) => void } | null = null;
       try {
         if (streamingSupported) {
+          indicator = makeWorkingIndicator();
           try {
             const res = await postMessage(message, true);
+            reached = true; cardEverReached = true;
             if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
-            await handleStream(res, indicator);
+            const outcome = await handleStream(res, indicator); // removes indicator in finally
+            indicator = null;
+            if (outcome.kind === 'answer') return; // bubble already rendered live
+            renderOutcome(outcome);
             return;
           } catch {
-            // fall through to buffered
+            if (indicator) { try { indicator.el.remove(); } catch {} indicator = null; }
+            // fall through to buffered (the documented fallback)
           }
         }
+
+        indicator = makeWorkingIndicator();
         const res2 = await postMessage(message, false);
+        reached = true; cardEverReached = true;
         if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
-        await handleBuffered(res2, indicator);
+        const outcome = await handleBuffered(res2, indicator);
+        indicator = null;
+        renderOutcome(outcome);
       } catch {
-        indicator.el.remove();
-        addBubble('error', t.errorSend);
+        if (indicator) { try { indicator.el.remove(); } catch {} }
+        const unreachable = !reached || !cardEverReached;
+        addErrorBubble(unreachable ? t.errorConnect : t.errorSend);
       } finally {
         setBusy(false);
         if (panelOpen) input.focus();
       }
     }
 
-    // --- Open / close ---------------------------------------------------------
-    let panelOpen = false;
-    let greeted = false;
-    let cardFetched = false;
+    // =========================================================================
+    // RESIZE + MAXIMIZE — (a) maximize toggle snaps default<->large; (b) drag the
+    // top-left grip for a free size. Persisted in localStorage; mobile = fullscreen.
+    // =========================================================================
+    const SIZE_KEY = 'bridgeAgentWidgetSize';
+    const MIN_W = 320, MIN_H = 420, DEFAULT_W = 380, DEFAULT_H = 560;
+    const maxW = () => Math.round(window.innerWidth * 0.95);
+    const maxH = () => Math.round(window.innerHeight * 0.92);
+    const isMobile = () => window.matchMedia('(max-width: 639px)').matches;
+    const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
+    type SizeState = { mode: 'default' | 'max' | 'custom'; w?: number; h?: number };
+    let sizeState: SizeState = { mode: 'default' };
+
+    function loadSizeState(): SizeState {
+      try {
+        const raw = localStorage.getItem(SIZE_KEY);
+        if (raw) {
+          const p = JSON.parse(raw);
+          if (p && (p.mode === 'default' || p.mode === 'max' || p.mode === 'custom')) return p;
+        }
+      } catch {}
+      return { mode: 'default' };
+    }
+    function saveSizeState(s: SizeState) {
+      try { localStorage.setItem(SIZE_KEY, JSON.stringify(s)); } catch {}
+    }
+    function syncMaximizeAria() {
+      if (!maximizeBtn) return;
+      const maxed = panel.classList.contains('aw-is-max');
+      maximizeBtn.setAttribute('aria-pressed', maxed ? 'true' : 'false');
+      const label = maxed ? (t.restore || 'Restore size') : (t.maximize || 'Enlarge');
+      maximizeBtn.setAttribute('aria-label', label);
+      maximizeBtn.setAttribute('title', label);
+    }
+    function applySizeState(s: SizeState) {
+      if (isMobile()) { panel.classList.remove('aw-is-max'); return; }
+      if (s.mode === 'max') {
+        panel.classList.add('aw-is-max');
+        root.style.removeProperty('--aw-w');
+        root.style.removeProperty('--aw-h');
+      } else if (s.mode === 'custom' && s.w && s.h) {
+        panel.classList.remove('aw-is-max');
+        root.style.setProperty('--aw-w', clamp(s.w, MIN_W, maxW()) + 'px');
+        root.style.setProperty('--aw-h', clamp(s.h, MIN_H, maxH()) + 'px');
+      } else {
+        panel.classList.remove('aw-is-max');
+        root.style.setProperty('--aw-w', DEFAULT_W + 'px');
+        root.style.setProperty('--aw-h', DEFAULT_H + 'px');
+      }
+      syncMaximizeAria();
+    }
+    function toggleMaximize() {
+      if (isMobile()) return;
+      sizeState = sizeState.mode === 'max' ? { mode: 'default' } : { mode: 'max' };
+      applySizeState(sizeState);
+      saveSizeState(sizeState);
+      scrollToBottom();
+    }
+
+    // free drag-resize (pointer events); top-left grip grows the bottom-right panel.
+    let dragging = false;
+    let startX = 0, startY = 0, startW = 0, startH = 0, pointerId = -1;
+    function onResizeMove(e: PointerEvent) {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      root.style.setProperty('--aw-w', clamp(startW - dx, MIN_W, maxW()) + 'px');
+      root.style.setProperty('--aw-h', clamp(startH - dy, MIN_H, maxH()) + 'px');
+    }
+    function onResizeUp() {
+      if (!dragging) return;
+      dragging = false;
+      panel.classList.remove('aw-resizing');
+      try { resizeHandle?.releasePointerCapture(pointerId); } catch {}
+      window.removeEventListener('pointermove', onResizeMove);
+      window.removeEventListener('pointerup', onResizeUp);
+      window.removeEventListener('pointercancel', onResizeUp);
+      const rect = panel.getBoundingClientRect();
+      sizeState = { mode: 'custom', w: Math.round(rect.width), h: Math.round(rect.height) };
+      saveSizeState(sizeState);
+      syncMaximizeAria();
+      scrollToBottom();
+    }
+    function onResizeDown(e: PointerEvent) {
+      if (isMobile()) return;
+      e.preventDefault();
+      dragging = true;
+      pointerId = e.pointerId;
+      const rect = panel.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY; startW = rect.width; startH = rect.height;
+      panel.classList.add('aw-resizing');
+      try { resizeHandle?.setPointerCapture(pointerId); } catch {}
+      window.addEventListener('pointermove', onResizeMove);
+      window.addEventListener('pointerup', onResizeUp);
+      window.addEventListener('pointercancel', onResizeUp);
+    }
+
+    let resizeRaf = 0;
+    window.addEventListener('resize', () => {
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = 0;
+        if (panelOpen) applySizeState(sizeState);
+      });
+    });
+    if (resizeHandle) resizeHandle.addEventListener('pointerdown', onResizeDown);
+    if (maximizeBtn) maximizeBtn.addEventListener('click', toggleMaximize);
+    sizeState = loadSizeState();
+
+    // --- Open / close ---------------------------------------------------------
     function applyStrings() {
       launcher.setAttribute('aria-label', t.launcherLabel);
       launcher.setAttribute('title', t.launcherLabel);
@@ -661,11 +1382,14 @@ const widgetStrings = {
       sendBtn.setAttribute('title', t.send);
       closeBtn.setAttribute('aria-label', t.close);
       closeBtn.setAttribute('title', t.close);
+      syncMaximizeAria();
+      if (resizeHandle) resizeHandle.setAttribute('title', t.resize || 'Drag to resize');
     }
 
     function openPanel() {
       panel.hidden = false;
       panelOpen = true;
+      applySizeState(sizeState); // restore persisted size/mode
       launcher.classList.add('aw-hidden');
       launcher.setAttribute('aria-expanded', 'true');
       if (!greeted) { addBubble('agent', t.greeting); greeted = true; }

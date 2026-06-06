@@ -15,9 +15,14 @@ export interface AgentWidgetStrings {
   greeting: string;        // first agent bubble shown before any exchange
   connecting: string;      // shown while fetching the agent card
   working: string;         // generic "thinking" indicator label
-  errorConnect: string;    // could not reach the agent
-  errorSend: string;       // message failed to send / no answer
-  emptyAnswer: string;     // agent returned nothing usable
+  errorConnect: string;    // could not reach the agent (network/CORS, card never fetched)
+  errorSend: string;       // reached the agent but the exchange threw
+  errorAgent: string;      // agent reachable but reported a terminal error (no text)
+  emptyAnswer: string;     // agent completed with nothing usable
+  retry: string;           // retry button label on error bubbles
+  maximize: string;        // enlarge-panel button label
+  restore: string;         // restore-panel-size button label
+  resize: string;          // drag-resize grip tooltip
 }
 
 export interface I18nStrings {
@@ -111,7 +116,12 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       working: 'Agent arbeitet …',
       errorConnect: 'Der Agent ist gerade nicht erreichbar. Bitte später erneut versuchen.',
       errorSend: 'Die Nachricht konnte nicht zugestellt werden. Bitte erneut versuchen.',
+      errorAgent: 'Beim Beantworten ist ein Fehler aufgetreten. Bitte erneut versuchen.',
       emptyAnswer: 'Keine Antwort erhalten.',
+      retry: 'Erneut versuchen',
+      maximize: 'Vergrößern',
+      restore: 'Verkleinern',
+      resize: 'Zum Ändern der Größe ziehen',
     },
   },
   en: {
@@ -172,7 +182,12 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       working: 'Agent is working …',
       errorConnect: 'The agent is unreachable right now. Please try again later.',
       errorSend: 'The message could not be delivered. Please try again.',
+      errorAgent: 'Something went wrong while answering. Please try again.',
       emptyAnswer: 'No answer received.',
+      retry: 'Try again',
+      maximize: 'Enlarge',
+      restore: 'Restore size',
+      resize: 'Drag to resize',
     },
   },
 };
