@@ -513,43 +513,102 @@ const widgetStrings = {
     color: var(--text);
   }
 
-  /* GFM TABLES — compact, horizontally scrollable on overflow */
+  /* ───────────── GFM TABLES — wrap-first, fits the panel; scroll only as fallback ─────────────
+     Tokens: DESIGN.md spacing.xs(4)/sm(8)/md(16) · rounded.md(8) · body-sm(14)
+     Colors via site CSS vars (--text/--bg/--accent) through color-mix → light+dark for free. */
+
+  /* Wrapper: overflow-x:auto is a FALLBACK, not the default — cells wrap (below),
+     so it only scrolls when a table is genuinely too wide (many cols / long tokens). */
   .aw-msg.aw-agent .aw-md-table-wrap {
-    margin: 0.45rem 0;
+    margin: 0.5rem 0;
+    max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border: 1px solid var(--aw-border);
-    border-radius: 8px;
+    border-radius: 8px;               /* rounded.md */
+    /* faint inset edge so a scrolling table reads as "more to the right" */
+    background:
+      linear-gradient(to right, transparent 70%, color-mix(in srgb, var(--text) 4%, transparent)) right / 14px 100% no-repeat;
   }
+
   .aw-msg.aw-agent .aw-md-table {
     border-collapse: collapse;
     width: 100%;
+    /* AUTO layout: first column hugs its label, content columns share + WRAP. */
+    table-layout: auto;
     font-size: 0.78rem;
-    line-height: 1.4;
+    line-height: 1.45;
   }
+
   .aw-msg.aw-agent .aw-md-table th,
   .aw-msg.aw-agent .aw-md-table td {
-    padding: 0.32rem 0.55rem;
+    padding: 0.4rem 0.6rem;
     border-bottom: 1px solid var(--aw-border);
-    border-right: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+    border-right: 1px solid color-mix(in srgb, var(--text) 7%, transparent);
     text-align: left;
     vertical-align: top;
-    white-space: nowrap;
+    /* THE FIX: wrap instead of forcing the table wider than the panel */
+    white-space: normal;
+    overflow-wrap: anywhere;          /* break very long unbreakable tokens (URLs, IDs) */
+    word-break: normal;
+    hyphens: auto;
+    min-width: 4.5rem;                /* keeps columns balanced; scroll only past panel width */
+    max-width: 22rem;                 /* roomy when maximized, harmless when narrow */
   }
   .aw-msg.aw-agent .aw-md-table th:last-child,
   .aw-msg.aw-agent .aw-md-table td:last-child { border-right: none; }
+
+  /* First column = label/key: hug content, wrap if long, never collapse to 1 char. */
+  .aw-msg.aw-agent .aw-md-table th:first-child,
+  .aw-msg.aw-agent .aw-md-table td:first-child {
+    overflow-wrap: normal;
+    min-width: 5.5rem;
+    max-width: 14rem;
+  }
+
+  /* Header: quiet tint + weight, NO sticky (a chat bubble scrolls as one block). */
   .aw-msg.aw-agent .aw-md-table thead th {
-    background: color-mix(in srgb, var(--accent) 16%, var(--bg));
+    background: color-mix(in srgb, var(--accent) 14%, var(--bg));
     color: var(--text);
     font-weight: 600;
-    position: sticky;
-    top: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
   }
+
+  /* Zebra rows — barely-there, tracks --text so it reads light & dark. */
   .aw-msg.aw-agent .aw-md-table tbody tr:nth-child(even) td {
     background: color-mix(in srgb, var(--text) 4%, transparent);
   }
   .aw-msg.aw-agent .aw-md-table tbody tr:last-child td { border-bottom: none; }
-  .aw-msg.aw-agent .aw-md-table code.aw-md-code { white-space: normal; }
+
+  /* Right-aligned (numeric) columns read best tabular + non-wrapping. */
+  .aw-msg.aw-agent .aw-md-table td[style*="right"],
+  .aw-msg.aw-agent .aw-md-table th[style*="right"] {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Inline code inside a cell wraps with the cell. */
+  .aw-msg.aw-agent .aw-md-table code.aw-md-code { white-space: normal; overflow-wrap: anywhere; }
+
+  /* Wide-table mode (renderer adds .aw-md-wide for many columns): skip wrapping,
+     comfortable per-column min so a wide table scrolls cleanly instead of cramping. */
+  .aw-msg.aw-agent .aw-md-table.aw-md-wide th,
+  .aw-msg.aw-agent .aw-md-table.aw-md-wide td {
+    white-space: nowrap;
+    max-width: none;
+    min-width: 6.5rem;
+  }
+  .aw-msg.aw-agent .aw-md-table.aw-md-wide th:first-child,
+  .aw-msg.aw-agent .aw-md-table.aw-md-wide td:first-child { min-width: 6.5rem; max-width: none; }
+
+  /* Mobile (<640px): more width budget per cell so 3-col tables wrap to 2–3 lines. */
+  @media (max-width: 639px) {
+    .aw-msg.aw-agent .aw-md-table { font-size: 0.75rem; }
+    .aw-msg.aw-agent .aw-md-table th,
+    .aw-msg.aw-agent .aw-md-table td { padding: 0.35rem 0.5rem; max-width: 16rem; }
+    .aw-msg.aw-agent .aw-md-table th:first-child,
+    .aw-msg.aw-agent .aw-md-table td:first-child { max-width: 9rem; }
+  }
 
   /* ───────────────────────── Composer ───────────────────────── */
   #agent-widget-form {
@@ -892,7 +951,11 @@ const widgetStrings = {
               while (r.length < colCount) r.push('');
               return r;
             };
-            let html = '<div class="aw-md-table-wrap"><table class="aw-md-table"><thead><tr>';
+            // 4+ columns rarely wrap well in a chat bubble → CSS .aw-md-wide
+            // switches to a clean horizontal-scroll table. (still escape-first; this
+            // is a fixed class string, no untrusted bytes enter the tag.)
+            const tableCls = colCount >= 4 ? 'aw-md-table aw-md-wide' : 'aw-md-table';
+            let html = '<div class="aw-md-table-wrap"><table class="' + tableCls + '"><thead><tr>';
             padCells(headerCells).forEach((c, idx) => { html += '<th' + alignAttr(idx) + '>' + inlineFormat(c) + '</th>'; });
             html += '</tr></thead><tbody>';
             i += 2;
