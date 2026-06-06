@@ -23,6 +23,20 @@ export interface AgentWidgetStrings {
   maximize: string;        // enlarge-panel button label
   restore: string;         // restore-panel-size button label
   resize: string;          // drag-resize grip tooltip
+  // Agent-Card (A2A) view inside the panel
+  cardOpen: string;        // header toggle: show the agent card
+  cardBack: string;        // header toggle: back to chat
+  cardTitle: string;       // eyebrow above the agent name
+  cardIntro: string;       // one-line explainer (what the A2A card is)
+  cardProtocol: string;    // protocol section heading
+  cardEndpoint: string;    // endpoint label
+  cardModes: string;       // input/output modes label
+  cardSkills: string;      // skills section heading
+  cardExamplesHint: string;// hint above clickable examples
+  cardStreaming: string;   // capability badge
+  cardPush: string;        // capability badge
+  cardLoading: string;     // while fetching the card
+  cardUnavailable: string; // card fetch failed
 }
 
 export interface I18nStrings {
@@ -122,6 +136,19 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       maximize: 'Vergrößern',
       restore: 'Verkleinern',
       resize: 'Zum Ändern der Größe ziehen',
+      cardOpen: 'Agent-Card anzeigen',
+      cardBack: 'Zurück zum Chat',
+      cardTitle: 'Agent-Card',
+      cardIntro: 'Die maschinenlesbare A2A-Visitenkarte dieses Agenten — live aus /.well-known/agent-card.json.',
+      cardProtocol: 'A2A-Protokoll',
+      cardEndpoint: 'Endpunkt',
+      cardModes: 'Ein-/Ausgabe',
+      cardSkills: 'Fähigkeiten',
+      cardExamplesHint: 'Beispiel-Frage anklicken zum Starten',
+      cardStreaming: 'Streaming',
+      cardPush: 'Push',
+      cardLoading: 'Lade Agent-Card …',
+      cardUnavailable: 'Agent-Card gerade nicht erreichbar.',
     },
   },
   en: {
@@ -188,6 +215,19 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       maximize: 'Enlarge',
       restore: 'Restore size',
       resize: 'Drag to resize',
+      cardOpen: 'Show agent card',
+      cardBack: 'Back to chat',
+      cardTitle: 'Agent Card',
+      cardIntro: "This agent's machine-readable A2A card — live from /.well-known/agent-card.json.",
+      cardProtocol: 'A2A protocol',
+      cardEndpoint: 'Endpoint',
+      cardModes: 'Input/Output',
+      cardSkills: 'Skills',
+      cardExamplesHint: 'Click an example question to start',
+      cardStreaming: 'Streaming',
+      cardPush: 'Push',
+      cardLoading: 'Loading agent card …',
+      cardUnavailable: 'Agent card unavailable right now.',
     },
   },
 };
