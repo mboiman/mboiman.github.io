@@ -2,6 +2,24 @@ type Belief = { text: string; align: string };
 type NumberLabel = { num: string; label: string };
 type ImpactMetric = { metric: string; label: string; detail: string };
 
+// UI strings for the floating agent chat widget (AgentWidget.astro).
+// Kept here per the "no hardcoded text in .astro" rule; consumed by the
+// bundled client script via a data-i18n attribute serialized in the markup.
+export interface AgentWidgetStrings {
+  launcherLabel: string;   // aria-label / tooltip for the floating button
+  headerTitle: string;     // panel header title
+  headerSubtitle: string;  // small line under the title
+  inputPlaceholder: string;
+  send: string;            // send button aria-label
+  close: string;           // close button aria-label
+  greeting: string;        // first agent bubble shown before any exchange
+  connecting: string;      // shown while fetching the agent card
+  working: string;         // generic "thinking" indicator label
+  errorConnect: string;    // could not reach the agent
+  errorSend: string;       // message failed to send / no answer
+  emptyAnswer: string;     // agent returned nothing usable
+}
+
 export interface I18nStrings {
   pdfDownload: string;
   experienceTheStory: string;
@@ -30,6 +48,8 @@ export interface I18nStrings {
   cvFooterOtherLang: string;
   truncatePatterns: string[];
   truncateToolPatterns: string[];
+  // Agent chat widget
+  agentWidget: AgentWidgetStrings;
 }
 
 export const i18n: Record<'de' | 'en', I18nStrings> = {
@@ -79,6 +99,20 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     cvFooterOtherLang: 'English',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Präsentationsinhalte', 'Praktischer', 'Practical', 'Hauptverantwortlichkeiten', 'Projekte\\b', 'Energiesektor', 'Quantifizierbare', 'Quantifiable', 'Technische Lösungen', 'Focus areas', 'Key Focus'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Eingesetzte', 'Technical Stack', 'Technischer'],
+    agentWidget: {
+      launcherLabel: 'Mit meinem KI-Agenten chatten',
+      headerTitle: 'KI-Agent von Michael',
+      headerSubtitle: 'Fragen Sie zu Projekten, Stack und Verfügbarkeit',
+      inputPlaceholder: 'Nachricht schreiben …',
+      send: 'Senden',
+      close: 'Schließen',
+      greeting: 'Hallo, ich bin Michaels Bridge-Agent. Fragen Sie mich zu seiner Erfahrung, seinem Tech-Stack oder seiner Verfügbarkeit.',
+      connecting: 'Verbinde mit dem Agenten …',
+      working: 'Agent arbeitet …',
+      errorConnect: 'Der Agent ist gerade nicht erreichbar. Bitte später erneut versuchen.',
+      errorSend: 'Die Nachricht konnte nicht zugestellt werden. Bitte erneut versuchen.',
+      emptyAnswer: 'Keine Antwort erhalten.',
+    },
   },
   en: {
     pdfDownload: 'Download PDF',
@@ -126,6 +160,20 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     cvFooterOtherLang: 'Deutsch',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Focus areas', 'Key Focus', 'Key responsibilities'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
+    agentWidget: {
+      launcherLabel: 'Chat with my AI agent',
+      headerTitle: "Michael's AI Agent",
+      headerSubtitle: 'Ask about projects, stack, and availability',
+      inputPlaceholder: 'Type a message …',
+      send: 'Send',
+      close: 'Close',
+      greeting: "Hi, I'm Michael's Bridge agent. Ask me about his experience, his tech stack, or his availability.",
+      connecting: 'Connecting to the agent …',
+      working: 'Agent is working …',
+      errorConnect: 'The agent is unreachable right now. Please try again later.',
+      errorSend: 'The message could not be delivered. Please try again.',
+      emptyAnswer: 'No answer received.',
+    },
   },
 };
 
