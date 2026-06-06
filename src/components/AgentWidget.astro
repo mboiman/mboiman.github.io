@@ -1,0 +1,696 @@
+---
+// AgentWidget — floating chat client that talks to Michael's Bridge-Agent over A2A.
+//
+// Self-contained vanilla JS (no framework, no new npm deps, no CDN). Protocol
+// logic is ported from bks-web's proven A2A client (A2AChat.tsx / agentService.ts
+// / useAgentConnection): JSON-RPC 2.0 with params.message.parts:[{kind:'text',…}],
+// message/stream (SSE) preferred, message/send (buffered) fallback, contextId
+// persisted in localStorage.
+//
+// All user-facing strings come from src/lib/i18n.ts (no hardcoded copy here).
+// The widget is JS-injected at runtime and carries `@media print { display:none }`,
+// so it is excluded from the Puppeteer-generated PDF (which is built from a
+// separate TOML-driven HTML string and never loads this layout — see notes).
+
+import { i18n } from '../lib/i18n';
+
+// Serialize both language bundles so the client can pick by <html lang>.
+// Only the widget sub-bundle ships, not the whole i18n surface.
+const widgetStrings = {
+  de: i18n.de.agentWidget,
+  en: i18n.en.agentWidget,
+};
+---
+
+<div id="agent-widget-root" data-i18n={JSON.stringify(widgetStrings)} class="no-print">
+  <!-- Floating launcher -->
+  <button
+    id="agent-widget-launcher"
+    type="button"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="agent-widget-panel"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+  </button>
+
+  <!-- Chat panel -->
+  <section
+    id="agent-widget-panel"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="agent-widget-title"
+    hidden
+  >
+    <header id="agent-widget-header">
+      <div class="aw-header-text">
+        <h2 id="agent-widget-title"></h2>
+        <p id="agent-widget-subtitle"></p>
+      </div>
+      <button id="agent-widget-close" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <div id="agent-widget-messages" aria-live="polite" aria-atomic="false"></div>
+
+    <form id="agent-widget-form" autocomplete="off">
+      <input
+        id="agent-widget-input"
+        type="text"
+        autocomplete="off"
+        enterkeyhint="send"
+      />
+      <button id="agent-widget-send" type="submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </section>
+</div>
+
+<style>
+  /* Scoped to the widget; all colors pull from the site's CSS variables so the
+     widget tracks whatever --bg / --text / --accent resolve to (light or dark). */
+  #agent-widget-root {
+    --aw-panel-w: 380px;
+    --aw-panel-h: 560px;
+    --aw-radius: 14px;
+    --aw-border: color-mix(in srgb, var(--text) 14%, transparent);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 300;
+  }
+
+  /* Hide from print as a belt-and-suspenders measure (the PDF pipeline does not
+     load this layout, but this guarantees it even if a page is ever printed). */
+  @media print {
+    #agent-widget-root { display: none !important; }
+  }
+
+  #agent-widget-launcher {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 9998;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--accent-cta, var(--accent));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    transition: transform 0.18s ease, background-color 0.18s ease;
+  }
+  #agent-widget-launcher:hover {
+    background: var(--accent-hover, var(--accent));
+    transform: translateY(-2px);
+  }
+  #agent-widget-launcher svg { width: 26px; height: 26px; }
+  #agent-widget-launcher.aw-hidden { display: none; }
+
+  #agent-widget-panel {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 9999;
+    width: var(--aw-panel-w);
+    height: var(--aw-panel-h);
+    max-height: calc(100vh - 2.5rem);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--aw-border);
+    border-radius: var(--aw-radius);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    animation: aw-pop 0.18s ease;
+  }
+  @keyframes aw-pop {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  #agent-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--bg-alt, var(--bg));
+    border-bottom: 1px solid var(--aw-border);
+  }
+  .aw-header-text { min-width: 0; }
+  #agent-widget-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--text);
+  }
+  #agent-widget-subtitle {
+    font-size: 0.72rem;
+    line-height: 1.3;
+    margin: 2px 0 0;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #agent-widget-close {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  #agent-widget-close:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 10%, transparent);
+  }
+  #agent-widget-close svg { width: 18px; height: 18px; }
+
+  #agent-widget-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .aw-msg {
+    max-width: 85%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 12px;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+  .aw-msg.aw-user {
+    align-self: flex-end;
+    background: var(--accent-cta, var(--accent));
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .aw-msg.aw-agent {
+    align-self: flex-start;
+    background: var(--bg-alt, color-mix(in srgb, var(--text) 8%, var(--bg)));
+    border: 1px solid var(--aw-border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .aw-msg.aw-error {
+    align-self: flex-start;
+    background: color-mix(in srgb, #c0392b 18%, var(--bg));
+    border: 1px solid color-mix(in srgb, #c0392b 40%, transparent);
+    color: var(--text);
+  }
+  .aw-msg a { color: inherit; text-decoration: underline; }
+  .aw-msg.aw-agent a { color: var(--accent-hover, var(--accent)); }
+  .aw-msg strong { font-weight: 600; }
+
+  /* Working / streaming indicator */
+  .aw-working {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.25rem;
+  }
+  .aw-dots { display: inline-flex; gap: 3px; }
+  .aw-dots span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+    animation: aw-blink 1.2s infinite ease-in-out both;
+  }
+  .aw-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .aw-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes aw-blink {
+    0%, 80%, 100% { opacity: 0.25; }
+    40% { opacity: 1; }
+  }
+  .aw-step {
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 230px;
+  }
+
+  #agent-widget-form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.6rem 0.7rem;
+    border-top: 1px solid var(--aw-border);
+    background: var(--bg-alt, var(--bg));
+  }
+  #agent-widget-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    border: 1px solid var(--aw-border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-family: inherit;
+  }
+  #agent-widget-input::placeholder { color: var(--text-secondary); }
+  #agent-widget-input:focus-visible {
+    outline: 2px solid var(--accent-hover, var(--accent));
+    outline-offset: 1px;
+  }
+  #agent-widget-send {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent-cta, var(--accent));
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+  }
+  #agent-widget-send:hover:not(:disabled) { background: var(--accent-hover, var(--accent)); }
+  #agent-widget-send:disabled { opacity: 0.5; cursor: not-allowed; }
+  #agent-widget-send svg { width: 17px; height: 17px; }
+
+  /* Mobile: fullscreen panel under 640px */
+  @media (max-width: 639px) {
+    #agent-widget-panel {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+      border: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #agent-widget-panel { animation: none; }
+    .aw-dots span { animation: none; opacity: 0.6; }
+  }
+</style>
+
+<script>
+  // ---------------------------------------------------------------------------
+  // Vanilla A2A client — ported from bks-web (A2AChat.tsx / agentService.ts).
+  // ---------------------------------------------------------------------------
+
+  type WidgetStr = {
+    launcherLabel: string; headerTitle: string; headerSubtitle: string;
+    inputPlaceholder: string; send: string; close: string; greeting: string;
+    connecting: string; working: string; errorConnect: string;
+    errorSend: string; emptyAnswer: string;
+  };
+
+  const root = document.getElementById('agent-widget-root');
+  if (root) {
+    const launcher = document.getElementById('agent-widget-launcher') as HTMLButtonElement;
+    const panel = document.getElementById('agent-widget-panel') as HTMLElement;
+    const closeBtn = document.getElementById('agent-widget-close') as HTMLButtonElement;
+    const messagesEl = document.getElementById('agent-widget-messages') as HTMLElement;
+    const form = document.getElementById('agent-widget-form') as HTMLFormElement;
+    const input = document.getElementById('agent-widget-input') as HTMLInputElement;
+    const sendBtn = document.getElementById('agent-widget-send') as HTMLButtonElement;
+    const titleEl = document.getElementById('agent-widget-title') as HTMLElement;
+    const subtitleEl = document.getElementById('agent-widget-subtitle') as HTMLElement;
+
+    // --- i18n: detect language from <html lang>, default de ---
+    const lang = (document.documentElement.lang || 'de').toLowerCase().startsWith('en') ? 'en' : 'de';
+    const bundles = JSON.parse(root.getAttribute('data-i18n') || '{}') as Record<string, WidgetStr>;
+    const t: WidgetStr = bundles[lang] || bundles.de;
+
+    // --- Agent URL resolution -------------------------------------------------
+    // Priority: ?agent= query param > localStorage('bridgeAgentUrl') > host-based.
+    const CONTEXT_KEY = 'bridgeAgentContextId';
+    const OVERRIDE_KEY = 'bridgeAgentUrl';
+    function trimSlash(u: string): string { return u.replace(/\/+$/, ''); }
+    // Only accept an override that points at a trusted host. A crafted
+    // ?agent= link must never be able to repoint the widget at an attacker
+    // endpoint and exfiltrate what a visitor types. Allowlist: localhost + *.bks-lab.com.
+    function isAllowedAgent(u: string): boolean {
+      try {
+        const h = new URL(u).hostname;
+        return h === 'localhost' || h === '127.0.0.1' || h === '::1'
+          || h === 'bks-lab.com' || h.endsWith('.bks-lab.com');
+      } catch { return false; }
+    }
+    function resolveAgentUrl(): string {
+      try {
+        const qp = new URLSearchParams(window.location.search).get('agent');
+        if (qp && isAllowedAgent(qp)) {
+          try { localStorage.setItem(OVERRIDE_KEY, trimSlash(qp)); } catch {}
+          return trimSlash(qp);
+        }
+        const stored = localStorage.getItem(OVERRIDE_KEY);
+        if (stored && isAllowedAgent(stored)) return trimSlash(stored);
+      } catch {}
+      const host = window.location.hostname;
+      if (host === 'localhost' || host === '127.0.0.1' || host === '::1') {
+        return 'http://localhost:8011';
+      }
+      return 'https://mboiman.bks-lab.com';
+    }
+    const agentUrl = resolveAgentUrl();
+
+    // --- contextId persistence (port of useSessionId) -------------------------
+    function uuid(): string {
+      try {
+        if (crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+      } catch {}
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+    function getContextId(): string {
+      try {
+        let id = localStorage.getItem(CONTEXT_KEY) || '';
+        if (!id) { id = uuid(); localStorage.setItem(CONTEXT_KEY, id); }
+        return id;
+      } catch {
+        return uuid();
+      }
+    }
+    const contextId = getContextId();
+
+    // --- Security: escape first, then minimal safe markdown -------------------
+    // We NEVER inject the raw agent response — a visitor could prompt-inject the
+    // agent into emitting <script>. So: HTML-escape, then re-introduce only a
+    // tiny, audited markdown subset (bold, links, line breaks).
+    function escapeHtml(s: string): string {
+      return s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+    function safeMarkdown(raw: string): string {
+      let s = escapeHtml(raw);
+      // [text](url) — only http(s)/mailto, on already-escaped content.
+      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+)\)/g,
+        (_m, text, url) => {
+          // url came from escaped text, so quotes are already &quot; / &#39;.
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+        });
+      // **bold**
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // line breaks
+      s = s.replace(/\n/g, '<br>');
+      return s;
+    }
+
+    // --- DOM helpers ----------------------------------------------------------
+    function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+    function addBubble(role: 'user' | 'agent' | 'error', text: string): HTMLElement {
+      const el = document.createElement('div');
+      el.className = 'aw-msg ' + (role === 'user' ? 'aw-user' : role === 'error' ? 'aw-error' : 'aw-agent');
+      if (role === 'user') {
+        el.textContent = text; // user input is plain text, never interpreted
+      } else {
+        el.innerHTML = safeMarkdown(text);
+      }
+      messagesEl.appendChild(el);
+      scrollToBottom();
+      return el;
+    }
+
+    function makeWorkingIndicator(): { el: HTMLElement; setStep: (s: string) => void } {
+      const el = document.createElement('div');
+      el.className = 'aw-working';
+      const dots = document.createElement('span');
+      dots.className = 'aw-dots';
+      dots.innerHTML = '<span></span><span></span><span></span>';
+      const label = document.createElement('span');
+      label.className = 'aw-step';
+      label.textContent = t.working;
+      el.appendChild(dots);
+      el.appendChild(label);
+      messagesEl.appendChild(el);
+      scrollToBottom();
+      return { el, setStep: (s: string) => { label.textContent = s || t.working; scrollToBottom(); } };
+    }
+
+    function extractText(parts: any[]): string {
+      if (!Array.isArray(parts)) return '';
+      return parts.filter((p) => p && p.kind === 'text').map((p) => p.text).join('\n');
+    }
+
+    // --- Agent card (capability detection) ------------------------------------
+    let streamingSupported = true; // default true; agent card refines this
+    async function fetchAgentCard(): Promise<void> {
+      try {
+        const res = await fetch(`${agentUrl}/.well-known/agent-card.json`, {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          mode: 'cors',
+          signal: AbortSignal.timeout(8000),
+        });
+        if (res.ok) {
+          const card = await res.json();
+          if (card && card.capabilities && typeof card.capabilities.streaming === 'boolean') {
+            streamingSupported = card.capabilities.streaming;
+          }
+          if (card && card.name) { subtitleEl.textContent = card.description || t.headerSubtitle; }
+        }
+      } catch {
+        // Non-fatal: keep streaming-first default and try anyway.
+      }
+    }
+
+    // --- JSON-RPC request body (exact shape from agentService.ts) -------------
+    function buildBody(message: string, useStreaming: boolean) {
+      return JSON.stringify({
+        jsonrpc: '2.0',
+        id: uuid(),
+        method: useStreaming ? 'message/stream' : 'message/send',
+        params: {
+          message: {
+            role: 'user',
+            parts: [{ kind: 'text', text: message }],
+            messageId: uuid(),
+            contextId: contextId,
+          },
+        },
+      });
+    }
+
+    async function postMessage(message: string, useStreaming: boolean): Promise<Response> {
+      return fetch(agentUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: useStreaming ? 'text/event-stream' : 'application/json',
+        },
+        mode: 'cors',
+        body: buildBody(message, useStreaming),
+      });
+    }
+
+    // --- Streaming (SSE over fetch + ReadableStream) --------------------------
+    async function handleStream(res: Response, indicator: { el: HTMLElement; setStep: (s: string) => void }): Promise<void> {
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error('no-stream-body');
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let finalContent = '';
+      let bubble: HTMLElement | null = null;
+
+      function ensureBubble(): HTMLElement {
+        if (!bubble) bubble = addBubble('agent', '');
+        return bubble;
+      }
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6);
+          if (data === '[DONE]') continue;
+          let event: any;
+          try { event = JSON.parse(data); } catch { continue; }
+          if (event.jsonrpc !== '2.0' || !event.result) {
+            if (event.error) throw new Error(event.error.message || 'agent-error');
+            continue;
+          }
+          const result = event.result;
+          if (result.kind === 'status-update' && result.status) {
+            const status = result.status;
+            const txt = extractText(status.message?.parts || []);
+            if (status.state === 'working' && txt) {
+              indicator.setStep(txt);
+            } else if (status.state === 'completed' && txt) {
+              finalContent = txt.trim();
+              ensureBubble().innerHTML = safeMarkdown(finalContent);
+              scrollToBottom();
+            }
+          } else if (result.kind === 'message' && result.parts) {
+            const txt = extractText(result.parts);
+            if (txt) {
+              finalContent += txt;
+              ensureBubble().innerHTML = safeMarkdown(finalContent);
+              scrollToBottom();
+            }
+          }
+        }
+      }
+
+      indicator.el.remove();
+      if (!finalContent.trim()) {
+        if (bubble) bubble.remove();
+        addBubble('agent', t.emptyAnswer);
+      } else if (bubble) {
+        bubble.innerHTML = safeMarkdown(finalContent.trim());
+      }
+    }
+
+    // --- Buffered (message/send) fallback -------------------------------------
+    function parseBuffered(data: any): string {
+      if (data && data.jsonrpc === '2.0' && data.result) {
+        const result = data.result;
+        if (result.kind === 'task' && result.status?.message?.parts) {
+          const txt = extractText(result.status.message.parts);
+          if (txt) return txt.trim();
+        }
+        if (result.parts) {
+          const txt = extractText(result.parts);
+          if (txt) return txt;
+        }
+        if (result.message?.parts) {
+          const txt = extractText(result.message.parts);
+          if (txt) return txt;
+        }
+        if (typeof result === 'string') return result;
+        return result.text || result.content || '';
+      }
+      if (data && data.error) throw new Error(data.error.message || 'agent-error');
+      return '';
+    }
+
+    async function handleBuffered(res: Response, indicator: { el: HTMLElement; setStep: (s: string) => void }): Promise<void> {
+      const data = await res.json();
+      indicator.el.remove();
+      const text = parseBuffered(data);
+      addBubble('agent', text && text.trim() ? text.trim() : t.emptyAnswer);
+    }
+
+    // --- Send orchestration ---------------------------------------------------
+    let busy = false;
+    function setBusy(b: boolean) {
+      busy = b;
+      sendBtn.disabled = b;
+      input.disabled = b;
+    }
+
+    async function send(message: string): Promise<void> {
+      if (!message.trim() || busy) return;
+      setBusy(true);
+      addBubble('user', message);
+      const indicator = makeWorkingIndicator();
+      try {
+        if (streamingSupported) {
+          try {
+            const res = await postMessage(message, true);
+            if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+            await handleStream(res, indicator);
+            return;
+          } catch {
+            // fall through to buffered
+          }
+        }
+        const res2 = await postMessage(message, false);
+        if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
+        await handleBuffered(res2, indicator);
+      } catch {
+        indicator.el.remove();
+        addBubble('error', t.errorSend);
+      } finally {
+        setBusy(false);
+        if (panelOpen) input.focus();
+      }
+    }
+
+    // --- Open / close ---------------------------------------------------------
+    let panelOpen = false;
+    let greeted = false;
+    let cardFetched = false;
+
+    function applyStrings() {
+      launcher.setAttribute('aria-label', t.launcherLabel);
+      launcher.setAttribute('title', t.launcherLabel);
+      titleEl.textContent = t.headerTitle;
+      subtitleEl.textContent = t.headerSubtitle;
+      input.setAttribute('placeholder', t.inputPlaceholder);
+      input.setAttribute('aria-label', t.inputPlaceholder);
+      sendBtn.setAttribute('aria-label', t.send);
+      sendBtn.setAttribute('title', t.send);
+      closeBtn.setAttribute('aria-label', t.close);
+      closeBtn.setAttribute('title', t.close);
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      panelOpen = true;
+      launcher.classList.add('aw-hidden');
+      launcher.setAttribute('aria-expanded', 'true');
+      if (!greeted) { addBubble('agent', t.greeting); greeted = true; }
+      if (!cardFetched) { cardFetched = true; fetchAgentCard(); }
+      setTimeout(() => input.focus(), 50);
+    }
+    function closePanel() {
+      panel.hidden = true;
+      panelOpen = false;
+      launcher.classList.remove('aw-hidden');
+      launcher.setAttribute('aria-expanded', 'false');
+      launcher.focus();
+    }
+
+    applyStrings();
+    launcher.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panelOpen) closePanel();
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = input.value;
+      input.value = '';
+      send(v);
+    });
+  }
+</script>

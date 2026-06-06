@@ -6,6 +6,7 @@ interface Props {
 }
 
 import '../styles/global.css';
+import AgentWidget from '../components/AgentWidget.astro';
 
 const { title, description, lang } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
@@ -56,6 +57,9 @@ const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
     );
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
   </script>
+
+  <!-- Bridge-Agent chat widget (JS-injected, print-hidden, excluded from PDF) -->
+  <AgentWidget />
 
 </body>
 </html>
