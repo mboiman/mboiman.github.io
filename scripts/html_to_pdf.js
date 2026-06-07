@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
+const { pathToFileURL } = require('url');
 const toml = require('toml');
 const sharp = require('sharp');
 const { formatMarkdownToHTML, formatTextToParagraphs } = require('./lib/markdown-utils');
@@ -37,6 +38,27 @@ const SPECIALIZATIONS = {
   de: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Multi-Cloud', 'Peppol/E-Invoice'],
   en: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Multi-Cloud', 'Peppol/E-Invoice'],
 };
+
+const CONTACT_ICON_PATHS = {
+  email: 'M21.75 6.75v10.5A2.25 2.25 0 0 1 19.5 19.5h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91A2.25 2.25 0 0 1 2.25 6.993V6.75',
+  phone: 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106a1.125 1.125 0 0 0-1.173.417l-.97 1.293a1.125 1.125 0 0 1-1.21.38 12.035 12.035 0 0 1-7.143-7.143 1.125 1.125 0 0 1 .38-1.21l1.293-.97c.36-.27.522-.735.417-1.173L6.963 3.102A1.125 1.125 0 0 0 5.872 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z',
+  website: 'M12 21a9 9 0 1 0 0-18m0 18a9 9 0 1 1 0-18m0 18c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m-7.5 9h15',
+  linkedin: 'M8.25 8.25h3v1.54h.04c.42-.8 1.45-1.64 2.98-1.64 3.19 0 3.78 2.1 3.78 4.83v5.57h-3.13v-4.94c0-1.18-.02-2.7-1.64-2.7-1.65 0-1.9 1.29-1.9 2.62v5.02H8.25V8.25Zm-4.05 0h3.13v10.3H4.2V8.25Zm3.38-3.18a1.81 1.81 0 1 1-3.62 0 1.81 1.81 0 0 1 3.62 0Z',
+  github: 'M12 2.25c-5.39 0-9.75 4.36-9.75 9.75 0 4.3 2.79 7.95 6.66 9.24.49.09.67-.21.67-.47v-1.78c-2.71.59-3.28-1.16-3.28-1.16-.44-1.13-1.08-1.43-1.08-1.43-.88-.6.07-.59.07-.59.98.07 1.49 1 1.49 1 .87 1.49 2.27 1.06 2.83.81.09-.63.34-1.06.61-1.3-2.16-.25-4.43-1.08-4.43-4.82 0-1.06.38-1.93 1-2.61-.1-.25-.43-1.24.1-2.58 0 0 .82-.26 2.68 1a9.3 9.3 0 0 1 4.88 0c1.86-1.26 2.68-1 2.68-1 .53 1.34.2 2.33.1 2.58.62.68 1 1.55 1 2.61 0 3.75-2.28 4.57-4.45 4.81.35.3.66.9.66 1.82v2.7c0 .26.18.56.67.47A9.76 9.76 0 0 0 21.75 12c0-5.39-4.36-9.75-9.75-9.75Z',
+};
+
+function getContactIconPath(item) {
+  if (item.class && CONTACT_ICON_PATHS[item.class]) return CONTACT_ICON_PATHS[item.class];
+  if (item.icon && item.icon.includes('phone')) return CONTACT_ICON_PATHS.phone;
+  if (item.icon && item.icon.includes('linkedin')) return CONTACT_ICON_PATHS.linkedin;
+  if (item.icon && item.icon.includes('github')) return CONTACT_ICON_PATHS.github;
+  if (item.icon && item.icon.includes('globe')) return CONTACT_ICON_PATHS.website;
+  return CONTACT_ICON_PATHS.email;
+}
+
+function renderContactIcon(item) {
+  return `<span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${getContactIconPath(item)}" /></svg></span>`;
+}
 
 /**
  * Determine experience tier based on start date.
@@ -224,11 +246,51 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     const isLink = item.url;
     return `
       <div class="contact-item">
-        <i class="fa ${item.icon}"></i>
+        ${renderContactIcon(item)}
         ${isLink ? `<a ${href}>${item.title}</a>` : `<span>${item.title}</span>`}
       </div>
     `;
   }).join('');
+
+  const fontDir = path.join(__dirname, '..', 'public', 'fonts', 'ibm-plex-sans');
+  const fontUrl = (file) => pathToFileURL(path.join(fontDir, file)).href;
+  const fontFaceCss = `
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-Light.woff2')}") format("woff2");
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-Regular.woff2')}") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-Text.woff2')}") format("woff2");
+            font-weight: 450;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-Medium.woff2')}") format("woff2");
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-SemiBold.woff2')}") format("woff2");
+            font-weight: 600;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("${fontUrl('IBMPlexSans-Bold.woff2')}") format("woff2");
+            font-weight: 700;
+            font-style: normal;
+        }`;
 
   // Generate impact metrics
   const lang = targetLang || 'de';
@@ -412,6 +474,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     <title>${langConfig.profile.name} - Professional CV</title>
 
     <style>
+        ${fontFaceCss}
+
+        :root {
+            --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --font-display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            --accent: #2563EB;
+            --accent-deep: #1D4ED8;
+            --text: #17212B;
+            --muted: #64748B;
+            --surface: #FFFFFF;
+            --surface-soft: #F5F9FF;
+            --line: #DCE7F5;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         @page {
@@ -420,10 +496,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-body);
             font-size: 7.5pt;
             line-height: 1.35;
-            color: #1E293B;
+            color: var(--text);
             background: white;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
@@ -438,28 +514,29 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             gap: 20px;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 2px solid #3a8fa0;
+            border-bottom: 1.5px solid var(--accent);
             margin-bottom: 12px;
         }
 
         .profile-photo {
             width: 105px; height: 105px;
             border-radius: 50%;
-            border: 3px solid rgba(58, 143, 160, 0.2);
+            border: 3px solid rgba(37, 99, 235, 0.14);
             object-fit: cover;
         }
 
         .header-content h1 {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
+            font-family: var(--font-display);
+            font-size: 20pt; font-weight: 300; color: var(--text); margin-bottom: 3px;
+            letter-spacing: -0.035em;
         }
 
         .header-tagline {
-            font-size: 9pt; color: #475569; font-weight: 600; margin-bottom: 4px;
+            font-size: 9pt; color: var(--muted); font-weight: 450; margin-bottom: 4px;
         }
 
         .header-meta {
-            font-size: 7.5pt; color: #334155; font-weight: 600; margin-bottom: 8px;
+            font-size: 7.5pt; color: var(--text); font-weight: 500; margin-bottom: 8px;
         }
         .header-meta .sep { color: #94A3B8; font-weight: 400; padding: 0 4px; }
 
@@ -469,11 +546,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .contact-item {
-            display: flex; align-items: center; gap: 4px;
+            display: flex; align-items: center; gap: 5px;
+            min-width: 0;
+            color: var(--muted);
         }
 
-        .contact-item i { width: 10px; color: #3a8fa0; font-size: 6pt; }
-        .contact-item a { color: #3a8fa0; text-decoration: none; }
+        .contact-icon {
+            width: 14px; height: 14px; border-radius: 999px;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: var(--accent);
+            background: rgba(37, 99, 235, 0.08);
+            flex: 0 0 auto;
+        }
+        .contact-icon svg { width: 9px; height: 9px; }
+        .contact-item a { color: var(--text); text-decoration: none; }
 
         /* === IMPACT METRICS BAR === */
         .impact-bar {
@@ -481,16 +567,16 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             justify-content: space-between;
             padding: 10px 15px;
             margin: 10px 0;
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
+            background: var(--surface-soft);
+            border: 1px solid var(--line);
             border-radius: 8px;
         }
 
         .impact-metric { text-align: center; flex: 1; }
 
         .impact-number {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: 14pt; font-weight: 700; color: #3a8fa0;
+            font-family: var(--font-display);
+            font-size: 14pt; font-weight: 300; color: var(--accent);
             line-height: 1.1;
         }
 
@@ -514,7 +600,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .spec-tag {
-            color: #3a8fa0;
+            color: var(--accent);
             font-weight: 600;
             letter-spacing: 0.3px;
         }
@@ -534,11 +620,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         /* === SECTION TITLES === */
         .cv-section h2 {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-            font-size: 10pt; font-weight: 700; color: #3a8fa0;
+            font-family: var(--font-display);
+            font-size: 11pt; font-weight: 300; color: var(--text);
             margin: 12px 0 10px 0; padding-bottom: 4px;
-            border-bottom: 2px solid #3a8fa0;
-            letter-spacing: -0.01em;
+            border-bottom: 1px solid var(--line);
+            letter-spacing: -0.025em;
             page-break-after: avoid;
         }
 
@@ -548,15 +634,15 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         /* === CAREER PROFILE === */
         .career-profile {
-            background: #F8FAFC;
-            border-left: 4px solid #3a8fa0;
+            background: var(--surface-soft);
+            border-left: 3px solid var(--accent);
             padding: 12px;
             margin: 12px 0;
             border-radius: 0 8px 8px 0;
         }
 
         .career-profile h2 {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            font-family: var(--font-display);
             margin-top: 0; margin-bottom: 8px; border: none; font-size: 10pt;
         }
 
@@ -572,14 +658,14 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             margin-bottom: 2px; line-height: 1.3;
         }
 
-        .career-profile strong { font-weight: 600; color: #3a8fa0; }
+        .career-profile strong { font-weight: 600; color: var(--accent-deep); }
 
         /* === EXPERIENCE ITEMS === */
         .experience-item {
             margin-bottom: 8px; padding: 10px;
-            background: #F8FAFC;
+            background: var(--surface);
             border-radius: 8px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--line);
             page-break-inside: avoid;
         }
 
@@ -589,12 +675,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .experience-title {
-            font-size: 8.5pt; font-weight: 700; color: #3a8fa0;
+            font-size: 8.5pt; font-weight: 600; color: var(--accent-deep);
         }
 
         .experience-dates {
             font-size: 7pt; color: #64748B;
-            background: rgba(58,143,160,0.08);
+            background: rgba(37,99,235,0.08);
             padding: 1px 6px; border-radius: 4px;
             font-weight: 500;
         }
@@ -610,7 +696,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .experience-details p { margin-bottom: 4px; }
         .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
         .experience-details li { margin-bottom: 2px; line-height: 1.3; }
-        .experience-details strong { font-weight: 600; color: #3a8fa0; }
+        .experience-details strong { font-weight: 600; color: var(--accent-deep); }
 
         /* Medium tier: slightly less padding */
         .experience-medium {
@@ -647,7 +733,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .compact-role strong {
-            color: #3a8fa0;
+            color: var(--accent-deep);
             font-weight: 600;
         }
 
@@ -664,14 +750,23 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             gap: 8px;
         }
 
+        .cv-content .projects-grid {
+            display: block;
+        }
+
         .project-item {
             width: calc(50% - 4px);
             margin-bottom: 0; padding: 10px;
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
+            background: var(--surface);
+            border: 1px solid var(--line);
             border-radius: 8px;
             page-break-inside: avoid;
             box-sizing: border-box;
+        }
+
+        .cv-content .project-item {
+            width: 100%;
+            margin-bottom: 8px;
         }
 
         .project-item.with-screenshot {
@@ -685,13 +780,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .project-title {
-            font-size: 8pt; font-weight: 700; color: #3a8fa0; margin-bottom: 4px;
+            font-size: 8pt; font-weight: 600; color: var(--accent-deep); margin-bottom: 4px;
         }
 
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
-            background: rgba(58,143,160,0.08); color: #3a8fa0; padding: 2px 5px;
+            background: rgba(37,99,235,0.08); color: var(--accent-deep); padding: 2px 5px;
             border-radius: 4px; font-size: 6pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
@@ -711,20 +806,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         /* === SIDEBAR === */
         .cv-sidebar {
-            background: #F8FAFC; padding: 15px;
+            background: var(--surface-soft); padding: 15px;
             border-radius: 8px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--line);
             height: fit-content;
         }
 
         .sidebar-section { margin-bottom: 15px; }
 
         .sidebar-section h3 {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-            font-size: 8pt; font-weight: 600; color: #3a8fa0;
+            font-family: var(--font-display);
+            font-size: 8pt; font-weight: 600; color: var(--accent-deep);
             margin-bottom: 6px;
             padding-bottom: 4px;
-            border-bottom: 1px solid #E2E8F0;
+            border-bottom: 1px solid var(--line);
             letter-spacing: -0.01em;
         }
 
@@ -737,7 +832,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .education-item { margin-bottom: 8px; font-size: 7pt; }
-        .education-degree { font-weight: 600; color: #3a8fa0; margin-bottom: 2px; }
+        .education-degree { font-weight: 600; color: var(--accent-deep); margin-bottom: 2px; }
         .education-school { color: #475569; margin-bottom: 2px; }
         .education-dates { color: #64748B; font-style: italic; }
 
@@ -746,12 +841,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             margin-bottom: 4px; font-size: 7pt;
         }
 
-        .language-name { font-weight: 600; color: #3a8fa0; }
+        .language-name { font-weight: 600; color: var(--accent-deep); }
         .language-level { color: #475569; }
 
         /* === EARLIER POSITIONS HEADING === */
         .earlier-heading {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            font-family: var(--font-display);
             font-size: 8pt; font-weight: 600; color: #64748B;
             margin: 12px 0 6px 0;
             padding-bottom: 3px;
@@ -768,14 +863,14 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .workshop-item {
             width: calc(50% - 3px);
             padding: 8px 10px;
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
+            background: var(--surface);
+            border: 1px solid var(--line);
             border-radius: 6px;
             font-size: 7pt;
         }
 
         .workshop-title {
-            font-weight: 600; color: #3a8fa0; margin-bottom: 2px;
+            font-weight: 600; color: var(--accent-deep); margin-bottom: 2px;
         }
 
         .workshop-meta {
@@ -786,15 +881,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .page-break-before { page-break-before: always; }
         .page-break-avoid { page-break-inside: avoid; }
         .no-print { display: none !important; }
-    </style>
-    <!-- Font Awesome icons replaced with simple text symbols for PDF -->
-    <style>
-        .fa-envelope::before { content: "✉"; }
-        .fa-phone::before { content: "☎"; }
-        .fa-map-marker-alt::before { content: "📍"; }
-        .fa-linkedin::before { content: "💼"; }
-        .fa-github::before { content: "⚡"; }
-        .fa-globe::before { content: "🌐"; }
     </style>
 </head>
 <body>
@@ -829,6 +915,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
                     <h2>${langConfig.summary.title}</h2>
                     ${formatTextToParagraphs(langConfig.summary.summary)}
                 </section>
+
+                <section class="cv-section">
+                    <h2>${langConfig.projects.title}</h2>
+                    <div class="projects-grid">
+                        ${projectItemsHtml}
+                    </div>
+                </section>
             </div>
 
             <div class="cv-sidebar">
@@ -859,14 +952,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
                 </div>
             </div>
         </div>
-
-        <!-- Full width section for projects (Top 8) -->
-        <section class="cv-section cv-full-width">
-            <h2>${langConfig.projects.title}</h2>
-            <div class="projects-grid">
-                ${projectItemsHtml}
-            </div>
-        </section>
 
         <!-- Full width section for experience -->
         <section class="cv-section cv-full-width">
