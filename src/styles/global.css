@@ -2,14 +2,44 @@
 
 /* === CSS Variables (outside Tailwind layers) === */
 :root {
-  --bg: #0a0a0a;
-  --bg-alt: #111111;
-  --text: #f0f0f0;
-  --text-secondary: #888888;
-  --accent: #3a8fa0;
-  --accent-hover: #4dabbf;
+  --bg: #f8fbff;
+  --bg-alt: #eef5fb;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --text: #17212b;
+  --text-secondary: #667483;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-warm: #c9872a;
   /* Darker accent for white text on accent backgrounds — meets WCAG AA (4.5:1) */
-  --accent-cta: #2c7888;
+  --accent-cta: #1d5ed8;
+  --accent-deep: #123f93;
+  --line: rgba(23,33,43,0.10);
+  --glow: rgba(37,99,235,0.16);
+  --page-background:
+    radial-gradient(circle at 14% -8%, rgba(37,99,235,0.10), transparent 34rem),
+    radial-gradient(circle at 88% 14%, rgba(14,165,233,0.06), transparent 30rem),
+    linear-gradient(180deg, #f8fbff 0%, #f3f8fd 44%, #f8fbff 100%);
+}
+
+html.dark {
+  --bg: #071113;
+  --bg-alt: #0c1719;
+  --surface: #111f22;
+  --surface-elevated: #18292d;
+  --text: #f4f7f5;
+  --text-secondary: #9caeae;
+  --accent: #7dd3fc;
+  --accent-hover: #bae6fd;
+  --accent-warm: #d8ad6a;
+  --accent-cta: #2563eb;
+  --accent-deep: #1d4ed8;
+  --line: rgba(244,247,245,0.08);
+  --glow: rgba(125,211,252,0.16);
+  --page-background:
+    radial-gradient(circle at 14% -8%, rgba(125,211,252,0.10), transparent 34rem),
+    radial-gradient(circle at 88% 14%, rgba(216,173,106,0.045), transparent 30rem),
+    linear-gradient(180deg, #071113 0%, #091518 44%, #061012 100%);
 }
 
 /* Visible keyboard focus everywhere (Tailwind preflight strips defaults) */
@@ -27,7 +57,7 @@ html {
 body {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-weight: 300;
-  background-color: var(--bg);
+  background: var(--page-background);
   color: var(--text);
   line-height: 1.8;
   font-size: 16px;

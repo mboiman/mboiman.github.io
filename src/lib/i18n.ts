@@ -7,6 +7,7 @@ type ImpactMetric = { metric: string; label: string; detail: string };
 // bundled client script via a data-i18n attribute serialized in the markup.
 export interface AgentWidgetStrings {
   launcherLabel: string;   // aria-label / tooltip for the floating button
+  launcherText: string;    // visible label next to the floating button
   headerTitle: string;     // panel header title
   headerSubtitle: string;  // small line under the title
   inputPlaceholder: string;
@@ -120,6 +121,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Eingesetzte', 'Technical Stack', 'Technischer'],
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
+      launcherText: 'Live A2A-Agent fragen',
       headerTitle: 'KI-Agent von Michael',
       headerSubtitle: 'Fragen Sie zu Projekten, Stack und Verfügbarkeit',
       inputPlaceholder: 'Nachricht schreiben …',
@@ -199,6 +201,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',
+      launcherText: 'Ask the live A2A agent',
       headerTitle: "Michael's AI Agent",
       headerSubtitle: 'Ask about projects, stack, and availability',
       inputPlaceholder: 'Type a message …',
