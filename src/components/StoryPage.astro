@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
 import { formatToHTML, formatMarkdown } from '../lib/markdown';
 import { i18n, darkScreenshots } from '../lib/i18n';
@@ -26,20 +27,23 @@ const olderExp = experiences.list.slice(5);
   description={ui.tagline}
   lang={lang}
 >
+  <div class="story-page">
   <!-- Scroll progress bar -->
   <div id="scroll-progress" style="width: 0%"></div>
 
   <!-- ═══ FLOATING NAV ═══ -->
   <header>
-    <nav class="fixed top-0 left-0 right-0 z-50 no-print nav-glass" id="floating-nav">
+    <nav class="fixed top-0 left-0 right-0 z-50 no-print story-nav" id="floating-nav">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
         <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">
           {t.pdfDownload}
         </a>
         <div class="flex items-center gap-2 opacity-0 transition-all duration-500" id="nav-right">
+          <span class="story-key-hint hidden sm:inline-flex">← →</span>
           <a href="/de/story/" class={`text-xs ${lang === 'de' ? 'font-semibold' : 'opacity-50 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'de' ? 'color: var(--text)' : 'color: var(--text-secondary)'} tabindex="-1">DE</a>
           <span class="text-xs" style="color: var(--text-secondary); opacity: 0.3">|</span>
           <a href="/en/story/" class={`text-xs ${lang === 'en' ? 'font-semibold' : 'opacity-50 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'en' ? 'color: var(--text)' : 'color: var(--text-secondary)'} tabindex="-1">EN</a>
+          <DarkModeToggle />
         </div>
       </div>
     </nav>
@@ -51,7 +55,7 @@ const olderExp = experiences.list.slice(5);
       <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
         Quality Engineer &middot; AI Architect &middot; System Thinker
       </p>
-      <h1 class="text-[clamp(2.5rem,7vw,7rem)] leading-[1.05] tracking-tight opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]">
+      <h1 class="story-display text-[clamp(2.5rem,7vw,7rem)] leading-[1.03] opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]">
         Here's to the ones<br>who <em class="italic" style="color: var(--accent)">automate<br class="sm:hidden"> the impossible.</em>
       </h1>
       <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
@@ -82,7 +86,7 @@ const olderExp = experiences.list.slice(5);
           height="480"
         />
       </div>
-      <p class="text-center mt-10 text-3xl sm:text-4xl tracking-tight" style="font-family: Georgia, 'Times New Roman', serif">
+      <p class="story-heading text-center mt-10 text-3xl sm:text-4xl tracking-tight">
         {profile.name}
       </p>
       <p class="text-center mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">
@@ -104,7 +108,7 @@ const olderExp = experiences.list.slice(5);
       <div class="flex flex-col sm:flex-row sm:justify-center sm:gap-20 gap-8 mb-20">
         {t.numberLabels.map((item, i) => (
           <div class="reveal text-center sm:text-left" style={`transition-delay: ${i * 150}ms`}>
-            <span class="text-[clamp(4rem,12vw,9rem)] font-black leading-none tracking-[-0.04em] block" style="font-family: Georgia, 'Times New Roman', serif">
+            <span class="story-number text-[clamp(4rem,12vw,9rem)] leading-none block">
               {item.num}
             </span>
             <span class="text-sm sm:text-base tracking-wide mt-2 block" style="color: var(--text-secondary)">
@@ -115,11 +119,11 @@ const olderExp = experiences.list.slice(5);
       </div>
 
       <!-- Impact metrics -->
-      <div class="border-t border-white/[0.04] pt-16">
+      <div class="story-separator border-t pt-16">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {t.impactMetrics.map((item, i) => (
             <div class="text-center reveal" style={`transition-delay: ${(i + 2) * 150}ms`}>
-              <p class="text-3xl sm:text-4xl font-black tracking-tight" style="font-family: Georgia, 'Times New Roman', serif; color: var(--accent)">{item.metric}</p>
+              <p class="story-metric text-3xl sm:text-4xl tracking-tight" style="color: var(--accent)">{item.metric}</p>
               <p class="text-sm font-medium mt-2">{item.label}</p>
               <p class="text-xs mt-1" style="color: var(--text-secondary)">{item.detail}</p>
             </div>
@@ -134,7 +138,7 @@ const olderExp = experiences.list.slice(5);
     <div class="prose-column">
       <div class="reveal">
         <div class="teal-rule mb-20"></div>
-        <p class="text-xl sm:text-2xl leading-[1.8] font-light" style="font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: var(--text-secondary)">
+        <p class="story-quote text-xl sm:text-2xl leading-[1.8]" style="color: var(--text-secondary)">
           {t.originQuote}
         </p>
       </div>
@@ -164,7 +168,7 @@ const olderExp = experiences.list.slice(5);
               )}
             </div>
 
-            <h3 class="text-2xl sm:text-4xl lg:text-5xl mb-12 tracking-tight leading-tight" style="font-family: Georgia, 'Times New Roman', serif">{project.title}</h3>
+            <h3 class="story-project-title text-2xl sm:text-4xl lg:text-5xl mb-12 tracking-tight leading-tight">{project.title}</h3>
 
             {hasGamma ? (
               <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-start">
@@ -178,15 +182,15 @@ const olderExp = experiences.list.slice(5);
                     <p class="text-base leading-relaxed" style="color: var(--text-secondary)">{project.solution}</p>
                   </div>
                   {project.impact && (
-                    <div class="pt-4" style="border-top: 1px solid rgba(255,255,255,0.05)">
+                    <div class="pt-4" style="border-top: 1px solid var(--line)">
                       <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">
-                        <span style="color: var(--accent)">→</span> {project.impact}
+                      <span style="color: var(--accent)">→</span> {project.impact}
                       </p>
                     </div>
                   )}
                 </div>
                 <div class="flex flex-col items-start lg:items-end justify-center lg:min-w-[180px]">
-                  <span class="text-[clamp(3rem,10vw,6rem)] font-black leading-none tracking-tight" style="font-family: Georgia, 'Times New Roman', serif; color: var(--accent)">{project.metric}</span>
+                  <span class="story-project-metric text-[clamp(3rem,10vw,6rem)] leading-none tracking-tight" style="color: var(--accent)">{project.metric}</span>
                   <span class="text-sm mt-2 tracking-wide" style="color: var(--text-secondary)">{project.metric_label}</span>
                 </div>
               </div>
@@ -204,10 +208,10 @@ const olderExp = experiences.list.slice(5);
   <section class="py-32 px-6" aria-label={t.ariaBeliefs} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto">
       {t.beliefs.map((belief, i) => (
-        <div class={`reveal py-14 ${i < 3 ? 'border-b border-white/[0.03]' : ''}`} style={`transition-delay: ${i * 200}ms`}>
+        <div class={`reveal py-14 ${i < 3 ? 'story-separator border-b' : ''}`} style={`transition-delay: ${i * 200}ms`}>
           <div class={`relative max-w-lg ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
-            <span class={`absolute -top-6 text-[5rem] leading-none select-none pointer-events-none ${belief.align === 'text-right' ? '-right-3' : '-left-3'}`} style="font-family: Georgia, 'Times New Roman', serif; color: var(--accent); opacity: 0.06;" aria-hidden="true">{belief.align === 'text-right' ? '\u201D' : '\u201C'}</span>
-            <p class={`text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: var(--text-secondary)">
+            <span class={`story-quote-mark absolute -top-6 text-[5rem] leading-none select-none pointer-events-none ${belief.align === 'text-right' ? '-right-3' : '-left-3'}`} aria-hidden="true">{belief.align === 'text-right' ? '\u201D' : '\u201C'}</span>
+            <p class={`story-belief text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="color: var(--text-secondary)">
               {belief.text}
             </p>
           </div>
@@ -220,7 +224,7 @@ const olderExp = experiences.list.slice(5);
   <section class="py-32 px-6" aria-label={t.experienceTitle}>
     <div class="max-w-4xl mx-auto">
       <div class="teal-rule mb-20"></div>
-      <h2 class="text-3xl sm:text-4xl text-center mb-20 reveal" style="font-family: Georgia, 'Times New Roman', serif">{t.experienceTitle}</h2>
+      <h2 class="story-heading text-3xl sm:text-4xl text-center mb-20 reveal">{t.experienceTitle}</h2>
 
       <!-- Recent: full details -->
       {recentExp.map((exp, i) => (
@@ -232,7 +236,7 @@ const olderExp = experiences.list.slice(5);
           <p class="text-sm mb-4" style="color: var(--text-secondary)">{exp.company}</p>
           <div class="text-sm leading-[1.9] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
           {i < recentExp.length - 1 && (
-            <div class="border-b border-white/[0.03] mt-16"></div>
+            <div class="story-separator border-b mt-16"></div>
           )}
         </div>
       ))}
@@ -240,7 +244,7 @@ const olderExp = experiences.list.slice(5);
       <!-- Older: compact -->
       {olderExp.length > 0 && (
         <div class="mt-20 reveal">
-          <div class="border-b border-white/[0.03] mb-10"></div>
+          <div class="story-separator border-b mb-10"></div>
           <p class="text-xs tracking-[0.2em] uppercase mb-8" style="color: var(--text-secondary)">{t.earlierPositions}</p>
           {olderExp.map((exp) => (
             <div class="exp-compact">
@@ -300,11 +304,11 @@ const olderExp = experiences.list.slice(5);
   <footer>
   <section class="act" aria-label="Kontakt">
     <div class="text-center reveal">
-      <p class="text-5xl sm:text-7xl lg:text-8xl mb-6 tracking-tight" style="font-family: Georgia, 'Times New Roman', serif">{profile.name}</p>
+      <p class="story-display text-5xl sm:text-7xl lg:text-8xl mb-6">{profile.name}</p>
       <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">
         BKS-Lab — AI Engineering &middot; Frankfurt am Main
       </p>
-      <p class="text-sm italic mb-10 max-w-md mx-auto" style="color: var(--text-secondary); font-family: Georgia, 'Times New Roman', serif">
+      <p class="story-quote text-sm mb-10 max-w-md mx-auto" style="color: var(--text-secondary)">
         {t.closingLine}
       </p>
 
@@ -331,6 +335,215 @@ const olderExp = experiences.list.slice(5);
 
   </footer>
 
+  <style>
+    .story-page {
+      color: var(--text);
+      --story-nav-height: 4.25rem;
+      --story-step-pad-x: clamp(1.25rem, 4vw, 3rem);
+      --story-step-pad-y: clamp(4.5rem, 9vh, 7rem);
+      overflow-x: clip;
+    }
+
+    :global(html),
+    :global(body) {
+      overflow-x: hidden;
+    }
+
+    .story-page :is(h1, h2, h3, h4, p, span, a) {
+      text-wrap: pretty;
+    }
+
+    .story-nav {
+      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 34px -30px rgba(15,23,42,0.30);
+    }
+
+    .story-page :is(section, section[aria-label="Projekte"] > div, section[aria-label="Projects"] > div) {
+      scroll-margin-top: var(--story-nav-height);
+    }
+
+    .story-page .act {
+      min-height: 100svh;
+      min-height: 100dvh;
+      padding-block: var(--story-step-pad-y);
+      padding-inline: var(--story-step-pad-x);
+    }
+
+    .story-page section[aria-label="Portrait"] {
+      min-height: calc(100svh - var(--story-nav-height));
+      min-height: calc(100dvh - var(--story-nav-height));
+      margin-top: 0;
+      padding: var(--story-step-pad-y) var(--story-step-pad-x) clamp(3rem, 7vh, 5rem);
+    }
+
+    .story-page section[aria-label="Portrait"] .reveal {
+      width: min(100%, 28rem);
+    }
+
+    .story-page section[aria-label="Portrait"] img {
+      width: min(100%, clamp(14rem, 28vw, 22rem));
+      height: min(52svh, 28rem);
+      height: min(52dvh, 28rem);
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .story-page :is(
+      section[aria-label="Zahlen"],
+      section[aria-label="Numbers"],
+      section[aria-label="Profil"],
+      section[aria-label="Profile"],
+      section[aria-label="Überzeugungen"],
+      section[aria-label="Beliefs"],
+      section[aria-label="Ausbildung"],
+      section[aria-label="Education"]
+    ) {
+      min-height: calc(100svh - var(--story-nav-height));
+      min-height: calc(100dvh - var(--story-nav-height));
+      display: flex;
+      align-items: center;
+      padding-block: var(--story-step-pad-y);
+      padding-inline: var(--story-step-pad-x);
+    }
+
+    .story-page :is(section[aria-label="Projekte"], section[aria-label="Projects"]) > div {
+      min-height: calc(100svh - var(--story-nav-height));
+      min-height: calc(100dvh - var(--story-nav-height));
+      display: flex;
+      align-items: center;
+      padding-block: var(--story-step-pad-y);
+      padding-inline: var(--story-step-pad-x);
+    }
+
+    .story-key-hint {
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 0.28rem 0.55rem;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    .story-display,
+    .story-heading,
+    .story-number,
+    .story-metric,
+    .story-project-title,
+    .story-project-metric {
+      font-family: var(--font-display);
+      letter-spacing: -0.035em;
+    }
+
+    .story-display,
+    .story-number,
+    .story-project-metric {
+      font-weight: 300;
+    }
+
+    .story-heading,
+    .story-project-title {
+      font-weight: 400;
+    }
+
+    .story-metric {
+      font-weight: 300;
+    }
+
+    .story-quote,
+    .story-belief {
+      font-family: var(--font-body);
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .story-quote-mark {
+      font-family: var(--font-display);
+      color: var(--accent);
+      opacity: 0.08;
+    }
+
+    .story-separator {
+      border-color: var(--line);
+    }
+
+    .story-page section[aria-label="Profil"] .prose-column,
+    .story-page section[aria-label="Kontakt"] > div {
+      max-width: 760px;
+    }
+
+    .story-page section[aria-label="Kontakt"] {
+      background:
+        radial-gradient(circle at 50% 16%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 28rem),
+        var(--bg);
+    }
+
+    .story-page .exp-compact {
+      border-bottom-color: var(--line);
+    }
+
+    .story-page #story-step-counter,
+    .story-page #story-keyboard-hint {
+      font-family: var(--font-body);
+    }
+
+    .story-page #story-step-counter {
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 0.42rem 0.62rem;
+      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      box-shadow: 0 14px 32px -26px rgba(15,23,42,0.36);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .story-page #story-keyboard-hint {
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 0.42rem 0.7rem;
+      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      color: var(--text-secondary);
+      box-shadow: 0 14px 32px -26px rgba(15,23,42,0.36);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .story-page {
+        --story-step-pad-x: 1.25rem;
+        --story-step-pad-y: clamp(3.5rem, 7vh, 4.5rem);
+      }
+
+      .story-page section[aria-label="Portrait"] img {
+        width: min(100%, 14rem);
+        height: min(48svh, 27rem);
+        height: min(48dvh, 27rem);
+      }
+
+      .story-page #story-step-counter {
+        bottom: 1rem;
+        left: 1rem;
+      }
+
+      .story-page #story-keyboard-hint,
+      :global(#agent-widget-label) {
+        display: none !important;
+      }
+    }
+  </style>
+
   <!-- Scripts -->
   <script>
     // Floating nav
@@ -348,7 +561,7 @@ const olderExp = experiences.list.slice(5);
         else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
       });
       // Make nav links tabbable only when visible
-      document.querySelectorAll('#floating-nav a').forEach(a => {
+      document.querySelectorAll('#floating-nav a, #floating-nav button').forEach(a => {
         (a as HTMLElement).tabIndex = show ? 0 : -1;
       });
       // Progress bar
@@ -365,7 +578,7 @@ const olderExp = experiences.list.slice(5);
       // Each top-level <section> is a step; the "Selected Works" act has multiple
       // direct <div> children (one per project) → each becomes its own step.
       const steps: Element[] = [];
-      document.querySelectorAll('section').forEach((sec) => {
+      document.querySelectorAll('.story-page section').forEach((sec) => {
         const divs = Array.from(sec.children).filter((c) => c.tagName === 'DIV');
         if (divs.length > 1) divs.forEach((d) => steps.push(d));
         else steps.push(sec);
@@ -383,15 +596,17 @@ const olderExp = experiences.list.slice(5);
 
       const counter = document.createElement('div');
       counter.className = 'no-print';
+      counter.id = 'story-step-counter';
       counter.setAttribute('aria-hidden', 'true');
-      counter.style.cssText = 'position:fixed;bottom:1.5rem;right:1.75rem;z-index:60;font-size:12px;letter-spacing:.18em;font-variant-numeric:tabular-nums;pointer-events:none';
+      counter.style.cssText = 'position:fixed;bottom:1.5rem;left:1.75rem;z-index:60;pointer-events:none';
       document.body.appendChild(counter);
 
       const hint = document.createElement('div');
       hint.className = 'no-print';
+      hint.id = 'story-keyboard-hint';
       hint.setAttribute('aria-hidden', 'true');
       hint.innerHTML = '<span style="font-size:13px;letter-spacing:.05em">← →</span><span>Navigieren</span>';
-      hint.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--text-secondary);opacity:.4;transition:opacity .8s ease;pointer-events:none';
+      hint.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;opacity:.78;transition:opacity .8s ease;pointer-events:none';
       document.body.appendChild(hint);
       let hintTimer = window.setTimeout(() => { hint.style.opacity = '0'; }, 4500);
 
@@ -446,4 +661,5 @@ const olderExp = experiences.list.slice(5);
       syncFromScroll();
     })();
   </script>
+  </div>
 </BaseLayout>

@@ -29,7 +29,15 @@ const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
   <meta property="og:image" content="https://mboiman.github.io/images/profile_.jpg" />
   <meta property="og:url" content={`https://mboiman.github.io${currentPath}`} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#f8fbff" />
+  <script is:inline>
+    (() => {
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch {}
+    })();
+  </script>
   <link rel="canonical" href={`https://mboiman.github.io${currentPath}`} />
   <link rel="alternate" hreflang={lang} href={`https://mboiman.github.io${currentPath}`} />
   <link rel="alternate" hreflang={otherLang} href={`https://mboiman.github.io${otherPath}`} />

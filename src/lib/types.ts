@@ -47,6 +47,19 @@ export interface SkillItem {
   skill: string;
 }
 
+export interface AgentProof {
+  eyebrow: string;
+  headline: string;
+  text: string;
+  status: string;
+  card: string;
+  endpoint: string;
+  ask: string;
+  promptTitle: string;
+  prompts: string[];
+  facts: string[];
+}
+
 export interface UIStrings {
   tagline: string;
   ai_badge: string;
@@ -66,6 +79,7 @@ export interface UIStrings {
 export interface CVData {
   ui: UIStrings;
   ai_showcase: { enable: boolean; list: AIShowcaseItem[] };
+  agent_proof: AgentProof;
   profile: { name: string; tagline: string; avatar: string };
   contact: { enable: boolean; list: ContactItem[] };
   education: { enable: boolean; title: string; list: EducationItem[] };

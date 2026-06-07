@@ -69,6 +69,22 @@ defaultContentLanguageInSubdir = true
         requirements_mapping_title = "Ihre Anforderungen → Meine Qualifikationen"
         attachment_label = "Anlage: Vollständiger Lebenslauf mit detaillierten Projektbeschreibungen, Technologiestack und Referenzen"
 
+      [languages.de.params.agent_proof]
+        eyebrow = "Live Proof statt Portfolio-Behauptung"
+        headline = "Mein CV hat einen eigenen A2A-Agenten."
+        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Das ist kein Demo-Banner, sondern ein live angebundener Agent."
+        status = "Live auf mboiman.bks-lab.com"
+        card = "A2A-Agent-Card"
+        endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
+        ask = "Agent fragen"
+        promptTitle = "Schnell fragen"
+        prompts = [
+          "Passt Michael für AI-QA in regulierten Systemen?",
+          "Wann hat Michael nächste Woche Zeit für ein Gespräch?",
+          "Welche Erfahrung hat Michael mit KI-Agenten?"
+        ]
+        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 4"]
+
       [languages.de.params.profile]
         name = "Michael Boiman"
         tagline = "Freiberuflicher Quality Engineer & KI-Architekt – 20+ Jahre QA, 4+ Jahre KI"
@@ -662,6 +678,22 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         application_subject_prefix = "Application for"
         requirements_mapping_title = "Your Requirements → My Qualifications"
         attachment_label = "Attachment: Complete CV with detailed project descriptions, technology stack and references"
+
+      [languages.en.params.agent_proof]
+        eyebrow = "Live proof, not a portfolio claim"
+        headline = "This CV has its own A2A agent."
+        text = "It answers questions about experience and stack, reads availability as free/busy only, and can hand meeting requests to me. This is not a demo banner, it is a live connected agent."
+        status = "Live at mboiman.bks-lab.com"
+        card = "A2A Agent Card"
+        endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
+        ask = "Ask the agent"
+        promptTitle = "Try a question"
+        prompts = [
+          "Is Michael a fit for AI-QA in regulated systems?",
+          "When is Michael available next week?",
+          "What is Michael's experience with AI agents?"
+        ]
+        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 4"]
 
       [languages.en.params.profile]
         name = "Michael Boiman"
