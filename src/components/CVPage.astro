@@ -73,6 +73,13 @@ function getContactIcon(item: { class?: string; icon?: string }) {
   return contactIconPaths.email;
 }
 
+function getContactBadge(item: { class?: string }) {
+  if (item.class === 'linkedin') return 'in';
+  if (item.class === 'github') return 'gh';
+  if (item.class === 'website') return 'www';
+  return '';
+}
+
 // Separate talks/workshops from regular positions (mirrors the PDF's isWorkshopOrPresentation)
 const isTalk = (exp: { position: string; company?: string }) => {
   const p = (exp.position || '').toLowerCase();
@@ -179,9 +186,13 @@ function truncateDetails(details: string): string {
             {contact.list.slice(0, 6).map(item => (
               <a href={item.url || '#'} target={item.url?.startsWith('mailto:') || item.url?.startsWith('tel:') ? '_self' : '_blank'} rel="noopener" class="cv-contact-link cursor-pointer" aria-label={item.title}>
                 <span class="cv-contact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d={getContactIcon(item)} />
-                  </svg>
+                  {getContactBadge(item) ? (
+                    <span class="cv-contact-badge">{getContactBadge(item)}</span>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d={getContactIcon(item)} />
+                    </svg>
+                  )}
                 </span>
                 <span class="cv-contact-text">{item.title}</span>
               </a>
@@ -622,6 +633,15 @@ function truncateDetails(details: string): string {
   .cv-contact-icon svg {
     width: 0.88rem;
     height: 0.88rem;
+  }
+
+  .cv-contact-badge {
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    text-transform: lowercase;
   }
 
   .cv-contact-text {

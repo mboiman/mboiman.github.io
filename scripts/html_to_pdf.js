@@ -56,7 +56,16 @@ function getContactIconPath(item) {
   return CONTACT_ICON_PATHS.email;
 }
 
+function getContactBadge(item) {
+  if (item.class === 'linkedin') return 'in';
+  if (item.class === 'github') return 'gh';
+  if (item.class === 'website') return 'www';
+  return '';
+}
+
 function renderContactIcon(item) {
+  const badge = getContactBadge(item);
+  if (badge) return `<span class="contact-icon contact-icon-badge">${badge}</span>`;
   return `<span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${getContactIconPath(item)}" /></svg></span>`;
 }
 
@@ -559,6 +568,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             flex: 0 0 auto;
         }
         .contact-icon svg { width: 9px; height: 9px; }
+        .contact-icon-badge {
+            font-size: 5.8pt;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            text-transform: lowercase;
+        }
         .contact-item a { color: var(--text); text-decoration: none; }
 
         /* === IMPACT METRICS BAR === */
