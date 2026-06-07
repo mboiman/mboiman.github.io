@@ -37,6 +37,25 @@ const agentProof = agent_proof ?? {
   facts: ['A2A 0.3', 'Streaming', '4 Skills', 'Free/Busy'],
 };
 
+const skillGroupConfig = lang === 'de'
+  ? [
+      { title: 'Quality Engineering', test: /quality|playwright|cucumber|gauge|jmeter|gatling/i },
+      { title: 'KI & Agenten', test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain/i },
+      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest/i },
+      { title: 'Plattform & Monitoring', test: /grafana|elastic|peppol|e-invoicing|azure/i },
+    ]
+  : [
+      { title: 'Quality Engineering', test: /quality|playwright|cucumber|gauge|jmeter|gatling/i },
+      { title: 'AI & Agents', test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain/i },
+      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest/i },
+      { title: 'Platform & Monitoring', test: /grafana|elastic|peppol|e-invoicing|azure/i },
+    ];
+
+const sidebarSkillGroups = skillGroupConfig.map(group => ({
+  title: group.title,
+  skills: ui.sidebar_skills.filter(skill => group.test.test(skill)),
+})).filter(group => group.skills.length > 0);
+
 // Separate talks/workshops from regular positions (mirrors the PDF's isWorkshopOrPresentation)
 const isTalk = (exp: { position: string; company?: string }) => {
   const p = (exp.position || '').toLowerCase();
@@ -119,14 +138,14 @@ function truncateDetails(details: string): string {
       <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.7fr)] gap-9 lg:gap-12 items-center">
         <div class="text-center sm:text-left">
           <div class="cv-kicker inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em]">
-            <span class="h-1.5 w-1.5 rounded-full" style="background: var(--accent-warm)"></span>
+            <span class="h-1.5 w-1.5 rounded-full" style="background: var(--accent)"></span>
             {agentProof.eyebrow}
           </div>
 
           <div class="mt-7 flex flex-col sm:flex-row items-center sm:items-start gap-5">
             <div class="relative flex-shrink-0">
               <div class="absolute -inset-1 rounded-full opacity-45 blur-md" style="background: var(--accent)"></div>
-              <img src="/images/profile_.jpg" alt={profile.name} class="relative w-[5.5rem] h-[5.5rem] sm:w-24 sm:h-24 rounded-full border-[3px] border-white/14 object-cover shadow-xl shadow-black/35 grayscale-[15%]" width="96" height="96" />
+              <img src="/images/profile_.jpg" alt={profile.name} class="cv-avatar relative w-[5.5rem] h-[5.5rem] sm:w-24 sm:h-24 rounded-full object-cover grayscale-[10%]" width="96" height="96" />
             </div>
             <div class="min-w-0">
               <h1 class="text-4xl sm:text-5xl lg:text-[4.75rem] font-light tracking-[-0.02em] font-sans leading-[1.02] cv-hero-title">{profile.name}</h1>
@@ -220,7 +239,7 @@ function truncateDetails(details: string): string {
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               {t.cvImpactMetrics.map(item => (
                 <div class="cv-metric-card p-4 rounded-xl text-center">
-                  <p class="text-2xl font-bold font-heading" style="color: var(--accent)">{item.metric}</p>
+                  <p class="text-2xl font-light font-sans tracking-[-0.02em]" style="color: var(--accent)">{item.metric}</p>
                   <p class="text-sm font-medium mt-1">{item.label}</p>
                   <p class="text-xs mt-0.5" style="color: var(--text-secondary)">{item.detail}</p>
                 </div>
@@ -258,7 +277,7 @@ function truncateDetails(details: string): string {
                     </div>
                   )}
                   <div class="p-5">
-                    <h3 class="text-base font-semibold font-heading mb-2 leading-tight">
+                    <h3 class="text-base font-medium font-sans mb-2 leading-tight">
                       {project.url ? (
                         <a href={project.url} target="_blank" rel="noopener" class="hover:text-[var(--accent)] transition-colors inline-flex items-center gap-1.5">
                           {project.title}
@@ -289,7 +308,7 @@ function truncateDetails(details: string): string {
                 {otherProjects.map(project => (
                   <div class="cv-mini-project p-4 rounded-lg">
                     <p class="text-[10px] tracking-[0.15em] uppercase mb-1" style="color: var(--accent)">{project.category}</p>
-                    <h4 class="text-sm font-semibold font-heading mb-1">{project.title}</h4>
+                    <h4 class="text-sm font-medium font-sans mb-1">{project.title}</h4>
                     {project.tech_stack?.length > 0 && (
                       <p class="text-[10px]" style="color: var(--text-secondary)">{project.tech_stack.slice(0, 4).join(' · ')}</p>
                     )}
@@ -304,7 +323,7 @@ function truncateDetails(details: string): string {
         {experiences.enable && (
           <section>
             <h2 class="cv-section-title">{experiences.title}</h2>
-            <div class="space-y-6 relative ml-3 pl-7" style="border-left: 2px solid rgba(58,143,160,0.15)">
+            <div class="cv-timeline space-y-6 relative ml-3 pl-7">
               {jobs.map((exp, i) => (
                 <div class="relative">
                   <!-- Timeline dot -->
@@ -313,10 +332,10 @@ function truncateDetails(details: string): string {
                   <div class="cv-experience-card p-6 rounded-xl">
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                       <div>
-                        <h3 class="text-[15px] font-semibold font-heading leading-snug" style="color: var(--accent)">{exp.position}</h3>
+                        <h3 class="text-[15px] font-medium font-sans leading-snug" style="color: var(--accent)">{exp.position}</h3>
                         <p class="text-sm mt-1 font-medium" style="color: var(--text-secondary)">{exp.company}</p>
                       </div>
-                      <span class="text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start" style="background: rgba(58,143,160,0.12); color: var(--accent)">{exp.dates}</span>
+                      <span class="cv-date-pill text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start">{exp.dates}</span>
                     </div>
                     <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(truncateDetails(exp.details))} />
                   </div>
@@ -333,9 +352,9 @@ function truncateDetails(details: string): string {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {talks.map(talk => (
                   <div class="cv-mini-project p-4 rounded-lg">
-                  <h3 class="text-sm font-semibold font-heading leading-snug" style="color: var(--accent)">{talk.position}</h3>
+                  <h3 class="text-sm font-medium font-sans leading-snug" style="color: var(--accent)">{talk.position}</h3>
                   <p class="text-xs mt-1" style="color: var(--text-secondary)">{talk.company}</p>
-                  <span class="inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md" style="background: rgba(58,143,160,0.12); color: var(--accent)">{talk.dates}</span>
+                  <span class="cv-date-pill inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md">{talk.dates}</span>
                 </div>
               ))}
             </div>
@@ -350,9 +369,16 @@ function truncateDetails(details: string): string {
           <!-- Skills -->
           <div class="cv-sidebar-card">
             <h3 class="cv-sidebar-title">{ui.sidebar_skills_title}</h3>
-            <div class="flex flex-wrap gap-1.5">
-              {ui.sidebar_skills.map(skill => (
-                <span class="cv-skill-chip text-xs px-2.5 py-1 rounded-full cursor-default">{skill}</span>
+            <div class="space-y-4">
+              {sidebarSkillGroups.map(group => (
+                <div>
+                  <p class="cv-skill-group-title">{group.title}</p>
+                  <div class="mt-2 flex flex-wrap gap-1.5">
+                    {group.skills.map(skill => (
+                      <span class="cv-skill-chip text-xs px-2.5 py-1 rounded-full cursor-default">{skill}</span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -381,7 +407,7 @@ function truncateDetails(details: string): string {
                 {langs.list.map(l => (
                   <div class="flex justify-between items-center text-sm">
                     <span>{l.language}</span>
-                    <span class="text-[11px] px-2.5 py-0.5 rounded-md font-medium" style="background: rgba(58,143,160,0.1); color: var(--accent)">{l.level}</span>
+                    <span class="cv-date-pill text-[11px] px-2.5 py-0.5 rounded-md font-medium">{l.level}</span>
                   </div>
                 ))}
               </div>
@@ -408,7 +434,7 @@ function truncateDetails(details: string): string {
   </div>
 
   <!-- Footer -->
-  <footer class="py-10 px-6 text-center text-sm border-t border-white/[0.04]" style="color: var(--text-secondary)">
+  <footer class="py-10 px-6 text-center text-sm border-t" style="color: var(--text-secondary); border-color: var(--line)">
     <p>&copy; {new Date().getFullYear()} {profile.name} &middot; BKS-Lab &middot; Frankfurt am Main</p>
     <p class="mt-3 text-xs opacity-60">
       <a href={`/${lang}/story/`} class="hover:opacity-100 transition-opacity">{t.experienceTheStory}</a>
@@ -430,6 +456,12 @@ function truncateDetails(details: string): string {
 </BaseLayout>
 
 <style>
+  .cv-hero :is(h1, h2, h3, h4),
+  main :is(h2, h3, h4),
+  aside :is(h3, h4) {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+
   .cv-hero {
     color: var(--text);
     background:
@@ -464,6 +496,13 @@ function truncateDetails(details: string): string {
   .cv-hero-title {
     color: var(--text);
     text-shadow: none;
+  }
+
+  .cv-avatar {
+    border: 3px solid color-mix(in srgb, var(--surface) 88%, var(--accent));
+    box-shadow:
+      0 18px 36px -28px rgba(15,23,42,0.58),
+      0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .cv-tagline {
@@ -618,32 +657,36 @@ function truncateDetails(details: string): string {
   .cv-sidebar-card {
     padding: 1.25rem;
     border-radius: 0.75rem;
-    background:
-      linear-gradient(180deg, rgba(238,247,248,0.045), rgba(238,247,248,0.018)),
-      var(--bg-alt);
-    border: 1px solid rgba(238,247,248,0.08);
-    box-shadow: 0 18px 42px -34px rgba(0,0,0,0.86);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 48px -42px rgba(15,23,42,0.34);
   }
 
   .cv-sidebar-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--accent);
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(238,247,248,0.07);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cv-skill-group-title {
+    color: var(--text);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .cv-metric-card,
   .cv-project-card,
   .cv-experience-card,
   .cv-mini-project {
-    background:
-      linear-gradient(180deg, rgba(238,247,248,0.042), rgba(238,247,248,0.016)),
-      var(--bg-alt);
-    border: 1px solid rgba(238,247,248,0.075);
-    box-shadow: 0 18px 44px -38px rgba(0,0,0,0.85);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 22px 44px -40px rgba(15,23,42,0.30);
   }
 
   .cv-project-card {
@@ -654,8 +697,8 @@ function truncateDetails(details: string): string {
     transform: translateY(-4px);
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     box-shadow:
-      0 22px 58px -38px rgba(0,0,0,0.95),
-      0 0 36px -30px var(--glow);
+      0 26px 60px -44px rgba(15,23,42,0.46),
+      0 0 36px -32px var(--glow);
   }
 
   .cv-experience-card {
@@ -663,19 +706,19 @@ function truncateDetails(details: string): string {
   }
 
   .cv-experience-card:hover {
-    border-color: rgba(115,215,228,0.18);
+    border-color: color-mix(in srgb, var(--accent) 28%, var(--line));
   }
 
   .cv-tech-chip {
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    color: var(--accent-hover);
-    border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 15%, var(--line));
   }
 
   .cv-skill-chip {
-    border: 1px solid rgba(238,247,248,0.085);
+    border: 1px solid var(--line);
     color: var(--text-secondary);
-    background: rgba(238,247,248,0.025);
+    background: color-mix(in srgb, var(--surface) 74%, var(--bg-alt));
     transition: border-color 0.18s ease-out, color 0.18s ease-out, background 0.18s ease-out;
   }
 
@@ -683,6 +726,16 @@ function truncateDetails(details: string): string {
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     color: var(--text);
     background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .cv-timeline {
+    border-left: 2px solid color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+
+  .cv-date-pill {
+    background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 13%, var(--line));
   }
 
   .project-copy :global(p) {
