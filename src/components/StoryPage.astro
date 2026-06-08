@@ -35,9 +35,18 @@ const olderExp = experiences.list.slice(5);
   <header>
     <nav class="fixed top-0 left-0 right-0 z-50 no-print story-nav" id="floating-nav">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-        <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">
-          {t.pdfDownload}
-        </a>
+        <div class="flex items-center gap-4">
+          <!-- Always-visible escape hatch back to the CV — a presentation must
+               never be a dead end (was missing entirely). Kept out of the
+               scroll-gated tabindex toggle below so it stays keyboard-reachable. -->
+          <a href={`/${lang}/`} class="story-back text-xs tracking-[0.1em] uppercase opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-pointer min-h-[44px] flex items-center gap-1.5" style="color: var(--text-secondary)" aria-label={t.storyBackToCv}>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            <span>{t.storyBackToCv}</span>
+          </a>
+          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 cursor-pointer min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">
+            {t.pdfDownload}
+          </a>
+        </div>
         <div class="flex items-center gap-2 opacity-0 transition-all duration-500" id="nav-right">
           <span class="story-key-hint hidden sm:inline-flex">← →</span>
           <a href="/de/story/" class={`text-xs ${lang === 'de' ? 'font-semibold' : 'opacity-50 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'de' ? 'color: var(--text)' : 'color: var(--text-secondary)'} tabindex="-1">DE</a>
@@ -561,7 +570,8 @@ const olderExp = experiences.list.slice(5);
         else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
       });
       // Make nav links tabbable only when visible
-      document.querySelectorAll('#floating-nav a, #floating-nav button').forEach(a => {
+      // .story-back is the always-visible escape hatch → keep it tabbable regardless.
+      document.querySelectorAll('#floating-nav a:not(.story-back), #floating-nav button').forEach(a => {
         (a as HTMLElement).tabIndex = show ? 0 : -1;
       });
       // Progress bar
