@@ -35,6 +35,13 @@
     updateIcons();
   });
 
+  // Follow the OS setting live — until the user makes an explicit choice
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (localStorage.getItem('theme')) return;
+    document.documentElement.classList.toggle('dark', e.matches);
+    updateIcons();
+  });
+
   updateIcons();
 </script>
 
