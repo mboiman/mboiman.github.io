@@ -914,6 +914,23 @@ const widgetStrings = {
     clip: rect(0 0 0 0); clip-path: inset(50%);
     overflow: hidden; white-space: nowrap;
   }
+
+  /* "Show on the page" pill — mobile only. The fullscreen panel covers the CV,
+     so instead of hiding the answer we offer a tap that closes the panel and
+     reveals the highlighted section. Keeps the text; still delivers the jump. */
+  .aw-viewpage-row { justify-content: flex-start; }
+  .aw-view-on-page {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: inherit; font-size: 12px; font-weight: 500; line-height: 1.2;
+    color: var(--accent, #e23b3b);
+    background: color-mix(in srgb, var(--accent, #e23b3b) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent, #e23b3b) 40%, transparent);
+    border-radius: 999px; padding: 7px 13px; cursor: pointer;
+    transition: background .15s ease;
+  }
+  .aw-view-on-page:hover { background: color-mix(in srgb, var(--accent, #e23b3b) 22%, transparent); }
+  .aw-view-on-page:focus-visible { outline: 2px solid var(--accent, #e23b3b); outline-offset: 2px; }
+  .aw-view-on-page svg { width: 14px; height: 14px; flex-shrink: 0; }
 </style>
 
 <script>
@@ -1771,6 +1788,37 @@ const widgetStrings = {
     liveRegion.setAttribute('aria-live', 'polite');
     root.appendChild(liveRegion);
 
+    // Mobile "show on the page" affordance: the fullscreen panel covers the CV,
+    // so rather than hide the answer we drop a tappable pill into the chat that
+    // closes the panel and reveals the highlighted section on demand.
+    let viewPillRow: HTMLElement | null = null;
+    function removeViewOnPagePill() {
+      if (viewPillRow) { viewPillRow.remove(); viewPillRow = null; }
+    }
+    const PIN_SVG =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"' +
+      ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>' +
+      '<circle cx="12" cy="10" r="3"></circle></svg>';
+    function addViewOnPagePill(label: string, onTap: () => void) {
+      removeViewOnPagePill();
+      const row = document.createElement('div');
+      row.className = 'aw-row aw-row-agent aw-viewpage-row';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'aw-view-on-page';
+      const what = label
+        ? (lang === 'en' ? `Show “${label}” on the page` : `„${label}“ auf der Seite zeigen`)
+        : (lang === 'en' ? 'Show on the page' : 'Auf der Seite zeigen');
+      btn.innerHTML = PIN_SVG + '<span></span>';
+      btn.querySelector('span')!.textContent = what;
+      btn.addEventListener('click', () => { removeViewOnPagePill(); onTap(); });
+      row.appendChild(btn);
+      messagesEl.appendChild(row);
+      scrollToBottom();
+      viewPillRow = row;
+    }
+
     function highlightAnchor(anchor: string): boolean {
       if (!anchor || !ANCHOR_RE.test(anchor)) return false;
       // Whitelist: the anchor MUST exist as a real [data-cv-anchor] in the page.
@@ -1781,17 +1829,17 @@ const widgetStrings = {
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = 0; }
       if (flashEl) flashEl.classList.remove('bridge-flash');
       flashEl = null;
-      // On mobile the panel is fullscreen and covers the CV → collapse it first.
-      if (isMobile() && panelOpen) closePanel();
+      removeViewOnPagePill();                 // drop a stale "show on page" pill
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       // A section anchor (a whole group) aligns to its top so the heading leads;
       // a single entry centres in view.
       const block = (target.hasAttribute('data-cv-group') ? 'start' : 'center') as ScrollLogicalPosition;
-      const run = () => {
+      const label = (target.querySelector('h2, h3, h4') as HTMLElement | null)?.textContent?.trim()
+        || target.getAttribute('data-cv-group')?.trim() || '';
+      const reveal = () => {
         target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block });
         target.classList.add('bridge-flash');
         flashEl = target;
-        const label = (target.querySelector('h2, h3, h4') as HTMLElement | null)?.textContent?.trim();
         if (label) liveRegion.textContent = (lang === 'en' ? 'Highlighted on the page: ' : 'Auf der Seite hervorgehoben: ') + label;
         flashTimer = window.setTimeout(() => {
           target.classList.remove('bridge-flash');
@@ -1799,8 +1847,15 @@ const widgetStrings = {
           if (flashEl === target) flashEl = null;
         }, 2600);
       };
-      // mobile: let the panel-close layout settle one tick before scrolling
-      if (isMobile()) window.setTimeout(run, 90); else run();
+      // On mobile the panel is fullscreen and covers the CV. Closing it to show the
+      // jump would also hide the answer the visitor just received — so keep the
+      // answer and offer a tap that closes the panel and reveals the section. On
+      // desktop the panel floats beside the CV, so reveal straight away.
+      if (isMobile() && panelOpen) {
+        addViewOnPagePill(label, () => { closePanel(); window.setTimeout(reveal, 120); });
+      } else {
+        reveal();
+      }
       return true;
     }
 
