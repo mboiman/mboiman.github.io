@@ -1559,6 +1559,12 @@ const widgetStrings = {
             parts: [{ kind: 'text', text: message }],
             messageId: uuid(),
             contextId: contextId,
+            // Machine channel (A2A message.metadata): tells the agent WHERE it is
+            // being addressed from — page, language, the section in view, and the
+            // highlight anchors that actually exist on THIS page. Separate from the
+            // visible question (the user bubble shows only what was typed); the agent
+            // treats it as advisory. The DOM whitelist still gates any real highlight.
+            metadata: { runtime_context: buildRuntimeContext() },
           },
         },
       });
@@ -1768,6 +1774,61 @@ const widgetStrings = {
     // Dev hook: drive the highlight from the console without an agent (test recipe).
     //   __bridgeUI.highlight('tuev-sued')
     try { (window as any).__bridgeUI = { highlight: highlightAnchor }; } catch {}
+
+    // ── Runtime context for the agent ────────────────────────────────────────
+    // The agent reaches the page as a stateless `claude -p` turn — it only sees the
+    // question text. To know WHERE it is being addressed from (and that it can drive
+    // the page), each outbound message carries a machine-readable context block via
+    // A2A message.metadata.runtime_context. Built from the SAME [data-cv-anchor]
+    // whitelist the highlight uses, so the anchor set the agent is told about is
+    // exactly what the widget can actually act on.
+
+    /** The CV section whose centre is nearest the viewport centre (or null). */
+    function currentVisibleAnchor(): HTMLElement | null {
+      const vh = window.innerHeight || 0;
+      let best: HTMLElement | null = null;
+      let bestDist = Infinity;
+      document.querySelectorAll<HTMLElement>('[data-cv-anchor]').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;          // fully off-screen
+        const dist = Math.abs((r.top + r.height / 2) - vh / 2);
+        if (dist < bestDist) { bestDist = dist; best = el; }
+      });
+      return best;
+    }
+
+    /** Advisory context string handed to the agent each turn (localized). */
+    function buildRuntimeContext(): string {
+      const anchors = Array.from(document.querySelectorAll<HTMLElement>('[data-cv-anchor]'))
+        .map((el) => el.getAttribute('data-cv-anchor') || '')
+        .filter((a) => ANCHOR_RE.test(a));
+      const uniq = Array.from(new Set(anchors));
+      const visEl = currentVisibleAnchor();
+      const visAnchor = visEl ? visEl.getAttribute('data-cv-anchor') : '';
+      const visLabel = visEl
+        ? ((visEl.querySelector('h2,h3,h4') as HTMLElement | null)?.textContent || '')
+            .trim().replace(/\s+/g, ' ').slice(0, 80)
+        : '';
+      const path = location.pathname;
+      if (lang === 'en') {
+        const vis = visAnchor
+          ? `Currently in the visitor's view: section “${visLabel}” (anchor ${visAnchor}).`
+          : `No specific section is in the visitor's view right now.`;
+        return [
+          `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section.`,
+          vis,
+          uniq.length ? `Sections highlightable on THIS page — authoritative anchor list for ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+        ].filter(Boolean).join('\n');
+      }
+      const vis = visAnchor
+        ? `Aktuell im Blickfeld des Besuchers: Abschnitt „${visLabel}“ (Anker ${visAnchor}).`
+        : `Aktuell ist kein bestimmter Abschnitt im Blickfeld des Besuchers.`;
+      return [
+        `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben.`,
+        vis,
+        uniq.length ? `Auf DIESER Seite hervorhebbare Abschnitte — autoritative Anker-Liste für ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+      ].filter(Boolean).join('\n');
+    }
 
     // --- Send orchestration ---------------------------------------------------
     function setBusy(b: boolean) {
