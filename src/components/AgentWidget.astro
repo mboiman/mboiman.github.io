@@ -1272,6 +1272,14 @@ const widgetStrings = {
 
     // --- DOM helpers ----------------------------------------------------------
     function scrollToBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+    // Like scrollToBottom but only follows the growing answer while the reader is
+    // already at the bottom — if they scrolled up to re-read, we don't yank them
+    // back down. Used during the paced live reveal so long answers glide rather
+    // than snap.
+    function stickToBottom() {
+      const slack = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight;
+      if (slack < 120) messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
 
     // Speech-bubble glyph (same as the launcher) — the agent's identity chip.
     const AGENT_AVATAR_SVG =
@@ -1601,9 +1609,36 @@ const widgetStrings = {
         if (!bubble) bubble = addBubble('agent', '');
         return bubble;
       }
+      // Paced reveal: the server may deliver the answer in big chunks (or one
+      // 'completed' frame). Dumping each chunk makes the panel lurch downward, so
+      // instead we hold the newest full text as a target and reveal it a few chars
+      // per animation frame — even a one-shot answer then reads like a stream.
+      // Catch up faster when far behind so we never lag a fast sender; honour
+      // prefers-reduced-motion by showing everything at once.
+      let liveTarget = '';
+      let liveShown = 0;
+      let paceRAF = 0;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function paintLive() {
+        ensureBubble().innerHTML = safeMarkdown(liveTarget.slice(0, liveShown));
+        stickToBottom();
+      }
+      function pump() {
+        paceRAF = 0;
+        if (liveShown >= liveTarget.length) return;
+        const backlog = liveTarget.length - liveShown;
+        liveShown = Math.min(liveTarget.length, liveShown + (backlog > 400 ? 60 : 18));
+        paintLive();
+        if (liveShown < liveTarget.length) paceRAF = requestAnimationFrame(pump);
+      }
       function renderLive(text: string) {
-        ensureBubble().innerHTML = safeMarkdown(text);
-        scrollToBottom();
+        liveTarget = text;
+        if (liveShown > liveTarget.length) liveShown = 0;   // replaced/shrank → restart
+        if (reduceMotion) { liveShown = liveTarget.length; paintLive(); return; }
+        if (!paceRAF) paceRAF = requestAnimationFrame(pump);
+      }
+      function finishLive() {
+        if (paceRAF) { cancelAnimationFrame(paceRAF); paceRAF = 0; }
       }
 
       try {
@@ -1660,6 +1695,7 @@ const widgetStrings = {
           }
         }
       } finally {
+        finishLive();
         indicator.el.remove();
       }
 
@@ -1748,8 +1784,11 @@ const widgetStrings = {
       // On mobile the panel is fullscreen and covers the CV → collapse it first.
       if (isMobile() && panelOpen) closePanel();
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // A section anchor (a whole group) aligns to its top so the heading leads;
+      // a single entry centres in view.
+      const block = (target.hasAttribute('data-cv-group') ? 'start' : 'center') as ScrollLogicalPosition;
       const run = () => {
-        target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block });
         target.classList.add('bridge-flash');
         flashEl = target;
         const label = (target.querySelector('h2, h3, h4') as HTMLElement | null)?.textContent?.trim();
@@ -1799,15 +1838,32 @@ const widgetStrings = {
 
     /** Advisory context string handed to the agent each turn (localized). */
     function buildRuntimeContext(): string {
-      const anchors = Array.from(document.querySelectorAll<HTMLElement>('[data-cv-anchor]'))
-        .map((el) => el.getAttribute('data-cv-anchor') || '')
-        .filter((a) => ANCHOR_RE.test(a));
-      const uniq = Array.from(new Set(anchors));
+      const all = Array.from(document.querySelectorAll<HTMLElement>('[data-cv-anchor]'))
+        .filter((el) => ANCHOR_RE.test(el.getAttribute('data-cv-anchor') || ''));
+      // A section anchor carries data-cv-group (its human label) and stands for a
+      // whole group of entries — usable for category/overview questions. Plain
+      // entry anchors point at a single item. We tell the agent both, separately,
+      // so it can pick a section for "which talks?" and an entry for a specific one.
+      const sectionSlugs = new Set(
+        all.filter((el) => el.hasAttribute('data-cv-group'))
+           .map((el) => el.getAttribute('data-cv-anchor') || ''),
+      );
+      const sections = all
+        .filter((el) => el.hasAttribute('data-cv-group'))
+        .map((el) => ({
+          a: el.getAttribute('data-cv-anchor') || '',
+          label: (el.getAttribute('data-cv-group') || '').trim().replace(/\s+/g, ' ').slice(0, 60),
+        }));
+      const entries = Array.from(new Set(
+        all.map((el) => el.getAttribute('data-cv-anchor') || '')
+           .filter((a) => !sectionSlugs.has(a)),
+      ));
       const visEl = currentVisibleAnchor();
       const visAnchor = visEl ? visEl.getAttribute('data-cv-anchor') : '';
       const visLabel = visEl
-        ? ((visEl.querySelector('h2,h3,h4') as HTMLElement | null)?.textContent || '')
-            .trim().replace(/\s+/g, ' ').slice(0, 80)
+        ? (visEl.getAttribute('data-cv-group')
+            || (visEl.querySelector('h2,h3,h4') as HTMLElement | null)?.textContent
+            || '').trim().replace(/\s+/g, ' ').slice(0, 80)
         : '';
       const path = location.pathname;
       if (lang === 'en') {
@@ -1815,18 +1871,20 @@ const widgetStrings = {
           ? `Currently in the visitor's view: section “${visLabel}” (anchor ${visAnchor}).`
           : `No specific section is in the visitor's view right now.`;
         return [
-          `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section.`,
+          `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section via ⟦ui:highlight <anchor>⟧.`,
           vis,
-          uniq.length ? `Sections highlightable on THIS page — authoritative anchor list for ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+          sections.length ? `Section anchors (each spans a whole group — use one for a category/overview question, e.g. "which talks?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
+          entries.length ? `Single-entry anchors (use one when the answer points at a specific entry): ${entries.join(', ')}.` : '',
         ].filter(Boolean).join('\n');
       }
       const vis = visAnchor
         ? `Aktuell im Blickfeld des Besuchers: Abschnitt „${visLabel}“ (Anker ${visAnchor}).`
         : `Aktuell ist kein bestimmter Abschnitt im Blickfeld des Besuchers.`;
       return [
-        `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben.`,
+        `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben via ⟦ui:highlight <anchor>⟧.`,
         vis,
-        uniq.length ? `Auf DIESER Seite hervorhebbare Abschnitte — autoritative Anker-Liste für ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+        sections.length ? `Abschnitts-Anker (umfassen je eine ganze Gruppe — einer davon für Kategorie-/Übersichtsfragen, z. B. „welche Vorträge?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
+        entries.length ? `Einzel-Anker (einer davon, wenn die Antwort auf einen bestimmten Eintrag zeigt): ${entries.join(', ')}.` : '',
       ].filter(Boolean).join('\n');
     }
 
