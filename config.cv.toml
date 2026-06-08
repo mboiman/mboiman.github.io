@@ -208,6 +208,7 @@ Ergänzend gebe ich dieses Wissen weiter — in Entwickler- und Business-Worksho
 
         [[languages.de.params.experiences.list]]
         position = "Impulsvortrag: KI-gestützte Software-Entwicklung in der Praxis"
+        anchor = "tu-darmstadt"
         dates = "04/2026"
         company = "TU Darmstadt — Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
         details = """
@@ -224,6 +225,7 @@ Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~2
 
         [[languages.de.params.experiences.list]]
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
+        anchor = "workshop-genai"
         dates = "06/2025"
         company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
         details = """
@@ -252,6 +254,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
+        anchor = "bks-llm-infra"
         dates = "06/2025 – heute"
         company = "BKS - AI Research & Development"
         details = """
@@ -284,6 +287,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "Quality Engineering"
+        anchor = "tuev-sued"
         dates = "09/2025 – heute"
         company = "TÜV Süd"
         details = """
@@ -308,6 +312,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
+        anchor = "akkuswap"
         dates = "07/2024 – 01/2025"
         company = "AkkuSwap Startup"
         details = """
@@ -337,6 +342,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
+        anchor = "presentation-ai-docs"
         dates = "04/2025"
         company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
         details = """
@@ -365,6 +371,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         
         [[languages.de.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
+        anchor = "dvag"
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
@@ -394,6 +401,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
+        anchor = "bks-ai-automation"
         dates    = "01/2024 – 04/2025"
         company  = "BKS"
         details  = """
@@ -430,6 +438,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
+        anchor = "ryze"
         dates = "04/2023 - 04/2024"
         company = "BKS im Auftrag für Ryze"
         details = """
@@ -455,6 +464,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         
         [[languages.de.params.experiences.list]]
         position = "Anwendungen von KI im Geschäftsumfeld"
+        anchor = "ki-workshop-business"
         dates = "2023"
         company = "KI-Workshop zur Unternehmenseinbindung"
         details = """
@@ -488,6 +498,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
+        anchor = "db-vertrieb"
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
         details = """
@@ -522,6 +533,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
+        anchor = "db-systel"
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
         details = """
@@ -546,6 +558,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
+        anchor = "telekom"
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
@@ -566,6 +579,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
+        anchor = "siemens"
         dates = "05/2009 - 03/2015"
         company = "Siemens"
         details = """
@@ -598,6 +612,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
+        anchor = "ing-diba"
         dates = "03/2009 - 05/2009"
         company = "ING-DIBA"
         details = """
@@ -613,6 +628,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
+        anchor = "consulting-2006-2008"
         dates = "01/2006 - 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
@@ -812,6 +828,7 @@ I also pass this knowledge on — in developer and business workshops and as an 
 
         [[languages.en.params.experiences.list]]
         position = "Guest Lecture: AI-Assisted Software Development in Practice"
+        anchor = "tu-darmstadt"
         dates = "04/2026"
         company = "TU Darmstadt — Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
         details = """
@@ -828,6 +845,7 @@ Format: moderated impulse talk with interactive live demonstrations. Audience: ~
 
         [[languages.en.params.experiences.list]]
         position = "Workshop: Development with Generative Language Models"
+        anchor = "workshop-genai"
         dates = "06/2025"
         company = "Developer Workshop - Agent-based Software Development"
         details = """
@@ -856,6 +874,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
+        anchor = "bks-llm-infra"
         dates = "06/2025 – present"
         company = "BKS - AI Research & Development"
         details = """
@@ -888,6 +907,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "Quality Engineering"
+        anchor = "tuev-sued"
         dates = "09/2025 – present"
         company = "TÜV Süd"
         details = """
@@ -912,6 +932,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "AI-driven Automated QA Environment for Energy Infrastructure"
+        anchor = "akkuswap"
         dates = "07/2024 – 01/2025"
         company = "AkkuSwap Startup"
         details = """
@@ -941,6 +962,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "Presentation: Efficient Documentation through Automation"
+        anchor = "presentation-ai-docs"
         dates = "04/2025"
         company = "Enterprise Presentation - AI-powered Documentation Workflows"
         details = """
@@ -969,6 +991,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         
         [[languages.en.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
+        anchor = "dvag"
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
@@ -998,6 +1021,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
+        anchor = "bks-ai-automation"
         dates    = "01/2024 – 04/2025"
         company  = "BKS"
         details  = """
@@ -1034,6 +1058,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
+        anchor = "ryze"
         dates = "04/2023 - 04/2024"
         company = "BKS on behalf of Ryze"
         details = """
@@ -1059,6 +1084,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         
         [[languages.en.params.experiences.list]]
         position = "AI Workshop for Business Integration"
+        anchor = "ki-workshop-business"
         dates = "2023"
         company = "Applications of AI in Business Context"
         details = """
@@ -1092,6 +1118,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
+        anchor = "db-vertrieb"
         dates = "01/2017 - 05/2021"
         company = "DB Vertrieb"
         details = """
@@ -1126,6 +1153,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
+        anchor = "db-systel"
         dates = "09/2015 - 01/2017"
         company = "DB Systel"
         details = """
@@ -1150,6 +1178,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
+        anchor = "telekom"
         dates = "04/2015 - 09/2015"
         company = "Telekom"
         details = """
@@ -1170,6 +1199,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
+        anchor = "siemens"
         dates = "05/2009 - 03/2015"
         company = "Siemens"
         details = """
@@ -1202,6 +1232,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
+        anchor = "ing-diba"
         dates = "03/2009 - 05/2009"
         company = "ING-DIBA"
         details = """
@@ -1217,6 +1248,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
+        anchor = "consulting-2006-2008"
         dates = "01/2006 - 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
@@ -1239,6 +1271,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
+        anchor = "messe-chatbot"
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
@@ -1259,6 +1292,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
+        anchor = "email-classification"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
         featured = true
@@ -1279,6 +1313,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        anchor = "ai-context-orchestrator"
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
         featured = true
@@ -1301,6 +1336,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
+        anchor = "enterprise-ai-consulting"
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
@@ -1324,6 +1360,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Quality Dashboard - Echtzeit-Übersicht"
+        anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
@@ -1337,6 +1374,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        anchor = "legacy-migration-validator"
         tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
         featured = true
@@ -1363,6 +1401,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Live-Demo Apps"
+        anchor = "live-demo-apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
         category = "AI & Machine Learning"
@@ -1372,6 +1411,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "wecation"
+        anchor = "wecation"
         url = "https://www.wecation.de"
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
@@ -1381,6 +1421,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
+        anchor = "dev-workshop"
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
@@ -1400,6 +1441,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
         [[languages.de.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
         category = "Quality Engineering"
@@ -1429,6 +1471,7 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
+        anchor = "qualitycluster"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
@@ -1440,6 +1483,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.de.params.projects.list]]
         title = "E-Invoicing Automation Platform"
+        anchor = "e-invoicing-platform"
         tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
@@ -1456,6 +1500,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.de.params.projects.list]]
         title = "Medical Transcription System"
+        anchor = "medical-transcription"
         tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
         category = "Healthcare AI"
         featured = true
@@ -1472,6 +1517,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.de.params.projects.list]]
         title = "AI Learning Platform"
+        anchor = "ai-learning-platform"
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true
@@ -1496,6 +1542,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
+        anchor = "messe-chatbot"
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
@@ -1516,6 +1563,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
+        anchor = "email-classification"
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
         screenshot = "projects/nlpanalyse.png"
@@ -1536,6 +1584,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        anchor = "ai-context-orchestrator"
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
         featured = true
@@ -1558,6 +1607,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Enterprise AI Consulting: From Strategy to Implementation"
+        anchor = "enterprise-ai-consulting"
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
@@ -1581,6 +1631,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Quality Dashboard - Real-time Overview"
+        anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
@@ -1594,6 +1645,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
+        anchor = "legacy-migration-validator"
         tech_stack = ["Java", "Cucumber", "Kibana", "Graylog", "Elasticsearch", "Container", "CI/CD", "Mainframe", "Dashboard Engineering", "Test Automation"]
         category = "Quality Engineering"
         featured = true
@@ -1620,6 +1672,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Live Demo Apps"
+        anchor = "live-demo-apps"
         url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
         tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
         category = "AI & Machine Learning"
@@ -1629,6 +1682,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "wecation"
+        anchor = "wecation"
         url = "https://www.wecation.de"
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
@@ -1638,6 +1692,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
+        anchor = "dev-workshop"
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
@@ -1657,6 +1712,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
         [[languages.en.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
         category = "Quality Engineering"
@@ -1686,6 +1742,7 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
+        anchor = "qualitycluster"
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
@@ -1697,6 +1754,7 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.projects.list]]
         title = "E-Invoicing Automation Platform"
+        anchor = "e-invoicing-platform"
         tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
@@ -1713,6 +1771,7 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.projects.list]]
         title = "Medical Transcription System"
+        anchor = "medical-transcription"
         tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
         category = "Healthcare AI"
         featured = true
@@ -1729,6 +1788,7 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.projects.list]]
         title = "AI Learning Platform"
+        anchor = "ai-learning-platform"
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true

@@ -298,7 +298,7 @@ function truncateDetails(details: string): string {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredProjects.map(project => (
-                <div class="cv-project-card rounded-xl overflow-hidden cursor-pointer group">
+                <div class="cv-project-card rounded-xl overflow-hidden cursor-pointer group" id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
                   {project.screenshot && (
                     <div class="h-40 overflow-hidden relative">
                       <img src={`/images/${project.screenshot}`} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
@@ -360,7 +360,7 @@ function truncateDetails(details: string): string {
             <h2 class="cv-section-title">{experiences.title}</h2>
             <div class="cv-timeline space-y-6 relative ml-3 pl-7">
               {jobs.map((exp, i) => (
-                <div class="relative">
+                <div class="relative" id={exp.anchor ? `exp-${exp.anchor}` : undefined} data-cv-anchor={exp.anchor}>
                   <!-- Timeline dot -->
                   <div class="absolute -left-[33px] top-2 w-3 h-3 rounded-full border-2 bg-[var(--bg)]" style="border-color: var(--accent)"></div>
 
@@ -386,7 +386,7 @@ function truncateDetails(details: string): string {
             <h2 class="cv-section-title">{t.talksTitle}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {talks.map(talk => (
-                  <div class="cv-mini-project p-4 rounded-lg">
+                  <div class="cv-mini-project p-4 rounded-lg" id={talk.anchor ? `exp-${talk.anchor}` : undefined} data-cv-anchor={talk.anchor}>
                   <h3 class="text-sm font-medium font-sans leading-snug" style="color: var(--accent)">{talk.position}</h3>
                   <p class="text-xs mt-1" style="color: var(--text-secondary)">{talk.company}</p>
                   <span class="cv-date-pill inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md">{talk.dates}</span>

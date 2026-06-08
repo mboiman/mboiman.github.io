@@ -26,6 +26,9 @@ export interface ExperienceItem {
   dates: string;
   company: string;
   details: string;
+  /** Stable slug for agent-driven scroll+highlight. Single source of truth in
+   *  config.cv.toml; rendered as id="exp-<anchor>" + data-cv-anchor. */
+  anchor?: string;
 }
 
 export interface ProjectItem {
@@ -41,6 +44,8 @@ export interface ProjectItem {
   metric?: string;
   metric_label?: string;
   impact?: string;
+  /** Stable slug for agent-driven scroll+highlight (featured projects). See ExperienceItem.anchor. */
+  anchor?: string;
 }
 
 export interface SkillItem {

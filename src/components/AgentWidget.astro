@@ -881,6 +881,39 @@ const widgetStrings = {
     #agent-widget-send { transition: none; }
     .aw-dots span { animation: none; opacity: 0.6; }
   }
+
+  /* ─────────────── Agent-driven highlight (scroll + red ring) ───────────────
+     NOT namespaced under #agent-widget-* on purpose: this class is applied to
+     CV SECTION cards out in the page DOM (elements carrying [data-cv-anchor]),
+     not to the widget. The agent proposes an anchor in its reply; the widget
+     validates it against the DOM whitelist and toggles this class for ~2.6s.
+     A pure outline (no innerHTML, no layout shift) — reversible by class removal. */
+  .bridge-flash {
+    outline: 3px solid #e23b3b;        /* attention red — functional alert, not a brand token */
+    outline-offset: 4px;
+    border-radius: 10px;               /* soft corners so the ring hugs the card */
+    animation: bridge-flash-pulse 2.6s ease-out forwards;
+  }
+  @keyframes bridge-flash-pulse {
+    0%   { outline-color: rgba(226,59,59,0); }
+    10%  { outline-color: rgba(226,59,59,1); }
+    35%  { outline-color: rgba(226,59,59,0.5); }
+    55%  { outline-color: rgba(226,59,59,1); }
+    100% { outline-color: rgba(226,59,59,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* no pulse — show a steady ring; JS still removes the class after the timeout */
+    .bridge-flash { animation: none; outline-color: #e23b3b; }
+  }
+
+  /* visually-hidden live region for the highlight announcement (screen readers) */
+  .aw-visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    clip: rect(0 0 0 0); clip-path: inset(50%);
+    overflow: hidden; white-space: nowrap;
+  }
 </style>
 
 <script>
@@ -1113,9 +1146,25 @@ const widgetStrings = {
       return { html, next: i };
     }
 
+    // ── Agent UI directives ──────────────────────────────────────────────────
+    // The agent may append a machine-only directive proposing a page action,
+    // e.g.  ⟦ui:highlight tuev-sued⟧  on its own line at the end of the reply.
+    // We (1) STRIP it from EVERY render so it never shows — even mid-stream a
+    // half-typed sentinel is hidden — and (2) collect anchors so send() can run
+    // the scroll+highlight once, on the final answer. Parsing the RAW text (pre-
+    // escape) is fine: the sentinel chars ⟦ ⟧ are not HTML-special.
+    const UI_DIRECTIVE_RE = /⟦\s*ui:highlight\s+([a-z0-9-]+)\s*⟧/g;
+    function parseDirectives(raw: string): { text: string; anchors: string[] } {
+      const anchors: string[] = [];
+      let text = String(raw ?? '').replace(UI_DIRECTIVE_RE, (_m: string, a: string) => { anchors.push(a); return ''; });
+      text = text.replace(/⟦\s*ui:highlight[^⟧]*$/, '');      // hide a not-yet-closed (streaming) sentinel
+      text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+      return { text, anchors };
+    }
+
     /** MAIN ENTRY. raw = untrusted agent text. Returns sanitised HTML for innerHTML. */
     function safeMarkdown(raw: string): string {
-      const escaped = escapeHtml(raw ?? '');
+      const escaped = escapeHtml(parseDirectives(raw).text);
       const lines = escaped.split('\n');
       const out: string[] = [];
       let i = 0;
@@ -1510,6 +1559,12 @@ const widgetStrings = {
             parts: [{ kind: 'text', text: message }],
             messageId: uuid(),
             contextId: contextId,
+            // Machine channel (A2A message.metadata): tells the agent WHERE it is
+            // being addressed from — page, language, the section in view, and the
+            // highlight anchors that actually exist on THIS page. Separate from the
+            // visible question (the user bubble shows only what was typed); the agent
+            // treats it as advisory. The DOM whitelist still gates any real highlight.
+            metadata: { runtime_context: buildRuntimeContext() },
           },
         },
       });
@@ -1662,6 +1717,119 @@ const widgetStrings = {
       return parseBuffered(data);
     }
 
+    // =========================================================================
+    // AGENT-PROPOSED PAGE ACTION — scroll to a CV section + flash a red ring.
+    // The agent only PROPOSES an anchor in its reply; the widget EXECUTES, gated
+    // by a DOM whitelist. Same posture as the agent's other tools: propose, never
+    // freely act. A prompt-injected agent can at most jump between Michael's own
+    // CV sections — no foreign selectors, no HTML, no navigation. Scroll + outline
+    // only, fully reversible by removing the class.
+    // =========================================================================
+    const ANCHOR_RE = /^[a-z0-9-]+$/;
+    let flashTimer = 0;
+    let flashEl: HTMLElement | null = null;
+
+    // visually-hidden live region announcing the highlight (screen readers)
+    const liveRegion = document.createElement('div');
+    liveRegion.className = 'aw-visually-hidden';
+    liveRegion.setAttribute('aria-live', 'polite');
+    root.appendChild(liveRegion);
+
+    function highlightAnchor(anchor: string): boolean {
+      if (!anchor || !ANCHOR_RE.test(anchor)) return false;
+      // Whitelist: the anchor MUST exist as a real [data-cv-anchor] in the page.
+      // anchor is /^[a-z0-9-]+$/ → safe to interpolate into the attribute selector.
+      const target = document.querySelector<HTMLElement>(`[data-cv-anchor="${anchor}"]`);
+      if (!target) return false;
+      // single highlight: clear any previous ring + pending timeout first
+      if (flashTimer) { clearTimeout(flashTimer); flashTimer = 0; }
+      if (flashEl) flashEl.classList.remove('bridge-flash');
+      flashEl = null;
+      // On mobile the panel is fullscreen and covers the CV → collapse it first.
+      if (isMobile() && panelOpen) closePanel();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const run = () => {
+        target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        target.classList.add('bridge-flash');
+        flashEl = target;
+        const label = (target.querySelector('h2, h3, h4') as HTMLElement | null)?.textContent?.trim();
+        if (label) liveRegion.textContent = (lang === 'en' ? 'Highlighted on the page: ' : 'Auf der Seite hervorgehoben: ') + label;
+        flashTimer = window.setTimeout(() => {
+          target.classList.remove('bridge-flash');
+          flashTimer = 0;
+          if (flashEl === target) flashEl = null;
+        }, 2600);
+      };
+      // mobile: let the panel-close layout settle one tick before scrolling
+      if (isMobile()) window.setTimeout(run, 90); else run();
+      return true;
+    }
+
+    // Execute directives carried by a final answer — at most ONE highlight.
+    function runDirectives(text: string): void {
+      const { anchors } = parseDirectives(text);
+      for (const a of anchors) { if (highlightAnchor(a)) break; }
+    }
+
+    // Dev hook: drive the highlight from the console without an agent (test recipe).
+    //   __bridgeUI.highlight('tuev-sued')
+    try { (window as any).__bridgeUI = { highlight: highlightAnchor }; } catch {}
+
+    // ── Runtime context for the agent ────────────────────────────────────────
+    // The agent reaches the page as a stateless `claude -p` turn — it only sees the
+    // question text. To know WHERE it is being addressed from (and that it can drive
+    // the page), each outbound message carries a machine-readable context block via
+    // A2A message.metadata.runtime_context. Built from the SAME [data-cv-anchor]
+    // whitelist the highlight uses, so the anchor set the agent is told about is
+    // exactly what the widget can actually act on.
+
+    /** The CV section whose centre is nearest the viewport centre (or null). */
+    function currentVisibleAnchor(): HTMLElement | null {
+      const vh = window.innerHeight || 0;
+      let best: HTMLElement | null = null;
+      let bestDist = Infinity;
+      document.querySelectorAll<HTMLElement>('[data-cv-anchor]').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;          // fully off-screen
+        const dist = Math.abs((r.top + r.height / 2) - vh / 2);
+        if (dist < bestDist) { bestDist = dist; best = el; }
+      });
+      return best;
+    }
+
+    /** Advisory context string handed to the agent each turn (localized). */
+    function buildRuntimeContext(): string {
+      const anchors = Array.from(document.querySelectorAll<HTMLElement>('[data-cv-anchor]'))
+        .map((el) => el.getAttribute('data-cv-anchor') || '')
+        .filter((a) => ANCHOR_RE.test(a));
+      const uniq = Array.from(new Set(anchors));
+      const visEl = currentVisibleAnchor();
+      const visAnchor = visEl ? visEl.getAttribute('data-cv-anchor') : '';
+      const visLabel = visEl
+        ? ((visEl.querySelector('h2,h3,h4') as HTMLElement | null)?.textContent || '')
+            .trim().replace(/\s+/g, ' ').slice(0, 80)
+        : '';
+      const path = location.pathname;
+      if (lang === 'en') {
+        const vis = visAnchor
+          ? `Currently in the visitor's view: section “${visLabel}” (anchor ${visAnchor}).`
+          : `No specific section is in the visitor's view right now.`;
+        return [
+          `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section.`,
+          vis,
+          uniq.length ? `Sections highlightable on THIS page — authoritative anchor list for ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+        ].filter(Boolean).join('\n');
+      }
+      const vis = visAnchor
+        ? `Aktuell im Blickfeld des Besuchers: Abschnitt „${visLabel}“ (Anker ${visAnchor}).`
+        : `Aktuell ist kein bestimmter Abschnitt im Blickfeld des Besuchers.`;
+      return [
+        `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben.`,
+        vis,
+        uniq.length ? `Auf DIESER Seite hervorhebbare Abschnitte — autoritative Anker-Liste für ⟦ui:highlight <anchor>⟧: ${uniq.join(', ')}.` : '',
+      ].filter(Boolean).join('\n');
+    }
+
     // --- Send orchestration ---------------------------------------------------
     function setBusy(b: boolean) {
       busy = b;
@@ -1696,7 +1864,7 @@ const widgetStrings = {
             if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
             const outcome = await handleStream(res, indicator); // removes indicator in finally
             indicator = null;
-            if (outcome.kind === 'answer') return; // bubble already rendered live
+            if (outcome.kind === 'answer') { runDirectives(outcome.text); return; } // bubble already rendered live
             renderOutcome(outcome);
             return;
           } catch {
@@ -1712,6 +1880,7 @@ const widgetStrings = {
         const outcome = await handleBuffered(res2, indicator);
         indicator = null;
         renderOutcome(outcome);
+        if (outcome.kind === 'answer') runDirectives(outcome.text);
       } catch {
         if (indicator) { try { indicator.el.remove(); } catch {} }
         const unreachable = !reached || !cardEverReached;
