@@ -29,12 +29,16 @@ const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
   <meta property="og:image" content="https://mboiman.github.io/images/profile_.jpg" />
   <meta property="og:url" content={`https://mboiman.github.io${currentPath}`} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#f8fbff" />
+  <meta name="theme-color" content="#f8fbff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
   <script is:inline>
     (() => {
       try {
         const saved = localStorage.getItem('theme');
-        if (saved === 'dark') document.documentElement.classList.add('dark');
+        const isDark = saved
+          ? saved === 'dark'
+          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', isDark);
       } catch {}
     })();
   </script>
