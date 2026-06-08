@@ -43,6 +43,7 @@ export interface AgentWidgetStrings {
 export interface I18nStrings {
   pdfDownload: string;
   experienceTheStory: string;
+  storyBackToCv: string;
   classicCV: string;
   otherLangLabel: string;
   skipToContent: string;
@@ -76,6 +77,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
   de: {
     pdfDownload: 'PDF herunterladen',
     experienceTheStory: 'Experience the Story',
+    storyBackToCv: 'Zum Lebenslauf',
     classicCV: 'Klassischer Lebenslauf',
     otherLangLabel: 'English',
     skipToContent: 'Zum Inhalt springen',
@@ -156,6 +158,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
   en: {
     pdfDownload: 'Download PDF',
     experienceTheStory: 'Experience the Story',
+    storyBackToCv: 'Back to CV',
     classicCV: 'Classic CV',
     otherLangLabel: 'Deutsche Version',
     skipToContent: 'Skip to content',
