@@ -116,7 +116,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     talksTitle: 'Vorträge & Workshops',
     careerDetails: [
       'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.',
-      'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme, E-Invoicing-Plattformen nach EU-Standard und ein <strong style="color: var(--accent); font-weight: 500">40+ Skills</strong> umfassendes Automatisierungs-Ökosystem.',
+      'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme und E-Invoicing-Plattformen nach EU-Standard — gebündelt in einem Automatisierungs-Ökosystem, das ein <strong style="color: var(--accent); font-weight: 500">Orchestrierungs-Hub</strong> über 20+ Repositories, Agenten und Protokolle koordiniert. Einer dieser Agenten beantwortet diesen Lebenslauf live.',
       'Dieses Wissen gebe ich weiter — in Entwickler- und Business-Workshops sowie als geladener <strong style="color: var(--accent); font-weight: 500">Impulsgeber an der TU Darmstadt</strong> — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
     ],
     cvImpactMetrics: [
@@ -201,7 +201,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     talksTitle: 'Speaking & Workshops',
     careerDetails: [
       'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.',
-      'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems, e-invoicing platforms to EU standards, and a <strong style="color: var(--accent); font-weight: 500">40+ skill</strong> automation ecosystem.',
+      'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems and e-invoicing platforms to EU standards — bundled into an automation ecosystem that an <strong style="color: var(--accent); font-weight: 500">orchestration hub</strong> runs across 20+ repositories, agents and protocols. One of those agents answers this very CV, live.',
       'I also pass this knowledge on — in developer and business workshops and as an invited <strong style="color: var(--accent); font-weight: 500">guest speaker at TU Darmstadt</strong> — translating hands-on AI for technical and non-technical audiences alike.',
     ],
     cvImpactMetrics: [

@@ -164,13 +164,14 @@ defaultContentLanguageInSubdir = true
         language = "Englisch"
         level = "Fließend"
 
-        [[languages.de.params.language.list]]
-        language = "Russisch"
-        level = "Konversationslevel"
+        # vorübergehend ausgeblendet (2026-06-09) — zum Reaktivieren entkommentieren
+        # [[languages.de.params.language.list]]
+        # language = "Russisch"
+        # level = "Konversationslevel"
 
-        [[languages.de.params.language.list]]
-        language = "Hebräisch"
-        level = "Konversationslevel"
+        # [[languages.de.params.language.list]]
+        # language = "Hebräisch"
+        # level = "Konversationslevel"
 
       [languages.de.params.license_sidebar]
         enable = true
@@ -785,13 +786,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         language = "English"
         level = "Professional"
 
-        [[languages.en.params.language.list]]
-        language = "Russian"
-        level = "Conversational"
+        # temporarily hidden (2026-06-09) — uncomment to re-enable
+        # [[languages.en.params.language.list]]
+        # language = "Russian"
+        # level = "Conversational"
 
-        [[languages.en.params.language.list]]
-        language = "Hebrew"
-        level = "Conversational"
+        # [[languages.en.params.language.list]]
+        # language = "Hebrew"
+        # level = "Conversational"
 
       [languages.en.params.license_sidebar]
         enable = true
@@ -1297,11 +1299,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         category = "AI & Machine Learning"
         featured = true
         screenshot = "projects/nlpanalyse.png"
-        tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD - 80% Reduktion manueller Arbeit."
+        tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
         challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden — zeitintensiv und fehleranfällig."
         solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
-        metric = "-80%"
-        metric_label = "manuelle Arbeit"
+        metric = "E2E"
+        metric_label = "Mail → ERP automatisiert"
         impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
 
         [[languages.de.params.projects.list]]
@@ -1365,12 +1367,12 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitydashboard.png"
-        tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden. Impact: -80% Rückfragen, Go/No-Go-Entscheidungen in Minuten statt Stunden."
+        tagline = "Vollautomatische End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
         challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools, 5 Umgebungen und mehreren Datenquellen."
         solution = "Vollautomatische End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischer PDF-Report-Generierung."
-        metric = "-80%"
-        metric_label = "weniger Rückfragen"
-        impact = "Go/No-Go in Minuten statt Stunden. Management-Entscheidungen datenbasiert und in Echtzeit."
+        metric = "10"
+        metric_label = "Test-Tools vereint"
+        impact = "Datenbasierte Freigabe-Entscheidungen in Echtzeit über 10 Test-Tools und 5 Umgebungen, mit automatischen PDF-Reports."
 
         [[languages.de.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
@@ -1390,14 +1392,14 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Automated Root Cause Analysis:** Direkter Zugriff auf Kalkulationswege und Fehlerursachen
 • **Quality Intelligence:** Kibana-Dashboards für End-to-End-Qualitätsübersicht
 
-**Measurable Impact:** Qualitätskennzahl von 30% auf 96% erhöht - sichere Migration ohne Datenverlust, vollständige Transparenz über den Migrationsstatus"""
+**Ergebnis:** Sichere Migration ohne Datenverlust, 24/7-Validierung aller Kombinationen und vollständige Transparenz über den Migrationsstatus"""
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
         featured = false
-        tagline = "Guideline-basierter KI-Agent im IDE mit Prompt-basierter Testgenerierung aus Jira-Stories. Impact: 80% automatisch generiert, 50% weniger Entwicklungszeit."
+        tagline = "Guideline-basierter KI-Agent im IDE, der Tests prompt-basiert direkt aus Jira-Stories generiert."
 
         [[languages.de.params.projects.list]]
         title = "Live-Demo Apps"
@@ -1568,11 +1570,11 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "AI & Machine Learning"
         screenshot = "projects/nlpanalyse.png"
         featured = true
-        tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD - 80% reduction in manual work."
+        tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
         challenge = "Incoming emails had to be manually read, classified and transferred to SAP — time-consuming and error-prone."
         solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
-        metric = "-80%"
-        metric_label = "manual work"
+        metric = "E2E"
+        metric_label = "email → ERP automated"
         impact = "Emails automatically classified, processed and transferred to ERP."
 
         [[languages.en.params.projects.list]]
@@ -1636,12 +1638,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitydashboard.png"
-        tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt. Impact: -80% inquiries, Go/No-Go decisions in minutes instead of hours."
+        tagline = "Fully automated end-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
         challenge = "Go/No-Go decisions required hours of manual data gathering across 10 test tools, 5 environments and multiple data sources."
         solution = "Fully automated end-to-end pipeline with real-time dashboard, multi-source integration and automatic PDF report generation."
-        metric = "-80%"
-        metric_label = "fewer inquiries"
-        impact = "Go/No-Go in minutes instead of hours. Management decisions data-driven and in real-time."
+        metric = "10"
+        metric_label = "test tools unified"
+        impact = "Data-driven release decisions in real time across 10 test tools and 5 environments, with automated PDF reports."
 
         [[languages.en.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
@@ -1661,14 +1663,14 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Automated Root Cause Analysis:** Direct access to calculation paths and error sources
 • **Quality Intelligence:** Kibana dashboards for end-to-end quality overview
 
-**Measurable Impact:** Quality metrics improved from 30% to 96% - secure migration without data loss, complete transparency over migration status"""
+**Result:** Secure migration without data loss, 24/7 validation across all combinations and full transparency over migration status"""
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
         featured = false
-        tagline = "Guideline-based AI agent in IDE with prompt-based test generation from Jira stories. Impact: 80% automatically generated, 50% less development time."
+        tagline = "Guideline-based AI agent in the IDE that generates tests prompt-based directly from Jira stories."
 
         [[languages.en.params.projects.list]]
         title = "Live Demo Apps"
