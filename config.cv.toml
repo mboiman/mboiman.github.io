@@ -1812,6 +1812,15 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Skills & Tools"
 
         [[languages.de.params.skills.list]]
+        skill = "Agent-Orchestrierung — MCP (Model Context Protocol) & A2A (Agent2Agent)"
+
+        [[languages.de.params.skills.list]]
+        skill = "Multi-Agent-Systeme & Tool-Integration (Claude Code, Hooks, Agent-SDK)"
+
+        [[languages.de.params.skills.list]]
+        skill = "E-Invoicing nach EU-Standard — Peppol, EN 16931, XRechnung/ZUGFeRD"
+
+        [[languages.de.params.skills.list]]
         skill = "Quality Engineering & Testautomatisierung"
         
         [[languages.de.params.skills.list]]
@@ -1840,12 +1849,6 @@ Our goal is to implement more quality through a higher degree of automation.
                 
         [[languages.de.params.skills.list]]
         skill = "IntelliJ & VS Code"
-
-        [[languages.de.params.skills.list]]
-        skill = "Playwright"
-
-        [[languages.de.params.skills.list]]
-        skill = "Cucumber / Gauge"
 
         [[languages.de.params.skills.list]]
         skill = "CDC - Spring Contract & Pact.io"
@@ -1902,6 +1905,15 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
+        skill = "Agent Orchestration — MCP (Model Context Protocol) & A2A (Agent2Agent)"
+
+        [[languages.en.params.skills.list]]
+        skill = "Multi-Agent Systems & Tool Integration (Claude Code, Hooks, Agent SDK)"
+
+        [[languages.en.params.skills.list]]
+        skill = "E-Invoicing to EU Standard — Peppol, EN 16931, XRechnung/ZUGFeRD"
+
+        [[languages.en.params.skills.list]]
         skill = "Quality Engineering & Test Automation"
         
         [[languages.en.params.skills.list]]
@@ -1930,12 +1942,6 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.skills.list]]
         skill = "IntelliJ & VS Code"
-
-        [[languages.en.params.skills.list]]
-        skill = "Playwright"
-
-        [[languages.en.params.skills.list]]
-        skill = "Cucumber / Gauge"
 
         [[languages.en.params.skills.list]]
         skill = "CDC – Spring Contract & Pact.io"
