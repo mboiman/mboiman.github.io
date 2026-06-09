@@ -646,6 +646,16 @@ const storyTitle = lang === 'de'
         current = idx; update();
       };
 
+      // Scroll-driven reveal: the page-level IntersectionObserver doesn't fire
+      // reliably inside this presentation layout, so reveal .reveal elements as
+      // they scroll into view (same .visible mechanism the keyboard nav uses).
+      const revealInView = () => {
+        const vh = window.innerHeight;
+        document.querySelectorAll('.reveal:not(.visible)').forEach((el) => {
+          if (el.getBoundingClientRect().top < vh * 0.85) el.classList.add('visible');
+        });
+      };
+
       // Synchronous index → fast repeated key presses step reliably (no observer lag).
       const goTo = (i: number) => {
         current = Math.max(0, Math.min(i, steps.length - 1));
@@ -672,11 +682,15 @@ const storyTitle = lang === 'de'
 
       let raf = 0;
       window.addEventListener('scroll', () => {
-        if (navigating) return;   // don't let manual-scroll sync override key navigation mid-animation
         if (raf) return;
-        raf = requestAnimationFrame(() => { raf = 0; syncFromScroll(); });
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          revealInView();                      // reveal scrolled-in content (always)
+          if (!navigating) syncFromScroll();   // step-counter sync only when not key-navigating
+        });
       }, { passive: true });
 
+      revealInView();
       syncFromScroll();
     })();
   </script>
