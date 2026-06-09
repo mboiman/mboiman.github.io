@@ -136,6 +136,13 @@ const widgetStrings = {
         </svg>
       </button>
     </form>
+
+    <!-- Point-of-collection privacy note. Tiny, muted, always visible while the
+         composer is — text + link set by JS (applyStrings) from the i18n bundle. -->
+    <p id="agent-widget-privacy" class="aw-privacy" hidden>
+      <span id="agent-widget-privacy-text"></span>
+      <a id="agent-widget-privacy-link" href="#" target="_blank" rel="noopener"></a>
+    </p>
   </section>
 </div>
 
@@ -846,6 +853,24 @@ const widgetStrings = {
   #agent-widget-send:disabled { opacity: 0.5; cursor: not-allowed; }
   #agent-widget-send svg { width: 17px; height: 17px; }
 
+  /* Point-of-collection privacy fine-print under the composer. Deliberately
+     understated (muted, ~10.5px) so it informs without nagging. */
+  .aw-privacy {
+    margin: 0;
+    padding: 0 12px 8px;
+    font-size: 0.66rem;
+    line-height: 1.35;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+  .aw-privacy a {
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+  .aw-privacy a:hover { color: var(--accent); }
+
   /* ───────────────────────── Mobile: fullscreen ───────────────────────── */
   @media (max-width: 639px) {
     #agent-widget-panel,
@@ -949,6 +974,7 @@ const widgetStrings = {
     cardProtocol?: string; cardEndpoint?: string; cardModes?: string; cardSkills?: string;
     cardExamplesHint?: string; cardStreaming?: string; cardPush?: string;
     cardLoading?: string; cardUnavailable?: string;
+    privacyNote?: string; privacyLink?: string;
   };
 
   // Every handler resolves to exactly one of these. send() decides what to render.
@@ -2131,6 +2157,16 @@ const widgetStrings = {
       setCardBtnState();
       if (cardEl) cardEl.setAttribute('aria-label', t.cardTitle || 'Agent Card'); // name the region from the start
       if (resizeHandle) resizeHandle.setAttribute('title', t.resize || 'Drag to resize');
+      // Point-of-collection privacy note: text + lang-correct link, then reveal.
+      const privacyWrap = document.getElementById('agent-widget-privacy');
+      const privacyText = document.getElementById('agent-widget-privacy-text');
+      const privacyLink = document.getElementById('agent-widget-privacy-link') as HTMLAnchorElement | null;
+      if (privacyWrap && privacyText && privacyLink && t.privacyNote && t.privacyLink) {
+        privacyText.textContent = t.privacyNote + ' ';
+        privacyLink.textContent = t.privacyLink;
+        privacyLink.setAttribute('href', '/' + lang + '/datenschutz');
+        privacyWrap.hidden = false;
+      }
     }
 
     const OPEN_KEY = 'bridgeAgentWidgetOpen';

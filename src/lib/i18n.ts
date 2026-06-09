@@ -38,6 +38,9 @@ export interface AgentWidgetStrings {
   cardPush: string;        // capability badge
   cardLoading: string;     // while fetching the card
   cardUnavailable: string; // card fetch failed
+  // Privacy disclosure — shown at the point of collection (under the composer)
+  privacyNote: string;     // one-line data note
+  privacyLink: string;     // link label → /de/datenschutz · /en/privacy
 }
 
 export interface I18nStrings {
@@ -67,6 +70,9 @@ export interface I18nStrings {
   careerDetails: string[];
   cvImpactMetrics: ImpactMetric[];
   cvFooterOtherLang: string;
+  // Legal footer links (rendered site-wide: CV, story, legal pages)
+  legalPrivacy: string;
+  legalImpressum: string;
   truncatePatterns: string[];
   truncateToolPatterns: string[];
   // Agent chat widget
@@ -119,6 +125,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '80%', label: 'auto-generiert', detail: 'KI-gestützte Test-Cases' },
     ],
     cvFooterOtherLang: 'English',
+    legalPrivacy: 'Datenschutz',
+    legalImpressum: 'Impressum',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Präsentationsinhalte', 'Praktischer', 'Practical', 'Hauptverantwortlichkeiten', 'Projekte\\b', 'Energiesektor', 'Quantifizierbare', 'Quantifiable', 'Technische Lösungen', 'Focus areas', 'Key Focus'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Eingesetzte', 'Technical Stack', 'Technischer'],
     agentWidget: {
@@ -153,6 +161,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardPush: 'Push',
       cardLoading: 'Lade Agent-Card …',
       cardUnavailable: 'Agent-Card gerade nicht erreichbar.',
+      privacyNote: 'Nachrichten werden zur Beantwortung an Anthropic (Claude, USA) übermittelt; der Verlauf wird nicht dauerhaft gespeichert.',
+      privacyLink: 'Datenschutz',
     },
   },
   en: {
@@ -200,6 +210,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '80%', label: 'Auto-generated', detail: 'AI-driven test cases' },
     ],
     cvFooterOtherLang: 'Deutsch',
+    legalPrivacy: 'Privacy',
+    legalImpressum: 'Legal Notice',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Focus areas', 'Key Focus', 'Key responsibilities'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
     agentWidget: {
@@ -234,6 +246,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardPush: 'Push',
       cardLoading: 'Loading agent card …',
       cardUnavailable: 'Agent card unavailable right now.',
+      privacyNote: 'Messages are sent to Anthropic (Claude, USA) to generate a reply; the conversation is not stored permanently.',
+      privacyLink: 'Privacy',
     },
   },
 };

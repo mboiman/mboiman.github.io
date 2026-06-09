@@ -1,0 +1,122 @@
+---
+// Shared shell for the legal pages (Datenschutz / Impressum, DE + EN).
+// Wraps BaseLayout (which injects the chat widget + theme), renders a readable
+// prose column, a back-to-CV link, and a minimal footer that cross-links the
+// legal pages. Labels come from lib/i18n (single source).
+import BaseLayout from './BaseLayout.astro';
+import { i18n } from '../lib/i18n';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: 'de' | 'en';
+}
+
+const { title, description, lang } = Astro.props;
+const t = i18n[lang];
+const backHref = `/${lang}/`;
+const backLabel = lang === 'en' ? '← Back to CV' : '← Zum Lebenslauf';
+const year = new Date().getFullYear();
+---
+<BaseLayout title={title} description={description} lang={lang}>
+  <main id="main" class="legal-wrap">
+    <a href={backHref} class="legal-back">{backLabel}</a>
+    <article class="legal-prose">
+      <slot />
+    </article>
+  </main>
+
+  <footer class="legal-foot">
+    <nav class="legal-foot-links" aria-label={lang === 'en' ? 'Legal' : 'Rechtliches'}>
+      <a href={`/${lang}/datenschutz`}>{t.legalPrivacy}</a>
+      <span aria-hidden="true">·</span>
+      <a href={`/${lang}/impressum`}>{t.legalImpressum}</a>
+      <span aria-hidden="true">·</span>
+      <a href={backHref}>{t.classicCV}</a>
+    </nav>
+    <p class="legal-foot-copy">&copy; {year} Michael Boiman</p>
+  </footer>
+</BaseLayout>
+
+<style>
+  .legal-wrap {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 3rem;
+    color: var(--text);
+  }
+  .legal-back {
+    display: inline-block;
+    margin-bottom: 1.75rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .legal-back:hover { color: var(--accent); }
+
+  .legal-prose :global(h1) {
+    font-size: 1.85rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 0.4rem;
+  }
+  .legal-prose :global(.legal-updated) {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin: 0 0 2rem;
+  }
+  .legal-prose :global(h2) {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 2.1rem 0 0.6rem;
+  }
+  .legal-prose :global(h3) {
+    font-size: 0.98rem;
+    font-weight: 600;
+    margin: 1.3rem 0 0.35rem;
+  }
+  .legal-prose :global(p),
+  .legal-prose :global(li) {
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .legal-prose :global(p) { margin: 0 0 0.7rem; }
+  .legal-prose :global(ul) {
+    margin: 0.4rem 0 0.9rem 1.15rem;
+    list-style: disc;
+  }
+  .legal-prose :global(li) { margin: 0.3rem 0; }
+  .legal-prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-prose :global(strong) { font-weight: 600; }
+  .legal-prose :global(address) {
+    font-style: normal;
+    line-height: 1.6;
+    margin: 0 0 0.7rem;
+  }
+  .legal-prose :global(.legal-muted) { color: var(--text-secondary); }
+  .legal-prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--text-secondary);
+    opacity: 0.2;
+    margin: 2.4rem 0;
+  }
+
+  .legal-foot {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 3.5rem;
+    text-align: center;
+    border-top: 1px solid color-mix(in srgb, var(--text-secondary) 25%, transparent);
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+  }
+  .legal-foot-links a { color: var(--text-secondary); text-decoration: none; }
+  .legal-foot-links a:hover { color: var(--accent); text-decoration: underline; }
+  .legal-foot-links span { margin: 0 0.5rem; opacity: 0.5; }
+  .legal-foot-copy { margin: 0.6rem 0 0; opacity: 0.7; }
+</style>
