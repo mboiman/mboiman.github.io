@@ -73,10 +73,10 @@ defaultContentLanguageInSubdir = true
 
       [languages.de.params.agent_proof]
         eyebrow = "Live Proof statt Portfolio-Behauptung"
-        headline = "Mein CV hat einen eigenen A2A-Agenten."
-        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen konsultiert er über A2A einen zweiten Agenten — Agent-zu-Agent, nicht nur Chatbot. Terminwünsche laufen über eine verifizierte, fortsetzbare E-Mail-Schleife (Double-Opt-in), die erst nach meiner Freigabe rausgeht."
+        headline = "Mein CV hat einen eigenen KI-Agenten."
+        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten — Agent-zu-Agent, nicht nur Chatbot. Terminwünsche laufen über eine verifizierte, fortsetzbare E-Mail-Schleife (Double-Opt-in), die erst nach meiner Freigabe rausgeht."
         status = "Live auf mboiman.bks-lab.com"
-        card = "A2A-Agent-Card"
+        card = "Agent-Steckbrief (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
         ask = "Agent fragen"
         promptTitle = "Schnell fragen"
@@ -701,10 +701,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 
       [languages.en.params.agent_proof]
         eyebrow = "Live proof, not a portfolio claim"
-        headline = "This CV has its own A2A agent."
-        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent over A2A — agent-to-agent, not just a chatbot. Meeting requests run through a verified, resumable email loop (double opt-in) that only goes out after my approval."
+        headline = "This CV has its own AI agent."
+        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own — agent-to-agent, not just a chatbot. Meeting requests run through a verified, resumable email loop (double opt-in) that only goes out after my approval."
         status = "Live at mboiman.bks-lab.com"
-        card = "A2A Agent Card"
+        card = "Agent profile card (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
         ask = "Ask the agent"
         promptTitle = "Try a question"
