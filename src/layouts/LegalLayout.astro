@@ -4,6 +4,7 @@
 // prose column, a back-to-CV link, and a minimal footer that cross-links the
 // legal pages. Labels come from lib/i18n (single source).
 import BaseLayout from './BaseLayout.astro';
+import DarkModeToggle from '../components/DarkModeToggle.astro';
 import { i18n } from '../lib/i18n';
 
 interface Props {
@@ -17,8 +18,23 @@ const t = i18n[lang];
 const backHref = `/${lang}/`;
 const backLabel = lang === 'en' ? '← Back to CV' : '← Zum Lebenslauf';
 const year = new Date().getFullYear();
+
+// Derive the legal slug from the current path. The legal slugs ('datenschutz',
+// 'impressum') are identical in both languages, so the DE/EN switch just swaps
+// the lang segment and keeps the same slug.
+const otherLang = lang === 'de' ? 'en' : 'de';
+const pageSlug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? '';
+const otherLangHref = `/${otherLang}/${pageSlug}`;
+const otherLangLabel = lang === 'en' ? t.cvFooterOtherLang : t.otherLangLabel;
 ---
 <BaseLayout title={title} description={description} lang={lang}>
+  <header class="legal-top">
+    <div class="legal-top-inner">
+      <a href={otherLangHref} class="legal-lang">{otherLangLabel}</a>
+      <DarkModeToggle />
+    </div>
+  </header>
+
   <main id="main" class="legal-wrap">
     <a href={backHref} class="legal-back">{backLabel}</a>
     <article class="legal-prose">
@@ -39,6 +55,26 @@ const year = new Date().getFullYear();
 </BaseLayout>
 
 <style>
+  .legal-top {
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+  }
+  .legal-top-inner {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .legal-lang {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .legal-lang:hover { color: var(--accent); }
+
   .legal-wrap {
     max-width: 46rem;
     margin: 0 auto;

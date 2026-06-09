@@ -9,14 +9,14 @@ const { formatMarkdownToHTML, formatTextToParagraphs } = require('./lib/markdown
 // Impact metrics — shown as compact bar under career profile
 const IMPACT_METRICS = {
   de: [
-    { metric: '-80%', label: 'Rückfragen', detail: 'durch Quality-Monitoring' },
-    { metric: '96%', label: 'Qualität', detail: 'nach Migration (vorher 30%)' },
-    { metric: '80%', label: 'auto-generiert', detail: 'KI-gestützte Test-Cases' },
+    { metric: '40+', label: 'Skills', detail: 'Ökosystem, ein Hub' },
+    { metric: '20+', label: 'Repos orchestriert', detail: 'über 7 Projekt-Boards' },
+    { metric: 'Live', label: 'A2A-Agent', detail: 'live unter mboiman.bks-lab.com' },
   ],
   en: [
-    { metric: '-80%', label: 'Inquiries', detail: 'through quality monitoring' },
-    { metric: '96%', label: 'Quality', detail: 'after migration (was 30%)' },
-    { metric: '80%', label: 'Auto-generated', detail: 'AI-driven test cases' },
+    { metric: '40+', label: 'Skills', detail: 'one orchestration hub' },
+    { metric: '20+', label: 'Repos orchestrated', detail: 'across 7 project boards' },
+    { metric: 'Live', label: 'A2A agent', detail: 'live at mboiman.bks-lab.com' },
   ],
 };
 

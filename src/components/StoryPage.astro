@@ -20,11 +20,15 @@ const { profile, contact, ui, experiences, projects, summary, education, languag
 const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
 const recentExp = experiences.list.slice(0, 5);
 const olderExp = experiences.list.slice(5);
+
+const storyTitle = lang === 'de'
+  ? `${profile.name} — Projekt-Story`
+  : `${profile.name} — Project Story`;
 ---
 
 <BaseLayout
-  title={`${profile.name} — ${profile.tagline}`}
-  description={ui.tagline}
+  title={storyTitle}
+  description={ui.story_seo_description}
   lang={lang}
 >
   <div class="story-page">
@@ -59,14 +63,12 @@ const olderExp = experiences.list.slice(5);
   </header>
 
   <!-- ═══ ACT 1: THE STATEMENT ═══ -->
-  <section class="act" aria-label="Statement">
+  <section class="act" aria-label={t.ariaStatement}>
     <div class="text-center max-w-5xl">
       <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
-        Quality Engineer &middot; AI Architect &middot; System Thinker
+        {t.storyEyebrow}
       </p>
-      <h1 class="story-display text-[clamp(2.5rem,7vw,7rem)] leading-[1.03] opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]">
-        Here's to the ones<br>who <em class="italic" style="color: var(--accent)">automate<br class="sm:hidden"> the impossible.</em>
-      </h1>
+      <h1 class="story-display text-[clamp(2.5rem,7vw,7rem)] leading-[1.03] opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]" set:html={t.storyStatement} />
       <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
         <div class="teal-rule"></div>
       </div>
@@ -79,7 +81,7 @@ const olderExp = experiences.list.slice(5);
     </div>
   </section>
 
-  <main>
+  <main id="main">
 
   <!-- ═══ ACT 1.5: THE PORTRAIT REVEAL ═══ -->
   <section class="flex flex-col items-center justify-center pt-0 pb-32 px-6 -mt-16 relative z-10" aria-label="Portrait">
@@ -99,7 +101,7 @@ const olderExp = experiences.list.slice(5);
         {profile.name}
       </p>
       <p class="text-center mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">
-        Quality Engineer &middot; AI Architect
+        {t.storyRole}
       </p>
       <p class="text-center mt-2 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
         Frankfurt am Main
@@ -111,7 +113,7 @@ const olderExp = experiences.list.slice(5);
   </section>
 
   <!-- ═══ ACT 2: NUMBERS + IMPACT ═══ -->
-  <section class="py-32 px-6" id="main" aria-label={t.ariaNumbers} style="background-color: var(--bg-alt)">
+  <section class="py-32 px-6" aria-label={t.ariaNumbers} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       <!-- Hero numbers -->
       <div class="flex flex-col sm:flex-row sm:justify-center sm:gap-20 gap-8 mb-20">
@@ -143,7 +145,7 @@ const olderExp = experiences.list.slice(5);
   </section>
 
   <!-- ═══ ACT 3: THE ORIGIN (kompakt) ═══ -->
-  <section class="py-32 px-6" aria-label="Profil">
+  <section class="py-32 px-6" aria-label={t.ariaProfile}>
     <div class="prose-column">
       <div class="reveal">
         <div class="teal-rule mb-20"></div>
@@ -311,11 +313,11 @@ const olderExp = experiences.list.slice(5);
 
   <!-- ═══ ACT 8: CLOSE ═══ -->
   <footer>
-  <section class="act" aria-label="Kontakt">
+  <section class="act" aria-label={t.ariaContact}>
     <div class="text-center reveal">
       <p class="story-display text-5xl sm:text-7xl lg:text-8xl mb-6">{profile.name}</p>
       <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">
-        BKS-Lab — AI Engineering &middot; Frankfurt am Main
+        {t.storyClosingEyebrow}
       </p>
       <p class="story-quote text-sm mb-10 max-w-md mx-auto" style="color: var(--text-secondary)">
         {t.closingLine}
@@ -486,11 +488,14 @@ const olderExp = experiences.list.slice(5);
     }
 
     .story-page section[aria-label="Profil"] .prose-column,
-    .story-page section[aria-label="Kontakt"] > div {
+    .story-page section[aria-label="Profile"] .prose-column,
+    .story-page section[aria-label="Kontakt"] > div,
+    .story-page section[aria-label="Contact"] > div {
       max-width: 760px;
     }
 
-    .story-page section[aria-label="Kontakt"] {
+    .story-page section[aria-label="Kontakt"],
+    .story-page section[aria-label="Contact"] {
       background:
         radial-gradient(circle at 50% 16%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 28rem),
         var(--bg);

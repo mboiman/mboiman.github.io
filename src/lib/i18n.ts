@@ -59,11 +59,19 @@ export interface I18nStrings {
   experienceTitle: string;
   earlierPositions: string;
   closingLine: string;
+  // Story page hero / closing
+  storyEyebrow: string;
+  storyStatement: string;
+  storyRole: string;
+  storyClosingEyebrow: string;
   // Aria labels (story page)
   ariaNumbers: string;
   ariaProjects: string;
   ariaBeliefs: string;
   ariaEducation: string;
+  ariaStatement: string;
+  ariaProfile: string;
+  ariaContact: string;
   // CV-specific
   careerIntro: string;
   talksTitle: string;
@@ -87,7 +95,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     classicCV: 'Klassischer Lebenslauf',
     otherLangLabel: 'English',
     skipToContent: 'Zum Inhalt springen',
-    availability: 'Freiberuflicher Quality Engineer & KI-Architekt. Verfügbar für Projekte, Architektur-Reviews und AI-Workshops.',
+    availability: 'Freiberuflicher Quality Engineer & KI-Architekt. Verfügbar für QE- und Testautomatisierungs-Projekte, KI-Architektur und AI-Workshops.',
     numberLabels: [
       { num: '20+', label: 'Jahre Quality Engineering' },
       { num: '40+', label: 'Automatisierungen im Einsatz' },
@@ -97,7 +105,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '20+', label: 'Repos orchestriert', detail: 'über 7 Projekt-Boards' },
       { metric: 'Live', label: 'A2A-Agent', detail: 'dieser Lebenslauf antwortet selbst' },
     ],
-    originQuote: 'Alles, was KI heute braucht — Verlässlichkeit, Messbarkeit, Selbstkorrektur — habe ich 20 Jahre lang in Systeme eingebaut, die noch nicht denken konnten. Als LLMs kamen, fehlte kein neuer Anfang. Es fehlte nur noch das letzte Puzzlestück.',
+    originQuote: 'Was KI heute braucht — Verlässlichkeit, Messbarkeit, Selbstkorrektur — baue ich seit zwei Jahrzehnten in Systeme, die noch nicht denken konnten. Quality Engineering bleibt; LLMs sind das Stück, das jetzt dazukommt.',
     gammaLabels: { challenge: 'Herausforderung', solution: 'Lösung' },
     beliefs: [
       { text: 'Wenn du 10 Tools hast\nund keine Übersicht,\nhast du null Tools.', align: 'text-left' },
@@ -108,14 +116,21 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     experienceTitle: 'Berufserfahrung',
     earlierPositions: 'Frühere Positionen',
     closingLine: 'The impossible just takes a system that doesn\'t sleep.',
+    storyEyebrow: 'Quality Engineer · KI-Architekt · System Thinker',
+    storyStatement: `Auf die,<br>die das <em class="italic" style="color: var(--accent)">Unmögliche<br class="sm:hidden"> automatisieren.</em>`,
+    storyRole: 'Quality Engineer · KI-Architekt',
+    storyClosingEyebrow: 'BKS-Lab — AI Engineering · Frankfurt am Main',
     ariaNumbers: 'Zahlen',
     ariaProjects: 'Projekte',
     ariaBeliefs: 'Überzeugungen',
     ariaEducation: 'Ausbildung',
+    ariaStatement: 'Leitsatz',
+    ariaProfile: 'Profil',
+    ariaContact: 'Kontakt',
     careerIntro: 'Quality Engineer und KI-Automatisierungsexperte mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Mein Schwerpunkt: Geschäftsprozesse durch messbare Automatisierung transformieren.',
     talksTitle: 'Vorträge & Workshops',
     careerDetails: [
-      'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich Quality-Monitoring-Systeme aufgebaut, KI-gestützte Testautomatisierung eingeführt und Legacy-Migrationen mit 24/7-Validierung abgesichert.',
+      'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich an Quality-Monitoring, KI-gestützter Testautomatisierung und mit 24/7-Validierung abgesicherten Legacy-Migrationen mitgewirkt.',
       'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, Multi-Agent-Systeme und E-Invoicing-Plattformen nach EU-Standard — gebündelt in einem Automatisierungs-Ökosystem, das ein <strong style="color: var(--accent); font-weight: 500">Orchestrierungs-Hub</strong> über 20+ Repositories, Agenten und Protokolle koordiniert. Einer dieser Agenten beantwortet diesen Lebenslauf live.',
       'Dieses Wissen gebe ich weiter — in Entwickler- und Business-Workshops sowie als geladener <strong style="color: var(--accent); font-weight: 500">Impulsgeber an der TU Darmstadt</strong> — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
     ],
@@ -172,7 +187,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     classicCV: 'Classic CV',
     otherLangLabel: 'Deutsche Version',
     skipToContent: 'Skip to content',
-    availability: 'Freelance Quality Engineer & AI Architect. Available for projects, architecture reviews, and AI workshops.',
+    availability: 'Freelance Quality Engineer & AI Architect. Available for QE and test-automation projects, AI architecture, and AI workshops.',
     numberLabels: [
       { num: '20+', label: 'years in Quality Engineering' },
       { num: '40+', label: 'automations in production' },
@@ -182,7 +197,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '20+', label: 'Repos orchestrated', detail: 'across 7 project boards' },
       { metric: 'Live', label: 'A2A agent', detail: 'this CV answers for itself' },
     ],
-    originQuote: 'Everything AI needs today — reliability, measurability, self-correction — I spent 20 years building into systems that couldn\'t yet think. When LLMs arrived, I didn\'t need a new beginning. I just needed the last puzzle piece.',
+    originQuote: 'Everything AI needs today — reliability, measurability, self-correction — I have spent two decades building into systems that couldn\'t yet think. Quality engineering stays; LLMs are the piece that now joins it.',
     gammaLabels: { challenge: 'Challenge', solution: 'Solution' },
     beliefs: [
       { text: 'When you have 10 tools\nand no overview,\nyou have zero tools.', align: 'text-left' },
@@ -193,14 +208,21 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     experienceTitle: 'Professional Experience',
     earlierPositions: 'Earlier Positions',
     closingLine: 'The impossible just takes a system that doesn\'t sleep.',
+    storyEyebrow: 'Quality Engineer · AI Architect · System Thinker',
+    storyStatement: `Here's to the ones<br>who <em class="italic" style="color: var(--accent)">automate<br class="sm:hidden"> the impossible.</em>`,
+    storyRole: 'Quality Engineer · AI Architect',
+    storyClosingEyebrow: 'BKS-Lab — AI Engineering · Frankfurt am Main',
     ariaNumbers: 'Numbers',
     ariaProjects: 'Projects',
     ariaBeliefs: 'Beliefs',
     ariaEducation: 'Education',
+    ariaStatement: 'Statement',
+    ariaProfile: 'Profile',
+    ariaContact: 'Contact',
     careerIntro: 'Quality Engineer and AI Automation Expert with 20+ years in software quality assurance and 4 years of specialized AI development. My focus: transforming business processes through measurable automation.',
     talksTitle: 'Speaking & Workshops',
     careerDetails: [
-      'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), I built quality monitoring systems, introduced AI-driven test automation, and secured legacy migrations with 24/7 validation.',
+      'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd) I worked on quality monitoring, AI-driven test automation, and legacy migrations secured by 24/7 validation.',
       'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, multi-agent systems and e-invoicing platforms to EU standards — bundled into an automation ecosystem that an <strong style="color: var(--accent); font-weight: 500">orchestration hub</strong> runs across 20+ repositories, agents and protocols. One of those agents answers this very CV, live.',
       'I also pass this knowledge on — in developer and business workshops and as an invited <strong style="color: var(--accent); font-weight: 500">guest speaker at TU Darmstadt</strong> — translating hands-on AI for technical and non-technical audiences alike.',
     ],
@@ -212,7 +234,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     cvFooterOtherLang: 'Deutsch',
     legalPrivacy: 'Privacy',
     legalImpressum: 'Legal Notice',
-    truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Focus areas', 'Key Focus', 'Key responsibilities'],
+    truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Focus areas', 'Key Focus', 'Key responsibilities', 'Presentation content'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

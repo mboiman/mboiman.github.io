@@ -19,7 +19,13 @@ export default defineConfig({
     },
   },
   integrations: [
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'de',
+        locales: { de: 'de-DE', en: 'en-US' },
+      },
+      filter: (page) => page !== 'https://mboiman.github.io/',
+    }),
   ],
   i18n: {
     defaultLocale: 'de',

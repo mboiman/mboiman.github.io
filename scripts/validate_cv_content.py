@@ -2,6 +2,13 @@
 """
 CV Content Validation Script
 Überprüft ob alle wichtigen CV-Inhalte korrekt in der generierten PDF vorhanden sind.
+
+Hinweis: Die Website ist Astro (nicht mehr Hugo). Die gerenderten Skills kommen
+inzwischen aus `ui.sidebar_skills`, nicht aus `[languages.*.params.skills].list`.
+Der `[skills].list`-Block kann einen führenden Kommentar tragen, und der Summary-
+Body kann entfernt sein (nur `summary.enable`/`summary.title` bleiben erhalten).
+Die entsprechenden Checks unten sind deshalb tolerant (Warnung statt Fehler),
+damit diese Validierung an einem Astro-Stand nicht falsch fehlschlägt.
 """
 
 import sys
@@ -67,19 +74,29 @@ class CVContentValidator:
         """Validiert die Grundstruktur der Konfiguration"""
         required_sections = [
             'languages.de.params.profile',
-            'languages.de.params.contact', 
+            'languages.de.params.contact',
             'languages.de.params.education',
             'languages.de.params.experiences',
+        ]
+        # `skills` und `summary` sind unter Astro nicht mehr kritisch:
+        # gerenderte Skills kommen aus `ui.sidebar_skills`, und der Summary-Body
+        # kann entfernt sein (nur enable/title bleiben). Fehlt der Block, ist das
+        # eine Warnung, kein Fehler.
+        optional_sections = [
             'languages.de.params.skills',
             'languages.de.params.summary'
         ]
-        
+
         valid = True
         for section in required_sections:
             if not self._get_nested_value(config, section):
                 self.errors.append(f"Fehlender Abschnitt: {section}")
                 valid = False
-                
+
+        for section in optional_sections:
+            if not self._get_nested_value(config, section):
+                self.warnings.append(f"Optionaler Abschnitt fehlt (Astro: unkritisch): {section}")
+
         return valid
     
     def validate_profile_data(self, config: Dict[str, Any]) -> bool:
@@ -141,12 +158,21 @@ class CVContentValidator:
         return valid
     
     def validate_skills(self, config: Dict[str, Any]) -> bool:
-        """Validiert Skills/Fähigkeiten"""
+        """Validiert Skills/Fähigkeiten
+
+        Astro rendert die Skills aus `ui.sidebar_skills`, nicht mehr aus
+        `[languages.*.params.skills].list`. Der `list`-Block kann zudem einen
+        führenden Kommentar tragen. Fehlt er ganz, ist das hier deshalb nur eine
+        Warnung — kein Fehler, der die Validierung abbrechen lässt.
+        """
         skills = self._get_nested_value(config, 'languages.de.params.skills')
         if not skills or not skills.get('list'):
-            self.errors.append("Keine Skills gefunden")
-            return False
-            
+            self.warnings.append(
+                "Keine [skills].list gefunden — unter Astro unkritisch "
+                "(gerenderte Skills kommen aus ui.sidebar_skills)"
+            )
+            return True
+
         skills_list = skills['list']
         if len(skills_list) < 5:
             self.warnings.append(f"Nur {len(skills_list)} Skills gefunden, empfohlen sind mindestens 5")
@@ -217,7 +243,6 @@ class CVContentValidator:
             self.validate_experiences(config),
             self.validate_skills(config),
             self.validate_education(config),
-            self.validate_hugo_build()
         ]
         
         # Zusammenfassung

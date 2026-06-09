@@ -37,6 +37,10 @@ const agentProof = agent_proof ?? {
   facts: ['protocolVersion: 0.3', 'transport: JSONRPC', 'streaming: true', 'skills: 4'],
 };
 
+// NOTE: a skill in ui.sidebar_skills that matches NONE of these group regexes
+// is silently dropped and never renders in the sidebar. When adding new skills,
+// make sure at least one group test matches (the leftover console.warn below
+// flags any orphan at build time).
 const skillGroupConfig = lang === 'de'
   ? [
       { title: 'Quality Engineering', test: /quality|playwright|cucumber|gauge|jmeter|gatling/i },
@@ -55,6 +59,18 @@ const sidebarSkillGroups = skillGroupConfig.map(group => ({
   title: group.title,
   skills: ui.sidebar_skills.filter(skill => group.test.test(skill)),
 })).filter(group => group.skills.length > 0);
+
+// Build-time hardening: surface any sidebar skill that matched no group regex
+// (it would be silently dropped from the rendered sidebar). Dev-only warning,
+// no effect on output — today all entries match.
+const unmatchedSidebarSkills = ui.sidebar_skills.filter(
+  skill => !skillGroupConfig.some(group => group.test.test(skill))
+);
+if (unmatchedSidebarSkills.length > 0) {
+  console.warn(
+    `[CVPage:${lang}] sidebar_skills not matched by any skillGroupConfig group (won't render): ${unmatchedSidebarSkills.join(', ')}`
+  );
+}
 
 const contactIconPaths: Record<string, string> = {
   email: 'M21.75 6.75v10.5A2.25 2.25 0 0 1 19.5 19.5h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91A2.25 2.25 0 0 1 2.25 6.993V6.75',
@@ -137,7 +153,7 @@ function truncateDetails(details: string): string {
 
 <BaseLayout
   title={`${profile.name} — ${ui.tagline}`}
-  description={ui.tagline}
+  description={ui.seo_description || ui.tagline}
   lang={lang}
 >
   <!-- Header -->
@@ -297,7 +313,7 @@ function truncateDetails(details: string): string {
                 <div class="cv-project-card rounded-xl overflow-hidden cursor-pointer group" id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
                   {project.screenshot && (
                     <div class="h-40 overflow-hidden relative">
-                      <img src={`/images/${project.screenshot}`} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      <img src={`/images/${project.screenshot}`} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/16 to-transparent"></div>
                       <p class="absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase text-white/80">{project.category}</p>
                     </div>

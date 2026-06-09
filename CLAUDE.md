@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Hugo-based CV generation system that creates multilingual (German/English) curriculum vitae websites and converts them to PDF. The site uses a custom Hugo theme (`bks-theme`) and includes automated build and PDF generation scripts.
+This is an Astro-based CV generation system that creates a multilingual (German/English) curriculum vitae website and converts it to PDF. The site is a static Astro build with i18n routing (`defaultLocale: 'de'`, `locales: ['de', 'en']`, `prefixDefaultLocale: true` → pages live under `/de/` and `/en/`) and includes automated PDF generation scripts.
 
 ## Build System & Development Commands
 
 ### Primary Build Commands
-- `hugo` - Build the static site using Hugo
-- `hugo server` or `hugo serve` - Start local development server
+- `npx astro dev` (or `npm run dev`) - Start the local Astro dev server
+- `npx astro build` (or `npm run build`) - Build the static site
+- `npm run preview` - Preview the production build locally
 - `./scripts/generate_cv.sh <custom_config.toml> [output.pdf]` - Generate PDF from custom configuration
 - `./scripts/generate_cv.sh <custom_config.toml> [output.pdf] --standalone` - Generate PDF using only the custom config (no merging)
 
@@ -24,33 +25,37 @@ This is a Hugo-based CV generation system that creates multilingual (German/Engl
 ```
 
 ### Dependencies
-- Node.js and npm (for Puppeteer PDF generation)
-- Hugo (static site generator)
+- Node.js and npm
+- Astro (static site framework)
+- Puppeteer (for PDF generation)
 - Dependencies are auto-installed via `npm ci` when running the generation script
 
 ## Architecture
 
 ### Configuration System
-- **Base Configuration**: `config.cv.toml` - Main Hugo configuration with multilingual support
+- **Base Configuration**: `config.cv.toml` - Main CV content with multilingual support, parsed by `src/lib/toml-loader.ts`
+- **UI Strings**: `src/lib/i18n.ts` - Localized interface strings (DE/EN) keyed by the `I18nStrings` interface
 - **Custom Configurations**: Can be created for specific CV variants (e.g., `config.de.toml`)
 - **Configuration Merging**: The generation script merges base config with custom configs unless `--standalone` is used
 
 ### Content Structure
-- `content/de/` - German language content (markdown files)
-- `content/en/` - English language content (markdown files)
-- Content is organized by CV sections: `education/`, `experience/`, `projects/`, `skills/`, `summary/`
+- Content comes from `config.cv.toml` (CV data) + `src/lib/i18n.ts` (UI strings)
+- CV sections in the TOML: `education`, `experience`, `projects`, `skills`, `summary`, profile and contact details
 
-### Theme Structure
-- `themes/bks-theme/` - Custom Hugo theme
-- `layouts/` - HTML templates for different CV sections
-- `static/assets/` - CSS, JavaScript, and image assets
-- Multiple theme variants available (`styles.css`, `styles-2.css`, etc.)
+### Site Structure
+- `src/components/*.astro` - Astro components for the CV sections
+- `src/layouts/` - Page layouts
+- `src/pages/{de,en}/` - Localized page entry points (routes under `/de/` and `/en/`)
+- `public/` - Static assets (CSS, JavaScript, images)
 
 ### Build Process
-1. Hugo builds the static site from configuration and content
-2. `scripts/html_to_pdf.js` uses Puppeteer to convert HTML to PDF
+1. Astro builds the static site from `config.cv.toml` + `src/lib/i18n.ts` and the components/pages
+2. `scripts/html_to_pdf.js` uses Puppeteer to convert the built HTML to PDF
 3. Language detection automatically determines the main page path
 4. Temporary build directories are cleaned up after PDF generation
+
+### Deployment
+- `.github/workflows` runs `astro build` and publishes to the `gh-pages` branch via the `peaceiris` action (GitHub Pages)
 
 ### PDF Generation
 - Uses Puppeteer with headless Chrome
@@ -61,9 +66,9 @@ This is a Hugo-based CV generation system that creates multilingual (German/Engl
 ## Configuration Notes
 
 ### Language Configuration
-- `defaultContentLanguage` determines the primary language
-- `defaultContentLanguageInSubdir = true` creates language-specific subdirectories
-- Both German (`de`) and English (`en`) configurations are supported
+- Astro i18n config sets `defaultLocale: 'de'` as the primary language
+- `prefixDefaultLocale: true` routes every locale under its own subdirectory (`/de/`, `/en/`)
+- Both German (`de`) and English (`en`) locales are supported
 
 ### CV Sections
 The TOML configuration defines CV sections including:
@@ -77,14 +82,14 @@ The TOML configuration defines CV sections including:
 ## Development Workflow
 
 When making changes to the CV content or styling:
-1. Edit the relevant TOML configuration file
-2. Test locally with `hugo server`
+1. Edit `config.cv.toml` (CV data) or `src/lib/i18n.ts` (UI strings)
+2. Test locally with `astro dev` (`npx astro dev` or `npm run dev`)
 3. Generate PDF with the generation script
 4. Review the PDF output for formatting and content accuracy
 
-When modifying the theme:
-1. Edit files in `themes/bks-theme/`
-2. Test with `hugo server`
+When modifying the layout or styling:
+1. Edit files in `src/components/*.astro`, `src/layouts/`, or `public/` assets
+2. Test with `astro dev` (`npx astro dev` or `npm run dev`)
 3. Ensure PDF generation still works correctly with the changes
 
 ## Bewerbungsmanagement
@@ -223,7 +228,7 @@ IMMER dokumentieren:
 ## Memories
 - `teste immer am ende das Ergebniss` - A reminder to always test the result at the end
 - `alle text bausteine müssen aus der toml kommen es darf nichts in den anderen dateien wie html liegen. also keine texte von wo anders` - Ensure all text components come from the TOML file, with no text residing in other files like HTML
-- `du sollst kein python hier ständig mir anbieten als server das ist hugo` - Reminder that Hugo is the preferred server, not Python
+- `du sollst kein python hier ständig mir anbieten als server` - Reminder to use the `astro dev` dev server (`npx astro dev` / `npm run dev`), not a Python `http.server`
 - `du sollst nicht behaupten das der server läuft wenn es nicht so ist und du nicht getestet hast` - Do not claim the server is running if you have not tested it and it is not actually running
 - `die pdf und die web ansicht sind unterschiedlich generiert und in unterschiedlichen stellen verordnet` - The PDF and web views are generated differently and organized in different places
 - `merke das pdf anpassungen im @scripts/html_to_pdf.js anzupassen ist` - Remember to adjust PDF-related changes in the @scripts/html_to_pdf.js file
