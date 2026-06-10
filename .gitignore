@@ -2,6 +2,8 @@
 node_modules
 dist
 .astro
+venv/
+.venv/
 .work/
 applications/
 public/assets_images

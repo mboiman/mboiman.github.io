@@ -83,6 +83,7 @@ export interface I18nStrings {
   legalImpressum: string;
   truncatePatterns: string[];
   truncateToolPatterns: string[];
+  showAllProjects: string;
   // Agent chat widget
   agentWidget: AgentWidgetStrings;
 }
@@ -105,7 +106,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '20+', label: 'Repos orchestriert', detail: 'über 7 Projekt-Boards' },
       { metric: 'Live', label: 'KI-Agent', detail: 'dieser Lebenslauf antwortet selbst' },
     ],
-    originQuote: 'Was KI heute braucht — Verlässlichkeit, Messbarkeit, Selbstkorrektur — baue ich seit zwei Jahrzehnten in Systeme, die noch nicht denken konnten. Quality Engineering bleibt; LLMs sind das Stück, das jetzt dazukommt.',
+    originQuote: 'Was KI heute braucht — Verlässlichkeit, Messbarkeit, Selbstkorrektur — baue ich seit zwei Jahrzehnten in Systeme, mit und ohne KI. Quality Engineering und KI-Architektur laufen bei mir parallel — jeder Strang macht den anderen besser.',
     gammaLabels: { challenge: 'Herausforderung', solution: 'Lösung' },
     beliefs: [
       { text: 'Wenn du 10 Tools hast\nund keine Übersicht,\nhast du null Tools.', align: 'text-left' },
@@ -144,6 +145,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     legalImpressum: 'Impressum',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Präsentationsinhalte', 'Praktischer', 'Practical', 'Hauptverantwortlichkeiten', 'Projekte\\b', 'Energiesektor', 'Quantifizierbare', 'Quantifiable', 'Technische Lösungen', 'Focus areas', 'Key Focus'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Eingesetzte', 'Technical Stack', 'Technischer'],
+    showAllProjects: 'Alle Projekte anzeigen ({n} weitere)',
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
       launcherText: 'Live-KI-Agent fragen',
@@ -197,7 +199,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { metric: '20+', label: 'Repos orchestrated', detail: 'across 7 project boards' },
       { metric: 'Live', label: 'AI agent', detail: 'this CV answers for itself' },
     ],
-    originQuote: 'Everything AI needs today — reliability, measurability, self-correction — I have spent two decades building into systems that couldn\'t yet think. Quality engineering stays; LLMs are the piece that now joins it.',
+    originQuote: 'Everything AI needs today — reliability, measurability, self-correction — I have been building into systems for two decades, with and without AI. Quality engineering and AI architecture run in parallel for me — each makes the other better.',
     gammaLabels: { challenge: 'Challenge', solution: 'Solution' },
     beliefs: [
       { text: 'When you have 10 tools\nand no overview,\nyou have zero tools.', align: 'text-left' },
@@ -236,6 +238,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     legalImpressum: 'Legal Notice',
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Focus areas', 'Key Focus', 'Key responsibilities', 'Presentation content'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
+    showAllProjects: 'Show all projects ({n} more)',
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',
       launcherText: 'Ask the live AI agent',

@@ -51,7 +51,8 @@ defaultContentLanguageInSubdir = true
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs (Claude/Gemini/GPT/Copilot)",
+          "Claude Code (Skills, Hooks, MCP)",
+          "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
           "Google ADK",
           "LangChain",
@@ -74,7 +75,7 @@ defaultContentLanguageInSubdir = true
       [languages.de.params.agent_proof]
         eyebrow = "Live Proof statt Portfolio-Behauptung"
         headline = "Mein CV hat einen eigenen KI-Agenten."
-        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten — Agent-zu-Agent, nicht nur Chatbot. Terminwünsche laufen über eine verifizierte, fortsetzbare E-Mail-Schleife (Double-Opt-in), die erst nach meiner Freigabe rausgeht."
+        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten — Agent-zu-Agent, nicht nur Chatbot. Terminwünsche gehen an mich und werden erst nach meiner persönlichen Freigabe beantwortet."
         status = "Live auf mboiman.bks-lab.com"
         card = "Agent-Steckbrief (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
@@ -244,14 +245,14 @@ Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~2
 - Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
 - Browser-Automation mit Playwright-MCP für automatisierte Test-Generierung
 - Live-Demos: Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
-- Prompt Engineering & Regel-basierte Agent-Steuerung (.cursorrules, Instructions)
+- Prompt Engineering & Regel-basierte Agent-Steuerung (CLAUDE.md, Instructions)
 - TDD-Workflows mit AI-Assistenz und automatisierter PR-Erstellung
 - Task Master AI-Agent für Projektmanagement und Code-Scaffolding
 
 **Technologien & Tools**
 - Anthropic Claude, Google Gemini, OpenAI GPT-4o
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
-- GitHub Copilot, Cursor, VS Code AI-Extensions
+- Claude Code als Primär-Stack; Einordnung von GitHub Copilot & VS Code AI-Extensions im Tool-Vergleich
 - Playwright, Browser-Automation, Web-Scraping
 - JSON-RPC, REST APIs, Multi-Agent Communication
 
@@ -283,7 +284,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Eigenbetriebene Infrastruktur**: Hub und Dienste laufen auf eigener Hardware (launchd-Services, Geräte-Flotte über Tailscale) mit 3-2-1-Backup-Strategie (restic/rclone auf NAS).
 
 **Tools & Technologien**
-- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -679,7 +680,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Playwright",
           "Cucumber/Gauge",
           "Python",
-          "LLMs (Claude/Gemini/GPT/Copilot)",
+          "Claude Code (Skills, Hooks, MCP)",
+          "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
           "Google ADK",
           "LangChain",
@@ -702,7 +704,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       [languages.en.params.agent_proof]
         eyebrow = "Live proof, not a portfolio claim"
         headline = "This CV has its own AI agent."
-        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own — agent-to-agent, not just a chatbot. Meeting requests run through a verified, resumable email loop (double opt-in) that only goes out after my approval."
+        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own — agent-to-agent, not just a chatbot. Meeting requests go to me and are only answered after my personal approval."
         status = "Live at mboiman.bks-lab.com"
         card = "Agent profile card (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
@@ -865,20 +867,20 @@ Format: moderated impulse talk with interactive live demonstrations. Audience: ~
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
 
 **Workshop Content**
-- Development with LLMs (Claude, Gemini, GPT-4o) and token optimization - all three models used equally in projects
+- Development with LLMs (Claude, Gemini, GPT-4o) and token optimization — used across projects
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
 - Google Agent Development Kit (ADK) for multi-agent systems and tool integration
 - Agent orchestration with JSON-RPC and multi-agent systems
 - Browser automation with Playwright-MCP for automated test generation
 - Live demos: Jira integration, Elasticsearch queries, GitHub workflows
-- Prompt engineering & rule-based agent control (.cursorrules, instructions)
+- Prompt engineering & rule-based agent control (CLAUDE.md, instructions)
 - TDD workflows with AI assistance and automated PR creation
 - Task Master AI agent for project management and code scaffolding
 
 **Technologies & Tools**
 - Anthropic Claude, Google Gemini, OpenAI GPT-4o
 - Google Agent Development Kit (ADK), Model Context Protocol (MCP), Agent-to-Agent Protocol (A2A)
-- GitHub Copilot, Cursor, VS Code AI extensions
+- Claude Code as primary stack; GitHub Copilot & VS Code AI extensions covered as tool comparison
 - Playwright, browser automation, web scraping
 - JSON-RPC, REST APIs, multi-agent communication
 
@@ -910,7 +912,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Self-Operated Infrastructure**: hub and services run on own hardware (launchd services, device fleet over Tailscale) with a 3-2-1 backup strategy (restic/rclone to NAS).
 
 **Tools & Technologies**
-- LLM Orchestration: Claude, Google Gemini, OpenAI GPT, GitHub Copilot, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -1284,48 +1286,6 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
-        title = "KI-basierter Chatbot für Messe-Interaktion"
-        anchor = "messe-chatbot"
-        tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
-        category = "AI & Machine Learning"
-        featured = true
-        screenshot = "projects/ccwkibot.png"
-        tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
-        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer — hohe Absprungrate und verpasste Leads."
-        solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
-        metric = "RAG"
-        metric_label = "kontextgenaue Antworten"
-        impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch sofortige, relevante Antworten."
-
-        [[languages.de.params.projects.list]]
-        title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
-        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten mit 95%+ Genauigkeit."
-
-        [[languages.de.params.projects.list]]
-        title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
-        anchor = "email-classification"
-        tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
-        category = "AI & Machine Learning"
-        featured = true
-        screenshot = "projects/nlpanalyse.png"
-        tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
-        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden — zeitintensiv und fehleranfällig."
-        solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
-        metric = "E2E"
-        metric_label = "Mail → ERP automatisiert"
-        impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
-
-        [[languages.de.params.projects.list]]
-        title   = "MCP - Model Context Protokoll & A2A"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
-
-        [[languages.de.params.projects.list]]
         title = "AI Context Orchestrator — Multi-Repo Development Platform"
         anchor = "ai-context-orchestrator"
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
@@ -1348,6 +1308,48 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         metric_label = "Skills"
         impact = "AI-gestützte Workflows von Incident-Response bis Meeting-Protokollierung — orchestriert über einen zentralen Hub."
 
+        [[languages.de.params.projects.list]]
+        title = "E-Invoicing Automation Platform"
+        anchor = "e-invoicing-platform"
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        category = "Enterprise Integration"
+        featured = true
+        tagline = """**Produktive E-Rechnungs-Pipeline (Peppol/EN 16931)**
+
+**Kernfunktionen:**
+• **Peppol Network Integration**: Anbindung an europäisches E-Invoicing-Netzwerk via Storecove Access Point
+• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 konform)
+• **ERP-Kopplung**: Automatische Übertragung an SAP ByDesign mit Validierung und Fehlerbehandlung
+• **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit
+• **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
+
+**Impact:** Produktives System — Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung über die Storecove-Strecke an SAP ByDesign."""
+
+        [[languages.de.params.projects.list]]
+        title   = "MCP - Model Context Protokoll & A2A"
+        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
+        category = "AI & Machine Learning"
+        featured = false
+        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
+
+        [[languages.de.params.projects.list]]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        anchor = "dev-workshop"
+        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        category = "Training & Workshops"
+        featured = true
+        screenshot = "projects/aiagentworkshop.png"
+        tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
+
+**Workshop-Inhalte:**
+• **Hands-on AI-Agent Development:** Live-Coding mit Claude, Gemini, GPT-4o
+• **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
+• **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
+• **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
+• **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
+• **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
+
+**Deliverables:** Vollständiger Quellcode, Folien, Hands-on-Übungen, Production-ready Templates"""
 
         [[languages.de.params.projects.list]]
         title = "Enterprise AI-Beratung: Von der Strategie zur Umsetzung"
@@ -1400,7 +1402,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 
 **Die Lösung:** 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse
 • **Kontinuierliches Testing:** Zufallsgenerierte Tests aller Variationen rund um die Uhr
-• **Real-time Monitoring:** Live-Dashboard mit sofortiger Abweichungserkennung bei jedem Deployment
+• **Real-time Monitoring:** Live-Dashboard mit Abweichungserkennung bei jedem Deployment
 • **Vollständige Traceability:** Jede Abweichung eindeutig geloggt mit technischem und fachlichem Kontext
 • **Automated Root Cause Analysis:** Direkter Zugriff auf Kalkulationswege und Fehlerursachen
 • **Quality Intelligence:** Kibana-Dashboards für End-to-End-Qualitätsübersicht
@@ -1415,44 +1417,38 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tagline = "Guideline-basierter KI-Agent im IDE, der Tests prompt-basiert direkt aus Jira-Stories generiert."
 
         [[languages.de.params.projects.list]]
-        title = "Live-Demo Apps"
-        anchor = "live-demo-apps"
-        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
-        tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
-        category = "AI & Machine Learning"
+        title = "Medical Transcription System"
+        anchor = "medical-transcription"
+        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
+        category = "Healthcare AI"
         featured = true
-        screenshot = "projects/websiteanalyzer.png"
-        tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
+        tagline = """**DSGVO-konforme Transkription von Arzt-Patient-Gesprächen**
+
+**Kernfunktionen:**
+• **100% Lokal**: Keine Cloud-Uploads, alle Verarbeitung auf lokalem Rechner (Privacy-by-Design)
+• **Speaker Diarization**: Automatische Unterscheidung Arzt/Patient mit Pyannote 3.1 (2.6% WER)
+• **SOAP-Protokoll-Generierung**: Automatische Erstellung strukturierter medizinischer Protokolle
+• **Open Source AI**: Ollama mit Llama 3.2 für intelligente Zusammenfassungen ohne API-Kosten
+• **Apple Silicon Optimiert**: Native Performance auf M1/M2/M3 Macs
+
+**Impact:** Vollständig lokale Verarbeitung (kein Cloud-Upload), automatische Sprechertrennung und strukturierte SOAP-Protokolle — Privacy-by-Design."""
 
         [[languages.de.params.projects.list]]
-        title = "wecation"
-        anchor = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
+        title = "AI Learning Platform"
+        anchor = "ai-learning-platform"
+        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
+        category = "E-Learning & Compliance"
         featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
+        tagline = """**EU-KI-Verordnung konforme Lernplattform für KI-Workshops**
 
-        [[languages.de.params.projects.list]]
-        title = "Developer Workshop: AI-Agent Development & Integration"
-        anchor = "dev-workshop"
-        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
-        category = "Training & Workshops"
-        featured = true
-        screenshot = "projects/aiagentworkshop.png"
-        tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
+**Kernfunktionen:**
+• **Artikel 4 Compliance**: EU-KI-Verordnung konforme Zertifizierungen mit Audit-Trail
+• **15+ Lernkartentypen**: Interaktive Quizze, Übungen, adaptive Tests mit Punktesystem
+• **6 visuelle Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Fortschrittsverfolgung**: localStorage-basiertes Tracking mit HR-Export-Funktion
+• **85 automatisierte Tests**: Qualitätsgesicherte Lernplattform
 
-**Workshop-Inhalte:**
-• **Hands-on AI-Agent Development:** Live-Coding mit Claude, Gemini, GPT-4o
-• **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
-• **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
-• **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
-• **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
-• **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
-
-**Deliverables:** Vollständiger Quellcode, Folien, Hands-on-Übungen, Production-ready Templates"""
-
+**Impact:** Enterprise-ready E-Learning für AI Governance und strukturierte Qualifizierungsprogramme"""
 
         [[languages.de.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
@@ -1497,56 +1493,59 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 """
 
         [[languages.de.params.projects.list]]
-        title = "E-Invoicing Automation Platform"
-        anchor = "e-invoicing-platform"
-        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
-        category = "Enterprise Integration"
+        title = "Live-Demo Apps"
+        anchor = "live-demo-apps"
+        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
+        tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
         featured = true
-        tagline = """**Produktive E-Rechnungs-Pipeline (Peppol/EN 16931)**
-
-**Kernfunktionen:**
-• **Peppol Network Integration**: Anbindung an europäisches E-Invoicing-Netzwerk via Storecove Access Point
-• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 konform)
-• **ERP-Kopplung**: Automatische Übertragung an SAP ByDesign mit Validierung und Fehlerbehandlung
-• **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit
-• **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
-
-**Impact:** Produktives System — Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung über die Storecove-Strecke an SAP ByDesign."""
+        screenshot = "projects/websiteanalyzer.png"
+        tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
 
         [[languages.de.params.projects.list]]
-        title = "Medical Transcription System"
-        anchor = "medical-transcription"
-        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
-        category = "Healthcare AI"
+        title = "wecation"
+        anchor = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
         featured = true
-        tagline = """**DSGVO-konforme Transkription von Arzt-Patient-Gesprächen**
-
-**Kernfunktionen:**
-• **100% Lokal**: Keine Cloud-Uploads, alle Verarbeitung auf lokalem Rechner (Privacy-by-Design)
-• **Speaker Diarization**: Automatische Unterscheidung Arzt/Patient mit Pyannote 3.1 (2.6% WER)
-• **SOAP-Protokoll-Generierung**: Automatische Erstellung strukturierter medizinischer Protokolle
-• **Open Source AI**: Ollama mit Llama 3.2 für intelligente Zusammenfassungen ohne API-Kosten
-• **Apple Silicon Optimiert**: Native Performance auf M1/M2/M3 Macs
-
-**Impact:** Vollständig lokale Verarbeitung (kein Cloud-Upload), automatische Sprechertrennung und strukturierte SOAP-Protokolle — Privacy-by-Design."""
+        screenshot = "projects/wecation.png"
+        tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
-        title = "AI Learning Platform"
-        anchor = "ai-learning-platform"
-        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
-        category = "E-Learning & Compliance"
+        title = "KI-basierter Chatbot für Messe-Interaktion"
+        anchor = "messe-chatbot"
+        tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
+        category = "AI & Machine Learning"
         featured = true
-        tagline = """**EU-KI-Verordnung konforme Lernplattform für KI-Workshops**
+        screenshot = "projects/ccwkibot.png"
+        tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
+        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer — hohe Absprungrate und verpasste Leads."
+        solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
+        metric = "RAG"
+        metric_label = "kontextgenaue Antworten"
+        impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch relevante, kontextgenaue Antworten."
 
-**Kernfunktionen:**
-• **Artikel 4 Compliance**: EU-KI-Verordnung konforme Zertifizierungen mit Audit-Trail
-• **15+ Lernkartentypen**: Interaktive Quizze, Übungen, adaptive Tests mit Punktesystem
-• **6 visuelle Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
-• **Fortschrittsverfolgung**: localStorage-basiertes Tracking mit HR-Export-Funktion
-• **85 automatisierte Tests**: Qualitätsgesicherte Lernplattform
+        [[languages.de.params.projects.list]]
+        title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
+        anchor = "email-classification"
+        tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
+        category = "AI & Machine Learning"
+        featured = true
+        screenshot = "projects/nlpanalyse.png"
+        tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
+        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden — zeitintensiv und fehleranfällig."
+        solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
+        metric = "E2E"
+        metric_label = "Mail → ERP automatisiert"
+        impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
 
-**Impact:** Enterprise-ready E-Learning für AI Governance und strukturierte Qualifizierungsprogramme"""
-
+        [[languages.de.params.projects.list]]
+        title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
+        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
+        category = "AI & Machine Learning"
+        featured = false
+        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten mit 95%+ Genauigkeit."
 
       [languages.en.params.projects]
         enable = true
@@ -1554,48 +1553,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         title = "PROJECTS & SOLUTIONS"
         intro = "**Innovative AI solutions and automation tools**"
         non_featured_layout = "grid"
-
-        [[languages.en.params.projects.list]]
-        title = "AI-Driven Chatbot for Trade-Fair Interaction"
-        anchor = "messe-chatbot"
-        tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
-        category = "AI & Machine Learning"
-        featured = true
-        screenshot = "projects/ccwkibot.png"
-        tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
-        challenge = "Trade-fair visitors struggled to find relevant information on the website — high bounce rates and missed leads."
-        solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
-        metric = "RAG"
-        metric_label = "context-accurate answers"
-        impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through instant, relevant responses."
-
-        [[languages.en.params.projects.list]]
-        title = "Automated NLP Analysis of PDF Documents"
-        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification with 95%+ accuracy."
-
-        [[languages.en.params.projects.list]]
-        title = "Email Classification and Processing Workflow"
-        anchor = "email-classification"
-        tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
-        category = "AI & Machine Learning"
-        screenshot = "projects/nlpanalyse.png"
-        featured = true
-        tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
-        challenge = "Incoming emails had to be manually read, classified and transferred to SAP — time-consuming and error-prone."
-        solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
-        metric = "E2E"
-        metric_label = "email → ERP automated"
-        impact = "Emails automatically classified, processed and transferred to ERP."
-
-        [[languages.en.params.projects.list]]
-        title = "MCP – Model Context Protocol & A2A"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
 
         [[languages.en.params.projects.list]]
         title = "AI Context Orchestrator — Multi-Repo Development Platform"
@@ -1620,6 +1577,48 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         metric_label = "Skills"
         impact = "AI-assisted workflows from incident response to meeting documentation — orchestrated through one central hub."
 
+        [[languages.en.params.projects.list]]
+        title = "E-Invoicing Automation Platform"
+        anchor = "e-invoicing-platform"
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        category = "Enterprise Integration"
+        featured = true
+        tagline = """**Production E-Invoicing Pipeline (Peppol/EN 16931)**
+
+**Core Features:**
+• **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point
+• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 compliant)
+• **ERP Integration**: Automatic transfer to SAP ByDesign with validation and error handling
+• **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability
+• **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
+
+**Impact:** Production system — Peppol connectivity per EN 16931, automated inbound and outbound invoice processing across the Storecove route into SAP ByDesign."""
+
+        [[languages.en.params.projects.list]]
+        title = "MCP – Model Context Protocol & A2A"
+        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
+        category = "AI & Machine Learning"
+        featured = false
+        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
+
+        [[languages.en.params.projects.list]]
+        title = "Developer Workshop: AI-Agent Development & Integration"
+        anchor = "dev-workshop"
+        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
+        category = "Training & Workshops"
+        featured = true
+        screenshot = "projects/aiagentworkshop.png"
+        tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
+
+**Workshop Content:**
+• **Hands-on AI Agent Development:** Live coding with Claude, Gemini, GPT-4o
+• **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
+• **Browser Automation:** Playwright-MCP for automated test generation
+• **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
+• **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
+• **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
+
+**Deliverables:** Complete source code, slides, hands-on exercises, production-ready templates"""
 
         [[languages.en.params.projects.list]]
         title = "Enterprise AI Consulting: From Strategy to Implementation"
@@ -1672,7 +1671,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 
 **The Solution:** 24/7 Dual-Run Validation System with intelligent deviation analysis
 • **Continuous Testing:** Randomly generated tests across all variations around the clock
-• **Real-time Monitoring:** Live dashboard with immediate deviation detection on every deployment
+• **Real-time Monitoring:** Live dashboard with deviation detection on every deployment
 • **Complete Traceability:** Every deviation uniquely logged with technical and business context
 • **Automated Root Cause Analysis:** Direct access to calculation paths and error sources
 • **Quality Intelligence:** Kibana dashboards for end-to-end quality overview
@@ -1687,44 +1686,41 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = "Guideline-based AI agent in the IDE that generates tests prompt-based directly from Jira stories."
 
         [[languages.en.params.projects.list]]
-        title = "Live Demo Apps"
-        anchor = "live-demo-apps"
-        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
-        tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
-        category = "AI & Machine Learning"
+        title = "Medical Transcription System"
+        anchor = "medical-transcription"
+        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
+        category = "Healthcare AI"
         featured = true
-        screenshot = "projects/websiteanalyzer.png"
-        tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
+        tagline = """**GDPR-Compliant Transcription of Doctor-Patient Conversations**
+
+**Core Features:**
+• **100% Local**: No cloud uploads, all processing on local machine (Privacy-by-Design)
+• **Speaker Diarization**: Automatic doctor/patient distinction with Pyannote 3.1 (2.6% WER)
+• **SOAP Protocol Generation**: Automatic creation of structured medical protocols
+• **Open Source AI**: Ollama with Llama 3.2 for intelligent summaries without API costs
+• **Apple Silicon Optimized**: Native performance on M1/M2/M3 Macs
+
+**Impact:** Fully local processing (no cloud upload), automatic speaker separation and structured SOAP protocols — privacy by design."""
 
         [[languages.en.params.projects.list]]
-        title = "wecation"
-        anchor = "wecation"
-        url = "https://www.wecation.de"
-        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
-        category = "Mobile & Web Development"
+        title = "AI Learning Platform"
+        anchor = "ai-learning-platform"
+        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
+        category = "E-Learning & Compliance"
         featured = true
-        screenshot = "projects/wecation.png"
-        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
+        tagline = """**EU AI Act Compliant Learning Platform for AI Workshops**
 
-        [[languages.en.params.projects.list]]
-        title = "Developer Workshop: AI-Agent Development & Integration"
-        anchor = "dev-workshop"
-        tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
-        category = "Training & Workshops"
-        featured = true
-        screenshot = "projects/aiagentworkshop.png"
-        tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
+**Core Features:**
+• **Article 4 Compliance**: EU AI Act compliant certifications with audit trail
+• **15+ Learning Card Types**: Interactive quizzes, exercises, adaptive tests with scoring system
+• **6 Visual Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Progress Tracking**: localStorage-based tracking with HR export functionality
+• **85 Automated Tests**: Quality-assured learning platform
 
-**Workshop Content:**
-• **Hands-on AI Agent Development:** Live coding with Claude, Gemini, GPT-4o
-• **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
-• **Browser Automation:** Playwright-MCP for automated test generation
-• **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
-• **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
-• **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
+**Impact:** Enterprise-ready e-learning for AI governance and structured qualification programs"""
 
-**Deliverables:** Complete source code, slides, hands-on exercises, production-ready templates"""
 
+# NOTE: NOT rendered on the website. Website skills = ui.sidebar_skills + skillGroupConfig in src/components/CVPage.astro. Edits here only affect the PDF export.
 
         [[languages.en.params.projects.list]]
         title = "Django SLA Dashboard - Enterprise Service Monitoring"
@@ -1769,58 +1765,60 @@ Our goal is to implement more quality through a higher degree of automation.
 """
 
         [[languages.en.params.projects.list]]
-        title = "E-Invoicing Automation Platform"
-        anchor = "e-invoicing-platform"
-        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
-        category = "Enterprise Integration"
+        title = "Live Demo Apps"
+        anchor = "live-demo-apps"
+        url = "https://demo-app-text-analyze-wdrcmwwnk7r9gsnaftxczk.streamlit.app"
+        tech_stack = ["Streamlit", "Python", "NLP", "OpenAI"]
+        category = "AI & Machine Learning"
         featured = true
-        tagline = """**Production E-Invoicing Pipeline (Peppol/EN 16931)**
-
-**Core Features:**
-• **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point
-• **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 compliant)
-• **ERP Integration**: Automatic transfer to SAP ByDesign with validation and error handling
-• **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability
-• **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
-
-**Impact:** Production system — Peppol connectivity per EN 16931, automated inbound and outbound invoice processing across the Storecove route into SAP ByDesign."""
+        screenshot = "projects/websiteanalyzer.png"
+        tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
         [[languages.en.params.projects.list]]
-        title = "Medical Transcription System"
-        anchor = "medical-transcription"
-        tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama3", "Apple Silicon", "SOAP Protocol"]
-        category = "Healthcare AI"
+        title = "wecation"
+        anchor = "wecation"
+        url = "https://www.wecation.de"
+        tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
+        category = "Mobile & Web Development"
         featured = true
-        tagline = """**GDPR-Compliant Transcription of Doctor-Patient Conversations**
-
-**Core Features:**
-• **100% Local**: No cloud uploads, all processing on local machine (Privacy-by-Design)
-• **Speaker Diarization**: Automatic doctor/patient distinction with Pyannote 3.1 (2.6% WER)
-• **SOAP Protocol Generation**: Automatic creation of structured medical protocols
-• **Open Source AI**: Ollama with Llama 3.2 for intelligent summaries without API costs
-• **Apple Silicon Optimized**: Native performance on M1/M2/M3 Macs
-
-**Impact:** Fully local processing (no cloud upload), automatic speaker separation and structured SOAP protocols — privacy by design."""
+        screenshot = "projects/wecation.png"
+        tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
-        title = "AI Learning Platform"
-        anchor = "ai-learning-platform"
-        tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
-        category = "E-Learning & Compliance"
+        title = "AI-Driven Chatbot for Trade-Fair Interaction"
+        anchor = "messe-chatbot"
+        tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
+        category = "AI & Machine Learning"
         featured = true
-        tagline = """**EU AI Act Compliant Learning Platform for AI Workshops**
+        screenshot = "projects/ccwkibot.png"
+        tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
+        challenge = "Trade-fair visitors struggled to find relevant information on the website — high bounce rates and missed leads."
+        solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
+        metric = "RAG"
+        metric_label = "context-accurate answers"
+        impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through relevant, context-accurate responses."
 
-**Core Features:**
-• **Article 4 Compliance**: EU AI Act compliant certifications with audit trail
-• **15+ Learning Card Types**: Interactive quizzes, exercises, adaptive tests with scoring system
-• **6 Visual Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
-• **Progress Tracking**: localStorage-based tracking with HR export functionality
-• **85 Automated Tests**: Quality-assured learning platform
+        [[languages.en.params.projects.list]]
+        title = "Email Classification and Processing Workflow"
+        anchor = "email-classification"
+        tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
+        category = "AI & Machine Learning"
+        screenshot = "projects/nlpanalyse.png"
+        featured = true
+        tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
+        challenge = "Incoming emails had to be manually read, classified and transferred to SAP — time-consuming and error-prone."
+        solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
+        metric = "E2E"
+        metric_label = "email → ERP automated"
+        impact = "Emails automatically classified, processed and transferred to ERP."
 
-**Impact:** Enterprise-ready e-learning for AI governance and structured qualification programs"""
+        [[languages.en.params.projects.list]]
+        title = "Automated NLP Analysis of PDF Documents"
+        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
+        category = "AI & Machine Learning"
+        featured = false
+        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification with 95%+ accuracy."
 
-
-# NOTE: NOT rendered on the website. Website skills = ui.sidebar_skills + skillGroupConfig in src/components/CVPage.astro. Edits here only affect the PDF export.
       [languages.de.params.skills]
         enable = true
         icon = "fa-rocket"
@@ -1846,9 +1844,9 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.de.params.skills.list]]
         skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
-        
+
         [[languages.de.params.skills.list]]
-        skill = "LLMs & AI APIs - Claude, Gemini, OpenAI GPT, GitHub Copilot, Llama"
+        skill = "LLMs & AI APIs - Claude (primär), Gemini, OpenAI GPT"
         
         [[languages.de.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
@@ -1940,9 +1938,9 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.skills.list]]
         skill = "Python (Data Analysis, ML/AI, Automation)"
-        
+
         [[languages.en.params.skills.list]]
-        skill = "LLMs & AI APIs - Claude, Gemini, OpenAI GPT, GitHub Copilot, Llama"
+        skill = "LLMs & AI APIs - Claude (primary), Gemini, OpenAI GPT"
         
         [[languages.en.params.skills.list]]
         skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
