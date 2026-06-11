@@ -305,6 +305,11 @@ const widgetStrings = {
     width: var(--aw-max-w);
     height: var(--aw-max-h);
   }
+  /* When the panel is open on the two-column layout (lg+), the page content is
+     shifted left via an inline body padding (set in openPanel/closePanel below)
+     so the fixed panel sits beside the sidebar instead of permanently covering
+     it while scrolling. */
+  body { transition: padding-right 0.2s ease-out; }
 
   @keyframes aw-pop {
     from { opacity: 0; transform: translateY(12px) scale(0.98); }
@@ -2170,26 +2175,37 @@ const widgetStrings = {
     }
 
     const OPEN_KEY = 'bridgeAgentWidgetOpen';
-    // The chat is open by default on the CV page. First visit: open on desktop, but
-    // stay collapsed on a phone (an open panel would cover the whole CV). After that,
-    // always honor the visitor's last explicit choice.
+    // The chat is open by default on the CV page. First visit: open only where the
+    // two-column layout has room for it (lg+, with the content shift below); stay
+    // collapsed on phones and narrow tablets (an open panel would cover the CV).
+    // After that, always honor the visitor's last explicit choice.
+    const hasRoomForPanel = () => window.matchMedia('(min-width: 1024px)').matches;
     function shouldAutoOpen(): boolean {
       let s: string | null = null;
       try { s = localStorage.getItem(OPEN_KEY); } catch {}
       if (s === 'closed') return false;   // visitor closed it → keep it closed
       if (s === 'open') return true;       // visitor opened it → keep it open
-      return !isMobile();                  // first visit: desktop open, phone collapsed
+      return hasRoomForPanel();            // first visit: open only with room to spare
     }
-    function openPanel(opts: { focus?: boolean } = {}) {
+    function openPanel(opts: { focus?: boolean; persist?: boolean } = {}) {
       panel.hidden = false;
       panelOpen = true;
       applySizeState(sizeState); // restore persisted size/mode
       launcher.classList.add('aw-hidden');
       launcherLabel?.classList.add('aw-hidden');
       launcher.setAttribute('aria-expanded', 'true');
+      document.documentElement.classList.add('aw-panel-open');
+      // Shift the centered content left of the fixed panel (two-column layout only).
+      if (window.matchMedia('(min-width: 1024px)').matches) {
+        document.body.style.paddingRight = '26rem';
+      }
       if (!greeted) { addBubble('agent', t.greeting); greeted = true; }
       if (!cardFetched) { cardFetched = true; loadAgentCard(); }
-      try { localStorage.setItem(OPEN_KEY, 'open'); } catch {}
+      // Auto-open is not a visitor decision — only persist 'open' when the
+      // visitor opened the panel themselves (launcher, label, prompt buttons).
+      if (opts.persist !== false) {
+        try { localStorage.setItem(OPEN_KEY, 'open'); } catch {}
+      }
       // Auto-open (page load) must NOT steal focus or scroll the page to the widget;
       // manual open focuses the input so the visitor can type right away.
       if (opts.focus !== false) setTimeout(() => input.focus({ preventScroll: true }), 50);
@@ -2203,6 +2219,8 @@ const widgetStrings = {
     function closePanel() {
       panel.hidden = true;
       panelOpen = false;
+      document.documentElement.classList.remove('aw-panel-open');
+      document.body.style.paddingRight = '';
       try { localStorage.setItem(OPEN_KEY, 'closed'); } catch {}   // visitor's choice sticks
       if (cardShown) closeCard();   // next open starts on the chat view
       launcher.classList.remove('aw-hidden');
@@ -2236,7 +2254,8 @@ const widgetStrings = {
     });
 
     // Open by default (desktop, first visit; always honor the saved choice) —
-    // focus:false so a page load never scrolls to or steals focus for the widget.
-    if (shouldAutoOpen()) openPanel({ focus: false });
+    // focus:false so a page load never scrolls to or steals focus for the widget;
+    // persist:false so an auto-open is never stored as the visitor's choice.
+    if (shouldAutoOpen()) openPanel({ focus: false, persist: false });
   }
 </script>

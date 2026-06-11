@@ -106,8 +106,10 @@ const isTalk = (exp: { position: string; company?: string }) => {
 const jobs = experiences.list.filter(e => !isTalk(e));
 const talks = experiences.list.filter(isTalk);
 
-// Keep intro + tools section, remove verbose middle (Schwerpunkte bullet lists)
-function truncateDetails(details: string): string {
+// Keep intro + tools section, remove verbose middle (Schwerpunkte bullet lists).
+// Intro and tools are returned separately so the template can fold the tools
+// list into a native <details> element (keeps the timeline compact).
+function splitDetails(details: string): { intro: string; toolsTitle: string; tools: string } {
   const lines = details.split('\n');
   const introLines: string[] = [];
   const toolLines: string[] = [];
@@ -136,7 +138,7 @@ function truncateDetails(details: string): string {
     }
   }
 
-  // Combine intro (limited) + tools
+  // Intro (limited)
   let intro = introLines.join('\n').trim();
   const introWords = intro.split(/\s+/);
   if (introWords.length > 80) {
@@ -146,9 +148,12 @@ function truncateDetails(details: string): string {
     intro = lastStop > 40 ? clipped.slice(0, lastStop + 1) : clipped + '…';
   }
 
-  const tools = toolLines.join('\n').trim();
-  return tools ? intro + '\n\n' + tools : intro;
+  const toolsTitle = (toolLines[0] || '').replace(/\*\*/g, '').trim();
+  const tools = toolLines.slice(1).join('\n').trim();
+  return { intro, toolsTitle, tools };
 }
+
+const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expander
 ---
 
 <BaseLayout
@@ -189,7 +194,7 @@ function truncateDetails(details: string): string {
             </div>
           </div>
 
-          <p class="cv-proof-text mt-6 max-w-[42rem] text-[15px] leading-[1.75]">
+          <p class="cv-proof-text mt-6 max-w-[42rem] text-[15px] leading-[1.75] hidden sm:block">
             {agentProof.text}
           </p>
 
@@ -309,8 +314,8 @@ function truncateDetails(details: string): string {
             <p class="text-sm mb-6" style="color: var(--text-secondary)" set:html={formatMarkdown(projects.intro)} />
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {featuredProjects.map(project => (
-                <div class="cv-project-card rounded-xl overflow-hidden cursor-pointer group" id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
+              {featuredProjects.map((project, projectIndex) => (
+                <div class={`cv-project-card rounded-xl overflow-hidden cursor-pointer group${projectIndex >= INITIAL_PROJECTS ? ' cv-project-extra hidden' : ''}`} id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
                   {project.screenshot && (
                     <div class="h-40 overflow-hidden relative">
                       <img src={`/images/${project.screenshot}`} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
@@ -350,6 +355,14 @@ function truncateDetails(details: string): string {
               ))}
             </div>
 
+            {featuredProjects.length > INITIAL_PROJECTS && (
+              <div class="mt-6 text-center" id="cv-projects-toggle-wrap">
+                <button type="button" id="cv-projects-toggle" class="cv-secondary-cta px-5 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer">
+                  {t.showAllProjects.replace('{n}', String(featuredProjects.length - INITIAL_PROJECTS))}
+                </button>
+              </div>
+            )}
+
             {otherProjects.length > 0 && (
               <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {otherProjects.map(project => (
@@ -384,7 +397,20 @@ function truncateDetails(details: string): string {
                       </div>
                       <span class="cv-date-pill text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start">{exp.dates}</span>
                     </div>
-                    <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(truncateDetails(exp.details))} />
+                    {(() => {
+                      const d = splitDetails(exp.details);
+                      return (
+                        <>
+                          <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(d.intro)} />
+                          {d.tools && (
+                            <details class="cv-tools-details mt-2">
+                              <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{d.toolsTitle}</summary>
+                              <div class="mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(d.tools)} />
+                            </details>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               ))}
@@ -504,6 +530,21 @@ function truncateDetails(details: string): string {
         window.dispatchEvent(new CustomEvent('bridge-agent:prompt', { detail: { text } }));
       });
     });
+
+    // Projects expander: reveal the featured cards beyond the initial set.
+    function revealAllProjects() {
+      document.querySelectorAll('.cv-project-extra').forEach((el) => el.classList.remove('hidden'));
+      document.getElementById('cv-projects-toggle-wrap')?.classList.add('hidden');
+    }
+    document.getElementById('cv-projects-toggle')?.addEventListener('click', revealAllProjects);
+    // Deep links (#project-…/#exp-…) must never point at a hidden card.
+    if (location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target && target.closest('.cv-project-extra')) {
+        revealAllProjects();
+        target.scrollIntoView();
+      }
+    }
   </script>
 </BaseLayout>
 

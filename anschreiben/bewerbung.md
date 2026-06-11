@@ -9,7 +9,7 @@ Sehr geehrte xxxx
 
 hiermit möchte ich mich initiativ als Freelance-Experte für Quality Engineering und KI-Automatisierung bei Ihnen vorstellen.
 
-Mein Name ist Michael Boiman und ich bringe eine einzigartige Kombination aus über 20 Jahren Erfahrung in der Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung mit. In meiner Laufbahn habe ich für namhafte Unternehmen wie Deutsche Bahn, DVAG, Siemens und Telekom gearbeitet und dabei komplexe Herausforderungen in messbare Erfolge transformiert.
+Mein Name ist Michael Boiman und ich bringe eine Kombination aus über 20 Jahren Erfahrung in der Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung mit — beide Stränge laufen bei mir parallel weiter. In meiner Laufbahn habe ich für Unternehmen wie Deutsche Bahn, DVAG, Siemens und Telekom an Quality-Monitoring, Testautomatisierung und abgesicherten Migrationen mitgewirkt.
 
 ## Meine Kernkompetenzen umfassen
 
@@ -21,31 +21,27 @@ Mein Name ist Michael Boiman und ich bringe eine einzigartige Kombination aus ü
 - Performance Testing und komplexe Analysen mit Tools wie Instana, JMeter, Gatling
 - Proaktive Incident-Analyse und Root-Cause-Ermittlung durch tiefgreifende Monitoring-Expertise
 
-### 🚀 KI-Automatisierung mit nachweisbarem ROI
+### 🚀 KI-Automatisierung in Produktion
 
-- Enterprise LLM-Integration (GPT-4, Claude, Gemini) mit Production-Grade Security
-- Implementierung von Next-Gen AI Protocols (MCP, A2A) für Multi-Agent-Orchestrierung
-- Dokumentenverarbeitung mit 95% Genauigkeit und EU-Standard-Compliance
+- Enterprise LLM-Integration (Claude, Gemini, GPT) mit Production-Grade Security — Claude Code als Primär-Stack
+- Implementierung von MCP- und A2A-Protokollen für Multi-Agent-Orchestrierung
+- Dokumentenverarbeitung nach EU-Standard (Peppol, EN 16931, XRechnung/ZUGFeRD)
 
 ### ⚡ Meine Spezialität - Dashboard-Visualisierung
 
-Eine besondere Stärke von mir ist die Fähigkeit, komplexe Herausforderungen und Probleme durch aussagekräftige Dashboards zu visualisieren. Mit Tools wie Grafana, Kibana und Elasticsearch schaffe ich Transparenz und ermögliche datengetriebene Entscheidungen in Echtzeit. Diese Visualisierungen haben bei meinen Kunden zu:
+Eine besondere Stärke von mir ist die Fähigkeit, komplexe Herausforderungen und Probleme durch aussagekräftige Dashboards zu visualisieren. Mit Tools wie Grafana, Kibana und Elasticsearch schaffe ich Transparenz und eine gemeinsame Datenbasis für alle Stakeholder — fachliche und technische Logs in einer Sicht.
 
-- 80% weniger Rückfragen geführt
-- Go/No-Go-Entscheidungen in Minuten statt Stunden ermöglicht
-- Einer Single Source of Truth für alle Stakeholder geschaffen
+## Beispiele aus meinen Projekten
 
-## Konkrete Erfolgsbeispiele aus meinen Projekten
-
-- **80% Aufwandsreduktion** bei der Automatisierung von Rechnungsverarbeitung mit messbaren Kosteneinsparungen
-- **Bearbeitungszeiten von Stunden auf Sekunden** reduziert durch intelligente Workflow-Automatisierung
-- **Qualitätskennzahl von 30% auf 96%** erhöht bei einer Legacy-Migration durch 24/7 Dual-Run Validation
+- **E-Invoicing-Plattform im Live-Betrieb**: Peppol-Anbindung einer führenden Online-Jobplattform — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting
+- **24/7 Dual-Run-Validation** einer Mainframe-Preiskalkulation mit Millionen Kombinationsmöglichkeiten bei einer Legacy-Migration
+- **Multi-Agent-Ökosystem**: Orchestrierungs-Hub über 20+ Repositories mit MCP-Servern, A2A-Agenten und 40+ Claude-Code-Skills
 
 ## Als Freelancer biete ich Ihnen flexible Unterstützung bei
 
 - Aufbau von Quality Engineering Frameworks und KI-gestützter Testautomatisierung
 - Entwicklung von Real-Time Dashboards für vollständige Prozesstransparenz
-- Implementierung von KI-Lösungen mit nachweisbarem Business Impact
+- Implementierung von KI-Lösungen in Produktionsqualität
 - Workshops und Schulungen für Ihre Teams
 
 Als Allrounder scheue ich keine Herausforderung und blicke stets über den Tellerrand hinaus. Ich setze mich mit voller Leidenschaft für jedes Projekt ein und finde kreative Lösungen auch für komplexe Problemstellungen. Gerne stelle ich Ihnen meine Expertise zur Verfügung und zeige Ihnen in einem persönlichen Gespräch, wie ich auch Ihre Herausforderungen in messbare Erfolge transformieren kann.

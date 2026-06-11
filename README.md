@@ -1,6 +1,6 @@
 # CV Generation System
 
-This repository contains a Hugo-based multilingual CV generation system that creates both web pages and professional PDFs from TOML configuration files.
+This repository contains an Astro-based multilingual CV generation system that creates both web pages and professional PDFs from TOML configuration files.
 
 ## Quick Start
 
@@ -10,36 +10,49 @@ This repository contains a Hugo-based multilingual CV generation system that cre
 # 1. Install dependencies
 npm ci
 
-# 2. Generate PDFs (MUST be done before building the site)
-./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de
-./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en
+# 2. Generate PDFs (the site links to them under public/pdfs/)
+./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
+./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
 
 # 3. Build the website
-hugo --minify --config config.cv.toml
+npm run build
 
 # 4. Start development server
-hugo server --config config.cv.toml
+npm run dev
 ```
 
 **Then open:**
-- German CV: http://localhost:1313/de/
-- English CV: http://localhost:1313/en/
+- German CV: http://localhost:4321/de/
+- English CV: http://localhost:4321/en/
 
 ## Important: PDF Generation Order
 
-⚠️ **PDFs must be generated BEFORE building the Hugo site**, as the website includes download links that reference these PDF files in `static/pdfs/`.
+⚠️ **PDFs must be generated BEFORE building the site**, as the website includes download links that reference these PDF files in `public/pdfs/`.
 
 ## Architecture
 
 ### Configuration System
-- **Base Configuration**: `config.cv.toml` - Main Hugo configuration with multilingual support
+- **CV Content**: `config.cv.toml` — all CV data (profile, experience, projects, skills) with multilingual support, parsed by `src/lib/toml-loader.ts`
+- **UI Strings**: `src/lib/i18n.ts` — localized interface strings (DE/EN)
 - **Custom Configurations**: Can be created for specific CV variants
-- **Languages**: German (`de`) and English (`en`) supported
+- **Languages**: German (`de`) and English (`en`), routed under `/de/` and `/en/` (Astro i18n, `prefixDefaultLocale: true`)
+
+### Site Structure
+```
+src/
+├── components/     # Astro components (CVPage, AgentWidget, StoryPage, DarkModeToggle)
+├── layouts/        # Page layouts
+├── lib/            # toml-loader, i18n, markdown helpers
+└── pages/
+    ├── de/         # German routes (index, story, datenschutz, impressum)
+    └── en/         # English routes
+public/             # Static assets (fonts, images, generated PDFs)
+```
 
 ### Build Process
-1. **PDF Generation**: `scripts/html_to_pdf.js` uses Puppeteer to generate PDFs directly from TOML config
-2. **Website Build**: Hugo processes content and templates to create multilingual website
-3. **Static Assets**: PDFs are placed in `static/pdfs/` and served as downloadable assets
+1. **PDF Generation**: `scripts/html_to_pdf.js` uses Puppeteer to generate PDFs directly from the TOML config (own print template, independent of the web view)
+2. **Website Build**: `astro build` renders the static multilingual site
+3. **Static Assets**: PDFs live in `public/pdfs/` and are served as downloadable assets
 
 ## PDF Generation
 
@@ -59,54 +72,40 @@ hugo server --config config.cv.toml
 - Professional A4 layout optimized for printing
 - Compressed images for smaller file sizes
 - Multilingual support (German/English)
-- Direct generation from TOML configuration (no HTML intermediate step)
+- Direct generation from TOML configuration (no dependency on the built site)
 
 ## Development Commands
 
 ```bash
-# Full pipeline (like GitHub Actions)
-npm ci
-./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de
-./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en
-hugo --minify --config config.cv.toml
-hugo server --config config.cv.toml
+npm ci              # install dependencies
+npm run dev         # Astro dev server (http://localhost:4321)
+npm run build       # production build to dist/
+npm run preview     # preview the production build
 
 # Quick PDF generation for testing
 ./scripts/generate_cv.sh config.cv.toml test_output.pdf de
-
-# Build production site
-hugo --minify --config config.cv.toml
 ```
 
-## Content Structure
+## Live AI Agent
 
-```
-content/
-├── de/          # German language content
-│   ├── education/
-│   ├── experience/
-│   ├── projects/
-│   ├── skills/
-│   └── summary/
-└── en/          # English language content
-    ├── education/
-    ├── experience/
-    ├── projects/
-    ├── skills/
-    └── summary/
-```
+The CV page embeds a chat widget (`src/components/AgentWidget.astro`) that talks
+to a self-hosted A2A agent (JSON-RPC + SSE). The agent answers questions about
+experience and stack, reads availability as free/busy, and takes meeting
+requests that are only answered after personal approval.
 
 ## Deployment
 
-The GitHub Actions workflow automatically:
+The GitHub Actions workflow (`.github/workflows/gh-pages.yml`) automatically:
 1. Installs dependencies (`npm ci`)
 2. Generates PDFs in correct order
-3. Builds the Hugo site
+3. Builds the Astro site
 4. Deploys to GitHub Pages
 
-## 🚀 NEW: Application Generation System
+A manual preview workflow exists for feature branches (`preview-deploy.yml`).
 
-Generate professional applications with tailored cover letters that map your CV qualifications directly to job requirements!
+## Application Generation System
+
+Generate professional applications with tailored cover letters that map CV qualifications directly to job requirements.
 
 ### Quick Application Generation
 
@@ -120,11 +119,9 @@ Generate professional applications with tailored cover letters that map your CV 
 
 ### Application System Features
 
-- **🎯 Requirement Mapping**: Cover letter shows exactly where in CV each qualification is found
-- **📄 Professional Layout**: Consistent design between cover letter and CV  
-- **🤖 AI-Assisted**: Claude Command guides through the entire process
-- **⚡ Fast Generation**: Complete application in minutes instead of hours
-- **📈 Higher Success Rate**: Direct requirement mapping increases relevance
+- **Requirement Mapping**: Cover letter shows exactly where in the CV each qualification is found
+- **Professional Layout**: Consistent design between cover letter and CV
+- **AI-Assisted**: Claude Command guides through the entire process
 
 ### Application Workflow
 
@@ -138,30 +135,15 @@ Generate professional applications with tailored cover letters that map your CV 
 The generated cover letter includes:
 - **Header**: Same design as CV for consistency
 - **Company-specific introduction**
-- **🎯 Requirement Mapping Section**: 
+- **Requirement Mapping Section**:
   - "You need: [Requirement]"
-  - "I offer: [Your qualification]" 
+  - "I offer: [Your qualification]"
   - "See CV: [Page reference]"
 - **Professional closing**
 
-### Example Usage
-
-```bash
-# 1. Use interactive command
-/bewerbung
-
-# 2. Or generate directly with prepared data
-./scripts/generate_application.sh config.cv.toml "Bewerbung_TechCorp.pdf" de cover_letter_data.json
-```
-
-The result is a professional PDF with your cover letter as page 1 and complete CV following.
-
----
-
-## Standard CV Generation
+The result is a professional PDF with the cover letter as page 1 and the complete CV following.
 
 ## Requirements
 
-- Hugo (static site generator)
-- Node.js and npm (for PDF generation via Puppeteer)
+- Node.js and npm (Astro build + PDF generation via Puppeteer)
 - Dependencies are auto-installed via `npm ci`
