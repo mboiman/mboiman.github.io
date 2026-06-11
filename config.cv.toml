@@ -1347,7 +1347,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Hands-on AI-Agent Development:** Live-Coding mit Claude, Gemini, GPT-4o
 • **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
 • **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
-• **IDE-Integration:** AI-Assistenz in VS Code, Cursor, GitHub Copilot Workflows
+• **IDE-Integration:** AI-Assistenz-Workflows — Claude Code als Primär-Stack, GitHub Copilot & VS Code im Tool-Vergleich
 • **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
 • **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
 
@@ -1616,7 +1616,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Hands-on AI Agent Development:** Live coding with Claude, Gemini, GPT-4o
 • **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
 • **Browser Automation:** Playwright-MCP for automated test generation
-• **IDE Integration:** AI assistance in VS Code, Cursor, GitHub Copilot workflows
+• **IDE Integration:** AI assistance workflows — Claude Code as primary stack, GitHub Copilot & VS Code as tool comparison
 • **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
 • **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
 
