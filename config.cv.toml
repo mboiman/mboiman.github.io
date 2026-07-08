@@ -354,8 +354,11 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
-**Schwerpunkte** 
+**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
+
+**Ergebnis:** Echtzeit-Transparenz über die Sprint-Qualität durch Grafana-Dashboards, über QualityGates abgesicherte Releases in den CI/CD-Pipelines der Teams — datenbasierte Freigabe-Entscheidungen statt manueller Datensammlung.
+
+**Schwerpunkte**
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
 - Aufbau und Konzeption einer CI/CD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
@@ -985,6 +988,9 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         company = "DVAG"
         details = """
 **Test management & coordination**, as well as introduction of CI/CD with quality-gate setup. Acting as cross-team Quality Lead: onboarding, guidance, consulting and training for the introduction of quality metrics and test automation within the pipeline across teams.
+
+**Result:** Real-time sprint-quality transparency via Grafana dashboards, quality-gated releases in the teams' CI/CD pipelines — data-driven release decisions replacing manual data gathering.
+
 **Key responsibilities**
 - Design and implementation of functional and technical dashboards with Grafana for real-time quality measurement
 - Documentation of quality metrics covering the measurable sprint progress
