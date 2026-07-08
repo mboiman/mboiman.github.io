@@ -192,8 +192,8 @@ const widgetStrings = {
   }
 
   /* darker overlay alpha in dark mode (DESIGN.md: soften/strengthen per theme) */
-  :global(html.dark) #agent-widget-root,
-  :global(.dark) #agent-widget-root {
+  html.dark #agent-widget-root,
+  .dark #agent-widget-root {
     --aw-elev-panel: 0 16px 48px -8px rgba(0,0,0,0.55), 0 4px 12px -4px rgba(0,0,0,0.35);
     --aw-elev-launcher: 0 8px 24px -6px rgba(0,0,0,0.6), 0 2px 6px -2px rgba(0,0,0,0.4);
   }
