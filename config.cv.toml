@@ -124,19 +124,19 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/mboiman"
+        url = "https://github.com/mboiman"
         title = "Persönliches GitHub"
 
         [[languages.de.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "https://github.com/bks-lab"
         title = "BKS-Lab Organisation"
 
         [[languages.de.params.contact.list]]
         class = "twitter"
         icon = "fa-twitter"
-        url = "//twitter.com/mboiman"
+        url = "https://twitter.com/mboiman"
         title = "@mboiman"
 
       [languages.de.params.education]
@@ -384,7 +384,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
+**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
 **Schwerpunkte** 
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
@@ -448,7 +448,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 - 04/2024"
+        dates = "04/2023 – 04/2024"
         company = "BKS im Auftrag für Ryze"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
@@ -508,7 +508,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 - 05/2021"
+        dates = "01/2017 – 05/2021"
         company = "DB Vertrieb"
         details = """
 **Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
@@ -543,10 +543,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 - 01/2017"
+        dates = "09/2015 – 01/2017"
         company = "DB Systel"
         details = """
-**Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
+**Last und Performance Tests und Analyse – Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
 - Anforderungs-Management 
 - Status Reports 
@@ -568,7 +568,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 - 09/2015"
+        dates = "04/2015 – 09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
@@ -589,10 +589,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 - 03/2015"
+        dates = "05/2009 – 03/2015"
         company = "Siemens"
         details = """
-**QS, Testmanagement , Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
+**QS, Testmanagement, Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
 **Projekte** 
 - SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
 - STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
@@ -622,7 +622,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 - 05/2009"
+        dates = "03/2009 – 05/2009"
         company = "ING-DIBA"
         details = """
 **Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
@@ -638,7 +638,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 - 12/2008"
+        dates = "01/2006 – 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
@@ -754,19 +754,19 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/mboiman"
+        url = "https://github.com/mboiman"
         title = "Personal GitHub"
 
         [[languages.en.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "https://github.com/bks-lab"
         title = "BKS-Lab Organization"
 
         [[languages.en.params.contact.list]]
         class = "twitter"
         icon = "fa-twitter"
-        url = "//twitter.com/mboiman"
+        url = "https://twitter.com/mboiman"
         title = "@mboiman"
 
       [languages.en.params.education]
@@ -1077,7 +1077,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 - 04/2024"
+        dates = "04/2023 – 04/2024"
         company = "BKS on behalf of Ryze"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation."
@@ -1137,7 +1137,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 - 05/2021"
+        dates = "01/2017 – 05/2021"
         company = "DB Vertrieb"
         details = """
 **Test management, test coordination, test automation – agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
@@ -1172,7 +1172,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 - 01/2017"
+        dates = "09/2015 – 01/2017"
         company = "DB Systel"
         details = """
 **Load and performance tests and analysis – test manager, test designer, analyst**: Development, execution and analysis of load and performance tests
@@ -1197,7 +1197,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 - 09/2015"
+        dates = "04/2015 – 09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
@@ -1218,7 +1218,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 - 03/2015"
+        dates = "05/2009 – 03/2015"
         company = "Siemens"
         details = """
 **QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
@@ -1251,7 +1251,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 - 05/2009"
+        dates = "03/2009 – 05/2009"
         company = "ING-DIBA"
         details = """
 **Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of approx. 20 J2EE applications in a banking portal
@@ -1267,7 +1267,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 - 12/2008"
+        dates = "01/2006 – 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Load and performance tester / tester**: Various projects, predominantly load & performance tests

@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
-const { pathToFileURL } = require('url');
 const toml = require('toml');
 const sharp = require('sharp');
 const { formatMarkdownToHTML, formatTextToParagraphs } = require('./lib/markdown-utils');
@@ -262,7 +261,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
   }).join('');
 
   const fontDir = path.join(__dirname, '..', 'public', 'fonts', 'ibm-plex-sans');
-  const fontUrl = (file) => pathToFileURL(path.join(fontDir, file)).href;
+  const fontUrl = (file) => `data:font/woff2;base64,${fs.readFileSync(path.join(fontDir, file)).toString('base64')}`;
   const fontFaceCss = `
         @font-face {
             font-family: "IBM Plex Sans";
@@ -342,7 +341,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <div class="experience-item page-break-avoid">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
-          <div class="experience-dates">${exp.dates}</div>
+          <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
         <div class="experience-details">
@@ -359,7 +358,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <div class="experience-item experience-medium page-break-avoid">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
-          <div class="experience-dates">${exp.dates}</div>
+          <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
         <div class="experience-details">
@@ -374,7 +373,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <table class="compact-table">
         ${compactExperiences.map(exp => `
           <tr class="compact-row">
-            <td class="compact-dates">${exp.dates}</td>
+            <td class="compact-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</td>
             <td class="compact-role"><strong>${exp.position}</strong> — ${exp.company}</td>
             <td class="compact-summary">${extractFirstSentence(exp.details)}</td>
           </tr>
