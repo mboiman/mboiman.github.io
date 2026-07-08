@@ -765,7 +765,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
         .experience-details li { margin-bottom: 2px; line-height: 1.45; }
         .experience-details strong { font-weight: 600; color: var(--accent-deep); }
-        .experience-details ul:last-of-type { columns: 2; column-gap: 14px; }
+        .experience-details ul:last-of-type { columns: 2; column-gap: 14px; break-inside: avoid-page; }
+        /* Keep sub-headings (bold-only <p> before a list) attached to their list —
+           prevents a lone widow bullet landing on the next page (EN p.4 case). */
+        .experience-details p:has(+ ul) { page-break-after: avoid; break-after: avoid; }
 
         /* Medium tier: slightly less padding */
         .experience-medium {
