@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-const { formatMarkdownToHTML, formatTextToParagraphs } = require('./lib/markdown-utils');
+const { formatTextToParagraphs } = require('./lib/markdown-utils');
 
 // Impact metrics — shown as compact bar under career profile
 const IMPACT_METRICS = {
@@ -69,22 +69,25 @@ function renderContactIcon(item) {
 }
 
 /**
- * Determine experience tier based on start date.
- * Tier 1 (full): 2023+, Tier 2 (medium): 2017-2022, Tier 3 (compact): pre-2017
+ * Determine experience tier based on start date, unless the experience
+ * declares an explicit pdf_tier override.
+ * Tier 1 (full): 2024+, Tier 2 (medium): 2017-2023, Tier 3 (compact): pre-2017
  */
-function getExperienceTier(dates) {
+function getExperienceTier(exp) {
+  if (exp.pdf_tier) return exp.pdf_tier;
+  const dates = exp.dates;
   // Match "06/2025", "08/2021 – 05/2025", or "2023"
   const slashMatch = dates.match(/(\d{2})\/(\d{4})/);
   if (slashMatch) {
     const year = parseInt(slashMatch[2]);
-    if (year >= 2023) return 'full';
+    if (year >= 2024) return 'full';
     if (year >= 2017) return 'medium';
     return 'compact';
   }
   const yearMatch = dates.match(/(\d{4})/);
   if (yearMatch) {
     const year = parseInt(yearMatch[1]);
-    if (year >= 2023) return 'full';
+    if (year >= 2024) return 'full';
     if (year >= 2017) return 'medium';
     return 'compact';
   }
@@ -217,13 +220,52 @@ function isWorkshopOrPresentation(exp) {
 }
 
 /**
- * Limit text to approximately maxWords words
+ * Truncate a project description to approximately maxWords words, without ever
+ * cutting mid-sentence. Splits into lines, then into sentences within each line,
+ * and stops as soon as adding the next sentence would exceed the budget — but
+ * always keeps at least one full sentence. Strips a dangling unpaired ** marker
+ * and appends an ellipsis when content was actually cut.
  */
-function limitWords(text, maxWords) {
+function truncateProjectDescription(text, maxWords = 70) {
   if (!text) return '';
-  const words = text.split(/\s+/);
-  if (words.length <= maxWords) return text;
-  return words.slice(0, maxWords).join(' ') + '...';
+  const lines = text.split('\n');
+  const outputLines = [];
+  let wordCount = 0;
+  let truncated = false;
+
+  outer:
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) {
+      outputLines.push(line);
+      continue;
+    }
+    // Split into sentences so a cut can never land mid-sentence.
+    const sentences = trimmedLine.match(/[^.!?]+[.!?]*(\s|$)/g) || [trimmedLine];
+    let lineOut = '';
+    for (const sentence of sentences) {
+      const sentenceWords = sentence.trim().split(/\s+/).filter(Boolean).length;
+      if (wordCount > 0 && wordCount + sentenceWords > maxWords) {
+        truncated = true;
+        break outer;
+      }
+      lineOut += sentence;
+      wordCount += sentenceWords;
+    }
+    outputLines.push(lineOut.trimEnd());
+  }
+
+  let result = outputLines.join('\n').trim();
+
+  if (truncated) {
+    const starCount = (result.match(/\*\*/g) || []).length;
+    if (starCount % 2 !== 0) {
+      result = result.replace(/\*\*([^*]*)$/, '$1').trimEnd();
+    }
+    result = result.replace(/[\s.,;:–—-]+$/, '') + '…';
+  }
+
+  return result;
 }
 
 /**
@@ -300,16 +342,25 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             font-style: normal;
         }`;
 
-  // Generate impact metrics
+  // Generate impact metrics — sourced from TOML (langConfig.ui.impact_metrics),
+  // falling back to the IMPACT_METRICS constant when the field is absent.
   const lang = targetLang || 'de';
-  const metrics = IMPACT_METRICS[lang] || IMPACT_METRICS.de;
-  const impactMetricsHtml = metrics.map(m => `
+  const metrics = (langConfig.ui.impact_metrics && langConfig.ui.impact_metrics.length > 0)
+    ? langConfig.ui.impact_metrics
+    : (IMPACT_METRICS[lang] || IMPACT_METRICS.de);
+  const impactMetricsHtml = metrics.map(m => {
+    const isLong = (m.metric || '').replace(/\s+/g, '').length > 10;
+    const detailContent = m.url
+      ? `<a href="${m.url}" class="impact-link">${m.detail}</a>`
+      : m.detail;
+    return `
     <div class="impact-metric">
-      <div class="impact-number">${m.metric}</div>
+      <div class="impact-number${isLong ? ' impact-number-long' : ''}">${m.metric}</div>
       <div class="impact-label">${m.label}</div>
-      <div class="impact-detail">${m.detail}</div>
+      <div class="impact-detail">${detailContent}</div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   // Generate specialization bar
   const specs = SPECIALIZATIONS[lang] || SPECIALIZATIONS.de;
@@ -327,18 +378,18 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       workshopExperiences.push(exp);
       return;
     }
-    const tier = getExperienceTier(exp.dates);
+    const tier = getExperienceTier(exp);
     if (tier === 'full') fullExperiences.push(exp);
     else if (tier === 'medium') mediumExperiences.push(exp);
     else compactExperiences.push(exp);
   });
 
   const fullExpHtml = fullExperiences.map(exp => {
-    // Full tier: intro + first 5 bullets of Schwerpunkte + tools
-    const truncatedDetails = truncateToFull(exp.details || '', 5);
+    // Full tier: intro + first 4 bullets of Schwerpunkte + tools
+    const truncatedDetails = truncateToFull(exp.details || '', 4);
     const formattedDetails = formatTextToParagraphs(truncatedDetails);
     return `
-      <div class="experience-item page-break-avoid">
+      <div class="experience-item">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
           <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
@@ -355,7 +406,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     const truncated = truncateToMedium(exp.details || '');
     const formattedDetails = formatTextToParagraphs(truncated);
     return `
-      <div class="experience-item experience-medium page-break-avoid">
+      <div class="experience-item experience-medium">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
           <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
@@ -382,63 +433,33 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     </div>
   ` : '';
 
-  // Generate project items — top 8 by impact priority
+  // Generate project items — top 4 by impact priority. Screenshots are not
+  // rendered in the PDF (result-first text cards instead); sharp stays in use
+  // for the profile photo below.
   const featuredProjects = langConfig.projects.list.filter(p => p.featured && isTopProject(p.title));
-  const sortedProjects = sortByPriority(featuredProjects).slice(0, 6);
+  const sortedProjects = sortByPriority(featuredProjects).slice(0, 4);
 
-  const projectItems = await Promise.all(sortedProjects.map(async project => {
+  const projectItemsHtml = sortedProjects.map(project => {
     const techTags = project.tech_stack ? project.tech_stack.slice(0, 5).map(tech =>
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
 
-    // Check if project has screenshot and try to load it
-    let screenshotBase64 = '';
-    let hasScreenshot = false;
+    // tagline_pdf carries a curated intro + Problem/Lösung/Ergebnis bullets and
+    // is used verbatim (no truncation); otherwise fall back to a sentence-safe
+    // truncation of the web tagline.
+    const descriptionSource = project.tagline_pdf
+      ? project.tagline_pdf.trim()
+      : truncateProjectDescription(project.tagline, 70);
+    const formattedTagline = formatTextToParagraphs(descriptionSource);
 
-    if (project.screenshot) {
-      const screenshotPath = path.join(__dirname, '..', 'assets', 'images', project.screenshot);
-      try {
-        const compressedImage = await sharp(screenshotPath)
-          .resize(170, 120, { fit: 'cover', position: 'center' })
-          .jpeg({ quality: 80 })
-          .toBuffer();
-
-        screenshotBase64 = `data:image/jpeg;base64,${compressedImage.toString('base64')}`;
-        hasScreenshot = true;
-
-        const originalSize = fs.statSync(screenshotPath).size;
-        const compressedSize = compressedImage.length;
-        const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
-        console.log(`✅ Screenshot komprimiert für ${project.title}: ${(originalSize/1024/1024).toFixed(2)}MB → ${(compressedSize/1024).toFixed(1)}KB (-${reduction}%)`);
-      } catch (error) {
-        console.log(`⚠️  Could not load screenshot for ${project.title}: ${error.message}`);
-      }
-    }
-
-    const formattedTagline = formatMarkdownToHTML(limitWords(project.tagline, 60));
-
-    if (hasScreenshot) {
-      return `
-        <div class="project-item with-screenshot page-break-avoid">
-          <div class="project-content">
-            <div class="project-title">${project.title}</div>
-            <div class="project-tech">${techTags}</div>
-            <div class="project-description">${formattedTagline}</div>
-          </div>
-          <img src="${screenshotBase64}" alt="${project.title}" class="project-screenshot">
-        </div>
-      `;
-    } else {
-      return `
-        <div class="project-item page-break-avoid">
+    return `
+        <div class="project-item">
           <div class="project-title">${project.title}</div>
           <div class="project-tech">${techTags}</div>
           <div class="project-description">${formattedTagline}</div>
         </div>
       `;
-    }
-  }));
-  const projectItemsHtml = projectItems.join('');
+  }).join('');
 
   // Generate education items
   const educationItems = langConfig.education.list.map(edu => `
@@ -479,7 +500,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${langConfig.profile.name} - Professional CV</title>
+    <title>${langConfig.profile.name} – ${targetLang === 'de' ? 'Lebenslauf' : 'CV'}</title>
 
     <style>
         ${fontFaceCss}
@@ -490,23 +511,20 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             --accent: #2563EB;
             --accent-deep: #1D4ED8;
             --text: #17212B;
-            --muted: #64748B;
+            --muted: #475569;
             --surface: #FFFFFF;
             --surface-soft: #F5F9FF;
-            --line: #DCE7F5;
+            --line: #C4D4EA;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @page {
-            size: A4 portrait;
-            margin: 12mm 10mm 12mm 10mm;
-        }
+        /* Ränder: page.pdf margin gewinnt, preferCSSPageSize:false */
 
         body {
             font-family: var(--font-body);
-            font-size: 7.5pt;
-            line-height: 1.35;
+            font-size: 9pt;
+            line-height: 1.45;
             color: var(--text);
             background: white;
             -webkit-font-smoothing: antialiased;
@@ -535,22 +553,38 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .header-content h1 {
             font-family: var(--font-display);
-            font-size: 20pt; font-weight: 300; color: var(--text); margin-bottom: 3px;
+            font-size: 22pt; font-weight: 300; color: var(--text); margin-bottom: 3px;
             letter-spacing: -0.035em;
         }
 
         .header-tagline {
-            font-size: 9pt; color: var(--muted); font-weight: 450; margin-bottom: 4px;
+            font-size: 10pt; color: var(--muted); font-weight: 450; margin-bottom: 4px;
         }
 
         .header-meta {
             font-size: 7.5pt; color: var(--text); font-weight: 500; margin-bottom: 8px;
+            display: flex; align-items: center; flex-wrap: wrap;
         }
-        .header-meta .sep { color: #94A3B8; font-weight: 400; padding: 0 4px; }
+
+        .availability-pill {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(22, 163, 74, 0.08);
+            border-radius: 999px;
+            padding: 2px 8px;
+            margin-left: 8px;
+            color: #15803D;
+            font-weight: 600;
+        }
+        .availability-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #16A34A;
+            flex: 0 0 auto;
+            display: inline-block;
+        }
 
         .contact-grid {
             display: grid; grid-template-columns: 1fr 1fr;
-            gap: 4px 20px; font-size: 7pt;
+            gap: 4px 20px; font-size: 7.5pt;
         }
 
         .contact-item {
@@ -591,17 +625,24 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .impact-number {
             font-family: var(--font-display);
-            font-size: 14pt; font-weight: 300; color: var(--accent);
-            line-height: 1.1;
+            font-size: 12.5pt; font-weight: 300; color: var(--accent);
+            line-height: 1.15;
+        }
+
+        .impact-number.impact-number-long {
+            font-size: 11.5pt;
+            line-height: 1.2;
         }
 
         .impact-label {
-            font-size: 7pt; font-weight: 600; color: #334155; margin-top: 2px;
+            font-size: 7.5pt; font-weight: 600; color: #334155; margin-top: 2px;
         }
 
         .impact-detail {
-            font-size: 6pt; color: #64748B;
+            font-size: 7pt; color: #475569;
         }
+
+        .impact-link { color: inherit; text-decoration: none; }
 
         /* === SPECIALIZATION BAR === */
         .spec-bar {
@@ -636,11 +677,21 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         /* === SECTION TITLES === */
         .cv-section h2 {
             font-family: var(--font-display);
-            font-size: 11pt; font-weight: 300; color: var(--text);
+            font-size: 9.5pt; font-weight: 600; color: var(--text);
             margin: 12px 0 10px 0; padding-bottom: 4px;
             border-bottom: 1px solid var(--line);
-            letter-spacing: -0.025em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
             page-break-after: avoid;
+            position: relative;
+        }
+
+        .cv-section h2::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -1px;
+            width: 56px; height: 2.5px;
+            background: linear-gradient(90deg, #2563EB, transparent);
         }
 
         .cv-full-width {
@@ -662,11 +713,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .career-profile p {
-            font-size: 7pt; line-height: 1.4; margin-bottom: 6px;
+            font-size: 8.5pt; line-height: 1.4; margin-bottom: 6px;
         }
 
         .career-profile ul {
-            margin: 4px 0 6px 12px; padding: 0; font-size: 7pt;
+            margin: 4px 0 6px 12px; padding: 0; font-size: 8.5pt;
         }
 
         .career-profile li {
@@ -681,37 +732,40 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             background: var(--surface);
             border-radius: 8px;
             border: 1px solid var(--line);
-            page-break-inside: avoid;
         }
 
         .experience-header {
             display: grid; grid-template-columns: 1fr auto;
             align-items: baseline; margin-bottom: 4px;
+            page-break-after: avoid;
         }
 
         .experience-title {
-            font-size: 8.5pt; font-weight: 600; color: var(--accent-deep);
+            font-size: 10pt; font-weight: 600; color: var(--accent-deep);
         }
 
         .experience-dates {
-            font-size: 7pt; color: #64748B;
+            font-size: 7.5pt; color: #475569;
             background: rgba(37,99,235,0.08);
             padding: 1px 6px; border-radius: 4px;
             font-weight: 500;
         }
 
         .experience-company {
-            font-size: 7.5pt; font-weight: 600; color: #334155; margin-bottom: 5px;
+            font-size: 8.5pt; font-weight: 600; color: #334155; margin-bottom: 5px;
+            page-break-after: avoid;
         }
 
         .experience-details {
-            font-size: 6.5pt; line-height: 1.35; color: #334155;
+            font-size: 8pt; line-height: 1.5; color: #334155;
+            orphans: 3; widows: 3;
         }
 
         .experience-details p { margin-bottom: 4px; }
         .experience-details ul { margin: 4px 0 4px 12px; padding: 0; }
-        .experience-details li { margin-bottom: 2px; line-height: 1.3; }
+        .experience-details li { margin-bottom: 2px; line-height: 1.45; }
         .experience-details strong { font-weight: 600; color: var(--accent-deep); }
+        .experience-details ul:last-of-type { columns: 2; column-gap: 14px; }
 
         /* Medium tier: slightly less padding */
         .experience-medium {
@@ -727,7 +781,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .compact-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 6.5pt;
+            font-size: 7.5pt;
         }
 
         .compact-row td {
@@ -738,9 +792,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .compact-dates {
             width: 85px;
-            color: #64748B;
+            color: #475569;
             white-space: nowrap;
-            font-size: 6pt;
+            font-size: 7pt;
         }
 
         .compact-role {
@@ -753,8 +807,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .compact-summary {
-            color: #64748B;
-            font-size: 6pt;
+            color: #475569;
+            font-size: 7pt;
             max-width: 200px;
         }
 
@@ -784,40 +838,26 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             margin-bottom: 8px;
         }
 
-        .project-item.with-screenshot {
-            display: flex;
-            gap: 8px; align-items: flex-start;
-        }
-
-        .project-content {
-            flex: 1;
-            min-width: 0;
-        }
-
         .project-title {
-            font-size: 8pt; font-weight: 600; color: var(--accent-deep); margin-bottom: 4px;
+            font-size: 9pt; font-weight: 600; color: var(--accent-deep); margin-bottom: 4px;
         }
 
         .project-tech { margin: 3px 0; }
 
         .tech-tag {
             background: rgba(37,99,235,0.08); color: var(--accent-deep); padding: 2px 5px;
-            border-radius: 4px; font-size: 6pt; font-weight: 500; margin-right: 3px;
+            border-radius: 4px; font-size: 7pt; font-weight: 500; margin-right: 3px;
             display: inline-block; margin-bottom: 2px;
         }
 
         .project-description {
-            font-size: 6.5pt; line-height: 1.35; color: #334155; margin-top: 4px;
+            font-size: 8pt; line-height: 1.35; color: #334155; margin-top: 4px;
         }
 
-        .project-screenshot {
-            width: 85px; height: 60px; object-fit: cover;
-            border-radius: 6px; border: 1px solid #d1d9e0;
-            background: #fff; flex-shrink: 0;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        }
+        .project-description p { margin-bottom: 4px; }
+        .project-description ul { margin: 4px 0 4px 12px; padding: 0; }
+        .project-description li { margin-bottom: 2px; line-height: 1.3; }
+        .project-description strong { font-weight: 600; color: var(--accent-deep); }
 
         /* === SIDEBAR === */
         .cv-sidebar {
@@ -842,18 +882,18 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .skill-tag {
             background: white; color: #334155; padding: 3px 6px;
-            border-radius: 6px; font-size: 6.5pt; font-weight: 500;
+            border-radius: 6px; font-size: 7.5pt; font-weight: 500;
             border: 1px solid #CBD5E1;
         }
 
-        .education-item { margin-bottom: 8px; font-size: 7pt; }
+        .education-item { margin-bottom: 8px; font-size: 8pt; }
         .education-degree { font-weight: 600; color: var(--accent-deep); margin-bottom: 2px; }
         .education-school { color: #475569; margin-bottom: 2px; }
-        .education-dates { color: #64748B; font-style: italic; }
+        .education-dates { color: #475569; font-style: italic; }
 
         .language-item {
             display: flex; justify-content: space-between;
-            margin-bottom: 4px; font-size: 7pt;
+            margin-bottom: 4px; font-size: 8pt;
         }
 
         .language-name { font-weight: 600; color: var(--accent-deep); }
@@ -862,7 +902,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         /* === EARLIER POSITIONS HEADING === */
         .earlier-heading {
             font-family: var(--font-display);
-            font-size: 8pt; font-weight: 600; color: #64748B;
+            font-size: 8pt; font-weight: 600; color: #475569;
             margin: 12px 0 6px 0;
             padding-bottom: 3px;
             border-bottom: 1px solid #E2E8F0;
@@ -877,7 +917,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .workshop-item {
             width: calc(50% - 3px);
-            padding: 8px 10px;
+            padding: 6px 10px;
             background: var(--surface);
             border: 1px solid var(--line);
             border-radius: 6px;
@@ -889,7 +929,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         }
 
         .workshop-meta {
-            font-size: 6.5pt; color: #64748B;
+            font-size: 6.5pt; color: #475569;
         }
 
         /* === UTILITIES === */
@@ -907,7 +947,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             <div class="header-content">
                 <h1>${langConfig.profile.name}</h1>
                 <div class="header-tagline">${langConfig.ui.tagline}</div>
-                ${(langConfig.ui.location || langConfig.ui.availability) ? `<div class="header-meta">${langConfig.ui.location || ''}${langConfig.ui.location && langConfig.ui.availability ? '<span class="sep">·</span>' : ''}${langConfig.ui.availability || ''}</div>` : ''}
+                ${(langConfig.ui.location || langConfig.ui.availability) ? `<div class="header-meta">${langConfig.ui.location ? `<span class="meta-location">${langConfig.ui.location}</span>` : ''}${langConfig.ui.availability ? `<span class="availability-pill"><span class="availability-dot"></span>${langConfig.ui.availability}</span>` : ''}</div>` : ''}
                 <div class="contact-grid">
                     ${contactItems}
                 </div>
@@ -955,15 +995,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
                 <div class="sidebar-section">
                     <h3>${langConfig.language.title}</h3>
                     ${languageItems}
-                </div>
-
-                <div class="sidebar-section">
-                    <h3>${langConfig.ui.sidebar_qualifications_title || 'Additional Qualifications'}</h3>
-                    <div class="skills-list">
-                        <span class="skill-tag">ISTQB Certified</span>
-                        <span class="skill-tag">Agile (Scrum/Kanban)</span>
-                        <span class="skill-tag">${langConfig.ui.ai_badge}</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1111,10 +1142,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     format: 'A4',
     printBackground: true,
     preferCSSPageSize: false,
-    displayHeaderFooter: false,
+    displayHeaderFooter: true,
+    headerTemplate: '<div></div>',
+    footerTemplate: `<div style="font-size:6.5pt;color:#94A3B8;width:100%;text-align:center;font-family:sans-serif;">${langConfig.profile.name} · <span class="pageNumber"></span>/<span class="totalPages"></span></div>`,
     margin: {
       top: '8mm',
-      bottom: '10mm',
+      bottom: '14mm',
       left: '8mm',
       right: '8mm'
     },

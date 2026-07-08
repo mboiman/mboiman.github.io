@@ -81,8 +81,8 @@ function formatTextToParagraphs(text) {
 
       return html;
     } else {
-      // Regular paragraph
-      return `<p>${trimmed}</p>`;
+      // Regular paragraph — preserve single line breaks as <br>
+      return `<p>${trimmed.replace(/\n/g, '<br>')}</p>`;
     }
   }).join('');
 }
