@@ -439,7 +439,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
   const featuredProjects = langConfig.projects.list.filter(p => p.featured && isTopProject(p.title));
   const sortedProjects = sortByPriority(featuredProjects).slice(0, 4);
 
-  const projectItemsHtml = sortedProjects.map(project => {
+  // First N cards live in the 70% column on page 1; the rest render as a
+  // full-width two-column row after .cv-main, so page 2 never shows the
+  // collapsed grid (cards in a narrow column next to an empty sidebar track).
+  const PROJECTS_IN_COLUMN = 2;
+
+  const renderProjectItem = (project) => {
     const techTags = project.tech_stack ? project.tech_stack.slice(0, 5).map(tech =>
       `<span class="tech-tag">${tech}</span>`
     ).join('') : '';
@@ -459,7 +464,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
           <div class="project-description">${formattedTagline}</div>
         </div>
       `;
-  }).join('');
+  };
+
+  const columnProjectsHtml = sortedProjects.slice(0, PROJECTS_IN_COLUMN).map(renderProjectItem).join('');
+  const overflowProjectsHtml = sortedProjects.slice(PROJECTS_IN_COLUMN).map(renderProjectItem).join('');
 
   // Generate education items
   const educationItems = langConfig.education.list.map(edu => `
@@ -696,6 +704,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         .cv-full-width {
             margin-top: 20px;
+        }
+
+        /* Projects continued after .cv-main — full width, two-column flex row */
+        .cv-projects-overflow {
+            margin-top: 12px;
         }
 
         /* === CAREER PROFILE === */
@@ -977,7 +990,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
                 <section class="cv-section">
                     <h2>${langConfig.projects.title}</h2>
                     <div class="projects-grid">
-                        ${projectItemsHtml}
+                        ${columnProjectsHtml}
                     </div>
                 </section>
             </div>
@@ -1001,6 +1014,15 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
                 </div>
             </div>
         </div>
+
+        ${overflowProjectsHtml ? `
+        <!-- Projects continued: full-width two-column row (no collapsed grid on page 2) -->
+        <section class="cv-section cv-projects-overflow">
+            <div class="projects-grid">
+                ${overflowProjectsHtml}
+            </div>
+        </section>
+        ` : ''}
 
         <!-- Full width section for experience -->
         <section class="cv-section cv-full-width">
