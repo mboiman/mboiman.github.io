@@ -45,13 +45,13 @@ const skillGroupConfig = lang === 'de'
   ? [
       { title: 'Quality Engineering', test: /quality|playwright|cucumber|gauge|jmeter|gatling/i },
       { title: 'KI & Agenten', test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain/i },
-      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest/i },
+      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest|agile|scrum|kanban/i },
       { title: 'Plattform & Monitoring', test: /grafana|elastic|peppol|e-invoicing|azure/i },
     ]
   : [
       { title: 'Quality Engineering', test: /quality|playwright|cucumber|gauge|jmeter|gatling/i },
       { title: 'AI & Agents', test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain/i },
-      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest/i },
+      { title: 'Delivery & Automation', test: /ci\/cd|docker|kubernetes|python|rest|agile|scrum|kanban/i },
       { title: 'Platform & Monitoring', test: /grafana|elastic|peppol|e-invoicing|azure/i },
     ];
 
@@ -442,7 +442,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
       <!-- Sidebar (30%) -->
       <aside class="lg:w-[30%]">
-        <div class="sticky top-6 space-y-6">
+        <div class="lg:sticky lg:top-6 space-y-6">
 
           <!-- Skills -->
           <div class="cv-sidebar-card">

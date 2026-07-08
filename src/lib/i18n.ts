@@ -91,7 +91,7 @@ export interface I18nStrings {
 export const i18n: Record<'de' | 'en', I18nStrings> = {
   de: {
     pdfDownload: 'PDF herunterladen',
-    experienceTheStory: 'Experience the Story',
+    experienceTheStory: 'Die Story erleben',
     storyBackToCv: 'Zum Lebenslauf',
     classicCV: 'Klassischer Lebenslauf',
     otherLangLabel: 'English',

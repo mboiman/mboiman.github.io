@@ -41,6 +41,11 @@ defaultContentLanguageInSubdir = true
         hero_intro = "Ich verbinde Quality Engineering mit KI-Architektur: Testautomatisierung, Multi-Agent-Systeme (MCP & A2A) und E-Invoicing-Plattformen nach EU-Standard — messbar und im produktiven Betrieb."
         ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
         ai_skills_title = "Quality Engineering & KI-Kompetenzen"
+        impact_metrics = [
+          { metric = "DB · DVAG · TÜV Süd", label = "Enterprise-Kunden", detail = "QA & Legacy-Migration" },
+          { metric = "EN 16931", label = "E-Invoicing produktiv", detail = "Peppol-Pipeline live (SAP ByDesign)" },
+          { metric = "Live-Demo", label = "KI-Agent", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
+        ]
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -66,7 +71,8 @@ defaultContentLanguageInSubdir = true
           "REST APIs",
           "Docker",
           "JMeter",
-          "Gatling"
+          "Gatling",
+          "Agile (Scrum/Kanban)"
         ]
         # Cover letter strings
         application_subject_prefix = "Bewerbung als"
@@ -124,20 +130,14 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/mboiman"
+        url = "https://github.com/mboiman"
         title = "Persönliches GitHub"
 
         [[languages.de.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "https://github.com/bks-lab"
         title = "BKS-Lab Organisation"
-
-        [[languages.de.params.contact.list]]
-        class = "twitter"
-        icon = "fa-twitter"
-        url = "//twitter.com/mboiman"
-        title = "@mboiman"
 
       [languages.de.params.education]
         enable = true
@@ -202,7 +202,7 @@ defaultContentLanguageInSubdir = true
         summary = """\
 **Quality Engineer und KI-Automatisierungsexperte** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Quality Engineering ist dabei kein abgeschlossenes Kapitel, sondern laufende Gegenwart — beide Stränge greifen ineinander.
 
-In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) sind Quality-Monitoring-Systeme entstanden, KI-gestützte Testautomatisierung kam dazu, Legacy-Migrationen wurden mit 24/7-Validierung abgesichert.
+In Enterprise-Projekten (**DB Vertrieb**, **DVAG**, **TÜV Süd**) sind Quality-Monitoring-Systeme entstanden, KI-gestützte Testautomatisierung kam dazu, Legacy-Migrationen wurden mit 24/7-Validierung abgesichert.
 
 Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme und E-Invoicing nach EU-Standard — gebündelt in einem Orchestrierungs-Hub über 20+ Repos, Agenten und Protokolle.
 
@@ -320,36 +320,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
-        position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
-        anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
-        company = "AkkuSwap Startup"
-        details = """
-**QA-Führung für EU-weite Batterie-Tausch-Infrastruktur**: AI-gestütztes Simulationswerkzeug für Batterietausch-Stationsnetzwerk mit Energie-Infrastruktur-Integration
-
-**Hauptverantwortlichkeiten**
-- QA-Konzept, Design und Implementierung für AI-gesteuerte Simulation der EU-weiten Infrastruktur
-- Entwicklung eines QA-Frameworks für inhouse AI-Server-Infrastruktur
-- Proof-of-Concept für automatisiertes Testen von AI-gesteuerten Simulationen
-
-**Energiesektor-Verbindung**
-- **50 Hertz Beteiligung**: 50 Hertz (Elia Group Tochtergesellschaft) nahm am Forschungsprojekt eHaul teil, dem Vorgänger von AkkuSwap
-- Direkte Erfahrung im Energiesektor mit Qualitätsanforderungen für kritische Infrastruktur
-- Umfeld kritischer Energie-Infrastruktur (Übertragungsnetz-Kontext)
-
-**Technischer Stack**
-- Infrastruktur: Linux, Docker, Azure OpenAI
-- Automatisierung: pytest, AI-Code-Generierung Integrationsmuster
-- Monitoring: Grafana, Azure Monitoring
-- Energiesysteme: Batterietausch-Infrastruktur, Grid-Integrations-Simulation
-
-**Wichtige Erfolge**
-- Etablierung einer QA-Methodik für AI-gesteuerte Infrastruktursimulation
-- Erstellung eines Test-Frameworks für kritische Systeme im Energiesektor
-- Validierung des Proof-of-Concept mit messbaren Zuverlässigkeitsverbesserungen
-        """
-
-        [[languages.de.params.experiences.list]]
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
@@ -384,8 +354,11 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         dates = "08/2021 – 05/2025"
         company = "DVAG"
         details = """
-**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates** Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend 
-**Schwerpunkte** 
+**Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
+
+**Ergebnis:** Echtzeit-Transparenz über die Sprint-Qualität durch Grafana-Dashboards, über QualityGates abgesicherte Releases in den CI/CD-Pipelines der Teams — datenbasierte Freigabe-Entscheidungen statt manueller Datensammlung.
+
+**Schwerpunkte**
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
 - Aufbau und Konzeption einer CI/CD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
@@ -416,7 +389,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
-**Schwerpunkte**:
+**Schwerpunkte**
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
 - **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
 - **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk via Storecove Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
@@ -446,14 +419,45 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
+        position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
+        anchor = "akkuswap"
+        dates = "07/2024 – 01/2025"
+        company = "AkkuSwap Startup"
+        pdf_tier = "medium"
+        details = """
+**QA-Führung für EU-weite Batterie-Tausch-Infrastruktur**: AI-gestütztes Simulationswerkzeug für Batterietausch-Stationsnetzwerk mit Energie-Infrastruktur-Integration
+
+**Hauptverantwortlichkeiten**
+- QA-Konzept, Design und Implementierung für AI-gesteuerte Simulation der EU-weiten Infrastruktur
+- Entwicklung eines QA-Frameworks für inhouse AI-Server-Infrastruktur
+- Proof-of-Concept für automatisiertes Testen von AI-gesteuerten Simulationen
+
+**Energiesektor-Verbindung**
+- **50 Hertz Beteiligung**: 50 Hertz (Elia Group Tochtergesellschaft) nahm am Forschungsprojekt eHaul teil, dem Vorgänger von AkkuSwap
+- Direkte Erfahrung im Energiesektor mit Qualitätsanforderungen für kritische Infrastruktur
+- Umfeld kritischer Energie-Infrastruktur (Übertragungsnetz-Kontext)
+
+**Technischer Stack**
+- Infrastruktur: Linux, Docker, Azure OpenAI
+- Automatisierung: pytest, AI-Code-Generierung Integrationsmuster
+- Monitoring: Grafana, Azure Monitoring
+- Energiesysteme: Batterietausch-Infrastruktur, Grid-Integrations-Simulation
+
+**Wichtige Erfolge**
+- Etablierung einer QA-Methodik für AI-gesteuerte Infrastruktursimulation
+- Erstellung eines Test-Frameworks für kritische Systeme im Energiesektor
+- Validierung des Proof-of-Concept mit messbaren Zuverlässigkeitsverbesserungen
+        """
+
+        [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 - 04/2024"
+        dates = "04/2023 – 04/2024"
         company = "BKS im Auftrag für Ryze"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
-**Schwerpunkte**:
+**Schwerpunkte**
 - **Entwicklung von ML-Modellen**: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
 - **API-Integrationen**: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
 - **Prozessautomatisierung**: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
@@ -508,10 +512,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 - 05/2021"
+        dates = "01/2017 – 05/2021"
         company = "DB Vertrieb"
         details = """
-**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
@@ -543,10 +547,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 - 01/2017"
+        dates = "09/2015 – 01/2017"
         company = "DB Systel"
         details = """
-**Last und Performance Tests und Analyse - Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
+**Last und Performance Tests und Analyse – Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
 - Anforderungs-Management 
 - Status Reports 
@@ -568,7 +572,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 - 09/2015"
+        dates = "04/2015 – 09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
@@ -589,10 +593,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 - 03/2015"
+        dates = "05/2009 – 03/2015"
         company = "Siemens"
         details = """
-**QS, Testmanagement , Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
+**QS, Testmanagement, Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
 **Projekte** 
 - SIPCA - Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
 - STM - Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
@@ -622,7 +626,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 - 05/2009"
+        dates = "03/2009 – 05/2009"
         company = "ING-DIBA"
         details = """
 **Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
@@ -638,7 +642,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 - 12/2008"
+        dates = "01/2006 – 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
@@ -671,6 +675,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         hero_intro = "I combine quality engineering with AI architecture: test automation, multi-agent systems (MCP & A2A), and e-invoicing platforms to EU standards — measurable and in production."
         ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
         ai_skills_title = "Quality Engineering & AI Competencies"
+        impact_metrics = [
+          { metric = "DB · DVAG · TÜV Süd", label = "Enterprise clients", detail = "QA & legacy migration" },
+          { metric = "EN 16931", label = "E-invoicing in production", detail = "Peppol pipeline live (SAP ByDesign)" },
+          { metric = "Live demo", label = "AI agent", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
+        ]
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
         github_label = "GitHub"
@@ -696,7 +705,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "REST APIs",
           "Docker",
           "JMeter",
-          "Gatling"
+          "Gatling",
+          "Agile (Scrum/Kanban)"
         ]
         # Cover letter strings
         application_subject_prefix = "Application for"
@@ -754,20 +764,14 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/mboiman"
+        url = "https://github.com/mboiman"
         title = "Personal GitHub"
 
         [[languages.en.params.contact.list]]
         class = "github"
         icon = "fa-github"
-        url = "//github.com/bks-lab"
+        url = "https://github.com/bks-lab"
         title = "BKS-Lab Organization"
-
-        [[languages.en.params.contact.list]]
-        class = "twitter"
-        icon = "fa-twitter"
-        url = "//twitter.com/mboiman"
-        title = "@mboiman"
 
       [languages.en.params.education]
         enable = true
@@ -832,7 +836,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         summary = """\
 **Quality Engineer and AI Automation Expert** with 20+ years in software quality assurance and 4 years of specialized AI development. Quality engineering is not a closed chapter but an ongoing present — both tracks feed into each other.
 
-In enterprise projects (DB Vertrieb, DVAG, TÜV Süd), quality monitoring systems took shape, AI-driven test automation was added, and legacy migrations were secured with 24/7 validation.
+In enterprise projects (**DB Vertrieb**, **DVAG**, **TÜV Süd**), quality monitoring systems took shape, AI-driven test automation was added, and legacy migrations were secured with 24/7 validation.
 
 Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, and e-invoicing to EU standards — bundled into one orchestration hub across 20+ repos, agents, and protocols.
 
@@ -949,36 +953,6 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         """
 
         [[languages.en.params.experiences.list]]
-        position = "AI-driven Automated QA Environment for Energy Infrastructure"
-        anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
-        company = "AkkuSwap Startup"
-        details = """
-**QA Leadership for EU-wide Battery Swap Infrastructure**: AI-driven simulation tool for battery swap station network with energy infrastructure integration
-
-**Key Responsibilities**
-- QA concept, design and implementation for AI-driven simulation of EU-wide infrastructure
-- QA framework development for inhouse AI server infrastructure
-- Proof-of-concept for automated testing of AI-driven simulations
-
-**Energy Sector Connection**
-- **50 Hertz Participation**: 50 Hertz (Elia Group subsidiary) participated in research project eHaul, the predecessor of AkkuSwap
-- Direct energy sector experience with critical infrastructure quality requirements
-- Context of critical energy infrastructure (transmission-grid environment)
-
-**Technical Stack**
-- Infrastructure: Linux, Docker, Azure OpenAI
-- Automation: pytest, AI code generation integration patterns
-- Monitoring: Grafana, Azure Monitoring
-- Energy Systems: Battery swap infrastructure, grid integration simulation
-
-**Key Achievements**
-- Established QA methodology for AI-driven infrastructure simulation
-- Created testing framework for energy sector critical systems
-- Validated proof-of-concept with measurable reliability improvements
-        """
-
-        [[languages.en.params.experiences.list]]
         position = "Presentation: Efficient Documentation through Automation"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
@@ -1014,6 +988,9 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         company = "DVAG"
         details = """
 **Test management & coordination**, as well as introduction of CI/CD with quality-gate setup. Acting as cross-team Quality Lead: onboarding, guidance, consulting and training for the introduction of quality metrics and test automation within the pipeline across teams.
+
+**Result:** Real-time sprint-quality transparency via Grafana dashboards, quality-gated releases in the teams' CI/CD pipelines — data-driven release decisions replacing manual data gathering.
+
 **Key responsibilities**
 - Design and implementation of functional and technical dashboards with Grafana for real-time quality measurement
 - Documentation of quality metrics covering the measurable sprint progress
@@ -1045,7 +1022,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         details  = """
 **Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
 
-**Focus areas**:
+**Focus areas**
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
 - **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
 - **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point for automated invoice receipt and dispatch with UBL/CII formats.
@@ -1075,14 +1052,45 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         """
 
         [[languages.en.params.experiences.list]]
+        position = "AI-driven Automated QA Environment for Energy Infrastructure"
+        anchor = "akkuswap"
+        dates = "07/2024 – 01/2025"
+        company = "AkkuSwap Startup"
+        pdf_tier = "medium"
+        details = """
+**QA Leadership for EU-wide Battery Swap Infrastructure**: AI-driven simulation tool for battery swap station network with energy infrastructure integration
+
+**Key Responsibilities**
+- QA concept, design and implementation for AI-driven simulation of EU-wide infrastructure
+- QA framework development for inhouse AI server infrastructure
+- Proof-of-concept for automated testing of AI-driven simulations
+
+**Energy Sector Connection**
+- **50 Hertz Participation**: 50 Hertz (Elia Group subsidiary) participated in research project eHaul, the predecessor of AkkuSwap
+- Direct energy sector experience with critical infrastructure quality requirements
+- Context of critical energy infrastructure (transmission-grid environment)
+
+**Technical Stack**
+- Infrastructure: Linux, Docker, Azure OpenAI
+- Automation: pytest, AI code generation integration patterns
+- Monitoring: Grafana, Azure Monitoring
+- Energy Systems: Battery swap infrastructure, grid integration simulation
+
+**Key Achievements**
+- Established QA methodology for AI-driven infrastructure simulation
+- Created testing framework for energy sector critical systems
+- Validated proof-of-concept with measurable reliability improvements
+        """
+
+        [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 - 04/2024"
+        dates = "04/2023 – 04/2024"
         company = "BKS on behalf of Ryze"
         details = """
-**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation."
+**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
 
-**Focus areas**:
+**Focus areas**
 - **Development of ML models**: Design and training of specialized models for effective email classification, implemented via Azure Functions.
 - **API integrations**: Seamless connection to Microsoft Outlook 365 via Microsoft Graph API and to SAP systems for customer data checks.
 - **Process automation**: Automatic moving of emails based on classification and specific business rules, including complaint handling.
@@ -1137,7 +1145,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 - 05/2021"
+        dates = "01/2017 – 05/2021"
         company = "DB Vertrieb"
         details = """
 **Test management, test coordination, test automation – agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
@@ -1172,7 +1180,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 - 01/2017"
+        dates = "09/2015 – 01/2017"
         company = "DB Systel"
         details = """
 **Load and performance tests and analysis – test manager, test designer, analyst**: Development, execution and analysis of load and performance tests
@@ -1197,7 +1205,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 - 09/2015"
+        dates = "04/2015 – 09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
@@ -1218,7 +1226,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 - 03/2015"
+        dates = "05/2009 – 03/2015"
         company = "Siemens"
         details = """
 **QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
@@ -1251,7 +1259,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 - 05/2009"
+        dates = "03/2009 – 05/2009"
         company = "ING-DIBA"
         details = """
 **Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of approx. 20 J2EE applications in a banking portal
@@ -1267,7 +1275,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 - 12/2008"
+        dates = "01/2006 – 12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Load and performance tester / tester**: Various projects, predominantly load & performance tests
@@ -1283,7 +1291,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
       [languages.de.params.projects]
         enable = true
         icon = "fa-rocket"
-        title = "PROJEKTE & LÖSUNGEN"
+        title = "Projekte & Lösungen"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
         non_featured_layout = "grid"
 
@@ -1304,6 +1312,12 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Open-Source-Schicht**: Three-Tier-Architektur — ein generisches OSS-Skelett (MIT, in Vorbereitung) speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
 
 **Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows — von Incident-Response bis Meeting-Protokollierung weitgehend automatisiert"""
+        tagline_pdf = '''
+Zentrales Steuerungssystem für AI-gestützte Entwicklung über 20+ Repositories.
+• **Problem:** Entwicklung über 20+ Repos und mehrere Kunden erforderte ständigen Kontextwechsel und manuelle Koordination.
+• **Lösung:** Orchestrierungs-Hub mit ecosystem.yaml als Single Source of Truth, 40+ Skills und Hook-basiertem Permission-System.
+• **Ergebnis:** Workflows von Incident-Response bis Meeting-Protokollierung laufen weitgehend automatisiert.
+'''
         challenge = "Enterprise-Entwicklung über 20+ Repos, mehrere Kunden und diverse Tools erforderte ständigen Kontextwechsel und manuelle Koordination."
         solution = "Zentrales Steuerungssystem mit ecosystem.yaml als Single Source of Truth, 40+ Skills und Hook-basiertem Permission System."
         metric = "40+"
@@ -1326,6 +1340,12 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
 
 **Impact:** Produktives System — Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung über die Storecove-Strecke an SAP ByDesign."""
+        tagline_pdf = '''
+Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
+• **Problem:** Ein- und Ausgangsrechnungen in mehreren Formaten (ZUGFeRD, XRechnung, UBL) mussten EN-16931-konform verarbeitet werden.
+• **Lösung:** Peppol-Anbindung via Storecove, hexagonale Architektur, automatische Übergabe an SAP ByDesign.
+• **Ergebnis:** Produktives System — Rechnungsverarbeitung läuft automatisiert bis ins ERP.
+'''
 
         [[languages.de.params.projects.list]]
         title   = "MCP - Model Context Protokoll & A2A"
@@ -1385,6 +1405,12 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         featured = true
         screenshot = "projects/qualitydashboard.png"
         tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
+        tagline_pdf = '''
+Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
+• **Problem:** Release-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools und 5 Umgebungen.
+• **Lösung:** End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischen PDF-Reports.
+• **Ergebnis:** Datenbasierte Freigabe-Entscheidungen in Echtzeit statt manueller Datensammlung.
+'''
         challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools, 5 Umgebungen und mehreren Datenquellen."
         solution = "Durchgängige End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischer PDF-Report-Generierung."
         metric = "10"
@@ -1410,6 +1436,12 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Quality Intelligence:** Kibana-Dashboards für End-to-End-Qualitätsübersicht
 
 **Ergebnis:** Sichere Migration ohne Datenverlust, 24/7-Validierung aller Kombinationen und vollständige Transparenz über den Migrationsstatus"""
+        tagline_pdf = '''
+Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation.
+• **Problem:** Millionen Preis-Kombinationen mussten ohne Qualitätsverlust oder Datenfehler migriert werden.
+• **Lösung:** 24/7-Validierungssystem mit zufallsgenerierten Tests, Live-Dashboard und vollständiger Abweichungs-Traceability.
+• **Ergebnis:** Sichere Migration ohne Datenverlust — alle Kombinationen rund um die Uhr validiert.
+'''
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
@@ -1552,7 +1584,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
       [languages.en.params.projects]
         enable = true
         icon = "fa-rocket"
-        title = "PROJECTS & SOLUTIONS"
+        title = "Projects & Solutions"
         intro = "**Innovative AI solutions and automation tools**"
         non_featured_layout = "grid"
 
@@ -1573,6 +1605,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Open-source layer**: three-tier architecture — a generic OSS skeleton (MIT, in preparation) is fed from this seed instance, with a BKS overlay in between.
 
 **Impact:** Productivity boost through AI-driven workflows — from incident response to meeting documentation largely automated"""
+        tagline_pdf = '''
+Central control system for AI-assisted development across 20+ repositories.
+• **Problem:** Development across 20+ repos and multiple customers required constant context switching and manual coordination.
+• **Solution:** Orchestration hub with ecosystem.yaml as single source of truth, 40+ skills and hook-based permission system.
+• **Result:** Workflows from incident response to meeting documentation largely automated.
+'''
         challenge = "Enterprise development across 20+ repos, multiple customers and diverse tools required constant context switching and manual coordination."
         solution = "Central control system with ecosystem.yaml as single source of truth, 40+ skills and hook-based permission system."
         metric = "40+"
@@ -1595,6 +1633,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
 
 **Impact:** Production system — Peppol connectivity per EN 16931, automated inbound and outbound invoice processing across the Storecove route into SAP ByDesign."""
+        tagline_pdf = '''
+Production e-invoicing pipeline compliant with EU standard EN 16931.
+• **Problem:** Inbound and outbound invoices in multiple formats (ZUGFeRD, XRechnung, UBL) required EN 16931-compliant processing.
+• **Solution:** Peppol connection via Storecove, hexagonal architecture, automatic transfer to SAP ByDesign.
+• **Result:** Production system — invoice processing runs automated end-to-end into the ERP.
+'''
 
         [[languages.en.params.projects.list]]
         title = "MCP – Model Context Protocol & A2A"
@@ -1654,6 +1698,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = true
         screenshot = "projects/qualitydashboard.png"
         tagline = "End-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
+        tagline_pdf = '''
+Real-time quality overview for enterprise go/no-go decisions.
+• **Problem:** Release decisions required hours of gathering data from 10 test tools and 5 environments.
+• **Solution:** End-to-end pipeline with live dashboard, multi-source integration and automated PDF reports.
+• **Result:** Data-driven release decisions in real time instead of manual collection.
+'''
         challenge = "Go/No-Go decisions required hours of manual data gathering across 10 test tools, 5 environments and multiple data sources."
         solution = "End-to-end pipeline with real-time dashboard, multi-source integration and automatic PDF report generation."
         metric = "10"
@@ -1679,6 +1729,12 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
 • **Quality Intelligence:** Kibana dashboards for end-to-end quality overview
 
 **Result:** Secure migration without data loss, 24/7 validation across all combinations and full transparency over migration status"""
+        tagline_pdf = '''
+Dual-run validation for safely migrating a mainframe price calculation.
+• **Problem:** Millions of price combinations had to migrate without quality loss or data errors.
+• **Solution:** 24/7 validation with randomly generated tests, live dashboard and full deviation traceability.
+• **Result:** Safe migration without data loss — all combinations validated around the clock.
+'''
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
