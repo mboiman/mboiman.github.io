@@ -1,10 +1,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://mboiman.github.io',
   output: 'static',
   vite: {
+    plugins: [tailwindcss()],
     server: {
       proxy: {
         // Local preview only: the live A2A agent allows CORS for mboiman.github.io,

@@ -5,9 +5,9 @@
   "dependencies": {
     "express": "^5.2.1",
     "pdf-lib": "^1.17.1",
-    "puppeteer": "^24.34.0",
+    "puppeteer": "^25.3.0",
     "sharp": "^0.35.3",
-    "toml": "^3.0.0"
+    "toml": "^4.1.2"
   },
   "scripts": {
     "dev": "astro dev",
@@ -19,9 +19,8 @@
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.1",
-    "@tailwindcss/postcss": "^4.2.1",
-    "astro": "^6.0.4",
-    "postcss": "^8.5.8",
+    "@tailwindcss/vite": "^4.3.2",
+    "astro": "^7.0.6",
     "tailwindcss": "^4.2.1"
   },
   "overrides": {
