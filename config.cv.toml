@@ -386,7 +386,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
-**Schwerpunkte**:
+**Schwerpunkte**
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
 - **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
 - **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk via Storecove Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
@@ -454,7 +454,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
-**Schwerpunkte**:
+**Schwerpunkte**
 - **Entwicklung von ML-Modellen**: Entwurf und Training spezialisierter Modelle zur effektiven Klassifizierung von E-Mails, realisiert durch Azure Functions.
 - **API-Integrationen**: Nahtlose Anbindung an Microsoft Outlook 365 über die Microsoft Graph API und an SAP-Systeme zur Überprüfung von Kundendaten.
 - **Prozessautomatisierung**: Automatisches Verschieben von E-Mails basierend auf Klassifikation und spezifischen Geschäftsregeln, inklusive der Bearbeitung von Reklamationen.
@@ -512,7 +512,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         dates = "01/2017 – 05/2021"
         company = "DB Vertrieb"
         details = """
-**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifendes QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
@@ -1016,7 +1016,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         details  = """
 **Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
 
-**Focus areas**:
+**Focus areas**
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
 - **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
 - **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point for automated invoice receipt and dispatch with UBL/CII formats.
@@ -1082,9 +1082,9 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "04/2023 – 04/2024"
         company = "BKS on behalf of Ryze"
         details = """
-**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation."
+**Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
 
-**Focus areas**:
+**Focus areas**
 - **Development of ML models**: Design and training of specialized models for effective email classification, implemented via Azure Functions.
 - **API integrations**: Seamless connection to Microsoft Outlook 365 via Microsoft Graph API and to SAP systems for customer data checks.
 - **Process automation**: Automatic moving of emails based on classification and specific business rules, including complaint handling.

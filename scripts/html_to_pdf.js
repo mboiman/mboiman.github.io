@@ -1136,6 +1136,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
   console.log('📄 Generating PDF...');
 
+  // Footer renders in an isolated context without the page's @font-face rules —
+  // embed IBM Plex Regular as a data URI so the footer doesn't fall back to Times.
+  const footerFontUrl = `data:font/woff2;base64,${fs.readFileSync(path.join(__dirname, '..', 'public', 'fonts', 'ibm-plex-sans', 'IBMPlexSans-Regular.woff2')).toString('base64')}`;
+
   // Generate PDF with optimized settings
   await page.pdf({
     path: outputPdf,
@@ -1144,7 +1148,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     preferCSSPageSize: false,
     displayHeaderFooter: true,
     headerTemplate: '<div></div>',
-    footerTemplate: `<div style="font-size:6.5pt;color:#94A3B8;width:100%;text-align:center;font-family:sans-serif;">${langConfig.profile.name} · <span class="pageNumber"></span>/<span class="totalPages"></span></div>`,
+    footerTemplate: `<style>@font-face{font-family:'IBM Plex Sans';src:url('${footerFontUrl}') format('woff2');font-weight:400;}</style><div style="font-size:6.5pt;color:#94A3B8;width:100%;text-align:center;font-family:'IBM Plex Sans',Helvetica,Arial,sans-serif;">${langConfig.profile.name} · <span class="pageNumber"></span>/<span class="totalPages"></span></div>`,
     margin: {
       top: '8mm',
       bottom: '14mm',
