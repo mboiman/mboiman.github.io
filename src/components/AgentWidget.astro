@@ -895,11 +895,7 @@ const widgetStrings = {
     #agent-widget-header { padding-left: 16px; }
     .aw-row { max-width: 94%; }
     #agent-widget-label {
-      right: 1rem;
-      bottom: 5.15rem;
-      max-width: min(230px, calc(100vw - 2rem));
-      font-size: 0.72rem;
-      opacity: 0.92;
+      display: none;
     }
   }
 
@@ -1448,7 +1444,7 @@ const widgetStrings = {
           if (card && card.capabilities && typeof card.capabilities.streaming === 'boolean') {
             streamingSupported = card.capabilities.streaming;
           }
-          if (card && card.name) { subtitleEl.textContent = card.description || t.headerSubtitle; }
+          if (card && card.name) { subtitleEl.textContent = (lang === 'de' && card.description) || t.headerSubtitle; }
           return (card && typeof card === 'object') ? card : null;
         } catch {
           // Non-fatal: keep streaming-first default and try anyway.
