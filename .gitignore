@@ -7,3 +7,4 @@ venv/
 .work/
 applications/
 public/assets_images
+.idea/
