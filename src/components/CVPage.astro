@@ -34,7 +34,7 @@ const agentProof = agent_proof ?? {
     lang === 'de' ? 'Wann hat Michael nächste Woche Zeit für ein Gespräch?' : 'When is Michael available next week?',
     lang === 'de' ? 'Welche Erfahrung hat Michael mit KI-Agenten?' : 'What is Michael’s experience with AI agents?',
   ],
-  facts: ['protocolVersion: 0.3', 'transport: JSONRPC', 'streaming: true', 'skills: 4'],
+  facts: ['protocolVersion: 0.3', 'transport: JSONRPC', 'streaming: true', 'skills: 5'],
 };
 
 // NOTE: a skill in ui.sidebar_skills that matches NONE of these group regexes
@@ -253,7 +253,13 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           <div class="mt-4 rounded-xl p-4 cv-agent-terminal">
             <p class="text-sm font-medium">{agentProof.status}</p>
             <p class="mt-1 text-xs leading-relaxed" style="color: var(--text-secondary)">{agentProof.endpoint}</p>
-            <div class="mt-4 flex flex-wrap gap-2">
+            {/* These chips describe the LIVE agent, so AgentWidget rewrites them from
+                the agent-card as soon as it loads (see factsFromCard there). What
+                renders here is the fallback for a visitor whose browser cannot reach
+                the agent — and it is the only hand-written copy left, which is exactly
+                why it went stale: it claimed protocolVersion 0.3 and skills 4 while the
+                live card said otherwise. The card is the source of truth. */}
+            <div class="mt-4 flex flex-wrap gap-2" data-agent-facts>
               {agentProof.facts.map(fact => (
                 <span class="cv-agent-fact rounded-full px-2.5 py-1 text-[11px]">{fact}</span>
               ))}
