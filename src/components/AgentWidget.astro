@@ -1456,6 +1456,45 @@ const widgetStrings = {
       return cardInflight;
     }
 
+    // --- Fact chips on the host page (progressive enhancement) ----------------
+    // Derive the "protocolVersion / transport / streaming / skills" chips from the card
+    // instead of hand-maintaining them in config. Returns null when the card can't
+    // answer, so the caller leaves the server-rendered fallback alone.
+    function factsFromCard(card: any): string[] | null {
+      if (!card || typeof card !== 'object') return null;
+      // Read BOTH A2A dialects. v1.0 moved version + binding onto supportedInterfaces[]
+      // and dropped the top-level pair; 0.3 has only the top level. Reading a single
+      // location is precisely the bug that cut this agent's own BKS consult off for
+      // five days — don't repeat it one layer up.
+      const iface = Array.isArray(card.supportedInterfaces)
+        ? card.supportedInterfaces.find((i: any) => i && typeof i === 'object')
+        : null;
+      const protocol = String(iface?.protocolVersion ?? card.protocolVersion ?? '').trim();
+      const transport = String(iface?.protocolBinding ?? card.preferredTransport ?? '').trim();
+      const streaming = card.capabilities?.streaming;
+      const skills = Array.isArray(card.skills) ? card.skills.length : null;
+
+      const facts: string[] = [];
+      if (protocol) facts.push(`protocolVersion: ${protocol}`);
+      if (transport) facts.push(`transport: ${transport}`);
+      if (typeof streaming === 'boolean') facts.push(`streaming: ${streaming}`);
+      if (skills !== null) facts.push(`skills: ${skills}`);
+      return facts.length ? facts : null;
+    }
+
+    function renderAgentFacts(card: any): void {
+      const host = document.querySelector('[data-agent-facts]');
+      if (!host) return;                       // host page has no chips — nothing to do
+      const facts = factsFromCard(card);
+      if (!facts) return;                      // unreachable/unusable card → keep fallback
+      host.replaceChildren(...facts.map((fact) => {
+        const el = document.createElement('span');
+        el.className = 'cv-agent-fact rounded-full px-2.5 py-1 text-[11px]';
+        el.textContent = fact;                 // textContent, never innerHTML — card data is remote
+        return el;
+      }));
+    }
+
     // =========================================================================
     // AGENT-CARD VIEW — renders the live A2A card inside the panel. Every value is
     // injected via textContent (never innerHTML), so even a compromised/injected
@@ -2253,5 +2292,14 @@ const widgetStrings = {
     // focus:false so a page load never scrolls to or steals focus for the widget;
     // persist:false so an auto-open is never stored as the visitor's choice.
     if (shouldAutoOpen()) openPanel({ focus: false, persist: false });
+
+    // The page's fact chips describe the LIVE agent, so read them off the live card
+    // rather than trusting the hand-written strings the server rendered: those drifted
+    // unnoticed (protocolVersion pinned at 0.3 long after the agent moved on, skills
+    // stuck at 4 against a card advertising 5). Progressive enhancement — on any
+    // failure the server-rendered fallback simply stays. loadAgentCard() de-dupes and
+    // caches, so this is at most ONE extra GET of static JSON, and zero when auto-open
+    // already fetched it.
+    loadAgentCard().then(renderAgentFacts);
   }
 </script>

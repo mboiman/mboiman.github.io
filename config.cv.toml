@@ -93,7 +93,7 @@ defaultContentLanguageInSubdir = true
           "Wann hat Michael nächste Woche Zeit für ein Gespräch?",
           "Welche Erfahrung hat Michael mit KI-Agenten?"
         ]
-        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 4"]
+        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 5"]
 
       [languages.de.params.profile]
         name = "Michael Boiman"
@@ -727,7 +727,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "When is Michael available next week?",
           "What is Michael's experience with AI agents?"
         ]
-        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 4"]
+        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 5"]
 
       [languages.en.params.profile]
         name = "Michael Boiman"
