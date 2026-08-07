@@ -13,6 +13,8 @@ npm ci
 # 2. Generate PDFs (the site links to them under public/pdfs/)
 ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
 ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
+# or, equivalently:
+npm run pdf:de && npm run pdf:en
 
 # 3. Build the website
 npm run build

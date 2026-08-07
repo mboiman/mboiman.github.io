@@ -13,8 +13,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "pdf:de": "./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_DE.pdf de",
-    "pdf:en": "./scripts/generate_cv.sh config.cv.toml static/pdfs/Michael_Boiman_CV_EN.pdf en",
+    "pdf:de": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de",
+    "pdf:en": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en",
     "start-pdf-service": "node generate_pdf_endpoint.js"
   },
   "devDependencies": {
