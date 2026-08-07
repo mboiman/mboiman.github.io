@@ -416,7 +416,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         ${compactExperiences.map(exp => `
           <tr class="compact-row">
             <td class="compact-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</td>
-            <td class="compact-role"><strong>${exp.position}</strong> — ${exp.company}</td>
+            <td class="compact-role"><strong>${exp.position}</strong>, ${exp.company}</td>
             <td class="compact-summary">${extractFirstSentence(exp.details)}</td>
           </tr>
         `).join('')}
@@ -489,7 +489,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
   const workshopHtml = workshopExperiences.length > 0 ? workshopExperiences.map(exp => `
     <div class="workshop-item">
       <div class="workshop-title">${exp.position}</div>
-      <div class="workshop-meta">${exp.company} — ${exp.dates}</div>
+      <div class="workshop-meta">${exp.company} · ${exp.dates}</div>
     </div>
   `).join('') : '';
 
@@ -499,7 +499,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${langConfig.profile.name} – ${targetLang === 'de' ? 'Lebenslauf' : 'CV'}</title>
+    <title>${langConfig.profile.name}, ${targetLang === 'de' ? 'Lebenslauf' : 'CV'}</title>
 
     <style>
         ${fontFaceCss}

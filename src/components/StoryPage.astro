@@ -108,7 +108,7 @@ const storyTitle = lang === 'de'
   <div class="story-page">
   <div id="scroll-progress" style="width: 0%"></div>
 
-  <!-- ═══ FLOATING NAV ═══ -->
+  {/* ═══ FLOATING NAV ═══ */}
   <header>
     <nav class="fixed top-0 left-0 right-0 z-50 no-print story-nav" id="floating-nav">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
@@ -132,7 +132,7 @@ const storyTitle = lang === 'de'
     </nav>
   </header>
 
-  <!-- ═══ AKT 01 · LEITSATZ ═══ -->
+  {/* ═══ AKT 01 · LEITSATZ ═══ */}
   <section class="act" data-act="frame" id="akt-01-leitsatz" aria-label={t.ariaStatement}>
     <div class="text-center max-w-5xl mx-auto">
       <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
@@ -155,7 +155,7 @@ const storyTitle = lang === 'de'
 
   <main id="main">
 
-  <!-- ═══ AKT 02 · PORTRAIT UND AUFSTELLUNG ═══ -->
+  {/* ═══ AKT 02 · PORTRAIT UND AUFSTELLUNG ═══ */}
   <section data-act="frame" id="akt-02-aufstellung" aria-label={t.ariaProfile}>
     <div class="reveal max-w-5xl mx-auto w-full">
       <div class="grid grid-cols-1 md:grid-cols-[minmax(0,15rem)_1fr] gap-10 md:gap-16 items-start">
@@ -199,9 +199,9 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKT 03 · WAS GERADE LÄUFT ═══
+  {/* ═══ AKT 03 · WAS GERADE LÄUFT ═══
        Replaces the old numbers act. The giant-number type class survives, but it
-       now carries a struck config claim against the command that checks it. -->
+       now carries a struck config claim against the command that checks it. */}
   <section data-act="frame" id="akt-03-was-laeuft" aria-label={t.ariaRunning} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       <div class="reveal">
@@ -239,9 +239,9 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKT 04 · FRAGEN SIE IHN SELBST ═══
+  {/* ═══ AKT 04 · FRAGEN SIE IHN SELBST ═══
        The cards fire the widget's existing `bridge-agent:prompt` event, so no new
-       plumbing and no second chat client. -->
+       plumbing and no second chat client. */}
   <section data-act="frame" id="akt-04-fragen" aria-label={t.ariaProbe}>
     <div class="max-w-4xl mx-auto w-full reveal">
       <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{t.probeEyebrow}</p>
@@ -260,8 +260,8 @@ const storyTitle = lang === 'de'
       </div>
 
       <p class="mt-9 text-sm leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.probeOutro}</p>
-      <!-- Neither line is rendered until the card fetch below resolves. A page
-           built on "check it yourself" cannot ship a hardcoded status line. -->
+      {/* Neither line is rendered until the card fetch below resolves. A page
+           built on "check it yourself" cannot ship a hardcoded status line. */}
       <p class="mt-3 text-[0.82rem] hidden" style="color: var(--text-secondary)" id="probe-live"
          data-tpl={t.probeLive} data-card="https://mboiman.bks-lab.com/.well-known/agent-card.json"></p>
       <p class="mt-3 text-[0.82rem] hidden" style="color: var(--text-secondary); opacity: .7" id="probe-down">
@@ -270,10 +270,10 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKTE 05 bis 09 · ENTSCHEIDUNGEN ═══
+  {/* ═══ AKTE 05 bis 09 · ENTSCHEIDUNGEN ═══
        Each decision is a direct <div> of this section, so each becomes its own
        keyboard step. hasGamma is gone: the layout no longer depends on a vanity
-       metric field being present, so no act can fall back to a bullet dump. -->
+       metric field being present, so no act can fall back to a bullet dump. */}
   <section aria-label={t.ariaDecisions}>
     {t.decisions.map((d, i) => {
       const bg = darkScreenshots[d.id];
@@ -343,7 +343,7 @@ const storyTitle = lang === 'de'
     })}
   </section>
 
-  <!-- ═══ AKT 10 · VIER TORE ═══ -->
+  {/* ═══ AKT 10 · VIER TORE ═══ */}
   <section data-act="frame" id="akt-10-tore" aria-label={t.ariaGates} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.gatesEyebrow}</p>
@@ -358,7 +358,7 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKT 11 · KORREKTUREN ═══ -->
+  {/* ═══ AKT 11 · KORREKTUREN ═══ */}
   <section data-act="frame" id="akt-11-korrekturen" aria-label={t.ariaCorrections}>
     <div class="max-w-4xl mx-auto w-full">
       <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.correctionsEyebrow}</p>
@@ -390,7 +390,7 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKT 12 · STATIONEN ═══ -->
+  {/* ═══ AKT 12 · STATIONEN ═══ */}
   <section aria-label={t.experienceTitle}>
     <div data-act="frame" id="akt-12-stationen">
      <div class="max-w-4xl mx-auto w-full">
@@ -439,7 +439,7 @@ const storyTitle = lang === 'de'
     </div>
   </section>
 
-  <!-- ═══ AKT 13 · WEITERGEBEN ═══ -->
+  {/* ═══ AKT 13 · WEITERGEBEN ═══ */}
   <section data-act="frame" id="akt-13-weitergeben" aria-label={t.ariaTransfer} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.transferEyebrow}</p>
@@ -460,7 +460,7 @@ const storyTitle = lang === 'de'
 
   </main>
 
-  <!-- ═══ AKT 14 · ABSCHLUSS ═══ -->
+  {/* ═══ AKT 14 · ABSCHLUSS ═══ */}
   <footer>
   <section class="act" data-act="frame" id="akt-14-abschluss" aria-label={t.ariaContact}>
     <div class="text-center reveal max-w-2xl mx-auto">
@@ -489,7 +489,7 @@ const storyTitle = lang === 'de'
         {website && <>&nbsp;&middot;&nbsp;<a href={website.url} target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">BKS-Lab</a></>}
       </p>
 
-      <p class="mt-14 text-xs no-print" style="color: var(--text-secondary); opacity: 0.4">
+      <p class="mt-14 text-xs no-print" style="color: var(--text-secondary); opacity: 0.8">
         <a href={`/${lang}/`} class="hover:opacity-100 transition-opacity">{t.classicCV}</a>
         &nbsp;&middot;&nbsp;
         <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} class="hover:opacity-100 transition-opacity">PDF</a>
@@ -555,6 +555,7 @@ const storyTitle = lang === 'de'
     .story-page .act {
       min-height: 100svh;
       min-height: 100dvh;
+      scroll-margin-top: 0;
     }
 
     .story-page [data-act="frame"] > div,
@@ -670,7 +671,7 @@ const storyTitle = lang === 'de'
       color: var(--text-secondary);
     }
     .option-mark { flex: none; width: 0.9rem; }
-    .option-out { opacity: 0.45; }
+    .option-out { opacity: 0.72; }   /* was .45: 1.77:1 in light mode, unreadable */
     .option-in {
       opacity: 1;
       border-left: 2px solid var(--accent);
@@ -814,12 +815,12 @@ const storyTitle = lang === 'de'
     });
   </script>
 
-  <!-- Act 04: hand the question to the existing chat widget instead of shipping
-       a second client. `bridge-agent:prompt` is AgentWidget's own entry point. -->
-  <!-- Liveness probe for act 04. The act claims the agent answers; the page has
+  {/* Act 04: hand the question to the existing chat widget instead of shipping
+       a second client. `bridge-agent:prompt` is AgentWidget's own entry point. */}
+  {/* Liveness probe for act 04. The act claims the agent answers; the page has
        to be able to say so truthfully at the moment of reading, or say the
        opposite. Progressive enhancement: on a blocked request neither line shows,
-       which is better than asserting either state. -->
+       which is better than asserting either state. */}
   <script>
     (async () => {
       const live = document.getElementById('probe-live');
@@ -849,7 +850,7 @@ const storyTitle = lang === 'de'
     });
   </script>
 
-  <!-- Presentation navigation: step act-to-act with arrow keys (Story page only) -->
+  {/* Presentation navigation: step act-to-act with arrow keys (Story page only) */}
   <script>
     (function () {
       // Each top-level <section> is a step; the decisions act has multiple direct

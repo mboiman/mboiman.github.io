@@ -58,7 +58,7 @@
   --surface: #ffffff;
   --surface-elevated: #ffffff;
   --text: #17212b;
-  --text-secondary: #667483;
+  --text-secondary: #566373;   /* darkened 2026-08-07: #667483 was 4.35:1 on --bg-alt, below WCAG AA */
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-soft: #e0f2fe;
