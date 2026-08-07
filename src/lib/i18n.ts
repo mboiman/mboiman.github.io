@@ -787,6 +787,5 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
  * German project title, so any wording change silently dropped the image.
  */
 export const darkScreenshots: Record<string, string> = {
-  'qe-mandat': '/images/projects/qualitydashboard.png',
   'e-invoicing': '/images/projects/nlpanalyse.png',
 };

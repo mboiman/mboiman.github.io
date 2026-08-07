@@ -1406,7 +1406,6 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitydashboard.png"
         tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht: die Testwerkzeuge mehrerer Teams und Umgebungen unter einer Oberfläche, dazu Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
         tagline_pdf = '''
 Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
@@ -1545,7 +1544,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/wecation.png"
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
@@ -1554,7 +1552,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ccwkibot.png"
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
         challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer, mit hoher Absprungrate und verpassten Leads."
         solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
@@ -1690,7 +1687,6 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitydashboard.png"
         tagline = "End-to-end solution for real-time quality monitoring: the test tools of several teams and environments under one surface, plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
         tagline_pdf = '''
 Real-time quality overview for enterprise go/no-go decisions.
@@ -1832,7 +1828,6 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/wecation.png"
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
@@ -1841,7 +1836,6 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ccwkibot.png"
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
         challenge = "Trade-fair visitors struggled to find relevant information on the website, driving high bounce rates and missed leads."
         solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
