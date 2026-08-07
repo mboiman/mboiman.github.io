@@ -1,0 +1,256 @@
+---
+/**
+ * G1 · Beweis-Paar (Akt 01) · viewBox 0 0 420 96
+ *
+ * Zwei rahmenlose Blöcke nebeneinander, dazwischen eine waagerechte
+ * Verbindungslinie mit Pfeilspitze. Dieselbe Sicherung, zweimal befragt: links
+ * steht, was die Konfigurationsdatei behauptet, rechts, was die Maschine
+ * antwortet. Das ist die These der Seite als Bild.
+ *
+ * PROPS, Reihenfolge fest, damit die Aufrufseite sie nicht raten muss:
+ *
+ *   labels[0]  Überschrift links   DE "Was die Datei sagt"      EN "What the file says"
+ *   labels[1]  Wert links          DE "aktiv"                   EN "active"
+ *   labels[2]  Überschrift rechts  DE "Was die Maschine sagt"   EN "What the machine says"
+ *   labels[3]  Wert rechts         DE "seit sechs Tagen still"  EN "silent for six days"
+ *
+ *   caption    figcaption, Pflichtfeld.
+ *              DE "Dieselbe Sicherung, zweimal befragt."
+ *              EN "The same backup, asked twice."
+ *
+ * WARUM KEIN TEXT IM SVG. Text in einem skalierenden viewBox skaliert mit: aus
+ * 0,66rem in einem 420er viewBox werden auf einem 390 px breiten Gerät rund
+ * fünf Pixel. Alle vier Beschriftungen liegen deshalb als HTML-span absolut
+ * über dem SVG. Die Prozentwerte sind Geometrie und gehören hierher, die Texte
+ * sind Sprache und kommen als Prop herein.
+ *
+ * WARUM DIE BESCHRIFTUNGEN IN EINEM EIGENEN KÄSTCHEN LIEGEN. Ein Prozentwert
+ * für `top` löst gegen den nächsten positionierten Vorfahren auf. Wäre das die
+ * figure, zählte die figcaption mit, und die Bildunterschrift ist kein Teil des
+ * Bildes: sie wächst mit der Schriftgröße und bricht auf schmalen Geräten um.
+ * Gemessen an der figure lief der rechte Wert unter 420 px Bildbreite in die
+ * Unterkante hinein und schwebte oberhalb davon immer weiter über ihr. Die
+ * Beschriftungen liegen deshalb mit dem SVG zusammen in `.fig-plot`, und
+ * dessen Kästchen ist exakt das Bild.
+ *
+ * WARUM ZEIT UND NICHT SCROLL (A2). Akt 01 steht beim Laden schon im Bild und
+ * wird nie hineingescrollt, also würde `view()` dort nie feuern und die
+ * Zeitleiste auf einem beliebigen Fortschritt einfrieren. Aus demselben Grund
+ * ist die Eröffnungschoreografie A1 in story.css zeitbasiert. Der
+ * @supports-Block auf `animation-timeline: view()` entfällt hier folgerichtig,
+ * die Einhegung in `prefers-reduced-motion: no-preference` bleibt.
+ *
+ * WARUM DER LINKE WERT SCHON GEDIMMT STARTET. Der Basiszustand ist der
+ * Endzustand: Linie gezeichnet, rechter Wert da, linker Wert auf 40 Prozent.
+ * Ohne JavaScript, in Firefox Stable und unter reduzierter Bewegung steht das
+ * Bild damit vollständig und still, nie leer. Die Bewegung nimmt sich diesen
+ * Zustand nur, um ihn in 1,3 Sekunden neu aufzubauen.
+ */
+
+interface Props {
+  labels: string[];
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+
+/* Benannt statt indiziert, damit die Reihenfolge im Markup lesbar bleibt und
+   eine zu kurze Liste einen leeren String rendert statt "undefined". */
+const [
+  sourceLabel = '',
+  sourceValue = '',
+  probeLabel = '',
+  probeValue = '',
+] = labels;
+---
+
+<figure class="fig">
+  <div class="fig-plot">
+    <svg
+      class="fig-svg"
+      viewBox="0 0 420 96"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    >
+      <path class="fig-rule" d="M 0 76 H 170" stroke-width="1" vector-effect="non-scaling-stroke" />
+      <path class="fig-rule" d="M 250 76 H 420" stroke-width="1" vector-effect="non-scaling-stroke" />
+      <path class="fig-link" d="M 180 48 H 240" pathLength="1" />
+      <path class="fig-tip" d="M 234 43 L 240 48 L 234 53" />
+    </svg>
+
+    <span class="fig-label" style="left: 20.2%; top: 14%">{sourceLabel}</span>
+    <span class="fig-value fig-value--source" style="left: 20.2%; bottom: 27%">{sourceValue}</span>
+    <span class="fig-label" style="left: 79.8%; top: 14%">{probeLabel}</span>
+    <span class="fig-value fig-value--probe" style="left: 79.8%; bottom: 27%">{probeValue}</span>
+  </div>
+
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* Der Rahmen ist zugleich Query-Container. Beschriftungsgrößen hängen damit
+     an der Breite der Grafik statt an der des Fensters, und die
+     Prozentpositionen darüber bleiben bei jeder Größe verhältnistreu.
+     Bewusst NICHT positioniert: das Bezugskästchen der Beschriftungen ist
+     `.fig-plot`, siehe Kopfkommentar. */
+  .fig {
+    container-type: inline-size;
+    margin: 0;
+  }
+
+  /* Das Bezugskästchen. Es enthält nur das SVG, hat keinen eigenen Innenabstand
+     und keinen Rahmen, ist also deckungsgleich mit dem Bild. Jeder Prozentwert
+     in den Beschriftungen ist damit ein Prozentwert des viewBox. */
+  .fig-plot {
+    position: relative;
+  }
+
+  /* Ohne diese drei Zeilen hat ein viewBox-SVG keine intrinsische Breite, das
+     Kästchen darüber und das Kästchen des Bildes fallen auseinander, und jede
+     Prozentposition darauf zeigt daneben. Deshalb steht die Regel hier im
+     Bauteil und nicht in einer Datei, deren Ladereihenfolge sich ändern kann. */
+  .fig-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Die Unterkanten sind die ruhenden Teile. Sie tragen bewusst KEINE
+     zusätzliche opacity 0.34: --line ist mit 10 Prozent Alpha bereits die
+     Ruhefarbe des Systems, 0.34 darauf ergäbe 3,4 Prozent und löschte die
+     Linie. Die Absicht der gemeinsamen Regel, ruhende Teile treten zurück,
+     erfüllt hier das Token. */
+  .fig-rule {
+    stroke: var(--line);
+  }
+
+  /* Das eine bewegte Element: Akzentfarbe, volle Deckkraft. pathLength="1"
+     macht die Dash-Rechnung unabhängig von der Geometrie, der Pfad kann
+     umgeformt werden, ohne dass hier eine Zahl nachgestimmt wird. Der
+     Ruhezustand ist der gezeichnete Pfad. */
+  .fig-link {
+    stroke: var(--accent);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .fig-tip {
+    stroke: var(--accent);
+    opacity: 1;
+  }
+
+  /* Die Überschrift hängt oben, der Wert steht auf seiner Unterkante: er ist
+     im Markup über `bottom` verankert, nicht über `top`. Grund ist die
+     Deckelung der Schriftgröße weiter unten. Ein über `top` verankerter Wert
+     wandert bei jeder Größenänderung gegenüber der Linie, weil seine Höhe ab
+     einer bestimmten Bildbreite stehenbleibt, während das Bild weiterwächst.
+     Über `bottom` verankert bleibt der Abstand zur Unterkante konstant, und
+     genau dieser Abstand ist die Aussage: der Wert sitzt auf seiner Linie. */
+  .fig-label,
+  .fig-value {
+    position: absolute;
+    transform: translate(-50%, 0);
+    white-space: nowrap;
+    pointer-events: none;
+    line-height: 1.15;
+  }
+
+  /* 0,66rem ist die Obergrenze aus der Spezifikation, nicht der Festwert. Ein
+     Block ist 40,5 Prozent der Bildbreite; die längste Überschrift braucht bei
+     Versalien plus 0,1em Sperrung rund 15em. 2.6cqi hält sie darin, und ab
+     etwa 26rem Bildbreite bindet ohnehin der Spezifikationswert. */
+  .fig-label {
+    font-size: min(0.66rem, 2.6cqi);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  /* Gleiche Rechnung, andere Zahlen: "seit sechs Tagen still" sind 22 Zeichen,
+     dimensionsstabile Schrift, also rund 13em. 3cqi hält den Wert im Block,
+     1,3rem deckelt ihn nach oben. Beide Werte teilen sich eine Größe, damit
+     das Paar als Paar liest. */
+  .fig-value {
+    font-family: var(--font-mono);
+    font-size: min(1.3rem, 3cqi);
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  /* Endzustand, siehe Kopfkommentar. Der Kontrast zwischen den beiden Werten
+     entsteht aus Deckkraft, nicht aus einer zweiten Farbe. */
+  .fig-value--source {
+    opacity: 0.4;
+  }
+
+  .fig-caption {
+    margin-top: 0.85rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* ── Bewegungs-Schicht (A2) ──────────────────────────────────────────────
+     Alles darüber rendert vollständig. Nur dieser Block baut es neu auf.
+
+     Das Fenster ist vorgegeben: Einsatz 2,4 s, Ende 3,7 s. Es liegt hinter der
+     Ouvertüre des Akts, deren letzte Marke bei 2,5 s steht, damit die Grafik
+     nicht gegen die Überschrift anläuft. Der Einsatzpunkt ist als `--fig-t0`
+     von außen übersteuerbar, die Aufteilung dahinter gehört dem Bauteil: die
+     inneren Verhältnisse sind eine Eigenschaft der Erzählung, nicht der Seite.
+     Der Vorgabewert steht als Rückfall IM `var()` und nicht als eigene
+     Deklaration auf `.fig`, denn eine Deklaration auf dem Element schlägt jeden
+     geerbten Wert und machte die Übersteuerung zur Behauptung.
+
+       t0 + 0,00 s bis 0,60 s   Linie zeichnet sich
+       t0 + 0,45 s bis 0,65 s   Pfeilspitze setzt auf, überlappt das Linienende,
+                                damit die Spitze nicht als eigener Schritt liest
+       t0 + 0,65 s bis 1,10 s   rechter Wert erscheint
+       t0 + 0,95 s bis 1,30 s   linker Wert fällt auf 40 Prozent
+
+     `both` als fill-mode ist tragend: vor dem Delay gilt der Anfangswert,
+     danach der Endwert. Ohne ihn stünde der rechte Wert die ganze Wartezeit
+     lang da, bevor er zu erscheinen beginnt. */
+  @media (prefers-reduced-motion: no-preference) {
+    .fig-link {
+      animation: fig-proof-draw 0.6s cubic-bezier(0.22, 0.68, 0.3, 1) var(--fig-t0, 2.4s) both;
+    }
+    @keyframes fig-proof-draw {
+      from { stroke-dashoffset: 1; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    .fig-tip {
+      animation: fig-proof-tip 0.2s ease-out calc(var(--fig-t0, 2.4s) + 0.45s) both;
+    }
+    @keyframes fig-proof-tip {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Die Keyframes müssen die Zentrierung mitführen: translate(-50%, 0) ist
+       Layout, nicht Bewegung, und eine transform-Deklaration ersetzt immer
+       die ganze Liste. */
+    .fig-value--probe {
+      animation: fig-proof-answer 0.45s cubic-bezier(0.22, 0.68, 0.3, 1) calc(var(--fig-t0, 2.4s) + 0.65s) both;
+    }
+    @keyframes fig-proof-answer {
+      from { opacity: 0; transform: translate(-50%, 0.4rem); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    .fig-value--source {
+      animation: fig-proof-dim 0.35s ease-out calc(var(--fig-t0, 2.4s) + 0.95s) both;
+    }
+    @keyframes fig-proof-dim {
+      from { opacity: 1; }
+      to   { opacity: 0.4; }
+    }
+  }
+</style>

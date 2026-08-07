@@ -1,0 +1,186 @@
+---
+/**
+ * G6 · Zwei Haken und der übersehene Pfad · Akt 10 (`10-befund`, kind `finding`).
+ *
+ * Zwei Haken melden grün, und unter ihnen läuft eine Linie durch, die keiner der
+ * beiden angesehen hat. Der Akzentstrich markiert die Stelle. Kontrast entsteht aus
+ * Deckkraft und Strichstärke, nie aus Farbe: die Tokens kennen kein Grün und kein
+ * Rot, also gibt es hier keine Ampel.
+ *
+ * PROPS
+ *   labels  Reihenfolge ist fest, die Aufrufseite muss sie nicht raten:
+ *             [0]  `Pfad-Prüfer`     / `path validator`   unter dem linken Haken
+ *             [1]  `Inhalts-Prüfer`  / `content scanner`  unter dem rechten Haken
+ *             [2]  `hier`            / `here`             unter dem Akzentstrich
+ *   caption Ein Satz, was die Abbildung zeigt. Pflicht, rendert als <figcaption>.
+ *             DE `Beide meldeten grün. Der Pfad dazwischen lief weiter.`
+ *             EN `Both reported green. The path between them kept running.`
+ *
+ * WARUM KEIN <text> IM viewBox
+ *   Der viewBox skaliert, und mit ihm skalierte jede Beschriftung darin: aus 0.72rem
+ *   in einem 360er viewBox werden auf einem 390 px breiten Telefon rund fünf Pixel.
+ *   Alle Beschriftungen liegen deshalb als HTML-span darüber. Die Prozentwerte sind
+ *   Geometrie und gehören hierher, die Texte sind Sprache und kommen als Prop.
+ *
+ * WARUM DER PLOT-WRAPPER
+ *   Die Beschriftungen hängen an `.fig-plot`, nicht an `.fig`. Ein Prozentwert für
+ *   `top` misst gegen die Höhe des Bezugsrahmens: läge er auf `.fig`, zählte die
+ *   figcaption mit, und eine zweizeilige Bildunterschrift im Deutschen würde alle
+ *   drei Beschriftungen gegenüber dem Englischen verschieben. Der Wrapper hat exakt
+ *   die Höhe des SVG, damit stimmen die Prozentwerte in jeder Sprache.
+ *   Er trägt zusätzlich den Zeitstrahl der Bewegungs-Schicht, Begründung dort.
+ *
+ * WARUM pathLength="1"
+ *   Die Dash-Rechnung wird damit unabhängig von der tatsächlichen Geometrie: ein Pfad
+ *   kann umgeformt werden, ohne dass Zahlen im CSS nachgestimmt werden müssen. Die
+ *   Bauanleitung nennt an einer Stelle 100 statt 1, aber `story.css` rechnet in der
+ *   gemeinsamen Zeichen-Schicht bereits mit 1 (`stroke-dasharray: 1`), und zwei
+ *   Konventionen nebeneinander wären die teurere Variante. Entschieden für 1.
+ *
+ * WARUM `.dgm` AM SVG
+ *   Box-Verhalten (Breite, Höhe, overflow) kommt aus `story.css`, nicht aus einer
+ *   zweiten Kopie hier. Nur was G6 eigen ist, steht unten: Strichstärken, die zwei
+ *   getrennten Zeitbereiche und die Ruhedeckkraft der Haken.
+ */
+
+interface Props {
+  labels: string[];
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+---
+
+<figure class="fig">
+  <div class="fig-plot">
+    <svg
+      class="dgm"
+      viewBox="0 0 360 200"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="fig-check" pathLength="1" stroke-width="2.5" d="M -14 0 L -4 11 L 18 -14" transform="translate(70 60)" />
+      <path class="fig-check" pathLength="1" stroke-width="2.5" d="M -14 0 L -4 11 L 18 -14" transform="translate(250 60)" />
+      <path class="fig-run" pathLength="1" stroke-width="2" d="M 20 150 H 340" />
+      <path class="fig-tick" pathLength="1" stroke-width="2.5" stroke="var(--accent)" d="M 180 138 V 162" />
+    </svg>
+
+    <span class="fig-label" style="left: 20%; top: 44%">{labels[0]}</span>
+    <span class="fig-label" style="left: 70%; top: 44%">{labels[1]}</span>
+    <span class="fig-label" style="left: 50%; top: 84%">{labels[2]}</span>
+  </div>
+
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* Eine Mikro-Grafik, keine Tafel. Ohne Deckel liefe sie auf die volle Breite der
+     Textspalte und die Haken würden zu Piktogrammen in Plakatgröße. */
+  .fig {
+    margin: 0;
+    max-width: 22rem;
+    color: var(--text);
+  }
+
+  .fig-plot {
+    position: relative;
+  }
+
+  .fig-label {
+    position: absolute;
+    transform: translate(-50%, 0);
+    font-size: clamp(0.6rem, 0.78vi, 0.7rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .fig-caption {
+    margin-top: 0.9rem;
+    font-size: clamp(0.68rem, 0.9vi, 0.78rem);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* Der Ruhezustand IST der Endzustand: alle drei Pfade gezeichnet, die Haken auf
+     30 Prozent. Ohne JavaScript, in Firefox Stable und unter reduzierter Bewegung
+     steht damit die vollständige Aussage, nicht eine leere Fläche. */
+  .fig-check,
+  .fig-run,
+  .fig-tick {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* Die Haken haben abgegeben, die Linie läuft noch: Kontrast aus Deckkraft und
+     Strichstärke. 0.3 statt der üblichen 0.34, weil die Bauanleitung den Rückfall
+     für diesen Akt ausdrücklich auf 30 Prozent festlegt. */
+  .fig-check {
+    opacity: 0.3;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* EINE UHR FÜR DIE GANZE ABBILDUNG, nicht eine je Pfad.
+         `view()` nimmt das animierte Element selbst als Bezug, und die drei Pfade
+         sind unterschiedlich hoch und liegen auf unterschiedlicher Höhe: die Haken
+         sind rund 24 px hoch, die durchlaufende Linie ist als waagerechter Pfad
+         null Pixel hoch. Je eigener Uhr wäre die entry-Phase der Haken nach knapp
+         25 px Scroll vorbei (der Bereich 20 bis 55 Prozent also nach 8 px), und der
+         Bezugsrahmen der Linie hätte gar keine Höhe. Die drei Bereiche unten
+         zählten dann auf drei verschiedenen Uhren, und genau die Lücke zwischen
+         Haken und Linie, die hier die Aussage trägt, entstünde nicht.
+         Der Wrapper ist ein echter Block mit der Höhe des Bildes; auf ihm bedeuten
+         `entry` und `cover` das, was die Bereiche unten meinen. Ein benannter
+         Zeitstrahl gilt für das Element und seine Nachfahren, die Pfade greifen ihn
+         also ohne timeline-scope ab. */
+      .fig-plot { view-timeline-name: --figchecks; }
+
+      /* Zwei getrennte Bereiche mit einer Lücke dazwischen. Erst zeichnen sich die
+         beiden Haken, dann passiert eine Weile nichts, dann läuft die Linie durch
+         und die Haken verblassen. Die Pause ist die Aussage.
+         Die Kurzschreibweise setzt timeline und range zurück, beide stehen deshalb
+         danach; die Dauer bleibt weg, `auto` heißt voller Bereich. */
+      .fig-check {
+        animation: figchecks-draw linear both, figchecks-dim linear both;
+        animation-timeline: --figchecks, --figchecks;
+        animation-range: entry 20% entry 55%, cover 20% cover 55%;
+      }
+
+      .fig-run {
+        animation: figchecks-draw linear both;
+        animation-timeline: --figchecks;
+        animation-range: cover 20% cover 55%;
+      }
+
+      /* Der Akzentstrich setzt den Punkt, nachdem die Linie durch ist. Die
+         Bauanleitung nennt für ihn keinen eigenen Bereich, also hängt er hinten an
+         der Linie: er beginnt genau dort, wo sie endet (cover 55%), markiert damit
+         was gerade passiert ist, und ist das eine bewegte Akzentelement dieser
+         Grafik. */
+      .fig-tick {
+        animation: figchecks-draw linear both;
+        animation-timeline: --figchecks;
+        animation-range: cover 55% cover 68%;
+      }
+
+      @keyframes figchecks-draw {
+        from { stroke-dashoffset: 1; }
+        to   { stroke-dashoffset: 0; }
+      }
+
+      @keyframes figchecks-dim {
+        from { opacity: 1; }
+        to   { opacity: 0.3; }
+      }
+    }
+  }
+</style>

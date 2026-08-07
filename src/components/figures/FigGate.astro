@@ -1,0 +1,232 @@
+---
+/**
+ * G5 · Board mit Tor. Belongs to act 09 (`09-tor`), motion entry A10.
+ *
+ * The card travels the board and STOPS in front of a closed gate. It is the one
+ * animation on the page that deliberately never completes, so the resting state
+ * and the moving state tell exactly the same story: a machine that runs to the
+ * draft and then waits for a person.
+ *
+ * LABEL ORDER (`labels`), fixed, so the calling act does not have to guess:
+ *   0  DE `armiert`                    EN `armed`               column at x=200
+ *   1  DE `umgesetzt`                  EN `built`               column at x=400
+ *   2  DE `geprüft`                    EN `reviewed`            column at x=600
+ *   3  DE `Entwurf`                    EN `draft`               names the card
+ *   4  DE `merge`                      EN `merge`               beyond the gate, 22% opacity
+ *   5  DE `wartet auf einen Menschen`  EN `waiting for a human` accent note at the card
+ *
+ * Decisions taken where the specification states an intent rather than a number:
+ *
+ *  · The three vertical lines ARE the three columns (x = 200, 400, 600), so
+ *    labels 0 to 2 are centred on them. Label 3 names the card itself, which is
+ *    what the machine produces before it stops; label 4 names the region behind
+ *    the gate, which nothing on this board ever reaches.
+ *  · Head line spans x = 40 to 714, i.e. across the merge region as well, so the
+ *    unreachable column still reads as part of the same board.
+ *  · The merge region is drawn as a narrow inset rectangle rather than a fourth
+ *    line, because the specification calls it an area, not a column.
+ *  · Card contour uses stroke-width 1.5 like every other contour in the family.
+ *    The spec says "1 px" for this one card; stroke width here is in unitless
+ *    viewBox units anyway, and a lone 1.0 would read as a different pen.
+ *  · Board furniture keeps full opacity in `var(--line)`. That token is already
+ *    a 10% alpha, so dimming it a second time to 0.34 would erase it. The 0.34
+ *    resting value is applied where the ink is `currentColor`: the two hinted
+ *    text lines inside the card.
+ *  · Resting position of the card comes from an SVG `transform` attribute, and
+ *    `offset-path` is declared only inside the motion layer. A browser without
+ *    motion-path support therefore still gets the card at 74 percent instead of
+ *    parked at the viewBox origin.
+ *  · Labels sit inside a `.fig-stage` wrapper rather than directly in `<figure>`,
+ *    so their percentages resolve against the SVG box alone. Measured against
+ *    the whole figure, the caption height would drag every top value off target.
+ *  · Label 4 (`merge`) sits BELOW the region it names, not on the head line.
+ *    A label does not scale with the viewBox, so on a 390 px phone the head
+ *    row put `merge` and `geprüft` about seven pixels into each other. Below
+ *    the region they are on different rows and the collision cannot happen at
+ *    any width.
+ *
+ * The `.fig` / `.fig-label` / `.fig-caption` rules live here because
+ * `src/styles/story.css` does not carry them yet. Once they move there, this
+ * block can go without replacement; nothing below it depends on being local.
+ */
+interface Props {
+  /** Six strings, in the order documented above. */
+  labels: string[];
+  /** Required. The figure never ships without its caption. */
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+
+/*
+ * Geometry lives in the component, language comes in as a prop. Percentages are
+ * x/720 and y/260 of the viewBox, so a label is anchored to a drawn coordinate
+ * rather than to a guess.
+ *   card centre = 60 + 0.74 * 580 = 489.2  →  67.94%
+ */
+const pos = [
+  { left: '27.78%', top: '4%' },   // 0 armiert    · column x=200
+  { left: '55.56%', top: '4%' },   // 1 umgesetzt  · column x=400
+  { left: '83.33%', top: '4%' },   // 2 geprüft    · column x=600
+  { left: '67.94%', top: '32%' },  // 3 Entwurf    · above the resting card
+  { left: '99%', top: '86%' },     // 4 merge      · right-anchored, under the region it names
+  { left: '67.94%', top: '70%' },  // 5 wartet     · below the resting card
+];
+---
+
+<figure class="fig fig-gate">
+  <div class="fig-stage">
+    <svg viewBox="0 0 720 260" aria-hidden="true" focusable="false">
+      {/* Board furniture: a head line and three hinted columns. */}
+      <g class="gate-board">
+        <path pathLength="1" d="M 40 40 H 714" />
+        <path pathLength="1" d="M 200 40 V 230" />
+        <path pathLength="1" d="M 400 40 V 230" />
+        <path pathLength="1" d="M 600 40 V 230" />
+      </g>
+
+      {/* The region behind the gate. Present, named, never entered. */}
+      <g class="gate-beyond">
+        <rect x="698" y="52" width="16" height="166" rx="4" />
+      </g>
+
+      {/* The gate: two bars and a thin bar across the gap. Closed. */}
+      <g class="gate-gate">
+        <rect x="664" y="103" width="6" height="74" rx="1" />
+        <rect x="690" y="103" width="6" height="74" rx="1" />
+        <path pathLength="1" d="M 670 140 H 690" />
+      </g>
+
+      {/*
+        The card is drawn centred on the local origin, because `offset-anchor`
+        resolves to `transform-origin`, which is 0 0 in the viewBox. So the point
+        that rides the path is the middle of the card, not a corner.
+      */}
+      <g class="gate-card" transform="translate(489.2 140)">
+        <rect x="-48" y="-29" width="96" height="58" rx="6" />
+        <path class="gate-card-line" pathLength="1" d="M -32 -12 H 32" />
+        <path class="gate-card-line" pathLength="1" d="M -32 4 H 6" />
+      </g>
+    </svg>
+
+    <span class="fig-label" style={`left:${pos[0].left}; top:${pos[0].top}`}>{labels[0]}</span>
+    <span class="fig-label" style={`left:${pos[1].left}; top:${pos[1].top}`}>{labels[1]}</span>
+    <span class="fig-label" style={`left:${pos[2].left}; top:${pos[2].top}`}>{labels[2]}</span>
+    <span class="fig-label" style={`left:${pos[3].left}; top:${pos[3].top}`}>{labels[3]}</span>
+    <span class="fig-label fig-label--end fig-label--faint" style={`left:${pos[4].left}; top:${pos[4].top}`}>{labels[4]}</span>
+    <span class="fig-label fig-label--accent" style={`left:${pos[5].left}; top:${pos[5].top}`}>{labels[5]}</span>
+  </div>
+
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* ── Shared figure shell ───────────────────────────────────────────────── */
+
+  .fig { position: relative; margin: 0; }
+
+  .fig-stage { position: relative; }
+
+  .fig-stage > svg { display: block; width: 100%; height: auto; }
+
+  .fig-label {
+    position: absolute;
+    transform: translate(-50%, 0);
+    font-size: clamp(0.6rem, 0.78vi, 0.7rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Anchored by its right edge. A centred label this close to the frame would
+     hang over the edge and push the page sideways on a narrow screen. */
+  .fig-label--end { transform: translate(-100%, 0); }
+
+  /* The 22 percent belongs to the drawn region, which is already dimmed in the
+     SVG. Dimming its label by the same amount a second time puts it at roughly
+     1.2:1 against a light background, i.e. gone. 0.34 is the resting value the
+     rest of the figure family uses and still reads as out of reach. */
+  .fig-label--faint { opacity: 0.34; }
+
+  .fig-label--accent { color: var(--accent); }
+
+  .fig-caption {
+    margin-top: 0.9rem;
+    font-size: clamp(0.72rem, 0.95vi, 0.82rem);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* ── Ink ───────────────────────────────────────────────────────────────── */
+
+  .gate-board path {
+    stroke: var(--line);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .gate-beyond { opacity: 0.22; }
+  .gate-beyond rect {
+    fill: var(--surface-elevated);
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  /* The gate is the only element in accent at full strength. It is what the run
+     stops at, so it is what the eye should land on. */
+  .gate-gate rect { fill: var(--accent); }
+  .gate-gate path {
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .gate-card rect {
+    fill: var(--surface-elevated);
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .gate-card-line {
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    opacity: 0.34;
+  }
+
+  /* ── Motion layer ──────────────────────────────────────────────────────────
+     Everything above is already the end state: the card rests at 74 percent of
+     the path, the gate is shut, the merge region is out of reach. The block
+     below only takes that away in order to rebuild it. Without it, in Firefox
+     stable, or under reduced motion, the figure is complete and still. */
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .gate-card {
+        /* Cancels the resting `transform` attribute so the motion path is the
+           only thing placing the card. */
+        transform: none;
+        transform-box: view-box;
+        transform-origin: 0 0;
+        offset-path: path('M 60 140 H 640');
+        offset-rotate: 0deg;
+        offset-distance: 74%;
+        /* The shorthand resets timeline and range, so both come after it. */
+        animation: gate-card-approach linear both;
+        animation-timeline: view();
+        animation-range: entry 25% cover 65%;
+      }
+
+      @keyframes gate-card-approach {
+        from { offset-distance: 0%; }
+        to   { offset-distance: 74%; }
+      }
+    }
+  }
+</style>

@@ -33,59 +33,10 @@ export interface RunningItem {
   stateNote?: string;
 }
 
-/** A question a visitor can fire at the live agent, plus what the answer proves. */
-export interface ProbeItem {
-  question: string;
-  explains: string;
-}
 
-/**
- * The core act type. Replaces the old "featured project" rendering, which
- * coupled the presentation's layout to `projects.list` and to a vanity
- * `metric` field: a project without a number silently fell back to a raw
- * markdown bullet dump next to a designed one.
- */
-export interface DecisionAct {
-  id: string;
-  category: string;
-  stack: string;
-  title: string;
-  problem: string;
-  /** Rejected options first (rendered struck back), chosen option last. */
-  rejected: string[];
-  chosen: string;
-  decision: string;
-  /** What the decision cost. A decision with a price cannot read as a success report. */
-  price: string;
-  /** Never a counter, a percentage or a year. Standard, licence/release, address, or named procedure. */
-  proof: string;
-  proofLabel: string;
-  proofUrl?: string;
-  state: 'public' | 'closed';
-  stateNote?: string;
-  /** Optional closing paragraph, set quieter than the body. */
-  coda?: string;
-}
 
-/** A rule that runs, plus the event it came out of. */
-export interface Gate {
-  rule: string;
-  mechanism: string;
-  origin: string;
-}
 
-/** A claim that was withdrawn after checking. */
-export interface Correction {
-  assumption: string;
-  check: string;
-  result: string;
-}
 
-/** A talk, workshop or engagement in the knowledge-transfer act. */
-export interface TransferItem {
-  title: string;
-  body: string;
-}
 
 // UI strings for the floating agent chat widget (AgentWidget.astro).
 // Kept here per the "no hardcoded text in .astro" rule; consumed by the
@@ -129,25 +80,93 @@ export interface AgentWidgetStrings {
 }
 
 /**
- * One act of the presentation. Bullets only.
+ * One act of the presentation.
  *
- * The previous shape carried paragraph-length `problem` / `decision` / `price`
- * fields per act and read as an essay on a slide. Michael's note was
- * "zu viel text für eine presentation wo nur bulletpoints laufen sollten".
- * Hard budget now, checked by scripts/check-acts.mjs at build time: at most
- * eight words per bullet, at most five bullets, at most 55 words per act.
- * If something does not fit, it belongs behind the hook, not on the slide.
+ * `kind` is the load-bearing field. The version before this one had a single
+ * composition for all eleven acts, and that is exactly what made it read worse
+ * than its predecessor despite carrying better sentences: when every act has
+ * the same shape, nothing can be emphasised, so nothing is. `kind` picks the
+ * layout, the bullet budget and where the proof anchor sits.
+ *
+ * Budgets, enforced by scripts/check-i18n.mjs at build time:
+ *   manifest 2 · portrait 3 · offer 4 · figure 4 · shot 3
+ *   live 3 · finding 3 · terminal 3 · closing 2
  */
+export type ActKind =
+  | 'manifest' | 'portrait' | 'offer' | 'figure'
+  | 'shot' | 'live' | 'finding' | 'terminal' | 'closing';
+
+/** Which surface the act sits on. Not a strict alternation: `slab` appears once. */
+export type ActTone = 'base' | 'alt' | 'slab';
+
+/** Which inline SVG component under src/components/figures/ renders. */
+export type FigureId = 'proofpair' | 'timeline' | 'mesh' | 'route' | 'gate' | 'checks';
+
+export interface ActFigure {
+  id: FigureId;
+  /** Labels, rendered as HTML positioned over the SVG. Order is fixed and
+   *  documented in the component. Never <text> inside the viewBox: text in a
+   *  scaling viewBox scales with it, and 0.7rem in a 900-wide box lands at
+   *  about five pixels on a phone. */
+  labels: string[];
+  /** One sentence on what the figure shows. Renders as <figcaption>. Required. */
+  caption: string;
+}
+
+export interface ActShot {
+  /** Key into the image map in StoryPage, never a raw path: a raw path can
+   *  point at a file that was removed for leaking, and nothing would catch it. */
+  src: 'nlpanalyse' | 'angebotstest' | 'websiteanalyzer';
+  /** What it shows, and that it is his own. Required. */
+  caption: string;
+  /** Empty on purpose: the caption carries the information, the figure is proof. */
+  alt: '';
+}
+
+export interface ActTerminal {
+  title: string;
+  lines: { kind: 'cmd' | 'out' | 'hit'; text: string }[];
+  /** When it was recorded. Renders under the block. */
+  recorded: string;
+}
+
+/** Before and after on one filename. Both names invented and generic. */
+export interface ActRename { before: string; after: string; }
+
+/** The three bubbles of the phone mock. Generic: no practice, person or place. */
+export interface ActPhone { lines: string[]; note: string; }
+
+/** One line of the two-colour tree beside the terminal. */
+export interface ActTreeItem { path: string; label: string; side: 'shared' | 'private' }
+
 export interface PitchAct {
   id: string;
+  kind: ActKind;
+  tone: ActTone;
   eyebrow: string;
   headline: string;
+  /** On `figure` acts the bullets are also the figure's textual equivalent and
+   *  render as an <ol>. There is no second list beside it. */
   bullets: string[];
-  /** Bullets ending in a question mark become clickable prompts for the live agent. */
+  /** Bullets become buttons that hand their text to the live agent. Each must
+   *  end in a question mark. */
   askAgent?: boolean;
-  /** The verifiable identifier. Never a counter, a percentage or a year. */
+  /** One quiet line under each question, saying what the answer proves. */
+  probeNotes?: string[];
+  /** At most two acts on the whole page carry this. Enforced by the guard.
+   *  A page of scars reads as a postmortem, not as an offer. */
+  scar?: true;
+  figure?: ActFigure;
+  shot?: ActShot;
+  terminal?: ActTerminal;
+  tree?: ActTreeItem[];
+  rename?: ActRename;
+  phone?: ActPhone;
+  /** The verifiable identifier. Never a counter, a percentage or a year.
+   *  A `closed` anchor is set as strongly as an open one: admitting that
+   *  something cannot be published is the stronger trust signal. */
   anchor?: { text: string; label: string; url?: string; state: 'public' | 'closed'; note?: string };
-  /** The line that points at depth NOT shown on the slide. This is what creates the question. */
+  /** The line that points at depth NOT shown on the slide. */
   hook?: string;
 }
 
@@ -168,6 +187,17 @@ export interface I18nStrings {
   proofPublicLabel: string;
   proofClosedLabel: string;
   agentUnavailable: string;
+  /** Live-card states on the `live` act. Three, because "checking" is a real
+   *  state and collapsing it into "reachable" would be the exact kind of
+   *  declared-not-verified claim act 01 argues against. */
+  agentChecking: string;
+  agentReachable: string;
+  agentCardName: string;
+  agentCardProtocol: string;
+  agentCardEndpoint: string;
+  /** Build stamp in the closing act. */
+  builtOn: string;
+  builtOnNote: string;
 
   // Aria labels (story page)
   ariaStatement: string;
@@ -203,194 +233,330 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     acts: [
       {
         id: '01-haltung',
+        kind: 'manifest',
+        tone: 'base',
         eyebrow: 'Haltung',
-        headline: 'Deklarierter Zustand ist nicht verifizierter Zustand',
+        headline: 'Behauptet ist nicht geprüft.',
         bullets: [
-          'Config sagt läuft: ich frage den Dienst',
-          'Anbieter sagt gefixt: ich lade die Spec',
-          'Pipeline sagt Erfolg: ich prüfe die Quittung',
+          'Kein Statusfeld gilt hier als Wahrheit.',
+          'Jeder Beleg auf dieser Seite ist aufrufbar.',
         ],
+        scar: true,
+        figure: {
+          id: 'proofpair',
+          labels: [
+            'Was die Datei sagt',
+            'aktiv',
+            'Was die Maschine sagt',
+            'seit sechs Tagen still',
+          ],
+          caption: 'Dieselbe Sicherung, zweimal befragt.',
+        },
         anchor: {
-          text: 'deploy-reconciliation.md',
-          label: 'Regel im offenen Repo',
+          text: 'rules/deploy-reconciliation.md',
+          label: 'Die Regel im offenen Repo',
           url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
           state: 'public',
         },
-        hook: 'Diese Seite hält sich selbst daran.',
+        hook: 'Vier von fünf Sicherungen waren tot, während die Statusdatei aktiv meldete.',
       },
       {
-        id: '02-angebot',
-        eyebrow: 'Michael Boiman · BKS-Lab GmbH · Frankfurt',
-        headline: 'Wofür man mich holt',
+        id: '02-person',
+        kind: 'portrait',
+        tone: 'alt',
+        eyebrow: 'Michael Boiman · Frankfurt am Main',
+        headline: 'Ich baue Systeme, die arbeiten, und Tore, an denen sie halten.',
         bullets: [
-          'Prüfen, ob ein System wirklich liefert',
-          'E-Rechnung nach EN 16931 produktiv betreiben',
-          'KI-Agenten bauen, die nach außen dichthalten',
-          'Werkzeuge und Wissen an Teams übergeben',
-          'Frei für Mandate, Reviews und Workshops',
+          'Erst Qualitätssicherung, dann Automatisierung, jetzt Agenten.',
+          'Ich betreibe selbst, was ich baue.',
+          'Offene Standards, weil man sie nachlesen kann.',
         ],
-        anchor: {
-          text: 'mboiman.github.io',
-          label: 'Klassischer Lebenslauf und PDF',
-          url: 'https://mboiman.github.io/',
-          state: 'public',
+        hook: 'Was auf dieser Seite antwortet, läuft auf Hardware, die mir gehört.',
+      },
+      {
+        id: '03-auftrag',
+        kind: 'offer',
+        tone: 'base',
+        eyebrow: 'Zusammenarbeit',
+        headline: 'Wofür man mich holt.',
+        bullets: [
+          'Bauen und betreiben: Agenten-Systeme im Betrieb.',
+          'Prüfen: ob ein System wirklich liefert.',
+          'Absichern: Grenzen, Tore, Beweisführung.',
+          'Befähigen: ein Team macht danach allein weiter.',
+        ],
+        hook: 'Als Mandat, als Review oder als Workshop. Eine Mail reicht für den Anfang.',
+      },
+      {
+        id: '04-anruf',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Sprache',
+        headline: 'Ein Anruf, ein Modell, echte freie Termine.',
+        bullets: [
+          'Die Termine liefert das Portal, nicht das Modell.',
+          'Der Bot merkt vor, er bucht nicht.',
+          'Einwilligung steht vor dem ersten Wort.',
+          'Das Zeitfenster ist fest, der Turn läuft weiter.',
+        ],
+        figure: {
+          id: 'timeline',
+          labels: [
+            'Netz',
+            'Termine holen',
+            'Modell',
+            'Antwort',
+            'Füller',
+          ],
+          caption: 'Ein Gesprächszug, aufgeteilt nach Anteilen.',
         },
-        hook: 'Jeder Punkt bekommt gleich seinen Beleg.',
-      },
-      {
-        id: '03-laeuft',
-        eyebrow: 'Heute live gelesen',
-        headline: 'Was gerade läuft',
-        bullets: [
-          'Dieser Agent, unter eigener Domain adressierbar',
-          'open-bridge, öffentlich unter MIT, v0.14.0',
-          'Die Rechnungsstrecke, produktiv, Kunde unter NDA',
-          'Das MCP-Gateway, offen für fremde Clients',
-        ],
-        anchor: {
-          text: 'agent-card.json',
-          label: 'A2A 1.0, live abrufbar',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
+        phone: {
+          lines: [
+            'Ich brauche einen Termin nächste Woche',
+            'Einen Moment, ich schaue nach',
+            'Am Dienstag, dem elften, um zehn Uhr dreißig',
+          ],
+          note: 'Datum und Uhrzeit als Wörter, weil die Sprachausgabe Ziffern verstümmelt.',
         },
-        hook: 'Drei davon öffnen Sie sofort selbst.',
-      },
-      {
-        id: '04-zustellung',
-        eyebrow: 'Beleg 1: Prüfen',
-        headline: 'Ein Pipeline-Erfolg ist noch keine Zustellung',
-        bullets: [
-          'Jede Rechnung gegen die Nachweis-API gehalten',
-          'Beleg: signierte AS4-Quittung oder SMTP-Nachweis',
-          'Ein Teil war trotzdem nicht zugestellt',
-          'Drei eigene frühere Thesen dabei kassiert',
-        ],
         anchor: {
-          text: 'AS4-Empfangsquittung',
-          label: 'Peppol-Nichtabstreitbarkeit',
+          text: 'Sprachkanal beim Auftraggeber',
+          label: 'nicht öffentlich',
           state: 'closed',
-          note: 'Kunde unter NDA',
+          note: 'Der Anschluss gehört dem Auftraggeber, die Rufnummer bleibt privat.',
         },
-        hook: 'Die Ursachen lagen in drei Sphären.',
+        hook: 'Der Anrufer hört einen Füller, während die Antwort im Hintergrund fertig wird.',
       },
       {
-        id: '05-rechnungsstrecke',
-        eyebrow: 'Beleg 2: E-Rechnung',
-        headline: 'Eine Rechnung wandert durch benannte Stationen',
+        id: '05-eingang',
+        kind: 'shot',
+        tone: 'base',
+        eyebrow: 'Eingang',
+        headline: 'Was hereinkommt, liegt danach am richtigen Ort.',
         bullets: [
-          'SAP entgegennehmen, nach UBL wandeln, einliefern',
-          'Bricht eine Station, greift die Fehlerkette',
-          'Formate hinter Ports: XRechnung, ZUGFeRD, Factur-X',
-          'Zwei Eingänge, Webhook und Postfach, eine Schicht',
+          'Eine Regel entscheidet das Ziel, nicht ich.',
+          'Der Dateiname trägt das Datum vorn.',
+          'Jede Bewegung landet in einer versionierten Zeile.',
         ],
+        shot: {
+          src: 'nlpanalyse',
+          caption: 'Eigenes Dashboard einer E-Mail-Klassifizierung. Kategorien generisch, keine Absender.',
+          alt: '',
+        },
+        rename: {
+          before: 'scan_0042.pdf',
+          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        },
         anchor: {
-          text: 'EN 16931',
-          label: 'Peppol BIS 3.0',
+          text: 'rules/recording-provenance.md',
+          label: 'Die Regel liegt offen',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/recording-provenance.md',
           state: 'public',
         },
-        hook: 'Welche BT-Nummern fehlten, steht nicht hier.',
+        hook: 'Wer eine Aufnahme dokumentiert, archiviert das Original und verlinkt es. Immer beides.',
       },
       {
-        id: '06-agenten',
-        eyebrow: 'Beleg 3: Agenten',
-        headline: 'Die interessanten Entscheidungen sind Weglassungen',
+        id: '06-netz',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Adressierbar',
+        headline: 'Jeder Agent hat eine eigene Adresse.',
         bullets: [
-          'Verworfen: Empfängerfeld mit Validierung',
-          'Verworfen: Positivliste erlaubter Empfänger',
-          'Gewählt: kein Empfänger-Argument, Adresse vom Betreiber',
-          'Kein Kalenderrecht: er liest nur Frei/Belegt',
+          'Sie fragen sich über ein offenes Protokoll.',
+          'Ein Tor übersetzt, mehr nicht: kein Modell darin.',
+          'Das Token des Aufrufers geht nie nach oben.',
+          'Überlast kommt als benannte Absage zurück.',
         ],
+        figure: {
+          id: 'mesh',
+          labels: [
+            'Projekt-Agent',
+            'Firmen-Agent',
+            'Persönlicher Agent',
+            'Tor',
+            'list · card · ask',
+          ],
+          caption: 'Drei Agenten, ein Tor, ein offenes Protokoll.',
+        },
         anchor: {
-          text: 'A2A 1.0',
-          label: 'Steckbrief live abrufbar',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
+          text: 'A2A 1.0 · MCP 2025-06-18',
+          label: 'Zwei offene Protokolle, live bestätigt',
+          url: 'https://openbridge.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Durchgesetzt durch Abwesenheit, nicht durch Prüfung.',
+        hook: 'Genau ein Pfad am Tor, bewusst kein zweiter für Gesundheitsprüfungen.',
       },
       {
         id: '07-fragen-sie-ihn',
-        eyebrow: 'Der Agent auf dieser Seite',
-        headline: 'Fragen Sie ihn selbst',
+        kind: 'live',
+        tone: 'base',
+        eyebrow: 'Live auf dieser Seite',
+        headline: 'Fragen Sie ihn selbst.',
         bullets: [
-          'Welche KI-Workshops bietet BKS-Lab an?',
-          'Wann hätte Michael nächste Woche Zeit?',
-          'Bei Fachfragen holt er einen zweiten Agenten',
-          'Eine dieser Fragen beantwortet er nicht',
+          'Was liest du, und was nicht?',
+          'Auf welcher Hardware läufst du?',
+          'Woher kommen deine Terminzeiten?',
         ],
         askAgent: true,
+        probeNotes: [
+          'Prüft die absichtlich schmale Wissensquelle.',
+          'Prüft den Betrieb auf eigener Hardware.',
+          'Prüft den Terminspiegel: nur Zeiten, kein Titel, kein Ort.',
+        ],
         anchor: {
-          text: 'agent-card.json',
-          label: 'A2A 1.0, live gelesen',
+          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
+          label: 'Sein Steckbrief, direkt aufrufbar',
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Welche, sagt Ihnen nur er.',
+        hook: 'Jede der drei Fragen prüft eine andere Grenze seines Zuschnitts.',
       },
       {
-        id: '08-open-bridge',
-        eyebrow: 'Beleg 4: Werkzeuge',
-        headline: 'Der Unterbau ist offen, nicht nur beschrieben',
+        id: '08-strecke',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Rechnungsverkehr',
+        headline: 'Vermutung ersetzt durch gezählte Belege.',
         bullets: [
-          'Öffentliches Repo unter MIT, Stand v0.14.0',
-          'Sieben Pflicht-Checks vor jedem Merge',
-          'Push-Guard blockt fail-closed, aus echtem Vorfall',
-          'KI-Review im CI, ohne Merge-Rechte',
+          'Zwei Strecken nach offener europäischer Norm.',
+          'Bei jedem Befund zuerst die Zustellbelege lesen.',
+          'Alle geprüften Sendungen waren zugestellt.',
+          'Die Ursache lag in den Stammdaten.',
+        ],
+        figure: {
+          id: 'route',
+          labels: [
+            'Absender',
+            'Zugangspunkt',
+            'Dokument',
+            'Zielsystem',
+          ],
+          caption: 'Die Strecke, wie sie im Betrieb durchläuft.',
+        },
+        shot: {
+          src: 'angebotstest',
+          caption: 'Eigene Auswertung von Antwortzeiten. Perzentilbänder, Feldnamen fachlich generisch.',
+          alt: '',
+        },
+        anchor: {
+          text: 'EN 16931 · Peppol BIS 3.0',
+          label: 'Offene Normen, unabhängig nachlesbar',
+          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
+          state: 'public',
+        },
+        hook: 'Im laufenden Betrieb beim Auftraggeber, forensisch geprüft, unter Vertraulichkeit.',
+      },
+      {
+        id: '09-tor',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Der Halt',
+        headline: 'Die Maschine läuft bis zum Entwurf und hält an.',
+        bullets: [
+          'Ein Mensch zieht die Karte, das startet sie.',
+          'Jede Stufe startet frisch, ohne den Kontext davor.',
+          'Sie merged nie und setzt nie fertig.',
+          'Auch Änderungen an sich selbst gehen durchs Tor.',
+        ],
+        figure: {
+          id: 'gate',
+          labels: [
+            'armiert',
+            'umgesetzt',
+            'geprüft',
+            'Entwurf',
+            'merge',
+            'wartet auf einen Menschen',
+          ],
+          caption: 'Die Karte hält vor dem Tor. Sie geht nicht durch.',
+        },
+        anchor: {
+          text: 'skills/board-pilot · rules/learning-autonomy.md',
+          label: 'Der Baustein und die Regel',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
+          state: 'public',
+        },
+        hook: 'Der Prüfer sieht die Begründung des Umsetzers nicht. Nur die Artefakte.',
+      },
+      {
+        id: '10-befund',
+        kind: 'finding',
+        tone: 'base',
+        eyebrow: 'Befund',
+        headline: 'Zwei eigene Prüfer meldeten grün. Gefunden hat es die Simulation.',
+        bullets: [
+          'Beide prüften nur die oberste Ebene.',
+          'Unbekanntes Ziel: früher durch, heute gesperrt.',
+          'Die Simulation kann selbst nichts nach draußen geben.',
+        ],
+        scar: true,
+        figure: {
+          id: 'checks',
+          labels: [
+            'Pfad-Prüfer',
+            'Inhalts-Prüfer',
+            'hier',
+          ],
+          caption: 'Beide meldeten grün. Der Pfad dazwischen lief weiter.',
+        },
+        anchor: {
+          text: 'rules/push-guard.md',
+          label: 'Der Vorfall steht mit Datum in der Regel',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/push-guard.md',
+          state: 'public',
+        },
+        hook: 'Sie fährt absichtlich mit dem schwächsten Modell. Kommt das nicht durch, kommt keins durch.',
+      },
+      {
+        id: '11-offen',
+        kind: 'terminal',
+        tone: 'slab',
+        eyebrow: 'Offen',
+        headline: 'Die generische Schicht ist veröffentlicht. Die private bleibt privat.',
+        bullets: [
+          'Getrennte Pfade, deshalb konfliktfreie Zusammenführung.',
+          'Nach oben nur durch Inhalts-Scan und Positivliste.',
+          'Ein Beitrag ohne Herkunftserklärung macht die CI rot.',
+        ],
+        terminal: {
+          title: 'open-bridge',
+          lines: [
+            { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
+            { kind: 'out', text: '  Lizenz     MIT' },
+            { kind: 'out', text: '  Release    v0.14.0' },
+            { kind: 'out', text: '' },
+            { kind: 'cmd', text: 'ls rules/' },
+            { kind: 'out', text: '  push-guard.md  promote-safety.md' },
+            { kind: 'out', text: '  deploy-reconciliation.md' },
+            { kind: 'hit', text: '  session-start.md  learning-autonomy.md' },
+          ],
+          recorded: 'Mitgeschnitten am 7. August 2026.',
+        },
+        tree: [
+          { path: 'skills/', label: 'geteilt', side: 'shared' },
+          { path: 'rules/', label: 'geteilt', side: 'shared' },
+          { path: 'docs/', label: 'geteilt', side: 'shared' },
+          { path: 'work/', label: 'privat', side: 'private' },
+          { path: 'identity/', label: 'privat', side: 'private' },
+          { path: 'infra/', label: 'privat', side: 'private' },
         ],
         anchor: {
-          text: 'bks-lab/open-bridge',
-          label: 'MIT, v0.14.0',
+          text: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
+          label: 'Klonen, hineinsehen, gegenlesen',
           url: 'https://github.com/bks-lab/open-bridge',
           state: 'public',
         },
-        hook: 'Reifegrad steht im Repo: N=1, selbst genutzt.',
+        hook: 'Vor der Veröffentlichung fand eine unabhängige Prüfung den Blocker in der Historie, nicht im Stand.',
       },
       {
-        id: '09-weitergeben',
-        eyebrow: 'Beleg 4: Wissen',
-        headline: 'KI ist das Benzin, nicht das Produkt',
-        bullets: [
-          'Impulsvortrag TU Darmstadt, KI-Startup-Praktikum',
-          'Entwickler-Workshop: MCP, A2A, TDD mit Assistenz',
-          'Vier Workshops für ein Ingenieurbüro, abgeschlossen',
-          'Dort entschieden: KI bleibt im Haus',
-        ],
-        anchor: {
-          text: 'TU Darmstadt · 04/2026',
-          label: 'geladener Impulsvortrag, Fachgebiet Wirtschaftsinformatik',
-          state: 'public',
-        },
-        hook: 'Der Satz kam aus einer Kritik an mir.',
-      },
-      {
-        id: '10-stationen',
-        eyebrow: 'Stationen',
-        headline: 'Wo ich das gelernt habe',
-        bullets: [
-          'Prüf- und Zertifizierungskonzern: MDR und IVDR',
-          'Finanzvertrieb: QualityGates, Pact, Grafana, Playwright',
-          'Konzern der Bahnbranche: Legacy-Migration unter Dauervalidierung',
-          'Heute: BKS-Lab GmbH, im Team',
-        ],
-        anchor: {
-          text: 'mboiman.github.io',
-          label: 'Vollständiger Lebenslauf, ein Klick',
-          url: 'https://mboiman.github.io/',
-          state: 'public',
-        },
-        hook: 'Die Namen stehen im Lebenslauf, nicht hier.',
-      },
-      {
-        id: '11-kontakt',
+        id: '12-schluss',
+        kind: 'closing',
+        tone: 'base',
         eyebrow: 'Nächster Schritt',
-        headline: 'Was Sie jetzt tun können',
+        headline: 'Michael Boiman',
         bullets: [
-          'Den Agenten fragen, er nimmt Terminwünsche auf',
-          'Lebenslauf lesen oder das PDF laden',
-          'Das Repo öffnen und selbst nachsehen',
-          'Oder direkt schreiben',
+          'Verfügbar für Mandate, Reviews und Workshops.',
+          'Alles hier ist aufrufbar oder als geschlossen gekennzeichnet.',
         ],
-        hook: 'Eine Frage reicht. Der Rest ist Gespräch.',
       },
     ],
     storyRole: 'Quality Engineer · KI-Architekt',
@@ -398,6 +564,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     proofPublicLabel: 'öffentlich prüfbar',
     proofClosedLabel: 'nicht öffentlich',
     agentUnavailable: 'Der Agent antwortet gerade nicht. Sein Steckbrief liegt trotzdem offen.',
+    agentChecking: 'Erreichbarkeit wird geprüft',
+    agentReachable: 'Erreichbar',
+    agentCardName: 'Name',
+    agentCardProtocol: 'Protokoll',
+    agentCardEndpoint: 'Adresse',
+    builtOn: 'zuletzt gebaut am',
+    builtOnNote: 'Zur Bauzeit gestempelt, nicht getippt.',
     ariaStatement: 'Leitsatz',
     ariaProfile: 'Profil',
     ariaContact: 'Kontakt',
@@ -495,194 +668,330 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     acts: [
       {
         id: '01-haltung',
+        kind: 'manifest',
+        tone: 'base',
         eyebrow: 'Stance',
-        headline: 'Declared state is not verified state',
+        headline: 'Declared is not verified.',
         bullets: [
-          'Config says running: I ask the service',
-          'Vendor says fixed: I load the spec',
-          'Pipeline says success: I check the receipt',
+          'No status field counts as truth here.',
+          'Every proof on this page can be opened.',
         ],
+        scar: true,
+        figure: {
+          id: 'proofpair',
+          labels: [
+            'What the file says',
+            'active',
+            'What the machine says',
+            'silent for six days',
+          ],
+          caption: 'The same backup, asked twice.',
+        },
         anchor: {
-          text: 'deploy-reconciliation.md',
-          label: 'Rule in the open repo',
+          text: 'rules/deploy-reconciliation.md',
+          label: 'The rule in the open repo',
           url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
           state: 'public',
         },
-        hook: 'This page holds itself to it.',
+        hook: 'Four of five backups were dead while the state file reported active.',
       },
       {
-        id: '02-angebot',
-        eyebrow: 'Michael Boiman · BKS-Lab GmbH · Frankfurt',
-        headline: 'What people bring me in for',
+        id: '02-person',
+        kind: 'portrait',
+        tone: 'alt',
+        eyebrow: 'Michael Boiman · Frankfurt am Main',
+        headline: 'I build systems that work, and gates where they stop.',
         bullets: [
-          'Check whether a system actually delivers',
-          'Run EN 16931 e-invoicing in production',
-          'Build AI agents that hold outward',
-          'Hand tools and knowledge to teams',
-          'Open for mandates, reviews and workshops',
+          'First quality engineering, then automation, now agents.',
+          'I operate what I build, myself.',
+          'Open standards, because anyone can read them.',
         ],
-        anchor: {
-          text: 'mboiman.github.io',
-          label: 'Classic CV and PDF',
-          url: 'https://mboiman.github.io/',
-          state: 'public',
+        hook: 'What answers on this page runs on hardware I own.',
+      },
+      {
+        id: '03-auftrag',
+        kind: 'offer',
+        tone: 'base',
+        eyebrow: 'Working together',
+        headline: 'What people bring me in for.',
+        bullets: [
+          'Build and run: agent systems in production.',
+          'Check: whether a system really delivers.',
+          'Secure: boundaries, gates, evidence.',
+          'Enable: a team carries on without me.',
+        ],
+        hook: 'As a mandate, a review or a workshop. One email is enough to start.',
+      },
+      {
+        id: '04-anruf',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Voice',
+        headline: 'A call, a model, real open slots.',
+        bullets: [
+          'The portal supplies the slots, not the model.',
+          'The bot pencils in, it does not book.',
+          'Consent comes before the first word.',
+          'The window is fixed, the turn keeps running.',
+        ],
+        figure: {
+          id: 'timeline',
+          labels: [
+            'Network',
+            'Fetch slots',
+            'Model',
+            'Answer',
+            'Filler',
+          ],
+          caption: 'One conversational turn, split by share.',
         },
-        hook: 'Every point gets its evidence next.',
-      },
-      {
-        id: '03-laeuft',
-        eyebrow: 'Read live, today',
-        headline: 'What is running',
-        bullets: [
-          'This agent, addressable under its own domain',
-          'open-bridge, public under MIT, v0.14.0',
-          'The invoicing line, in production, under NDA',
-          'The MCP gateway, open to foreign clients',
-        ],
-        anchor: {
-          text: 'agent-card.json',
-          label: 'A2A 1.0, callable live',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
+        phone: {
+          lines: [
+            'I need an appointment next week',
+            'One moment, let me check',
+            'On Tuesday the eleventh, at half past ten',
+          ],
+          note: 'Date and time as words, because the speech output mangles digits.',
         },
-        hook: 'Three of them you can open now.',
-      },
-      {
-        id: '04-zustellung',
-        eyebrow: 'Proof 1: verifying',
-        headline: 'A pipeline success is not a delivery',
-        bullets: [
-          'Every invoice held against the evidence API',
-          'Proof: signed AS4 receipt or SMTP record',
-          'Part of it still never arrived',
-          'Three earlier theses of my own dropped',
-        ],
         anchor: {
-          text: 'AS4-Empfangsquittung',
-          label: 'Peppol non-repudiation',
+          text: 'Voice channel at the client',
+          label: 'not public',
           state: 'closed',
-          note: 'client under NDA',
+          note: 'The line belongs to the client, the number stays private.',
         },
-        hook: 'The causes sat in three spheres.',
+        hook: 'The caller hears a filler while the answer finishes in the background.',
       },
       {
-        id: '05-rechnungsstrecke',
-        eyebrow: 'Proof 2: e-invoicing',
-        headline: 'An invoice travels through named stations',
+        id: '05-eingang',
+        kind: 'shot',
+        tone: 'base',
+        eyebrow: 'Intake',
+        headline: 'What comes in ends up in the right place.',
         bullets: [
-          'Take SAP in, convert to UBL, submit',
-          'A broken station triggers the fallback chain',
-          'Formats behind ports: XRechnung, ZUGFeRD, Factur-X',
-          'Two inbound paths, one shared SAP layer',
+          'A rule picks the target, not me.',
+          'The filename carries the date up front.',
+          'Every move lands in one versioned line.',
         ],
+        shot: {
+          src: 'nlpanalyse',
+          caption: 'Own dashboard of an email classification. Categories generic, no senders.',
+          alt: '',
+        },
+        rename: {
+          before: 'scan_0042.pdf',
+          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        },
         anchor: {
-          text: 'EN 16931',
-          label: 'Peppol BIS 3.0',
+          text: 'rules/recording-provenance.md',
+          label: 'The rule is public',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/recording-provenance.md',
           state: 'public',
         },
-        hook: 'Which BT numbers were missing is not here.',
+        hook: 'Documenting a recording means archiving the original and linking it. Always both.',
       },
       {
-        id: '06-agenten',
-        eyebrow: 'Proof 3: agents',
-        headline: 'The interesting decisions are omissions',
+        id: '06-netz',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Addressable',
+        headline: 'Each agent has an address of its own.',
         bullets: [
-          'Rejected: a recipient field with validation',
-          'Rejected: an allow list of recipients',
-          'Chosen: no recipient argument, operator sets it',
-          'No calendar rights: only free/busy pairs',
+          'They query each other over an open protocol.',
+          'A gateway translates, nothing else: no model inside.',
+          'The caller\'s token never travels upward.',
+          'Overload returns a named refusal, never silence.',
         ],
+        figure: {
+          id: 'mesh',
+          labels: [
+            'Project agent',
+            'Company agent',
+            'Personal agent',
+            'Gateway',
+            'list · card · ask',
+          ],
+          caption: 'Three agents, one gateway, one open protocol.',
+        },
         anchor: {
-          text: 'A2A 1.0',
-          label: 'card callable live',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
+          text: 'A2A 1.0 · MCP 2025-06-18',
+          label: 'Two open protocols, confirmed live',
+          url: 'https://openbridge.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Enforced by absence, not by validation.',
+        hook: 'Exactly one path at the gateway, deliberately no second one for health checks.',
       },
       {
         id: '07-fragen-sie-ihn',
-        eyebrow: 'The agent on this page',
-        headline: 'Ask him yourself',
+        kind: 'live',
+        tone: 'base',
+        eyebrow: 'Live on this page',
+        headline: 'Ask him yourself.',
         bullets: [
-          'Which AI workshops does BKS-Lab offer?',
-          'When would Michael have time next week?',
-          'On domain questions he asks a second agent',
-          'One of these he will not answer',
+          'What do you read, and what not?',
+          'What hardware do you run on?',
+          'Where do your calendar times come from?',
         ],
         askAgent: true,
+        probeNotes: [
+          'Probes the deliberately narrow knowledge source.',
+          'Probes that it runs on hardware he owns.',
+          'Probes the calendar mirror: times only, no title, no place.',
+        ],
         anchor: {
-          text: 'agent-card.json',
-          label: 'A2A 1.0, read live',
+          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
+          label: 'His card, callable directly',
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Which one, only he will tell you.',
+        hook: 'Each of the three questions probes a different edge of his scope.',
       },
       {
-        id: '08-open-bridge',
-        eyebrow: 'Evidence 4: Tools',
-        headline: 'The substrate is open, not just described',
+        id: '08-strecke',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'Invoice traffic',
+        headline: 'Assumption replaced by counted evidence.',
         bullets: [
-          'Public repo under MIT, at v0.14.0',
-          'Seven required checks before any merge',
-          'Push guard fails closed, from a real incident',
-          'AI review in CI, without merge rights',
+          'Two routes under an open European standard.',
+          'On every finding, read the delivery receipts first.',
+          'Every shipment checked had been delivered.',
+          'The cause sat in the master data.',
+        ],
+        figure: {
+          id: 'route',
+          labels: [
+            'Sender',
+            'Access point',
+            'Document',
+            'Target system',
+          ],
+          caption: 'The route as it runs in production.',
+        },
+        shot: {
+          src: 'angebotstest',
+          caption: 'Own analysis of response times. Percentile bands, field names generic.',
+          alt: '',
+        },
+        anchor: {
+          text: 'EN 16931 · Peppol BIS 3.0',
+          label: 'Open standards, independently checkable',
+          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
+          state: 'public',
+        },
+        hook: 'In production at a client, checked forensically, under confidentiality.',
+      },
+      {
+        id: '09-tor',
+        kind: 'figure',
+        tone: 'alt',
+        eyebrow: 'The stop',
+        headline: 'The machine runs to the draft and stops.',
+        bullets: [
+          'A human moves the card, that starts it.',
+          'Each stage starts fresh, without the previous context.',
+          'It never merges and never sets done.',
+          'Even changes to itself pass through the gate.',
+        ],
+        figure: {
+          id: 'gate',
+          labels: [
+            'armed',
+            'built',
+            'reviewed',
+            'draft',
+            'merge',
+            'waiting for a human',
+          ],
+          caption: 'The card stops at the gate. It does not pass.',
+        },
+        anchor: {
+          text: 'skills/board-pilot · rules/learning-autonomy.md',
+          label: 'The building block and the rule',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
+          state: 'public',
+        },
+        hook: 'The reviewer never sees the implementer\'s reasoning. Only the artefacts.',
+      },
+      {
+        id: '10-befund',
+        kind: 'finding',
+        tone: 'base',
+        eyebrow: 'Finding',
+        headline: 'Two of my own checkers reported green. The simulation found it.',
+        bullets: [
+          'Both checked only the topmost level.',
+          'Unknown target: once through, now blocked.',
+          'The simulation itself cannot leak anything.',
+        ],
+        scar: true,
+        figure: {
+          id: 'checks',
+          labels: [
+            'path validator',
+            'content scanner',
+            'here',
+          ],
+          caption: 'Both reported green. The path between them kept running.',
+        },
+        anchor: {
+          text: 'rules/push-guard.md',
+          label: 'The incident is dated inside the rule',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/push-guard.md',
+          state: 'public',
+        },
+        hook: 'It deliberately drives the weakest model. If that cannot get through, none can.',
+      },
+      {
+        id: '11-offen',
+        kind: 'terminal',
+        tone: 'slab',
+        eyebrow: 'Open',
+        headline: 'The generic layer is published. The private one stays private.',
+        bullets: [
+          'Disjoint paths, therefore conflict free merges.',
+          'Upward only through content scan and allowlist.',
+          'A contribution without a DCO turns CI red.',
+        ],
+        terminal: {
+          title: 'open-bridge',
+          lines: [
+            { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
+            { kind: 'out', text: '  Licence    MIT' },
+            { kind: 'out', text: '  Release    v0.14.0' },
+            { kind: 'out', text: '' },
+            { kind: 'cmd', text: 'ls rules/' },
+            { kind: 'out', text: '  push-guard.md  promote-safety.md' },
+            { kind: 'out', text: '  deploy-reconciliation.md' },
+            { kind: 'hit', text: '  session-start.md  learning-autonomy.md' },
+          ],
+          recorded: 'Recorded on 7 August 2026.',
+        },
+        tree: [
+          { path: 'skills/', label: 'shared', side: 'shared' },
+          { path: 'rules/', label: 'shared', side: 'shared' },
+          { path: 'docs/', label: 'shared', side: 'shared' },
+          { path: 'work/', label: 'private', side: 'private' },
+          { path: 'identity/', label: 'private', side: 'private' },
+          { path: 'infra/', label: 'private', side: 'private' },
         ],
         anchor: {
-          text: 'bks-lab/open-bridge',
-          label: 'MIT, v0.14.0',
+          text: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
+          label: 'Clone it, look inside, read it',
           url: 'https://github.com/bks-lab/open-bridge',
           state: 'public',
         },
-        hook: 'Maturity stated in the repo: N=1, self-used.',
+        hook: 'Before release, an independent review found the blocker in the history, not in the current tree.',
       },
       {
-        id: '09-weitergeben',
-        eyebrow: 'Evidence 4: Knowledge',
-        headline: 'AI is the fuel, not the product',
-        bullets: [
-          'Guest lecture, TU Darmstadt AI-startup lab',
-          'Developer workshop: MCP, A2A, TDD with assistance',
-          'Four workshops for an engineering office, closed',
-          'Their decision: AI stays in-house',
-        ],
-        anchor: {
-          text: 'TU Darmstadt · 04/2026',
-          label: 'invited guest lecture, Information Systems group',
-          state: 'public',
-        },
-        hook: 'That sentence came from criticism of me.',
-      },
-      {
-        id: '10-stationen',
-        eyebrow: 'Stations',
-        headline: 'Where this was learned',
-        bullets: [
-          'Testing and certification group: MDR, IVDR',
-          'Financial sales network: quality gates, Pact, Playwright',
-          'Rail industry group: legacy migration under continuous validation',
-          'Today: BKS-Lab GmbH, in a team',
-        ],
-        anchor: {
-          text: 'mboiman.github.io',
-          label: 'Full CV, one click',
-          url: 'https://mboiman.github.io/',
-          state: 'public',
-        },
-        hook: 'The names are in the CV, not here.',
-      },
-      {
-        id: '11-kontakt',
+        id: '12-schluss',
+        kind: 'closing',
+        tone: 'base',
         eyebrow: 'Next step',
-        headline: 'What you can do now',
+        headline: 'Michael Boiman',
         bullets: [
-          'Ask the agent, he takes booking requests',
-          'Read the CV or grab the PDF',
-          'Open the repo and look yourself',
-          'Or just write to me',
+          'Available for mandates, reviews and workshops.',
+          'Everything here is callable or marked as closed.',
         ],
-        hook: 'One question is enough. The rest is conversation.',
       },
     ],
     storyRole: 'Quality Engineer · AI Architect',
@@ -690,6 +999,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     proofPublicLabel: 'publicly verifiable',
     proofClosedLabel: 'not public',
     agentUnavailable: 'The agent is not answering right now. Its profile card is public regardless.',
+    agentChecking: 'Checking reachability',
+    agentReachable: 'Reachable',
+    agentCardName: 'Name',
+    agentCardProtocol: 'Protocol',
+    agentCardEndpoint: 'Address',
+    builtOn: 'last built on',
+    builtOnNote: 'Stamped at build time, not typed.',
     ariaStatement: 'Statement',
     ariaProfile: 'Profile',
     ariaContact: 'Contact',
@@ -781,11 +1097,3 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
   },
 };
 
-/**
- * Background images for the decision acts, keyed by `DecisionAct.id`.
- * Keyed by id rather than by title on purpose: the old version keyed on the
- * German project title, so any wording change silently dropped the image.
- */
-export const darkScreenshots: Record<string, string> = {
-  'e-invoicing': '/images/projects/nlpanalyse.png',
-};

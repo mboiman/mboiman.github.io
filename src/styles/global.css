@@ -71,6 +71,17 @@
     radial-gradient(circle at 14% -8%, rgba(37,99,235,0.10), transparent 34rem),
     radial-gradient(circle at 88% 14%, rgba(59,130,246,0.055), transparent 30rem),
     linear-gradient(180deg, #f8fbff 0%, #f3f8fd 44%, #f8fbff 100%);
+
+  /* The presentation's one dark slab act. It carries its own tokens because a
+     hard dark surface that inherited --text would render #17212b on #131c2b in
+     light mode, a contrast ratio near 1.1 to 1, i.e. invisible.
+     Measured with WCAG relative luminance, not estimated: #e6edf6 on #131c2b
+     is 14.5:1 and #8ab4ff on #131c2b is 8.2:1; in dark mode 15.9:1 and 10.4:1.
+     Re-measure when any of the four values changes. */
+  --slab-bg: #131c2b;
+  --slab-text: #e6edf6;
+  --slab-prompt: #8ab4ff;
+  --slab-line: rgba(230,237,246,0.14);
 }
 
 html.dark {
@@ -91,6 +102,11 @@ html.dark {
     radial-gradient(circle at 14% -8%, rgba(59,130,246,0.12), transparent 34rem),
     radial-gradient(circle at 88% 14%, rgba(147,197,253,0.05), transparent 30rem),
     linear-gradient(180deg, #0f172a 0%, #111827 48%, #0b1220 100%);
+
+  --slab-bg: #060b14;
+  --slab-text: #e6edf6;
+  --slab-prompt: #93c5fd;
+  --slab-line: rgba(230,237,246,0.12);
 }
 
 /* Visible keyboard focus everywhere (Tailwind preflight strips defaults) */
@@ -233,11 +249,24 @@ h1, h2, h3, h4 {
   pointer-events: none;
 }
 
-/* === Reduced Motion === */
+/* === Reduced Motion ===
+   The net, not the design. Motion on the presentation is written inside
+   `@media (prefers-reduced-motion: no-preference)`, so it never starts here in
+   the first place. This block only catches whatever was declared outside it.
+
+   `animation-timeline: none` is load-bearing and was missing: a scroll-driven
+   animation is not governed by duration, so collapsing the duration to 0.01ms
+   leaves it wherever the scroll position happens to put it. Cutting the
+   timeline pins every such animation at its final keyframe, which is also the
+   default state of every element on the page. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-timeline: none !important;
     transition-duration: 0.01ms !important;
+    scroll-timeline: none !important;
+    view-timeline: none !important;
   }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }

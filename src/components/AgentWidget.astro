@@ -2216,10 +2216,16 @@ const widgetStrings = {
     // After that, always honor the visitor's last explicit choice.
     const hasRoomForPanel = () => window.matchMedia('(min-width: 1024px)').matches;
     function shouldAutoOpen(): boolean {
+      // The presentation opts out entirely: it is a composed, viewport-high
+      // sequence, and a panel that opens itself covers a third of every act,
+      // including the portrait. There the panel stays a launcher until the
+      // visitor asks for it, and the presentation has an act built for exactly
+      // that. An explicit earlier choice still wins, in both directions.
       let s: string | null = null;
       try { s = localStorage.getItem(OPEN_KEY); } catch {}
       if (s === 'closed') return false;   // visitor closed it → keep it closed
       if (s === 'open') return true;       // visitor opened it → keep it open
+      if (document.documentElement.classList.contains('aw-no-autoopen')) return false;
       return hasRoomForPanel();            // first visit: open only with room to spare
     }
     function openPanel(opts: { focus?: boolean; persist?: boolean } = {}) {
@@ -2231,7 +2237,13 @@ const widgetStrings = {
       launcher.setAttribute('aria-expanded', 'true');
       document.documentElement.classList.add('aw-panel-open');
       // Shift the centered content left of the fixed panel (two-column layout only).
-      if (window.matchMedia('(min-width: 1024px)').matches) {
+      // The presentation opts out via `aw-no-shift`: every act there is
+      // viewport-high and horizontally composed, so a 26rem body padding does
+      // not free up space, it slides the whole composition sideways and pushes
+      // full-bleed acts off centre. Pre-existing bug, not caused by the panel
+      // being docked there.
+      if (window.matchMedia('(min-width: 1024px)').matches
+          && !document.documentElement.classList.contains('aw-no-shift')) {
         document.body.style.paddingRight = '26rem';
       }
       if (!greeted) { addBubble('agent', t.greeting); greeted = true; }
