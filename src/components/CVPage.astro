@@ -34,7 +34,7 @@ const agentProof = agent_proof ?? {
     lang === 'de' ? 'Wann hat Michael nächste Woche Zeit für ein Gespräch?' : 'When is Michael available next week?',
     lang === 'de' ? 'Welche Erfahrung hat Michael mit KI-Agenten?' : 'What is Michael’s experience with AI agents?',
   ],
-  facts: ['protocolVersion: 0.3', 'transport: JSONRPC', 'streaming: true', 'skills: 5'],
+  facts: ['protocolVersion: 1.0', 'transport: JSONRPC', 'streaming: true', 'skills: 5'],
 };
 
 // NOTE: a skill in ui.sidebar_skills that matches NONE of these group regexes
@@ -157,7 +157,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 ---
 
 <BaseLayout
-  title={`${profile.name} — ${ui.tagline}`}
+  title={`${profile.name} · ${ui.tagline}`}
   description={ui.seo_description || ui.tagline}
   lang={lang}
 >
@@ -298,14 +298,25 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
               {t.careerIntro}
             </p>
 
-            <!-- Impact-Highlights -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              {t.cvImpactMetrics.map(item => (
-                <div class="cv-metric-card p-4 rounded-xl text-center">
-                  <p class="text-2xl font-light font-sans tracking-[-0.02em]" style="color: var(--accent)">{item.metric}</p>
-                  <p class="text-sm font-medium mt-1">{item.label}</p>
-                  <p class="text-xs mt-0.5" style="color: var(--text-secondary)">{item.detail}</p>
-                </div>
+            {/* Publicly verifiable anchors. This slot used to hold three vanity
+                counters. A counter asks to be believed; an address can be opened.
+                Only `state: public` entries render here, because a card the reader
+                cannot check is just a claim in a box.
+                NOTE: JSX comment, not an HTML one. An HTML comment survives the
+                build, so the first version of this note shipped the very strings it
+                was describing into dist/de/index.html. */}
+            <p class="text-[11px] tracking-[0.2em] uppercase mb-3" style="color: var(--accent); opacity: .75">{t.cvRunningTitle}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {t.running.filter(item => item.state === 'public').map(item => (
+                <a
+                  href={item.proofUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="cv-metric-card p-4 rounded-xl block transition-opacity hover:opacity-80"
+                >
+                  <p class="text-sm font-medium">{item.title}</p>
+                  <p class="text-xs mt-1 break-words" style="color: var(--accent); font-family: var(--font-mono, ui-monospace, Menlo, monospace)">{item.proof}</p>
+                </a>
               ))}
             </div>
 

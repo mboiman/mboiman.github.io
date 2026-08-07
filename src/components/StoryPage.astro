@@ -1,8 +1,24 @@
 ---
+/**
+ * The presentation at /de/story/ and /en/story/.
+ *
+ * Fourteen acts, each one keyboard step. Two structural rules govern this file:
+ *
+ *  1. Every <section> has exactly ONE direct <div> child, except the decisions
+ *     section, where each decision is its own direct <div> and therefore its own
+ *     step. The step script at the bottom derives steps from that shape, so an
+ *     extra wrapper silently splits an act into several.
+ *  2. Full-viewport height is selected via [data-act], never via aria-label.
+ *     The previous version listed the German and English aria-label strings in
+ *     the CSS, so a new act, or a reworded label, quietly lost its height.
+ *
+ * All copy lives in src/lib/i18n.ts; positions, education and contacts come from
+ * config.cv.toml. Nothing user-facing is hardcoded here.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
-import { formatToHTML, formatMarkdown } from '../lib/markdown';
+import { formatToHTML } from '../lib/markdown';
 import { i18n, darkScreenshots } from '../lib/i18n';
 
 interface Props {
@@ -12,18 +28,64 @@ interface Props {
 const { lang } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
 const t = i18n[lang];
-const screenshots = darkScreenshots[lang];
 
 const data = getCVData(lang);
-const { profile, contact, ui, experiences, projects, summary, education, language: langs, skills } = data;
+const { profile, contact, ui, experiences, education, language: langs } = data;
 
-const featuredProjects = projects.list.filter(p => p.featured).slice(0, 5);
-const recentExp = experiences.list.slice(0, 5);
-const olderExp = experiences.list.slice(5);
+// Talks and workshops get their own act (t.transfers). Without this filter the
+// first five entries of experiences.list are three talks and two jobs, and the
+// positions act shows lectures as if they were employment. CVPage.astro has had
+// the same filter since it was written; the presentation never did.
+const isTalk = (exp: { position: string; company?: string }) => {
+  const p = (exp.position || '').toLowerCase();
+  const c = (exp.company || '').toLowerCase();
+  return /workshop|präsentation|presentation|impulsvortrag|vortrag|lecture|anwendungen von ki/.test(p)
+      || /workshop|präsentation/.test(c);
+};
+const jobs = experiences.list.filter(e => !isTalk(e));
+const recentJobs = jobs.slice(0, 3);
+const olderJobs = jobs.slice(3);
+
+/**
+ * The positions act shows the opening paragraphs of a role, not its full bullet
+ * inventory. Rendering `details` verbatim made this act 4365px tall against an
+ * 832px viewport, i.e. five screens inside a single keyboard step. The tools
+ * block is dropped here on purpose: the footer band below already lists them.
+ */
+const truncateRe = new RegExp(`^\\*\\*(${t.truncatePatterns.join('|')})`);
+const toolsRe = new RegExp(`^\\*\\*(${t.truncateToolPatterns.join('|')})`);
+function jobIntro(details: string): string {
+  const kept: string[] = [];
+  for (const line of details.split('\n')) {
+    if (line.match(truncateRe) || line.match(toolsRe)) break;
+    kept.push(line);
+  }
+  let intro = kept.join('\n').trim();
+  const words = intro.split(/\s+/);
+  if (words.length > 34) {
+    const clipped = words.slice(0, 34).join(' ');
+    const stop = Math.max(clipped.lastIndexOf('. '), clipped.lastIndexOf('! '), clipped.lastIndexOf('? '));
+    intro = stop > 40 ? clipped.slice(0, stop + 1) : clipped + ' …';
+  }
+  return intro;
+}
+
+const email = contact.list.find(c => c.class === 'email');
+const linkedin = contact.list.find(c => c.class === 'linkedin');
+const github = contact.list.find(c => c.class === 'github');
+const website = contact.list.find(c => c.class === 'website');
+const location = ui.location || 'Frankfurt am Main';
+
+// The "as of" line on act 03 is stamped at build time. A hand-typed date would
+// keep claiming it was checked today long after it was not.
+const buildDate = new Date().toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+const runningEyebrow = t.runningEyebrow.replace('{date}', buildDate);
 
 const storyTitle = lang === 'de'
-  ? `${profile.name} — Projekt-Story`
-  : `${profile.name} — Project Story`;
+  ? `${profile.name} · Projekt-Story`
+  : `${profile.name} · Project Story`;
 ---
 
 <BaseLayout
@@ -32,7 +94,6 @@ const storyTitle = lang === 'de'
   lang={lang}
 >
   <div class="story-page">
-  <!-- Scroll progress bar -->
   <div id="scroll-progress" style="width: 0%"></div>
 
   <!-- ═══ FLOATING NAV ═══ -->
@@ -40,9 +101,6 @@ const storyTitle = lang === 'de'
     <nav class="fixed top-0 left-0 right-0 z-50 no-print story-nav" id="floating-nav">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
         <div class="flex items-center gap-4">
-          <!-- Always-visible escape hatch back to the CV — a presentation must
-               never be a dead end (was missing entirely). Kept out of the
-               scroll-gated tabindex toggle below so it stays keyboard-reachable. -->
           <a href={`/${lang}/`} class="story-back text-xs tracking-[0.1em] uppercase opacity-60 hover:opacity-100 transition-opacity duration-300 cursor-pointer min-h-[44px] flex items-center gap-1.5" style="color: var(--text-secondary)" aria-label={t.storyBackToCv}>
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             <span>{t.storyBackToCv}</span>
@@ -62,18 +120,20 @@ const storyTitle = lang === 'de'
     </nav>
   </header>
 
-  <!-- ═══ ACT 1: THE STATEMENT ═══ -->
-  <section class="act" aria-label={t.ariaStatement}>
-    <div class="text-center max-w-5xl">
+  <!-- ═══ AKT 01 · LEITSATZ ═══ -->
+  <section class="act" data-act="frame" id="akt-01-leitsatz" aria-label={t.ariaStatement}>
+    <div class="text-center max-w-5xl mx-auto">
       <p class="text-sm tracking-[0.2em] uppercase mb-12 opacity-0 animate-[fadeIn_1s_ease_0.3s_forwards]" style="color: var(--text-secondary)">
         {t.storyEyebrow}
       </p>
-      <h1 class="story-display text-[clamp(2.5rem,7vw,7rem)] leading-[1.03] opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]" set:html={t.storyStatement} />
-      <div class="mt-16 opacity-0 animate-[fadeIn_1s_ease_2s_forwards]">
+      <h1 class="story-display text-[clamp(2.2rem,6vw,5.6rem)] leading-[1.05] opacity-0 animate-[fadeIn_1.2s_ease_0.8s_forwards]" set:html={t.storyStatement} />
+      <div class="mt-14 opacity-0 animate-[fadeIn_1s_ease_1.8s_forwards]">
         <div class="teal-rule"></div>
       </div>
-      <!-- Scroll hint -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeIn_1s_ease_2.5s_forwards] no-print" aria-hidden="true">
+      <p class="mt-10 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto opacity-0 animate-[fadeIn_1s_ease_2.2s_forwards]" style="color: var(--text-secondary)">
+        {t.storyStatementNote}
+      </p>
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeIn_1s_ease_2.8s_forwards] no-print" aria-hidden="true">
         <svg class="w-5 h-5 animate-[scrollHint_2s_ease-in-out_infinite]" style="color: var(--text-secondary)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7" />
         </svg>
@@ -83,258 +143,340 @@ const storyTitle = lang === 'de'
 
   <main id="main">
 
-  <!-- ═══ ACT 1.5: THE PORTRAIT REVEAL ═══ -->
-  <section class="flex flex-col items-center justify-center pt-0 pb-32 px-6 -mt-16 relative z-10" aria-label="Portrait">
-    <div class="reveal max-w-md mx-auto">
-      <div class="relative">
-        <div class="absolute -inset-16 rounded-full opacity-[0.1] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
-        <img
-          src="/images/profile_.jpg"
-          alt={profile.name}
-          class="relative w-full max-w-[360px] mx-auto"
-          style="filter: contrast(1.05); mix-blend-mode: luminosity;"
-          width="360"
-          height="480"
-        />
-      </div>
-      <p class="story-heading text-center mt-10 text-3xl sm:text-4xl tracking-tight">
-        {profile.name}
-      </p>
-      <p class="text-center mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">
-        {t.storyRole}
-      </p>
-      <p class="text-center mt-2 text-sm tracking-[0.1em]" style="color: var(--text-secondary)">
-        Frankfurt am Main
-      </p>
-      <p class="text-center mt-8 text-sm leading-relaxed max-w-xs mx-auto" style="color: var(--text-secondary)">
-        {t.availability}
-      </p>
-    </div>
-  </section>
-
-  <!-- ═══ ACT 2: NUMBERS + IMPACT ═══ -->
-  <section class="py-32 px-6" aria-label={t.ariaNumbers} style="background-color: var(--bg-alt)">
-    <div class="max-w-4xl mx-auto w-full">
-      <!-- Hero numbers -->
-      <div class="flex flex-col sm:flex-row sm:justify-center sm:gap-20 gap-8 mb-20">
-        {t.numberLabels.map((item, i) => (
-          <div class="reveal text-center sm:text-left" style={`transition-delay: ${i * 150}ms`}>
-            <span class="story-number text-[clamp(4rem,12vw,9rem)] leading-none block">
-              {item.num}
-            </span>
-            <span class="text-sm sm:text-base tracking-wide mt-2 block" style="color: var(--text-secondary)">
-              {item.label}
-            </span>
+  <!-- ═══ AKT 02 · PORTRAIT UND AUFSTELLUNG ═══ -->
+  <section data-act="frame" id="akt-02-aufstellung" aria-label={t.ariaProfile}>
+    <div class="reveal max-w-5xl mx-auto w-full">
+      <div class="grid grid-cols-1 md:grid-cols-[minmax(0,15rem)_1fr] gap-10 md:gap-16 items-start">
+        <div class="relative mx-auto md:mx-0 w-full max-w-[15rem]">
+          <div class="absolute -inset-10 rounded-full opacity-[0.1] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
+          <img
+            src={`/images/${profile.avatar_story || 'profile_.jpg'}`}
+            alt={profile.name}
+            class="relative w-full portrait-img"
+            width="360"
+            height="480"
+          />
+          <div class="mt-7 text-[13px]">
+            <p class="act-label">{t.footerBandLabels.education}</p>
+            {education.list.map(edu => (
+              <p class="leading-snug mb-1.5" style="color: var(--text-secondary)">
+                <span style="color: var(--text)">{edu.degree}</span>{edu.college ? `, ${edu.college}` : ''} <span style="opacity:.7">{edu.dates}</span>
+              </p>
+            ))}
+            <p class="act-label mt-5">{t.footerBandLabels.languages}</p>
+            {langs.list.map(l => (
+              <p class="leading-snug mb-1" style="color: var(--text-secondary)">
+                <span style="color: var(--text)">{l.language}</span> {l.level}
+              </p>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <!-- Impact metrics -->
-      <div class="story-separator border-t pt-16">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {t.impactMetrics.map((item, i) => (
-            <div class="text-center reveal" style={`transition-delay: ${(i + 2) * 150}ms`}>
-              <p class="story-metric text-3xl sm:text-4xl tracking-tight" style="color: var(--accent)">{item.metric}</p>
-              <p class="text-sm font-medium mt-2">{item.label}</p>
-              <p class="text-xs mt-1" style="color: var(--text-secondary)">{item.detail}</p>
-            </div>
-          ))}
+        </div>
+        <div>
+          <p class="story-heading text-3xl sm:text-4xl tracking-tight">{profile.name}</p>
+          <p class="mt-2 text-sm tracking-[0.15em] uppercase" style="color: var(--accent)">{t.storyRole}</p>
+          <p class="mt-1 text-sm" style="color: var(--text-secondary)">{location}</p>
+          <p class="mt-1 text-sm" style="color: var(--text-secondary)">{t.storyAffiliation}</p>
+          <div class="mt-7 space-y-3.5">
+            {t.storyPortraitText.map(p => (
+              <p class="text-sm sm:text-[0.95rem] leading-relaxed" style="color: var(--text-secondary)">{p}</p>
+            ))}
+          </div>
+          <p class="mt-7 pt-5 text-sm story-separator border-t" style="color: var(--text)">{t.availability}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ ACT 3: THE ORIGIN (kompakt) ═══ -->
-  <section class="py-32 px-6" aria-label={t.ariaProfile}>
-    <div class="prose-column">
+  <!-- ═══ AKT 03 · WAS GERADE LÄUFT ═══
+       Replaces the old numbers act. The giant-number type class survives, but it
+       now carries a struck config claim against the command that checks it. -->
+  <section data-act="frame" id="akt-03-was-laeuft" aria-label={t.ariaRunning} style="background-color: var(--bg-alt)">
+    <div class="max-w-4xl mx-auto w-full">
       <div class="reveal">
-        <div class="teal-rule mb-20"></div>
-        <p class="story-quote text-xl sm:text-2xl leading-[1.8]" style="color: var(--text-secondary)">
-          {t.originQuote}
-        </p>
+        <p class="text-[11px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{runningEyebrow}</p>
+        <div class="flex flex-wrap items-baseline gap-x-6 gap-y-1 running-lead">
+          <s class="story-number opacity-40" style="color: var(--text-secondary)">{t.runningLeadStruck}</s>
+          <span class="story-number" style="color: var(--accent)">{t.runningLeadLive}</span>
+        </div>
+        <p class="mt-3 text-[13px] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.runningLeadNote}</p>
       </div>
+
+      <h2 class="story-heading text-2xl sm:text-3xl mt-8 mb-5 reveal">{t.runningTitle}</h2>
+
+      <div class="story-separator border-t">
+        {t.running.map((item, i) => (
+          <div class="reveal py-3.5 story-separator border-b grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-2 lg:gap-10 items-start" style={`transition-delay: ${i * 90}ms`}>
+            <div>
+              <p class="story-heading text-lg sm:text-xl tracking-tight">{item.title}</p>
+              <p class="mt-2 text-sm leading-relaxed" style="color: var(--text-secondary)">{item.mechanism}</p>
+            </div>
+            <div class="lg:text-right lg:min-w-[16rem] shrink-0">
+              {item.proofUrl
+                ? <a href={item.proofUrl} target="_blank" rel="noopener" class="proof-token hover:opacity-80 transition-opacity">{item.proof}</a>
+                : <span class="proof-token">{item.proof}</span>}
+              <p class="mt-1.5 text-[11px] tracking-wide" style="color: var(--text-secondary)">
+                <span class="proof-dot" data-state={item.state} aria-hidden="true"></span>
+                {item.state === 'public' ? t.proofPublicLabel : `${t.proofClosedLabel} · ${item.stateNote}`}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-4 text-[13px] leading-relaxed reveal" style="color: var(--text-secondary)">{t.runningOutro}</p>
     </div>
   </section>
 
-  <!-- ═══ ACT 4: SELECTED WORKS (Gamma-style) ═══ -->
-  <section aria-label={t.ariaProjects}>
-    {featuredProjects.map((project, i) => {
-      const bgImage = screenshots[project.title];
-      const hasGamma = project.challenge && project.metric;
+  <!-- ═══ AKT 04 · FRAGEN SIE IHN SELBST ═══
+       The cards fire the widget's existing `bridge-agent:prompt` event, so no new
+       plumbing and no second chat client. -->
+  <section data-act="frame" id="akt-04-fragen" aria-label={t.ariaProbe}>
+    <div class="max-w-4xl mx-auto w-full reveal">
+      <p class="text-[11px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{t.probeEyebrow}</p>
+      <h2 class="story-heading text-3xl sm:text-4xl tracking-tight">{t.probeTitle}</h2>
+      <p class="mt-5 text-sm sm:text-base leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.probeIntro}</p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+        {t.probes.map(p => (
+          <div class="probe-card">
+            <button type="button" class="probe-ask text-left w-full" data-prompt={p.question}>
+              <span class="probe-q">{p.question}</span>
+            </button>
+            <p class="mt-3 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{p.explains}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-9 text-sm leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.probeOutro}</p>
+      <!-- Neither line is rendered until the card fetch below resolves. A page
+           built on "check it yourself" cannot ship a hardcoded status line. -->
+      <p class="mt-3 text-[13px] hidden" style="color: var(--text-secondary)" id="probe-live"
+         data-tpl={t.probeLive} data-card="https://mboiman.bks-lab.com/.well-known/agent-card.json"></p>
+      <p class="mt-3 text-[13px] hidden" style="color: var(--text-secondary); opacity: .7" id="probe-down">
+        {t.probeUnavailable}
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ AKTE 05 bis 09 · ENTSCHEIDUNGEN ═══
+       Each decision is a direct <div> of this section, so each becomes its own
+       keyboard step. hasGamma is gone: the layout no longer depends on a vanity
+       metric field being present, so no act can fall back to a bullet dump. -->
+  <section aria-label={t.ariaDecisions}>
+    {t.decisions.map((d, i) => {
+      const bg = darkScreenshots[d.id];
       return (
         <div
-          class="relative px-6 py-28 reveal overflow-hidden"
-          style={`transition-delay: ${i * 80}ms; background-color: ${i % 2 === 0 ? 'var(--bg-alt)' : 'var(--bg)'}`}
+          data-act="decision"
+          id={`akt-0${i + 5}-${d.id}`}
+          class="relative reveal overflow-hidden"
+          style={`transition-delay: ${i * 60}ms; background-color: ${i % 2 === 0 ? 'var(--bg)' : 'var(--bg-alt)'}`}
         >
-          {bgImage && (
-            <div class="absolute inset-0 opacity-[0.04] bg-cover bg-center" style={`background-image: url('${bgImage}')`}></div>
+          {bg && (
+            <div class="absolute inset-0 opacity-[0.04] bg-cover bg-center" style={`background-image: url('${bg}')`} aria-hidden="true"></div>
           )}
-          <div class="relative max-w-5xl mx-auto">
-            <div class="flex flex-wrap items-center gap-4 mb-8">
-              <span class="text-[10px] tracking-[0.25em] uppercase" style="color: var(--accent)">{project.category}</span>
-              {project.tech_stack?.length > 0 && (
-                <span class="text-[10px] tracking-wider uppercase hidden sm:inline" style="color: var(--text-secondary); opacity: 0.5">
-                  {project.tech_stack.slice(0, 4).join(' / ')}
-                </span>
-              )}
+          <div class="relative max-w-5xl mx-auto w-full">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mb-5">
+              <span class="text-[10px] tracking-[0.25em] uppercase" style="color: var(--accent)">{d.category}</span>
+              <span class="text-[10px] tracking-wider uppercase hidden sm:inline" style="color: var(--text-secondary); opacity: 0.5">{d.stack}</span>
             </div>
 
-            <h3 class="story-project-title text-2xl sm:text-4xl lg:text-5xl mb-12 tracking-tight leading-tight">{project.title}</h3>
+            <h3 class="story-project-title text-2xl sm:text-3xl lg:text-[2.4rem] mb-6 tracking-tight leading-tight">{d.title}</h3>
 
-            {hasGamma ? (
-              <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-start">
-                <div class="space-y-10">
-                  <div>
-                    <p class="text-[10px] tracking-[0.25em] uppercase mb-3" style="color: var(--accent); opacity: 0.7">{t.gammaLabels.challenge}</p>
-                    <p class="text-base sm:text-lg leading-relaxed font-light" style="color: var(--text-secondary)">{project.challenge}</p>
-                  </div>
-                  <div>
-                    <p class="text-[10px] tracking-[0.25em] uppercase mb-3" style="color: var(--accent); opacity: 0.7">{t.gammaLabels.solution}</p>
-                    <p class="text-base leading-relaxed" style="color: var(--text-secondary)">{project.solution}</p>
-                  </div>
-                  {project.impact && (
-                    <div class="pt-4" style="border-top: 1px solid var(--line)">
-                      <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">
-                      <span style="color: var(--accent)">→</span> {project.impact}
-                      </p>
-                    </div>
-                  )}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+              <div class="space-y-7">
+                <div>
+                  <p class="act-label">{t.decisionLabels.problem}</p>
+                  <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">{d.problem}</p>
                 </div>
-                <div class="flex flex-col items-start lg:items-end justify-center lg:min-w-[180px]">
-                  <span class="story-project-metric text-[clamp(3rem,10vw,6rem)] leading-none tracking-tight" style="color: var(--accent)">{project.metric}</span>
-                  <span class="text-sm mt-2 tracking-wide" style="color: var(--text-secondary)">{project.metric_label}</span>
+                <div>
+                  <p class="act-label">{t.decisionLabels.options}</p>
+                  <ul class="space-y-1.5">
+                    {d.rejected.map(r => (
+                      <li class="option-row option-out"><span class="option-mark" aria-hidden="true">×</span><span>{r}</span></li>
+                    ))}
+                    <li class="option-row option-in"><span class="option-mark" aria-hidden="true">→</span><span>{d.chosen}</span></li>
+                  </ul>
                 </div>
               </div>
-            ) : (
-              <div class="max-w-3xl text-base leading-relaxed [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
-            )}
+
+              <div>
+                <p class="act-label">{t.decisionLabels.decision}</p>
+                <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">{d.decision}</p>
+                {d.coda && (
+                  <p class="mt-4 text-sm leading-relaxed" style="color: var(--text-secondary); opacity: .75">{d.coda}</p>
+                )}
+              </div>
+            </div>
+
+            <div class="mt-7 pt-5 story-separator border-t grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-5 lg:gap-12 items-start">
+              <div>
+                <p class="act-label">{t.decisionLabels.price}</p>
+                <p class="text-sm leading-relaxed" style="color: var(--text-secondary)">{d.price}</p>
+              </div>
+              <div class="lg:text-right lg:min-w-[17rem] shrink-0">
+                {d.proofUrl
+                  ? <a href={d.proofUrl} target="_blank" rel="noopener" class="proof-headline hover:opacity-80 transition-opacity">{d.proof}</a>
+                  : <span class="proof-headline">{d.proof}</span>}
+                <p class="mt-1.5 text-[12px] leading-snug lg:ml-auto lg:max-w-[17rem]" style="color: var(--text-secondary)">{d.proofLabel}</p>
+                <p class="mt-1.5 text-[11px] tracking-wide" style="color: var(--text-secondary)">
+                  <span class="proof-dot" data-state={d.state} aria-hidden="true"></span>
+                  {d.state === 'public' ? t.proofPublicLabel : `${t.proofClosedLabel} · ${d.stateNote}`}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       );
     })}
   </section>
 
-
-  <!-- ═══ ACT 6: BELIEFS ═══ -->
-  <section class="py-32 px-6" aria-label={t.ariaBeliefs} style="background-color: var(--bg-alt)">
-    <div class="max-w-4xl mx-auto">
-      {t.beliefs.map((belief, i) => (
-        <div class={`reveal py-14 ${i < 3 ? 'story-separator border-b' : ''}`} style={`transition-delay: ${i * 200}ms`}>
-          <div class={`relative max-w-lg ${belief.align === 'text-right' ? 'ml-auto' : belief.align === 'text-center' ? 'mx-auto' : ''}`}>
-            <span class={`story-quote-mark absolute -top-6 text-[5rem] leading-none select-none pointer-events-none ${belief.align === 'text-right' ? '-right-3' : '-left-3'}`} aria-hidden="true">{belief.align === 'text-right' ? '\u201D' : '\u201C'}</span>
-            <p class={`story-belief text-xl sm:text-2xl leading-snug whitespace-pre-line ${belief.align}`} style="color: var(--text-secondary)">
-              {belief.text}
-            </p>
-          </div>
+  <!-- ═══ AKT 10 · VIER TORE ═══ -->
+  <section data-act="frame" id="akt-10-tore" aria-label={t.ariaGates} style="background-color: var(--bg-alt)">
+    <div class="max-w-4xl mx-auto w-full">
+      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.gatesEyebrow}</p>
+      <h2 class="story-heading text-2xl sm:text-3xl tracking-tight mb-5 reveal">{t.gatesTitle}</h2>
+      {t.gates.map((g, i) => (
+        <div class={`reveal py-3 ${i < t.gates.length - 1 ? 'story-separator border-b' : ''}`} style={`transition-delay: ${i * 110}ms`}>
+          <p class="story-heading text-lg sm:text-xl leading-snug tracking-tight">{g.rule}</p>
+          <p class="mt-2 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{g.mechanism}</p>
+          <p class="mt-2 text-[13px] leading-relaxed gate-origin">{g.origin}</p>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- ═══ ACT 7: EXPERIENCE ═══ -->
-  <section class="py-32 px-6" aria-label={t.experienceTitle}>
-    <div class="max-w-4xl mx-auto">
-      <div class="teal-rule mb-20"></div>
-      <h2 class="story-heading text-3xl sm:text-4xl text-center mb-20 reveal">{t.experienceTitle}</h2>
+  <!-- ═══ AKT 11 · KORREKTUREN ═══ -->
+  <section data-act="frame" id="akt-11-korrekturen" aria-label={t.ariaCorrections}>
+    <div class="max-w-4xl mx-auto w-full">
+      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.correctionsEyebrow}</p>
+      <h2 class="story-heading text-2xl sm:text-3xl tracking-tight reveal">{t.correctionsTitle}</h2>
+      <p class="mt-3 mb-5 text-sm leading-relaxed max-w-2xl reveal" style="color: var(--text-secondary)">{t.correctionsIntro}</p>
 
-      <!-- Recent: full details -->
-      {recentExp.map((exp, i) => (
-        <div class="reveal mb-16 last:mb-0" style={`transition-delay: ${Math.min(i * 60, 300)}ms`}>
-          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-3">
-            <h3 class="text-lg font-sans font-medium" style="color: var(--accent)">{exp.position}</h3>
-            <span class="text-sm whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
-          </div>
-          <p class="text-sm mb-4" style="color: var(--text-secondary)">{exp.company}</p>
-          <div class="text-sm leading-[1.9] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(exp.details)} />
-          {i < recentExp.length - 1 && (
-            <div class="story-separator border-b mt-16"></div>
-          )}
-        </div>
-      ))}
-
-      <!-- Older: compact -->
-      {olderExp.length > 0 && (
-        <div class="mt-20 reveal">
-          <div class="story-separator border-b mb-10"></div>
-          <p class="text-xs tracking-[0.2em] uppercase mb-8" style="color: var(--text-secondary)">{t.earlierPositions}</p>
-          {olderExp.map((exp) => (
-            <div class="exp-compact">
-              <div>
-                <span class="text-sm font-medium" style="color: var(--text)">{exp.position}</span>
-                <span class="text-sm ml-2" style="color: var(--text-secondary)">— {exp.company}</span>
-              </div>
-              <span class="text-xs whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- ═══ ACT 7.5: EDUCATION & SKILLS ═══ -->
-  <section class="py-20 px-6" aria-label={t.ariaEducation} style="background-color: var(--bg-alt)">
-    <div class="max-w-4xl mx-auto reveal">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 text-sm">
-        <!-- Education -->
-        <div>
-          <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{education.title}</p>
-          {education.list.map(edu => (
-            <div class="mb-3">
-              <p class="font-medium">{edu.degree}</p>
-              {edu.college && <p style="color: var(--text-secondary)">{edu.college}</p>}
-              <p class="text-xs" style="color: var(--text-secondary)">{edu.dates}</p>
-            </div>
-          ))}
-        </div>
-
-        <!-- Languages -->
-        <div>
-          <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{langs.title}</p>
-          {langs.list.map(l => (
-            <div class="flex justify-between mb-2">
-              <span>{l.language}</span>
-              <span style="color: var(--text-secondary)">{l.level}</span>
-            </div>
-          ))}
-        </div>
-
-        <!-- Key Skills -->
-        <div>
-          <p class="text-[10px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">Skills</p>
-          <p class="leading-relaxed" style="color: var(--text-secondary)">
-            {ui.sidebar_skills.join(' · ')}
+      {t.corrections.map((c, i) => (
+        <div class="reveal py-3.5 story-separator border-t" style={`transition-delay: ${i * 90}ms`}>
+          <p class="corr-row text-sm leading-relaxed" style="color: var(--text-secondary); opacity: .6">
+            <span class="corr-label">{t.correctionLabels.assumption}</span><span>{c.assumption}</span>
+          </p>
+          <p class="corr-row mt-2 text-sm leading-relaxed" style="color: var(--text-secondary)">
+            <span class="corr-label">{t.correctionLabels.check}</span><span>{c.check}</span>
+          </p>
+          <p class="corr-row mt-2 text-sm leading-relaxed" style="color: var(--text)">
+            <span class="corr-label" style="color: var(--accent)">{t.correctionLabels.result}</span><span>{c.result}</span>
           </p>
         </div>
+      ))}
+
+      <div class="reveal mt-6 pt-5 story-separator border-t">
+        <p class="act-label">{t.disclaimerTitle}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {t.disclaimers.map(d => (
+            <p class="text-[13px] leading-relaxed" style="color: var(--text-secondary)">{d}</p>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ AKT 12 · STATIONEN ═══ -->
+  <section aria-label={t.experienceTitle}>
+    <div data-act="frame" id="akt-12-stationen">
+     <div class="max-w-4xl mx-auto w-full">
+      <h2 class="story-heading text-2xl sm:text-3xl tracking-tight mb-6 reveal">{t.experienceTitle}</h2>
+
+      {recentJobs.map((exp, i) => (
+        <div class="reveal mb-7 last:mb-0" style={`transition-delay: ${Math.min(i * 60, 240)}ms`}>
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+            <h3 class="text-base font-sans font-medium" style="color: var(--accent)">{exp.position}</h3>
+            <span class="text-sm whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
+          </div>
+          <p class="text-sm mb-3" style="color: var(--text-secondary)">{exp.company}</p>
+          <div class="text-[13px] leading-[1.8] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(jobIntro(exp.details))} />
+          {i < recentJobs.length - 1 && <div class="story-separator border-b mt-6"></div>}
+        </div>
+      ))}
+
+     </div>
+    </div>
+
+    <div data-act="frame" id="akt-12b-frueher">
+     <div class="max-w-4xl mx-auto w-full">
+      {olderJobs.length > 0 && (
+        <div class="reveal">
+          <p class="text-xs tracking-[0.2em] uppercase mb-5" style="color: var(--text-secondary)">{t.earlierPositions}</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+            {olderJobs.map(exp => (
+              <div class="exp-compact">
+                <div class="min-w-0">
+                  <span class="text-[13px] font-medium" style="color: var(--text)">{exp.position}</span>
+                  <span class="text-[13px] ml-2" style="color: var(--text-secondary)">{exp.company}</span>
+                </div>
+                <span class="text-xs whitespace-nowrap ml-3" style="color: var(--text-secondary)">{exp.dates}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="reveal mt-8 pt-6 story-separator border-t text-[13px]">
+        <p class="act-label">{t.footerBandLabels.tools}</p>
+        <p class="leading-relaxed" style="color: var(--text-secondary)">{ui.sidebar_skills.join(' · ')}</p>
+      </div>
+     </div>
+    </div>
+  </section>
+
+  <!-- ═══ AKT 13 · WEITERGEBEN ═══ -->
+  <section data-act="frame" id="akt-13-weitergeben" aria-label={t.ariaTransfer} style="background-color: var(--bg-alt)">
+    <div class="max-w-4xl mx-auto w-full">
+      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.transferEyebrow}</p>
+      <div class="reveal">
+        <p class="story-heading text-2xl sm:text-[2.1rem] leading-tight tracking-tight" style="color: var(--accent)">{t.transferQuote}</p>
+        <p class="mt-3 text-[13px] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.transferQuoteNote}</p>
+      </div>
+      <div class="mt-9 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
+        {t.transfers.map((item, i) => (
+          <div class="reveal" style={`transition-delay: ${i * 80}ms`}>
+            <p class="text-sm font-medium" style="color: var(--text)">{item.title}</p>
+            <p class="mt-1.5 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{item.body}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   </main>
 
-  <!-- ═══ ACT 8: CLOSE ═══ -->
+  <!-- ═══ AKT 14 · ABSCHLUSS ═══ -->
   <footer>
-  <section class="act" aria-label={t.ariaContact}>
-    <div class="text-center reveal">
-      <p class="story-display text-5xl sm:text-7xl lg:text-8xl mb-6">{profile.name}</p>
-      <p class="text-sm tracking-[0.2em] uppercase mb-10" style="color: var(--text-secondary)">
+  <section class="act" data-act="frame" id="akt-14-abschluss" aria-label={t.ariaContact}>
+    <div class="text-center reveal max-w-2xl mx-auto">
+      <p class="story-display text-4xl sm:text-6xl lg:text-7xl mb-5">{profile.name}</p>
+      <p class="text-sm tracking-[0.2em] uppercase mb-9" style="color: var(--text-secondary)">
         {t.storyClosingEyebrow}
       </p>
-      <p class="story-quote text-sm mb-10 max-w-md mx-auto" style="color: var(--text-secondary)">
+      <p class="story-quote text-base sm:text-lg leading-relaxed mb-6" style="color: var(--text)">
         {t.closingLine}
       </p>
-
-      <a href="mailto:mboiman@gmail.com" class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">
-        mboiman@gmail.com
-      </a>
-      <p class="mt-4 text-sm" style="color: var(--text-secondary)">
-        <a href="https://www.linkedin.com/in/mboiman/" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">LinkedIn</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://github.com/mboiman" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">GitHub</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://bks-lab.com" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">BKS-Lab</a>
+      <p class="text-sm leading-relaxed mb-9 max-w-xl mx-auto" style="color: var(--text-secondary)">
+        {t.closingNote}
       </p>
 
-      <p class="mt-16 text-xs no-print" style="color: var(--text-secondary); opacity: 0.4">
+      {email && (
+        <a href={email.url} class="text-lg transition-colors duration-300 hover:opacity-80" style="color: var(--accent)">
+          {email.title}
+        </a>
+      )}
+      <p class="mt-4 text-sm" style="color: var(--text-secondary)">
+        {linkedin && <a href={linkedin.url} target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">LinkedIn</a>}
+        &nbsp;&middot;&nbsp;
+        {github && <a href={github.url} target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">GitHub</a>}
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/bks-lab/open-bridge" target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">open-bridge</a>
+        {website && <>&nbsp;&middot;&nbsp;<a href={website.url} target="_blank" rel="noopener" class="hover:text-[var(--text)] transition-colors">BKS-Lab</a></>}
+      </p>
+
+      <p class="mt-14 text-xs no-print" style="color: var(--text-secondary); opacity: 0.4">
         <a href={`/${lang}/`} class="hover:opacity-100 transition-opacity">{t.classicCV}</a>
         &nbsp;&middot;&nbsp;
         <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} class="hover:opacity-100 transition-opacity">PDF</a>
@@ -347,15 +489,24 @@ const storyTitle = lang === 'de'
       </p>
     </div>
   </section>
-
   </footer>
 
   <style>
+    /* A presentation must fit its viewport, and Michael's brief was density, not
+       brevity. Cutting text to fit a 1280x800 laptop would have traded away the
+       point. Instead the root font size follows viewport height, so every rem in
+       the page (type, spacing, the nav) scales together and dense acts shrink
+       rather than overflow. Capped at 16px so a large screen never inflates.
+       Scoped with :has() so only the presentation is affected. */
+    :global(html:has(.story-page)) {
+      font-size: clamp(12px, 1.6vh, 16px);
+    }
+
     .story-page {
       color: var(--text);
       --story-nav-height: 4.25rem;
       --story-step-pad-x: clamp(1.25rem, 4vw, 3rem);
-      --story-step-pad-y: clamp(4.5rem, 9vh, 7rem);
+      --story-step-pad-y: clamp(2.25rem, 5.4vh, 5rem);
       overflow-x: clip;
     }
 
@@ -364,7 +515,7 @@ const storyTitle = lang === 'de'
       overflow-x: hidden;
     }
 
-    .story-page :is(h1, h2, h3, h4, p, span, a) {
+    .story-page :is(h1, h2, h3, h4, p, span, a, li) {
       text-wrap: pretty;
     }
 
@@ -376,61 +527,34 @@ const storyTitle = lang === 'de'
       box-shadow: 0 16px 34px -30px rgba(15,23,42,0.30);
     }
 
-    .story-page :is(section, section[aria-label="Projekte"] > div, section[aria-label="Projects"] > div) {
+    /* Full-viewport steps, selected by data-act rather than by the two language
+       variants of every aria-label. A new act keeps its height automatically. */
+    .story-page [data-act] {
+      min-height: calc(100svh - var(--story-nav-height));
+      min-height: calc(100dvh - var(--story-nav-height));
+      display: flex;
+      align-items: center;
+      padding-block: var(--story-step-pad-y);
+      padding-inline: var(--story-step-pad-x);
       scroll-margin-top: var(--story-nav-height);
     }
 
     .story-page .act {
       min-height: 100svh;
       min-height: 100dvh;
-      padding-block: var(--story-step-pad-y);
-      padding-inline: var(--story-step-pad-x);
     }
 
-    .story-page section[aria-label="Portrait"] {
-      min-height: calc(100svh - var(--story-nav-height));
-      min-height: calc(100dvh - var(--story-nav-height));
-      margin-top: 0;
-      padding: var(--story-step-pad-y) var(--story-step-pad-x) clamp(3rem, 7vh, 5rem);
+    .story-page [data-act="frame"] > div,
+    .story-page [data-act="decision"] > div {
+      width: 100%;
     }
 
-    .story-page section[aria-label="Portrait"] .reveal {
-      width: min(100%, 28rem);
-    }
-
-    .story-page section[aria-label="Portrait"] img {
-      width: min(100%, clamp(14rem, 28vw, 22rem));
-      height: min(52svh, 28rem);
-      height: min(52dvh, 28rem);
+    .story-page .portrait-img {
+      aspect-ratio: 3 / 4;
       object-fit: cover;
       object-position: center top;
-    }
-
-    .story-page :is(
-      section[aria-label="Zahlen"],
-      section[aria-label="Numbers"],
-      section[aria-label="Profil"],
-      section[aria-label="Profile"],
-      section[aria-label="Überzeugungen"],
-      section[aria-label="Beliefs"],
-      section[aria-label="Ausbildung"],
-      section[aria-label="Education"]
-    ) {
-      min-height: calc(100svh - var(--story-nav-height));
-      min-height: calc(100dvh - var(--story-nav-height));
-      display: flex;
-      align-items: center;
-      padding-block: var(--story-step-pad-y);
-      padding-inline: var(--story-step-pad-x);
-    }
-
-    .story-page :is(section[aria-label="Projekte"], section[aria-label="Projects"]) > div {
-      min-height: calc(100svh - var(--story-nav-height));
-      min-height: calc(100dvh - var(--story-nav-height));
-      display: flex;
-      align-items: center;
-      padding-block: var(--story-step-pad-y);
-      padding-inline: var(--story-step-pad-x);
+      filter: contrast(1.05);
+      mix-blend-mode: luminosity;
     }
 
     .story-key-hint {
@@ -448,16 +572,13 @@ const storyTitle = lang === 'de'
     .story-display,
     .story-heading,
     .story-number,
-    .story-metric,
-    .story-project-title,
-    .story-project-metric {
+    .story-project-title {
       font-family: var(--font-display);
       letter-spacing: -0.035em;
     }
 
     .story-display,
-    .story-number,
-    .story-project-metric {
+    .story-number {
       font-weight: 300;
     }
 
@@ -466,32 +587,130 @@ const storyTitle = lang === 'de'
       font-weight: 400;
     }
 
-    .story-metric {
-      font-weight: 300;
-    }
-
-    .story-quote,
-    .story-belief {
-      font-family: var(--font-body);
-      font-style: normal;
+    /* Inherited from the retired numbers act. It used to hold "20+". It now holds
+       a struck config claim against the command that actually checks it. */
+    .story-number {
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+      font-size: clamp(1.5rem, 4.4vw, 3.1rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
       font-weight: 400;
     }
 
-    .story-quote-mark {
-      font-family: var(--font-display);
-      color: var(--accent);
-      opacity: 0.08;
+    .story-quote {
+      font-family: var(--font-body);
+      font-style: normal;
+      font-weight: 400;
     }
 
     .story-separator {
       border-color: var(--line);
     }
 
-    .story-page section[aria-label="Profil"] .prose-column,
-    .story-page section[aria-label="Profile"] .prose-column,
-    .story-page section[aria-label="Kontakt"] > div,
-    .story-page section[aria-label="Contact"] > div {
-      max-width: 760px;
+    .act-label {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.75;
+      margin-bottom: 0.6rem;
+    }
+
+    /* The proof anchor that replaced the giant metric. Never a counter: an open
+       standard, a licence or release, a callable address, or a named procedure. */
+    .proof-headline {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+      line-height: 1.1;
+      color: var(--accent);
+    }
+
+    .proof-token {
+      display: inline-block;
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--accent);
+      word-break: break-word;
+    }
+
+    .proof-dot {
+      display: inline-block;
+      width: 0.5em;
+      height: 0.5em;
+      border-radius: 9999px;
+      margin-right: 0.45em;
+      vertical-align: baseline;
+      border: 1px solid var(--accent);
+    }
+    .proof-dot[data-state="public"] { background: var(--accent); }
+    .proof-dot[data-state="closed"] { background: transparent; }
+
+    .option-row {
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+    .option-mark { flex: none; width: 0.9rem; }
+    .option-out { opacity: 0.45; }
+    .option-in {
+      opacity: 1;
+      border-left: 2px solid var(--accent);
+      margin-left: -0.75rem;
+      padding-left: 0.75rem;
+      padding-block: 0.15rem;
+    }
+    .option-in .option-mark { color: var(--accent); }
+
+    .gate-origin { color: var(--text-secondary); opacity: 0.7; }
+    .gate-origin::before {
+      content: '→';
+      color: var(--accent);
+      margin-right: 0.45em;
+    }
+
+    .corr-row {
+      display: grid;
+      grid-template-columns: 9.5rem 1fr;
+      column-gap: 0.75rem;
+      align-items: baseline;
+    }
+
+    .corr-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    .probe-card {
+      border: 1px solid var(--line);
+      border-radius: 0.9rem;
+      padding: 1.1rem 1.2rem;
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+    }
+    .probe-ask {
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .probe-q {
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--accent);
+      border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+      padding-bottom: 0.1rem;
+    }
+    .probe-ask:hover .probe-q { border-bottom-color: var(--accent); }
+
+    .story-page .exp-compact {
+      border-bottom-color: var(--line);
     }
 
     .story-page section[aria-label="Kontakt"],
@@ -499,10 +718,6 @@ const storyTitle = lang === 'de'
       background:
         radial-gradient(circle at 50% 16%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 28rem),
         var(--bg);
-    }
-
-    .story-page .exp-compact {
-      border-bottom-color: var(--line);
     }
 
     .story-page #story-step-counter,
@@ -541,14 +756,14 @@ const storyTitle = lang === 'de'
     @media (max-width: 640px) {
       .story-page {
         --story-step-pad-x: 1.25rem;
-        --story-step-pad-y: clamp(3.5rem, 7vh, 4.5rem);
+        --story-step-pad-y: clamp(3rem, 6vh, 4rem);
       }
 
-      .story-page section[aria-label="Portrait"] img {
-        width: min(100%, 14rem);
-        height: min(48svh, 27rem);
-        height: min(48dvh, 27rem);
+      .story-page [data-act] {
+        align-items: flex-start;
       }
+
+      .corr-row { grid-template-columns: 1fr; row-gap: 0.15rem; }
 
       .story-page #story-step-counter {
         bottom: 1rem;
@@ -562,28 +777,23 @@ const storyTitle = lang === 'de'
     }
   </style>
 
-  <!-- Scripts -->
   <script>
     // Floating nav
     const navPdf = document.getElementById('nav-pdf');
     const navRight = document.getElementById('nav-right');
-    // Scroll progress
     const progressBar = document.getElementById('scroll-progress');
 
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
-      // Nav visibility + tabindex
       const show = y > 300;
       [navPdf, navRight].forEach(el => {
         if (show) { el?.classList.remove('opacity-0'); el?.classList.add('opacity-100'); }
         else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
       });
-      // Make nav links tabbable only when visible
       // .story-back is the always-visible escape hatch → keep it tabbable regardless.
       document.querySelectorAll('#floating-nav a:not(.story-back), #floating-nav button').forEach(a => {
         (a as HTMLElement).tabIndex = show ? 0 : -1;
       });
-      // Progress bar
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar && max > 0) {
         progressBar.style.width = `${(y / max) * 100}%`;
@@ -591,11 +801,46 @@ const storyTitle = lang === 'de'
     });
   </script>
 
+  <!-- Act 04: hand the question to the existing chat widget instead of shipping
+       a second client. `bridge-agent:prompt` is AgentWidget's own entry point. -->
+  <!-- Liveness probe for act 04. The act claims the agent answers; the page has
+       to be able to say so truthfully at the moment of reading, or say the
+       opposite. Progressive enhancement: on a blocked request neither line shows,
+       which is better than asserting either state. -->
+  <script>
+    (async () => {
+      const live = document.getElementById('probe-live');
+      const down = document.getElementById('probe-down');
+      if (!live || !down) return;
+      try {
+        const res = await fetch(live.dataset.card!, { signal: AbortSignal.timeout(6000) });
+        if (!res.ok) throw new Error(String(res.status));
+        const card = await res.json();
+        const v = card?.supportedInterfaces?.[0]?.protocolVersion || card?.protocolVersion || '';
+        const n = Array.isArray(card?.skills) ? card.skills.length : 0;
+        if (!v || !n) throw new Error('incomplete card');
+        live.textContent = (live.dataset.tpl || '').replace('{v}', v).replace('{n}', String(n));
+        live.classList.remove('hidden');
+      } catch {
+        down.classList.remove('hidden');
+      }
+    })();
+  </script>
+
+  <script>
+    document.querySelectorAll<HTMLElement>('.probe-ask').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const text = btn.dataset.prompt || '';
+        window.dispatchEvent(new CustomEvent('bridge-agent:prompt', { detail: { text } }));
+      });
+    });
+  </script>
+
   <!-- Presentation navigation: step act-to-act with arrow keys (Story page only) -->
   <script>
     (function () {
-      // Each top-level <section> is a step; the "Selected Works" act has multiple
-      // direct <div> children (one per project) → each becomes its own step.
+      // Each top-level <section> is a step; the decisions act has multiple direct
+      // <div> children (one per decision) → each becomes its own step.
       const steps: Element[] = [];
       document.querySelectorAll('.story-page section').forEach((sec) => {
         const divs = Array.from(sec.children).filter((c) => c.tagName === 'DIV');
@@ -624,7 +869,9 @@ const storyTitle = lang === 'de'
       hint.className = 'no-print';
       hint.id = 'story-keyboard-hint';
       hint.setAttribute('aria-hidden', 'true');
-      hint.innerHTML = '<span style="font-size:13px;letter-spacing:.05em">← →</span><span>Navigieren</span>';
+      // Label follows <html lang>; the German string used to render on /en/story/ too.
+      const navLabel = document.documentElement.lang === 'en' ? 'Navigate' : 'Navigieren';
+      hint.innerHTML = '<span style="font-size:13px;letter-spacing:.05em">← →</span><span>' + navLabel + '</span>';
       hint.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;opacity:.78;transition:opacity .8s ease;pointer-events:none';
       document.body.appendChild(hint);
       let hintTimer = window.setTimeout(() => { hint.style.opacity = '0'; }, 4500);
@@ -632,7 +879,7 @@ const storyTitle = lang === 'de'
       const pad = (n: number) => String(n).padStart(2, '0');
       const update = () => {
         counter.innerHTML = '<span style="color:var(--accent)">' + pad(current + 1) + '</span>'
-          + '<span style="color:var(--text-secondary);opacity:.55"> / ' + pad(steps.length) + '</span>';
+          + '<span style="color:var(--text-secondary);opacity:.55"> / ' + pad(steps.length) + '</span>';
       };
       const fadeHint = () => { clearTimeout(hintTimer); hint.style.opacity = '0'; };
 
@@ -646,9 +893,6 @@ const storyTitle = lang === 'de'
         current = idx; update();
       };
 
-      // Scroll-driven reveal: the page-level IntersectionObserver doesn't fire
-      // reliably inside this presentation layout, so reveal .reveal elements as
-      // they scroll into view (same .visible mechanism the keyboard nav uses).
       const revealInView = () => {
         const vh = window.innerHeight;
         document.querySelectorAll('.reveal:not(.visible)').forEach((el) => {
@@ -661,10 +905,8 @@ const storyTitle = lang === 'de'
         current = Math.max(0, Math.min(i, steps.length - 1));
         update();
         const el = steps[current];
-        // Show the destination at once — don't wait for the reveal observer (no half-faded jump).
         el.classList.add('visible');
         el.querySelectorAll('.reveal').forEach((r) => r.classList.add('visible'));
-        // Suppress scroll-sync while we animate, so it can't fight the target index.
         navigating = true;
         clearTimeout(navTimer);
         navTimer = window.setTimeout(() => { navigating = false; }, 700);
@@ -685,8 +927,8 @@ const storyTitle = lang === 'de'
         if (raf) return;
         raf = requestAnimationFrame(() => {
           raf = 0;
-          revealInView();                      // reveal scrolled-in content (always)
-          if (!navigating) syncFromScroll();   // step-counter sync only when not key-navigating
+          revealInView();
+          if (!navigating) syncFromScroll();
         });
       }, { passive: true });
 

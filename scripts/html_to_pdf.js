@@ -5,19 +5,10 @@ const toml = require('toml');
 const sharp = require('sharp');
 const { formatTextToParagraphs } = require('./lib/markdown-utils');
 
-// Impact metrics — shown as compact bar under career profile
-const IMPACT_METRICS = {
-  de: [
-    { metric: '40+', label: 'Skills', detail: 'Ökosystem, ein Hub' },
-    { metric: '20+', label: 'Repos orchestriert', detail: 'über 7 Projekt-Boards' },
-    { metric: 'Live', label: 'A2A-Agent', detail: 'live unter mboiman.bks-lab.com' },
-  ],
-  en: [
-    { metric: '40+', label: 'Skills', detail: 'one orchestration hub' },
-    { metric: '20+', label: 'Repos orchestrated', detail: 'across 7 project boards' },
-    { metric: 'Live', label: 'A2A agent', detail: 'live at mboiman.bks-lab.com' },
-  ],
-};
+// Verification anchors come from config.cv.toml (ui.impact_metrics). There is
+// deliberately NO hardcoded fallback here: the previous one held '40+ Skills' and
+// '20+ Repos orchestriert' and would have quietly reintroduced them into the PDF
+// the moment the TOML field went missing. Fail loudly instead.
 
 // Top 8 projects by impact — ordered by priority
 const TOP_PROJECTS = [
@@ -342,12 +333,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             font-style: normal;
         }`;
 
-  // Generate impact metrics — sourced from TOML (langConfig.ui.impact_metrics),
-  // falling back to the IMPACT_METRICS constant when the field is absent.
+  // Verification anchors, sourced from TOML only (see the note at the top).
   const lang = targetLang || 'de';
-  const metrics = (langConfig.ui.impact_metrics && langConfig.ui.impact_metrics.length > 0)
-    ? langConfig.ui.impact_metrics
-    : (IMPACT_METRICS[lang] || IMPACT_METRICS.de);
+  const metrics = langConfig.ui.impact_metrics;
+  if (!Array.isArray(metrics) || metrics.length === 0) {
+    throw new Error(`config.cv.toml: languages.${lang}.params.ui.impact_metrics is missing or empty`);
+  }
   const impactMetricsHtml = metrics.map(m => {
     const isLong = (m.metric || '').replace(/\s+/g, '').length > 10;
     const detailContent = m.url
