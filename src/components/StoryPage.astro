@@ -827,7 +827,14 @@ const storyTitle = lang === 'de'
       const down = document.getElementById('probe-down');
       if (!live || !down) return;
       try {
-        const res = await fetch(live.dataset.card!, { signal: AbortSignal.timeout(6000) });
+        // The live agent allows CORS for mboiman.github.io only. On a local
+        // preview go through the /agent-proxy vite proxy (astro.config.mjs), the
+        // same route AgentWidget takes, so the preview does not systematically
+        // show the failure state.
+        const host = window.location.hostname;
+        const local = host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
+        const url = local ? '/agent-proxy/.well-known/agent-card.json' : live.dataset.card!;
+        const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
         if (!res.ok) throw new Error(String(res.status));
         const card = await res.json();
         const v = card?.supportedInterfaces?.[0]?.protocolVersion || card?.protocolVersion || '';
