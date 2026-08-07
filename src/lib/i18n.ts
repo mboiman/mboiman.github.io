@@ -191,6 +191,20 @@ export interface I18nStrings {
   // ── Act 12: positions ───────────────────────────────────────────────
   experienceTitle: string;
   earlierPositions: string;
+  /**
+   * Sector descriptors for the presentation's positions act. Clients are not
+   * named there; the classic CV and the PDF still name them, because an
+   * application document without employers is unusable.
+   *
+   * FAIL-CLOSED: a company that is not a key here renders as `companyWithheld`,
+   * it does NOT fall through to its own name. A new client added to
+   * config.cv.toml therefore cannot leak into the presentation by omission.
+   * `companyOwn` lists the entries that may be shown verbatim.
+   */
+  companyPublic: Record<string, string>;
+  companyOwn: string[];
+  companyWithheld: string;
+  companyNote: string;
   footerBandLabels: { education: string; languages: string; tools: string };
 
   // ── Act 13: passing it on ───────────────────────────────────────────
@@ -258,7 +272,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     storyAffiliation: 'Mitgesellschafter der BKS-Lab GmbH, freiberuflich im Quality Engineering',
     storyPortraitText: [
       'Ich arbeite in zwei Rollen gleichzeitig. In der BKS-Lab GmbH zusammen mit Axel von Dielingen, Lior Boiman und Michael Kupermann, daneben freiberuflich als Quality Engineer in eigenen Mandaten.',
-      'Der Schwerpunkt der Firmenarbeit ist eine produktive Rechnungsstrecke nach EN 16931 für eine führende Online-Jobplattform (unter NDA), dazu Workshops, Konzeptarbeit und Plattform-Themen bei weiteren Kunden.',
+      'Der Schwerpunkt der Firmenarbeit ist eine produktive Rechnungsstrecke nach EN 16931 für einen Online-Stellenmarkt (unter NDA), dazu Workshops, Konzeptarbeit und Plattform-Themen bei weiteren Kunden.',
       'Was von dieser Arbeit öffentlich prüfbar ist, liegt offen: der generische Rahmen meines Agentensystems steht unter MIT, und der Agent auf dieser Seite ist ein ansprechbarer Endpunkt, kein Textfeld.',
       'Vieles hier ist Teamarbeit. Die Rechnungsstrecke betreiben wir zu viert, die Nur-Lese-Kanten zwischen den Agenten sind das Ergebnis einer fremden Review, und der Vortrag weiter unten wurde nach einer internen Kritik umgebaut. Wo eine Entscheidung nicht meine war, steht es an der Stelle dabei.',
     ],
@@ -286,7 +300,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       },
       {
         title: 'Die Rechnungsstrecke',
-        mechanism: 'Aus- und Eingangsrechnungen einer führenden Online-Jobplattform laufen produktiv zwischen SAP Business ByDesign und dem Peppol-Netz. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Schicht.',
+        mechanism: 'Aus- und Eingangsrechnungen eines Online-Stellenmarkts laufen produktiv zwischen SAP Business ByDesign und dem Peppol-Netz. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Schicht.',
         proof: 'EN 16931 · Peppol BIS 3.0',
         state: 'closed',
         stateNote: 'Kunde unter NDA',
@@ -348,7 +362,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         category: 'E-Invoicing im Regelbetrieb',
         stack: 'Python / Azure Functions / SAP ByDesign / Peppol',
         title: 'Eine Rechnung wandert durch benannte Stationen.',
-        problem: 'Für eine führende Online-Jobplattform (unter NDA) betreiben wir im Team eine produktive Rechnungsstrecke. Ausgangsrechnungen verlassen SAP Business ByDesign, werden nach UBL konvertiert und ins Peppol-Netz gegeben. Eingangsrechnungen kommen über zwei parallele Wege zurück, als Peppol-Zustellung per Webhook und aus einem Postfach, und enden beide in derselben Schicht. Eine offizielle Schnittstellenspezifikation des ERP gab es nicht.',
+        problem: 'Für einen Online-Stellenmarkt (unter NDA) betreiben wir im Team eine produktive Rechnungsstrecke. Ausgangsrechnungen verlassen SAP Business ByDesign, werden nach UBL konvertiert und ins Peppol-Netz gegeben. Eingangsrechnungen kommen über zwei parallele Wege zurück, als Peppol-Zustellung per Webhook und aus einem Postfach, und enden beide in derselben Schicht. Eine offizielle Schnittstellenspezifikation des ERP gab es nicht.',
         rejected: [
           'Kontrollfluss aus Bedingungen und Ausnahmen, so wie Verarbeitungscode meistens wächst.',
           'Ein Workflow-Produkt dazwischenstellen und die Logik in dessen Oberfläche verschieben.',
@@ -415,7 +429,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         proof: 'MDR · IVDR',
         proofLabel: 'regulatorischer Rahmen der geprüften Plattform',
         state: 'closed',
-        stateNote: 'Auftraggeber im Lebenslauf genannt, Projektinterna vertraulich',
+        stateNote: 'Mandat unter NDA',
       },
     ],
 
@@ -474,6 +488,21 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
 
     experienceTitle: 'Stationen',
     earlierPositions: 'Frühere Positionen',
+    companyOwn: ['BKS', 'BKS - AI Research & Development'],
+    companyPublic: {
+      'TÜV Süd': 'Prüf- und Zertifizierungskonzern',
+      'DVAG': 'Finanzvertrieb',
+      'AkkuSwap Startup': 'Startup im Energiesektor',
+      'BKS im Auftrag für Ryze': 'BKS, im Auftrag eines Kunden',
+      'DB Vertrieb': 'Konzern der Bahnbranche',
+      'DB Systel': 'IT-Dienstleister der Bahnbranche',
+      'Telekom': 'Telekommunikationskonzern',
+      'Siemens': 'Technologiekonzern',
+      'ING-DIBA': 'Direktbank',
+      'British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank': 'Telekommunikation, Versicherung, Bahn, Finanzdienstleistung, Logistik',
+    },
+    companyWithheld: 'Auftraggeber nicht genannt',
+    companyNote: 'Auftraggeber stehen hier nicht namentlich. Der Lebenslauf nennt sie, diese Seite handelt von der Arbeitsweise.',
     footerBandLabels: { education: 'Ausbildung und Zertifizierungen', languages: 'Sprachen', tools: 'Werkzeuge' },
 
     transferEyebrow: 'Weitergeben',
@@ -586,7 +615,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     storyAffiliation: 'Co-owner of BKS-Lab GmbH, freelance quality engineer',
     storyPortraitText: [
       'I work in two roles at once. At BKS-Lab GmbH together with Axel von Dielingen, Lior Boiman and Michael Kupermann, and alongside that as a freelance quality engineer on my own mandates.',
-      'The centre of the company work is a production invoicing pipeline to EN 16931 for a leading online job platform (under NDA), plus workshops, concept work and platform topics with other clients.',
+      'The centre of the company work is a production invoicing pipeline to EN 16931 for an online job marketplace (under NDA), plus workshops, concept work and platform topics with other clients.',
       'Whatever of that work can be verified publicly is out in the open: the generic framework behind my agent system is MIT-licensed, and the agent on this page is an addressable endpoint, not a text box.',
       'Much of this is teamwork. We run the invoicing pipeline as a team of four, the read-only edges between the agents came out of someone else\'s review, and the talk further down was rebuilt after internal criticism. Where a decision was not mine, it says so at that point.',
     ],
@@ -613,7 +642,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       },
       {
         title: 'The invoicing pipeline',
-        mechanism: 'Outbound and inbound invoices for a leading online job platform run in production between SAP Business ByDesign and the Peppol network. Inbound arrives over two parallel routes, a webhook and a mailbox, and both end in the same layer.',
+        mechanism: 'Outbound and inbound invoices for an online job marketplace run in production between SAP Business ByDesign and the Peppol network. Inbound arrives over two parallel routes, a webhook and a mailbox, and both end in the same layer.',
         proof: 'EN 16931 · Peppol BIS 3.0',
         state: 'closed',
         stateNote: 'client under NDA',
@@ -675,7 +704,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         category: 'E-invoicing in production',
         stack: 'Python / Azure Functions / SAP ByDesign / Peppol',
         title: 'An invoice travels through named stations.',
-        problem: 'For a leading online job platform (under NDA) we run a production invoicing pipeline as a team. Outbound invoices leave SAP Business ByDesign, are converted to UBL and handed to the Peppol network. Inbound invoices come back over two parallel routes, as a Peppol delivery via webhook and out of a mailbox, and both end in the same layer. There was no official interface specification for the ERP.',
+        problem: 'For an online job marketplace (under NDA) we run a production invoicing pipeline as a team. Outbound invoices leave SAP Business ByDesign, are converted to UBL and handed to the Peppol network. Inbound invoices come back over two parallel routes, as a Peppol delivery via webhook and out of a mailbox, and both end in the same layer. There was no official interface specification for the ERP.',
         rejected: [
           'Control flow made of conditions and exceptions, the way processing code usually grows.',
           'Put a workflow product in between and move the logic into its interface.',
@@ -742,7 +771,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         proof: 'MDR · IVDR',
         proofLabel: 'the regulatory frame of the platform under test',
         state: 'closed',
-        stateNote: 'client named in the CV, project internals confidential',
+        stateNote: 'mandate under NDA',
       },
     ],
 
@@ -801,6 +830,21 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
 
     experienceTitle: 'Positions',
     earlierPositions: 'Earlier positions',
+    companyOwn: ['BKS', 'BKS - AI Research & Development'],
+    companyPublic: {
+      'TÜV Süd': 'testing and certification group',
+      'DVAG': 'financial services distributor',
+      'AkkuSwap Startup': 'energy sector startup',
+      'BKS on behalf of Ryze': 'BKS, on behalf of a client',
+      'DB Vertrieb': 'rail sector group',
+      'DB Systel': 'IT provider in the rail sector',
+      'Telekom': 'telecommunications group',
+      'Siemens': 'technology group',
+      'ING-DIBA': 'direct bank',
+      'British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank': 'telecommunications, insurance, rail, financial services, logistics',
+    },
+    companyWithheld: 'client not named',
+    companyNote: 'Clients are not named here. The CV names them; this page is about how the work is done.',
     footerBandLabels: { education: 'Education and certifications', languages: 'Languages', tools: 'Tools' },
 
     transferEyebrow: 'Passing it on',

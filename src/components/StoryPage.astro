@@ -70,6 +70,18 @@ function jobIntro(details: string): string {
   return intro;
 }
 
+/**
+ * The presentation does not name clients. Fail-closed on purpose: anything that
+ * is neither Michael's own company nor an explicitly mapped entry renders as
+ * `companyWithheld`, so a client added to config.cv.toml later cannot appear
+ * here just because nobody remembered to map it.
+ */
+function publicCompany(company: string): string {
+  if (!company) return '';
+  if (t.companyOwn.includes(company)) return company;
+  return t.companyPublic[company] ?? t.companyWithheld;
+}
+
 const email = contact.list.find(c => c.class === 'email');
 const linkedin = contact.list.find(c => c.class === 'linkedin');
 const github = contact.list.find(c => c.class === 'github');
@@ -156,7 +168,7 @@ const storyTitle = lang === 'de'
             width="360"
             height="480"
           />
-          <div class="mt-7 text-[13px]">
+          <div class="mt-7 text-[0.82rem]">
             <p class="act-label">{t.footerBandLabels.education}</p>
             {education.list.map(edu => (
               <p class="leading-snug mb-1.5" style="color: var(--text-secondary)">
@@ -193,12 +205,12 @@ const storyTitle = lang === 'de'
   <section data-act="frame" id="akt-03-was-laeuft" aria-label={t.ariaRunning} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
       <div class="reveal">
-        <p class="text-[11px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{runningEyebrow}</p>
+        <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{runningEyebrow}</p>
         <div class="flex flex-wrap items-baseline gap-x-6 gap-y-1 running-lead">
           <s class="story-number opacity-40" style="color: var(--text-secondary)">{t.runningLeadStruck}</s>
           <span class="story-number" style="color: var(--accent)">{t.runningLeadLive}</span>
         </div>
-        <p class="mt-3 text-[13px] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.runningLeadNote}</p>
+        <p class="mt-3 text-[0.82rem] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.runningLeadNote}</p>
       </div>
 
       <h2 class="story-heading text-2xl sm:text-3xl mt-8 mb-5 reveal">{t.runningTitle}</h2>
@@ -214,7 +226,7 @@ const storyTitle = lang === 'de'
               {item.proofUrl
                 ? <a href={item.proofUrl} target="_blank" rel="noopener" class="proof-token hover:opacity-80 transition-opacity">{item.proof}</a>
                 : <span class="proof-token">{item.proof}</span>}
-              <p class="mt-1.5 text-[11px] tracking-wide" style="color: var(--text-secondary)">
+              <p class="mt-1.5 text-[0.7rem] tracking-wide" style="color: var(--text-secondary)">
                 <span class="proof-dot" data-state={item.state} aria-hidden="true"></span>
                 {item.state === 'public' ? t.proofPublicLabel : `${t.proofClosedLabel} · ${item.stateNote}`}
               </p>
@@ -223,7 +235,7 @@ const storyTitle = lang === 'de'
         ))}
       </div>
 
-      <p class="mt-4 text-[13px] leading-relaxed reveal" style="color: var(--text-secondary)">{t.runningOutro}</p>
+      <p class="mt-4 text-[0.82rem] leading-relaxed reveal" style="color: var(--text-secondary)">{t.runningOutro}</p>
     </div>
   </section>
 
@@ -232,7 +244,7 @@ const storyTitle = lang === 'de'
        plumbing and no second chat client. -->
   <section data-act="frame" id="akt-04-fragen" aria-label={t.ariaProbe}>
     <div class="max-w-4xl mx-auto w-full reveal">
-      <p class="text-[11px] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{t.probeEyebrow}</p>
+      <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4" style="color: var(--accent)">{t.probeEyebrow}</p>
       <h2 class="story-heading text-3xl sm:text-4xl tracking-tight">{t.probeTitle}</h2>
       <p class="mt-5 text-sm sm:text-base leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.probeIntro}</p>
 
@@ -242,7 +254,7 @@ const storyTitle = lang === 'de'
             <button type="button" class="probe-ask text-left w-full" data-prompt={p.question}>
               <span class="probe-q">{p.question}</span>
             </button>
-            <p class="mt-3 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{p.explains}</p>
+            <p class="mt-3 text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">{p.explains}</p>
           </div>
         ))}
       </div>
@@ -250,9 +262,9 @@ const storyTitle = lang === 'de'
       <p class="mt-9 text-sm leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.probeOutro}</p>
       <!-- Neither line is rendered until the card fetch below resolves. A page
            built on "check it yourself" cannot ship a hardcoded status line. -->
-      <p class="mt-3 text-[13px] hidden" style="color: var(--text-secondary)" id="probe-live"
+      <p class="mt-3 text-[0.82rem] hidden" style="color: var(--text-secondary)" id="probe-live"
          data-tpl={t.probeLive} data-card="https://mboiman.bks-lab.com/.well-known/agent-card.json"></p>
-      <p class="mt-3 text-[13px] hidden" style="color: var(--text-secondary); opacity: .7" id="probe-down">
+      <p class="mt-3 text-[0.82rem] hidden" style="color: var(--text-secondary); opacity: .7" id="probe-down">
         {t.probeUnavailable}
       </p>
     </div>
@@ -277,8 +289,8 @@ const storyTitle = lang === 'de'
           )}
           <div class="relative max-w-5xl mx-auto w-full">
             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mb-5">
-              <span class="text-[10px] tracking-[0.25em] uppercase" style="color: var(--accent)">{d.category}</span>
-              <span class="text-[10px] tracking-wider uppercase hidden sm:inline" style="color: var(--text-secondary); opacity: 0.5">{d.stack}</span>
+              <span class="text-[0.64rem] tracking-[0.25em] uppercase" style="color: var(--accent)">{d.category}</span>
+              <span class="text-[0.64rem] tracking-wider uppercase hidden sm:inline" style="color: var(--text-secondary); opacity: 0.5">{d.stack}</span>
             </div>
 
             <h3 class="story-project-title text-2xl sm:text-3xl lg:text-[2.4rem] mb-6 tracking-tight leading-tight">{d.title}</h3>
@@ -318,8 +330,8 @@ const storyTitle = lang === 'de'
                 {d.proofUrl
                   ? <a href={d.proofUrl} target="_blank" rel="noopener" class="proof-headline hover:opacity-80 transition-opacity">{d.proof}</a>
                   : <span class="proof-headline">{d.proof}</span>}
-                <p class="mt-1.5 text-[12px] leading-snug lg:ml-auto lg:max-w-[17rem]" style="color: var(--text-secondary)">{d.proofLabel}</p>
-                <p class="mt-1.5 text-[11px] tracking-wide" style="color: var(--text-secondary)">
+                <p class="mt-1.5 text-[0.76rem] leading-snug lg:ml-auto lg:max-w-[17rem]" style="color: var(--text-secondary)">{d.proofLabel}</p>
+                <p class="mt-1.5 text-[0.7rem] tracking-wide" style="color: var(--text-secondary)">
                   <span class="proof-dot" data-state={d.state} aria-hidden="true"></span>
                   {d.state === 'public' ? t.proofPublicLabel : `${t.proofClosedLabel} · ${d.stateNote}`}
                 </p>
@@ -334,13 +346,13 @@ const storyTitle = lang === 'de'
   <!-- ═══ AKT 10 · VIER TORE ═══ -->
   <section data-act="frame" id="akt-10-tore" aria-label={t.ariaGates} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
-      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.gatesEyebrow}</p>
+      <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.gatesEyebrow}</p>
       <h2 class="story-heading text-2xl sm:text-3xl tracking-tight mb-5 reveal">{t.gatesTitle}</h2>
       {t.gates.map((g, i) => (
         <div class={`reveal py-3 ${i < t.gates.length - 1 ? 'story-separator border-b' : ''}`} style={`transition-delay: ${i * 110}ms`}>
           <p class="story-heading text-lg sm:text-xl leading-snug tracking-tight">{g.rule}</p>
-          <p class="mt-2 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{g.mechanism}</p>
-          <p class="mt-2 text-[13px] leading-relaxed gate-origin">{g.origin}</p>
+          <p class="mt-2 text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">{g.mechanism}</p>
+          <p class="mt-2 text-[0.82rem] leading-relaxed gate-origin">{g.origin}</p>
         </div>
       ))}
     </div>
@@ -349,29 +361,29 @@ const storyTitle = lang === 'de'
   <!-- ═══ AKT 11 · KORREKTUREN ═══ -->
   <section data-act="frame" id="akt-11-korrekturen" aria-label={t.ariaCorrections}>
     <div class="max-w-4xl mx-auto w-full">
-      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.correctionsEyebrow}</p>
+      <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.correctionsEyebrow}</p>
       <h2 class="story-heading text-2xl sm:text-3xl tracking-tight reveal">{t.correctionsTitle}</h2>
-      <p class="mt-3 mb-5 text-sm leading-relaxed max-w-2xl reveal" style="color: var(--text-secondary)">{t.correctionsIntro}</p>
+      <p class="mt-2.5 mb-4 text-[0.82rem] leading-relaxed max-w-2xl reveal" style="color: var(--text-secondary)">{t.correctionsIntro}</p>
 
       {t.corrections.map((c, i) => (
-        <div class="reveal py-3.5 story-separator border-t" style={`transition-delay: ${i * 90}ms`}>
-          <p class="corr-row text-sm leading-relaxed" style="color: var(--text-secondary); opacity: .6">
+        <div class="reveal py-3 story-separator border-t" style={`transition-delay: ${i * 90}ms`}>
+          <p class="corr-row text-[0.82rem] leading-relaxed" style="color: var(--text-secondary); opacity: .6">
             <span class="corr-label">{t.correctionLabels.assumption}</span><span>{c.assumption}</span>
           </p>
-          <p class="corr-row mt-2 text-sm leading-relaxed" style="color: var(--text-secondary)">
+          <p class="corr-row mt-1.5 text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">
             <span class="corr-label">{t.correctionLabels.check}</span><span>{c.check}</span>
           </p>
-          <p class="corr-row mt-2 text-sm leading-relaxed" style="color: var(--text)">
+          <p class="corr-row mt-1.5 text-[0.82rem] leading-relaxed" style="color: var(--text)">
             <span class="corr-label" style="color: var(--accent)">{t.correctionLabels.result}</span><span>{c.result}</span>
           </p>
         </div>
       ))}
 
-      <div class="reveal mt-6 pt-5 story-separator border-t">
+      <div class="reveal mt-5 pt-4 story-separator border-t">
         <p class="act-label">{t.disclaimerTitle}</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           {t.disclaimers.map(d => (
-            <p class="text-[13px] leading-relaxed" style="color: var(--text-secondary)">{d}</p>
+            <p class="text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">{d}</p>
           ))}
         </div>
       </div>
@@ -382,7 +394,8 @@ const storyTitle = lang === 'de'
   <section aria-label={t.experienceTitle}>
     <div data-act="frame" id="akt-12-stationen">
      <div class="max-w-4xl mx-auto w-full">
-      <h2 class="story-heading text-2xl sm:text-3xl tracking-tight mb-6 reveal">{t.experienceTitle}</h2>
+      <h2 class="story-heading text-2xl sm:text-3xl tracking-tight mb-2 reveal">{t.experienceTitle}</h2>
+      <p class="text-[0.82rem] mb-6 reveal" style="color: var(--text-secondary); opacity: .75">{t.companyNote}</p>
 
       {recentJobs.map((exp, i) => (
         <div class="reveal mb-7 last:mb-0" style={`transition-delay: ${Math.min(i * 60, 240)}ms`}>
@@ -390,8 +403,8 @@ const storyTitle = lang === 'de'
             <h3 class="text-base font-sans font-medium" style="color: var(--accent)">{exp.position}</h3>
             <span class="text-sm whitespace-nowrap" style="color: var(--text-secondary)">{exp.dates}</span>
           </div>
-          <p class="text-sm mb-3" style="color: var(--text-secondary)">{exp.company}</p>
-          <div class="text-[13px] leading-[1.8] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(jobIntro(exp.details))} />
+          <p class="text-sm mb-3" style="color: var(--text-secondary)">{publicCompany(exp.company)}</p>
+          <div class="text-[0.82rem] leading-[1.8] [&_strong]:text-[var(--text)] [&_strong]:font-medium" style="color: var(--text-secondary)" set:html={formatToHTML(jobIntro(exp.details))} />
           {i < recentJobs.length - 1 && <div class="story-separator border-b mt-6"></div>}
         </div>
       ))}
@@ -408,8 +421,8 @@ const storyTitle = lang === 'de'
             {olderJobs.map(exp => (
               <div class="exp-compact">
                 <div class="min-w-0">
-                  <span class="text-[13px] font-medium" style="color: var(--text)">{exp.position}</span>
-                  <span class="text-[13px] ml-2" style="color: var(--text-secondary)">{exp.company}</span>
+                  <span class="text-[0.82rem] font-medium" style="color: var(--text)">{exp.position}</span>
+                  <span class="text-[0.82rem]" style="color: var(--text-secondary)">, {publicCompany(exp.company)}</span>
                 </div>
                 <span class="text-xs whitespace-nowrap ml-3" style="color: var(--text-secondary)">{exp.dates}</span>
               </div>
@@ -418,7 +431,7 @@ const storyTitle = lang === 'de'
         </div>
       )}
 
-      <div class="reveal mt-8 pt-6 story-separator border-t text-[13px]">
+      <div class="reveal mt-8 pt-6 story-separator border-t text-[0.82rem]">
         <p class="act-label">{t.footerBandLabels.tools}</p>
         <p class="leading-relaxed" style="color: var(--text-secondary)">{ui.sidebar_skills.join(' · ')}</p>
       </div>
@@ -429,16 +442,16 @@ const storyTitle = lang === 'de'
   <!-- ═══ AKT 13 · WEITERGEBEN ═══ -->
   <section data-act="frame" id="akt-13-weitergeben" aria-label={t.ariaTransfer} style="background-color: var(--bg-alt)">
     <div class="max-w-4xl mx-auto w-full">
-      <p class="text-[11px] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.transferEyebrow}</p>
+      <p class="text-[0.7rem] tracking-[0.25em] uppercase mb-4 reveal" style="color: var(--accent)">{t.transferEyebrow}</p>
       <div class="reveal">
         <p class="story-heading text-2xl sm:text-[2.1rem] leading-tight tracking-tight" style="color: var(--accent)">{t.transferQuote}</p>
-        <p class="mt-3 text-[13px] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.transferQuoteNote}</p>
+        <p class="mt-3 text-[0.82rem] leading-relaxed max-w-2xl" style="color: var(--text-secondary)">{t.transferQuoteNote}</p>
       </div>
       <div class="mt-9 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
         {t.transfers.map((item, i) => (
           <div class="reveal" style={`transition-delay: ${i * 80}ms`}>
             <p class="text-sm font-medium" style="color: var(--text)">{item.title}</p>
-            <p class="mt-1.5 text-[13px] leading-relaxed" style="color: var(--text-secondary)">{item.body}</p>
+            <p class="mt-1.5 text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">{item.body}</p>
           </div>
         ))}
       </div>
@@ -608,7 +621,7 @@ const storyTitle = lang === 'de'
     }
 
     .act-label {
-      font-size: 10px;
+      font-size: 0.64rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--accent);
@@ -682,7 +695,7 @@ const storyTitle = lang === 'de'
     }
 
     .corr-label {
-      font-size: 10px;
+      font-size: 0.64rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       opacity: 0.75;
