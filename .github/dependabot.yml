@@ -1,0 +1,63 @@
+# Dependabot configuration for mboiman/mboiman.github.io
+# Reference: https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+#
+# Two ecosystems live in this repo:
+#   npm             package.json + package-lock.json at the repo root
+#   github-actions  .github/workflows/gh-pages.yml + preview-deploy.yml
+#
+# Grouping strategy: minor + patch land as ONE batched PR per ecosystem.
+# MAJOR updates are deliberately left out of every group, so each major arrives
+# as its own PR (docs: "Any outdated dependencies that do not match a rule are
+# updated in individual pull requests"). That matters here because puppeteer
+# majors ship a new Chromium and can shift the generated CV PDF layout, and toml
+# is the parser behind config.cv.toml. Both need a manual build + PDF check.
+
+version: 2
+
+updates:
+  # npm (root manifest, lockfile committed, installed via `npm ci` in CI)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "javascript"
+    commit-message:
+      prefix: "fix"
+      include: "scope"
+    groups:
+      npm-minor-patch:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions (directory "/" makes Dependabot scan .github/workflows/)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      actions-minor-patch:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
