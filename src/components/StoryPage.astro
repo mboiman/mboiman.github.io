@@ -92,15 +92,25 @@ const storyTitle = lang === 'de'
         id={act.id}
         aria-label={opener ? t.ariaStatement : closing ? t.ariaContact : portrait ? t.ariaProfile : act.headline}
       >
-        <div class={`w-full ${opener ? 'max-w-4xl mx-auto' : 'max-w-5xl mx-auto'}`}>
+        <div class={`w-full ${opener ? 'max-w-6xl mx-auto' : 'max-w-5xl mx-auto'}`}>
+
+          {opener && (
+            <img
+              src={`/images/${profile.avatar_story || 'profile_.jpg'}`}
+              alt=""
+              aria-hidden="true"
+              class="opener-portrait no-print"
+              width="750" height="1000"
+            />
+          )}
 
           {portrait ? (
-            <div class="grid grid-cols-1 md:grid-cols-[minmax(0,13rem)_1fr] gap-8 md:gap-14 items-start reveal">
-              <div class="relative mx-auto md:mx-0 w-full max-w-[13rem]">
-                <div class="absolute -inset-8 rounded-full opacity-[0.1] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
+            <div class="grid grid-cols-1 md:grid-cols-[minmax(0,20rem)_1fr] gap-10 md:gap-16 items-center reveal">
+              <div class="relative mx-auto md:mx-0 w-full max-w-[20rem]">
+                <div class="absolute -inset-14 rounded-full opacity-[0.14] blur-3xl" style="background: var(--accent)" aria-hidden="true"></div>
                 <img src={`/images/${profile.avatar_story || 'profile_.jpg'}`} alt={profile.name} class="relative w-full portrait-img" width="360" height="480" />
-                <p class="mt-4 text-[0.7rem] tracking-[0.15em] uppercase" style="color: var(--accent)">{t.storyRole}</p>
-                <p class="text-[0.76rem]" style="color: var(--text-secondary)">{location}</p>
+                <p class="mt-5 text-[0.78rem] tracking-[0.18em] uppercase" style="color: var(--accent)">{t.storyRole}</p>
+                <p class="mt-1 text-[0.84rem]" style="color: var(--text-secondary)">{location}</p>
               </div>
               <div>
                 <p class="act-eyebrow">{eyebrow}</p>
@@ -113,14 +123,14 @@ const storyTitle = lang === 'de'
               </div>
             </div>
           ) : (
-            <div class={`reveal ${opener ? 'text-center' : ''}`}>
+            <div class={`reveal ${opener ? 'opener-copy' : ''}`}>
               <p class="act-eyebrow">{eyebrow}</p>
               {opener
                 ? <h1 class="act-headline act-headline-lead">{act.headline}</h1>
                 : <h2 class="act-headline">{act.headline}</h2>}
 
               {opener && (
-                <div class="flex flex-wrap items-baseline justify-center gap-x-5 gap-y-1 mt-8 mb-9">
+                <div class="flex flex-wrap items-baseline gap-x-5 gap-y-1 mt-6 mb-7">
                   <s class="lead-mono opacity-45" style="color: var(--text-secondary)">status: active</s>
                   <span class="lead-mono" style="color: var(--accent)">launchctl print</span>
                 </div>
@@ -135,7 +145,16 @@ const storyTitle = lang === 'de'
               </ul>
 
               {closing && (
-                <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                <img
+                  src={`/images/${profile.avatar_story || 'profile_.jpg'}`}
+                  alt={profile.name}
+                  class="closing-mark"
+                  width="750" height="1000"
+                />
+              )}
+
+              {closing && (
+                <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-base">
                   {email && <a href={email.url} class="cta" style="color: var(--accent)">{email.title}</a>}
                   {linkedin && <a href={linkedin.url} target="_blank" rel="noopener" class="cta">LinkedIn</a>}
                   {github && <a href={github.url} target="_blank" rel="noopener" class="cta">GitHub</a>}
@@ -151,14 +170,14 @@ const storyTitle = lang === 'de'
           )}
 
           {(act.anchor || act.hook) && (
-            <div class="mt-8 pt-5 story-separator border-t grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 lg:gap-12 items-start reveal text-left">
+            <div class={`mt-8 pt-5 story-separator border-t grid grid-cols-1 gap-4 items-start reveal text-left ${opener ? 'max-w-[44rem]' : 'lg:grid-cols-[1fr_auto] lg:gap-12'}`}>
               <p class="text-[0.82rem] leading-relaxed" style="color: var(--text-secondary)">{act.hook}</p>
               {act.anchor && (
-                <div class="lg:text-right lg:min-w-[15rem] shrink-0">
+                <div class={opener ? '' : 'lg:text-right lg:min-w-[15rem] shrink-0'}>
                   {act.anchor.url
                     ? <a href={act.anchor.url} target="_blank" rel="noopener" class="proof-headline hover:opacity-80 transition-opacity">{act.anchor.text}</a>
                     : <span class="proof-headline">{act.anchor.text}</span>}
-                  {act.anchor.label && <p class="mt-1 text-[0.72rem] leading-snug lg:ml-auto lg:max-w-[15rem]" style="color: var(--text-secondary)">{act.anchor.label}</p>}
+                  {act.anchor.label && <p class={`mt-1 text-[0.76rem] leading-snug ${opener ? '' : 'lg:ml-auto lg:max-w-[15rem]'}`} style="color: var(--text-secondary)">{act.anchor.label}</p>}
                   <p class="mt-1 text-[0.68rem] tracking-wide" style="color: var(--text-secondary)">
                     <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>
                     {act.anchor.state === 'public' ? t.proofPublicLabel : `${t.proofClosedLabel} · ${act.anchor.note}`}
@@ -192,13 +211,13 @@ const storyTitle = lang === 'de'
        and a dense act shrinks rather than overflows. Fixed px sizes defeat this:
        a "smaller" px value once came out LARGER than the scaled rem it replaced
        on a 1366x768 screen. Keep everything below in rem. */
-    :global(html:has(.story-page)) { font-size: clamp(12px, 1.6vh, 16px); }
+    :global(html:has(.story-page)) { font-size: clamp(12.5px, 1.78vh, 18px); }
 
     .story-page {
       color: var(--text);
       --story-nav-height: 4.25rem;
       --story-step-pad-x: clamp(1.25rem, 4vw, 3rem);
-      --story-step-pad-y: clamp(2.25rem, 5.4vh, 5rem);
+      --story-step-pad-y: clamp(2.75rem, 6.5vh, 6rem);
       overflow-x: clip;
     }
 
@@ -224,6 +243,52 @@ const storyTitle = lang === 'de'
     }
     .story-page section:nth-of-type(even) { background-color: var(--bg-alt); }
 
+    /* One photo, three treatments. Large and faded behind the opening statement,
+       sharp beside the offer, and a small mark at the close. */
+    .story-page .opener-portrait {
+      position: absolute;
+      right: max(0px, calc(50% - 36rem));
+      top: 50%;
+      transform: translateY(-50%);
+      height: min(82vh, 46rem);
+      width: auto;
+      object-fit: cover;
+      object-position: center 18%;
+      opacity: 0.62;
+      filter: contrast(1.04) saturate(0.1);
+      mix-blend-mode: luminosity;
+      /* The photo has a hard dark rectangle around it, so it needs to fade out on
+         every side it touches, not just the left. A single left-only gradient left
+         a visible box edge across the headline. */
+      -webkit-mask-image:
+        linear-gradient(to left, #000 30%, transparent 92%),
+        linear-gradient(to top, transparent 0%, #000 22%),
+        linear-gradient(to bottom, transparent 0%, #000 16%),
+        linear-gradient(to right, #000 72%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to left, #000 30%, transparent 92%),
+        linear-gradient(to top, transparent 0%, #000 22%),
+        linear-gradient(to bottom, transparent 0%, #000 16%),
+        linear-gradient(to right, #000 72%, transparent 100%);
+      mask-composite: intersect;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .story-page [data-act="opener"] { position: relative; }
+    .story-page [data-act="opener"] > div { position: relative; z-index: 1; }
+
+    .story-page .closing-mark {
+      width: 5.5rem;
+      height: 7.3rem;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 0.6rem;
+      margin-top: 1.6rem;
+      filter: contrast(1.05);
+      mix-blend-mode: luminosity;
+    }
+
     .story-page .portrait-img {
       aspect-ratio: 3 / 4;
       object-fit: cover;
@@ -245,37 +310,46 @@ const storyTitle = lang === 'de'
     }
 
     .act-eyebrow {
-      font-size: 0.66rem;
-      letter-spacing: 0.25em;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 0.9rem;
+      margin-bottom: 1.1rem;
     }
 
     .act-headline {
       font-family: var(--font-display);
       font-weight: 400;
-      letter-spacing: -0.035em;
-      line-height: 1.1;
-      font-size: clamp(1.6rem, 3.6vw, 3rem);
-      margin-bottom: 1.6rem;
+      letter-spacing: -0.04em;
+      line-height: 1.06;
+      font-size: clamp(1.9rem, 4.6vw, 3.9rem);
+      margin-bottom: 1.9rem;
     }
-    .act-headline-lead { font-weight: 300; font-size: clamp(2rem, 5vw, 4.2rem); margin-bottom: 0; }
+    .act-headline-lead {
+      font-weight: 300;
+      font-size: clamp(2.1rem, 5.4vw, 5rem);
+      line-height: 1.02;
+      margin-bottom: 0;
+    }
+
+    [data-act="opener"] .act-bullets { gap: 0.6rem; }
+    [data-act="opener"] .act-headline-lead { margin-bottom: 0; }
 
     .lead-mono {
       font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-      font-size: clamp(1.1rem, 3vw, 2.1rem);
+      font-size: clamp(1.3rem, 3.6vw, 2.7rem);
       letter-spacing: -0.01em;
     }
 
-    .act-bullets { display: flex; flex-direction: column; gap: 0.7rem; }
-    .act-bullets-center { align-items: flex-start; max-width: 34rem; margin-inline: auto; text-align: left; }
+    .act-bullets { display: flex; flex-direction: column; gap: 0.95rem; }
+    .opener-copy { max-width: min(100%, 44rem); }
+    .act-bullets-center { max-width: 38rem; }
 
     .bullet {
       display: flex;
-      gap: 0.6rem;
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-      line-height: 1.45;
+      gap: 0.75rem;
+      font-size: clamp(1.02rem, 1.65vw, 1.45rem);
+      line-height: 1.42;
       color: var(--text-secondary);
     }
     .bullet-mark { flex: none; color: var(--accent); line-height: 1.35; }
@@ -297,8 +371,8 @@ const storyTitle = lang === 'de'
       font-family: var(--font-display);
       font-weight: 300;
       letter-spacing: -0.03em;
-      font-size: clamp(1.2rem, 2.4vw, 1.9rem);
-      line-height: 1.15;
+      font-size: clamp(1.5rem, 2.9vw, 2.5rem);
+      line-height: 1.12;
       color: var(--accent);
       word-break: break-word;
     }
@@ -345,6 +419,7 @@ const storyTitle = lang === 'de'
     @media (max-width: 640px) {
       .story-page { --story-step-pad-x: 1.25rem; --story-step-pad-y: clamp(3rem, 6vh, 4rem); }
       .story-page [data-act] { align-items: flex-start; }
+      .story-page .opener-portrait { opacity: 0.16; right: -6vw; height: 62vh; }
       .story-page #story-step-counter { bottom: 1rem; left: 1rem; }
       .story-page #story-keyboard-hint, :global(#agent-widget-label) { display: none !important; }
     }
