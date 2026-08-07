@@ -10,10 +10,11 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node --experimental-strip-types scripts/check-i18n.mjs && astro build",
     "preview": "astro preview",
     "pdf:de": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de",
-    "pdf:en": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en"
+    "pdf:en": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en",
+    "check:i18n": "node --experimental-strip-types scripts/check-i18n.mjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.1",
