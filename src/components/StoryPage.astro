@@ -112,6 +112,19 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
   <main id="main">
   {acts.map((act) => {
     const Fig = act.figure ? FIGURES[act.figure.id] : null;
+    // Four figure acts rendered through one layout is the exact fault this
+    // rebuild exists to fix, reintroduced one level down. The figures differ in
+    // proportion: `route` (900x120) and `gate` (720x260) are wide and want the
+    // full act width under the copy, `timeline` and `mesh` are upright and want
+    // the column beside it. Deriving the layout from the figure's own shape is
+    // a rule, so a new figure lands correctly without anyone remembering this.
+    // Aspect ratio of each wide figure's viewBox. The wrapper derives its width
+    // from a height budget times this ratio, so a flat figure gets the full act
+    // width and a chunkier one stops before it pushes the act past the fold.
+    // Hardcoding one width for both put `gate` 130px over on every desktop size.
+    const WIDE_AR: Record<string, number> = { route: 900 / 120, gate: 720 / 260 };
+    const wideAr = act.figure ? WIDE_AR[act.figure.id] : undefined;
+    const wideFigure = wideAr !== undefined;
     const shot = act.shot ? SHOTS[act.shot.src] : null;
     return (
       <section data-act={act.kind} data-tone={act.tone} id={act.id} aria-label={act.headline}>
@@ -216,7 +229,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
               equivalent and render as an ordered list, so there is never a
               second list saying the same thing beside it. */}
           {act.kind === 'figure' && (
-            <div class="split-2">
+            <div class={wideFigure ? 'stack-wide' : 'split-2'}>
               <div class="rise-stagger">
                 <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
                 <h2 class="act-h" style="--i:1">{act.headline}</h2>
@@ -240,7 +253,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
               </div>
 
               <div class="flex flex-col gap-6">
-                {Fig && act.figure && <Fig labels={act.figure.labels} caption={act.figure.caption} />}
+                {!wideFigure && Fig && act.figure && <Fig labels={act.figure.labels} caption={act.figure.caption} />}
 
                 {act.phone && (
                   <div class="phone">
@@ -260,6 +273,12 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                   </figure>
                 )}
               </div>
+
+              {wideFigure && Fig && act.figure && (
+                <div class="stack-figure" style={`--fig-ar:${wideAr}`}>
+                  <Fig labels={act.figure.labels} caption={act.figure.caption} />
+                </div>
+              )}
             </div>
           )}
 
@@ -498,7 +517,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     :global(html:has(.story-page)), :global(body:has(.story-page)) { overflow-x: clip; }
 
     .story-nav {
-      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      background: color-mix(in srgb, var(--surface) 95%, transparent);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -517,6 +536,34 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     }
 
     /* ── Per-kind layout ─────────────────────────────────────────────── */
+
+    /* Copy (and the screenshot, beside it) on the first row, the wide figure
+       spanning both columns underneath. A wide figure stacked under a full-width
+       column grew the act past the fold; this keeps the same reading order and
+       fits. */
+    .stack-wide {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: clamp(1.5rem, 3vh, 2.5rem) clamp(2rem, 4vw, 3.5rem);
+      align-items: center;
+    }
+    /* `width`, not `max-width`, and `justify-self` instead of auto margins.
+       The figure inside declares `container-type: inline-size`, so it cannot
+       take its inline size from its own contents; combined with auto margins
+       that left nothing to derive a width from and the whole figure collapsed
+       to zero. A definite width fixes it at the source. */
+    .stack-wide > .stack-figure {
+      grid-column: 1 / -1;
+      /* Height budget times the figure's own aspect ratio, capped at the act
+         width. `width`, not `max-width`, and `justify-self` rather than auto
+         margins: the figure inside declares `container-type: inline-size`, so
+         it cannot take its inline size from its contents, and with auto margins
+         there was nothing left to derive a width from. It collapsed to zero. */
+      width: min(100%, 62rem, calc(23vh * var(--fig-ar, 3)));
+      justify-self: center;
+    }
+    .stack-wide:not(:has(.shot-figure)) > :first-child { max-width: 46rem; }
+    .stack-wide:not(:has(.shot-figure)) { grid-template-columns: minmax(0, 1fr); }
 
     .split-2 {
       display: grid;

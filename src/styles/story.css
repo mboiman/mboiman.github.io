@@ -41,6 +41,12 @@
   position: relative;
 }
 
+/* Every act clears the fixed nav except the first: at scroll 0 the nav overlays
+   the page rather than displacing it, so subtracting its height there left a
+   strip of the next act showing on the opening screen. This has to sit AFTER
+   the rule above: both selectors have identical specificity, so order decides. */
+.story-page [data-act='manifest'] { min-height: 100svh; }
+
 /* Three surfaces instead of a strict alternation, so the rhythm does not read
    as a stripe pattern once acts are reordered. */
 .story-page [data-tone='alt'] { background-color: var(--bg-alt); }

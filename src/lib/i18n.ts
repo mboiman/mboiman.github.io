@@ -248,7 +248,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'Was die Datei sagt',
             'aktiv',
             'Was die Maschine sagt',
-            'seit sechs Tagen still',
+            'seit Tagen still',
           ],
           caption: 'Dieselbe Sicherung, zweimal befragt.',
         },
@@ -258,7 +258,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
           state: 'public',
         },
-        hook: 'Vier von fünf Sicherungen waren tot, während die Statusdatei aktiv meldete.',
+        hook: 'Die Statusdatei meldete aktiv. Der Dienst war seit Tagen still.',
       },
       {
         id: '02-person',
@@ -362,9 +362,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'Jeder Agent hat eine eigene Adresse.',
         bullets: [
           'Sie fragen sich über ein offenes Protokoll.',
-          'Ein Tor übersetzt, mehr nicht: kein Modell darin.',
+          'Eine Vermittlung übersetzt, mehr nicht: kein Modell darin.',
           'Das Token des Aufrufers geht nie nach oben.',
-          'Überlast kommt als benannte Absage zurück.',
+          'Überlast kommt als benannte Absage zurück, nie als Stille.',
         ],
         figure: {
           id: 'mesh',
@@ -372,7 +372,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'Projekt-Agent',
             'Firmen-Agent',
             'Persönlicher Agent',
-            'Tor',
+            'Vermittlung',
             'list · card · ask',
           ],
           caption: 'Drei Agenten, ein Tor, ein offenes Protokoll.',
@@ -383,7 +383,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://openbridge.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Genau ein Pfad am Tor, bewusst kein zweiter für Gesundheitsprüfungen.',
+        hook: 'Genau ein Pfad an der Vermittlung, bewusst kein zweiter für Prüfungen.',
       },
       {
         id: '07-fragen-sie-ihn',
@@ -418,9 +418,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'Vermutung ersetzt durch gezählte Belege.',
         bullets: [
           'Zwei Strecken nach offener europäischer Norm.',
-          'Bei jedem Befund zuerst die Zustellbelege lesen.',
-          'Alle geprüften Sendungen waren zugestellt.',
-          'Die Ursache lag in den Stammdaten.',
+          'Angenommen und zugestellt sind zwei Dinge.',
+          'Die Hälfte der Stichprobe kam nie an.',
+          'Die Ursache lag in den Stammdaten, nicht im Code.',
         ],
         figure: {
           id: 'route',
@@ -431,11 +431,6 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'Zielsystem',
           ],
           caption: 'Die Strecke, wie sie im Betrieb durchläuft.',
-        },
-        shot: {
-          src: 'angebotstest',
-          caption: 'Eigene Auswertung von Antwortzeiten. Perzentilbänder, Feldnamen fachlich generisch.',
-          alt: '',
         },
         anchor: {
           text: 'EN 16931 · Peppol BIS 3.0',
@@ -482,18 +477,18 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         kind: 'finding',
         tone: 'base',
         eyebrow: 'Befund',
-        headline: 'Zwei eigene Prüfer meldeten grün. Gefunden hat es die Simulation.',
+        headline: 'Zwei eigene Prüfer meldeten grün. Die Lücke lag dazwischen.',
         bullets: [
           'Beide prüften nur die oberste Ebene.',
           'Unbekanntes Ziel: früher durch, heute gesperrt.',
-          'Die Simulation kann selbst nichts nach draußen geben.',
+          'Eine Simulation prüft es seither, ohne selbst zu lecken.',
         ],
         scar: true,
         figure: {
           id: 'checks',
           labels: [
             'Pfad-Prüfer',
-            'Inhalts-Prüfer',
+            'Scope-Prüfer',
             'hier',
           ],
           caption: 'Beide meldeten grün. Der Pfad dazwischen lief weiter.',
@@ -521,15 +516,14 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           title: 'open-bridge',
           lines: [
             { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
-            { kind: 'out', text: '  Lizenz     MIT' },
-            { kind: 'out', text: '  Release    v0.14.0' },
-            { kind: 'out', text: '' },
-            { kind: 'cmd', text: 'ls rules/' },
-            { kind: 'out', text: '  push-guard.md  promote-safety.md' },
-            { kind: 'out', text: '  deploy-reconciliation.md' },
-            { kind: 'hit', text: '  session-start.md  learning-autonomy.md' },
+            { kind: 'out', text: "  Cloning into 'open-bridge'..." },
+            { kind: 'cmd', text: 'cd open-bridge && head -1 LICENSE' },
+            { kind: 'out', text: '  MIT License' },
+            { kind: 'cmd', text: "ls rules/ | grep -E 'guard|safety'" },
+            { kind: 'hit', text: '  promote-safety.md' },
+            { kind: 'hit', text: '  push-guard.md' },
           ],
-          recorded: 'Mitgeschnitten am 7. August 2026.',
+          recorded: 'Befehle am 7. August 2026 gegen das offene Repo ausgeführt.',
         },
         tree: [
           { path: 'skills/', label: 'geteilt', side: 'shared' },
@@ -683,7 +677,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'What the file says',
             'active',
             'What the machine says',
-            'silent for six days',
+            'silent for days',
           ],
           caption: 'The same backup, asked twice.',
         },
@@ -693,7 +687,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
           state: 'public',
         },
-        hook: 'Four of five backups were dead while the state file reported active.',
+        hook: 'The state file reported active. The service had been silent for days.',
       },
       {
         id: '02-person',
@@ -703,7 +697,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'I build systems that work, and gates where they stop.',
         bullets: [
           'First quality engineering, then automation, now agents.',
-          'I operate what I build, myself.',
+          'I run what I build.',
           'Open standards, because anyone can read them.',
         ],
         hook: 'What answers on this page runs on hardware I own.',
@@ -720,7 +714,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           'Secure: boundaries, gates, evidence.',
           'Enable: a team carries on without me.',
         ],
-        hook: 'As a mandate, a review or a workshop. One email is enough to start.',
+        hook: 'As an engagement, a review or a workshop. One email is enough to start.',
       },
       {
         id: '04-anruf',
@@ -730,9 +724,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'A call, a model, real open slots.',
         bullets: [
           'The portal supplies the slots, not the model.',
-          'The bot pencils in, it does not book.',
+          'The bot pencils it in but never books.',
           'Consent comes before the first word.',
-          'The window is fixed, the turn keeps running.',
+          'The time window is fixed, the turn keeps running.',
         ],
         figure: {
           id: 'timeline',
@@ -743,7 +737,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'Answer',
             'Filler',
           ],
-          caption: 'One conversational turn, split by share.',
+          caption: 'One conversational turn, by share of time.',
         },
         phone: {
           lines: [
@@ -774,7 +768,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         ],
         shot: {
           src: 'nlpanalyse',
-          caption: 'Own dashboard of an email classification. Categories generic, no senders.',
+          caption: 'My own dashboard for email classification. Categories generic, no senders.',
           alt: '',
         },
         rename: {
@@ -827,7 +821,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'Live on this page',
         headline: 'Ask him yourself.',
         bullets: [
-          'What do you read, and what not?',
+          'What do you read, and what do you not?',
           'What hardware do you run on?',
           'Where do your calendar times come from?',
         ],
@@ -839,7 +833,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         ],
         anchor: {
           text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
-          label: 'His card, callable directly',
+          label: 'His card, open it directly',
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
@@ -853,9 +847,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'Assumption replaced by counted evidence.',
         bullets: [
           'Two routes under an open European standard.',
-          'On every finding, read the delivery receipts first.',
-          'Every shipment checked had been delivered.',
-          'The cause sat in the master data.',
+          'Accepted and delivered are two different things.',
+          'Half the sample had never arrived.',
+          'The cause sat in master data, not code.',
         ],
         figure: {
           id: 'route',
@@ -866,11 +860,6 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
             'Target system',
           ],
           caption: 'The route as it runs in production.',
-        },
-        shot: {
-          src: 'angebotstest',
-          caption: 'Own analysis of response times. Percentile bands, field names generic.',
-          alt: '',
         },
         anchor: {
           text: 'EN 16931 · Peppol BIS 3.0',
@@ -887,9 +876,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'The stop',
         headline: 'The machine runs to the draft and stops.',
         bullets: [
-          'A human moves the card, that starts it.',
+          'A human moves the card. That starts it.',
           'Each stage starts fresh, without the previous context.',
-          'It never merges and never sets done.',
+          'It never merges and never marks work done.',
           'Even changes to itself pass through the gate.',
         ],
         figure: {
@@ -917,18 +906,18 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         kind: 'finding',
         tone: 'base',
         eyebrow: 'Finding',
-        headline: 'Two of my own checkers reported green. The simulation found it.',
+        headline: 'Two of my own checkers reported green. The gap sat between them.',
         bullets: [
           'Both checked only the topmost level.',
           'Unknown target: once through, now blocked.',
-          'The simulation itself cannot leak anything.',
+          'A simulation checks it since, unable to leak itself.',
         ],
         scar: true,
         figure: {
           id: 'checks',
           labels: [
             'path validator',
-            'content scanner',
+            'scope validator',
             'here',
           ],
           caption: 'Both reported green. The path between them kept running.',
@@ -939,7 +928,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/push-guard.md',
           state: 'public',
         },
-        hook: 'It deliberately drives the weakest model. If that cannot get through, none can.',
+        hook: 'It deliberately runs the weakest model. If that cannot get through, none can.',
       },
       {
         id: '11-offen',
@@ -948,23 +937,22 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'Open',
         headline: 'The generic layer is published. The private one stays private.',
         bullets: [
-          'Disjoint paths, therefore conflict free merges.',
+          'Disjoint paths, therefore conflict-free merges.',
           'Upward only through content scan and allowlist.',
-          'A contribution without a DCO turns CI red.',
+          'A contribution without a sign-off turns CI red.',
         ],
         terminal: {
           title: 'open-bridge',
           lines: [
             { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
-            { kind: 'out', text: '  Licence    MIT' },
-            { kind: 'out', text: '  Release    v0.14.0' },
-            { kind: 'out', text: '' },
-            { kind: 'cmd', text: 'ls rules/' },
-            { kind: 'out', text: '  push-guard.md  promote-safety.md' },
-            { kind: 'out', text: '  deploy-reconciliation.md' },
-            { kind: 'hit', text: '  session-start.md  learning-autonomy.md' },
+            { kind: 'out', text: "  Cloning into 'open-bridge'..." },
+            { kind: 'cmd', text: 'cd open-bridge && head -1 LICENSE' },
+            { kind: 'out', text: '  MIT License' },
+            { kind: 'cmd', text: "ls rules/ | grep -E 'guard|safety'" },
+            { kind: 'hit', text: '  promote-safety.md' },
+            { kind: 'hit', text: '  push-guard.md' },
           ],
-          recorded: 'Recorded on 7 August 2026.',
+          recorded: 'Commands run against the open repo on 7 August 2026.',
         },
         tree: [
           { path: 'skills/', label: 'shared', side: 'shared' },
@@ -989,8 +977,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'Next step',
         headline: 'Michael Boiman',
         bullets: [
-          'Available for mandates, reviews and workshops.',
-          'Everything here is callable or marked as closed.',
+          'Available for engagements, reviews and workshops.',
+          'Everything here can be opened or is marked closed.',
         ],
       },
     ],
