@@ -88,13 +88,18 @@ export interface AgentWidgetStrings {
  * the same shape, nothing can be emphasised, so nothing is. `kind` picks the
  * layout, the bullet budget and where the proof anchor sits.
  *
- * Budgets, enforced by scripts/check-i18n.mjs at build time:
- *   manifest 2 · portrait 3 · offer 4 · figure 4 · shot 3
- *   live 3 · finding 3 · terminal 3 · closing 2
+ * The act sequence is a portfolio, not an essay. The version before this one
+ * was twelve screens of engineering principle with Michael himself appearing
+ * exactly twice, and it failed for that reason. Projects carry the page now:
+ * five of them, each with its own picture or diagram.
+ *
+ * Bullet budgets, enforced by scripts/check-i18n.mjs at build time:
+ *   manifest 2 · portrait 3 · offer 4 · howto 4 · live 3 · closing 2
+ * `project`, `beliefs` and `stations` carry no bullets at all.
  */
 export type ActKind =
-  | 'manifest' | 'portrait' | 'offer' | 'figure'
-  | 'shot' | 'live' | 'finding' | 'terminal' | 'closing';
+  | 'manifest' | 'portrait' | 'offer' | 'project'
+  | 'howto' | 'beliefs' | 'live' | 'stations' | 'closing';
 
 /** Which surface the act sits on. Not a strict alternation: `slab` appears once. */
 export type ActTone = 'base' | 'alt' | 'slab';
@@ -116,12 +121,33 @@ export interface ActFigure {
 export interface ActShot {
   /** Key into the image map in StoryPage, never a raw path: a raw path can
    *  point at a file that was removed for leaking, and nothing would catch it. */
-  src: 'nlpanalyse' | 'angebotstest' | 'websiteanalyzer';
+  src: 'nlpanalyse' | 'sla' | 'angebotstest';
   /** What it shows, and that it is his own. Required. */
   caption: string;
-  /** Empty on purpose: the caption carries the information, the figure is proof. */
-  alt: '';
+  /** Describes the screenshot for a screen reader. The caption says whose work
+   *  it is; the alt says what is on it. The old empty-string convention was
+   *  wrong here: these are content images, not decoration. */
+  alt: string;
 }
+
+/**
+ * The three-part body of a project act: what was in the way, what I built,
+ * what came out. Restored from the version on `main`, which showed real
+ * projects this way and which Michael judged the better page. The rebuild
+ * that replaced it dropped projects entirely in favour of principle essays,
+ * and his verdict was that it "hat das Ziel verfehlt mich zu presentieren".
+ * Prose, not bullet fragments: a challenge worth describing needs a sentence.
+ */
+export interface ActProject {
+  challenge: string;
+  solution: string;
+  result: string;
+}
+
+/** A named rule plus its explanation. Two of the four come from Michael's own
+ *  QualityCluster deck, which exists as an image with four grammar mistakes in
+ *  it, so the text is retyped here rather than shown as a screenshot. */
+export interface ActBelief { rule: string; text: string; }
 
 export interface ActTerminal {
   title: string;
@@ -156,6 +182,10 @@ export interface PitchAct {
   /** At most two acts on the whole page carry this. Enforced by the guard.
    *  A page of scars reads as a postmortem, not as an offer. */
   scar?: true;
+  /** Present on `project` acts. Carries the prose body. */
+  project?: ActProject;
+  /** Present on the `beliefs` act, which has no bullets. */
+  beliefs?: ActBelief[];
   figure?: ActFigure;
   shot?: ActShot;
   terminal?: ActTerminal;
@@ -184,6 +214,12 @@ export interface I18nStrings {
 
   storyRole: string;
   storyClosingEyebrow: string;
+  /** Section labels inside a `project` act. Three, in this order. */
+  projectChallenge: string;
+  projectSolution: string;
+  projectResult: string;
+  /** One line under the stations headline, pointing at the full CV. */
+  stationsNote: string;
   proofPublicLabel: string;
   proofClosedLabel: string;
   agentUnavailable: string;
@@ -232,286 +268,66 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     availability: 'Verfügbar für Quality Engineering, Testautomatisierung, KI-Architektur und Workshops.',
     acts: [
       {
-        id: '01-haltung',
+        id: '01-auftakt',
         kind: 'manifest',
         tone: 'base',
-        eyebrow: 'Haltung',
-        headline: 'Behauptet ist nicht geprüft.',
+        eyebrow: 'Quality Engineer · KI-Architekt · Frankfurt am Main',
+        headline: 'Ich baue KI-Automatisierung, die im Betrieb hält.',
         bullets: [
-          'Kein Statusfeld gilt hier als Wahrheit.',
-          'Jeder Beleg auf dieser Seite ist aufrufbar.',
+          'Zwanzig Jahre Qualitätssicherung, vier Jahre Agenten-Architektur. Beides zusammen ist der Punkt.',
+          'Sechs Projekte auf dieser Seite, jedes mit Bild, Ergebnis und, wo möglich, offenem Beleg.',
         ],
-        scar: true,
-        figure: {
-          id: 'proofpair',
-          labels: [
-            'Was die Datei sagt',
-            'aktiv',
-            'Was die Maschine sagt',
-            'seit Tagen still',
-          ],
-          caption: 'Dieselbe Sicherung, zweimal befragt.',
-        },
-        anchor: {
-          text: 'rules/deploy-reconciliation.md',
-          label: 'Die Regel im offenen Repo',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
-          state: 'public',
-        },
-        hook: 'Die Statusdatei meldete aktiv. Der Dienst war seit Tagen still.',
       },
       {
         id: '02-person',
         kind: 'portrait',
         tone: 'alt',
-        eyebrow: 'Michael Boiman · Frankfurt am Main',
-        headline: 'Ich baue Systeme, die arbeiten, und Tore, an denen sie halten.',
+        eyebrow: 'Michael Boiman',
+        headline: 'Ich komme aus der Qualitätssicherung. Deshalb traue ich keinem grünen Haken.',
         bullets: [
-          'Erst Qualitätssicherung, dann Automatisierung, jetzt Agenten.',
-          'Ich betreibe selbst, was ich baue.',
-          'Offene Standards, weil man sie nachlesen kann.',
+          'Ich baue die Systeme selbst und betreibe sie danach auch selbst.',
+          'Ich arbeite mit offenen Standards, weil jeder sie nachlesen kann.',
+          'Was ich behaupte, hinterlege ich mit etwas, das Sie aufrufen können.',
         ],
-        hook: 'Was auf dieser Seite antwortet, läuft auf Hardware, die mir gehört.',
+        hook: 'Der KI-Agent, der auf dieser Seite antwortet, läuft auf einem Rechner in meinem Arbeitszimmer.',
       },
       {
-        id: '03-auftrag',
+        id: '03-arbeit',
         kind: 'offer',
         tone: 'base',
         eyebrow: 'Zusammenarbeit',
-        headline: 'Wofür man mich holt.',
+        headline: 'Wofür Unternehmen mich holen.',
         bullets: [
-          'Bauen und betreiben: Agenten-Systeme im Betrieb.',
-          'Prüfen: ob ein System wirklich liefert.',
-          'Absichern: Grenzen, Tore, Beweisführung.',
-          'Befähigen: ein Team macht danach allein weiter.',
+          'Ich baue Agenten-Systeme und nehme sie in Betrieb.',
+          'Ich prüfe, ob eine bestehende Automatisierung wirklich liefert.',
+          'Ich sichere KI ab: Grenzen, Freigaben, Nachweise.',
+          'Ich gebe es weiter, in Workshops und als Impulsgeber an der TU Darmstadt.',
         ],
-        hook: 'Als Mandat, als Review oder als Workshop. Eine Mail reicht für den Anfang.',
+        hook: 'Als Projekt, als Review oder als Workshop. Für den Anfang genügt eine Mail.',
       },
       {
-        id: '04-anruf',
-        kind: 'figure',
+        id: '04-orchestrator',
+        kind: 'project',
         tone: 'alt',
-        eyebrow: 'Sprache',
-        headline: 'Ein Anruf, ein Modell, echte freie Termine.',
-        bullets: [
-          'Die Termine liefert das Portal, nicht das Modell.',
-          'Der Bot merkt vor, er bucht nicht.',
-          'Einwilligung steht vor dem ersten Wort.',
-          'Das Zeitfenster ist fest, der Turn läuft weiter.',
-        ],
-        figure: {
-          id: 'timeline',
-          labels: [
-            'Netz',
-            'Termine holen',
-            'Modell',
-            'Antwort',
-            'Füller',
-          ],
-          caption: 'Ein Gesprächszug, aufgeteilt nach Anteilen.',
+        eyebrow: 'Projekt · KI-Automatisierung',
+        headline: 'Ein Orchestrator, über den meine gesamte Arbeit läuft.',
+        bullets: [],
+        project: {
+          challenge: 'Entwicklung über viele Repos, mehrere Kunden und ein Dutzend Werkzeuge. Der Kontextwechsel hat mich jeden Tag Stunden gekostet.',
+          solution: 'Ein zentrales System aus adressierbaren Agenten, einer Registry über alle Projekte und einem Skill-Baum für jedes Werkzeug. Die Agenten fragen sich gegenseitig über das offene A2A-Protokoll, ein Gateway übersetzt dieselben Agenten für MCP-Clients.',
+          result: 'Von der Incident-Analyse über Board-Pflege bis zum Meeting-Protokoll läuft alles über einen Einstiegspunkt. Das generische Gerüst dahinter liegt quelloffen unter MIT, die Kundendaten bleiben in der privaten Schicht.',
         },
-        phone: {
-          lines: [
-            'Ich brauche einen Termin nächste Woche',
-            'Einen Moment, ich schaue nach',
-            'Am Dienstag, dem elften, um zehn Uhr dreißig',
-          ],
-          note: 'Datum und Uhrzeit als Wörter, weil die Sprachausgabe Ziffern verstümmelt.',
-        },
-        anchor: {
-          text: 'Sprachkanal beim Auftraggeber',
-          label: 'nicht öffentlich',
-          state: 'closed',
-          note: 'Der Anschluss gehört dem Auftraggeber, die Rufnummer bleibt privat.',
-        },
-        hook: 'Der Anrufer hört einen Füller, während die Antwort im Hintergrund fertig wird.',
-      },
-      {
-        id: '05-eingang',
-        kind: 'shot',
-        tone: 'base',
-        eyebrow: 'Eingang',
-        headline: 'Was hereinkommt, liegt danach am richtigen Ort.',
-        bullets: [
-          'Eine Regel entscheidet das Ziel, nicht ich.',
-          'Der Dateiname trägt das Datum vorn.',
-          'Jede Bewegung landet in einer versionierten Zeile.',
-        ],
-        shot: {
-          src: 'nlpanalyse',
-          caption: 'Eigenes Dashboard einer E-Mail-Klassifizierung. Kategorien generisch, keine Absender.',
-          alt: '',
-        },
-        rename: {
-          before: 'scan_0042.pdf',
-          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
-        },
-        anchor: {
-          text: 'rules/recording-provenance.md',
-          label: 'Die Regel liegt offen',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/recording-provenance.md',
-          state: 'public',
-        },
-        hook: 'Wer eine Aufnahme dokumentiert, archiviert das Original und verlinkt es. Immer beides.',
-      },
-      {
-        id: '06-netz',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'Adressierbar',
-        headline: 'Jeder Agent hat eine eigene Adresse.',
-        bullets: [
-          'Sie fragen sich über ein offenes Protokoll.',
-          'Eine Vermittlung übersetzt, mehr nicht: kein Modell darin.',
-          'Das Token des Aufrufers geht nie nach oben.',
-          'Überlast kommt als benannte Absage zurück, nie als Stille.',
-        ],
         figure: {
           id: 'mesh',
           labels: [
             'Projekt-Agent',
             'Firmen-Agent',
             'Persönlicher Agent',
-            'Vermittlung',
+            'Gateway',
             'list · card · ask',
           ],
-          caption: 'Drei Agenten, ein Tor, ein offenes Protokoll.',
+          caption: 'Drei Agenten, ein Gateway, ein offenes Protokoll.',
         },
-        anchor: {
-          text: 'A2A 1.0 · MCP 2025-06-18',
-          label: 'Zwei offene Protokolle, live bestätigt',
-          url: 'https://openbridge.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
-        },
-        hook: 'Genau ein Pfad an der Vermittlung, bewusst kein zweiter für Prüfungen.',
-      },
-      {
-        id: '07-fragen-sie-ihn',
-        kind: 'live',
-        tone: 'base',
-        eyebrow: 'Live auf dieser Seite',
-        headline: 'Fragen Sie ihn selbst.',
-        bullets: [
-          'Was liest du, und was nicht?',
-          'Auf welcher Hardware läufst du?',
-          'Woher kommen deine Terminzeiten?',
-        ],
-        askAgent: true,
-        probeNotes: [
-          'Prüft die absichtlich schmale Wissensquelle.',
-          'Prüft den Betrieb auf eigener Hardware.',
-          'Prüft den Terminspiegel: nur Zeiten, kein Titel, kein Ort.',
-        ],
-        anchor: {
-          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
-          label: 'Sein Steckbrief, direkt aufrufbar',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
-        },
-        hook: 'Jede der drei Fragen prüft eine andere Grenze seines Zuschnitts.',
-      },
-      {
-        id: '08-strecke',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'Rechnungsverkehr',
-        headline: 'Vermutung ersetzt durch gezählte Belege.',
-        bullets: [
-          'Zwei Strecken nach offener europäischer Norm.',
-          'Angenommen und zugestellt sind zwei Dinge.',
-          'Die Hälfte der Stichprobe kam nie an.',
-          'Die Ursache lag in den Stammdaten, nicht im Code.',
-        ],
-        figure: {
-          id: 'route',
-          labels: [
-            'Absender',
-            'Zugangspunkt',
-            'Dokument',
-            'Zielsystem',
-          ],
-          caption: 'Die Strecke, wie sie im Betrieb durchläuft.',
-        },
-        anchor: {
-          text: 'EN 16931 · Peppol BIS 3.0',
-          label: 'Offene Normen, unabhängig nachlesbar',
-          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
-          state: 'public',
-        },
-        hook: 'Im laufenden Betrieb beim Auftraggeber, forensisch geprüft, unter Vertraulichkeit.',
-      },
-      {
-        id: '09-tor',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'Der Halt',
-        headline: 'Die Maschine läuft bis zum Entwurf und hält an.',
-        bullets: [
-          'Ein Mensch zieht die Karte, das startet sie.',
-          'Jede Stufe startet frisch, ohne den Kontext davor.',
-          'Sie merged nie und setzt nie fertig.',
-          'Auch Änderungen an sich selbst gehen durchs Tor.',
-        ],
-        figure: {
-          id: 'gate',
-          labels: [
-            'armiert',
-            'umgesetzt',
-            'geprüft',
-            'Entwurf',
-            'merge',
-            'wartet auf einen Menschen',
-          ],
-          caption: 'Die Karte hält vor dem Tor. Sie geht nicht durch.',
-        },
-        anchor: {
-          text: 'skills/board-pilot · rules/learning-autonomy.md',
-          label: 'Der Baustein und die Regel',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
-          state: 'public',
-        },
-        hook: 'Der Prüfer sieht die Begründung des Umsetzers nicht. Nur die Artefakte.',
-      },
-      {
-        id: '10-befund',
-        kind: 'finding',
-        tone: 'base',
-        eyebrow: 'Befund',
-        headline: 'Zwei eigene Prüfer meldeten grün. Die Lücke lag dazwischen.',
-        bullets: [
-          'Beide prüften nur die oberste Ebene.',
-          'Unbekanntes Ziel: früher durch, heute gesperrt.',
-          'Eine Simulation prüft es seither, ohne selbst zu lecken.',
-        ],
-        scar: true,
-        figure: {
-          id: 'checks',
-          labels: [
-            'Pfad-Prüfer',
-            'Scope-Prüfer',
-            'hier',
-          ],
-          caption: 'Beide meldeten grün. Der Pfad dazwischen lief weiter.',
-        },
-        anchor: {
-          text: 'rules/push-guard.md',
-          label: 'Der Vorfall steht mit Datum in der Regel',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/push-guard.md',
-          state: 'public',
-        },
-        hook: 'Sie fährt absichtlich mit dem schwächsten Modell. Kommt das nicht durch, kommt keins durch.',
-      },
-      {
-        id: '11-offen',
-        kind: 'terminal',
-        tone: 'slab',
-        eyebrow: 'Offen',
-        headline: 'Die generische Schicht ist veröffentlicht. Die private bleibt privat.',
-        bullets: [
-          'Getrennte Pfade, deshalb konfliktfreie Zusammenführung.',
-          'Nach oben nur durch Inhalts-Scan und Positivliste.',
-          'Ein Beitrag ohne Herkunftserklärung macht die CI rot.',
-        ],
         terminal: {
           title: 'open-bridge',
           lines: [
@@ -525,36 +341,229 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           ],
           recorded: 'Befehle am 7. August 2026 gegen das offene Repo ausgeführt.',
         },
-        tree: [
-          { path: 'skills/', label: 'geteilt', side: 'shared' },
-          { path: 'rules/', label: 'geteilt', side: 'shared' },
-          { path: 'docs/', label: 'geteilt', side: 'shared' },
-          { path: 'work/', label: 'privat', side: 'private' },
-          { path: 'identity/', label: 'privat', side: 'private' },
-          { path: 'infra/', label: 'privat', side: 'private' },
-        ],
         anchor: {
-          text: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
-          label: 'Klonen, hineinsehen, gegenlesen',
+          text: 'github.com/bks-lab/open-bridge · MIT',
+          label: 'Klonen und selbst hineinsehen',
           url: 'https://github.com/bks-lab/open-bridge',
           state: 'public',
         },
-        hook: 'Vor der Veröffentlichung fand eine unabhängige Prüfung den Blocker in der Historie, nicht im Stand.',
       },
       {
-        id: '12-schluss',
+        id: '05-sprachbot',
+        kind: 'project',
+        tone: 'base',
+        eyebrow: 'Projekt · Sprach-KI',
+        headline: 'Ein Sprachbot, der am Telefon echte freie Termine nennt.',
+        bullets: [],
+        project: {
+          challenge: 'Eine Praxis verliert Anrufe, weil während der Behandlung niemand abnimmt. Ein Sprachmodell darf sich Termine aber auf keinen Fall ausdenken.',
+          solution: 'Das Modell führt das Gespräch, die freien Zeiten holt es live aus dem Terminportal. Es merkt vor und bucht nie. Die Einwilligung steht vor dem ersten inhaltlichen Satz.',
+          result: 'Der Anrufer hört eine kurze Zwischenansage, während die Antwort im Hintergrund fertig wird. Datum und Uhrzeit nennt der Bot als Wörter, weil die Sprachausgabe einzelne Ziffern verschluckt.',
+        },
+        figure: {
+          id: 'timeline',
+          labels: [
+            'Netz',
+            'Termine holen',
+            'Modell',
+            'Antwort',
+            'Zwischenansage',
+          ],
+          caption: 'Ein Gesprächszug, aufgeteilt nach Zeitanteilen.',
+        },
+        phone: {
+          lines: [
+            'Ich brauche einen Termin nächste Woche',
+            'Einen Moment, ich schaue nach',
+            'Am Dienstag, dem elften, um zehn Uhr dreißig',
+          ],
+          note: 'Mitschnitt aus dem Testbetrieb, sinngemäß wiedergegeben.',
+        },
+        anchor: {
+          text: 'Sprachkanal beim Auftraggeber',
+          label: 'nicht öffentlich',
+          state: 'closed',
+          note: 'Der Anschluss gehört dem Auftraggeber, die Rufnummer bleibt privat.',
+        },
+      },
+      {
+        id: '06-email',
+        kind: 'project',
+        tone: 'alt',
+        eyebrow: 'Projekt · Prozessautomatisierung',
+        headline: 'E-Mails lesen, einsortieren und ins ERP buchen, ohne Mensch dazwischen.',
+        bullets: [],
+        project: {
+          challenge: 'Eingehende Mails wurden von Hand gelesen, klassifiziert und nach SAP übertragen. Das kostete jeden Tag Zeit und produzierte Übertragungsfehler.',
+          solution: 'Microsoft Graph holt die Mails, ein Sprachmodell klassifiziert sie, Azure Functions verarbeiten sie weiter und übergeben das Ergebnis per RFC an SAP.',
+          result: 'Die Klassifizierung läuft durch, das Dashboard zeigt jede Kategorie und ihren Verlauf. Bei unsicherer Zuordnung landet die Mail beim Menschen statt im falschen Vorgang.',
+        },
+        shot: {
+          src: 'nlpanalyse',
+          caption: 'Mein Dashboard der E-Mail-Klassifizierung. Kategorien generisch, keine Absender.',
+          alt: 'Dashboard mit Kategorien und Verlaufskurven der automatischen E-Mail-Klassifizierung',
+        },
+        rename: {
+          before: 'scan_0042.pdf',
+          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        },
+      },
+      {
+        id: '07-rechnungen',
+        kind: 'project',
+        tone: 'base',
+        eyebrow: 'Projekt · Enterprise-Integration',
+        headline: 'Rechnungen, die europaweit ankommen müssen.',
+        bullets: [],
+        project: {
+          challenge: 'Aus- und Eingangsrechnungen zwischen SAP Business ByDesign und dem europäischen Peppol-Netz, in beide Richtungen, im Produktivbetrieb.',
+          solution: 'Zwei Strecken nach der offenen Norm EN 16931. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Verarbeitungsschicht.',
+          result: 'Bei einer forensischen Prüfung zeigte sich, dass angenommen und zugestellt zwei verschiedene Dinge sind. Die Hälfte der Stichprobe kam nie an, die Ursache lag in den Stammdaten und nicht im Code.',
+        },
+        figure: {
+          id: 'route',
+          labels: [
+            'Absender',
+            'Access Point',
+            'Dokument',
+            'Zielsystem',
+          ],
+          caption: 'Die Strecke, wie sie im Betrieb durchläuft.',
+        },
+        anchor: {
+          text: 'EN 16931 · Peppol BIS 3.0',
+          label: 'Offene Normen, unabhängig nachlesbar',
+          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
+          state: 'public',
+        },
+      },
+      {
+        id: '08-monitoring',
+        kind: 'project',
+        tone: 'alt',
+        eyebrow: 'Projekt · Quality Engineering',
+        headline: 'Freigaben aus Daten statt aus Bauchgefühl.',
+        bullets: [],
+        project: {
+          challenge: 'Go- oder No-Go-Entscheidungen kosteten stundenlanges Zusammentragen aus den Testwerkzeugen mehrerer Teams und mehrerer Umgebungen.',
+          solution: 'Eine durchgängige Pipeline zieht alle Quellen zusammen und zeigt Verfügbarkeit, Antwortzeiten und offene Vorfälle nebeneinander in einem Dashboard.',
+          result: 'Bei einer Legacy-Migration lief die Validierung rund um die Uhr im Doppelbetrieb: alte und neue Strecke gleichzeitig unter Last, jede Abweichung meldet die Maschine statt ein Mensch.',
+        },
+        shot: {
+          src: 'sla',
+          caption: 'Mein eigenes SLA-Dashboard, hier mit Demo-Daten. Kundenzahlen stehen auf keiner öffentlichen Seite.',
+          alt: 'SLA-Dashboard mit Verfügbarkeitskurve, Antwortzeit-Histogramm und Vorfallsliste',
+        },
+      },
+      {
+        id: '09-freigabe',
+        kind: 'howto',
+        tone: 'base',
+        eyebrow: 'Wie ich mit KI arbeite',
+        headline: 'Die Maschine arbeitet bis zum Entwurf. Freigeben darf sie nicht.',
+        bullets: [
+          'Ein Mensch zieht die Karte, das startet den Lauf.',
+          'Jede Stufe startet frisch, ohne den Kontext der vorherigen.',
+          'Der Prüfer sieht nur die Artefakte, nie die Begründung des Umsetzers.',
+          'Auch Änderungen am System selbst gehen durch dasselbe Tor.',
+        ],
+        figure: {
+          id: 'gate',
+          labels: [
+            'gestartet',
+            'umgesetzt',
+            'geprüft',
+            'Entwurf',
+            'merge',
+            'wartet auf einen Menschen',
+          ],
+          caption: 'Die Karte hält vor dem Tor. Sie geht nicht durch.',
+        },
+        anchor: {
+          text: 'rules/learning-autonomy.md',
+          label: 'Die Regel liegt offen im Repo',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
+          state: 'public',
+        },
+        hook: 'Das ist für mich der Unterschied zwischen KI, die man einsetzen kann, und KI, die man vorführen kann.',
+      },
+      {
+        id: '10-leitsaetze',
+        kind: 'beliefs',
+        tone: 'alt',
+        eyebrow: 'Leitsätze',
+        headline: 'Vier Regeln, die sich bei mir bewährt haben.',
+        bullets: [],
+        beliefs: [
+          {
+            rule: 'One Bug Policy',
+            text: 'Nach jeder Korrektur klären wir, auf welcher Ebene der Test-Pipeline der Fehler hätte auffallen müssen. Genau dieser Test wird dann gebaut.',
+          },
+          {
+            rule: 'Logging before Debugging',
+            text: 'Wer für eine Analyse den Debugger braucht, dem fehlt Logging. Das kommt zusammen mit der Behebung dazu.',
+          },
+          {
+            rule: 'Maschinen ermüden nicht',
+            text: 'Eine Million Kombinationen testet kein Mensch. Eine Maschine, die nie schläft, schon.',
+          },
+          {
+            rule: 'Messbar oder gar nicht',
+            text: 'Automatisierung ohne Messbarkeit ist nur schnelleres Raten.',
+          },
+        ],
+      },
+      {
+        id: '11-agent',
+        kind: 'live',
+        tone: 'base',
+        eyebrow: 'Live auf dieser Seite',
+        headline: 'Fragen Sie meinen Agenten, statt mir zu glauben.',
+        bullets: [
+          'Was liest du, und was nicht?',
+          'Auf welcher Hardware läufst du?',
+          'Woher kommen deine Terminzeiten?',
+        ],
+        askAgent: true,
+        probeNotes: [
+          'Prüft die absichtlich schmale Wissensquelle.',
+          'Prüft den Betrieb auf eigener Hardware.',
+          'Prüft den Terminspiegel: nur Zeiten, kein Titel, kein Ort.',
+        ],
+        anchor: {
+          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
+          label: 'Seine Agent Card, direkt aufrufbar',
+          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
+          state: 'public',
+        },
+        hook: 'Jede der drei Fragen prüft eine andere Grenze seines Zuschnitts.',
+      },
+      {
+        id: '12-stationen',
+        kind: 'stations',
+        tone: 'alt',
+        eyebrow: 'Stationen',
+        headline: 'Wo ich das gelernt habe.',
+        bullets: [],
+      },
+      {
+        id: '13-kontakt',
         kind: 'closing',
         tone: 'base',
         eyebrow: 'Nächster Schritt',
         headline: 'Michael Boiman',
         bullets: [
-          'Verfügbar für Mandate, Reviews und Workshops.',
-          'Alles hier ist aufrufbar oder als geschlossen gekennzeichnet.',
+          'Verfügbar für Projekte, Reviews und Workshops.',
+          'Alles auf dieser Seite ist aufrufbar oder als vertraulich gekennzeichnet.',
         ],
       },
     ],
     storyRole: 'Quality Engineer · KI-Architekt',
     storyClosingEyebrow: 'BKS-Lab GmbH · Frankfurt am Main',
+    projectChallenge: 'Herausforderung',
+    projectSolution: 'Lösung',
+    projectResult: 'Ergebnis',
+    stationsNote: 'Die Kurzfassung. Alle Stationen, Zertifikate und Vorträge stehen im Lebenslauf.',
     proofPublicLabel: 'öffentlich prüfbar',
     proofClosedLabel: 'nicht öffentlich',
     agentUnavailable: 'Der Agent antwortet gerade nicht. Sein Steckbrief liegt trotzdem offen.',
@@ -661,140 +670,55 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     availability: 'Available for quality engineering, test automation, AI architecture and workshops.',
     acts: [
       {
-        id: '01-haltung',
+        id: '01-auftakt',
         kind: 'manifest',
         tone: 'base',
-        eyebrow: 'Stance',
-        headline: 'Declared is not verified.',
+        eyebrow: 'Quality Engineer · AI Architect · Frankfurt am Main',
+        headline: 'I build AI automation that survives production.',
         bullets: [
-          'No status field counts as truth here.',
-          'Every proof on this page can be opened.',
+          'Twenty years of quality engineering, four years of agent architecture. The combination is the point.',
+          'Six projects on this page, each with a picture, a result and, where possible, an open reference.',
         ],
-        scar: true,
-        figure: {
-          id: 'proofpair',
-          labels: [
-            'What the file says',
-            'active',
-            'What the machine says',
-            'silent for days',
-          ],
-          caption: 'The same backup, asked twice.',
-        },
-        anchor: {
-          text: 'rules/deploy-reconciliation.md',
-          label: 'The rule in the open repo',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/deploy-reconciliation.md',
-          state: 'public',
-        },
-        hook: 'The state file reported active. The service had been silent for days.',
       },
       {
         id: '02-person',
         kind: 'portrait',
         tone: 'alt',
-        eyebrow: 'Michael Boiman · Frankfurt am Main',
-        headline: 'I build systems that work, and gates where they stop.',
+        eyebrow: 'Michael Boiman',
+        headline: 'I come from quality engineering. That is why I trust no green checkmark.',
         bullets: [
-          'First quality engineering, then automation, now agents.',
-          'I run what I build.',
-          'Open standards, because anyone can read them.',
+          'I build the systems myself and then run them myself.',
+          'I work with open standards, because anyone can read them.',
+          'Whatever I claim, I back with something you can open.',
         ],
-        hook: 'What answers on this page runs on hardware I own.',
+        hook: 'The AI agent answering on this page runs on a machine in my study.',
       },
       {
-        id: '03-auftrag',
+        id: '03-arbeit',
         kind: 'offer',
         tone: 'base',
         eyebrow: 'Working together',
-        headline: 'What people bring me in for.',
+        headline: 'What companies bring me in for.',
         bullets: [
-          'Build and run: agent systems in production.',
-          'Check: whether a system really delivers.',
-          'Secure: boundaries, gates, evidence.',
-          'Enable: a team carries on without me.',
+          'I build agent systems and take them into production.',
+          'I check whether an existing automation really delivers.',
+          'I put guardrails on AI: boundaries, approvals, evidence.',
+          'I pass it on, in workshops and as a guest speaker at TU Darmstadt.',
         ],
-        hook: 'As an engagement, a review or a workshop. One email is enough to start.',
+        hook: 'As a project, a review or a workshop. One email is enough to start.',
       },
       {
-        id: '04-anruf',
-        kind: 'figure',
+        id: '04-orchestrator',
+        kind: 'project',
         tone: 'alt',
-        eyebrow: 'Voice',
-        headline: 'A call, a model, real open slots.',
-        bullets: [
-          'The portal supplies the slots, not the model.',
-          'The bot pencils it in but never books.',
-          'Consent comes before the first word.',
-          'The time window is fixed, the turn keeps running.',
-        ],
-        figure: {
-          id: 'timeline',
-          labels: [
-            'Network',
-            'Fetch slots',
-            'Model',
-            'Answer',
-            'Filler',
-          ],
-          caption: 'One conversational turn, by share of time.',
+        eyebrow: 'Project · AI automation',
+        headline: 'An orchestrator that runs all of my work.',
+        bullets: [],
+        project: {
+          challenge: 'Development across many repos, several clients and a dozen tools. Switching context cost me hours every day.',
+          solution: 'A central system of addressable agents, a registry across every project and a skill tree for each tool. The agents query each other over the open A2A protocol, and a gateway serves the same agents to MCP clients.',
+          result: 'From incident analysis through board upkeep to meeting minutes, everything runs through one entry point. The generic framework behind it is open source under MIT, while client data stays in the private layer.',
         },
-        phone: {
-          lines: [
-            'I need an appointment next week',
-            'One moment, let me check',
-            'On Tuesday the eleventh, at half past ten',
-          ],
-          note: 'Date and time as words, because the speech output mangles digits.',
-        },
-        anchor: {
-          text: 'Voice channel at the client',
-          label: 'not public',
-          state: 'closed',
-          note: 'The line belongs to the client, the number stays private.',
-        },
-        hook: 'The caller hears a filler while the answer finishes in the background.',
-      },
-      {
-        id: '05-eingang',
-        kind: 'shot',
-        tone: 'base',
-        eyebrow: 'Intake',
-        headline: 'What comes in ends up in the right place.',
-        bullets: [
-          'A rule picks the target, not me.',
-          'The filename carries the date up front.',
-          'Every move lands in one versioned line.',
-        ],
-        shot: {
-          src: 'nlpanalyse',
-          caption: 'My own dashboard for email classification. Categories generic, no senders.',
-          alt: '',
-        },
-        rename: {
-          before: 'scan_0042.pdf',
-          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
-        },
-        anchor: {
-          text: 'rules/recording-provenance.md',
-          label: 'The rule is public',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/recording-provenance.md',
-          state: 'public',
-        },
-        hook: 'Documenting a recording means archiving the original and linking it. Always both.',
-      },
-      {
-        id: '06-netz',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'Addressable',
-        headline: 'Each agent has an address of its own.',
-        bullets: [
-          'They query each other over an open protocol.',
-          'A gateway translates, nothing else: no model inside.',
-          'The caller\'s token never travels upward.',
-          'Overload returns a named refusal, never silence.',
-        ],
         figure: {
           id: 'mesh',
           labels: [
@@ -806,141 +730,6 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           ],
           caption: 'Three agents, one gateway, one open protocol.',
         },
-        anchor: {
-          text: 'A2A 1.0 · MCP 2025-06-18',
-          label: 'Two open protocols, confirmed live',
-          url: 'https://openbridge.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
-        },
-        hook: 'Exactly one path at the gateway, deliberately no second one for health checks.',
-      },
-      {
-        id: '07-fragen-sie-ihn',
-        kind: 'live',
-        tone: 'base',
-        eyebrow: 'Live on this page',
-        headline: 'Ask him yourself.',
-        bullets: [
-          'What do you read, and what do you not?',
-          'What hardware do you run on?',
-          'Where do your calendar times come from?',
-        ],
-        askAgent: true,
-        probeNotes: [
-          'Probes the deliberately narrow knowledge source.',
-          'Probes that it runs on hardware he owns.',
-          'Probes the calendar mirror: times only, no title, no place.',
-        ],
-        anchor: {
-          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
-          label: 'His card, open it directly',
-          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
-          state: 'public',
-        },
-        hook: 'Each of the three questions probes a different edge of his scope.',
-      },
-      {
-        id: '08-strecke',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'Invoice traffic',
-        headline: 'Assumption replaced by counted evidence.',
-        bullets: [
-          'Two routes under an open European standard.',
-          'Accepted and delivered are two different things.',
-          'Half the sample had never arrived.',
-          'The cause sat in master data, not code.',
-        ],
-        figure: {
-          id: 'route',
-          labels: [
-            'Sender',
-            'Access point',
-            'Document',
-            'Target system',
-          ],
-          caption: 'The route as it runs in production.',
-        },
-        anchor: {
-          text: 'EN 16931 · Peppol BIS 3.0',
-          label: 'Open standards, independently checkable',
-          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
-          state: 'public',
-        },
-        hook: 'In production at a client, checked forensically, under confidentiality.',
-      },
-      {
-        id: '09-tor',
-        kind: 'figure',
-        tone: 'alt',
-        eyebrow: 'The stop',
-        headline: 'The machine runs to the draft and stops.',
-        bullets: [
-          'A human moves the card. That starts it.',
-          'Each stage starts fresh, without the previous context.',
-          'It never merges and never marks work done.',
-          'Even changes to itself pass through the gate.',
-        ],
-        figure: {
-          id: 'gate',
-          labels: [
-            'armed',
-            'built',
-            'reviewed',
-            'draft',
-            'merge',
-            'waiting for a human',
-          ],
-          caption: 'The card stops at the gate. It does not pass.',
-        },
-        anchor: {
-          text: 'skills/board-pilot · rules/learning-autonomy.md',
-          label: 'The building block and the rule',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
-          state: 'public',
-        },
-        hook: 'The reviewer never sees the implementer\'s reasoning. Only the artefacts.',
-      },
-      {
-        id: '10-befund',
-        kind: 'finding',
-        tone: 'base',
-        eyebrow: 'Finding',
-        headline: 'Two of my own checkers reported green. The gap sat between them.',
-        bullets: [
-          'Both checked only the topmost level.',
-          'Unknown target: once through, now blocked.',
-          'A simulation checks it since, unable to leak itself.',
-        ],
-        scar: true,
-        figure: {
-          id: 'checks',
-          labels: [
-            'path validator',
-            'scope validator',
-            'here',
-          ],
-          caption: 'Both reported green. The path between them kept running.',
-        },
-        anchor: {
-          text: 'rules/push-guard.md',
-          label: 'The incident is dated inside the rule',
-          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/push-guard.md',
-          state: 'public',
-        },
-        hook: 'It deliberately runs the weakest model. If that cannot get through, none can.',
-      },
-      {
-        id: '11-offen',
-        kind: 'terminal',
-        tone: 'slab',
-        eyebrow: 'Open',
-        headline: 'The generic layer is published. The private one stays private.',
-        bullets: [
-          'Disjoint paths, therefore conflict-free merges.',
-          'Upward only through content scan and allowlist.',
-          'A contribution without a sign-off turns CI red.',
-        ],
         terminal: {
           title: 'open-bridge',
           lines: [
@@ -954,36 +743,229 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           ],
           recorded: 'Commands run against the open repo on 7 August 2026.',
         },
-        tree: [
-          { path: 'skills/', label: 'shared', side: 'shared' },
-          { path: 'rules/', label: 'shared', side: 'shared' },
-          { path: 'docs/', label: 'shared', side: 'shared' },
-          { path: 'work/', label: 'private', side: 'private' },
-          { path: 'identity/', label: 'private', side: 'private' },
-          { path: 'infra/', label: 'private', side: 'private' },
-        ],
         anchor: {
-          text: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
-          label: 'Clone it, look inside, read it',
+          text: 'github.com/bks-lab/open-bridge · MIT',
+          label: 'Clone it and look inside',
           url: 'https://github.com/bks-lab/open-bridge',
           state: 'public',
         },
-        hook: 'Before release, an independent review found the blocker in the history, not in the current tree.',
       },
       {
-        id: '12-schluss',
+        id: '05-sprachbot',
+        kind: 'project',
+        tone: 'base',
+        eyebrow: 'Project · Voice AI',
+        headline: 'A voice bot that names real open slots on the phone.',
+        bullets: [],
+        project: {
+          challenge: 'A practice loses calls because nobody can pick up during treatment. A language model, however, must never invent an appointment.',
+          solution: 'The model runs the conversation, the open slots come live from the booking portal. It pencils in and never books. Consent comes before the first substantive sentence.',
+          result: 'The caller hears a short holding line while the answer finishes in the background. The bot says date and time as words, because speech synthesis swallows individual digits.',
+        },
+        figure: {
+          id: 'timeline',
+          labels: [
+            'Network',
+            'Fetch slots',
+            'Model',
+            'Answer',
+            'Holding line',
+          ],
+          caption: 'One conversational turn, split by share of time.',
+        },
+        phone: {
+          lines: [
+            'I need an appointment next week',
+            'One moment, let me check',
+            'On Tuesday the eleventh, at half past ten',
+          ],
+          note: 'Recorded in test operation, reproduced in substance.',
+        },
+        anchor: {
+          text: 'Voice channel at the client',
+          label: 'not public',
+          state: 'closed',
+          note: 'The line belongs to the client, the number stays private.',
+        },
+      },
+      {
+        id: '06-email',
+        kind: 'project',
+        tone: 'alt',
+        eyebrow: 'Project · Process automation',
+        headline: 'Read email, sort it, post it into the ERP, with nobody in between.',
+        bullets: [],
+        project: {
+          challenge: 'Incoming mail was read by hand, classified and typed into SAP. That cost time every day and produced transcription errors.',
+          solution: 'Microsoft Graph fetches the mail, a language model classifies it, Azure Functions process it further and hand the result to SAP over RFC.',
+          result: 'Classification runs end to end and the dashboard shows every category over time. When the assignment is uncertain, the mail goes to a human instead of into the wrong case.',
+        },
+        shot: {
+          src: 'nlpanalyse',
+          caption: 'My dashboard for the email classification. Categories generic, no senders.',
+          alt: 'Dashboard showing categories and trend curves of the automatic email classification',
+        },
+        rename: {
+          before: 'scan_0042.pdf',
+          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        },
+      },
+      {
+        id: '07-rechnungen',
+        kind: 'project',
+        tone: 'base',
+        eyebrow: 'Project · Enterprise integration',
+        headline: 'Invoices that have to arrive across Europe.',
+        bullets: [],
+        project: {
+          challenge: 'Outgoing and incoming invoices between SAP Business ByDesign and the European Peppol network, in both directions, in production.',
+          solution: 'Two routes under the open EN 16931 standard. Inbound over two parallel paths, by webhook and from a mailbox, both ending in the same processing layer.',
+          result: 'A forensic check showed that accepted and delivered are two different things. Half the sample had never arrived, and the cause sat in master data rather than in code.',
+        },
+        figure: {
+          id: 'route',
+          labels: [
+            'Sender',
+            'Access point',
+            'Document',
+            'Target system',
+          ],
+          caption: 'The route as it runs in production.',
+        },
+        anchor: {
+          text: 'EN 16931 · Peppol BIS 3.0',
+          label: 'Open standards, independently readable',
+          url: 'https://docs.peppol.eu/poacc/billing/3.0/',
+          state: 'public',
+        },
+      },
+      {
+        id: '08-monitoring',
+        kind: 'project',
+        tone: 'alt',
+        eyebrow: 'Project · Quality engineering',
+        headline: 'Release decisions from data instead of gut feeling.',
+        bullets: [],
+        project: {
+          challenge: 'Go or no-go decisions cost hours of collecting numbers from the test tools of several teams and several environments.',
+          solution: 'One continuous pipeline pulls every source together and shows availability, response times and open incidents side by side on a dashboard.',
+          result: 'During a legacy migration the validation ran around the clock in dual operation: old and new route under load at the same time, with every deviation reported by the machine rather than a person.',
+        },
+        shot: {
+          src: 'sla',
+          caption: 'My own SLA dashboard, shown here with demo data. No client figures appear on a public page.',
+          alt: 'SLA dashboard with availability curve, response time histogram and incident list',
+        },
+      },
+      {
+        id: '09-freigabe',
+        kind: 'howto',
+        tone: 'base',
+        eyebrow: 'How I work with AI',
+        headline: 'The machine works up to the draft. Approving is not its job.',
+        bullets: [
+          'A human moves the card, and that starts the run.',
+          'Each stage starts fresh, without the context of the previous one.',
+          'The reviewer sees only the artefacts, never the implementer reasoning.',
+          'Changes to the system itself pass through the same gate.',
+        ],
+        figure: {
+          id: 'gate',
+          labels: [
+            'started',
+            'built',
+            'reviewed',
+            'draft',
+            'merge',
+            'waiting for a human',
+          ],
+          caption: 'The card stops at the gate. It does not pass.',
+        },
+        anchor: {
+          text: 'rules/learning-autonomy.md',
+          label: 'The rule is public in the repo',
+          url: 'https://github.com/bks-lab/open-bridge/blob/main/rules/learning-autonomy.md',
+          state: 'public',
+        },
+        hook: 'To me that is the difference between AI you can deploy and AI you can demo.',
+      },
+      {
+        id: '10-leitsaetze',
+        kind: 'beliefs',
+        tone: 'alt',
+        eyebrow: 'Principles',
+        headline: 'Four rules that have held up for me.',
+        bullets: [],
+        beliefs: [
+          {
+            rule: 'One Bug Policy',
+            text: 'After every fix we establish which level of the test pipeline should have caught it. That exact test then gets written.',
+          },
+          {
+            rule: 'Logging before Debugging',
+            text: 'If an analysis needed the debugger, logging was missing. It ships together with the fix.',
+          },
+          {
+            rule: 'Machines do not tire',
+            text: 'No human tests a million combinations. A machine that never sleeps does.',
+          },
+          {
+            rule: 'Measurable or not at all',
+            text: 'Automation without measurement is only faster guessing.',
+          },
+        ],
+      },
+      {
+        id: '11-agent',
+        kind: 'live',
+        tone: 'base',
+        eyebrow: 'Live on this page',
+        headline: 'Ask my agent instead of taking my word.',
+        bullets: [
+          'What do you read, and what do you not?',
+          'What hardware do you run on?',
+          'Where do your calendar times come from?',
+        ],
+        askAgent: true,
+        probeNotes: [
+          'Probes the deliberately narrow knowledge source.',
+          'Probes that it runs on hardware he owns.',
+          'Probes the calendar mirror: times only, no title, no place.',
+        ],
+        anchor: {
+          text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
+          label: 'His agent card, open it directly',
+          url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
+          state: 'public',
+        },
+        hook: 'Each of the three questions probes a different edge of his scope.',
+      },
+      {
+        id: '12-stationen',
+        kind: 'stations',
+        tone: 'alt',
+        eyebrow: 'Track record',
+        headline: 'Where I learned this.',
+        bullets: [],
+      },
+      {
+        id: '13-kontakt',
         kind: 'closing',
         tone: 'base',
         eyebrow: 'Next step',
         headline: 'Michael Boiman',
         bullets: [
-          'Available for engagements, reviews and workshops.',
-          'Everything here can be opened or is marked closed.',
+          'Available for projects, reviews and workshops.',
+          'Everything on this page can be opened or is marked confidential.',
         ],
       },
     ],
     storyRole: 'Quality Engineer · AI Architect',
     storyClosingEyebrow: 'BKS-Lab GmbH · Frankfurt am Main',
+    projectChallenge: 'Challenge',
+    projectSolution: 'Solution',
+    projectResult: 'Result',
+    stationsNote: 'The short version. Every position, certificate and talk is on the CV.',
     proofPublicLabel: 'publicly verifiable',
     proofClosedLabel: 'not public',
     agentUnavailable: 'The agent is not answering right now. Its profile card is public regardless.',

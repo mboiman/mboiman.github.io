@@ -20,8 +20,9 @@ import { i18n } from '../src/lib/i18n.ts';
  * amount of text, and forcing them to made every act look alike.
  */
 const BUDGET = {
-  manifest: 2, portrait: 3, offer: 4, figure: 4,
-  shot: 3, live: 3, finding: 3, terminal: 3, closing: 2,
+  manifest: 2, portrait: 3, offer: 4, howto: 4, live: 3, closing: 2,
+  // These three carry prose or data, never bullet fragments.
+  project: 0, beliefs: 0, stations: 0,
 };
 
 /** How many labels each figure component expects. Wrong count renders blanks. */
@@ -31,9 +32,18 @@ const FIGURE_LABELS = {
 
 /** Screenshot keys the page knows how to render. A raw path could point at a
  *  file that was deleted for leaking personal data, and nothing would notice. */
-const SHOTS = new Set(['nlpanalyse', 'angebotstest', 'websiteanalyzer']);
+const SHOTS = new Set(['nlpanalyse', 'sla', 'angebotstest']);
 
-const MAX_BULLET_WORDS = 9;
+/**
+ * Raised from 9 to 18 on 2026-08-08.
+ *
+ * Nine words cannot hold a complete German sentence, so the old cap did not
+ * merely permit the telegram style Michael rejected ("das wording in deutsch
+ * ist nicht gut"), it enforced it. A cap still belongs here, because the act
+ * layouts assume short lines; it just has to sit above the length of an
+ * ordinary sentence rather than below it.
+ */
+const MAX_BULLET_WORDS = 18;
 const MAX_SCARS = 2;
 const errors = [];
 
@@ -103,8 +113,11 @@ for (const [name, br] of [['de', de], ['en', en]]) {
     // so this only catches em dash, en dash, and a standalone double hyphen.
     const blob = [a.eyebrow, a.headline, ...a.bullets, a.hook ?? '',
                   a.anchor?.label ?? '', a.anchor?.note ?? '',
-                  ...(a.probeNotes ?? []), a.shot?.caption ?? '',
-                  a.figure?.caption ?? '', ...(a.figure?.labels ?? [])].join(' ');
+                  ...(a.probeNotes ?? []), a.shot?.caption ?? '', a.shot?.alt ?? '',
+                  a.figure?.caption ?? '', ...(a.figure?.labels ?? []),
+                  a.project?.challenge ?? '', a.project?.solution ?? '', a.project?.result ?? '',
+                  ...(a.beliefs ?? []).flatMap(b => [b.rule, b.text]),
+                  ...(a.phone?.lines ?? []), a.phone?.note ?? ''].join(' ');
     if (/[—–]/.test(blob)) errors.push(`${where}: em or en dash used as punctuation`);
     if (/\s--\s/.test(blob)) errors.push(`${where}: double hyphen used as punctuation`);
 
@@ -134,6 +147,33 @@ for (const [name, br] of [['de', de], ['en', en]]) {
       if (!a.shot.caption?.trim()) {
         errors.push(`${where}: shot without a caption. The caption is what says it is his own work.`);
       }
+      // These are content images now, not decoration, so an empty alt hides
+      // a whole project act from a screen reader.
+      if (!a.shot.alt?.trim()) errors.push(`${where}: shot without alt text`);
+    }
+
+    if (a.kind === 'project') {
+      for (const f of ['challenge', 'solution', 'result']) {
+        if (!a.project?.[f]?.trim()) errors.push(`${where}: project act missing "${f}"`);
+      }
+      // Prose, not fragments. A one-clause "challenge" is the telegram style
+      // the rewrite removed, sneaking back in through a different field.
+      for (const f of ['challenge', 'solution', 'result']) {
+        const v = a.project?.[f] ?? '';
+        const n = v.split(/\s+/).filter(Boolean).length;
+        if (n && n < 8) errors.push(`${where}: project.${f} is ${n} words. Write the sentence.`);
+        if (n > 55) errors.push(`${where}: project.${f} is ${n} words, too long for the block`);
+      }
+    }
+
+    if (a.kind === 'beliefs') {
+      if ((a.beliefs?.length ?? 0) !== 4) {
+        errors.push(`${where}: ${a.beliefs?.length ?? 0} beliefs, expected exactly 4`);
+      }
+      (a.beliefs ?? []).forEach((b, k) => {
+        if (!b.rule?.trim()) errors.push(`${where}: belief ${k} without a rule name`);
+        if (!b.text?.trim()) errors.push(`${where}: belief ${k} without text`);
+      });
     }
 
     // Question buttons only work if they are questions.
@@ -155,10 +195,26 @@ for (const [name, br] of [['de', de], ['en', en]]) {
 }
 
 // Exactly one act of each singular kind, or the rhythm argument collapses.
-for (const kind of ['manifest', 'portrait', 'offer', 'live', 'terminal', 'closing']) {
+for (const kind of ['manifest', 'portrait', 'offer', 'howto', 'beliefs', 'live', 'stations', 'closing']) {
   const n = de.acts.filter(a => a.kind === kind).length;
   if (n !== 1) errors.push(`kind "${kind}" appears ${n} times, expected exactly 1`);
 }
+
+// The page is a portfolio. It stopped being one once, when twelve acts of
+// engineering principle left room for no projects at all, and the verdict was
+// that it no longer presented a person. Three is the floor that keeps it one.
+const projectCount = de.acts.filter(a => a.kind === 'project').length;
+if (projectCount < 3) {
+  errors.push(`only ${projectCount} project acts. The page is a portfolio; below three it reads as an essay again.`);
+}
+
+// Every project act needs a picture. A project told in prose alone is a CV
+// entry, and the CV page already has it.
+de.acts.filter(a => a.kind === 'project').forEach((a) => {
+  if (!a.figure && !a.shot) {
+    errors.push(`acts ${a.id}: project act without a figure or a screenshot`);
+  }
+});
 if (de.acts.at(-1)?.kind !== 'closing') errors.push('the last act is not the closing act');
 if (de.acts[0]?.kind !== 'manifest') errors.push('the first act is not the manifest act');
 

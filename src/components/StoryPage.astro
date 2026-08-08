@@ -44,6 +44,7 @@ import FigGate from './figures/FigGate.astro';
 import FigChecks from './figures/FigChecks.astro';
 
 import shotNlp from '../assets/story/nlpanalyse.png';
+import shotSla from '../assets/story/sla-dashboard.jpg';
 import shotRoute from '../assets/story/angebotstest.png';
 
 interface Props {
@@ -55,7 +56,14 @@ const otherLang = lang === 'de' ? 'en' : 'de';
 const t = i18n[lang];
 
 const data = getCVData(lang);
-const { profile, contact, ui } = data;
+const { profile, contact, ui, experiences, education } = data;
+
+/** The `stations` act reads the career straight out of the CV TOML rather than
+ *  restating it in i18n.ts. Two copies of the same career drift, and the CV is
+ *  the source Michael actually maintains. Seven rows: enough to show the arc
+ *  from enterprise QA to agent architecture, short enough to stay on one
+ *  screen. The rest stays on the CV page, which is what the link is for. */
+const stations = experiences.list.slice(0, 7);
 
 const email = contact.list.find(c => c.class === 'email');
 const linkedin = contact.list.find(c => c.class === 'linkedin');
@@ -66,7 +74,7 @@ const portrait = `/images/${profile.avatar_story || 'profile_.jpg'}`;
 
 /** Keyed, never a raw path: a raw path can point at a file that was deleted for
  *  leaking personal data, and nothing in the build would notice. */
-const SHOTS = { nlpanalyse: shotNlp, angebotstest: shotRoute, websiteanalyzer: shotNlp };
+const SHOTS = { nlpanalyse: shotNlp, sla: shotSla, angebotstest: shotRoute };
 const FIGURES = {
   proofpair: FigProofPair, timeline: FigTimeline, mesh: FigMesh,
   route: FigRoute, gate: FigGate, checks: FigChecks,
@@ -110,7 +118,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
   </header>
 
   <main id="main">
-  {acts.map((act) => {
+  {acts.map((act, actIndex) => {
     const Fig = act.figure ? FIGURES[act.figure.id] : null;
     // Four figure acts rendered through one layout is the exact fault this
     // rebuild exists to fix, reintroduced one level down. The figures differ in
@@ -224,57 +232,132 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
             </div>
           )}
 
-          {/* ── figure ──────────────────────────────────────────────────
-              Text left, drawing right. The bullets ARE the figure's textual
-              equivalent and render as an ordered list, so there is never a
-              second list saying the same thing beside it. */}
-          {act.kind === 'figure' && (
-            <div class={wideFigure ? 'stack-wide' : 'split-2'}>
+          {/* ── project ─────────────────────────────────────────────────
+              The spine of the page. Five of these, and between them they are
+              what makes this a portfolio instead of an essay.
+
+              Structure comes from the version on `main`: challenge, solution,
+              result as prose beside a picture. What changed is that the
+              picture is a picture. main laid its screenshots behind the copy
+              at four percent opacity, so the images existed in the markup and
+              not on the screen.
+
+              A wide figure (`route`) cannot live in a side column at a
+              readable size, so it drops under the prose at full act width.
+              The layout follows the figure's own proportions rather than a
+              per-act flag someone has to remember to set. */}
+          {act.kind === 'project' && (
+            <div class="project">
+              <p class="act-eyebrow rise">{act.eyebrow}</p>
+              <h2 class="act-h rise">{act.headline}</h2>
+
+              <div class={`project-body ${wideFigure ? 'is-stacked' : ''} ${act.shot ? 'has-shot' : ''} ${actIndex % 2 === 1 ? 'is-flipped' : ''}`}>
+                <div class="project-prose rise-stagger">
+                  {act.project && (
+                    <>
+                      <div class="pblock" style="--i:0">
+                        <p class="plabel">{t.projectChallenge}</p>
+                        <p>{act.project.challenge}</p>
+                      </div>
+                      <div class="pblock" style="--i:1">
+                        <p class="plabel">{t.projectSolution}</p>
+                        <p>{act.project.solution}</p>
+                      </div>
+                      <div class="pblock is-result" style="--i:2">
+                        <p class="plabel">{t.projectResult}</p>
+                        <p>{act.project.result}</p>
+                      </div>
+                    </>
+                  )}
+                  {act.rename && (
+                    <p class="rename" style="--i:3">
+                      <s class="rename-before">{act.rename.before}</s>
+                      <span class="rename-after">{act.rename.after}</span>
+                    </p>
+                  )}
+                  {act.anchor && (
+                    <p class="mt-6" style="--i:4">
+                      {act.anchor.url
+                        ? <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
+                        : <span class="proof">{act.anchor.text}</span>}
+                      <span class="proof-label block mt-1">
+                        <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>
+                        {act.anchor.label}{act.anchor.note ? ` · ${act.anchor.note}` : ''}
+                      </span>
+                    </p>
+                  )}
+                </div>
+
+                <div class="project-media">
+                  {!wideFigure && Fig && act.figure && (
+                    <Fig labels={act.figure.labels} caption={act.figure.caption} />
+                  )}
+
+                  {shot && act.shot && (
+                    <figure class="shot-figure">
+                      <div class="shot">
+                        <Image src={shot} alt={act.shot.alt} widths={[480, 800, 1280]} sizes="(max-width: 900px) 92vw, 40rem" />
+                      </div>
+                      <figcaption class="shot-cap">{act.shot.caption}</figcaption>
+                    </figure>
+                  )}
+
+                  {act.phone && (
+                    <div class="phone">
+                      {act.phone.lines.map((l, i) => (
+                        <p class={`phone-bubble ${i % 2 === 1 ? 'is-them' : ''}`}>{l}</p>
+                      ))}
+                      <p class="phone-note">{act.phone.note}</p>
+                    </div>
+                  )}
+
+                  {act.terminal && (
+                    <div>
+                      <div class="term">
+                        <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>{act.terminal.title}</span></div>
+                        <pre class="term-body"><code>{act.terminal.lines.map((l, i) => (
+                          <span class={`term-line term-${l.kind}`} style={`--i:${i}`}>{l.kind === 'cmd' ? <><span class="term-p">$ </span>{l.text}</> : l.text}{'\n'}</span>
+                        ))}</code></pre>
+                      </div>
+                      <p class="mt-3 text-[0.68rem]" style="color: var(--text-secondary)">{act.terminal.recorded}</p>
+                    </div>
+                  )}
+                </div>
+
+                {wideFigure && Fig && act.figure && (
+                  <div class="stack-figure" style={`--fig-ar:${wideAr}`}>
+                    <Fig labels={act.figure.labels} caption={act.figure.caption} />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── howto ───────────────────────────────────────────────────
+              One act on method, not twelve. The predecessor spent nine
+              screens on guardrails and had room for no projects at all;
+              this keeps the single strongest one and gives the space back. */}
+          {act.kind === 'howto' && (
+            <div class="stack-wide">
               <div class="rise-stagger">
                 <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
                 <h2 class="act-h" style="--i:1">{act.headline}</h2>
-                <ol class="act-bullets">
+                <ol class="act-bullets act-bullets--wide">
                   {act.bullets.map((b, i) => (
                     <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">{i + 1}</span><span>{b}</span></li>
                   ))}
                 </ol>
-                {act.hook && <p class="mt-6 text-[0.86rem]" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
+                {act.hook && <p class="mt-6 text-[0.88rem] max-w-[46rem]" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
                 {act.anchor && (
                   <p class="mt-5" style={`--i:${act.bullets.length + 3}`}>
-                    {act.anchor.url
-                      ? <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
-                      : <span class="proof">{act.anchor.text}</span>}
+                    <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
                     <span class="proof-label block mt-1">
-                      <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>
-                      {act.anchor.label}{act.anchor.note ? ` · ${act.anchor.note}` : ''}
+                      <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>{act.anchor.label}
                     </span>
                   </p>
                 )}
               </div>
-
-              <div class="flex flex-col gap-6">
-                {!wideFigure && Fig && act.figure && <Fig labels={act.figure.labels} caption={act.figure.caption} />}
-
-                {act.phone && (
-                  <div class="phone">
-                    {act.phone.lines.map((l, i) => (
-                      <p class={`phone-bubble ${i % 2 === 1 ? 'is-them' : ''}`}>{l}</p>
-                    ))}
-                    <p class="phone-note">{act.phone.note}</p>
-                  </div>
-                )}
-
-                {shot && act.shot && (
-                  <figure class="shot-figure">
-                    <div class="shot">
-                      <Image src={shot} alt={act.shot.alt} widths={[420, 640, 900]} sizes="(max-width: 900px) 92vw, 26rem" />
-                    </div>
-                    <figcaption class="shot-cap">{act.shot.caption}</figcaption>
-                  </figure>
-                )}
-              </div>
-
-              {wideFigure && Fig && act.figure && (
+              {Fig && act.figure && (
                 <div class="stack-figure" style={`--fig-ar:${wideAr}`}>
                   <Fig labels={act.figure.labels} caption={act.figure.caption} />
                 </div>
@@ -282,46 +365,23 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
             </div>
           )}
 
-          {/* ── shot ────────────────────────────────────────────────────
-              The act that pays off "mehr mit Bildern": the screenshot runs
-              framed at full opacity with a caption, not as wallpaper at four
-              percent. */}
-          {act.kind === 'shot' && (
-            <div class="split-2">
-              <div class="rise-stagger">
-                <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
-                <h2 class="act-h" style="--i:1">{act.headline}</h2>
-                <ul class="act-bullets">
-                  {act.bullets.map((b, i) => (
-                    <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">·</span><span>{b}</span></li>
-                  ))}
-                </ul>
-                {act.rename && (
-                  <p class="rename" style={`--i:${act.bullets.length + 2}`}>
-                    <s class="rename-before">{act.rename.before}</s>
-                    <span class="rename-after">{act.rename.after}</span>
-                  </p>
-                )}
-                {act.hook && <p class="mt-6 text-[0.86rem]" style={`--i:${act.bullets.length + 3}; color: var(--text-secondary)`}>{act.hook}</p>}
-              </div>
-
-              <div>
-                {shot && act.shot && (
-                  <figure class="shot-figure">
-                    <div class="shot">
-                      <Image src={shot} alt={act.shot.alt} widths={[420, 640, 900]} sizes="(max-width: 900px) 92vw, 30rem" />
-                    </div>
-                    <figcaption class="shot-cap">{act.shot.caption}</figcaption>
-                  </figure>
-                )}
-                {act.anchor && (
-                  <p class="mt-5 text-right">
-                    <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
-                    <span class="proof-label block mt-1">
-                      <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>{act.anchor.label}
-                    </span>
-                  </p>
-                )}
+          {/* ── beliefs ─────────────────────────────────────────────────
+              Restored from `main`, where four maxims ran down the page with
+              alternating alignment. Two of these four are Michael's own
+              QualityCluster rules, which until now existed only inside a PNG
+              that carries four grammar mistakes. Typed out, they are the
+              most quotable thing on the page. */}
+          {act.kind === 'beliefs' && (
+            <div>
+              <p class="act-eyebrow rise">{act.eyebrow}</p>
+              <h2 class="act-h rise">{act.headline}</h2>
+              <div class="beliefs rise-stagger">
+                {act.beliefs?.map((b, i) => (
+                  <blockquote class={`belief ${i % 2 === 1 ? 'is-right' : ''}`} style={`--i:${i}`}>
+                    <p class="belief-rule">{b.rule}</p>
+                    <p class="belief-text">{b.text}</p>
+                  </blockquote>
+                ))}
               </div>
             </div>
           )}
@@ -374,90 +434,44 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
             </div>
           )}
 
-          {/* ── finding ─────────────────────────────────────────────────
-              Scar two of two. The headline carries the resolution, not the
-              incident: someone scanning headlines should take away that he
-              finds these things himself. */}
-          {act.kind === 'finding' && (
-            <div class="split-finding">
-              <div>
-                <img src={portrait} alt="" aria-hidden="true" width="750" height="1000" class="portrait-crop" />
-              </div>
+          {/* ── stations ────────────────────────────────────────────────
+              The career, read out of config.cv.toml so it cannot drift from
+              the CV page. The rejected rebuild dropped this act entirely,
+              which is a large part of why the page stopped presenting a
+              person and started arguing a position. */}
+          {act.kind === 'stations' && (
+            <div class="split-stations">
               <div class="rise-stagger">
                 <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
                 <h2 class="act-h" style="--i:1">{act.headline}</h2>
-                <ul class="act-bullets">
-                  {act.bullets.map((b, i) => (
-                    <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">·</span><span>{b}</span></li>
-                  ))}
-                </ul>
-                {Fig && act.figure && (
-                  <div class="mt-8 max-w-[22rem]">
-                    <Fig labels={act.figure.labels} caption={act.figure.caption} />
-                  </div>
-                )}
-                {act.hook && <p class="mt-6 text-[0.86rem]" style="color: var(--text-secondary)">{act.hook}</p>}
-                {act.anchor && (
-                  <p class="mt-5">
-                    <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
-                    <span class="proof-label block mt-1">
-                      <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>{act.anchor.label}
-                    </span>
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* ── terminal ────────────────────────────────────────────────
-              The one place the machine speaks in its own voice, so it appears
-              once. The slab carries its own colour tokens because a dark
-              surface that inherits --text would render near-invisible text in
-              light mode. */}
-          {act.kind === 'terminal' && (
-            <div class="split-2">
-              <div class="rise-stagger">
-                <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
-                <h2 class="act-h" style="--i:1">{act.headline}</h2>
-                <ul class="act-bullets">
-                  {act.bullets.map((b, i) => (
-                    <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">·</span><span>{b}</span></li>
-                  ))}
-                </ul>
-                {act.tree && (
-                  <div class="tree" style={`--i:${act.bullets.length + 2}`}>
-                    {act.tree.map(item => (
-                      <p class={`tree-row ${item.side === 'private' ? 'is-private' : ''}`}>
-                        <span class="tree-path">{item.path}</span>
-                        <span class="tree-label">{item.label}</span>
-                      </p>
-                    ))}
-                  </div>
-                )}
-                {act.anchor && (
-                  <p class="mt-6">
-                    <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
-                    <span class="proof-label block mt-1">
-                      <span class="proof-dot" data-state={act.anchor.state} aria-hidden="true"></span>{act.anchor.label}
-                    </span>
-                  </p>
-                )}
+                <p class="mt-6 text-[0.86rem] max-w-[26rem]" style="--i:2; color: var(--text-secondary)">
+                  {t.stationsNote}
+                </p>
+                <p class="mt-5" style="--i:3">
+                  <a href={`/${lang}/`} class="cta" style="color: var(--accent)">{t.classicCV}</a>
+                </p>
               </div>
 
-              <div>
-                {act.terminal && (
-                  <>
-                    <div class="term">
-                      <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>{act.terminal.title}</span></div>
-                      <pre class="term-body"><code>{act.terminal.lines.map((l, i) => (
-                        <span class={`term-line term-${l.kind}`} style={`--i:${i}`}>{l.kind === 'cmd' ? <><span class="term-p">$ </span>{l.text}</> : l.text}{'\n'}</span>
-                      ))}</code></pre>
-                    </div>
-                    <p class="mt-3 text-[0.7rem]" style="color: var(--text-secondary)">{act.terminal.recorded}</p>
-                  </>
-                )}
-                {act.hook && <p class="mt-5 text-[0.86rem]" style="color: var(--text-secondary)">{act.hook}</p>}
-              </div>
+              <ol class="stations rise-stagger">
+                {stations.map((s, i) => (
+                  <li class="station" style={`--i:${i}`}>
+                    <span class="station-date">{s.dates}</span>
+                    <span class="station-body">
+                      <span class="station-role">{s.position}</span>
+                      <span class="station-org">{s.company}</span>
+                    </span>
+                  </li>
+                ))}
+                {education.list.slice(0, 1).map((e) => (
+                  <li class="station is-edu" style={`--i:${stations.length}`}>
+                    <span class="station-date">{e.dates}</span>
+                    <span class="station-body">
+                      <span class="station-role">{e.degree}</span>
+                      <span class="station-org">{e.college}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
             </div>
           )}
 
@@ -559,7 +573,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
          margins: the figure inside declares `container-type: inline-size`, so
          it cannot take its inline size from its contents, and with auto margins
          there was nothing left to derive a width from. It collapsed to zero. */
-      width: min(100%, 62rem, calc(23vh * var(--fig-ar, 3)));
+      width: min(100%, 62rem, calc(var(--fig-h, 23vh) * var(--fig-ar, 3)));
       justify-self: center;
     }
     .stack-wide:not(:has(.shot-figure)) > :first-child { max-width: 46rem; }

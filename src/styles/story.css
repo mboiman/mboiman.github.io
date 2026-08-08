@@ -77,7 +77,12 @@
   line-height: 1.07;
   font-size: clamp(1.95rem, 4.4vw, 3.6rem);
   text-wrap: balance;
-  hyphens: auto;
+  /* `hyphens: auto` broke "KI-Automatisierung" across two lines mid-word in
+     the opening headline at 3.6rem, which is the single most looked-at line on
+     the page. German compounds are long; the fix is to let the whole word drop
+     to its own line rather than to cut it. */
+  hyphens: manual;
+  overflow-wrap: break-word;
   margin-bottom: 1.6rem;
 }
 
@@ -393,6 +398,186 @@ html.dark .shot-texture { opacity: 0.2; }
 .cta { border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-color 0.2s ease; }
 .cta:hover { border-bottom-color: var(--accent); }
 
+/* ── Project acts ──────────────────────────────────────────────────────────
+   Five of these carry the page. The composition is the one from `main`
+   (challenge, solution, result beside a picture), with the picture actually
+   visible instead of sitting behind the copy at four percent opacity.
+
+   The media column alternates sides act by act, driven by the act's index.
+   Without that, five project acts in a row are the same slide five times,
+   which is the failure the whole rebuild exists to avoid. */
+
+.project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: 2.6rem 3rem;
+  align-items: start;
+  margin-top: 1.9rem;
+}
+
+/* Odd-numbered project acts put the picture on the left. `order` moves only
+   the painted result: the DOM keeps prose first, so a screen reader and the
+   keyboard still meet the text before the illustration. */
+.project-body.is-flipped > .project-prose { order: 2; }
+.project-body.is-flipped > .project-media { order: 1; }
+
+/* A wide figure cannot be legible in a half-width column, so those acts run
+   one column with the figure across the full width underneath. */
+/* Track widths are positional, `order` is not. A flipped act puts the media
+   into track ONE, so widening track two hands the extra room to the prose and
+   makes the picture smaller, which is the opposite of the intent. Measured:
+   464px instead of 641px. Both screenshot acts happen to be flipped, so this
+   was not a corner case, it was every case. */
+.project-body.has-shot { grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr); }
+.project-body.has-shot.is-flipped { grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr); }
+
+.project-body.is-stacked { grid-template-columns: minmax(0, 1fr); }
+.project-body.is-stacked > .project-prose { max-width: 52rem; }
+
+.project-prose { display: flex; flex-direction: column; gap: 1.35rem; }
+
+.pblock > p:last-child {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 44rem;
+}
+
+.plabel {
+  font-size: 0.63rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 0.4rem;
+}
+
+/* The result is the only one of the three a visitor must not skim past. */
+.pblock.is-result {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding-left: 1.1rem;
+}
+.pblock.is-result > p:last-child { color: var(--text); }
+
+.project-media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-width: 0;
+}
+
+/* ── Beliefs ───────────────────────────────────────────────────────────────
+   Restored from `main`, where the alternating alignment was the whole point:
+   the eye moves left, right, left, right down the page and the four rules
+   read as four, not as a list of four. */
+
+.beliefs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  margin-top: 2.2rem;
+}
+
+.belief {
+  position: relative;
+  max-width: 40rem;
+  padding: 1.15rem 0 1.15rem 1.4rem;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.belief.is-right {
+  margin-left: auto;
+  text-align: right;
+  padding: 1.15rem 1.4rem 1.15rem 0;
+  border-left: none;
+  border-right: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.belief-rule {
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.belief-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── Stations ──────────────────────────────────────────────────────────────
+   The career, read out of config.cv.toml. Dates are tabular so the column
+   lines up without a table element. */
+
+.split-stations {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 2.4rem 3.2rem;
+  align-items: start;
+}
+
+.stations { display: flex; flex-direction: column; }
+
+.station {
+  display: grid;
+  grid-template-columns: 8.4rem minmax(0, 1fr);
+  gap: 0.2rem 1.2rem;
+  padding: 0.72rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.station:last-child { border-bottom: none; }
+
+.station-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  padding-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.station-body { display: flex; flex-direction: column; gap: 0.14rem; min-width: 0; }
+.station-role { font-size: 0.92rem; color: var(--text); line-height: 1.35; }
+.station-org { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; }
+
+/* The degree closes the list and is set apart, because it is the one row that
+   is not a job. */
+.station.is-edu .station-role { color: var(--accent); }
+
+/* Numbered bullets on the method act sit in two columns, because the figure
+   underneath needs the vertical room. */
+.act-bullets--wide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 2.2rem;
+  max-width: 52rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Measured at 1512x900: the act came out 10px past the viewport. The figure
+   below the copy is the only elastic part, so the height budget shrinks here
+   rather than the type. */
+[data-act='howto'] .stack-figure { --fig-h: 19vh; }
+
+@media (max-width: 900px) {
+  .project-body,
+  .project-body.is-flipped,
+  .split-stations { grid-template-columns: minmax(0, 1fr); }
+  .project-body.is-flipped > .project-prose,
+  .project-body.is-flipped > .project-media { order: initial; }
+  .belief, .belief.is-right {
+    margin-left: 0;
+    text-align: left;
+    padding: 1.05rem 0 1.05rem 1.2rem;
+    border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-right: none;
+  }
+  .station { grid-template-columns: minmax(0, 1fr); }
+  .act-bullets--wide { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ── Motion layer ──────────────────────────────────────────────────────────
    Everything above renders complete. Only the two blocks below move it, and
    only when the visitor has not asked for stillness. */
@@ -401,7 +586,7 @@ html.dark .shot-texture { opacity: 0.2; }
 
   /* The opening choreography. Time-based, not scroll-based: the first act is
      never scrolled INTO, so `view()` would never fire there. */
-  .story-page [data-act='opener'] .cue {
+  .story-page [data-act='manifest'] .cue {
     opacity: 0;
     animation: story-cue 1.1s cubic-bezier(0.22, 0.68, 0.3, 1) forwards;
     animation-delay: var(--cue, 0.3s);
@@ -431,7 +616,7 @@ html.dark .shot-texture { opacity: 0.2; }
 
     /* Copy rises as its act enters. `animation-range` ends well before the act
        is centred so the text is settled by the time it is being read. */
-    .story-page [data-act]:not([data-act='opener']) .rise {
+    .story-page [data-act]:not([data-act='manifest']) .rise {
       animation: story-rise linear both;
       animation-timeline: view();
       animation-range: entry 12% cover 34%;
