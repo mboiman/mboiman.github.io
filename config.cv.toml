@@ -1557,6 +1557,23 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
         impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch relevante, kontextgenaue Antworten."
 
+        # Sprachbot. Nachgetragen 2026-08-21: Akt 05 der Praesentation zeigte
+        # dieses Projekt, ohne dass der Lebenslauf eine Zeile dazu trug, und der
+        # Auftakt kuendigt fuenf Projekte an, von denen der Lebenslauf nur vier
+        # deckte. Bewusst generisch: kein Mandantenname, kein Portalname, keine
+        # Rufnummer. Der Anschluss gehoert dem Auftraggeber, genau das sagt der
+        # geschlossene Beleg auf dem Akt auch.
+        [[languages.de.params.projects.list]]
+        title = "Sprachgesteuerte Terminauskunft am Telefon"
+        anchor = "voice-appointment-enquiry"
+        tech_stack = ["Python", "FastAPI", "Speech-to-Text", "Text-to-Speech", "LLM", "Telefonie-Gateway", "Terminportal-API"]
+        category = "AI & Machine Learning"
+        featured = true
+        tagline = "Telefonischer Sprachassistent, der freie Termine live aus dem Terminportal liest, statt sie zu erfinden."
+        challenge = "Anrufe gingen verloren, weil während der Arbeit niemand abnehmen konnte. Ein Sprachmodell darf sich Termine aber unter keinen Umständen ausdenken."
+        solution = "Das Modell führt das Gespräch, die freien Zeiten kommen live aus der Portal-API. Der Bot merkt vor und bucht nie, die Einwilligung steht vor dem ersten inhaltlichen Satz."
+        impact = "Anrufer bekommen echte freie Zeiten genannt, während eine kurze Zwischenansage die Antwortzeit überbrückt. Datum und Uhrzeit werden als Wörter ausgegeben, weil die Sprachausgabe einzelne Ziffern verschluckt."
+
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         anchor = "email-classification"
@@ -1840,6 +1857,18 @@ Our goal is to implement more quality through a higher degree of automation.
         challenge = "Trade-fair visitors struggled to find relevant information on the website, driving high bounce rates and missed leads."
         solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
         impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through relevant, context-accurate responses."
+
+        # Siehe den deutschen Zweig.
+        [[languages.en.params.projects.list]]
+        title = "Voice-driven appointment enquiry by phone"
+        anchor = "voice-appointment-enquiry"
+        tech_stack = ["Python", "FastAPI", "Speech-to-Text", "Text-to-Speech", "LLM", "Telephony gateway", "Booking portal API"]
+        category = "AI & Machine Learning"
+        featured = true
+        tagline = "A phone assistant that reads free appointment slots live from the booking portal instead of inventing them."
+        challenge = "Calls were lost because nobody could pick up during work. A language model, however, must never invent an appointment."
+        solution = "The model runs the conversation, the free slots come live from the portal API. It pencils an appointment in but never books it, and consent comes before the first substantive sentence."
+        impact = "Callers hear real open slots while a short holding line covers the response time. Date and time are spoken as words, because speech synthesis swallows individual digits."
 
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
