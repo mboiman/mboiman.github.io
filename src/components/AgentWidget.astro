@@ -305,11 +305,58 @@ const widgetStrings = {
     width: var(--aw-max-w);
     height: var(--aw-max-h);
   }
-  /* When the panel is open on the two-column layout (lg+), the page content is
-     shifted left via an inline body padding (set in openPanel/closePanel below)
-     so the fixed panel sits beside the sidebar instead of permanently covering
-     it while scrolling. */
-  body { transition: padding-right 0.2s ease-out; }
+  /* ── The panel as a right rail ────────────────────────────────────────────
+     What this replaces: an open panel was a floating card over the bottom right
+     corner, while `openPanel` padded the BODY by a hardcoded 26rem to get the
+     page out of its way. Two numbers for one geometry, and they did not match:
+     measured at 1440x900 the panel occupied 400px including its offset while
+     the page gave up 416px, and the CV, capped at 72rem and centred, dropped
+     from 1152px wide with a 144px gutter to 960px wide with a 32px one. It did
+     not read as a column beside the page, it read as a page shoved aside.
+
+     --aw-rail is now the ONE number: the panel's width and the space the page
+     keeps clear. It is zero below 1280px, where there is not enough width for
+     two columns and the panel stays the overlay card it was.
+
+     The clamp floor is 20rem on purpose: the panel carries min-width 320px, and
+     a narrower rail would let it overhang the space reserved for it.
+
+     Every page gets the reserved space through the body rule below. A page that
+     needs to place it somewhere else (the presentation pads its own wrapper,
+     because it also has to inset fixed furniture) opts out with `aw-no-shift`
+     and does it itself. */
+  :root { --aw-rail: 0px; }
+
+  html:not(.aw-no-shift) body {
+    padding-right: var(--aw-rail);
+    transition: padding-right 0.2s ease-out;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.aw-no-shift) body { transition: none; }
+  }
+
+  @media (min-width: 1280px) {
+    html.aw-panel-open { --aw-rail: clamp(20rem, 26vw, 26rem); }
+
+    html.aw-panel-open #agent-widget-panel,
+    html.aw-panel-open #agent-widget-panel.aw-is-max {
+      top: 0; bottom: 0; right: 0; left: auto;
+      translate: none;
+      width: var(--aw-rail);
+      min-width: 0;
+      max-width: none;
+      height: auto;
+      max-height: none;
+      border-radius: 0;
+      border-width: 0 0 0 1px;
+      animation: none;
+    }
+    /* Resizing and maximising are gestures for a floating card. A rail's width
+       is the page's business, and dragging it would desynchronise the panel
+       from the space reserved for it. */
+    html.aw-panel-open #agent-widget-resize,
+    html.aw-panel-open #agent-widget-maximize { display: none; }
+  }
 
   @keyframes aw-pop {
     from { opacity: 0; transform: translateY(12px) scale(0.98); }
@@ -2235,17 +2282,11 @@ const widgetStrings = {
       launcher.classList.add('aw-hidden');
       launcherLabel?.classList.add('aw-hidden');
       launcher.setAttribute('aria-expanded', 'true');
+      // The class is the whole mechanism now. The space the page gives up comes
+      // from --aw-rail in the stylesheet above, off the same number the panel is
+      // sized with, instead of a hardcoded 26rem written here as an inline
+      // style. Two numbers for one geometry never stayed equal.
       document.documentElement.classList.add('aw-panel-open');
-      // Shift the centered content left of the fixed panel (two-column layout only).
-      // The presentation opts out via `aw-no-shift`: every act there is
-      // viewport-high and horizontally composed, so a 26rem body padding does
-      // not free up space, it slides the whole composition sideways and pushes
-      // full-bleed acts off centre. Pre-existing bug, not caused by the panel
-      // being docked there.
-      if (window.matchMedia('(min-width: 1024px)').matches
-          && !document.documentElement.classList.contains('aw-no-shift')) {
-        document.body.style.paddingRight = '26rem';
-      }
       if (!greeted) { addBubble('agent', t.greeting); greeted = true; }
       if (!cardFetched) { cardFetched = true; loadAgentCard(); }
       // Auto-open is not a visitor decision — only persist 'open' when the
@@ -2267,6 +2308,7 @@ const widgetStrings = {
       panel.hidden = true;
       panelOpen = false;
       document.documentElement.classList.remove('aw-panel-open');
+      // Clear a padding an older version may have left inline on this document.
       document.body.style.paddingRight = '';
       try { localStorage.setItem(OPEN_KEY, 'closed'); } catch {}   // visitor's choice sticks
       if (cardShown) closeCard();   // next open starts on the chat view

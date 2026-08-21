@@ -886,30 +886,13 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
        The clamp floor is 20rem on purpose: the panel carries min-width 320px,
        and a rail narrower than that would let the panel overhang the space
        reserved for it. Floor and min-width are the same number. */
-    :global(html) { --aw-rail: 0px; }
-
-    @media (min-width: 1280px) {
-      :global(html.aw-panel-open) { --aw-rail: clamp(20rem, 26vw, 26rem); }
-
-      :global(html.aw-panel-open #agent-widget-panel),
-      :global(html.aw-panel-open #agent-widget-panel.aw-is-max) {
-        top: 0; bottom: 0; right: 0; left: auto;
-        translate: none;
-        width: var(--aw-rail);
-        min-width: 0;
-        max-width: none;
-        height: auto;
-        max-height: none;
-        border-radius: 0;
-        border-width: 0 0 0 1px;
-        animation: none;
-      }
-      /* Resizing and maximising are gestures for a floating card. A rail's
-         width is the page's business, and dragging it would desynchronise the
-         panel from the space reserved for it. */
-      :global(html.aw-panel-open #agent-widget-resize),
-      :global(html.aw-panel-open #agent-widget-maximize) { display: none; }
-    }
+    /* --aw-rail itself, and the panel's rail shape, live in AgentWidget.astro:
+       the panel is the widget's own geometry and every page that embeds it now
+       gets the same column. What stays here is only what this page does with
+       the space, because a presentation cannot use the widget's body padding:
+       every act is viewport-high and its furniture is position:fixed, which
+       ignores that padding entirely. Hence `aw-no-shift` in the script below
+       plus the four rules underneath. */
 
     .story-page {
       padding-right: var(--aw-rail);
