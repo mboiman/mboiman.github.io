@@ -311,7 +311,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           'Ich baue Agenten-Systeme und nehme sie in Betrieb.',
           'Ich prüfe, ob eine bestehende Automatisierung wirklich liefert.',
           'Ich sichere KI ab: Grenzen, Freigaben, Nachweise.',
-          'Ich gebe es weiter, in Workshops und als Impulsgeber an der TU Darmstadt.',
+          // "als Impulsgeber an der TU Darmstadt" reads as a standing role.
+          // config.cv.toml carries exactly one entry, an Impulsvortrag in
+          // 04/2026. Michael: "ich hab einmal gehalten, bitte nicht
+          // uebertreiben". The workshops stay plural, the CV carries three.
+          'Ich gebe es weiter, in Workshops und in einem Vortrag an der TU Darmstadt.',
         ],
         hook: 'Als Projekt, als Review oder als Workshop. Für den Anfang genügt eine Mail.',
       },
@@ -641,7 +645,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     careerDetails: [
       'In Enterprise-Projekten (DB Vertrieb, DVAG, TÜV Süd) habe ich an Quality-Monitoring, KI-gestützter Testautomatisierung und mit Dauerbetrieb-Validierung abgesicherten Legacy-Migrationen mitgewirkt.',
       'Heute verbinde ich Quality Engineering mit KI-Architektur: <strong style="color: var(--accent); font-weight: 500">MCP- und A2A-Protokolle</strong>, ein Netz aus Agenten, die sich gegenseitig befragen, und eine produktive E-Invoicing-Plattform nach <strong style="color: var(--accent); font-weight: 500">EN 16931</strong>. Der generische Rahmen dahinter liegt quelloffen unter MIT, einer dieser Agenten beantwortet diesen Lebenslauf live.',
-      'Dieses Wissen gebe ich weiter, in Entwickler- und Business-Workshops sowie als geladener <strong style="color: var(--accent); font-weight: 500">Impulsgeber an der TU Darmstadt</strong>, und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
+      // Same correction as act 03 on the presentation: this said "als geladener
+      // Impulsgeber an der TU Darmstadt", accent-highlighted, which reads as a
+      // standing role. It is one Impulsvortrag, 04/2026. The highlight moves to
+      // the workshops, which the CV does carry several of.
+      'Dieses Wissen gebe ich weiter, in <strong style="color: var(--accent); font-weight: 500">Entwickler- und Business-Workshops</strong> und in einem Impulsvortrag an der TU Darmstadt, und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.',
     ],
     cvRunningTitle: 'Öffentlich prüfbar',
     cvFooterOtherLang: 'English',
@@ -732,7 +740,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           'I build agent systems and take them into production.',
           'I check whether an existing automation really delivers.',
           'I put guardrails on AI: boundaries, approvals, evidence.',
-          'I pass it on, in workshops and as a guest speaker at TU Darmstadt.',
+          // See the German branch: one talk, not a standing role.
+          'I pass it on, in workshops and in a talk at TU Darmstadt.',
         ],
         hook: 'As a project, a review or a workshop. One email is enough to start.',
       },
@@ -1051,7 +1060,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     careerDetails: [
       'In enterprise projects (DB Vertrieb, DVAG, TÜV Süd) I worked on quality monitoring, AI-driven test automation, and legacy migrations secured by continuous validation.',
       'Today I combine quality engineering with AI architecture: <strong style="color: var(--accent); font-weight: 500">MCP and A2A protocols</strong>, a network of agents that consult each other, and a production e-invoicing platform to <strong style="color: var(--accent); font-weight: 500">EN 16931</strong>. The generic framework behind it is open source under MIT, and one of those agents answers this very CV, live.',
-      'I also pass this knowledge on, in developer and business workshops and as an invited <strong style="color: var(--accent); font-weight: 500">guest speaker at TU Darmstadt</strong>, translating hands-on AI for technical and non-technical audiences alike.',
+      // See the German branch: one invited talk, not a standing role.
+      'I also pass this knowledge on, in <strong style="color: var(--accent); font-weight: 500">developer and business workshops</strong> and in an invited talk at TU Darmstadt, translating hands-on AI for technical and non-technical audiences alike.',
     ],
     cvRunningTitle: 'Publicly verifiable',
     cvFooterOtherLang: 'Deutsch',
