@@ -33,18 +33,22 @@ defaultContentLanguageInSubdir = true
       author = "Michael Boiman"
       
       [languages.de.params.ui]
-        tagline = "Freiberuflicher Quality Engineer & KI-Architekt • 20+ Jahre QA • 4+ Jahre KI-Entwicklung"
-        seo_description = "Freiberuflicher Quality Engineer & KI-Architekt aus Frankfurt — 20+ Jahre QA, KI-Agenten (MCP/A2A), Azure-Functions- und Peppol-E-Invoicing-Erfahrung."
-        story_seo_description = "Die Projekt-Story von Michael Boiman: Quality Engineering trifft KI-Architektur — Peppol/E-Invoicing, MCP/A2A-Agenten, Azure Functions, messbare Automatisierung."
+        tagline = "Freiberuflicher Quality Engineer & KI-Architekt · Frankfurt am Main"
+        seo_description = "Freiberuflicher Quality Engineer und KI-Architekt aus Frankfurt: Testautomatisierung, Agenten nach MCP und A2A, Azure Functions und produktives Peppol-E-Invoicing nach EN 16931."
+        story_seo_description = "Die Arbeit von Michael Boiman, nachprüfbar dargestellt: E-Invoicing nach EN 16931 im Regelbetrieb, ein Netz aus A2A-Agenten, quelloffene Agenten-Infrastruktur unter MIT, und Quality Engineering im regulierten Umfeld."
         location = "Frankfurt am Main"
         availability = "Freiberuflich · verfügbar für neue Projekte"
-        hero_intro = "Ich verbinde Quality Engineering mit KI-Architektur: Testautomatisierung, Multi-Agent-Systeme (MCP & A2A) und E-Invoicing-Plattformen nach EU-Standard — messbar und im produktiven Betrieb."
-        ai_badge = "4+ Jahre KI-Entwicklung, 20+ Jahre Quality Engineering"
+        hero_intro = "Ich verbinde Quality Engineering mit KI-Architektur: Testautomatisierung, Multi-Agent-Systeme nach MCP und A2A, und E-Invoicing-Plattformen nach EU-Standard. Jede Aussage hier trägt ihren Beleg daneben."
+        ai_badge = "Quality Engineering und KI-Architektur, parallel statt nacheinander"
         ai_skills_title = "Quality Engineering & KI-Kompetenzen"
+        # Verification anchors, not metrics. Rule: never a counter, never a
+        # percentage, never a year. Allowed are exactly four kinds: an open
+        # standard, a licence or release, a callable address, or a named
+        # procedure. Consumed by the PDF export (scripts/html_to_pdf.js).
         impact_metrics = [
-          { metric = "DB · DVAG · TÜV Süd", label = "Enterprise-Kunden", detail = "QA & Legacy-Migration" },
-          { metric = "EN 16931", label = "E-Invoicing produktiv", detail = "Peppol-Pipeline live (SAP ByDesign)" },
-          { metric = "Live-Demo", label = "KI-Agent", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
+          { metric = "EN 16931", label = "E-Invoicing im Regelbetrieb", detail = "Peppol BIS 3.0 an SAP ByDesign" },
+          { metric = "MIT", label = "quelloffene Agenten-Infrastruktur", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
+          { metric = "A2A 1.0", label = "Agent zu diesem Lebenslauf", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
         ]
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
@@ -82,7 +86,7 @@ defaultContentLanguageInSubdir = true
       [languages.de.params.agent_proof]
         eyebrow = "Live Proof statt Portfolio-Behauptung"
         headline = "Mein CV hat einen eigenen KI-Agenten."
-        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten — Agent-zu-Agent, nicht nur Chatbot. Terminwünsche gehen an mich und werden erst nach meiner persönlichen Freigabe beantwortet."
+        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten: Agent-zu-Agent, nicht nur Chatbot. Terminwünsche gehen an mich und werden erst nach meiner persönlichen Freigabe beantwortet."
         status = "Live auf mboiman.bks-lab.com"
         card = "Agent-Steckbrief (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
@@ -93,12 +97,13 @@ defaultContentLanguageInSubdir = true
           "Wann hat Michael nächste Woche Zeit für ein Gespräch?",
           "Welche Erfahrung hat Michael mit KI-Agenten?"
         ]
-        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 5"]
+        facts = ["protocolVersion: 1.0", "transport: JSONRPC", "streaming: true", "skills: 5"]
 
       [languages.de.params.profile]
         name = "Michael Boiman"
-        tagline = "Freiberuflicher Quality Engineer & KI-Architekt – 20+ Jahre QA, 4+ Jahre KI"
+        tagline = "Freiberuflicher Quality Engineer & KI-Architekt"
         avatar = "profile.png"
+        avatar_story = "profile_.jpg"   # portrait used by the presentation act
 
       [languages.de.params.contact]
         enable = true
@@ -146,7 +151,7 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.education.list]]
         degree = "Diplom-Informatiker (FH)"
         college = "Fachhochschule Köln, Gummersbach"
-        dates = "2000 – 2005"
+        dates = "2000-2005"
 
         [[languages.de.params.education.list]]
         degree = "ISTQB Certified Tester"
@@ -168,7 +173,7 @@ defaultContentLanguageInSubdir = true
         language = "Englisch"
         level = "Fließend"
 
-        # vorübergehend ausgeblendet (2026-06-09) — zum Reaktivieren entkommentieren
+        # vorübergehend ausgeblendet (2026-06-09), zum Reaktivieren entkommentieren
         # [[languages.de.params.language.list]]
         # language = "Russisch"
         # level = "Konversationslevel"
@@ -200,13 +205,13 @@ defaultContentLanguageInSubdir = true
         icon = "fa-user"
         title = "Karriereprofil"
         summary = """\
-**Quality Engineer und KI-Automatisierungsexperte** mit 20+ Jahren Erfahrung in der Software-Qualitätssicherung und 4 Jahren spezialisierter KI-Entwicklung. Quality Engineering ist dabei kein abgeschlossenes Kapitel, sondern laufende Gegenwart — beide Stränge greifen ineinander.
+**Quality Engineer und KI-Automatisierungsexperte**. Quality Engineering und KI-Architektur sind bei mir keine aufeinanderfolgenden Kapitel, sondern zwei Stränge, die parallel laufen und ineinandergreifen.
 
 In Enterprise-Projekten (**DB Vertrieb**, **DVAG**, **TÜV Süd**) sind Quality-Monitoring-Systeme entstanden, KI-gestützte Testautomatisierung kam dazu, Legacy-Migrationen wurden mit 24/7-Validierung abgesichert.
 
-Heute verbinde ich Quality Engineering mit KI-Architektur: MCP- und A2A-Protokolle, Multi-Agent-Systeme und E-Invoicing nach EU-Standard — gebündelt in einem Orchestrierungs-Hub über 20+ Repos, Agenten und Protokolle.
+Heute heißt das: E-Invoicing nach EN 16931 im Regelbetrieb und ein Netz aus Agenten, die sich über die offenen Protokolle MCP und A2A gegenseitig befragen.
 
-Ergänzend gebe ich dieses Wissen weiter — in Entwickler- und Business-Workshops sowie als geladener Impulsgeber an der TU Darmstadt — und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.
+Ergänzend gebe ich dieses Wissen weiter, in Entwickler- und Business-Workshops sowie als geladener Impulsgeber an der TU Darmstadt, und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.
         """
 
       [languages.de.params.experiences]
@@ -218,13 +223,13 @@ Ergänzend gebe ich dieses Wissen weiter — in Entwickler- und Business-Worksho
         position = "Impulsvortrag: KI-gestützte Software-Entwicklung in der Praxis"
         anchor = "tu-darmstadt"
         dates = "04/2026"
-        company = "TU Darmstadt — Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
+        company = "TU Darmstadt · Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
         details = """
-**Geladener Impulsgeber** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren — direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
+**Geladener Impulsgeber** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren. Der Impuls ist direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
 
 **Inhalte**
 - Vom Prompt zum Prototyp: KI-Werkzeugketten, mit denen ein MVP in Stunden statt Wochen steht
-- Agentisches Coding in der Praxis — wo es skaliert, wo die Reibung sitzt, wo Tools kippen
+- Agentisches Coding in der Praxis: wo es skaliert, wo die Reibung sitzt, wo Tools kippen
 - Live-Demos aus dem eigenen Skill-Ökosystem, on-demand zu Fragen aus der Gruppe
 - Erfahrungswerte aus produktiven KI-Projekten statt Folien-Theorie
 
@@ -235,12 +240,12 @@ Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~2
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
         anchor = "workshop-genai"
         dates = "06/2025"
-        company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
+        company = "Developer Workshop · Agenten-basierte Software-Entwicklung"
         details = """
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
 
 **Workshop-Inhalte**
-- Entwicklung mit LLMs (Claude, Gemini, GPT-4o) und Token-Optimierung — projektübergreifend eingesetzt
+- Entwicklung mit LLMs (Claude, Gemini, GPT-4o) und Token-Optimierung, projektübergreifend eingesetzt
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) Protokoll-Implementation
 - Google Agent Development Kit (ADK) für Multi-Agent-Systeme und Tool-Integration
 - Agenten-Orchestrierung mit JSON-RPC und Multi-Agent-Systemen
@@ -263,31 +268,31 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
-        dates = "06/2025 – heute"
-        company = "BKS - AI Research & Development"
+        dates = "seit 06/2025"
+        company = "BKS · AI Research & Development"
         details = """
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
-- **Open Source MCP Server Portfolio**: Entwicklung und Veröffentlichung von 3+ MCP Servern auf GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) mit uvx-Distribution, Claude Desktop Integration und Multi-Format Support (Markdown, JSON, YAML)
-- **Multi-Agent Orchestration System**: Implementierung eines produktionsreifen A2A-Systems mit Orchestrator Agent (Routing Hub) und Knowledge Agent für inter-agent Kommunikation, capability-based Agent Cards und JSON-RPC 2.0
+- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge (Stand v0.14.0, mit Live-Demo-Seite). Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht
+- **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0
 - **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
 - **MCP Navigation Server**: Entwicklung eines Model Context Protocol Servers (Python) mit intelligenter Hierarchie-Navigation, automatischer Content-Discovery und SharePoint-Integration
-- **Google ADK Integration**: Einsatz des Google Agent Development Kit für Multi-Agent-Systeme und erweiterte Tool-Integration
+- **Google ADK (abgelöste Vorstufe)**: Die erste Fassung des Agenten-Netzes lief auf dem Google Agent Development Kit mit LiteLLM. Im Juli 2026 durch den a2a-sdk-Server auf eigener Laufzeit ersetzt, die Erfahrung mit ADK und dessen Tool-Integration bleibt
 - **GitHub Project Automation**: LLM-gesteuertes Issue-Management mit 7-Pflichtfelder-System, automatischer Kategorisierung, Smart Repository Mapping und Review Queue Management
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
 - **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
 - **Time Tracking Integration**: Commit-basierte Arbeitszeitanalyse mit automatischer Clockify-Synchronisierung, intelligenter Projekt-Zuordnung und BKS-Formatierung
-- **Claude Code Plugin-Ecosystem**: Entwicklung von 40+ produktiven Skills für Enterprise-Workflows — Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
-- **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit ecosystem.yaml als Single Source of Truth für 20+ Repositories, automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
-- **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen — Branch-Schutz, Secret-Erkennung und Deployment-Gates
-- **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA) — automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
+- **Claude Code Plugin-Ecosystem**: Ein Skill-Baum für produktive Enterprise-Workflows, über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
+- **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit dreigeteilter Registry (Instanz-Basis, geteiltes Org-Fragment, persönliches Fragment), damit Firmendaten und Personendaten getrennt verteilt werden können. Trägt Repos, Kunden, Infrastruktur und Skills, dazu automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
+- **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen: Branch-Schutz, Secret-Erkennung und Deployment-Gates
+- **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA): automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
 - **Eigenbetriebene Infrastruktur**: Hub und Dienste laufen auf eigener Hardware (launchd-Services, Geräte-Flotte über Tailscale) mit 3-2-1-Backup-Strategie (restic/rclone auf NAS).
 
 **Tools & Technologien**
 - LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
-- Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
+- Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-nach-A2A-Gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Clockify API, Elasticsearch, Natural Language Processing
@@ -297,7 +302,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Quality Engineering"
         anchor = "tuev-sued"
-        dates = "09/2025 – heute"
+        dates = "seit 09/2025"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
@@ -323,7 +328,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
-        company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
+        company = "Enterprise Präsentation · AI-gestützte Dokumentationsworkflows"
         details = """
 **Unternehmenspräsentation** Demonstration moderner Automatisierungsansätze für zentrale, aktuelle Dokumentation und nachhaltigen Projekterfolg
 
@@ -351,12 +356,12 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
         anchor = "dvag"
-        dates = "08/2021 – 05/2025"
+        dates = "08/2021-05/2025"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
 
-**Ergebnis:** Echtzeit-Transparenz über die Sprint-Qualität durch Grafana-Dashboards, über QualityGates abgesicherte Releases in den CI/CD-Pipelines der Teams — datenbasierte Freigabe-Entscheidungen statt manueller Datensammlung.
+**Ergebnis:** Echtzeit-Transparenz über die Sprint-Qualität durch Grafana-Dashboards, über QualityGates abgesicherte Releases in den CI/CD-Pipelines der Teams: datenbasierte Freigabe-Entscheidungen statt manueller Datensammlung.
 
 **Schwerpunkte**
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Grafana zur Echtzeitmessung der Qualität 
@@ -373,7 +378,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Java / JavaScript / TypeScript 
 - Playwright / Gauge / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
-- CI/CD / GitHub – reusable workflows 
+- CI/CD / GitHub (reusable workflows) 
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
@@ -384,7 +389,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
-        dates    = "01/2024 – 04/2025"
+        dates = "01/2024-04/2025"
         company  = "BKS"
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
@@ -421,7 +426,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
         anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
+        dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
         pdf_tier = "medium"
         details = """
@@ -452,7 +457,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 – 04/2024"
+        dates = "04/2023-04/2024"
         company = "BKS im Auftrag für Ryze"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
@@ -512,10 +517,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 – 05/2021"
+        dates = "01/2017-05/2021"
         company = "DB Vertrieb"
         details = """
-**Testmanagement, Testkoordination, Testautomatisierung - Agil (Kanban, Scrum, SAFE)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
+**Testmanagement, Testkoordination, Testautomatisierung (agil: Kanban, Scrum, SAFE)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
@@ -547,10 +552,10 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 – 01/2017"
+        dates = "09/2015-01/2017"
         company = "DB Systel"
         details = """
-**Last und Performance Tests und Analyse – Testmanager, Testdesigner, Analyst** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
+**Last und Performance Tests und Analyse (Testmanager, Testdesigner, Analyst)** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
 - Anforderungs-Management 
 - Status Reports 
@@ -572,7 +577,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 – 09/2015"
+        dates = "04/2015-09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
@@ -593,7 +598,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 – 03/2015"
+        dates = "05/2009-03/2015"
         company = "Siemens"
         details = """
 **QS, Testmanagement, Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
@@ -626,7 +631,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 – 05/2009"
+        dates = "03/2009-05/2009"
         company = "ING-DIBA"
         details = """
 **Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
@@ -642,7 +647,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 – 12/2008"
+        dates = "01/2006-12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
@@ -667,18 +672,19 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       author = "Michael Boiman"
       
       [languages.en.params.ui]
-        tagline = "Freelance Quality Engineer & AI Architect • 20+ Years QA • 4+ Years AI Development"
-        seo_description = "Freelance Quality Engineer & AI Architect based in Frankfurt — 20+ years QA, AI agents (MCP/A2A), Azure Functions and Peppol e-invoicing experience."
-        story_seo_description = "The project story of Michael Boiman: quality engineering meets AI architecture — Peppol/e-invoicing, MCP/A2A agents, Azure Functions, measurable automation."
+        tagline = "Freelance Quality Engineer & AI Architect · Frankfurt am Main"
+        seo_description = "Freelance quality engineer and AI architect based in Frankfurt: test automation, agents over MCP and A2A, Azure Functions, and production Peppol e-invoicing to EN 16931."
+        story_seo_description = "The work of Michael Boiman, presented so it can be checked: e-invoicing to EN 16931 in production, a network of A2A agents, open-source agent infrastructure under MIT, and quality engineering in a regulated setting."
         location = "Frankfurt am Main, Germany"
         availability = "Freelance · available for new projects"
-        hero_intro = "I combine quality engineering with AI architecture: test automation, multi-agent systems (MCP & A2A), and e-invoicing platforms to EU standards — measurable and in production."
-        ai_badge = "4+ Years AI Development, 20+ Years Quality Engineering"
+        hero_intro = "I combine quality engineering with AI architecture: test automation, multi-agent systems over MCP and A2A, and e-invoicing platforms to EU standards. Every claim here carries its proof beside it."
+        ai_badge = "Quality engineering and AI architecture, in parallel rather than in sequence"
         ai_skills_title = "Quality Engineering & AI Competencies"
+        # Verification anchors, not metrics. See the German block for the rule.
         impact_metrics = [
-          { metric = "DB · DVAG · TÜV Süd", label = "Enterprise clients", detail = "QA & legacy migration" },
-          { metric = "EN 16931", label = "E-invoicing in production", detail = "Peppol pipeline live (SAP ByDesign)" },
-          { metric = "Live demo", label = "AI agent", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
+          { metric = "EN 16931", label = "e-invoicing in production", detail = "Peppol BIS 3.0 into SAP ByDesign" },
+          { metric = "MIT", label = "open-source agent infrastructure", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
+          { metric = "A2A 1.0", label = "agent for this CV", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com" }
         ]
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
@@ -716,7 +722,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       [languages.en.params.agent_proof]
         eyebrow = "Live proof, not a portfolio claim"
         headline = "This CV has its own AI agent."
-        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own — agent-to-agent, not just a chatbot. Meeting requests go to me and are only answered after my personal approval."
+        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own: agent-to-agent, not just a chatbot. Meeting requests go to me and are only answered after my personal approval."
         status = "Live at mboiman.bks-lab.com"
         card = "Agent profile card (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
@@ -727,12 +733,13 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "When is Michael available next week?",
           "What is Michael's experience with AI agents?"
         ]
-        facts = ["protocolVersion: 0.3", "transport: JSONRPC", "streaming: true", "skills: 5"]
+        facts = ["protocolVersion: 1.0", "transport: JSONRPC", "streaming: true", "skills: 5"]
 
       [languages.en.params.profile]
         name = "Michael Boiman"
-        tagline = "Freelance Quality Engineer & AI Architect – 20+ Years QA, 4+ Years AI"
+        tagline = "Freelance Quality Engineer & AI Architect"
         avatar = "profile.png"
+        avatar_story = "profile_.jpg"   # portrait used by the presentation act
 
       [languages.en.params.contact]
         enable = true
@@ -780,7 +787,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.education.list]]
         degree = "Diploma in Computer Science (UAS)"
         college = "Cologne University of Applied Sciences, Gummersbach"
-        dates = "2000 – 2005"
+        dates = "2000-2005"
 
         [[languages.en.params.education.list]]
         degree = "ISTQB Certified Tester"
@@ -802,7 +809,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         language = "English"
         level = "Professional"
 
-        # temporarily hidden (2026-06-09) — uncomment to re-enable
+        # temporarily hidden (2026-06-09), uncomment to re-enable
         # [[languages.en.params.language.list]]
         # language = "Russian"
         # level = "Conversational"
@@ -834,13 +841,13 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         icon = "fa-user"
         title = "Career Profile"
         summary = """\
-**Quality Engineer and AI Automation Expert** with 20+ years in software quality assurance and 4 years of specialized AI development. Quality engineering is not a closed chapter but an ongoing present — both tracks feed into each other.
+**Quality Engineer and AI Automation Expert**. Quality engineering and AI architecture are not consecutive chapters here, they are two tracks running in parallel and feeding into each other.
 
 In enterprise projects (**DB Vertrieb**, **DVAG**, **TÜV Süd**), quality monitoring systems took shape, AI-driven test automation was added, and legacy migrations were secured with 24/7 validation.
 
-Today I combine quality engineering with AI architecture: MCP and A2A protocols, multi-agent systems, and e-invoicing to EU standards — bundled into one orchestration hub across 20+ repos, agents, and protocols.
+Today that means e-invoicing to EN 16931 in production and a network of agents consulting each other over the open MCP and A2A protocols.
 
-I also pass this knowledge on — in developer and business workshops and as an invited guest speaker at TU Darmstadt — translating hands-on AI for technical and non-technical audiences alike."""
+I also pass this knowledge on, in developer and business workshops and as an invited guest speaker at TU Darmstadt, translating hands-on AI for technical and non-technical audiences alike."""
 
       [languages.en.params.experiences]
         enable = true
@@ -851,13 +858,13 @@ I also pass this knowledge on — in developer and business workshops and as an 
         position = "Guest Lecture: AI-Assisted Software Development in Practice"
         anchor = "tu-darmstadt"
         dates = "04/2026"
-        company = "TU Darmstadt — Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
+        company = "TU Darmstadt · Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
         details = """
-**Invited guest speaker** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects — directly applicable to the students' subsequent team work on their own startup ideas.
+**Invited guest speaker** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects. The talk connects directly to the students' subsequent team work on their own startup ideas.
 
 **Topics**
 - From prompt to prototype: AI toolchains that get an MVP done in hours, not weeks
-- Agentic coding in practice — where it scales, where the friction sits, where tools break down
+- Agentic coding in practice: where it scales, where the friction sits, where tools break down
 - Live demos from my own skill ecosystem, on demand in response to the group's questions
 - Lessons from production AI projects rather than slide theory
 
@@ -868,12 +875,12 @@ Format: moderated impulse talk with interactive live demonstrations. Audience: ~
         position = "Workshop: Development with Generative Language Models"
         anchor = "workshop-genai"
         dates = "06/2025"
-        company = "Developer Workshop - Agent-based Software Development"
+        company = "Developer Workshop · Agent-based Software Development"
         details = """
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
 
 **Workshop Content**
-- Development with LLMs (Claude, Gemini, GPT-4o) and token optimization — used across projects
+- Development with LLMs (Claude, Gemini, GPT-4o) and token optimization, used across projects
 - Model Context Protocol (MCP) & Agent-to-Agent (A2A) protocol implementation
 - Google Agent Development Kit (ADK) for multi-agent systems and tool integration
 - Agent orchestration with JSON-RPC and multi-agent systems
@@ -896,31 +903,31 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
-        dates = "06/2025 – present"
-        company = "BKS - AI Research & Development"
+        dates = "since 06/2025"
+        company = "BKS · AI Research & Development"
         details = """
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
-- **Open Source MCP Server Portfolio**: Development and publication of 3+ MCP servers on GitHub (bks-wiki-mcp, hubspot-mcp-bks, bks-codex) with uvx distribution, Claude Desktop integration, and multi-format support (Markdown, JSON, YAML)
-- **Multi-Agent Orchestration System**: Implementation of production-ready A2A system with Orchestrator Agent (routing hub) and Knowledge Agent for inter-agent communication, capability-based Agent Cards, and JSON-RPC 2.0
+- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge (v0.14.0, with a live demo site). The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope
+- **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0
 - **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
 - **MCP Navigation Server**: Development of Model Context Protocol server (Python) with intelligent hierarchy navigation, automatic content discovery, and SharePoint integration
-- **Google ADK Integration**: Implementation of Google Agent Development Kit for multi-agent systems and advanced tool integration
+- **Google ADK (superseded stage)**: the first version of the agent network ran on the Google Agent Development Kit with LiteLLM. Replaced in July 2026 by the a2a-sdk server on our own runtime; the ADK and tool-integration experience from that stage stays
 - **GitHub Project Automation**: LLM-driven issue management with 7-mandatory-field system, automatic categorization, smart repository mapping, and review queue management
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
 - **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
 - **Time Tracking Integration**: Commit-based work time analysis with automatic Clockify synchronization, intelligent project assignment, and BKS formatting
-- **Claude Code Plugin Ecosystem**: Development of 40+ skills for enterprise workflows — log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
-- **Context Orchestrator**: Central multi-repo control system with ecosystem.yaml as single source of truth for 20+ repositories, automatic cross-repo navigation and structured work tracking with archiving
-- **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations — branch protection, secret detection and deployment gates
-- **Production Operations E-Invoicing**: Ongoing management of an e-invoicing platform for a leading online job platform (under NDA) — automated incident management, log analysis, weekly reporting and go-live tracking
+- **Claude Code Plugin Ecosystem**: one skill tree for productive enterprise workflows, discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks: log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
+- **Context Orchestrator**: central multi-repo control system with a three-way split registry (instance base, shared org fragment, personal fragment), so company data and personal data can be distributed separately. It carries repos, customers, infrastructure and skills, plus automatic cross-repo navigation and structured work tracking with archiving
+- **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations: branch protection, secret detection and deployment gates
+- **Production Operations E-Invoicing**: ongoing management of an e-invoicing platform for a leading online job platform (under NDA): automated incident management, log analysis, weekly reporting and go-live tracking
 - **Self-Operated Infrastructure**: hub and services run on own hardware (launchd services, device fleet over Tailscale) with a 3-2-1 backup strategy (restic/rclone to NAS).
 
 **Tools & Technologies**
 - LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
 - AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
-- Multi-Agent: A2A Protocol, Orchestrator/Knowledge Agents, Agent Cards, JSON-RPC 2.0, SSE Streaming
+- Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-to-A2A gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Clockify API, Elasticsearch, Natural Language Processing
@@ -930,7 +937,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Quality Engineering"
         anchor = "tuev-sued"
-        dates = "09/2025 – present"
+        dates = "since 09/2025"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
@@ -956,7 +963,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         position = "Presentation: Efficient Documentation through Automation"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
-        company = "Enterprise Presentation - AI-powered Documentation Workflows"
+        company = "Enterprise Presentation · AI-powered Documentation Workflows"
         details = """
 **Enterprise Presentation**: Demonstration of modern automation approaches for centralized, current documentation and sustainable project success
 
@@ -984,12 +991,12 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
         anchor = "dvag"
-        dates = "08/2021 – 05/2025"
+        dates = "08/2021-05/2025"
         company = "DVAG"
         details = """
 **Test management & coordination**, as well as introduction of CI/CD with quality-gate setup. Acting as cross-team Quality Lead: onboarding, guidance, consulting and training for the introduction of quality metrics and test automation within the pipeline across teams.
 
-**Result:** Real-time sprint-quality transparency via Grafana dashboards, quality-gated releases in the teams' CI/CD pipelines — data-driven release decisions replacing manual data gathering.
+**Result:** Real-time sprint-quality transparency via Grafana dashboards, quality-gated releases in the teams' CI/CD pipelines: data-driven release decisions replacing manual data gathering.
 
 **Key responsibilities**
 - Design and implementation of functional and technical dashboards with Grafana for real-time quality measurement
@@ -1006,7 +1013,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Java / JavaScript / TypeScript
 - Playwright / Gauge / Karate
 - Python for processing and analysis of test and reporting data
-- CI/CD / GitHub – reusable workflows
+- CI/CD / GitHub (reusable workflows)
 - Helm / Containers
 - JIRA / Confluence
 - Grafana
@@ -1017,7 +1024,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
-        dates    = "01/2024 – 04/2025"
+        dates = "01/2024-04/2025"
         company  = "BKS"
         details  = """
 **Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
@@ -1054,7 +1061,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI-driven Automated QA Environment for Energy Infrastructure"
         anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
+        dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
         pdf_tier = "medium"
         details = """
@@ -1085,7 +1092,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 – 04/2024"
+        dates = "04/2023-04/2024"
         company = "BKS on behalf of Ryze"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
@@ -1145,10 +1152,10 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 – 05/2021"
+        dates = "01/2017-05/2021"
         company = "DB Vertrieb"
         details = """
-**Test management, test coordination, test automation – agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
+**Test management, test coordination, test automation, agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
 **Key responsibilities**
 - Agile quality assurance through the design of quality gates in the CI/CD pipeline
 - Design and implementation of functional and technical dashboards with Kibana, Graylog, Grafana, Instana & Elastic Search 
@@ -1180,10 +1187,10 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 – 01/2017"
+        dates = "09/2015-01/2017"
         company = "DB Systel"
         details = """
-**Load and performance tests and analysis – test manager, test designer, analyst**: Development, execution and analysis of load and performance tests
+**Load and performance tests and analysis (test manager, test designer, analyst)**: Development, execution and analysis of load and performance tests
 **Key responsibilities**
 - Requirements management
 - Status reports
@@ -1205,7 +1212,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 – 09/2015"
+        dates = "04/2015-09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
@@ -1226,7 +1233,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 – 03/2015"
+        dates = "05/2009-03/2015"
         company = "Siemens"
         details = """
 **QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
@@ -1259,7 +1266,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 – 05/2009"
+        dates = "03/2009-05/2009"
         company = "ING-DIBA"
         details = """
 **Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of approx. 20 J2EE applications in a banking portal
@@ -1275,7 +1282,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 – 12/2008"
+        dates = "01/2006-12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Load and performance tester / tester**: Various projects, predominantly load & performance tests
@@ -1296,7 +1303,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
-        title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        title = "AI Context Orchestrator: Multi-Repo Development Platform"
         anchor = "ai-context-orchestrator"
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
@@ -1304,25 +1311,23 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tagline = """**Zentrales Steuerungssystem für Enterprise AI-Development**
 
 **Kernfunktionen:**
-• **Context Orchestrator**: ecosystem.yaml als Single Source of Truth für 20+ Repos, Kunden, Infrastruktur und Skills
-• **40+ Skills**: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
+• **Context Orchestrator**: Dreigeteilte Registry (Instanz-Basis, geteiltes Org-Fragment, persönliches Fragment) für Repos, Kunden, Infrastruktur und Skills, damit Firmendaten und Personendaten getrennt verteilt werden können
+• **Ein Skill-Baum für alle Werkzeuge**: über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden. Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription, PDF/Zertifikat-Generierung, SharePoint-Integration
 • **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln (Branch-Schutz, Secret-Erkennung, Deployment-Gates)
 • **Strukturiertes Arbeits-Tracking**: Automatische Dokumentation mit Tages-/Wochen-Archivierung und Cross-Project Kanban Board
 • **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
-• **Open-Source-Schicht**: Three-Tier-Architektur — ein generisches OSS-Skelett (MIT, in Vorbereitung) speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
+• **Open-Source-Schicht**: Three-Tier-Architektur. Die generische CORE-Schicht liegt offen als bks-lab/open-bridge (MIT, Stand v0.14.0, mit Live-Demo-Seite) und speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
 
-**Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows — von Incident-Response bis Meeting-Protokollierung weitgehend automatisiert"""
+**Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows, von Incident-Response bis Meeting-Protokollierung weitgehend automatisiert"""
         tagline_pdf = '''
-Zentrales Steuerungssystem für AI-gestützte Entwicklung über 20+ Repositories.
-• **Problem:** Entwicklung über 20+ Repos und mehrere Kunden erforderte ständigen Kontextwechsel und manuelle Koordination.
-• **Lösung:** Orchestrierungs-Hub mit ecosystem.yaml als Single Source of Truth, 40+ Skills und Hook-basiertem Permission-System.
+Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner- und interne Repos hinweg.
+• **Problem:** Entwicklung über viele Repos und mehrere Kunden erforderte ständigen Kontextwechsel und manuelle Koordination.
+• **Lösung:** Orchestrierungs-Hub mit dreigeteilter Registry, einem Skill-Baum für alle Werkzeuge und Hook-basiertem Permission-System.
 • **Ergebnis:** Workflows von Incident-Response bis Meeting-Protokollierung laufen weitgehend automatisiert.
 '''
-        challenge = "Enterprise-Entwicklung über 20+ Repos, mehrere Kunden und diverse Tools erforderte ständigen Kontextwechsel und manuelle Koordination."
-        solution = "Zentrales Steuerungssystem mit ecosystem.yaml als Single Source of Truth, 40+ Skills und Hook-basiertem Permission System."
-        metric = "40+"
-        metric_label = "Skills"
-        impact = "AI-gestützte Workflows von Incident-Response bis Meeting-Protokollierung — orchestriert über einen zentralen Hub."
+        challenge = "Enterprise-Entwicklung über viele Repos, mehrere Kunden und diverse Tools erforderte ständigen Kontextwechsel und manuelle Koordination."
+        solution = "Zentrales Steuerungssystem mit dreigeteilter Registry, einem Skill-Baum für alle Werkzeuge und Hook-basiertem Permission System."
+        impact = "AI-gestützte Workflows von Incident-Response bis Meeting-Protokollierung, orchestriert über einen zentralen Hub."
 
         [[languages.de.params.projects.list]]
         title = "E-Invoicing Automation Platform"
@@ -1339,16 +1344,16 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über 20+ Repositories
 • **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit
 • **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
 
-**Impact:** Produktives System — Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung über die Storecove-Strecke an SAP ByDesign."""
+**Impact:** Produktives System: Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung über die Storecove-Strecke an SAP ByDesign."""
         tagline_pdf = '''
 Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
 • **Problem:** Ein- und Ausgangsrechnungen in mehreren Formaten (ZUGFeRD, XRechnung, UBL) mussten EN-16931-konform verarbeitet werden.
 • **Lösung:** Peppol-Anbindung via Storecove, hexagonale Architektur, automatische Übergabe an SAP ByDesign.
-• **Ergebnis:** Produktives System — Rechnungsverarbeitung läuft automatisiert bis ins ERP.
+• **Ergebnis:** Produktives System, die Rechnungsverarbeitung läuft automatisiert bis ins ERP.
 '''
 
         [[languages.de.params.projects.list]]
-        title   = "MCP - Model Context Protokoll & A2A"
+        title   = "MCP: Model Context Protokoll & A2A"
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
@@ -1367,7 +1372,7 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
 • **Hands-on AI-Agent Development:** Live-Coding mit Claude, Gemini, GPT-4o
 • **Next-Gen Protokolle:** MCP & A2A Implementation für Enterprise-Integration  
 • **Browser-Automation:** Playwright-MCP für automatisierte Test-Generierung
-• **IDE-Integration:** AI-Assistenz-Workflows — Claude Code als Primär-Stack, GitHub Copilot & VS Code im Tool-Vergleich
+• **IDE-Integration:** AI-Assistenz-Workflows mit Claude Code als Primär-Stack, GitHub Copilot & VS Code im Tool-Vergleich
 • **Multi-Agent-Orchestrierung:** JSON-RPC, Secure Agent Communication
 • **Praktische Demos:** Jira-Integration, Elasticsearch-Abfragen, GitHub-Workflows
 
@@ -1393,29 +1398,24 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
 **Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Executive Workshop, Umsetzungsbegleitung"""
         challenge = "Unternehmen erkennen AI-Potenziale, aber es fehlt der strukturierte Weg von der Vision zur messbaren Umsetzung."
         solution = "Ganzheitliche Beratung mit Strategieentwicklung, ROI-Bewertung, Executive Workshops und Umsetzungsbegleitung."
-        metric = "E2E"
-        metric_label = "Vision bis Produktion"
-        impact = "Messbare AI-Roadmaps mit konkreten Business Cases — von der Strategie direkt zur produktiven Lösung."
+        impact = "Messbare AI-Roadmaps mit konkreten Business Cases, von der Strategie direkt zur produktiven Lösung."
 
         [[languages.de.params.projects.list]]
-        title = "Quality Dashboard - Echtzeit-Übersicht"
+        title = "Quality Dashboard · Echtzeit-Übersicht"
         anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitydashboard.png"
-        tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht mit 10 Test-Tools, 5 Umgebungen plus Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
+        tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht: die Testwerkzeuge mehrerer Teams und Umgebungen unter einer Oberfläche, dazu Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
         tagline_pdf = '''
 Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
-• **Problem:** Release-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools und 5 Umgebungen.
+• **Problem:** Release-Entscheidungen erforderten stundenlanges Zusammentragen aus den verstreuten Testwerkzeugen mehrerer Teams und Umgebungen.
 • **Lösung:** End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischen PDF-Reports.
 • **Ergebnis:** Datenbasierte Freigabe-Entscheidungen in Echtzeit statt manueller Datensammlung.
 '''
-        challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus 10 Test-Tools, 5 Umgebungen und mehreren Datenquellen."
+        challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus den Testwerkzeugen mehrerer Teams, mehrerer Umgebungen und weiterer Datenquellen."
         solution = "Durchgängige End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischer PDF-Report-Generierung."
-        metric = "10"
-        metric_label = "Test-Tools vereint"
-        impact = "Datenbasierte Freigabe-Entscheidungen in Echtzeit über 10 Test-Tools und 5 Umgebungen, mit automatischen PDF-Reports."
+        impact = "Datenbasierte Freigabe-Entscheidungen in Echtzeit über die Testwerkzeuge mehrerer Teams und Umgebungen hinweg, mit automatischen PDF-Reports."
 
         [[languages.de.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
@@ -1426,7 +1426,7 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
         screenshot = "projects/angebotstest.png"
         tagline = """**Enterprise Legacy-Transformation mit durchgängiger Qualitätssicherung**
 
-**Das Problem:** Komplexe Mainframe-Preiskalkulation mit Millionen von Kombinationsmöglichkeiten sollte sicher migriert werden - ohne Qualitätsverlust oder Datenfehler.
+**Das Problem:** Komplexe Mainframe-Preiskalkulation mit Millionen von Kombinationsmöglichkeiten sollte sicher migriert werden, ohne Qualitätsverlust oder Datenfehler.
 
 **Die Lösung:** 24/7 Dual-Run Validation System mit intelligenter Abweichungsanalyse
 • **Kontinuierliches Testing:** Zufallsgenerierte Tests aller Variationen rund um die Uhr
@@ -1440,7 +1440,7 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
 Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation.
 • **Problem:** Millionen Preis-Kombinationen mussten ohne Qualitätsverlust oder Datenfehler migriert werden.
 • **Lösung:** 24/7-Validierungssystem mit zufallsgenerierten Tests, Live-Dashboard und vollständiger Abweichungs-Traceability.
-• **Ergebnis:** Sichere Migration ohne Datenverlust — alle Kombinationen rund um die Uhr validiert.
+• **Ergebnis:** Sichere Migration ohne Datenverlust, alle Kombinationen rund um die Uhr validiert.
 '''
 
         [[languages.de.params.projects.list]]
@@ -1459,13 +1459,13 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
         tagline = """**DSGVO-konforme Transkription von Arzt-Patient-Gesprächen**
 
 **Kernfunktionen:**
-• **100% Lokal**: Keine Cloud-Uploads, alle Verarbeitung auf lokalem Rechner (Privacy-by-Design)
+• **Vollständig lokal**: Keine Cloud-Uploads, alle Verarbeitung auf lokalem Rechner (Privacy-by-Design)
 • **Speaker Diarization**: Automatische Unterscheidung Arzt/Patient mit Pyannote 3.1 (2.6% WER)
 • **SOAP-Protokoll-Generierung**: Automatische Erstellung strukturierter medizinischer Protokolle
 • **Open Source AI**: Ollama mit Llama 3.2 für intelligente Zusammenfassungen ohne API-Kosten
 • **Apple Silicon Optimiert**: Native Performance auf M1/M2/M3 Macs
 
-**Impact:** Vollständig lokale Verarbeitung (kein Cloud-Upload), automatische Sprechertrennung und strukturierte SOAP-Protokolle — Privacy-by-Design."""
+**Impact:** Privacy-by-Design mit vollständig lokaler Verarbeitung (kein Cloud-Upload), automatischer Sprechertrennung und strukturierten SOAP-Protokollen."""
 
         [[languages.de.params.projects.list]]
         title = "AI Learning Platform"
@@ -1477,15 +1477,15 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
 
 **Kernfunktionen:**
 • **Artikel 4 Compliance**: EU-KI-Verordnung konforme Zertifizierungen mit Audit-Trail
-• **15+ Lernkartentypen**: Interaktive Quizze, Übungen, adaptive Tests mit Punktesystem
-• **6 visuelle Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Lernkartentypen**: Interaktive Quizze, Übungen, adaptive Tests mit Punktesystem
+• **Visuelle Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
 • **Fortschrittsverfolgung**: localStorage-basiertes Tracking mit HR-Export-Funktion
-• **85 automatisierte Tests**: Qualitätsgesicherte Lernplattform
+• **Automatisierte Tests**: Lernpfade und Zertifizierungslogik sind regressionsgesichert
 
 **Impact:** Enterprise-ready E-Learning für AI Governance und strukturierte Qualifizierungsprogramme"""
 
         [[languages.de.params.projects.list]]
-        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        title = "Django SLA Dashboard · Enterprise Service Monitoring"
         anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
@@ -1497,12 +1497,13 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
 Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Evaluierung (2023-2025) zur Überwachung von Service Level Agreements mit Echtzeit-Metriken und automatisierter Alarmierung.
 
 **Kernfunktionen:**
-• **Echtzeit-Monitoring:** 24/7 Überwachung von 24+ Services mit Response Time Tracking (Ø 147ms)
-• **SLA Compliance:** Automatische Berechnung und Visualisierung von SLA-Metriken (99.97% Availability)
-• **Incident Management:** Aktive Incident-Verfolgung mit Medium/Low Priority Classification
-• **Performance Analytics:** Response Time Distribution mit detaillierten Histogrammen (<50ms bis >500ms)
-• **Availability Timeline:** 24h-Verlauf mit minutengenauer Auflösung und Trend-Analyse
-• **Alert System:** Proaktive Alarmierung bei SLA-Verletzungen und Performance-Degradation
+• **Service-Registry:** überwachte Dienste, jeder mit eigenem SLA-Ziel und eigenem Prüfintervall
+• **Antwortzeit-Erfassung:** periodische Messung je Dienst, Ablage als Zeitreihe
+• **SLA-Auswertung:** Verfügbarkeit gegen das hinterlegte Ziel, rollierend über wählbare Zeitfenster
+• **Incident Management:** Erfassung und Priorisierung offener Störungen
+• **Performance Analytics:** Verteilung der Antwortzeiten als Histogramm über konfigurierbare Buckets
+• **Availability Timeline:** Verlauf über ein wählbares Zeitfenster in frei gewählter Auflösung, mit Trend-Anzeige
+• **Alert System:** regelbasierte Alarmierung bei SLA-Verletzungen und Performance-Degradation
 
 **Technische Highlights:**
 • Django 4.2 mit async Views für hochperformante Datenverarbeitung
@@ -1512,7 +1513,7 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
 • RESTful API für Service-Integration und CSV-Export
 • Docker-basiertes Deployment mit Kubernetes-ready Architecture
 
-**Kontext:** Internes Evaluierungs-/Demonstrations-Dashboard mit simulierten SLA-Metriken — Architektur-Referenz für Time-Series-Monitoring (kein Produktivsystem)."""
+**Kontext:** Internes Evaluierungs- und Demonstrations-Dashboard, gespeist aus simulierten SLA-Daten, als Architektur-Referenz für Time-Series-Monitoring (kein Produktivsystem)."""
 
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
@@ -1543,7 +1544,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/wecation.png"
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
@@ -1552,12 +1552,9 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ccwkibot.png"
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
-        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer — hohe Absprungrate und verpasste Leads."
+        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer, mit hoher Absprungrate und verpassten Leads."
         solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
-        metric = "RAG"
-        metric_label = "kontextgenaue Antworten"
         impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch relevante, kontextgenaue Antworten."
 
         [[languages.de.params.projects.list]]
@@ -1568,10 +1565,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         featured = true
         screenshot = "projects/nlpanalyse.png"
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
-        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden — zeitintensiv und fehleranfällig."
+        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden, zeitintensiv und fehleranfällig."
         solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
-        metric = "E2E"
-        metric_label = "Mail → ERP automatisiert"
         impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
 
         [[languages.de.params.projects.list]]
@@ -1579,7 +1574,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten mit 95%+ Genauigkeit."
+        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten."
 
       [languages.en.params.projects]
         enable = true
@@ -1589,7 +1584,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
-        title = "AI Context Orchestrator — Multi-Repo Development Platform"
+        title = "AI Context Orchestrator: Multi-Repo Development Platform"
         anchor = "ai-context-orchestrator"
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
@@ -1597,25 +1592,23 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tagline = """**Central Control System for Enterprise AI Development**
 
 **Core Features:**
-• **Context Orchestrator**: ecosystem.yaml as single source of truth for 20+ repos, customers, infrastructure and skills
-• **40+ Skills**: Log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
+• **Context Orchestrator**: a three-way split registry (instance base, shared org fragment, personal fragment) for repos, customers, infrastructure and skills, so company data and personal data can be distributed separately
+• **One skill tree for every tool**: discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks. Log analysis, deployment verification, incident handling, email management, meeting transcription, PDF/certificate generation, SharePoint integration
 • **Hook-based Permission System**: Smart Guard with project-specific security rules (branch protection, secret detection, deployment gates)
 • **Structured Work Tracking**: Automatic documentation with daily/weekly archiving and cross-project Kanban board
 • **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
-• **Open-source layer**: three-tier architecture — a generic OSS skeleton (MIT, in preparation) is fed from this seed instance, with a BKS overlay in between.
+• **Open-source layer**: three-tier architecture. The generic CORE layer is public as bks-lab/open-bridge (MIT, v0.14.0, with a live demo site) and is fed from this seed instance, with a BKS overlay in between.
 
-**Impact:** Productivity boost through AI-driven workflows — from incident response to meeting documentation largely automated"""
+**Impact:** Productivity boost through AI-driven workflows, from incident response to meeting documentation largely automated"""
         tagline_pdf = '''
-Central control system for AI-assisted development across 20+ repositories.
-• **Problem:** Development across 20+ repos and multiple customers required constant context switching and manual coordination.
-• **Solution:** Orchestration hub with ecosystem.yaml as single source of truth, 40+ skills and hook-based permission system.
+Central control system for AI-assisted development across customer, partner and internal repos.
+• **Problem:** Development across many repos and multiple customers required constant context switching and manual coordination.
+• **Solution:** Orchestration hub with a three-way split registry, one skill tree for every tool and a hook-based permission system.
 • **Result:** Workflows from incident response to meeting documentation largely automated.
 '''
-        challenge = "Enterprise development across 20+ repos, multiple customers and diverse tools required constant context switching and manual coordination."
-        solution = "Central control system with ecosystem.yaml as single source of truth, 40+ skills and hook-based permission system."
-        metric = "40+"
-        metric_label = "Skills"
-        impact = "AI-assisted workflows from incident response to meeting documentation — orchestrated through one central hub."
+        challenge = "Enterprise development across many repos, multiple customers and diverse tools required constant context switching and manual coordination."
+        solution = "Central control system with a three-way split registry, one skill tree for every tool and a hook-based permission system."
+        impact = "AI-assisted workflows from incident response to meeting documentation, orchestrated through one central hub."
 
         [[languages.en.params.projects.list]]
         title = "E-Invoicing Automation Platform"
@@ -1632,16 +1625,16 @@ Central control system for AI-assisted development across 20+ repositories.
 • **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability
 • **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
 
-**Impact:** Production system — Peppol connectivity per EN 16931, automated inbound and outbound invoice processing across the Storecove route into SAP ByDesign."""
+**Impact:** Production system: Peppol connectivity per EN 16931, automated inbound and outbound invoice processing across the Storecove route into SAP ByDesign."""
         tagline_pdf = '''
 Production e-invoicing pipeline compliant with EU standard EN 16931.
 • **Problem:** Inbound and outbound invoices in multiple formats (ZUGFeRD, XRechnung, UBL) required EN 16931-compliant processing.
 • **Solution:** Peppol connection via Storecove, hexagonal architecture, automatic transfer to SAP ByDesign.
-• **Result:** Production system — invoice processing runs automated end-to-end into the ERP.
+• **Result:** Production system, invoice processing runs automated end-to-end into the ERP.
 '''
 
         [[languages.en.params.projects.list]]
-        title = "MCP – Model Context Protocol & A2A"
+        title = "MCP: Model Context Protocol & A2A"
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
@@ -1660,7 +1653,7 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
 • **Hands-on AI Agent Development:** Live coding with Claude, Gemini, GPT-4o
 • **Next-Gen Protocols:** MCP & A2A implementation for enterprise integration
 • **Browser Automation:** Playwright-MCP for automated test generation
-• **IDE Integration:** AI assistance workflows — Claude Code as primary stack, GitHub Copilot & VS Code as tool comparison
+• **IDE Integration:** AI assistance workflows with Claude Code as primary stack, GitHub Copilot & VS Code as tool comparison
 • **Multi-Agent Orchestration:** JSON-RPC, secure agent communication
 • **Practical Demos:** Jira integration, Elasticsearch queries, GitHub workflows
 
@@ -1686,29 +1679,24 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
 **Deliverables:** AI strategy template, ROI calculator, implementation roadmap, executive workshop, implementation support"""
         challenge = "Organizations recognize AI potential but lack a structured path from vision to measurable implementation."
         solution = "End-to-end consulting with strategy development, ROI assessment, executive workshops and implementation support."
-        metric = "E2E"
-        metric_label = "vision to production"
-        impact = "Measurable AI roadmaps with concrete business cases — from strategy directly to productive solutions."
+        impact = "Measurable AI roadmaps with concrete business cases, from strategy directly to productive solutions."
 
         [[languages.en.params.projects.list]]
-        title = "Quality Dashboard - Real-time Overview"
+        title = "Quality Dashboard · Real-time Overview"
         anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/qualitydashboard.png"
-        tagline = "End-to-end solution for real-time quality monitoring across 10 test tools, 5 environments plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
+        tagline = "End-to-end solution for real-time quality monitoring: the test tools of several teams and environments under one surface, plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
         tagline_pdf = '''
 Real-time quality overview for enterprise go/no-go decisions.
-• **Problem:** Release decisions required hours of gathering data from 10 test tools and 5 environments.
+• **Problem:** Release decisions required hours of gathering data from the scattered test tools of several teams and environments.
 • **Solution:** End-to-end pipeline with live dashboard, multi-source integration and automated PDF reports.
 • **Result:** Data-driven release decisions in real time instead of manual collection.
 '''
-        challenge = "Go/No-Go decisions required hours of manual data gathering across 10 test tools, 5 environments and multiple data sources."
+        challenge = "Go/No-Go decisions required hours of manual data gathering across the test tools of several teams, several environments and further data sources."
         solution = "End-to-end pipeline with real-time dashboard, multi-source integration and automatic PDF report generation."
-        metric = "10"
-        metric_label = "test tools unified"
-        impact = "Data-driven release decisions in real time across 10 test tools and 5 environments, with automated PDF reports."
+        impact = "Data-driven release decisions in real time across the test tools of several teams and environments, with automated PDF reports."
 
         [[languages.en.params.projects.list]]
         title = "24/7 Automated Legacy Migration Validator: Dual-Run Quality Engineering"
@@ -1719,7 +1707,7 @@ Real-time quality overview for enterprise go/no-go decisions.
         screenshot = "projects/angebotstest.png"
         tagline = """**Enterprise Legacy Transformation with End-to-End Quality Assurance**
 
-**The Challenge:** Complex mainframe price calculation with millions of combination possibilities needed secure migration - without quality loss or data errors.
+**The Challenge:** Complex mainframe price calculation with millions of combination possibilities needed secure migration, without quality loss or data errors.
 
 **The Solution:** 24/7 Dual-Run Validation System with intelligent deviation analysis
 • **Continuous Testing:** Randomly generated tests across all variations around the clock
@@ -1733,7 +1721,7 @@ Real-time quality overview for enterprise go/no-go decisions.
 Dual-run validation for safely migrating a mainframe price calculation.
 • **Problem:** Millions of price combinations had to migrate without quality loss or data errors.
 • **Solution:** 24/7 validation with randomly generated tests, live dashboard and full deviation traceability.
-• **Result:** Safe migration without data loss — all combinations validated around the clock.
+• **Result:** Safe migration without data loss, all combinations validated around the clock.
 '''
 
         [[languages.en.params.projects.list]]
@@ -1752,13 +1740,13 @@ Dual-run validation for safely migrating a mainframe price calculation.
         tagline = """**GDPR-Compliant Transcription of Doctor-Patient Conversations**
 
 **Core Features:**
-• **100% Local**: No cloud uploads, all processing on local machine (Privacy-by-Design)
+• **Fully local**: No cloud uploads, all processing on local machine (Privacy-by-Design)
 • **Speaker Diarization**: Automatic doctor/patient distinction with Pyannote 3.1 (2.6% WER)
 • **SOAP Protocol Generation**: Automatic creation of structured medical protocols
 • **Open Source AI**: Ollama with Llama 3.2 for intelligent summaries without API costs
 • **Apple Silicon Optimized**: Native performance on M1/M2/M3 Macs
 
-**Impact:** Fully local processing (no cloud upload), automatic speaker separation and structured SOAP protocols — privacy by design."""
+**Impact:** Privacy by design, with fully local processing (no cloud upload), automatic speaker separation and structured SOAP protocols."""
 
         [[languages.en.params.projects.list]]
         title = "AI Learning Platform"
@@ -1770,10 +1758,10 @@ Dual-run validation for safely migrating a mainframe price calculation.
 
 **Core Features:**
 • **Article 4 Compliance**: EU AI Act compliant certifications with audit trail
-• **15+ Learning Card Types**: Interactive quizzes, exercises, adaptive tests with scoring system
-• **6 Visual Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
+• **Learning Card Types**: Interactive quizzes, exercises, adaptive tests with scoring system
+• **Visual Themes**: Learning, AI-Team, Star Trek, Nerd, Helldivers, Wednesday
 • **Progress Tracking**: localStorage-based tracking with HR export functionality
-• **85 Automated Tests**: Quality-assured learning platform
+• **Automated Tests**: learning paths and certification logic are covered by regression tests
 
 **Impact:** Enterprise-ready e-learning for AI governance and structured qualification programs"""
 
@@ -1781,7 +1769,7 @@ Dual-run validation for safely migrating a mainframe price calculation.
 # NOTE: NOT rendered on the website. Website skills = ui.sidebar_skills + skillGroupConfig in src/components/CVPage.astro. Edits here only affect the PDF export.
 
         [[languages.en.params.projects.list]]
-        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        title = "Django SLA Dashboard · Enterprise Service Monitoring"
         anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
@@ -1793,12 +1781,13 @@ Dual-run validation for safely migrating a mainframe price calculation.
 Development of a comprehensive SLA monitoring system as part of a BKS evaluation project (2023-2025) for monitoring Service Level Agreements with real-time metrics and automated alerting.
 
 **Core Features:**
-• **Real-time Monitoring:** 24/7 monitoring of 24+ services with response time tracking (Ø 147ms)
-• **SLA Compliance:** Automatic calculation and visualization of SLA metrics (99.97% availability)
-• **Incident Management:** Active incident tracking with medium/low priority classification
-• **Performance Analytics:** Response time distribution with detailed histograms (<50ms to >500ms)
-• **Availability Timeline:** 24h history with minute-level resolution and trend analysis
-• **Alert System:** Proactive alerting for SLA violations and performance degradation
+• **Service Registry:** monitored services, each with its own SLA target and check interval
+• **Response Time Capture:** periodic measurement per service, stored as a time series
+• **SLA Evaluation:** availability against the configured target, rolling over selectable windows
+• **Incident Management:** capture and prioritisation of open incidents
+• **Performance Analytics:** response time distribution as a histogram over configurable buckets
+• **Availability Timeline:** history over a selectable window at a chosen resolution, with trend display
+• **Alert System:** rule-based alerting on SLA violations and performance degradation
 
 **Technical Highlights:**
 • Django 4.2 with async views for high-performance data processing
@@ -1808,7 +1797,7 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
 • RESTful API for service integration and CSV export
 • Docker-based deployment with Kubernetes-ready architecture
 
-**Context:** Internal evaluation/demonstration dashboard with simulated SLA metrics — an architecture reference for time-series monitoring (not a production system)."""
+**Context:** Internal evaluation and demonstration dashboard fed by simulated SLA data, an architecture reference for time-series monitoring (not a production system)."""
 
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
@@ -1839,7 +1828,6 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/wecation.png"
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
@@ -1848,12 +1836,9 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/ccwkibot.png"
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
-        challenge = "Trade-fair visitors struggled to find relevant information on the website — high bounce rates and missed leads."
+        challenge = "Trade-fair visitors struggled to find relevant information on the website, driving high bounce rates and missed leads."
         solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
-        metric = "RAG"
-        metric_label = "context-accurate answers"
         impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through relevant, context-accurate responses."
 
         [[languages.en.params.projects.list]]
@@ -1864,10 +1849,8 @@ Our goal is to implement more quality through a higher degree of automation.
         screenshot = "projects/nlpanalyse.png"
         featured = true
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
-        challenge = "Incoming emails had to be manually read, classified and transferred to SAP — time-consuming and error-prone."
+        challenge = "Incoming emails had to be manually read, classified and transferred to SAP, which was time-consuming and error-prone."
         solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
-        metric = "E2E"
-        metric_label = "email → ERP automated"
         impact = "Emails automatically classified, processed and transferred to ERP."
 
         [[languages.en.params.projects.list]]
@@ -1875,7 +1858,7 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification with 95%+ accuracy."
+        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification."
 
       [languages.de.params.skills]
         enable = true
@@ -1883,13 +1866,13 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "Skills & Tools"
 
         [[languages.de.params.skills.list]]
-        skill = "Agent-Orchestrierung — MCP (Model Context Protocol) & A2A (Agent2Agent)"
+        skill = "Agent-Orchestrierung: MCP (Model Context Protocol) & A2A (Agent2Agent)"
 
         [[languages.de.params.skills.list]]
         skill = "Multi-Agent-Systeme & Tool-Integration (Claude Code, Hooks, Agent-SDK)"
 
         [[languages.de.params.skills.list]]
-        skill = "E-Invoicing nach EU-Standard — Peppol, EN 16931, XRechnung/ZUGFeRD"
+        skill = "E-Invoicing nach EU-Standard: Peppol, EN 16931, XRechnung/ZUGFeRD"
 
         [[languages.de.params.skills.list]]
         skill = "Quality Engineering & Testautomatisierung"
@@ -1977,13 +1960,13 @@ Our goal is to implement more quality through a higher degree of automation.
         title = "SKILLS & TOOLS"
 
         [[languages.en.params.skills.list]]
-        skill = "Agent Orchestration — MCP (Model Context Protocol) & A2A (Agent2Agent)"
+        skill = "Agent Orchestration: MCP (Model Context Protocol) & A2A (Agent2Agent)"
 
         [[languages.en.params.skills.list]]
         skill = "Multi-Agent Systems & Tool Integration (Claude Code, Hooks, Agent SDK)"
 
         [[languages.en.params.skills.list]]
-        skill = "E-Invoicing to EU Standard — Peppol, EN 16931, XRechnung/ZUGFeRD"
+        skill = "E-Invoicing to EU Standard: Peppol, EN 16931, XRechnung/ZUGFeRD"
 
         [[languages.en.params.skills.list]]
         skill = "Quality Engineering & Test Automation"
@@ -2016,13 +1999,13 @@ Our goal is to implement more quality through a higher degree of automation.
         skill = "IntelliJ & VS Code"
 
         [[languages.en.params.skills.list]]
-        skill = "CDC – Spring Contract & Pact.io"
+        skill = "CDC - Spring Contract & Pact.io"
 
         [[languages.en.params.skills.list]]
-        skill = "CI/CD Workflows – GitLab, GitHub & Jenkins"
+        skill = "CI/CD Workflows - GitLab, GitHub & Jenkins"
 
         [[languages.en.params.skills.list]]
-        skill = "Kubernetes – Helm, Terraform & ArgoCD"
+        skill = "Kubernetes - Helm, Terraform & ArgoCD"
 
         [[languages.en.params.skills.list]]
         skill = "REST & Postman"
@@ -2056,13 +2039,13 @@ Our goal is to implement more quality through a higher degree of automation.
 
         [[languages.en.params.skills.list]]
         skill = """
-Dashboards & Analytics –  
+Dashboards & Analytics -  
 Kibana (+ES) & Graylog &  
 Grafana & Instana & Azure Log Analytics
         """
 
         [[languages.en.params.skills.list]]
-        skill = "Mobile Dev – Xcode, Flutter & Swift"
+        skill = "Mobile Dev - Xcode, Flutter & Swift"
 
 # [languages.*.params.footer] blocks removed: orphaned config. The site footers
 # (CVPage.astro / StoryPage.astro / LegalLayout.astro) render from src/lib/i18n.ts

@@ -107,7 +107,8 @@ const personJsonLd = {
 
   <slot />
 
-  <!-- Scroll reveal -->
+  {/* Scroll reveal. Astro renders HTML comments verbatim into the output;
+      only the expression form is stripped, so author notes use it. */}
   <script>
     const observer = new IntersectionObserver(
       (entries) => {
@@ -123,7 +124,7 @@ const personJsonLd = {
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
   </script>
 
-  <!-- AI chat widget (JS-injected, print-hidden, excluded from PDF) -->
+  {/* AI chat widget (JS-injected, print-hidden, excluded from PDF) */}
   <AgentWidget />
 
 </body>

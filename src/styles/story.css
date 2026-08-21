@@ -1,0 +1,734 @@
+/**
+ * Visual system for the presentation (/de/story/, /en/story/).
+ *
+ * Two rules govern everything below.
+ *
+ * 1. MOTION IS A LAYER, NEVER THE SKELETON.
+ *    Every element's default state is its FINAL state: visible, path drawn,
+ *    terminal fully typed. Motion is added back only inside
+ *    `@media (prefers-reduced-motion: no-preference)` and, for the
+ *    scroll-driven parts, only inside `@supports (animation-timeline: view())`.
+ *    Consequence: with JavaScript off, in Firefox stable (still flagged in
+ *    2026), or under reduced motion, the page is complete and quiet rather
+ *    than blank. The previous approach (opacity:0 + a JS class toggle) had the
+ *    opposite failure mode: no script meant no content.
+ *
+ * 2. EVERY SIZE IS IN rem.
+ *    The root font size on this page follows viewport height, so a dense act
+ *    shrinks instead of overflowing. A fixed px value escapes that and once
+ *    came out LARGER on a 1366x768 screen than the rem it was meant to shrink.
+ */
+
+/* ── Act shell ─────────────────────────────────────────────────────────── */
+
+.story-page {
+  color: var(--text);
+  --story-nav-height: 4.25rem;
+  --story-pad-x: clamp(1.25rem, 4vw, 3.25rem);
+  --story-pad-y: clamp(2.5rem, 5vh, 5.5rem);
+  /* `clip`, not `hidden`: `hidden` makes the cross-axis a scroll container,
+     which makes `view()` measure against the wrong box. */
+  overflow-x: clip;
+}
+
+.story-page [data-act] {
+  min-height: calc(100svh - var(--story-nav-height));
+  display: flex;
+  align-items: center;
+  padding-block: var(--story-pad-y);
+  padding-inline: var(--story-pad-x);
+  scroll-margin-top: var(--story-nav-height);
+  position: relative;
+}
+
+/* Every act clears the fixed nav except the first: at scroll 0 the nav overlays
+   the page rather than displacing it, so subtracting its height there left a
+   strip of the next act showing on the opening screen. This has to sit AFTER
+   the rule above: both selectors have identical specificity, so order decides. */
+.story-page [data-act='manifest'] { min-height: 100svh; }
+
+/* Three surfaces instead of a strict alternation, so the rhythm does not read
+   as a stripe pattern once acts are reordered. */
+.story-page [data-tone='alt'] { background-color: var(--bg-alt); }
+.story-page [data-tone='deep'] {
+  background:
+    radial-gradient(120% 90% at 70% 30%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 70%),
+    var(--bg-alt);
+}
+
+/* ── Typographic scale ─────────────────────────────────────────────────────
+   The dynamic range is the point. The rejected version compressed every act
+   into roughly a 3:1 band, so nothing could be louder than anything else and
+   the page lost its emphasis. This restores about 9:1 between the manifest
+   headline and body copy. */
+
+.act-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.15rem;
+}
+
+.act-h {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.038em;
+  line-height: 1.07;
+  font-size: clamp(1.95rem, 4.4vw, 3.6rem);
+  text-wrap: balance;
+  /* `hyphens: auto` broke "KI-Automatisierung" across two lines mid-word in
+     the opening headline at 3.6rem, which is the single most looked-at line on
+     the page. German compounds are long; the fix is to let the whole word drop
+     to its own line rather than to cut it. */
+  hyphens: manual;
+  overflow-wrap: break-word;
+  margin-bottom: 1.6rem;
+}
+
+/* The manifest voice. Used twice on the page: the opening and the curtain. */
+.act-h--loud {
+  font-weight: 300;
+  font-size: clamp(2.6rem, 7.6vw, 6.4rem);
+  line-height: 1.01;
+  letter-spacing: -0.045em;
+  margin-bottom: 0;
+}
+
+/* The accent half of a two-part statement. Carried the opening line of the
+   version Michael liked and was lost in the rewrite. */
+.act-h em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.act-lede {
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 34rem;
+  text-wrap: pretty;
+}
+
+.act-bullets { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.bullet {
+  display: flex;
+  gap: 0.7rem;
+  font-size: clamp(1rem, 1.5vw, 1.32rem);
+  line-height: 1.45;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+.bullet-mark { flex: none; color: var(--accent); line-height: 1.35; }
+
+.teal-rule {
+  width: 4.6rem;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+.story-separator { border-color: var(--line); }
+
+/* ── Proof anchor ──────────────────────────────────────────────────────────
+   Never a counter. An open standard, a licence or release, a callable address,
+   or a named procedure. Its furniture is deliberately lighter than in the
+   rejected version, where the same block sat under ten of eleven acts and
+   stopped being read after the fourth. */
+
+.proof {
+  font-family: var(--font-mono);
+  font-size: clamp(0.86rem, 1.1vw, 1.02rem);
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+.proof-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.proof-dot {
+  display: inline-block;
+  width: 0.46em; height: 0.46em;
+  border-radius: 9999px;
+  margin-right: 0.45em;
+  border: 1px solid var(--accent);
+  vertical-align: 0.06em;
+}
+.proof-dot[data-state='public'] { background: var(--accent); }
+.proof-dot[data-state='closed'] { background: transparent; }
+
+/* ── Diagram language ──────────────────────────────────────────────────────
+   All diagrams are inline SVG built from the same primitives, so they read as
+   one family rather than a collection of effects. They carry no text that is
+   not also in the DOM as a real label, so translation and screen readers work. */
+
+.dgm { width: 100%; height: auto; display: block; overflow: visible; }
+.dgm .link { stroke: var(--line); stroke-width: 1.3; fill: none; }
+.dgm .node { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.dgm .node--on { stroke: var(--accent); fill: var(--surface-elevated); }
+.dgm .hub { fill: var(--surface-elevated); stroke: var(--accent); stroke-width: 1.6; }
+.dgm .lbl {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  fill: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+.dgm .lbl--strong { fill: var(--text); font-size: 0.84rem; }
+.dgm .mono { font-family: var(--font-mono); font-size: 0.7rem; fill: var(--accent); }
+
+/* A drawn path. Default: fully drawn. `pathLength="1"` on the element makes the
+   dash maths independent of the actual geometry, so a path can be reshaped
+   without retuning numbers. */
+.dgm .draw {
+  stroke: var(--accent);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* A travelling pulse. Default: invisible, because a frozen dash sitting in the
+   middle of a connector reads as a rendering bug rather than as motion. */
+.dgm .pulse {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 0.08 1;
+  stroke-dashoffset: 0;
+  opacity: 0;
+}
+
+/* ── Terminal ──────────────────────────────────────────────────────────────
+   A real command and its real output. It is the one place on the page where
+   the machine speaks in its own voice, so it appears exactly once. */
+
+.term {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -52px rgba(0, 0, 0, 0.75);
+  font-family: var(--font-mono);
+}
+.term-bar {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.term-bar i { width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--line); }
+.term-bar span {
+  margin-left: 0.55rem; font-size: 0.68rem;
+  letter-spacing: 0.1em; color: var(--text-secondary);
+}
+.term-body {
+  padding: 1rem 1.15rem;
+  font-size: clamp(0.76rem, 0.95vw, 0.92rem);
+  line-height: 1.75;
+  white-space: pre-wrap;
+  /* Reserved height so the act does not resize while the lines appear. */
+  min-height: var(--term-min, 11rem);
+}
+.term-p { color: var(--accent); }
+.term-cmd { color: var(--text); }
+.term-out { color: var(--text-secondary); }
+.term-hit { color: var(--accent); }
+
+/* Short viewports. The acts are laid out for roughly 1280x800 upwards, and at
+   640px of height the terminal act cleared the fold by eleven pixels, which is
+   luck rather than headroom: one added line put the recording date underneath,
+   and that date is half of what the block is for. 1.75 is generous for a
+   transcript, so the line height gives the room back. Only the block that grew
+   is touched. */
+@media (max-height: 720px) {
+  .term-body { line-height: 1.6; }
+}
+
+/* ── Word field ────────────────────────────────────────────────────────────
+   Breadth that is read rather than counted. An earlier attempt used a grid of
+   small marks; it looked like a rating widget and invited exactly the counting
+   the page is trying to avoid. */
+
+.field { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 0.75rem; }
+.field span { letter-spacing: -0.02em; line-height: 1.15; }
+.field .w1 { font-size: clamp(1.5rem, 2.5vw, 2.15rem); font-weight: 300; color: var(--text); }
+.field .w2 { font-size: clamp(1.1rem, 1.7vw, 1.45rem); font-weight: 300; color: var(--text-secondary); }
+.field .w3 { font-size: clamp(0.92rem, 1.2vw, 1.05rem); color: var(--text-secondary); opacity: 0.8; }
+.field .sep { color: var(--accent); font-size: 0.95rem; transform: translateY(-0.15em); }
+
+/* ── Image treatments ──────────────────────────────────────────────────────
+   Three, deliberately. The version Michael liked laid its screenshots behind
+   the copy at 4% opacity, which meant the page had images in the markup and
+   none on the screen. */
+
+.shot {
+  position: relative;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 36px 84px -58px rgba(0, 0, 0, 0.8);
+}
+.shot img { display: block; width: 100%; height: auto; filter: saturate(0.6) contrast(1.05); }
+.shot::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(122deg, transparent 46%, color-mix(in srgb, var(--accent) 13%, transparent) 100%);
+}
+.shot-cap {
+  margin-top: 0.65rem;
+  font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.shot-texture {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-size: cover; background-position: center;
+  opacity: 0.16;
+  filter: grayscale(1) contrast(1.1);
+  -webkit-mask-image: radial-gradient(120% 100% at 70% 40%, #000 30%, transparent 82%);
+  mask-image: radial-gradient(120% 100% at 70% 40%, #000 30%, transparent 82%);
+}
+:root[data-theme='dark'] .shot-texture,
+html.dark .shot-texture { opacity: 0.2; }
+
+/* The one photograph, in three treatments. */
+.portrait-hero {
+  position: absolute;
+  right: max(0px, calc(50% - 35rem));
+  top: 50%;
+  transform: translateY(-50%);
+  height: min(80vh, 44rem);
+  width: auto;
+  object-fit: cover;
+  object-position: center 16%;
+  opacity: 0.6;
+  filter: contrast(1.04) saturate(0.12);
+  mix-blend-mode: luminosity;
+  /* The photograph is a hard rectangle on black, so it has to fade out on every
+     edge it touches. A left-only gradient left a visible box seam across the
+     headline. */
+  -webkit-mask-image:
+    linear-gradient(to left, #000 28%, transparent 92%),
+    linear-gradient(to top, transparent 0%, #000 20%),
+    linear-gradient(to bottom, transparent 0%, #000 15%),
+    linear-gradient(to right, #000 74%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to left, #000 28%, transparent 92%),
+    linear-gradient(to top, transparent 0%, #000 20%),
+    linear-gradient(to bottom, transparent 0%, #000 15%),
+    linear-gradient(to right, #000 74%, transparent 100%);
+  mask-composite: intersect;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.portrait-full {
+  width: min(100%, clamp(15rem, 30vw, 24rem));
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  filter: contrast(1.05);
+  mix-blend-mode: luminosity;
+}
+
+.portrait-mark {
+  width: 5.2rem;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0.55rem;
+  filter: contrast(1.05);
+  mix-blend-mode: luminosity;
+}
+
+/* ── Live agent card ───────────────────────────────────────────────────── */
+
+.agent-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 0.95rem;
+  background: var(--surface);
+  padding: 1.5rem 1.6rem;
+  box-shadow: 0 34px 78px -55px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+}
+.agent-card::before {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 0.95rem;
+  padding: 1px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent), transparent 58%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.agent-live {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.agent-live i {
+  width: 0.44rem; height: 0.44rem; border-radius: 9999px; background: var(--accent);
+}
+.agent-endpoint {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+.chip {
+  font-size: 0.72rem;
+  padding: 0.26rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  color: var(--text-secondary);
+}
+.chip--on {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+}
+.probe-ask {
+  text-align: left;
+  cursor: pointer;
+  color: var(--accent);
+  font: inherit;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+}
+.probe-ask:hover { border-bottom-color: var(--accent); }
+
+.cta { border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); transition: border-color 0.2s ease; }
+.cta:hover { border-bottom-color: var(--accent); }
+
+/* ── Project acts ──────────────────────────────────────────────────────────
+   Five of these carry the page. The composition is the one from `main`
+   (challenge, solution, result beside a picture), with the picture actually
+   visible instead of sitting behind the copy at four percent opacity.
+
+   The media column alternates sides act by act, driven by the act's index.
+   Without that, five project acts in a row are the same slide five times,
+   which is the failure the whole rebuild exists to avoid. */
+
+.project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  gap: 2.6rem 3rem;
+  align-items: start;
+  margin-top: 1.9rem;
+}
+
+/* Odd-numbered project acts put the picture on the left. `order` moves only
+   the painted result: the DOM keeps prose first, so a screen reader and the
+   keyboard still meet the text before the illustration. */
+.project-body.is-flipped > .project-prose { order: 2; }
+.project-body.is-flipped > .project-media { order: 1; }
+
+/* A wide figure cannot be legible in a half-width column, so those acts run
+   one column with the figure across the full width underneath. */
+/* Track widths are positional, `order` is not. A flipped act puts the media
+   into track ONE, so widening track two hands the extra room to the prose and
+   makes the picture smaller, which is the opposite of the intent. Measured:
+   464px instead of 641px. Both screenshot acts happen to be flipped, so this
+   was not a corner case, it was every case. */
+.project-body.has-shot { grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr); }
+.project-body.has-shot.is-flipped { grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr); }
+
+.project-body.is-stacked { grid-template-columns: minmax(0, 1fr); }
+.project-body.is-stacked > .project-prose { max-width: 52rem; }
+
+.project-prose { display: flex; flex-direction: column; gap: 1.35rem; }
+
+.pblock > p:last-child {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 44rem;
+}
+
+.plabel {
+  font-size: 0.63rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  /* No extra opacity. The colour itself passes; the 0.85 on top pushed these
+     fifteen labels (HERAUSFORDERUNG, LOESUNG, ERGEBNIS on every project act)
+     to 3.67:1 in light mode, under the 4.5:1 line. Without it: 4.70:1. Same
+     line global.css took on 2026-08-07 when --text-secondary was darkened. */
+  margin-bottom: 0.4rem;
+}
+
+/* The result is the only one of the three a visitor must not skim past. */
+.pblock.is-result {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding-left: 1.1rem;
+}
+.pblock.is-result > p:last-child { color: var(--text); }
+
+.project-media {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-width: 0;
+}
+
+/* The one project act that stacks a diagram ON TOP of a terminal transcript is
+   taller than the others by exactly that transcript. Measured at 1440x900 it
+   ran 72px past the act, and what fell off the bottom was the recording date,
+   which is half of what a transcript block is for. Capping the column caps the
+   diagram above it, since the diagram's height follows its width through the
+   aspect ratio, and the terminal keeps its lines. Measured effect at 1440x900:
+   918px down to 883px, at 1366x768: 796px down to 766px. Tied to :has(.term)
+   rather than to an act id so a second terminal act inherits it. */
+.project-media:has(.term) { width: min(100%, 26rem); }
+
+/* ── Beliefs ───────────────────────────────────────────────────────────────
+   Restored from `main`, where the alternating alignment was the whole point:
+   the eye moves left, right, left, right down the page and the four rules
+   read as four, not as a list of four. */
+
+.beliefs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.7rem;
+  margin-top: 2.2rem;
+}
+
+.belief {
+  position: relative;
+  max-width: 40rem;
+  padding: 1.15rem 0 1.15rem 1.4rem;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.belief.is-right {
+  margin-left: auto;
+  text-align: right;
+  padding: 1.15rem 1.4rem 1.15rem 0;
+  border-left: none;
+  border-right: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.belief-rule {
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.belief-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── Stations ──────────────────────────────────────────────────────────────
+   The career, read out of config.cv.toml. Dates are tabular so the column
+   lines up without a table element. */
+
+.split-stations {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 2.4rem 3.2rem;
+  align-items: start;
+}
+
+.stations { display: flex; flex-direction: column; }
+
+.station {
+  display: grid;
+  grid-template-columns: 8.4rem minmax(0, 1fr);
+  gap: 0.2rem 1.2rem;
+  padding: 0.72rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.station:last-child { border-bottom: none; }
+
+.station-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  padding-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.station-body { display: flex; flex-direction: column; gap: 0.14rem; min-width: 0; }
+.station-role { font-size: 0.92rem; color: var(--text); line-height: 1.35; }
+.station-org { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.35; }
+
+/* The degree closes the list and is set apart, because it is the one row that
+   is not a job. */
+.station.is-edu .station-role { color: var(--accent); }
+
+/* Numbered bullets on the method act sit in two columns, because the figure
+   underneath needs the vertical room. */
+.act-bullets--wide {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 2.2rem;
+  max-width: 52rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Measured at 1512x900: the act came out 10px past the viewport. The figure
+   below the copy is the only elastic part, so the height budget shrinks here
+   rather than the type. */
+[data-act='howto'] .stack-figure { --fig-h: 15vh; }
+
+@media (max-width: 900px) {
+  /* The two `.has-shot` selectors have to be listed here by name. A media query
+     adds no specificity, so the single-class `.project-body` below never beat
+     the two-class `.project-body.has-shot` rule above, and exactly the two acts
+     that carry a screenshot stayed in two columns on a phone. Measured at
+     390x844: acts 04, 05 and 07 got one 352px column while acts 06 and 08 got
+     178px of text beside a 129px screenshot, on which nothing was legible.
+     Stacked they are 350px wide instead. */
+  .project-body,
+  .project-body.is-flipped,
+  .project-body.has-shot,
+  .project-body.has-shot.is-flipped,
+  .split-stations { grid-template-columns: minmax(0, 1fr); }
+  .project-body.is-flipped > .project-prose,
+  .project-body.is-flipped > .project-media { order: initial; }
+  .belief, .belief.is-right {
+    margin-left: 0;
+    text-align: left;
+    padding: 1.05rem 0 1.05rem 1.2rem;
+    border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-right: none;
+  }
+  .station { grid-template-columns: minmax(0, 1fr); }
+  .act-bullets--wide { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── Motion layer ──────────────────────────────────────────────────────────
+   Everything above renders complete. Only the two blocks below move it, and
+   only when the visitor has not asked for stillness. */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* The opening choreography. Time-based, not scroll-based: the first act is
+     never scrolled INTO, so `view()` would never fire there. */
+  .story-page [data-act='manifest'] .cue {
+    opacity: 0;
+    animation: story-cue 1.1s cubic-bezier(0.22, 0.68, 0.3, 1) forwards;
+    animation-delay: var(--cue, 0.3s);
+  }
+  @keyframes story-cue {
+    from { opacity: 0; transform: translateY(0.75rem); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .scroll-chevron { animation: story-chevron 2.2s ease-in-out infinite; }
+  @keyframes story-chevron {
+    0%, 100% { transform: translateY(0); opacity: 0.55; }
+    50%      { transform: translateY(0.4rem); opacity: 1; }
+  }
+
+  .agent-live i {
+    animation: story-beat 2s ease-in-out infinite;
+  }
+  @keyframes story-beat {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    65%      { box-shadow: 0 0 0 0.36rem transparent; }
+  }
+
+  /* Scroll-driven parts. Chrome/Edge 115+, Safari 26+; Firefox stable still
+     needs a flag, which is why this is additive and never load-bearing. */
+  @supports (animation-timeline: view()) {
+
+    /* Copy rises as its act enters. `animation-range` ends well before the act
+       is centred so the text is settled by the time it is being read. */
+    .story-page [data-act]:not([data-act='manifest']) .rise {
+      animation: story-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 12% cover 34%;
+    }
+    @keyframes story-rise {
+      from { opacity: 0; transform: translateY(1.15rem); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* Staggered variant for lists. The delay cannot be a time value on a
+       scroll timeline, so the offset lives in the range instead. */
+    .story-page .rise-stagger > * {
+      animation: story-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(12% + var(--i, 0) * 3.5%) cover calc(32% + var(--i, 0) * 3.5%);
+    }
+
+    /* A diagram path draws itself as the act arrives. */
+    .story-page .dgm .draw {
+      animation: story-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 18% cover 46%;
+    }
+    @keyframes story-draw {
+      from { stroke-dashoffset: 1; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    /* A dispatch pulse travels out along a connector. Runs on a time loop, not
+       the scroll position: the point is that the system is working, and work
+       does not stop because the reader stopped scrolling. */
+    .story-page .dgm .pulse {
+      animation: story-pulse 3.6s cubic-bezier(0.5, 0, 0.35, 1) infinite;
+      animation-delay: var(--d, 0s);
+    }
+    @keyframes story-pulse {
+      0%   { stroke-dashoffset: 1; opacity: 0; }
+      8%   { opacity: 1; }
+      44%  { stroke-dashoffset: 0.06; opacity: 1; }
+      54%  { stroke-dashoffset: 0.06; opacity: 0.2; }
+      92%  { stroke-dashoffset: -0.85; opacity: 0.5; }
+      100% { stroke-dashoffset: -0.85; opacity: 0; }
+    }
+
+    .story-page .dgm .node--pulsed {
+      animation: story-lit 3.6s ease-in-out infinite;
+      animation-delay: var(--d, 0s);
+    }
+    @keyframes story-lit {
+      0%, 26%   { stroke: var(--line); fill: var(--surface); }
+      44%, 68%  { stroke: var(--accent); fill: var(--surface-elevated); }
+      100%      { stroke: var(--line); fill: var(--surface); }
+    }
+
+    /* The terminal types itself once, when its act arrives. */
+    .story-page .term-line {
+      animation: story-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(16% + var(--i, 0) * 2.6%) cover calc(30% + var(--i, 0) * 2.6%);
+    }
+
+    /* The word field lands one term at a time. */
+    .story-page .field span {
+      animation: story-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i, 0) * 1.6%) cover calc(26% + var(--i, 0) * 1.6%);
+    }
+  }
+}
+
+/* ── Narrow screens ────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .story-page { --story-pad-x: 1.25rem; --story-pad-y: clamp(2.75rem, 5.5vh, 4rem); }
+  .story-page [data-act] { align-items: flex-start; }
+  .portrait-hero { opacity: 0.14; right: -8vw; height: 58vh; }
+  .act-h--loud { font-size: clamp(2.3rem, 10vw, 3.6rem); }
+}
+
+@media print {
+  .story-page [data-act] { min-height: auto; page-break-inside: avoid; }
+  .portrait-hero, .shot-texture { display: none !important; }
+}

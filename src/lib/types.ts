@@ -41,12 +41,16 @@ export interface ProjectItem {
   tagline: string;
   challenge?: string;
   solution?: string;
-  metric?: string;
-  metric_label?: string;
   impact?: string;
   /** Stable slug for agent-driven scroll+highlight (featured projects). See ExperienceItem.anchor. */
   anchor?: string;
 }
+// NOTE: `metric` / `metric_label` were removed on 2026-08-07. They fed the giant
+// number beside each act on the presentation, and their presence also *selected*
+// the layout there (`challenge && metric`), so a project without a number fell
+// back to a raw markdown dump next to a designed act. The presentation now renders
+// from `i18n.decisions`, and the visual anchor is a verifiable identifier, never a
+// counter. Do not reintroduce these fields.
 
 export interface SkillItem {
   skill: string;
@@ -67,6 +71,8 @@ export interface AgentProof {
 
 export interface UIStrings {
   tagline: string;
+  /** Rendered on the presentation's portrait act; was hardcoded in StoryPage.astro. */
+  location?: string;
   ai_badge: string;
   ai_skills_title: string;
   contact_label: string;
@@ -85,7 +91,8 @@ export interface CVData {
   ui: UIStrings;
   ai_showcase: { enable: boolean; list: AIShowcaseItem[] };
   agent_proof: AgentProof;
-  profile: { name: string; tagline: string; avatar: string };
+  /** `avatar_story` is the portrait used by the presentation; `avatar` stays the CV one. */
+  profile: { name: string; tagline: string; avatar: string; avatar_story?: string };
   contact: { enable: boolean; list: ContactItem[] };
   education: { enable: boolean; title: string; list: EducationItem[] };
   language: { enable: boolean; title: string; list: LanguageItem[] };

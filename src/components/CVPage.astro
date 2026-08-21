@@ -34,7 +34,7 @@ const agentProof = agent_proof ?? {
     lang === 'de' ? 'Wann hat Michael nächste Woche Zeit für ein Gespräch?' : 'When is Michael available next week?',
     lang === 'de' ? 'Welche Erfahrung hat Michael mit KI-Agenten?' : 'What is Michael’s experience with AI agents?',
   ],
-  facts: ['protocolVersion: 0.3', 'transport: JSONRPC', 'streaming: true', 'skills: 5'],
+  facts: ['protocolVersion: 1.0', 'transport: JSONRPC', 'streaming: true', 'skills: 5'],
 };
 
 // NOTE: a skill in ui.sidebar_skills that matches NONE of these group regexes
@@ -157,14 +157,14 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 ---
 
 <BaseLayout
-  title={`${profile.name} — ${ui.tagline}`}
+  title={`${profile.name} · ${ui.tagline}`}
   description={ui.seo_description || ui.tagline}
   lang={lang}
 >
-  <!-- Header -->
-  <header class="cv-hero relative overflow-hidden px-6 sm:px-8">
-    <div class="relative max-w-6xl mx-auto pt-6 pb-14 lg:pb-16">
-      <!-- Top bar -->
+  {/* Header */}
+  <header class="cv-hero relative overflow-hidden">
+    <div class="cv-shell relative pt-6 pb-14 lg:pb-16">
+      {/* Top bar */}
       <div class="flex items-center justify-end mb-8 text-sm">
         <div class="flex items-center gap-3">
           <a href="/de/" class={lang === 'de' ? 'cv-lang-link is-active' : 'cv-lang-link'}>DE</a>
@@ -175,7 +175,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         </div>
       </div>
 
-      <!-- Profile + live agent proof -->
+      {/* Profile + live agent proof */}
       <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.7fr)] gap-9 lg:gap-12 items-center">
         <div class="text-center sm:text-left">
           <div class="mt-7 flex flex-col sm:flex-row items-center sm:items-start gap-5">
@@ -195,7 +195,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </p>
           )}
 
-          <!-- Contact -->
+          {/* Contact */}
           <div class="mt-5 flex flex-wrap items-center justify-center sm:justify-start gap-2 text-sm">
             {contact.list.slice(0, 6).map(item => (
               <a href={item.url || '#'} target={item.url?.startsWith('mailto:') || item.url?.startsWith('tel:') ? '_self' : '_blank'} rel="noopener" class="cv-contact-link cursor-pointer" aria-label={item.title}>
@@ -213,7 +213,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             ))}
           </div>
 
-          <!-- CTAs -->
+          {/* CTAs */}
           <div class="mt-5 flex flex-wrap justify-center sm:justify-start gap-3">
             <button type="button" data-agent-prompt={agentProof.prompts[0]} class="cv-primary-cta px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer flex items-center gap-2">
               {agentProof.ask}
@@ -281,36 +281,47 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     </div>
   </header>
 
-  <!-- Main Layout -->
-  <div class="max-w-6xl mx-auto px-4 sm:px-8 py-12">
+  {/* Main Layout */}
+  <div class="cv-shell py-12">
     <div class="flex flex-col lg:flex-row gap-12">
 
-      <!-- Main Content (70%) -->
+      {/* Main Content (70%) */}
       <main id="main" class="lg:w-[70%] space-y-14">
 
-        <!-- Karriereprofil -->
+        {/* Karriereprofil */}
         {summary.enable && (
           <section>
             <h2 class="cv-section-title">{summary.title}</h2>
 
-            <!-- Intro -->
-            <p class="text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
+            {/* Intro */}
+            <p class="cv-measure text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
               {t.careerIntro}
             </p>
 
-            <!-- Impact-Highlights -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              {t.cvImpactMetrics.map(item => (
-                <div class="cv-metric-card p-4 rounded-xl text-center">
-                  <p class="text-2xl font-light font-sans tracking-[-0.02em]" style="color: var(--accent)">{item.metric}</p>
-                  <p class="text-sm font-medium mt-1">{item.label}</p>
-                  <p class="text-xs mt-0.5" style="color: var(--text-secondary)">{item.detail}</p>
-                </div>
+            {/* Publicly verifiable anchors. This slot used to hold three vanity
+                counters. A counter asks to be believed; an address can be opened.
+                Only `state: public` entries render here, because a card the reader
+                cannot check is just a claim in a box.
+                NOTE: JSX comment, not an HTML one. An HTML comment survives the
+                build, so the first version of this note shipped the very strings it
+                was describing into dist/de/index.html. */}
+            <p class="text-[11px] tracking-[0.2em] uppercase mb-3" style="color: var(--accent); opacity: .75">{t.cvRunningTitle}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {t.running.filter(item => item.state === 'public').map(item => (
+                <a
+                  href={item.proofUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="cv-metric-card p-4 rounded-xl block transition-opacity hover:opacity-80"
+                >
+                  <p class="text-sm font-medium">{item.title}</p>
+                  <p class="text-xs mt-1 break-words" style="color: var(--accent); font-family: var(--font-mono, ui-monospace, Menlo, monospace)">{item.proof}</p>
+                </a>
               ))}
             </div>
 
-            <!-- Details -->
-            <div class="space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
+            {/* Details */}
+            <div class="cv-measure space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
               {t.careerDetails.map(detail => (
                 <p set:html={detail} />
               ))}
@@ -318,7 +329,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           </section>
         )}
 
-        <!-- PROJEKTE VOR ERFAHRUNG -->
+        {/* PROJEKTE VOR ERFAHRUNG */}
         {projects.enable && (
           <section id="section-projects" data-cv-anchor="projects" data-cv-group={projects.title}>
             <h2 class="cv-section-title">{projects.title}</h2>
@@ -390,14 +401,14 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           </section>
         )}
 
-        <!-- Berufserfahrung -->
+        {/* Berufserfahrung */}
         {experiences.enable && (
           <section id="section-experience" data-cv-anchor="experience" data-cv-group={experiences.title}>
             <h2 class="cv-section-title">{experiences.title}</h2>
             <div class="cv-timeline space-y-6 relative ml-3 pl-7">
               {jobs.map((exp, i) => (
                 <div class="relative" id={exp.anchor ? `exp-${exp.anchor}` : undefined} data-cv-anchor={exp.anchor}>
-                  <!-- Timeline dot -->
+                  {/* Timeline dot */}
                   <div class="absolute -left-[33px] top-2 w-3 h-3 rounded-full border-2 bg-[var(--bg)]" style="border-color: var(--accent)"></div>
 
                   <div class="cv-experience-card p-6 rounded-xl">
@@ -429,7 +440,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           </section>
         )}
 
-        <!-- Vorträge & Workshops -->
+        {/* Vorträge & Workshops */}
         {talks.length > 0 && (
           <section id="section-talks" data-cv-anchor="talks" data-cv-group={t.talksTitle}>
             <h2 class="cv-section-title">{t.talksTitle}</h2>
@@ -446,11 +457,11 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         )}
       </main>
 
-      <!-- Sidebar (30%) -->
+      {/* Sidebar (30%) */}
       <aside class="lg:w-[30%]">
         <div class="lg:sticky lg:top-6 space-y-6">
 
-          <!-- Skills -->
+          {/* Skills */}
           <div class="cv-sidebar-card">
             <h3 class="cv-sidebar-title">{ui.sidebar_skills_title}</h3>
             <div class="space-y-4">
@@ -467,7 +478,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </div>
           </div>
 
-          <!-- Education -->
+          {/* Education */}
           {education.enable && (
             <div class="cv-sidebar-card">
               <h3 class="cv-sidebar-title">{education.title}</h3>
@@ -483,7 +494,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </div>
           )}
 
-          <!-- Languages -->
+          {/* Languages */}
           {langs.enable && (
             <div class="cv-sidebar-card">
               <h3 class="cv-sidebar-title">{langs.title}</h3>
@@ -498,7 +509,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </div>
           )}
 
-          <!-- Certifications -->
+          {/* Certifications */}
           <div class="cv-sidebar-card">
             <h3 class="cv-sidebar-title">{ui.sidebar_qualifications_title}</h3>
             <div class="space-y-2.5 text-sm">
@@ -517,7 +528,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     </div>
   </div>
 
-  <!-- Footer -->
+  {/* Footer */}
   <footer class="py-10 px-6 text-center text-sm border-t" style="color: var(--text-secondary); border-color: var(--line)">
     <p>&copy; {new Date().getFullYear()} {profile.name} &middot; BKS-Lab &middot; Frankfurt am Main</p>
     <p class="mt-3 text-xs opacity-60">
@@ -560,6 +571,35 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 </BaseLayout>
 
 <style>
+  /* ── Seitenbreite ─────────────────────────────────────────────────────────
+     Was hier vorher stand: `max-w-6xl mx-auto` plus eine feste Polsterung, also
+     ein harter Deckel bei 72rem auf JEDEM Schirm. Gemessen war der Inhalt bei
+     1440, bei 1728, bei 2000 und bei 2560 immer exakt 1152px breit; auf einem
+     2000er Schirm mit offener Chat-Spalte blieben dadurch 216px auf jeder Seite
+     leer, und die Projektkarten waren 345px schmal, in denen der Fliesstext nach
+     sechs Woertern umbrach. Michael: "der hauptteil wird immer noch nicht
+     breiter". Stimmte, und es lag nicht an der Chat-Spalte.
+
+     Jetzt waechst die Seite mit dem Platz, den sie hat, bis 90rem. Der Rand ist
+     ein Anteil statt einer festen Zahl, damit er im gleichen Verhaeltnis bleibt,
+     ob die Chat-Spalte offen ist oder nicht. Der Deckel bleibt, weil eine Vita
+     ueber 90rem keine Zeilenlaenge mehr hat, die man lesen will; die Prosa im
+     Kopf ist ohnehin separat auf 42rem begrenzt und waechst nicht mit. */
+  .cv-shell {
+    width: 100%;
+    max-width: 100rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 3.5%, 4rem);
+  }
+
+  /* Ein breites Layout ist nicht dasselbe wie eine breite Textzeile. Die
+     Karten und das Raster duerfen den gewonnenen Platz nehmen, der laufende
+     Fliesstext nicht: bei 1440 lief er sonst auf rund 110 Zeichen pro Zeile,
+     weit ueber dem lesbaren Band von 45 bis 75. Die Prosa im Kopfbereich ist
+     ohnehin schon auf 42rem begrenzt, das hier zieht die zwei Bloecke im
+     Hauptteil nach. */
+  .cv-measure { max-width: 46rem; }
+
   .cv-hero :is(h1, h2, h3, h4),
   main :is(h2, h3, h4),
   aside :is(h3, h4) {

@@ -1,0 +1,261 @@
+---
+/**
+ * G2 · Turn-Zeitleiste · Akt 04 (`04-anruf`) · viewBox 0 0 640 200
+ *
+ * Ein Gesprächszug, aufgeteilt nach Anteilen: vier waagerechte Balken
+ * untereinander (Netz, Termine holen, Modell, Antwort) plus ein gestrichelter
+ * fünfter als Nebenpfad (der Füller, den der Anrufer hört, während die Antwort
+ * im Hintergrund fertig wird).
+ *
+ * Die vier Füllbreiten sind fest und bleiben ohne Wert daran: 22 / 34 / 76 / 30
+ * Prozent. Die Relation ist die Aussage, eine Zahl daneben wäre Zahlen-Bashing.
+ *
+ * PROPS
+ *   labels   Reihenfolge ist fest, damit die Aufrufseite nicht raten muss:
+ *              [0] Netz          / Network
+ *              [1] Termine holen / Fetch slots
+ *              [2] Modell        / Model
+ *              [3] Antwort       / Answer
+ *              [4] Füller        / Filler
+ *            Index 0 bis 3 beschriften die vier Balken von oben nach unten,
+ *            Index 4 den gestrichelten Nebenpfad darunter. Alle fünf stehen
+ *            links außen im Feld x=0 bis x=110, rechtsbündig.
+ *   caption  Ein Satz, was die Abbildung zeigt. Pflicht, rendert als
+ *            <figcaption>. DE `Ein Gesprächszug, aufgeteilt nach Anteilen.`
+ *
+ * ENTSCHEIDUNGEN, wo die Spezifikation eine Absicht statt einer Zahl nennt:
+ *
+ * 1. Kein <text> im viewBox. Der viewBox skaliert, Text darin würde auf einem
+ *    390 px breiten Gerät auf rund fünf Pixel schrumpfen. Alle Beschriftungen
+ *    liegen als HTML-span über dem SVG, positioniert in Prozent. Die Prozente
+ *    sind Geometrie und gehören hierher, die Texte sind Sprache und kommen als
+ *    Prop herein.
+ * 2. Zwischen <figure> und den Beschriftungen steht eine Positionierungsbox
+ *    (`.fig-plot`). Die Prozentwerte müssen gegen die SVG-Box aufgehen; läge die
+ *    figcaption in derselben Box, würde ihre Höhe jede Beschriftung nach oben
+ *    verschieben und die Geometrie stimmte auf keiner Breite.
+ * 3. Die Beschriftungen sitzen rechtsbündig und senkrecht mittig auf ihrer
+ *    Zeile (`translate(-100%, -50%)`), nicht wie im Beispiel der Gemeinsamen
+ *    Regeln `translate(-50%, 0)`: sie stehen hier links außen neben einer
+ *    Zeile, nicht mittig unter einer Station.
+ * 4. Ein einziger, benannter View-Timeline auf der Positionierungsbox statt
+ *    `view()` je Balken. Mit `view()` je Balken hätte jedes Rechteck seine
+ *    eigene Uhr, weil die vier auf unterschiedlicher Höhe sitzen, und der
+ *    vorgegebene Versatz von je zwölf Prozent bedeutete auf jedem Balken etwas
+ *    anderes. Eine gemeinsame Uhr macht den Versatz zu dem, was er sein soll.
+ * 5. Kein `pathLength`. In dieser Grafik zeichnet sich kein Pfad, die Balken
+ *    skalieren und der Nebenpfad blendet auf. Auf dem Nebenpfad wäre
+ *    `pathLength` sogar schädlich: es würde `stroke-dasharray: 5 5` auf eine
+ *    normierte Länge umrechnen und die Strichelung zerstören.
+ * 6. Das Balkenbett ist in `--line` gefüllt (so steht es in der Spezifikation),
+ *    nicht in currentColor bei 34 Prozent. Der ruhende Nebenpfad trägt die 34
+ *    Prozent, das eine bewegte Element bleibt der Akzent bei voller Deckkraft.
+ *
+ * Bewegung ist eine Schicht, nie das Gerüst: der Default-Zustand unten ist der
+ * Endzustand (alle vier Balken voll, Nebenpfad sichtbar). Ohne JavaScript, in
+ * Firefox Stable und unter reduzierter Bewegung steht die Abbildung vollständig
+ * und still.
+ */
+
+interface Props {
+  labels: string[];
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+
+/* Geometrie in viewBox-Einheiten. Einheitenlos, das ist etwas anderes als ein
+   fester px-Wert in CSS und hier genau richtig. */
+const VB_W = 640;
+const VB_H = 200;
+const BAR_X = 120;
+const BAR_W = 480;
+const BAR_H = 8;
+const BAR_TOP = 28;
+const BAR_STEP = 30;
+const GUTTER_X = 110; /* rechte Kante des Beschriftungsfeldes links außen */
+
+/* Die vier Anteile. Unbeschriftet, siehe Kopfkommentar. */
+const SHARES = [0.22, 0.34, 0.76, 0.3];
+
+/* Der Nebenpfad erscheint zeitgleich mit Balken drei (`Modell`), deshalb trägt
+   er dessen Staffel-Index. */
+const SIDE = { x: 200, y: 158, w: 300, h: 6, i: 2 };
+
+const round = (v: number) => Math.round(v * 10) / 10;
+
+const bars = SHARES.map((share, i) => ({
+  i,
+  y: BAR_TOP + i * BAR_STEP,
+  w: round(BAR_W * share),
+}));
+
+const pct = (value: number, total: number) => `${round((value / total) * 100)}%`;
+
+/* Senkrechte Mitte je Zeile, in Prozent der SVG-Box. */
+const labelTops = [
+  ...bars.map((bar) => pct(bar.y + BAR_H / 2, VB_H)),
+  pct(SIDE.y + SIDE.h / 2, VB_H),
+];
+const labelLeft = pct(GUTTER_X, VB_W);
+---
+
+<figure class="fig">
+  <div class="fig-plot">
+    <svg
+      class="dgm"
+      viewBox={`0 0 ${VB_W} ${VB_H}`}
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {bars.map((bar) => (
+        <rect class="bar-bed" x={BAR_X} y={bar.y} width={BAR_W} height={BAR_H} rx="4" />
+      ))}
+      {bars.map((bar) => (
+        <rect
+          class="bar-fill"
+          style={`--i:${bar.i}`}
+          x={BAR_X}
+          y={bar.y}
+          width={bar.w}
+          height={BAR_H}
+          rx="4"
+        />
+      ))}
+      <rect
+        class="side-path"
+        style={`--i:${SIDE.i}`}
+        x={SIDE.x}
+        y={SIDE.y}
+        width={SIDE.w}
+        height={SIDE.h}
+        rx="3"
+      />
+    </svg>
+    {labelTops.map((top, i) =>
+      labels?.[i] ? (
+        <span class="fig-label" style={`left:${labelLeft}; top:${top}`}>{labels[i]}</span>
+      ) : null
+    )}
+  </div>
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* ── Rahmen und Beschriftungen ─────────────────────────────────────────
+     Das SVG selbst trägt `.dgm` aus story.css (Breite, Blockfluss, overflow).
+     Hier steht nur, was diese Abbildung zusätzlich braucht. */
+
+  /* `color` steht hier ausdrücklich, statt aus dem Akt zu erben: der ruhende
+     Nebenpfad zeichnet in `currentColor` bei 34 Prozent. Landet die Abbildung
+     einmal in einem Block, der auf `--text-secondary` gestellt ist (Lede,
+     Stichpunkte, Bildunterschrift), rechnen die 34 Prozent gegen eine bereits
+     gedämpfte Farbe und der Pfad verschwindet im Hellmodus fast ganz. Die
+     Schwestergrafiken setzen dieselbe Zeile aus demselben Grund. */
+  .fig {
+    margin: 0;
+    color: var(--text);
+  }
+
+  /* Die Box, gegen die alle Prozentwerte rechnen. Sie umschließt genau das SVG,
+     die figcaption steht bewusst außerhalb. */
+  .fig-plot { position: relative; }
+
+  .fig-label {
+    position: absolute;
+    transform: translate(-100%, -50%);
+    font-size: clamp(0.6rem, 0.78vi, 0.7rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Ein Satz, kein Etikett: deshalb gemischte Schreibung statt der Versalien
+     der Bildunterschriften aus story.css. */
+  .fig-caption {
+    margin-top: 0.9rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* ── Die Zeitleiste ────────────────────────────────────────────────────── */
+
+  .bar-bed {
+    fill: var(--line);
+    stroke: none;
+  }
+
+  .bar-fill {
+    fill: var(--accent);
+    stroke: none;
+    /* `fill-box` ist der Grund, warum hier kein Koordinatenwert steht: der
+       Ursprung hängt am Rechteck selbst, nicht am SVG-Nullpunkt. */
+    transform-box: fill-box;
+    transform-origin: left center;
+  }
+
+  .side-path {
+    fill: none;
+    stroke: currentColor;
+    stroke-dasharray: 5 5;
+    opacity: 0.34;
+  }
+
+  /* Das Beschriftungsfeld ist siebzehn Prozent der Bildbreite. Auf dem Telefon
+     sind das unter sechzig Pixel, und `Termine holen` in Versalien ist breiter.
+     Die Abbildung rückt deshalb ein, statt die Schrift unlesbar zu schrumpfen:
+     der Überhang bekommt Platz, die Geometrie bleibt unangetastet, weil die
+     Prozente gegen die Positionierungsbox rechnen und nicht gegen die figure. */
+  @media (max-width: 40em) {
+    .fig { padding-inline-start: 2.75rem; }
+  }
+
+  /* ── Bewegungsschicht ──────────────────────────────────────────────────
+     Alles darüber steht vollständig. Erst hier bauen die Balken sich neu auf,
+     und nur, wenn der Besucher nicht um Ruhe gebeten hat. */
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* Eine Uhr für die ganze Abbildung, siehe Entscheidung vier oben. */
+      .fig-plot { view-timeline-name: --fig-timeline; }
+
+      /* Die Kurzschreibweise setzt `animation-timeline` und `animation-range`
+         zurück, deshalb stehen beide danach. `animation-duration` fehlt
+         absichtlich: auf einer Fortschritts-Uhr bedeutet auto den vollen
+         Bereich. */
+      .bar-fill {
+        animation: fig-timeline-fill linear both;
+        animation-timeline: --fig-timeline;
+        animation-range: entry calc(20% + var(--i, 0) * 12%) cover calc(60% + var(--i, 0) * 12%);
+      }
+
+      @keyframes fig-timeline-fill {
+        from { transform: scaleX(0); }
+        to   { transform: scaleX(1); }
+      }
+
+      .side-path {
+        animation: fig-timeline-appear linear both;
+        animation-timeline: --fig-timeline;
+        animation-range: entry calc(20% + var(--i, 0) * 12%) cover calc(60% + var(--i, 0) * 12%);
+      }
+
+      /* Endwert ist die ruhende Deckkraft, nicht eins: der Nebenpfad erscheint,
+         er drängt sich nicht vor. Und er pulst nicht. */
+      @keyframes fig-timeline-appear {
+        from { opacity: 0; }
+        to   { opacity: 0.34; }
+      }
+    }
+  }
+</style>

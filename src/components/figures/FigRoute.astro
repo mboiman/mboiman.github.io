@@ -1,0 +1,356 @@
+---
+/**
+ * G4 · Rechnungsstrecke · Akt 08 (`08-strecke`, kind `figure`).
+ *
+ * Ein liegender Streifen, bewusst flach, damit er unter zwei Spalten passt: eine
+ * Grundlinie, vier Stationen, vier Haken, ein Paket. Das Paket läuft die Strecke
+ * vollständig durch, und an jeder Station, die es passiert, zeichnet sich der Haken.
+ * Kontrast entsteht aus Deckkraft und Strichstärke, nie aus Farbe: die Tokens kennen
+ * kein Grün und kein Rot, also gibt es hier keine Ampel. Akzent trägt genau das eine
+ * bewegte Element (das Paket) und die Marken, die es setzt.
+ *
+ * PROPS
+ *   labels  Reihenfolge ist fest, die Aufrufseite muss sie nicht raten:
+ *             [0]  `Absender`      / `Sender`         Station 1, viewBox-x 60
+ *             [1]  `Zugangspunkt`  / `Access point`   Station 2, viewBox-x 320
+ *             [2]  `Dokument`      / `Document`       Station 3, viewBox-x 580
+ *             [3]  `Zielsystem`    / `Target system`  Station 4, viewBox-x 840
+ *             [4]  optional, die Normbezeichnung über Station 3. Ohne Angabe steht
+ *                  `EN 16931`. Der Eintrag ist in beiden Sprachen identisch, deshalb
+ *                  ist er optional und nicht Pflichtteil der Vier.
+ *   caption Ein Satz, was die Abbildung zeigt. Pflicht, rendert als <figcaption>.
+ *             DE `Die Strecke, wie sie im Betrieb durchläuft.`
+ *             EN `The route as it runs in production.`
+ *
+ * WARUM KEIN <text> IM viewBox
+ *   Der viewBox skaliert, und mit ihm skalierte jede Beschriftung darin: aus 0.72rem
+ *   in einem 900er viewBox werden auf einem 390 px breiten Telefon rund drei Pixel.
+ *   Alle Beschriftungen liegen deshalb als HTML-span darüber. Die Prozentwerte sind
+ *   Geometrie und gehören hierher, die Texte sind Sprache und kommen als Prop.
+ *
+ * WARUM DER PLOT-WRAPPER
+ *   Die Beschriftungen hängen an `.fig-plot`, nicht an `.fig`. Ein Prozentwert für
+ *   `top` misst gegen die Höhe des Bezugsrahmens: läge er auf `.fig`, zählte die
+ *   figcaption mit, und eine zweizeilige Bildunterschrift im Deutschen würde alle
+ *   Beschriftungen gegenüber dem Englischen verschieben. Der Wrapper hat exakt die
+ *   Höhe des SVG, damit stimmen die Prozentwerte in jeder Sprache.
+ *
+ * WARUM DIE ÄUSSEREN ZWEI BESCHRIFTUNGEN ANDERS ANSETZEN
+ *   Station 1 sitzt bei 6,7 Prozent, Station 4 bei 93,3 Prozent der Breite. Mittig
+ *   gesetzt (`translate(-50%, 0)`) hinge auf einem schmalen Telefon jeweils die Hälfte
+ *   des Wortes außerhalb des Streifens. Die erste Beschriftung beginnt deshalb an
+ *   ihrer Station, die letzte endet an ihrer. Die inneren zwei bleiben mittig.
+ *
+ * WARUM ZWEI REIHEN AUF EINEM SCHMALEN STREIFEN
+ *   Vier Beschriftungen in einer Reihe brauchen Platz, den ein Streifen unter 32rem
+ *   nicht hat. Nachgerechnet mit den Vorschüben der ausgelieferten Schrift: auf einem
+ *   390 px breiten Telefon (Streifen 350 px) überlappen `DOCUMENT` und
+ *   `TARGET SYSTEM` um 16 px, im Deutschen berühren sich `ABSENDER` und
+ *   `ZUGANGSPUNKT`. Unterhalb der Schwelle rücken deshalb die zweite und die vierte
+ *   Beschriftung eine Zeile tiefer: jede Reihe hat dann den doppelten Stationsabstand
+ *   und alle vier bleiben lesbar, statt kleiner gerechnet zu werden, bis sie
+ *   nebeneinander passen (das wären rund sieben Pixel).
+ *
+ * WARUM DIE SCHRIFTGRÖSSE AN DER GRAFIK HÄNGT UND NICHT AM FENSTER
+ *   Die Grafik steht ab 1024 px neben der Textspalte, ist dort also gut halb so breit
+ *   wie das Fenster. Eine Größe in `vi` misst das Fenster und weiß davon nichts. Die
+ *   Obergrenze aus der Spezifikation (0,7rem) bleibt, die Untergrenze fällt weg: sie
+ *   ist genau das, was die Beschriftungen auf dem Telefon ineinanderschiebt.
+ *
+ * WARUM pathLength="1"
+ *   Die Dash-Rechnung wird damit unabhängig von der tatsächlichen Geometrie: ein Pfad
+ *   kann umgeformt werden, ohne dass Zahlen im CSS nachgestimmt werden müssen. Die
+ *   Bauanleitung nennt an einer Stelle 100 statt 1, aber `story.css` rechnet in der
+ *   gemeinsamen Zeichen-Schicht bereits mit 1 (`stroke-dasharray: 1`), und zwei
+ *   Konventionen nebeneinander wären die teurere Variante. Entschieden für 1.
+ *
+ * WARUM DAS PAKET IM MARKUP SCHON AM ZIEL STEHT
+ *   Seine x/y-Werte setzen den Mittelpunkt auf (840, 60), also exakt auf den Punkt,
+ *   den `offset-distance: 100%` ansteuert. Damit ist die Verschiebung im Ruhezustand
+ *   null: ein Browser ohne `offset-path` zeigt das Paket am Zielsystem statt am
+ *   Nullpunkt, und der Rückfall erzählt dasselbe wie die Bewegung.
+ *
+ * WARUM DAS PAKET VOR DEN HAKEN STEHT
+ *   Am Ziel deckt es seine eigene Station zu: 22 x 16 um (840, 60) schließt den Haken
+ *   dort vollständig ein. Stünde es zuletzt im Markup, fehlte im Ruhezustand genau der
+ *   vierte Haken, und der Zustand ohne Bewegung erzählte drei Stationen statt vier.
+ *   Es liegt deshalb darunter, und der eine Haken, der auf ihm sitzt, ist aus ihm
+ *   ausgespart statt auf ihn gemalt (Akzent auf Akzent wäre unsichtbar).
+ *
+ * WARUM `.dgm` AM SVG
+ *   Box-Verhalten (Breite, Höhe, overflow) kommt aus `story.css`, nicht aus einer
+ *   zweiten Kopie hier. Nur was G4 eigen ist, steht unten: die Ruhedeckkraft, das
+ *   Paket samt Bewegungspfad und die vier gestaffelten Haken.
+ */
+
+interface Props {
+  labels: string[];
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+
+/* Die Geometrie steht genau einmal: `x` ist der viewBox-Wert der Station, `left` der
+   daraus gerechnete Prozentwert für die HTML-Beschriftung (x / 900), `edge` regelt den
+   Anschlag der beiden äußeren Beschriftungen, `row` die Zeile auf schmalen Streifen
+   (0 = auf Höhe der Strecke, 1 = eine Zeile tiefer). Kreis, Haken und Beschriftung
+   einer Station können damit nicht auseinanderlaufen. */
+const stations = [
+  { x: 60, left: '6.667%', edge: 'start', row: 0 },
+  { x: 320, left: '35.556%', edge: null, row: 1 },
+  { x: 580, left: '64.444%', edge: null, row: 0 },
+  { x: 840, left: '93.333%', edge: 'end', row: 1 },
+];
+
+/* Die letzte Station ist die, an der das Paket stehenbleibt. Nur ihr Haken liegt
+   darauf und braucht die Aussparung. */
+const covered = stations.length - 1;
+
+const norm = labels[4] ?? 'EN 16931';
+---
+
+<figure class="fig">
+  <div class="fig-plot">
+    <svg
+      class="dgm"
+      viewBox="0 0 900 120"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g class="fig-rest">
+        <path pathLength="1" d="M 60 60 H 840" />
+        {stations.map((s) => <circle cx={s.x} cy="60" r="9" />)}
+      </g>
+
+      <rect class="fig-parcel" x="829" y="52" width="22" height="16" rx="3" />
+
+      {
+        stations.map((s, i) => (
+          <path
+            class:list={['fig-tick', i === covered && 'fig-tick--covered']}
+            style={`--i:${i}`}
+            pathLength="1"
+            transform={`translate(${s.x} 60)`}
+            d="M -4 0 L -1 3 L 5 -4"
+          />
+        ))
+      }
+    </svg>
+
+    <span class="fig-norm" style={`left: ${stations[2].left}`}>{norm}</span>
+
+    {
+      stations.map((s, i) => (
+        <span
+          class:list={['fig-label', s.edge && `fig-label--${s.edge}`]}
+          style={`left: ${s.left}; --row: ${s.row}`}
+        >
+          {labels[i]}
+        </span>
+      ))
+    }
+  </div>
+
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* Der Streifen läuft über die volle Aktbreite, aber die Bauanleitung deckelt seine
+     Höhe auf 7rem. Bei einem Seitenverhältnis von 900 zu 120 ist 7rem × 7,5 = 52,5rem
+     die Breite, an der die Höhe genau anschlägt. Der Deckel steht hier statt bei der
+     Aufrufseite, weil er zur Geometrie gehört und nicht zum Layout des Akts.
+
+     `container-type: inline-size` macht den Rahmen zugleich zum Bezug für `cqi` und
+     für die Abfrage weiter unten. Beides misst damit die Grafik und nicht das
+     Fenster, was der einzige verlässliche Bezug ist, solange die Grafik mal neben
+     und mal unter der Textspalte steht. */
+  .fig {
+    container-type: inline-size;
+    margin: 0;
+    width: 100%;
+    max-width: 52.5rem;
+    margin-inline: auto;
+    color: var(--text);
+  }
+
+  .fig-plot {
+    position: relative;
+  }
+
+  /* `top` steht hier und nicht mehr im style-Attribut: ein Inlinewert schlägt jede
+     Regel im Stylesheet, und die schmale Anordnung weiter unten muss ihn ändern
+     können. `line-height` ist gesetzt, damit der Zeilenabstand der zweiten Reihe eine
+     gerechnete Größe ist und keine Schätzung über den Vorgabewert der Schrift. */
+  .fig-label {
+    position: absolute;
+    top: 63%;
+    transform: translate(-50%, 0);
+    font-size: min(0.7rem, 2.9cqi);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .fig-label--start {
+    transform: translate(0, 0);
+  }
+
+  .fig-label--end {
+    transform: translate(-100%, 0);
+  }
+
+  /* Die Norm steht in Monospace über der Station, für die sie gilt. Akzent, weil die
+     Zeichen-Schicht in `story.css` Monospace im Diagramm bereits als Akzent führt
+     (`.dgm .mono`) und die Normbezeichnung hier das Prüfbare ist.
+
+     Verankert wird sie an der Oberkante des Kreises (y=51 von 120, also 42,5 Prozent)
+     und über `translate(…, -100%)` von unten her gesetzt. Ein fester Prozentwert für
+     die Oberkante hätte den Abstand mitskaliert, die Schriftgröße aber nicht: auf
+     einem 390 px breiten Telefon ist der Streifen 47 px hoch, und die Zeile hätte den
+     Kreis berührt. So bleibt der Abstand in jeder Größe derselbe. */
+  .fig-norm {
+    position: absolute;
+    top: calc(42.5% - 0.3em);
+    transform: translate(-50%, -100%);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.15;
+    color: var(--accent);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .fig-caption {
+    margin-top: 0.9rem;
+    font-size: clamp(0.68rem, 0.9vi, 0.78rem);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* Schmaler Streifen: die zweite und die vierte Beschriftung rücken eine Zeile
+     tiefer, damit in jeder Reihe der doppelte Stationsabstand zur Verfügung steht.
+     Der Versatz ist in `em` gerechnet und wandert deshalb mit der Schriftgröße mit.
+
+     32rem ist keine gegriffene Zahl. `rem` misst in einer Container-Abfrage gegen
+     die Wurzelgröße der Seite, und die hängt hier an der Fensterhöhe
+     (`StoryPage.astro`, `clamp(12.5px, 1.78vh, 18px)`), also an derselben Größe wie
+     die Obergrenze der Beschriftung. Beide Seiten der Rechnung wandern damit
+     gemeinsam. Die längste Paarung ist `DOCUMENT` neben `TARGET SYSTEM`: sie braucht
+     rund 12,2 mal die Schriftgröße, verfügbar sind 28,9 Prozent der Breite. Bei
+     32rem Streifenbreite bleibt daraus eine Leerstelle von genau 1em, und darunter
+     wird es zwei Reihen.
+
+     Der Block steht hinter den Grundregeln und nicht davor: eine Container-Abfrage
+     erhöht die Spezifität nicht, bei Gleichstand gewinnt die spätere Regel. Weiter
+     oben hätte der Nachschlag an der Bildunterschrift lautlos nicht gegriffen. */
+  @container (max-width: 32rem) {
+    .fig-label {
+      top: calc(63% + var(--row, 0) * 1.35em);
+    }
+
+    /* Die zweite Reihe steht tiefer, als das Bild hoch ist, sie ragt also in den
+       Abstand zur Bildunterschrift hinein. Ohne diesen Nachschlag bleiben davon
+       fünf Pixel, und die Zeile klebt an der Unterschrift. */
+    .fig-caption {
+      margin-top: 2.2em;
+    }
+  }
+
+  /* Grundlinie und Stationen sind das Ruhende: sie tragen keine Aussage über den
+     Durchlauf, sie sind die Strecke. */
+  .fig-rest {
+    opacity: 0.34;
+  }
+
+  /* Der Ruhezustand IST der Endzustand: Paket am Zielsystem, alle vier Haken gesetzt.
+     Ohne JavaScript, in Firefox Stable und unter reduzierter Bewegung steht damit die
+     vollständige Aussage, nicht eine leere Fläche. */
+  .fig-tick {
+    stroke: var(--accent);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* Der eine Haken, der unter dem stehenden Paket liegt, ist aus ihm ausgespart.
+     `--surface` trägt in beiden Themes: Weiß auf Akzentblau im Hellen, dunkles Blau
+     auf hellem Akzent im Dunklen. Solange er noch nicht gezeichnet ist, ist er auch
+     nicht zu sehen, und gezeichnet wird er erst, wenn das Paket angekommen ist. */
+  .fig-tick--covered {
+    stroke: var(--surface);
+  }
+
+  /* `transform-box: fill-box` ist tragend: ohne sie bezieht sich `transform-origin`
+     bei einem SVG-Element auf den viewBox statt auf das Rechteck, und das Paket hinge
+     um die halbe Grafik versetzt an der Linie. `offset-rotate: 0deg` hält es
+     achsparallel, auch wenn die Grundlinie später einmal eine Kurve bekommt.
+     `stroke: none` ist nötig, weil das SVG `currentColor` vererbt: das Paket bekäme
+     sonst eine Kontur in Textfarbe bei voller Deckkraft, also einen dunklen Ring um
+     eine Fläche, die als Fläche gemeint ist. */
+  .fig-parcel {
+    fill: var(--accent);
+    stroke: none;
+    offset-path: path('M 60 60 H 840');
+    offset-distance: 100%;
+    offset-rotate: 0deg;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* Das Paket läuft die Strecke ganz durch, kein Halt unterwegs: dieser Akt ist
+         der, der durchläuft. Die Dauer bleibt weg, ihr Ausgangswert `auto` heißt
+         voller Bereich.
+
+         AUSGESCHRIEBEN, NICHT ALS KURZSCHREIBWEISE, und das ist tragend: der
+         Minimierer im Build zieht ein nachgestelltes `animation-timeline: view()`
+         in die Kurzschreibweise zusammen. `animation` kennt die Zeitleiste aber
+         nicht, also verwirft der Browser die gesamte Zeile, und aus der Bewegung
+         wird nichts. In Chrome 151 nachgemessen: aus
+         `animation: linear both name view()` bleibt eine leere Regel. Mit
+         Langschreibweisen hat der Minimierer nichts zusammenzuziehen. */
+      .fig-parcel {
+        animation-name: figroute-travel;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 20% cover 70%;
+      }
+
+      /* Jeder Haken zeichnet sich, wenn das Paket seine Station passiert. Die Stationen
+         liegen bei 0, 33, 67 und 100 Prozent der Strecke, also ist der Versatz gleich
+         verteilt. Gerechnet wird in `cover`, nicht gemischt: bei einem Streifen von
+         höchstens 7rem Höhe fällt `entry 20%` in einem üblichen Fenster auf rund
+         `cover 3%`, und der Rest der Staffel bleibt damit in einer einzigen Phase
+         statt über zwei Phasen hinweg interpoliert zu werden. Der letzte Haken schließt
+         knapp nach der Ankunft: erst da sein, dann quittieren. */
+      .fig-tick {
+        animation-name: figroute-tick;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: cover calc(3% + var(--i, 0) * 22.3%) cover calc(9% + var(--i, 0) * 22.3%);
+      }
+
+      @keyframes figroute-travel {
+        from { offset-distance: 0%; }
+        to   { offset-distance: 100%; }
+      }
+
+      @keyframes figroute-tick {
+        from { stroke-dashoffset: 1; }
+        to   { stroke-dashoffset: 0; }
+      }
+    }
+  }
+</style>

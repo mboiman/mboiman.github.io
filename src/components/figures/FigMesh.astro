@@ -1,0 +1,350 @@
+---
+/**
+ * G3 · Netz · Akt 06 (`06-netz`).
+ *
+ * Drei Agentenknoten in einem Dreieck, dazwischen ein Tor. Jeder Agent spricht das
+ * Tor an, und zwei sprechen zusätzlich direkt miteinander. Das Bild sagt: ein Netz,
+ * kein Stern mit einem Besitzer in der Mitte. Zwei Nachrichtenpunkte laufen einmal
+ * los, einer zum Tor, einer quer zum Nachbarn. Sie sind das einzige Element in
+ * `--accent` bei voller Deckkraft, alles andere ruht bei 0.34.
+ *
+ * PROPS
+ *   labels  Reihenfolge ist fest, die Aufrufseite muss sie nicht raten:
+ *             [0]  `Projekt-Agent`      / `Project agent`     im linken oberen Knoten
+ *             [1]  `Firmen-Agent`       / `Company agent`     im rechten oberen Knoten
+ *             [2]  `Persönlicher Agent` / `Personal agent`    im unteren Knoten
+ *             [3]  `Tor`                / `Gateway`           über dem Tor
+ *             [4]  `list · card · ask`  / `list · card · ask` zwischen Wort und Tor
+ *   caption Ein Satz, was die Abbildung zeigt. Pflicht, rendert als <figcaption>.
+ *             DE `Drei Agenten, ein Tor, ein offenes Protokoll.`
+ *             EN `Three agents, one gateway, one open protocol.`
+ *
+ * WARUM KEIN <text> IM viewBox
+ *   Der viewBox skaliert, und mit ihm skalierte jede Beschriftung darin: aus 0.72rem
+ *   in einem 660er viewBox werden auf einem 390 px breiten Telefon rund fünf Pixel.
+ *   Alle Beschriftungen liegen deshalb als HTML-span darüber. Die Prozentwerte sind
+ *   Geometrie und gehören hierher, die Texte sind Sprache und kommen als Prop.
+ *
+ * WARUM DER PLOT-WRAPPER
+ *   Die Beschriftungen hängen an `.fig-plot`, nicht an `.fig`. Ein Prozentwert für
+ *   `top` misst gegen die Höhe des Bezugsrahmens: läge er auf `.fig`, zählte die
+ *   figcaption mit, und eine zweizeilige Bildunterschrift im Deutschen würde alle
+ *   Beschriftungen gegenüber dem Englischen verschieben. Der Wrapper hat exakt die
+ *   Höhe des SVG, damit stimmen die Prozentwerte in jeder Sprache. Übernommen aus
+ *   `FigChecks.astro`, damit die Bauteile eine Familie bleiben.
+ *
+ * WARUM pathLength="1"
+ *   Die Dash-Rechnung wird damit unabhängig von der tatsächlichen Geometrie: eine
+ *   Kante kann umgeformt werden, ohne dass Zahlen im CSS nachgestimmt werden müssen.
+ *   Die Bauanleitung nennt an einer Stelle 100 statt 1, aber `story.css` rechnet in
+ *   der gemeinsamen Zeichen-Schicht bereits mit 1 (`stroke-dasharray: 1`), und zwei
+ *   Konventionen nebeneinander wären die teurere Variante. Entschieden für 1.
+ *
+ * WARUM `.dgm` AM SVG
+ *   Box-Verhalten (Breite, Höhe, overflow) kommt aus `story.css`, nicht aus einer
+ *   zweiten Kopie hier. Unten steht nur, was G3 eigen ist: Ruhedeckkraft, die zwei
+ *   Bewegungsbereiche und die Bahnen der beiden Nachrichtenpunkte.
+ *
+ * ENTSCHEIDUNG · VIER KANTEN, NICHT SECHS
+ *   Die Animationstabelle spricht von sechs Kanten, die Geometrie zählt vier
+ *   einzeln auf: A zum Tor, B zum Tor, C zum Tor und A nach B als gebogener
+ *   Direktweg. Die Aufzählung ist die genauere Angabe, also vier. Ein fünftes oder
+ *   sechstes Band wäre erfunden, und erfundene Kanten behaupten Verbindungen, die
+ *   es nicht gibt.
+ *
+ * ENTSCHEIDUNG · WO DIE BEIDEN TOR-BESCHRIFTUNGEN LIEGEN
+ *   Beide stehen über dem Tor, nicht darunter. Unter dem Tor läuft die Kante des
+ *   unteren Knotens senkrecht durch, dort läge der Text auf der Linie. Übereinander
+ *   gestellt lesen sich Wort und Werkzeugliste als eine Bildunterschrift zum Tor,
+ *   und die Fläche zwischen Tor und unterem Knoten bleibt frei.
+ *
+ * ENTSCHEIDUNG · DER PFAD UNTER DEN KNOTENLABELN IST KEIN PROP
+ *   `/.well-known/agent-card.json` ist in beiden Sprachen dasselbe Zeichen für
+ *   Zeichen: eine Maschinenadresse, keine Sprache. Sie steht deshalb hier und nicht
+ *   in `labels`. Hostnamen kommen bewusst keine vor, die Adresse ist das Protokoll,
+ *   nicht der Betreiber.
+ */
+
+interface Props {
+  labels: string[];
+  caption: string;
+}
+
+const { labels, caption } = Astro.props;
+
+/* Gleicher Pfad an allen drei Knoten: das ist die Aussage, nicht ein Versehen. */
+const agentCard = '/.well-known/agent-card.json';
+---
+
+<figure class="fig">
+  <div class="fig-plot">
+    <svg
+      class="dgm"
+      viewBox="0 0 660 300"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="fig-edge" pathLength="1" d="M 180 47 L 282 145" />
+      <path class="fig-edge" pathLength="1" d="M 480 47 L 378 145" />
+      <path class="fig-edge" pathLength="1" d="M 330 214 L 330 162" />
+      <path class="fig-edge" pathLength="1" d="M 180 47 Q 330 0 480 47" />
+
+      <rect class="fig-node" x="30" y="24" width="150" height="46" rx="8" />
+      <rect class="fig-node" x="480" y="24" width="150" height="46" rx="8" />
+      <rect class="fig-node" x="255" y="214" width="150" height="46" rx="8" />
+
+      <rect class="fig-gate" x="282" y="128" width="96" height="34" rx="4" />
+      <path class="fig-gate" d="M 306 137 V 153 M 330 137 V 153 M 354 137 V 153" />
+
+      <circle class="fig-dot fig-dot--gate" cx="282" cy="145" r="3.5" />
+      <circle class="fig-dot fig-dot--peer" cx="480" cy="47" r="3.5" />
+    </svg>
+
+    <span class="fig-label fig-label--node" style="left: 15.91%; top: 15.67%">
+      {labels[0]}
+      <span class="fig-path">{agentCard}</span>
+    </span>
+    <span class="fig-label fig-label--node" style="left: 84.09%; top: 15.67%">
+      {labels[1]}
+      <span class="fig-path">{agentCard}</span>
+    </span>
+    <span class="fig-label fig-label--node" style="left: 50%; top: 79%">
+      {labels[2]}
+      <span class="fig-path">{agentCard}</span>
+    </span>
+
+    <span class="fig-label fig-label--gate" style="left: 50%; top: 28%">{labels[3]}</span>
+    <span class="fig-label fig-tools" style="left: 50%; top: 34%">{labels[4]}</span>
+  </div>
+
+  <figcaption class="fig-caption">{caption}</figcaption>
+</figure>
+
+<style>
+  /* Breiter als die Mikro-Grafiken der Seite, weil dieses Bild drei beschriftete
+     Knoten trägt und die Beschriftungen nicht mitskalieren. Ohne Deckel liefe es
+     auf die volle Spaltenbreite und die Knoten würden zu Plakaten. */
+  .fig {
+    margin: 0;
+    max-width: 40rem;
+    color: var(--text);
+  }
+
+  /* `container-type` steht hier und nicht bei den Schriftgrößen unten, damit es
+     nur eine `.fig-plot`-Regel gibt. Wofür der Container gebraucht wird, steht
+     dort. `inline-size` hält die Höhe am Inhalt, der Wrapper bleibt also exakt so
+     hoch wie das SVG, worauf alle Prozentwerte für `top` rechnen. */
+  .fig-plot {
+    position: relative;
+    container-type: inline-size;
+  }
+
+  .fig-label {
+    position: absolute;
+    transform: translate(-50%, 0);
+    font-size: clamp(0.6rem, 0.78vi, 0.7rem);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Knotenlabel sitzen IM Knoten, also in beiden Achsen zentriert, und tragen eine
+     zweite Zeile. Deshalb hier `-50%` auch senkrecht statt der Grundstellung. */
+  .fig-label--node {
+    transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  /* Das Tor ist das Thema des Akts, nicht Beiwerk: eine Stufe präsenter als die
+     Agentennamen, aber immer noch aus den Tokens, nicht aus einer neuen Farbe. */
+  .fig-label--gate {
+    color: var(--text);
+  }
+
+  .fig-path {
+    display: block;
+    margin-top: 0.2em;
+    font-family: var(--font-mono);
+    font-size: clamp(0.46rem, 0.66vi, 0.58rem);
+    letter-spacing: 0;
+    text-transform: none;
+    /* 0.72 on top of --text-secondary gave 3.11:1 in light mode. Without it:
+       5.57:1. These are the agent-card paths under each node, the smallest
+       type in the figure, so they need the contrast most. */
+  }
+
+  .fig-tools {
+    font-family: var(--font-mono);
+    font-size: clamp(0.5rem, 0.7vi, 0.62rem);
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+
+  .fig-caption {
+    margin-top: 0.9rem;
+    font-size: clamp(0.68rem, 0.9vi, 0.78rem);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* Der Ruhezustand IST der Endzustand: alle vier Kanten gezeichnet, beide Punkte am
+     Ziel. Ohne JavaScript, in Firefox Stable und unter reduzierter Bewegung steht
+     damit das vollständige Netz, nicht eine leere Fläche. */
+  .fig-edge {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  /* Kontrast kommt aus Deckkraft, nicht aus Farbe. Die Tokens kennen kein Grün und
+     kein Rot, und das Netz soll leise sein, damit die zwei Nachrichten laut sind. */
+  .fig-edge,
+  .fig-node,
+  .fig-gate {
+    opacity: 0.34;
+  }
+
+  /* Auch die Punkte ruhen in ihrem Endzustand, und zwar ohne Hilfe einer
+     Bewegungs-Eigenschaft: `cx`/`cy` setzen sie an ihr Ziel, den linken Rand des
+     Tors und den linken Rand von Knoten B. Sie sind das eine Element in
+     `--accent`, sie dürfen deshalb nirgends fehlen, auch nicht in einer Engine
+     ohne `offset-path`. Ein Punkt bei 0/0 mit Deckkraft null wäre die teurere
+     Variante gewesen: die Aussage der Grafik hinge dann an einer Eigenschaft,
+     die die Bauanleitung ausdrücklich nur als Schicht vorsieht.
+
+     `transform-box: fill-box` ist hier Pflicht, nicht Geschmack. Der Ankerpunkt
+     einer Bewegungsbahn ist `offset-anchor`, und der steht auf `auto`, heißt
+     also `transform-origin`. Dessen Prozentwerte messen bei SVG ohne diese Zeile
+     gegen den viewBox, der Anker läge damit in dessen Mitte (330/150) statt im
+     Kreismittelpunkt, und der Punkt säße um genau diesen Betrag versetzt: weit
+     links oberhalb des Bildes, bei `.dgm { overflow: visible }` sichtbar. Mit
+     `fill-box` ist der Anker der Kreismittelpunkt selbst, und Ruhelage (`cx`/`cy`)
+     und Bahnende fallen exakt zusammen, in beide Richtungen. */
+  .fig-dot {
+    fill: var(--accent);
+    offset-distance: 100%;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Beide Bahnen sind zeichengleich mit den Kanten darunter. Ändert sich eine
+     Kante, ändert sich hier dieselbe Zeichenkette mit. Kein `@supports` nötig:
+     wo `offset-path` fehlt, fallen diese Zeilen weg und `cx`/`cy` steht. */
+  .fig-dot--gate {
+    offset-path: path("M 180 47 L 282 145");
+  }
+
+  .fig-dot--peer {
+    offset-path: path("M 180 47 Q 330 0 480 47");
+  }
+
+  /* Die Beschriftungen skalieren NICHT mit dem viewBox, das ist der Sinn der
+     HTML-Schicht. Der Knoten unter ihnen tut es sehr wohl: er ist 150 von 660
+     Einheiten breit, also immer 22,7 Prozent der Bildbreite. Steht die Abbildung
+     in einer Spalte statt auf voller Breite, wächst die Schrift dem Knoten davon,
+     und die Kartenadresse legte sich auf die Kante zum Tor. Ein Fenster-Maß hilft
+     nicht, es kennt die Spaltenbreite nicht. Der Deckel in `cqi` bindet die drei
+     eng gebauten Beschriftungen an die BILDbreite. Die Grundwerte oben bleiben
+     stehen, damit ohne Container-Query nichts fehlt. */
+  .fig-label--node {
+    font-size: clamp(0.52rem, 1.65cqi, 0.7rem);
+  }
+
+  .fig-path {
+    font-size: clamp(0.44rem, 1.2cqi, 0.58rem);
+  }
+
+  .fig-tools {
+    font-size: clamp(0.42rem, 2.4cqi, 0.62rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* EINE UHR FÜR DIE GANZE ABBILDUNG, nicht eine je Element.
+         `view()` nimmt das animierte Element selbst als Bezug, und die sechs
+         bewegten Teile sind völlig verschieden hoch: die beiden Kanten zum Tor
+         messen 98 Einheiten, die Kante des unteren Knotens 52, der gebogene
+         Direktweg nur rund 24, und die Nachrichtenpunkte sind 7 Einheiten hoch.
+         Je eigener Uhr bedeutete `entry 20%` auf jedem dieser Elemente eine andere
+         Scrollposition, der gebogene Weg wäre nach zwei Dutzend Pixeln fertig,
+         während die langen Kanten noch anfangen, und die Lücke zwischen dem
+         Zeichnen der Kanten und dem Loslaufen der Punkte, die hier die Aussage
+         trägt, entstünde gar nicht. Der Wrapper ist ein echter Block mit der Höhe
+         des Bildes; auf ihm heißen `entry` und `cover` das, was die Bereiche unten
+         meinen. Ein benannter Zeitstrahl gilt für das Element und seine Nachfahren,
+         die Pfade greifen ihn also ohne `timeline-scope` ab. Gleiche Mechanik wie
+         in `FigChecks.astro`, aus demselben Grund. */
+      .fig-plot { view-timeline-name: --figmesh; }
+
+      /* Erst baut sich das Netz auf, dann laufen die Nachrichten. Die beiden
+         Bereiche überlappen absichtlich nicht: eine Nachricht auf einer Kante, die
+         noch gezeichnet wird, liefe ins Leere.
+         Die Kurzschreibweise setzt timeline und range zurück, beide stehen deshalb
+         danach; die Dauer bleibt weg, `auto` heißt voller Bereich. */
+      .fig-edge {
+        animation: figmesh-draw linear both;
+        animation-timeline: --figmesh;
+        animation-range: entry 20% cover 55%;
+      }
+
+      /* Einmal, nicht im Kreis. Ein Dauerlauf wäre Zierde und würde behaupten, hier
+         passiere ununterbrochen etwas. `both` hält den Punkt am Bahnende, also
+         genau dort, wo `cx`/`cy` ihn ohnehin schon hatten. */
+      .fig-dot {
+        animation: figmesh-travel linear both;
+        animation-timeline: --figmesh;
+        animation-range: cover 45% cover 85%;
+      }
+
+      @keyframes figmesh-draw {
+        from { stroke-dashoffset: 1; }
+        to   { stroke-dashoffset: 0; }
+      }
+
+      @keyframes figmesh-travel {
+        from { offset-distance: 0%; }
+        to   { offset-distance: 100%; }
+      }
+    }
+  }
+
+  /* Unterhalb dieser Breite ist der Knoten rund achtzig Pixel breit, die
+     Kartenadresse aber über hundert: sie liefe aus ihrem Knoten heraus und wäre bei
+     rund sieben Pixel ohnehin nicht mehr zu lesen. Der Knotenname bleibt, das
+     Protokoll steht weiter in der Bildunterschrift. `rem` in einer Media-Query misst
+     immer gegen die Ausgangsgröße des Browsers, nie gegen die der Seite, ist hier
+     also verlässlich. */
+  @media (max-width: 35rem) {
+    .fig-path {
+      display: none;
+    }
+
+    .fig-label {
+      letter-spacing: 0.06em;
+    }
+
+    /* Auf dem Telefon ist der Knoten rund achtzig Pixel breit, `Persönlicher
+       Agent` in einer Zeile aber gut hundert: der Name liefe über den rechten
+       Rand seines Knotens hinaus und legte sich mit den letzten Zeichen auf die
+       Kante zum Tor. Ein Umbruch löst das, sobald es einen gibt, und
+       `white-space: normal` allein erzeugt keinen: ein absolut gesetztes Element
+       ohne Breite bricht erst, wenn es an die Kante des Bezugsrahmens stößt, und
+       bis dahin sind es fast zwei Bildbreiten. Der Deckel gibt ihm die Breite
+       seines Knotens (150 von 660 Einheiten, minus etwas Luft), zwei Zeilen
+       passen in dessen Höhe. Nur hier unten, denn oberhalb steht die Kartenadresse
+       als dritte Zeile darunter und die Höhe reichte nicht. */
+    .fig-label--node {
+      white-space: normal;
+      max-width: 21%;
+    }
+  }
+</style>
