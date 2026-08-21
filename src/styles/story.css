@@ -240,6 +240,16 @@
 .term-out { color: var(--text-secondary); }
 .term-hit { color: var(--accent); }
 
+/* Short viewports. The acts are laid out for roughly 1280x800 upwards, and at
+   640px of height the terminal act cleared the fold by eleven pixels, which is
+   luck rather than headroom: one added line put the recording date underneath,
+   and that date is half of what the block is for. 1.75 is generous for a
+   transcript, so the line height gives the room back. Only the block that grew
+   is touched. */
+@media (max-height: 720px) {
+  .term-body { line-height: 1.6; }
+}
+
 /* ── Word field ────────────────────────────────────────────────────────────
    Breadth that is read rather than counted. An earlier attempt used a grid of
    small marks; it looked like a rating widget and invited exactly the counting

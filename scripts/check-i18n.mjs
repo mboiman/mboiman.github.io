@@ -208,6 +208,35 @@ if (projectCount < 3) {
   errors.push(`only ${projectCount} project acts. The page is a portfolio; below three it reads as an essay again.`);
 }
 
+/**
+ * The manifest announces how many projects follow, and a visitor can count
+ * them. It said six while five existed, in both languages, and survived a
+ * review round because nothing compared the sentence to the act list. Same
+ * class of defect as the "Eight jobs" line that shipped over seven cards
+ * elsewhere: a number in prose that no longer has anything checking it.
+ *
+ * Spelled out rather than written as a digit, because a digit on the opening
+ * screen reads as a counter, and counters are what this page removed.
+ */
+const NUMBER_WORDS = {
+  de: ['null', 'ein', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn'],
+  en: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+};
+for (const [name, branch] of [['de', de], ['en', en]]) {
+  const manifest = branch.acts.find(a => a.kind === 'manifest');
+  const blob = (manifest?.bullets || []).join(' ').toLowerCase();
+  const claimed = NUMBER_WORDS[name].findIndex(
+    (w, i) => i > 0 && new RegExp(`\\b${w}\\b\\s+(projekte|projects)\\b`).test(blob),
+  );
+  if (claimed === -1) {
+    errors.push(`${name}: the manifest states no project count. Say how many follow, spelled out.`);
+  } else if (claimed !== projectCount) {
+    errors.push(
+      `${name}: the manifest announces ${NUMBER_WORDS[name][claimed]} projects but ${projectCount} project acts exist. A visitor counts them.`,
+    );
+  }
+}
+
 // Every project act needs a picture. A project told in prose alone is a CV
 // entry, and the CV page already has it.
 de.acts.filter(a => a.kind === 'project').forEach((a) => {

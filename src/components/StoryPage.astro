@@ -428,6 +428,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     <div><dt>{t.agentCardName}</dt><dd data-f="name">…</dd></div>
                     <div><dt>{t.agentCardProtocol}</dt><dd data-f="proto">…</dd></div>
                     <div><dt>{t.agentCardEndpoint}</dt><dd data-f="url" class="agent-endpoint">…</dd></div>
+                    {/* Filled from the live card. The three rows above were the
+                        whole card, which left the right half of the peak act
+                        nearly empty and said nothing about what the agent can
+                        actually do. */}
+                    <div><dt>{t.agentCardSkills}</dt><dd><span class="agent-skills" id="agent-skills">…</span></dd></div>
                   </dl>
                 </div>
               </div>
@@ -694,6 +699,35 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     .agent-facts > div { display: grid; grid-template-columns: 8rem 1fr; gap: 0.8rem; }
     .agent-facts dt { color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.66rem; padding-top: 0.15rem; }
     .agent-facts dd { color: var(--text); margin: 0; }
+    /* Same reason as the terminal block in story.css: the skills row made this
+       card one line taller, and on a 640px-high screen the act had no spare
+       room to give. The rows carry more air than they need. */
+    @media (max-height: 720px) {
+      .agent-facts { margin-top: 0.9rem; gap: 0.5rem; }
+    }
+
+    /* Skill ids from the live card. Monospace and boxed, because they are
+       identifiers a client passes over the wire, not prose. They wrap: the
+       count comes from the agent and is not this page's to cap. */
+    .agent-skills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    /* :global is required, not decoration. The chips are created by the card
+       script at runtime, so they never carry the data-astro-cid attribute that
+       scoped CSS matches on, and a plain `.agent-skill` rule silently does
+       nothing: right class, no styling. Kept under the scoped parent so the
+       global part cannot reach past this act. */
+    .agent-skills :global(.agent-skill) {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      line-height: 1.5;
+      padding: 0.12rem 0.5rem;
+      border-radius: 4px;
+      /* A tint rather than a border: --line sits at ten percent alpha, which
+         is right for a card edge and invisible at chip size on the same
+         surface. Tinting off --accent carries both themes. */
+      background: color-mix(in srgb, var(--accent) 13%, transparent);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
 
     .portrait-crop {
       width: min(14rem, 26vw);
@@ -876,15 +910,40 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
         state.closest('.agent-card')?.setAttribute('data-state', 'live');
         set('name', card?.name || '');
         const iface = (card?.supportedInterfaces || [])[0] || {};
-        set('proto', [card?.protocolVersion && `A2A ${card.protocolVersion}`, iface?.protocolBinding]
+        // The version lives on the interface, not at the top of the card. This
+        // read the top level only, so the whole "A2A <version>" half was
+        // silently dropped and the act about an open protocol displayed a card
+        // that said nothing but "JSONRPC". Interface first, top level as the
+        // fallback for older card shapes.
+        const proto = iface?.protocolVersion || card?.protocolVersion;
+        set('proto', [proto && `A2A ${proto}`, iface?.protocolBinding]
           .filter(Boolean).join(' · ') || 'A2A');
         set('url', (iface?.url || card?.url || 'mboiman.bks-lab.com').replace(/^https?:\/\//, ''));
+
+        // The skills, as the ids an A2A client actually addresses. Ids and not
+        // names on purpose: the card is served in one language, so its German
+        // skill names would land untranslated on the English page, while an id
+        // is language neutral and reads as what it is. Two of them are the
+        // agent mesh from act 04, which nothing on the page could check before.
+        const skills = (card?.skills || []).map((s: { id?: string }) => s?.id).filter(Boolean);
+        const skillRow = document.getElementById('agent-skills');
+        if (skillRow && skills.length) {
+          skillRow.innerHTML = '';
+          for (const id of skills) {
+            const chip = document.createElement('span');
+            chip.className = 'agent-skill';
+            chip.textContent = id;
+            skillRow.appendChild(chip);
+          }
+        }
       } catch {
         state.textContent = state.dataset.down || '';
         state.closest('.agent-card')?.setAttribute('data-state', 'down');
         set('name', '—');
         set('proto', '—');
         set('url', 'mboiman.bks-lab.com/.well-known/agent-card.json');
+        const skillRow = document.getElementById('agent-skills');
+        if (skillRow) skillRow.textContent = '—';
       }
     })();
 

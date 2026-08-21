@@ -231,6 +231,9 @@ export interface I18nStrings {
   agentCardName: string;
   agentCardProtocol: string;
   agentCardEndpoint: string;
+  /** Label of the skills row. The values themselves are not translated: they
+   *  are the ids an A2A client addresses, and they come from the live card. */
+  agentCardSkills: string;
   /** Build stamp in the closing act. */
   builtOn: string;
   builtOnNote: string;
@@ -273,9 +276,16 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         tone: 'base',
         eyebrow: 'Quality Engineer · KI-Architekt · Frankfurt am Main',
         headline: 'Ich baue KI-Automatisierung, die im Betrieb hält.',
+        // Both numbers are checkable on this same page, so both have to hold.
+        // "Zwanzig" against the stations act, which reads the career out of
+        // config.cv.toml: the earliest entry is 01/2006. "Drei" against the
+        // earliest AI entry in that same file, 04/2023. It said "vier Jahre
+        // Agenten-Architektur", which the CV two screens down did not carry.
+        // The project count is guarded in scripts/check-i18n.mjs; it said six
+        // while five project acts existed, and a visitor can count them.
         bullets: [
-          'Zwanzig Jahre Qualitätssicherung, vier Jahre Agenten-Architektur. Beides zusammen ist der Punkt.',
-          'Sechs Projekte auf dieser Seite, jedes mit Bild, Ergebnis und, wo möglich, offenem Beleg.',
+          'Zwanzig Jahre Qualitätssicherung, drei Jahre KI-Architektur. Beides zusammen ist der Punkt.',
+          'Fünf Projekte auf dieser Seite, jedes mit Bild, Ergebnis und, wo möglich, offenem Beleg.',
         ],
       },
       {
@@ -331,15 +341,24 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         terminal: {
           title: 'open-bridge',
           lines: [
+            // git's progress chatter came out here and was dropped when the
+            // gateway pair went in: the block is a proof, and "Cloning into
+            // ..." proves nothing the next command does not, while costing the
+            // line that pushed the recording date off a 1024x640 screen.
             { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
-            { kind: 'out', text: "  Cloning into 'open-bridge'..." },
             { kind: 'cmd', text: 'cd open-bridge && head -1 LICENSE' },
             { kind: 'out', text: '  MIT License' },
             { kind: 'cmd', text: "ls rules/ | grep -E 'guard|safety'" },
             { kind: 'hit', text: '  promote-safety.md' },
             { kind: 'hit', text: '  push-guard.md' },
+            // The solution text above claims a gateway that serves the same
+            // agents to MCP clients. It was a sentence when this act was
+            // written and shipped as a release since, so it is shown now
+            // instead of asserted.
+            { kind: 'cmd', text: 'ls agents/ | grep gateway' },
+            { kind: 'hit', text: '  _gateway' },
           ],
-          recorded: 'Befehle am 7. August 2026 gegen das offene Repo ausgeführt.',
+          recorded: 'Befehle am 21. August 2026 gegen das offene Repo ausgeführt.',
         },
         anchor: {
           text: 'github.com/bks-lab/open-bridge · MIT',
@@ -519,15 +538,22 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         tone: 'base',
         eyebrow: 'Live auf dieser Seite',
         headline: 'Fragen Sie meinen Agenten, statt mir zu glauben.',
+        // The hardware question moved out and the peer question moved in.
+        // Reason: act 02 already states that the agent runs on a machine in his
+        // study, so asking it the same thing produced the one answer on this
+        // act that proved nothing new. Nothing on the page let a visitor check
+        // the agent mesh drawn in act 04, and this question does: the answer
+        // names the two neighbouring agents it can consult. Verified against
+        // the running agent before it was put here.
         bullets: [
           'Was liest du, und was nicht?',
-          'Auf welcher Hardware läufst du?',
+          'Wen fragst du, wenn du etwas nicht weißt?',
           'Woher kommen deine Terminzeiten?',
         ],
         askAgent: true,
         probeNotes: [
           'Prüft die absichtlich schmale Wissensquelle.',
-          'Prüft den Betrieb auf eigener Hardware.',
+          'Prüft, ob die Agenten sich gegenseitig erreichen.',
           'Prüft den Terminspiegel: nur Zeiten, kein Titel, kein Ort.',
         ],
         anchor: {
@@ -536,7 +562,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Jede der drei Fragen prüft eine andere Grenze seines Zuschnitts.',
+        hook: 'Drei Fragen an seine Grenzen: was er weiß, wen er erreicht, was er über Termine preisgibt.',
       },
       {
         id: '12-stationen',
@@ -572,6 +598,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentCardName: 'Name',
     agentCardProtocol: 'Protokoll',
     agentCardEndpoint: 'Adresse',
+    agentCardSkills: 'Fähigkeiten',
     builtOn: 'zuletzt gebaut am',
     builtOnNote: 'Zur Bauzeit gestempelt, nicht getippt.',
     ariaStatement: 'Leitsatz',
@@ -675,9 +702,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         tone: 'base',
         eyebrow: 'Quality Engineer · AI Architect · Frankfurt am Main',
         headline: 'I build AI automation that survives production.',
+        // See the note on the German branch: both numbers are checkable on this
+        // page and both were wrong.
         bullets: [
-          'Twenty years of quality engineering, four years of agent architecture. The combination is the point.',
-          'Six projects on this page, each with a picture, a result and, where possible, an open reference.',
+          'Twenty years of quality engineering, three years of AI architecture. The combination is the point.',
+          'Five projects on this page, each with a picture, a result and, where possible, an open reference.',
         ],
       },
       {
@@ -733,15 +762,18 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         terminal: {
           title: 'open-bridge',
           lines: [
+            // See the German branch: git's progress line came out to pay for
+            // the gateway pair.
             { kind: 'cmd', text: 'gh repo clone bks-lab/open-bridge' },
-            { kind: 'out', text: "  Cloning into 'open-bridge'..." },
             { kind: 'cmd', text: 'cd open-bridge && head -1 LICENSE' },
             { kind: 'out', text: '  MIT License' },
             { kind: 'cmd', text: "ls rules/ | grep -E 'guard|safety'" },
             { kind: 'hit', text: '  promote-safety.md' },
             { kind: 'hit', text: '  push-guard.md' },
+            { kind: 'cmd', text: 'ls agents/ | grep gateway' },
+            { kind: 'hit', text: '  _gateway' },
           ],
-          recorded: 'Commands run against the open repo on 7 August 2026.',
+          recorded: 'Commands run against the open repo on 21 August 2026.',
         },
         anchor: {
           text: 'github.com/bks-lab/open-bridge · MIT',
@@ -921,15 +953,17 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         tone: 'base',
         eyebrow: 'Live on this page',
         headline: 'Ask my agent instead of taking my word.',
+        // See the note on the German branch for why the hardware question gave
+        // way to the peer question.
         bullets: [
           'What do you read, and what do you not?',
-          'What hardware do you run on?',
+          'Who do you ask when you do not know something?',
           'Where do your calendar times come from?',
         ],
         askAgent: true,
         probeNotes: [
           'Probes the deliberately narrow knowledge source.',
-          'Probes that it runs on hardware he owns.',
+          'Probes whether the agents really reach each other.',
           'Probes the calendar mirror: times only, no title, no place.',
         ],
         anchor: {
@@ -938,7 +972,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
-        hook: 'Each of the three questions probes a different edge of his scope.',
+        hook: 'Three questions at its edges: what it knows, who it reaches, what it gives away about appointments.',
       },
       {
         id: '12-stationen',
@@ -974,6 +1008,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentCardName: 'Name',
     agentCardProtocol: 'Protocol',
     agentCardEndpoint: 'Address',
+    agentCardSkills: 'Skills',
     builtOn: 'last built on',
     builtOnNote: 'Stamped at build time, not typed.',
     ariaStatement: 'Statement',
