@@ -151,7 +151,7 @@ defaultContentLanguageInSubdir = true
         [[languages.de.params.education.list]]
         degree = "Diplom-Informatiker (FH)"
         college = "Fachhochschule Köln, Gummersbach"
-        dates = "2000 – 2005"
+        dates = "2000-2005"
 
         [[languages.de.params.education.list]]
         degree = "ISTQB Certified Tester"
@@ -240,7 +240,7 @@ Format: moderierter Impuls mit interaktiven Live-Demonstrationen. Zielgruppe: ~2
         position = "Workshop: Entwicklung mit Generativen Sprach Modellen"
         anchor = "workshop-genai"
         dates = "06/2025"
-        company = "Developer Workshop - Agenten-basierte Software-Entwicklung"
+        company = "Developer Workshop · Agenten-basierte Software-Entwicklung"
         details = """
 **Workshop für Entwickler** Umfassender Workshop über moderne AI-Agent-Entwicklung mit praktischen Demos und Live-Coding
 
@@ -268,8 +268,8 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
-        dates = "06/2025 – heute"
-        company = "BKS - AI Research & Development"
+        dates = "seit 06/2025"
+        company = "BKS · AI Research & Development"
         details = """
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
@@ -302,7 +302,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Quality Engineering"
         anchor = "tuev-sued"
-        dates = "09/2025 – heute"
+        dates = "seit 09/2025"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
@@ -328,7 +328,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         position = "Präsentation: Effiziente Dokumentation durch Automatisierung"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
-        company = "Enterprise Präsentation - AI-gestützte Dokumentationsworkflows"
+        company = "Enterprise Präsentation · AI-gestützte Dokumentationsworkflows"
         details = """
 **Unternehmenspräsentation** Demonstration moderner Automatisierungsansätze für zentrale, aktuelle Dokumentation und nachhaltigen Projekterfolg
 
@@ -356,7 +356,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
         anchor = "dvag"
-        dates = "08/2021 – 05/2025"
+        dates = "08/2021-05/2025"
         company = "DVAG"
         details = """
 **Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
@@ -389,7 +389,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
-        dates    = "01/2024 – 04/2025"
+        dates = "01/2024-04/2025"
         company  = "BKS"
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
@@ -426,7 +426,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
         anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
+        dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
         pdf_tier = "medium"
         details = """
@@ -457,7 +457,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 – 04/2024"
+        dates = "04/2023-04/2024"
         company = "BKS im Auftrag für Ryze"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systeme. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
@@ -517,7 +517,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 – 05/2021"
+        dates = "01/2017-05/2021"
         company = "DB Vertrieb"
         details = """
 **Testmanagement, Testkoordination, Testautomatisierung (agil: Kanban, Scrum, SAFE)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
@@ -552,7 +552,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 – 01/2017"
+        dates = "09/2015-01/2017"
         company = "DB Systel"
         details = """
 **Last und Performance Tests und Analyse (Testmanager, Testdesigner, Analyst)** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
@@ -577,7 +577,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 – 09/2015"
+        dates = "04/2015-09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer** Weiterentwicklung der Rebuild Version der **Kundencenter App** der Deutschen Telekom, Erweiterung um neue Funktionalitäten zur IFA. 
@@ -598,7 +598,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 – 03/2015"
+        dates = "05/2009-03/2015"
         company = "Siemens"
         details = """
 **QS, Testmanagement, Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
@@ -631,7 +631,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 – 05/2009"
+        dates = "03/2009-05/2009"
         company = "ING-DIBA"
         details = """
 **Last und Performance Tester** Ziel des Projektes ist die Konzeption und Entwicklung von LoadRunner-Scripts für den Lasttest von einem Bundle mit ca. 20 J2EE Applikationen in einem Bankportal 
@@ -647,7 +647,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 – 12/2008"
+        dates = "01/2006-12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
@@ -787,7 +787,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.en.params.education.list]]
         degree = "Diploma in Computer Science (UAS)"
         college = "Cologne University of Applied Sciences, Gummersbach"
-        dates = "2000 – 2005"
+        dates = "2000-2005"
 
         [[languages.en.params.education.list]]
         degree = "ISTQB Certified Tester"
@@ -875,7 +875,7 @@ Format: moderated impulse talk with interactive live demonstrations. Audience: ~
         position = "Workshop: Development with Generative Language Models"
         anchor = "workshop-genai"
         dates = "06/2025"
-        company = "Developer Workshop - Agent-based Software Development"
+        company = "Developer Workshop · Agent-based Software Development"
         details = """
 **Developer Workshop**: Comprehensive workshop on modern AI agent development with practical demos and live coding
 
@@ -903,8 +903,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
-        dates = "06/2025 – present"
-        company = "BKS - AI Research & Development"
+        dates = "since 06/2025"
+        company = "BKS · AI Research & Development"
         details = """
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
@@ -937,7 +937,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Quality Engineering"
         anchor = "tuev-sued"
-        dates = "09/2025 – present"
+        dates = "since 09/2025"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
@@ -963,7 +963,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         position = "Presentation: Efficient Documentation through Automation"
         anchor = "presentation-ai-docs"
         dates = "04/2025"
-        company = "Enterprise Presentation - AI-powered Documentation Workflows"
+        company = "Enterprise Presentation · AI-powered Documentation Workflows"
         details = """
 **Enterprise Presentation**: Demonstration of modern automation approaches for centralized, current documentation and sustainable project success
 
@@ -991,7 +991,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Platform Quality Architect (CI/CD, Monitoring, Automation)"
         anchor = "dvag"
-        dates = "08/2021 – 05/2025"
+        dates = "08/2021-05/2025"
         company = "DVAG"
         details = """
 **Test management & coordination**, as well as introduction of CI/CD with quality-gate setup. Acting as cross-team Quality Lead: onboarding, guidance, consulting and training for the introduction of quality metrics and test automation within the pipeline across teams.
@@ -1024,7 +1024,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
-        dates    = "01/2024 – 04/2025"
+        dates = "01/2024-04/2025"
         company  = "BKS"
         details  = """
 **Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
@@ -1061,7 +1061,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI-driven Automated QA Environment for Energy Infrastructure"
         anchor = "akkuswap"
-        dates = "07/2024 – 01/2025"
+        dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
         pdf_tier = "medium"
         details = """
@@ -1092,7 +1092,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ryze"
-        dates = "04/2023 – 04/2024"
+        dates = "04/2023-04/2024"
         company = "BKS on behalf of Ryze"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
@@ -1152,7 +1152,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
-        dates = "01/2017 – 05/2021"
+        dates = "01/2017-05/2021"
         company = "DB Vertrieb"
         details = """
 **Test management, test coordination, test automation, agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
@@ -1187,7 +1187,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Engineering Lead & Test Architect"
         anchor = "db-systel"
-        dates = "09/2015 – 01/2017"
+        dates = "09/2015-01/2017"
         company = "DB Systel"
         details = """
 **Load and performance tests and analysis (test manager, test designer, analyst)**: Development, execution and analysis of load and performance tests
@@ -1212,7 +1212,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Senior iOS Developer & Mobile Architect"
         anchor = "telekom"
-        dates = "04/2015 – 09/2015"
+        dates = "04/2015-09/2015"
         company = "Telekom"
         details = """
 **Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
@@ -1233,7 +1233,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Quality Assurance Lead & Test Automation Architect"
         anchor = "siemens"
-        dates = "05/2009 – 03/2015"
+        dates = "05/2009-03/2015"
         company = "Siemens"
         details = """
 **QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
@@ -1266,7 +1266,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Load Testing Specialist"
         anchor = "ing-diba"
-        dates = "03/2009 – 05/2009"
+        dates = "03/2009-05/2009"
         company = "ING-DIBA"
         details = """
 **Load and performance tester**: The goal of the project is the design and development of LoadRunner scripts for load testing a bundle of approx. 20 J2EE applications in a banking portal
@@ -1282,7 +1282,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006 – 12/2008"
+        dates = "01/2006-12/2008"
         company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
         details = """
 **Load and performance tester / tester**: Various projects, predominantly load & performance tests
@@ -1401,7 +1401,7 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         impact = "Messbare AI-Roadmaps mit konkreten Business Cases, von der Strategie direkt zur produktiven Lösung."
 
         [[languages.de.params.projects.list]]
-        title = "Quality Dashboard - Echtzeit-Übersicht"
+        title = "Quality Dashboard · Echtzeit-Übersicht"
         anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
@@ -1485,7 +1485,7 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
 **Impact:** Enterprise-ready E-Learning für AI Governance und strukturierte Qualifizierungsprogramme"""
 
         [[languages.de.params.projects.list]]
-        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        title = "Django SLA Dashboard · Enterprise Service Monitoring"
         anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]
@@ -1682,7 +1682,7 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         impact = "Measurable AI roadmaps with concrete business cases, from strategy directly to productive solutions."
 
         [[languages.en.params.projects.list]]
-        title = "Quality Dashboard - Real-time Overview"
+        title = "Quality Dashboard · Real-time Overview"
         anchor = "quality-dashboard"
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
@@ -1769,7 +1769,7 @@ Dual-run validation for safely migrating a mainframe price calculation.
 # NOTE: NOT rendered on the website. Website skills = ui.sidebar_skills + skillGroupConfig in src/components/CVPage.astro. Edits here only affect the PDF export.
 
         [[languages.en.params.projects.list]]
-        title = "Django SLA Dashboard - Enterprise Service Monitoring"
+        title = "Django SLA Dashboard · Enterprise Service Monitoring"
         anchor = "django-sla-dashboard"
         url = "https://github.com/bks-lab/experimental-django-sla-dashboard"
         tech_stack = ["Django", "Python", "PostgreSQL", "Chart.js", "WebSockets", "Docker", "REST API"]

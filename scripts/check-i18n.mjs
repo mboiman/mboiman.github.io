@@ -12,6 +12,8 @@
  * The rules below are not style preferences. Each one is a mistake that
  * already shipped once.
  */
+import { readFileSync } from 'node:fs';
+import { parse as tomlParse } from 'toml';
 import { i18n } from '../src/lib/i18n.ts';
 
 /**
@@ -246,6 +248,41 @@ de.acts.filter(a => a.kind === 'project').forEach((a) => {
 });
 if (de.acts.at(-1)?.kind !== 'closing') errors.push('the last act is not the closing act');
 if (de.acts[0]?.kind !== 'manifest') errors.push('the first act is not the manifest act');
+
+/**
+ * The dash rule, applied to the OTHER half of the page.
+ *
+ * Everything above reads i18n.ts. But the stations act renders straight out of
+ * config.cv.toml, and so does the whole CV page and both PDFs, and none of it
+ * passed through any check. It carried 26 en dashes in its date ranges, every
+ * one of them rendered on screen as "08/2021 – 05/2025", plus a second
+ * separator convention (" - " between a name and its subtitle) that is the
+ * spaced replacement dash the rule exists to prevent. A rule that covers half
+ * a page is not a rule, it is a habit.
+ *
+ * Only the fields that actually reach a reader are scanned. Prose bodies
+ * (`details`, `text`) are deliberately excluded: they legitimately contain
+ * arrows and code, and widening the net there would make this fire on content
+ * it was never meant to police.
+ */
+const RENDERED_FIELDS = ['dates', 'position', 'company', 'college', 'degree', 'title'];
+const cvRaw = readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8');
+const cv = tomlParse(cvRaw);
+for (const branch of ['de', 'en']) {
+  const params = cv?.languages?.[branch]?.params;
+  if (!params) { errors.push(`config.cv.toml: no languages.${branch}.params`); continue; }
+  const walk = (node, path) => {
+    if (Array.isArray(node)) return node.forEach((v, i) => walk(v, `${path}[${i}]`));
+    if (!node || typeof node !== 'object') return;
+    for (const [k, v] of Object.entries(node)) {
+      if (typeof v === 'string' && RENDERED_FIELDS.includes(k)) {
+        if (/[—–]/.test(v)) errors.push(`config.cv.toml ${branch} ${path}.${k}: em or en dash in "${v}"`);
+        if (/\s-\s/.test(v)) errors.push(`config.cv.toml ${branch} ${path}.${k}: spaced hyphen reads as a dash in "${v}". Use a middot.`);
+      } else if (v && typeof v === 'object') walk(v, `${path}.${k}`);
+    }
+  };
+  walk(params, branch);
+}
 
 if (errors.length) {
   console.error('i18n check failed:');
