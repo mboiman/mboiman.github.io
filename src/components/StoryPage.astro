@@ -102,15 +102,15 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             <span>{t.storyBackToCv}</span>
           </a>
-          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf" tabindex="-1">
+          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="text-xs tracking-[0.1em] uppercase opacity-0 hover:opacity-80 transition-all duration-500 min-h-[44px] min-w-[44px] flex items-center" style="color: var(--text-secondary)" id="nav-pdf">
             {t.pdfDownload}
           </a>
         </div>
         <div class="flex items-center gap-2 opacity-0 transition-all duration-500" id="nav-right">
           <span class="story-key-hint hidden sm:inline-flex">← →</span>
-          <a href="/de/story/" class={`text-xs ${lang === 'de' ? 'font-semibold' : 'opacity-60 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'de' ? 'color: var(--text)' : 'color: var(--text-secondary)'} tabindex="-1">DE</a>
+          <a href="/de/story/" class={`text-xs ${lang === 'de' ? 'font-semibold' : 'opacity-60 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'de' ? 'color: var(--text)' : 'color: var(--text-secondary)'}>DE</a>
           <span class="text-xs" style="color: var(--text-secondary); opacity: 0.4">|</span>
-          <a href="/en/story/" class={`text-xs ${lang === 'en' ? 'font-semibold' : 'opacity-60 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'en' ? 'color: var(--text)' : 'color: var(--text-secondary)'} tabindex="-1">EN</a>
+          <a href="/en/story/" class={`text-xs ${lang === 'en' ? 'font-semibold' : 'opacity-60 hover:opacity-100 transition-opacity'} min-h-[44px] min-w-[44px] flex items-center justify-center`} style={lang === 'en' ? 'color: var(--text)' : 'color: var(--text-secondary)'}>EN</a>
           <DarkModeToggle />
         </div>
       </div>
@@ -269,12 +269,6 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                       </div>
                     </>
                   )}
-                  {act.rename && (
-                    <p class="rename" style="--i:3">
-                      <s class="rename-before">{act.rename.before}</s>
-                      <span class="rename-after">{act.rename.after}</span>
-                    </p>
-                  )}
                   {act.anchor && (
                     <p class="mt-6" style="--i:4">
                       {act.anchor.url
@@ -288,6 +282,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                   )}
                 </div>
 
+                {/* Only when it has something to hold. On the one act with a
+                    wide figure the column stayed in the markup and rendered as
+                    a 1153x0 grid row, which still cost a full 2.6rem row gap
+                    and pushed that act 42px past the fold. */}
+                {(( !wideFigure && Fig ) || shot || act.phone || act.terminal) && (
                 <div class="project-media">
                   {!wideFigure && Fig && act.figure && (
                     <Fig labels={act.figure.labels} caption={act.figure.caption} />
@@ -323,6 +322,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     </div>
                   )}
                 </div>
+                )}
 
                 {wideFigure && Fig && act.figure && (
                   <div class="stack-figure" style={`--fig-ar:${wideAr}`}>
@@ -387,15 +387,24 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
           )}
 
           {/* ── live ────────────────────────────────────────────────────
-              The peak. The right column is the dock target for the existing
-              chat widget; when the widget is not there (no script, visitor
-              closed it), the card still shows live-fetched data plus the
-              clickable proof, so the demonstration survives its own failure. */}
+              The peak. When the widget is not there (no script, visitor closed
+              it), the card still shows live-fetched data plus the clickable
+              proof, so the demonstration survives its own failure.
+
+              Eyebrow and headline sit ABOVE the two columns, not inside the
+              left one. They were inside it, and the left column is 22rem: the
+              headline broke into five lines of one to three words at 57.7px
+              type while 745px stood empty to the right of it. The 22rem was
+              sized as a dock target for the chat panel, and the panel is a
+              right rail now, so nothing docks here any more. Same shape as the
+              project, offer and beliefs acts. `rise` instead of the --i stagger
+              because both elements have left the staggering parent. */}
           {act.kind === 'live' && (
-            <div class="split-stage">
+            <div>
+              <p class="act-eyebrow rise">{act.eyebrow}</p>
+              <h2 class="act-h rise">{act.headline}</h2>
+              <div class="split-stage">
               <div class="rise-stagger">
-                <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
-                <h2 class="act-h" style="--i:1">{act.headline}</h2>
                 <ul class="flex flex-col gap-4 mt-2">
                   {act.bullets.map((b, i) => (
                     <li style={`--i:${i + 2}`}>
@@ -417,14 +426,22 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
 
               <div class="agent-dock" id="agent-dock">
                 <div class="agent-card">
+                  {/* The rendered state is the honest one: nothing has been
+                      checked at the moment this HTML is written. It said
+                      "Erreichbarkeit wird geprüft" in the markup, so without
+                      the bundle, with a blocked script or a failed fetch, the
+                      card claimed a check that was never running. On a page
+                      whose first act argues that declared is not verified, that
+                      is the worst possible place for it. The script switches to
+                      the checking text right before it actually starts. */}
                   <p class="agent-live">
                     <i aria-hidden="true"></i>
-                    <span id="agent-state"
+                    <span id="agent-state" role="status"
                           data-checking={t.agentChecking}
                           data-live={t.agentReachable}
-                          data-down={t.agentUnavailable}>{t.agentChecking}</span>
+                          data-down={t.agentUnavailable}>{t.agentCardStatic}</span>
                   </p>
-                  <dl class="agent-facts" id="agent-facts">
+                  <dl class="agent-facts" id="agent-facts" data-unknown={t.agentFactUnknown}>
                     <div><dt>{t.agentCardName}</dt><dd data-f="name">…</dd></div>
                     <div><dt>{t.agentCardProtocol}</dt><dd data-f="proto">…</dd></div>
                     <div><dt>{t.agentCardEndpoint}</dt><dd data-f="url" class="agent-endpoint">…</dd></div>
@@ -435,6 +452,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     <div><dt>{t.agentCardSkills}</dt><dd><span class="agent-skills" id="agent-skills">…</span></dd></div>
                   </dl>
                 </div>
+              </div>
               </div>
             </div>
           )}
@@ -503,9 +521,9 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
               <img src={portrait} alt="" aria-hidden="true" width="750" height="1000" class="portrait-mark mt-9" />
               <p class="mt-8 text-[0.7rem]" style="color: var(--text-secondary)">
                 {t.builtOn} {buildDate}
-                <span class="block mt-1 text-[0.66rem] opacity-80">{t.builtOnNote}</span>
+                <span class="block mt-1 text-[0.66rem]">{t.builtOnNote}</span>
               </p>
-              <p class="mt-6 text-[0.7rem] no-print" style="color: var(--text-secondary); opacity: 0.85">
+              <p class="mt-6 text-[0.7rem] no-print" style="color: var(--text-secondary)">
                 <a href={`/${lang}/`} class="hover:opacity-100">{t.classicCV}</a>
                 &nbsp;&middot;&nbsp;
                 <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} class="hover:opacity-100">PDF</a>
@@ -578,9 +596,18 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
          margins: the figure inside declares `container-type: inline-size`, so
          it cannot take its inline size from its contents, and with auto margins
          there was nothing left to derive a width from. It collapsed to zero. */
-      width: min(100%, 62rem, calc(var(--fig-h, 23vh) * var(--fig-ar, 3)));
+      width: min(100%, 46rem, calc(var(--fig-h, 23vh) * var(--fig-ar, 3)));
       justify-self: center;
     }
+    /* Same budget for the wide figure when it sits under a project's prose
+       instead of in a stack-wide act. The rule above only reaches the
+       stack-wide case, so the route figure ran the full 1153px act width, which
+       is 145px of height, and pushed act 07 past the fold. */
+    .project-body.is-stacked > .stack-figure {
+      width: min(100%, 46rem, calc(var(--fig-h, 23vh) * var(--fig-ar, 3)));
+      justify-self: center;
+    }
+
     .stack-wide:not(:has(.shot-figure)) > :first-child { max-width: 46rem; }
     .stack-wide:not(:has(.shot-figure)) { grid-template-columns: minmax(0, 1fr); }
 
@@ -671,16 +698,6 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
 
     .shot-figure { margin: 0; }
     .shot :global(img) { display: block; width: 100%; height: auto; }
-
-    .rename {
-      margin-top: 1.6rem;
-      font-family: var(--font-mono);
-      font-size: clamp(0.78rem, 1.05vw, 0.95rem);
-      line-height: 1.9;
-      display: flex; flex-direction: column;
-    }
-    .rename-before { color: var(--text-secondary); }
-    .rename-after { color: var(--text); }
 
     .probe-note {
       display: block;
@@ -799,8 +816,25 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       width: 100%;
     }
 
-    .story-page :global(#story-step-counter),
-    .story-page :global(#story-keyboard-hint) {
+    /* The nav bar fades out above the fold. Since it is reachable by keyboard
+       again (see the scroll handler below), it has to become visible when a
+       keyboard actually gets there, or focus sits on something nobody can see.
+       The `!important` is required: the scroll handler toggles Tailwind's
+       opacity classes directly on these elements. */
+    #nav-right:focus-within { opacity: 1 !important; }
+    #nav-pdf:focus-visible { opacity: 1 !important; }
+
+    /* NOT `.story-page :global(#id)`. Both elements are appended to <body> by
+       the step engine at the bottom of this file, so they are siblings of
+       .story-page and never descendants of it. The descendant selector matched
+       nothing and every declaration below was silently inert: measured live,
+       border-width 0, background transparent, no blur, font-size 16px instead
+       of 0.72rem. The counter and the hint have been rendering as bare letters
+       over the acts this whole time while the pill they were designed as sat
+       unused in the stylesheet. Same class of miss as the runtime-built skill
+       chips further down, one level up. */
+    :global(#story-step-counter),
+    :global(#story-keyboard-hint) {
       font-family: var(--font-body);
       border: 1px solid var(--line);
       border-radius: 9999px;
@@ -809,11 +843,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
-    .story-page :global(#story-step-counter) {
+    :global(#story-step-counter) {
       padding: 0.42rem 0.62rem; font-size: 0.72rem;
       letter-spacing: 0.12em; font-variant-numeric: tabular-nums;
     }
-    .story-page :global(#story-keyboard-hint) {
+    :global(#story-keyboard-hint) {
       padding: 0.42rem 0.7rem; color: var(--text-secondary);
       font-size: 0.66rem; font-weight: 500;
       letter-spacing: 0.18em; text-transform: uppercase;
@@ -927,8 +961,15 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     }
 
     @media (max-width: 640px) {
-      .story-page :global(#story-step-counter) { bottom: 1rem; left: 1rem; }
-      .story-page :global(#story-keyboard-hint) { display: none !important; }
+      /* The counter goes away on a phone rather than moving. There are no arrow
+         keys there, so there is no step for it to number, and it demonstrably
+         lands on content: on the skills row of the live act and on the sender
+         label of act 07. That is the same call the next line already made for
+         the keyboard hint. Position 01 stays visible at the top as the progress
+         bar. The `!important` is not decoration: the step engine writes bottom
+         and left as an inline cssText, and inline beats any ordinary rule. */
+      :global(#story-step-counter) { display: none !important; }
+      :global(#story-keyboard-hint) { display: none !important; }
       :global(#agent-widget-label) { display: none !important; }
     }
   </style>
@@ -959,9 +1000,15 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
         if (show) { el?.classList.remove('opacity-0'); el?.classList.add('opacity-100'); }
         else { el?.classList.add('opacity-0'); el?.classList.remove('opacity-100'); }
       });
-      document.querySelectorAll('#floating-nav a:not(.story-back), #floating-nav button').forEach(a => {
-        (a as HTMLElement).tabIndex = show ? 0 : -1;
-      });
+      // The tab order used to be switched here, and the markup shipped these
+      // links as so they started out unreachable. At scroll 0 that
+      // left the PDF link and both language links locked out of the keyboard
+      // while the theme toggle, which kept tabindex 0, took focus inside a
+      // container at opacity 0: focus landed on something invisible and the
+      // three visible targets could not be reached at all. WCAG 2.1.1 and 2.4.7
+      // in one spot. Fading in and out stays purely visual now, and the
+      // :focus-within rule in the style above reveals the bar when a keyboard
+      // reaches it, so nothing is both focusable and invisible.
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar && max > 0) progressBar.style.width = `${(y / max) * 100}%`;
     }, { passive: true });
@@ -985,6 +1032,8 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       const url = local
         ? '/agent-proxy/.well-known/agent-card.json'
         : 'https://mboiman.bks-lab.com/.well-known/agent-card.json';
+      // Only now is a check genuinely running, so only now may the card say so.
+      state.textContent = state.dataset.checking || '';
       try {
         const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
         if (!res.ok) throw new Error(String(res.status));
@@ -1022,11 +1071,15 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       } catch {
         state.textContent = state.dataset.down || '';
         state.closest('.agent-card')?.setAttribute('data-state', 'down');
-        set('name', '—');
-        set('proto', '—');
+        // Not an em dash. The script used to write three of them into visible
+        // rows, which broke the project's own no-dash rule from inside the code
+        // that renders the page arguing for it.
+        const unbekannt = facts.dataset.unknown || '';
+        set('name', unbekannt);
+        set('proto', unbekannt);
         set('url', 'mboiman.bks-lab.com/.well-known/agent-card.json');
         const skillRow = document.getElementById('agent-skills');
-        if (skillRow) skillRow.textContent = '—';
+        if (skillRow) skillRow.textContent = unbekannt;
       }
     })();
 
@@ -1129,6 +1182,16 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       document.addEventListener('keydown', (e) => {
         const tgt = e.target as HTMLElement | null;
         if (tgt && tgt.closest && tgt.closest('input,textarea,select,[contenteditable]')) return;
+        // Space is a step key here AND the browser's activation key for a
+        // button, and the step engine was winning: with a question button
+        // focused, Space scrolled to the next act and the button never fired.
+        // That made the three questions on the live act, the most interactive
+        // thing on the page, unusable by keyboard. Verified by dispatching a
+        // real keypress on a focused .probe-ask: no prompt event, act advanced.
+        // Links are deliberately NOT in this list: Space does not activate an
+        // anchor, so exempting them would only trade the act step for a plain
+        // browser scroll.
+        if (e.key === ' ' && tgt && tgt.closest && tgt.closest('button,summary,[role="button"]')) return;
         if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); goTo(current + 1); fadeHint(); }
         else if (['ArrowUp', 'ArrowLeft', 'PageUp'].indexOf(e.key) > -1) { e.preventDefault(); goTo(current - 1); fadeHint(); }
         else if (e.key === 'Home') { e.preventDefault(); goTo(0); fadeHint(); }

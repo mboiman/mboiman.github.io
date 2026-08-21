@@ -177,7 +177,9 @@ const agentCard = '/.well-known/agent-card.json';
     font-size: clamp(0.46rem, 0.66vi, 0.58rem);
     letter-spacing: 0;
     text-transform: none;
-    opacity: 0.72;
+    /* 0.72 on top of --text-secondary gave 3.11:1 in light mode. Without it:
+       5.57:1. These are the agent-card paths under each node, the smallest
+       type in the figure, so they need the contrast most. */
   }
 
   .fig-tools {

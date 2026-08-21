@@ -25,7 +25,7 @@
   color: var(--text);
   --story-nav-height: 4.25rem;
   --story-pad-x: clamp(1.25rem, 4vw, 3.25rem);
-  --story-pad-y: clamp(2.5rem, 6vh, 5.5rem);
+  --story-pad-y: clamp(2.5rem, 5vh, 5.5rem);
   /* `clip`, not `hidden`: `hidden` makes the cross-axis a scroll container,
      which makes `view()` measure against the wrong box. */
   overflow-x: clip;
@@ -458,7 +458,10 @@ html.dark .shot-texture { opacity: 0.2; }
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: 0.85;
+  /* No extra opacity. The colour itself passes; the 0.85 on top pushed these
+     fifteen labels (HERAUSFORDERUNG, LOESUNG, ERGEBNIS on every project act)
+     to 3.67:1 in light mode, under the 4.5:1 line. Without it: 4.70:1. Same
+     line global.css took on 2026-08-07 when --text-secondary was darkened. */
   margin-bottom: 0.4rem;
 }
 
@@ -475,6 +478,16 @@ html.dark .shot-texture { opacity: 0.2; }
   gap: 1.4rem;
   min-width: 0;
 }
+
+/* The one project act that stacks a diagram ON TOP of a terminal transcript is
+   taller than the others by exactly that transcript. Measured at 1440x900 it
+   ran 72px past the act, and what fell off the bottom was the recording date,
+   which is half of what a transcript block is for. Capping the column caps the
+   diagram above it, since the diagram's height follows its width through the
+   aspect ratio, and the terminal keeps its lines. Measured effect at 1440x900:
+   918px down to 883px, at 1366x768: 796px down to 766px. Tied to :has(.term)
+   rather than to an act id so a second terminal act inherits it. */
+.project-media:has(.term) { width: min(100%, 26rem); }
 
 /* ── Beliefs ───────────────────────────────────────────────────────────────
    Restored from `main`, where the alternating alignment was the whole point:
@@ -569,11 +582,20 @@ html.dark .shot-texture { opacity: 0.2; }
 /* Measured at 1512x900: the act came out 10px past the viewport. The figure
    below the copy is the only elastic part, so the height budget shrinks here
    rather than the type. */
-[data-act='howto'] .stack-figure { --fig-h: 19vh; }
+[data-act='howto'] .stack-figure { --fig-h: 15vh; }
 
 @media (max-width: 900px) {
+  /* The two `.has-shot` selectors have to be listed here by name. A media query
+     adds no specificity, so the single-class `.project-body` below never beat
+     the two-class `.project-body.has-shot` rule above, and exactly the two acts
+     that carry a screenshot stayed in two columns on a phone. Measured at
+     390x844: acts 04, 05 and 07 got one 352px column while acts 06 and 08 got
+     178px of text beside a 129px screenshot, on which nothing was legible.
+     Stacked they are 350px wide instead. */
   .project-body,
   .project-body.is-flipped,
+  .project-body.has-shot,
+  .project-body.has-shot.is-flipped,
   .split-stations { grid-template-columns: minmax(0, 1fr); }
   .project-body.is-flipped > .project-prose,
   .project-body.is-flipped > .project-media { order: initial; }

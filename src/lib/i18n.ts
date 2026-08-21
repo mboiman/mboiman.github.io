@@ -156,9 +156,6 @@ export interface ActTerminal {
   recorded: string;
 }
 
-/** Before and after on one filename. Both names invented and generic. */
-export interface ActRename { before: string; after: string; }
-
 /** The three bubbles of the phone mock. Generic: no practice, person or place. */
 export interface ActPhone { lines: string[]; note: string; }
 
@@ -190,7 +187,6 @@ export interface PitchAct {
   shot?: ActShot;
   terminal?: ActTerminal;
   tree?: ActTreeItem[];
-  rename?: ActRename;
   phone?: ActPhone;
   /** The verifiable identifier. Never a counter, a percentage or a year.
    *  A `closed` anchor is set as strongly as an open one: admitting that
@@ -234,6 +230,12 @@ export interface I18nStrings {
   /** Label of the skills row. The values themselves are not translated: they
    *  are the ids an A2A client addresses, and they come from the live card. */
   agentCardSkills: string;
+  /** The honest state before any script has run. Without the bundle the card
+   *  used to sit on "checking" forever while nothing was being checked. */
+  agentCardStatic: string;
+  /** Placeholder in a row that could not be filled. Was a literal em dash
+   *  written by the script, which is the one character this project bans. */
+  agentFactUnknown: string;
   /** Build stamp in the closing act. */
   builtOn: string;
   builtOnNote: string;
@@ -315,7 +317,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           // config.cv.toml carries exactly one entry, an Impulsvortrag in
           // 04/2026. Michael: "ich hab einmal gehalten, bitte nicht
           // uebertreiben". The workshops stay plural, the CV carries three.
-          'Ich gebe es weiter, in Workshops und in einem Vortrag an der TU Darmstadt.',
+          'Ich gebe das Wissen weiter, in Workshops und in einem Vortrag an der TU Darmstadt.',
         ],
         hook: 'Als Projekt, als Review oder als Workshop. Für den Anfang genügt eine Mail.',
       },
@@ -426,9 +428,21 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           caption: 'Mein Dashboard der E-Mail-Klassifizierung. Kategorien generisch, keine Absender.',
           alt: 'Dashboard mit Kategorien und Verlaufskurven der automatischen E-Mail-Klassifizierung',
         },
-        rename: {
-          before: 'scan_0042.pdf',
-          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        // Das Umbenennungs-Widget stand hier: scan_0042.pdf wird zu
+        // 2026-08-07-versicherung-beitragsanpassung.pdf. Der Akt handelt von
+        // Mail, Klassifizierung und SAP, config.cv.toml nennt zu diesem Projekt
+        // Graph API, Sprachmodell, Azure Functions, SAP RFC, Elasticsearch und
+        // Kibana, aber kein Namensschema fuer Dateien. Es zeigte also die
+        // Faehigkeit eines anderen Projekts. Ersatzlos raus statt ein neues
+        // Vorher-Nachher zu erfinden.
+        //
+        // Stattdessen der Anker, den der Akt als einziger Projekt-Akt gar nicht
+        // hatte: weder Beleg noch Eingestaendnis, dass keiner moeglich ist.
+        anchor: {
+          text: 'E-Mail-Klassifizierung beim Auftraggeber',
+          label: 'nicht öffentlich',
+          state: 'closed',
+          note: 'Das System läuft beim Auftraggeber, es hat keine öffentliche Adresse.',
         },
       },
       {
@@ -439,9 +453,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'Rechnungen, die europaweit ankommen müssen.',
         bullets: [],
         project: {
-          challenge: 'Aus- und Eingangsrechnungen zwischen SAP Business ByDesign und dem europäischen Peppol-Netz, in beide Richtungen, im Produktivbetrieb.',
+          challenge: 'Aus- und Eingangsrechnungen mussten in beide Richtungen zwischen SAP Business ByDesign und dem europäischen Peppol-Netz laufen, im Produktivbetrieb und ohne dass ein Beleg verloren gehen durfte.',
           solution: 'Zwei Strecken nach der offenen Norm EN 16931. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Verarbeitungsschicht.',
-          result: 'Bei einer forensischen Prüfung zeigte sich, dass angenommen und zugestellt zwei verschiedene Dinge sind. Die Hälfte der Stichprobe kam nie an, die Ursache lag in den Stammdaten und nicht im Code.',
+          result: 'Bei einer forensischen Prüfung zeigte sich, dass angenommen und zugestellt zwei verschiedene Dinge sind. Die Hälfte der Stichprobe kam nie an, die Ursache lag in den Stammdaten und nicht im Code. Die Prüfung selbst liegt beim Auftraggeber und bleibt unter Verschluss.',
         },
         figure: {
           id: 'route',
@@ -474,8 +488,19 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         },
         shot: {
           src: 'sla',
-          caption: 'Mein eigenes SLA-Dashboard, hier mit Demo-Daten. Kundenzahlen stehen auf keiner öffentlichen Seite.',
+          caption: 'Mein eigenes SLA-Dashboard aus einer internen Evaluierung, gespeist aus simulierten Daten. Es ist die Architektur-Referenz, nicht das System des Auftraggebers.',
           alt: 'SLA-Dashboard mit Verfügbarkeitskurve, Antwortzeit-Histogramm und Vorfallsliste',
+        },
+        // Der einzige Projekt-Akt ohne Anker, obwohl es hier einen echten gibt:
+        // das gezeigte Dashboard liegt oeffentlich (live geprueft, visibility
+        // PUBLIC). Nur zusammen mit der korrigierten Bildunterschrift richtig,
+        // sonst haengt ein offener Beleg an einer Zeile, die ein Kundensystem
+        // behauptet.
+        anchor: {
+          text: 'github.com/bks-lab/experimental-django-sla-dashboard',
+          label: 'Das Dashboard aus dem Bild liegt offen',
+          url: 'https://github.com/bks-lab/experimental-django-sla-dashboard',
+          state: 'public',
         },
       },
       {
@@ -583,7 +608,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'Nächster Schritt',
         headline: 'Michael Boiman',
         bullets: [
-          'Verfügbar für Projekte, Reviews und Workshops.',
+          'Schreiben Sie mir, was ansteht. Zwei Sätze zur Aufgabe genügen.',
           'Alles auf dieser Seite ist aufrufbar oder als vertraulich gekennzeichnet.',
         ],
       },
@@ -603,6 +628,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentCardProtocol: 'Protokoll',
     agentCardEndpoint: 'Adresse',
     agentCardSkills: 'Fähigkeiten',
+    agentCardStatic: 'noch nicht geprüft',
+    agentFactUnknown: 'nicht abrufbar',
     builtOn: 'zuletzt gebaut am',
     builtOnNote: 'Zur Bauzeit gestempelt, nicht getippt.',
     ariaStatement: 'Leitsatz',
@@ -714,7 +741,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         // page and both were wrong.
         bullets: [
           'Twenty years of quality engineering, three years of AI architecture. The combination is the point.',
-          'Five projects on this page, each with a picture, a result and, where possible, an open reference.',
+          'Five projects on this page, each with a picture, a result and, where possible, open evidence.',
         ],
       },
       {
@@ -741,7 +768,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
           'I check whether an existing automation really delivers.',
           'I put guardrails on AI: boundaries, approvals, evidence.',
           // See the German branch: one talk, not a standing role.
-          'I pass it on, in workshops and in a talk at TU Darmstadt.',
+          'I pass that knowledge on, in workshops and in a talk at TU Darmstadt.',
         ],
         hook: 'As a project, a review or a workshop. One email is enough to start.',
       },
@@ -750,7 +777,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         kind: 'project',
         tone: 'alt',
         eyebrow: 'Project · AI automation',
-        headline: 'An orchestrator that runs all of my work.',
+        headline: 'An orchestrator that all of my work runs through.',
         bullets: [],
         project: {
           challenge: 'Development across many repos, several clients and a dozen tools. Switching context cost me hours every day.',
@@ -843,12 +870,15 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         },
         shot: {
           src: 'nlpanalyse',
-          caption: 'My dashboard for the email classification. Categories generic, no senders.',
+          caption: 'My dashboard for email classification. Categories generic, no senders.',
           alt: 'Dashboard showing categories and trend curves of the automatic email classification',
         },
-        rename: {
-          before: 'scan_0042.pdf',
-          after: '2026-08-07-versicherung-beitragsanpassung.pdf',
+        // Siehe den deutschen Zweig: Widget raus, geschlossener Anker rein.
+        anchor: {
+          text: 'Email classification at the client',
+          label: 'not public',
+          state: 'closed',
+          note: 'The system runs at the client, and it has no public address.',
         },
       },
       {
@@ -859,9 +889,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         headline: 'Invoices that have to arrive across Europe.',
         bullets: [],
         project: {
-          challenge: 'Outgoing and incoming invoices between SAP Business ByDesign and the European Peppol network, in both directions, in production.',
+          challenge: 'Outgoing and incoming invoices had to move in both directions between SAP Business ByDesign and the European Peppol network, in production, and without losing a single document.',
           solution: 'Two routes under the open EN 16931 standard. Inbound over two parallel paths, by webhook and from a mailbox, both ending in the same processing layer.',
-          result: 'A forensic check showed that accepted and delivered are two different things. Half the sample had never arrived, and the cause sat in master data rather than in code.',
+          result: 'A forensic check showed that accepted and delivered are two different things. Half the sample had never arrived, and the cause sat in master data rather than in code. The check itself belongs to the client and stays confidential.',
         },
         figure: {
           id: 'route',
@@ -894,8 +924,14 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         },
         shot: {
           src: 'sla',
-          caption: 'My own SLA dashboard, shown here with demo data. No client figures appear on a public page.',
+          caption: 'My own SLA dashboard from an internal evaluation, fed with simulated data. It is the architecture reference, not the client system.',
           alt: 'SLA dashboard with availability curve, response time histogram and incident list',
+        },
+        anchor: {
+          text: 'github.com/bks-lab/experimental-django-sla-dashboard',
+          label: 'The dashboard in the picture is public',
+          url: 'https://github.com/bks-lab/experimental-django-sla-dashboard',
+          state: 'public',
         },
       },
       {
@@ -907,8 +943,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         bullets: [
           'A human moves the card, and that starts the run.',
           'Each stage starts fresh, without the context of the previous one.',
-          'The reviewer sees only the artefacts, never the implementer reasoning.',
-          'Changes to the system itself pass through the same gate.',
+          "The reviewer sees only the artefacts, never the implementer's reasoning.",
+          'Even changes to the system itself pass through the same gate.',
         ],
         figure: {
           id: 'gate',
@@ -967,7 +1003,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         bullets: [
           'What do you read, and what do you not?',
           'Who do you ask when you do not know something?',
-          'Where do your calendar times come from?',
+          'Where do your appointment times come from?',
         ],
         askAgent: true,
         probeNotes: [
@@ -977,7 +1013,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         ],
         anchor: {
           text: 'mboiman.bks-lab.com/.well-known/agent-card.json',
-          label: 'His agent card, open it directly',
+          label: 'Its agent card, open it directly',
           url: 'https://mboiman.bks-lab.com/.well-known/agent-card.json',
           state: 'public',
         },
@@ -998,7 +1034,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         eyebrow: 'Next step',
         headline: 'Michael Boiman',
         bullets: [
-          'Available for projects, reviews and workshops.',
+          'Write to me about what is coming up. Two sentences on the task are enough.',
           'Everything on this page can be opened or is marked confidential.',
         ],
       },
@@ -1018,6 +1054,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentCardProtocol: 'Protocol',
     agentCardEndpoint: 'Address',
     agentCardSkills: 'Skills',
+    agentCardStatic: 'not checked yet',
+    agentFactUnknown: 'not retrievable',
     builtOn: 'last built on',
     builtOnNote: 'Stamped at build time, not typed.',
     ariaStatement: 'Statement',
