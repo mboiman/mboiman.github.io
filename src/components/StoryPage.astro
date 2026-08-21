@@ -819,23 +819,103 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       letter-spacing: 0.18em; text-transform: uppercase;
     }
 
-    /* ── Docked chat panel ─────────────────────────────────────────────
+    /* ── Chat panel as a right rail ────────────────────────────────────
        AgentWidget is a singleton with about thirty hardcoded ids, fixed
        localStorage keys and position:fixed on both launcher and panel. A
-       second instance would duplicate every id and fire two card fetches.
-       Docking it with CSS costs nothing and moves no DOM. */
-    :global(html.aw-dock #agent-widget-panel) {
-      bottom: auto; right: auto;
-      top: calc(4.25rem + 12vh);
-      left: 50%;
-      translate: -50% 0;
-      width: min(44rem, 92vw);
-      height: min(52svh, 32rem);
-      max-height: none;
-      animation: none;
+       second instance would duplicate every id and fire two card fetches, so
+       it is placed with CSS and no DOM moves.
+
+       What it used to do here, and why that was wrong: the open panel was a
+       floating card over the bottom right of whatever act was on screen, and
+       while the live act was in view it moved to the middle and sat on top of
+       the composition. Both covered exactly what the visitor came to look at,
+       and the page underneath kept its full width, so nothing reflowed out of
+       the way. The widget's own remedy, padding the body by a hardcoded 26rem,
+       does not fit either: it slides a centred, viewport-high composition
+       sideways instead of narrowing it (that is what `aw-no-shift` opts out of,
+       see the script below).
+
+       It is a rail now. It takes the right edge over the full height, and the
+       acts get the width that is left, so both are fully visible at once.
+
+       --aw-rail is the ONE number both halves read: the panel's width and the
+       space the page keeps clear. Two numbers here would drift apart on the
+       first change and leave either a gap or an overlap. It sits on <html>
+       rather than on .story-page because the panel is a body-level singleton
+       and is not a descendant of the page wrapper. Zero below 1280px, where the
+       panel stays the overlay card it was: 1024px was tried and is too narrow.
+       A 20rem rail leaves a 751px frame, and at that width the fixed step
+       counter in the bottom left runs into the act's own text (measured: the
+       counter ends at 76px, the text starts at 68px). Two columns plus a rail
+       need more room than a small laptop has.
+
+       The clamp floor is 20rem on purpose: the panel carries min-width 320px,
+       and a rail narrower than that would let the panel overhang the space
+       reserved for it. Floor and min-width are the same number. */
+    :global(html) { --aw-rail: 0px; }
+
+    @media (min-width: 1280px) {
+      :global(html.aw-panel-open) { --aw-rail: clamp(20rem, 26vw, 26rem); }
+
+      :global(html.aw-panel-open #agent-widget-panel),
+      :global(html.aw-panel-open #agent-widget-panel.aw-is-max) {
+        top: 0; bottom: 0; right: 0; left: auto;
+        translate: none;
+        width: var(--aw-rail);
+        min-width: 0;
+        max-width: none;
+        height: auto;
+        max-height: none;
+        border-radius: 0;
+        border-width: 0 0 0 1px;
+        animation: none;
+      }
+      /* Resizing and maximising are gestures for a floating card. A rail's
+         width is the page's business, and dragging it would desynchronise the
+         panel from the space reserved for it. */
+      :global(html.aw-panel-open #agent-widget-resize),
+      :global(html.aw-panel-open #agent-widget-maximize) { display: none; }
     }
-    :global(html.aw-dock #agent-widget-resize),
-    :global(html.aw-dock #agent-widget-maximize) { display: none; }
+
+    .story-page {
+      padding-right: var(--aw-rail);
+      transition: padding-right 0.2s ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .story-page { transition: none; }
+    }
+
+    /* Narrowing the frame is not enough on its own. Each act's inner column is
+       capped at 72rem and centred, so on a wide screen the visible left gutter
+       is that auto margin, about a tenth of the screen, and NOT the act's own
+       padding. Take 26rem away and the column no longer fits, the auto margin
+       goes to zero, and the composition snaps against the left edge with the
+       3.25rem of padding it always had. Measured: the headline moved from 143px
+       to 51px and ran into the fixed step counter at the bottom left.
+
+       So while the rail is open the gutter comes from padding instead, sized as
+       a share of the frame that is actually left rather than of the window. The
+       floor is the closed-state padding, so this can only ever add room. */
+    @media (min-width: 1280px) {
+      :global(html.aw-panel-open) .story-page {
+        --story-pad-x: clamp(3.25rem, calc((100vw - var(--aw-rail)) * 0.09), 7rem);
+      }
+      /* The nav's own column centres the same way and loses the same margin, so
+         it is pinned to the acts' gutter rather than drifting 70px left of it. */
+      :global(html.aw-panel-open) .story-page .story-nav > div {
+        padding-inline: var(--story-pad-x);
+      }
+    }
+
+    /* position:fixed resolves against the viewport, so the wrapper's padding
+       does not reach the furniture. Each fixed piece is told about the rail
+       itself. The step counter sits on the left and needs nothing. */
+    .story-page .story-nav { right: var(--aw-rail); }
+    .story-page :global(#scroll-progress) {
+      /* The bar's width is an inline percentage set on scroll, so it cannot be
+         inset with `right`. Capping it is enough to keep it out of the rail. */
+      max-width: calc(100% - var(--aw-rail));
+    }
 
     @media (max-width: 1024px) {
       .split-2, .split-stage, .split-finding { grid-template-columns: minmax(0, 1fr); }
@@ -856,9 +936,12 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
   <script>
     // Two opt-outs the widget reads, both set before it initialises.
     //
-    // `aw-no-shift`: open() pads the body by 26rem on wide screens so the CV is
-    // not covered. Here every act is viewport-high and horizontally composed, so
-    // the padding does not free space, it slides the composition sideways.
+    // `aw-no-shift`: open() pads the BODY by a hardcoded 26rem on wide screens
+    // so the CV is not covered. That is the wrong instrument here. Padding the
+    // body slides a centred, viewport-high composition sideways instead of
+    // narrowing it, and 26rem is not the width the panel actually has. The page
+    // does its own version instead, from the same --aw-rail the panel is sized
+    // with, on .story-page rather than on body. See the rail block in the style.
     //
     // `aw-no-autoopen`: the panel must not open itself here. It covered a third
     // of every act, including the portrait, which is the one image on the page.
@@ -957,15 +1040,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       });
     });
 
-    // Dock the panel while the live act is on screen.
-    const liveAct = document.querySelector('[data-act="live"]');
-    if (liveAct && 'IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          document.documentElement.classList.toggle('aw-dock', e.isIntersecting);
-        }
-      }, { threshold: 0.6 }).observe(liveAct);
-    }
+    // The panel used to be moved to the middle of the screen while the live act
+    // was in view, by an observer that toggled an `aw-dock` class. That is gone:
+    // the panel is a right rail on every act now (see the rail block in the
+    // style above), so it is already beside the live act without a special case,
+    // and the special case was the version that covered the composition.
   </script>
 
   <script>
@@ -999,7 +1078,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       hint.setAttribute('aria-hidden', 'true');
       const navLabel = document.documentElement.lang === 'en' ? 'Navigate' : 'Navigieren';
       hint.innerHTML = '<span style="font-size:.8rem;letter-spacing:.05em">← →</span><span>' + navLabel + '</span>';
-      hint.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;opacity:.78;transition:opacity .8s ease;pointer-events:none';
+      // Centred on the READING area, not on the viewport: with the chat rail
+      // open the two are no longer the same, and a hint centred on the viewport
+      // drifts under the rail. --aw-rail is 0 whenever the rail is closed, so
+      // this is plain 50% the rest of the time.
+      hint.style.cssText = 'position:fixed;bottom:1.5rem;left:calc(50% - var(--aw-rail, 0px) / 2);transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:.7rem;opacity:.78;transition:opacity .8s ease;pointer-events:none';
       document.body.appendChild(hint);
       let hintTimer = window.setTimeout(() => { hint.style.opacity = '0'; }, 4500);
 
