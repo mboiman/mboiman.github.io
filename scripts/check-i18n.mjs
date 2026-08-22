@@ -290,6 +290,7 @@ const RENDERED_FIELDS = [
 // skipped entirely before: the walker only tested `typeof v === 'string'` for
 // OBJECT properties, and an array element has no property name to test.
 const cvRaw = readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8');
+const i18nRaw = readFileSync(new URL('../src/lib/i18n.ts', import.meta.url), 'utf8');
 const cv = tomlParse(cvRaw);
 for (const branch of ['de', 'en']) {
   const params = cv?.languages?.[branch]?.params;
@@ -338,6 +339,36 @@ for (const branch of ['de', 'en']) {
 // branch only produces two different CVs behind one download button.
 if (rankSets.de !== rankSets.en) {
   errors.push(`config.cv.toml: pdf_rank differs between branches.\n      de: ${rankSets.de}\n      en: ${rankSets.en}`);
+}
+
+/**
+ * One version number, six places.
+ *
+ * The CV names the open-bridge release in six spots: four prose passages in
+ * config.cv.toml and two `running[].proof` anchors in i18n.ts. On 2026-08-22 all
+ * six still said v0.14.0 while the repo was at v0.20.2, six minors along. A
+ * pinned version on a page whose whole argument is "open it and check" ages into
+ * the exact opposite of a proof.
+ *
+ * Nothing here can reach the network, so this cannot know the true version. What
+ * it CAN do is make the six agree, which is the failure mode that actually bit:
+ * a hand-bump that misses a copy. One number to change, and a broken build if a
+ * copy is left behind.
+ */
+const versions = new Map();
+for (const [label, text] of [['config.cv.toml', cvRaw], ['src/lib/i18n.ts', i18nRaw]]) {
+  for (const m of text.matchAll(/\bv\d+\.\d+\.\d+\b/g)) {
+    if (!versions.has(m[0])) versions.set(m[0], []);
+    versions.get(m[0]).push(label);
+  }
+}
+if (versions.size > 1) {
+  const listed = [...versions.entries()]
+    .map(([v, files]) => `${v} (${[...new Set(files)].join(', ')})`)
+    .join(' vs ');
+  errors.push(`open-bridge version disagrees across files: ${listed}. One release, one number.`);
+} else if (versions.size === 0) {
+  errors.push('no open-bridge release version found in config.cv.toml or src/lib/i18n.ts. It is one of the four allowed proof anchors; do not drop it silently.');
 }
 
 /**

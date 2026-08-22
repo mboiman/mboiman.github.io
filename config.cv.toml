@@ -267,7 +267,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
-- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge (Stand v0.14.0, mit Live-Demo-Seite). Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht
+- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge (Stand v0.20.2, mit Live-Demo-Seite). Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0
 - **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
 - **MCP Navigation Server**: Entwicklung eines Model Context Protocol Servers (Python) mit intelligenter Hierarchie-Navigation, automatischer Content-Discovery und SharePoint-Integration
@@ -900,7 +900,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
-- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge (v0.14.0, with a live demo site). The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope
+- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge (v0.20.2, with a live demo site). The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope
 - **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0
 - **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
 - **MCP Navigation Server**: Development of Model Context Protocol server (Python) with intelligent hierarchy navigation, automatic content discovery, and SharePoint integration
@@ -1308,7 +1308,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 • **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln (Branch-Schutz, Secret-Erkennung, Deployment-Gates)
 • **Strukturiertes Arbeits-Tracking**: Automatische Dokumentation mit Tages-/Wochen-Archivierung und Cross-Project Kanban Board
 • **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
-• **Open-Source-Schicht**: Three-Tier-Architektur. Die generische CORE-Schicht liegt offen als bks-lab/open-bridge (MIT, Stand v0.14.0, mit Live-Demo-Seite) und speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
+• **Open-Source-Schicht**: Three-Tier-Architektur. Die generische CORE-Schicht liegt offen als bks-lab/open-bridge (MIT, Stand v0.20.2, mit Live-Demo-Seite) und speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
 
 **Impact:** Produktivitätssteigerung durch AI-gesteuerte Workflows, von Incident-Response bis Meeting-Protokollierung weitgehend automatisiert"""
         tagline_pdf = '''
@@ -1628,7 +1628,7 @@ Telefonischer Sprachassistent, der freie Termine live aus dem Terminportal liest
 • **Hook-based Permission System**: Smart Guard with project-specific security rules (branch protection, secret detection, deployment gates)
 • **Structured Work Tracking**: Automatic documentation with daily/weekly archiving and cross-project Kanban board
 • **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
-• **Open-source layer**: three-tier architecture. The generic CORE layer is public as bks-lab/open-bridge (MIT, v0.14.0, with a live demo site) and is fed from this seed instance, with a BKS overlay in between.
+• **Open-source layer**: three-tier architecture. The generic CORE layer is public as bks-lab/open-bridge (MIT, v0.20.2, with a live demo site) and is fed from this seed instance, with a BKS overlay in between.
 
 **Impact:** Productivity boost through AI-driven workflows, from incident response to meeting documentation largely automated"""
         tagline_pdf = '''
