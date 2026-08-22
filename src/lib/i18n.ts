@@ -655,7 +655,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       {
         title: 'open-bridge, die quelloffene Schicht',
         mechanism: 'Das generische Gerüst hinter dieser Arbeitsweise liegt öffentlich unter MIT: Betriebshandbuch, Fähigkeiten, Regeln, Agenten-Laufzeit. Vor jedem Merge laufen Pflichtprüfungen, darunter ein Scan auf durchgesickerte Inhalte.',
-        proof: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
+        proof: 'github.com/bks-lab/open-bridge · MIT · v0.20.2',
         proofUrl: 'https://github.com/bks-lab/open-bridge',
         state: 'public',
       },
@@ -1083,7 +1083,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       {
         title: 'open-bridge, the open-source layer',
         mechanism: 'The generic scaffolding behind this way of working is public under MIT: operating manual, skills, rules, agent runtime. Mandatory checks run before every merge, one of them a scan for leaked content.',
-        proof: 'github.com/bks-lab/open-bridge · MIT · v0.14.0',
+        proof: 'github.com/bks-lab/open-bridge · MIT · v0.20.2',
         proofUrl: 'https://github.com/bks-lab/open-bridge',
         state: 'public',
       },
