@@ -15,7 +15,7 @@
 import { readFileSync } from 'node:fs';
 import { parse as tomlParse } from 'toml';
 import { i18n } from '../src/lib/i18n.ts';
-import { orphanSkills } from '../src/lib/skill-groups.ts';
+import { catchAllSkills, multiGroupSkills } from '../src/lib/skill-groups.ts';
 
 /**
  * Bullet budget per act kind. A uniform budget was the old shape and it is what
@@ -35,7 +35,7 @@ const FIGURE_LABELS = {
 
 /** Screenshot keys the page knows how to render. A raw path could point at a
  *  file that was deleted for leaking personal data, and nothing would notice. */
-const SHOTS = new Set(['nlpanalyse', 'sla', 'angebotstest']);
+const SHOTS = new Set(['nlpanalyse', 'sla']);
 
 /**
  * Raised from 9 to 18 on 2026-08-08.
@@ -49,6 +49,12 @@ const SHOTS = new Set(['nlpanalyse', 'sla', 'angebotstest']);
 const MAX_BULLET_WORDS = 18;
 const MAX_SCARS = 2;
 const errors = [];
+/**
+ * Findings that are worth reading but must not stop a build. A guard that fails
+ * on something nobody decided is worse than no guard: it gets disabled. Notices
+ * are printed on every run, green or red.
+ */
+const notices = [];
 
 const [de, en] = [i18n.de, i18n.en];
 
@@ -133,7 +139,7 @@ for (const [name, br] of [['de', de], ['en', en]]) {
                   ...(a.beliefs ?? []).flatMap(b => [b.rule, b.text]),
                   ...(a.phone?.lines ?? []), a.phone?.note ?? ''].join(' ');
     if (/[—–]/.test(blob)) errors.push(`${where}: em or en dash used as punctuation`);
-    if (/\s--\s/.test(blob)) errors.push(`${where}: double hyphen used as punctuation`);
+    if (/\s--+\s/.test(blob)) errors.push(`${where}: double hyphen used as punctuation`);
 
     // Vanity counters. The whole rebuild exists because a full screen said
     // "20+" and "40+". `v0.14.0`, `EN 16931`, `A2A 1.0` and dates are
@@ -306,6 +312,11 @@ for (const branch of ['de', 'en']) {
     // tagline written after the rule shipped.
     const withoutBullets = v.replace(/^[ \t]*[-*][ \t]+/gm, '');
     if (/\s-\s/.test(withoutBullets)) errors.push(`config.cv.toml ${branch} ${at}: spaced hyphen reads as a dash in "${v}". Use a middot or rebuild the sentence.`);
+    // The same rule bans the double hyphen, and the check above cannot see it:
+    // "\s-\s" needs a space on BOTH sides of a single hyphen, so "a -- b" walks
+    // straight through. It is the ASCII stand-in for the em dash, which makes it
+    // the one form somebody actually types when the real dash is unavailable.
+    if (/\s--+\s/.test(withoutBullets)) errors.push(`config.cv.toml ${branch} ${at}: double hyphen used as punctuation in "${v}". Comma, colon or two sentences.`);
   };
   const walk = (node, path, key) => {
     if (typeof node === 'string') {
@@ -349,14 +360,19 @@ if (rankSets.de !== rankSets.en) {
 }
 
 /**
- * A skill that renders nowhere.
+ * Where a skill renders, and where it renders differently.
  *
- * The sidebar buckets ui.sidebar_skills by regex, and an entry that matches no
- * group is dropped without a trace. The component warned on the console at
- * build time, which is not a guard: a warning in a build log that ends in
- * "Complete!" is a warning nobody reads. The patterns now live in
- * src/lib/skill-groups.ts and are imported here, so there is one definition and
- * a red build instead.
+ * The sidebar buckets ui.sidebar_skills by regex. This used to fail the build on
+ * a skill matching no group, with the reason "would render nowhere", and that
+ * reason was false: scripts/html_to_pdf.js renders the same list FLAT, so an
+ * unmatched skill is in the PDF and missing from the page. Worse, no catch-all
+ * existed, so Terraform, Kibana, SQL, ISTQB and every other entry nobody had
+ * written a pattern for turned an ordinary content edit into a red build.
+ *
+ * src/lib/skill-groups.ts now ends in a catch-all, so every skill lands
+ * somewhere by construction and the two questions left are advisory: what
+ * collected in the catch-all (a heading may be missing) and what matches two
+ * patterns (the first one wins, which may not be the intended one).
  */
 for (const branch of ['de', 'en']) {
   const skills = cv?.languages?.[branch]?.params?.ui?.sidebar_skills ?? [];
@@ -364,17 +380,39 @@ for (const branch of ['de', 'en']) {
     errors.push(`config.cv.toml ${branch}: ui.sidebar_skills is empty.`);
     continue;
   }
-  const orphans = orphanSkills(skills);
-  if (orphans.length) {
-    errors.push(`config.cv.toml ${branch}: sidebar skills match no group and would render nowhere: ${orphans.join(', ')}. Add a pattern in src/lib/skill-groups.ts or reword the skill.`);
+  const caught = catchAllSkills(skills);
+  if (caught.length) {
+    notices.push(`config.cv.toml ${branch}: ${caught.length} sidebar skills render under the catch-all heading: ${caught.join(', ')}. Fine as is; add a pattern in src/lib/skill-groups.ts when a group of them shares an area.`);
+  }
+  for (const { skill, groups } of multiGroupSkills(skills)) {
+    notices.push(`config.cv.toml ${branch}: "${skill}" matches ${groups.join(' and ')}. It renders once, under ${groups[0]}.`);
   }
 }
-// Both branches share the patterns, so they must share the list; only the group
-// headings are translated.
+/**
+ * Both branches carry the same skill set, so the two lists must have the same
+ * LENGTH: one entry more on one side is a missed edit, and that is the failure
+ * this guards.
+ *
+ * The first shape compared the joined strings and so demanded them to be
+ * character-identical, which outlawed ever translating a label ("Quality
+ * Engineering" into "Qualitätssicherung") for good, on a page whose group
+ * headings ARE translated. Nobody decided that. A differing entry is therefore
+ * a notice: it is either a translation or a typo, and only a reader can say
+ * which.
+ */
 {
-  const de = (cv?.languages?.de?.params?.ui?.sidebar_skills ?? []).join('|');
-  const en = (cv?.languages?.en?.params?.ui?.sidebar_skills ?? []).join('|');
-  if (de !== en) errors.push('config.cv.toml: ui.sidebar_skills differs between branches. The skills are the same person in both languages.');
+  const deSkills = cv?.languages?.de?.params?.ui?.sidebar_skills ?? [];
+  const enSkills = cv?.languages?.en?.params?.ui?.sidebar_skills ?? [];
+  if (deSkills.length !== enSkills.length) {
+    errors.push(`config.cv.toml: ui.sidebar_skills has ${deSkills.length} entries in de and ${enSkills.length} in en. The skills are the same person in both languages.`);
+  } else {
+    const differing = deSkills
+      .map((skill, i) => [skill, enSkills[i]])
+      .filter(([a, b]) => a !== b);
+    if (differing.length) {
+      notices.push(`config.cv.toml: ${differing.length} sidebar skills are worded differently per branch: ${differing.map(([a, b]) => `"${a}" vs "${b}"`).join(', ')}. Intended as a translation, or a missed edit?`);
+    }
+  }
 }
 
 /**
@@ -410,6 +448,17 @@ for (const branch of ['de', 'en']) {
       if (Number.isFinite(p.pdf_rank) !== Number.isFinite(q.pdf_rank)) {
         errors.push(`config.cv.toml projects[${i}] "${p.title}": pdf_rank present in one branch only.`);
       }
+      // url and category were left out of the first pass, and they are the two
+      // fields that produce exactly the defect this block was written against:
+      // a url in one branch only makes the card a link in one language and
+      // plain text in the other, and the category is an untranslated label that
+      // groups and colours the card, so a divergence there is always a typo.
+      if (!!p.url !== !!q.url) {
+        errors.push(`config.cv.toml projects[${i}] "${p.title}": url present in one branch only, so the card links out in one language and not in the other.`);
+      }
+      if ((p.category ?? null) !== (q.category ?? null)) {
+        errors.push(`config.cv.toml projects[${i}] "${p.title}": category differs, de="${p.category ?? '-'}" en="${q.category ?? '-'}". The category is an identifier, not prose.`);
+      }
     });
   }
 }
@@ -440,18 +489,24 @@ if (versions.size > 1) {
     .map(([v, files]) => `${v} (${[...new Set(files)].join(', ')})`)
     .join(' vs ');
   errors.push(`open-bridge version disagrees across files: ${listed}. One release, one number.`);
-} else if (versions.size === 0) {
-  errors.push('no open-bridge release version found in config.cv.toml or src/lib/i18n.ts. It is one of the four allowed proof anchors; do not drop it silently.');
 }
+// Deliberately NO rule that a version must exist. The pinned number went stale
+// twice on 2026-08-22 alone (v0.14.0 while the repo was at v0.20.2, then v0.20.2
+// while it was at v0.21.0), and a build-time guard cannot see the network, so it
+// can only ever check that the copies agree with each other, never that they
+// agree with the release. The prose now names the repo and the licence, which do
+// not age. The rule above still fires the moment someone re-pins a number in one
+// file and forgets the other.
 
 /**
  * A screenshot without an alt text.
  *
- * The project cards rendered `alt=""` on all seven pictures, in both languages.
- * An empty alt is a real instruction: it tells a screen reader the image is
- * decoration and to skip it. On these cards the picture IS the evidence the card
- * offers, and two of the seven are illustrations whose figures are placeholders,
- * which a reader who cannot see them has every right to be told. The
+ * The project cards rendered `alt=""` on every picture they carried, in both
+ * languages. An empty alt is a real instruction: it tells a screen reader the
+ * image is decoration and to skip it. On these cards the picture IS the evidence
+ * the card offers, and the illustrated ones show placeholder figures, which a
+ * reader who cannot see them has every right to be told. The rule is per
+ * screenshot, not per count, so no number is written here to go stale. The
  * presentation had already settled this question the other way (see the `alt`
  * comment in src/lib/i18n.ts); the CV page never got the memo.
  */
@@ -491,6 +546,10 @@ for (const [file, blob] of proseSources) {
   }
 }
 
+if (notices.length) {
+  console.log('i18n check notes:');
+  for (const n of notices) console.log('  -', n);
+}
 if (errors.length) {
   console.error('i18n check failed:');
   for (const e of errors) console.error('  -', e);

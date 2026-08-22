@@ -41,9 +41,11 @@ for (const file of htmlFiles(dist)) {
   pages += 1;
   const html = readFileSync(file, 'utf8');
 
-  // ── No em or en dash as punctuation, anywhere a reader can see it ─────────
-  for (const { where, snippet } of findDashes(html)) {
-    errors.push(`${file} (${where}): em or en dash in "${snippet}"`);
+  // ── No dash as punctuation, anywhere a reader can see it ──────────────────
+  // Both forms, em or en dash and the spaced double hyphen, come out of the one
+  // shared rule module and name themselves in `kind`.
+  for (const { where, kind, snippet } of findDashes(html)) {
+    errors.push(`${file} (${where}): ${kind} in "${snippet}"`);
   }
 
   // ── An image is either content with an alt, or explicitly hidden ───────────
@@ -67,22 +69,50 @@ for (const file of htmlFiles(dist)) {
 // every visitor landed on German, including one whose browser announces no
 // German at all. GitHub Pages cannot read Accept-Language, so the decision has
 // to happen in the page, and the page has to keep working without JavaScript.
+//
+// The link check reads the BODY only. Scanning the whole file was no check at
+// all: <link rel="canonical" href=".../de/"> and the two hreflang alternates in
+// the head satisfy an href="…/de/" search on their own, so a root page with no
+// visible language navigator anywhere passed. What has to exist is an <a> a
+// reader can click, with something written in it.
 const rootFile = join(dist, 'index.html');
 try {
   const root = readFileSync(rootFile, 'utf8');
+  const bodyStart = root.search(/<body\b/i);
+  const body = bodyStart === -1 ? '' : root.slice(bodyStart);
+  if (!body) {
+    errors.push(`${rootFile}: no <body>. The language choice has to be visible, not only in the head.`);
+  }
   for (const target of ['/de/', '/en/']) {
-    if (!new RegExp(`href="[^"]*${target}"`).test(root)) {
-      errors.push(`${rootFile}: no link to ${target}. The root has to offer both languages, not pick one for everyone.`);
+    const link = body.match(new RegExp(`<a\\b[^>]*href="[^"]*${target}"[^>]*>([\\s\\S]*?)</a>`, 'i'));
+    const label = link ? link[1].replace(/<[^>]+>/g, '').trim() : '';
+    if (!link) {
+      errors.push(`${rootFile}: no <a href="${target}"> in the body. The root has to offer both languages, not pick one for everyone.`);
+    } else if (!label) {
+      errors.push(`${rootFile}: the link to ${target} has no text, so there is nothing to click or read out.`);
     }
   }
   if (!/navigator\.languages?/.test(root)) {
     errors.push(`${rootFile}: no language detection. A fixed redirect sends every visitor to the same language.`);
   }
-  if (!/<noscript>/.test(root)) {
-    errors.push(`${rootFile}: no <noscript> fallback. Without JavaScript the root would be a dead end.`);
+  // The inverse of the old rule. A <noscript> here used to be mandatory, and the
+  // one that satisfied it was <meta http-equiv="refresh" content="0;url=/de/">:
+  // every visitor without JavaScript was sent to German and never saw the
+  // navigator, which is the exact defect the root page was rebuilt to remove.
+  // The visible links ARE the fallback, so a noscript is optional; what it must
+  // not do is decide the language.
+  for (const m of root.matchAll(/<noscript[^>]*>([\s\S]*?)<\/noscript>/gi)) {
+    const refresh = m[1].match(/<meta[^>]+http-equiv=["']?refresh["']?[^>]*>/i);
+    if (refresh && /url=[^"'>]*\/(de|en)\//i.test(refresh[0])) {
+      errors.push(`${rootFile}: <noscript> redirects to one language: ${refresh[0].trim()}. Without JavaScript the visible links are the fallback; a refresh here picks for everyone.`);
+    }
   }
-} catch {
-  errors.push(`${rootFile}: missing. The root page is the entry point.`);
+} catch (err) {
+  if (err instanceof Error && err.code === 'ENOENT') {
+    errors.push(`${rootFile}: missing. The root page is the entry point.`);
+  } else {
+    throw err;
+  }
 }
 
 if (!pages) {

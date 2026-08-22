@@ -8,48 +8,107 @@
 // auswerten, also entscheidet der Browser selbst, bevor irgendetwas gerendert
 // wird.
 //
-// Regel: steht irgendwo in navigator.languages ein de, geht es nach /de/, sonst
-// nach /en/. location.replace statt href, damit der Zurück-Knopf den Besucher
-// nicht in diese Seite zurückwirft. Ohne JavaScript greift das alte Verhalten
-// über <noscript>, und sichtbar stehen beide Wege ohnehin da.
+// Regel: navigator.languages wird in seiner REIHENFOLGE durchlaufen, und es
+// gewinnt der erste Eintrag, der eine der beiden angebotenen Sprachen bezeichnet.
+// Zuvor stand hier ein some() auf "de", das ["en-GB","en","de-DE"] nach /de/
+// schickte, obwohl Englisch die erste Wahl ist: in Deutschland der Regelfall bei
+// Zugezogenen und bei internationalen Vermittlern. Nennt die Liste keine der
+// beiden Sprachen, bleibt es bei /de/. location.replace statt href, damit der
+// Zurück-Knopf den Besucher nicht in diese Seite zurückwirft.
+//
+// Ohne JavaScript passiert nichts, und das ist die Absicht: die beiden sichtbaren
+// Links im Body sind der Rückfall. Das <noscript> mit Sofortweiterleitung, das
+// hier stand, schickte ausgerechnet diese Besucher wieder alle nach /de/.
 ---
 <html lang="de">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Michael Boiman</title>
-  <meta name="robots" content="noindex,follow" />
-  <link rel="canonical" href="https://mboiman.github.io/de/" />
+  {/* This page is its own destination, not a copy of the German one: it is the
+      only page that lets a visitor choose, which is exactly what x-default
+      names. Canonical points here for the same reason. It carried
+      robots="noindex,follow" and a canonical to /de/ for a while, which told a
+      crawler that the one page offering both languages does not exist; the root
+      is already excluded from the sitemap (see astro.config.mjs), so nothing
+      needed the noindex. */}
+  <link rel="canonical" href="https://mboiman.github.io/" />
   <link rel="alternate" hreflang="de" href="https://mboiman.github.io/de/" />
   <link rel="alternate" hreflang="en" href="https://mboiman.github.io/en/" />
-  <link rel="alternate" hreflang="x-default" href="https://mboiman.github.io/de/" />
+  <link rel="alternate" hreflang="x-default" href="https://mboiman.github.io/" />
   <script is:inline>
+    // Same storage key and the same two values the toggle in
+    // src/layouts/BaseLayout.astro writes, so a visitor who picked light on the
+    // CV page does not get a dark flash on the way in. With nothing stored, the
+    // media query in the style block decides.
     (() => {
       try {
-        const tags = navigator.languages && navigator.languages.length
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.classList.add(saved);
+        }
+      } catch {}
+    })();
+  </script>
+  <script is:inline>
+    // Priority order, not "does the list contain de somewhere".
+    (() => {
+      const offered = ['de', 'en'];
+      try {
+        const tags = (navigator.languages && navigator.languages.length
           ? navigator.languages
-          : [navigator.language || 'de'];
-        const wantsGerman = tags.some((t) => String(t).toLowerCase().startsWith('de'));
-        location.replace(wantsGerman ? '/de/' : '/en/');
+          : [navigator.language]).filter(Boolean);
+        let target = '';
+        for (const tag of tags) {
+          const base = String(tag).toLowerCase().split('-')[0];
+          if (offered.indexOf(base) !== -1) { target = base; break; }
+        }
+        location.replace('/' + (target || 'de') + '/');
       } catch {
         location.replace('/de/');
       }
     })();
   </script>
-  <noscript><meta http-equiv="refresh" content="0;url=/de/" /></noscript>
   <style>
+    /* Copies of the tokens in src/styles/global.css, read from there on
+       2026-08-22 (:root and html.dark). This page cannot import the stylesheet:
+       it has to paint before it redirects, from one file. Copying the values
+       raw is what went wrong before, so they sit in variables under the token
+       names they came from, and a divergence is one grep away. Two of the five
+       were wrong: the link used --accent-hover (#1d4ed8) rather than --accent,
+       and the dark text used #e2e8f0 where --text is #f8fbff. */
+    :root {
+      --bg: #f8fbff;
+      --text: #17212b;
+      --accent: #2563eb;
+    }
+    /* A stored light choice beats the system setting, which is why the media
+       rule steps aside for .light. Only the two explicit choices set a class;
+       "follow the system" sets none. */
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light) {
+        --bg: #0f172a;
+        --text: #f8fbff;
+        --accent: #93c5fd;
+      }
+    }
+    :root.dark {
+      --bg: #0f172a;
+      --text: #f8fbff;
+      --accent: #93c5fd;
+    }
     body { font-family: system-ui, sans-serif; margin: 0; min-height: 100vh;
-           display: grid; place-items: center; background: #f8fbff; color: #0f172a; }
+           display: grid; place-items: center;
+           background: var(--bg); color: var(--text); }
     ul { list-style: none; padding: 0; display: flex; gap: 1.25rem; font-size: 1rem; }
-    a { color: #1d4ed8; }
-    @media (prefers-color-scheme: dark) { body { background: #0f172a; color: #e2e8f0; } a { color: #93c5fd; } }
+    a { color: var(--accent); }
   </style>
 </head>
 <body>
   <nav aria-label="Sprache wählen">
     <ul>
       <li><a href="/de/" hreflang="de">Zur deutschen Fassung</a></li>
-      <li><a href="/en/" hreflang="en">Go to the English version</a></li>
+      <li><a href="/en/" hreflang="en" lang="en">Go to the English version</a></li>
     </ul>
   </nav>
 </body>

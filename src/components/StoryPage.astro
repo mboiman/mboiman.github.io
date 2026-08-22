@@ -35,6 +35,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
 import { i18n } from '../lib/i18n';
+import { isTalk, sortByRecency } from '../lib/experience';
 
 import FigProofPair from './figures/FigProofPair.astro';
 import FigTimeline from './figures/FigTimeline.astro';
@@ -45,7 +46,6 @@ import FigChecks from './figures/FigChecks.astro';
 
 import shotNlp from '../assets/story/nlpanalyse.png';
 import shotSla from '../assets/story/sla-dashboard.jpg';
-import shotRoute from '../assets/story/angebotstest.png';
 
 interface Props {
   lang: 'de' | 'en';
@@ -62,8 +62,16 @@ const { profile, contact, ui, experiences, education } = data;
  *  restating it in i18n.ts. Two copies of the same career drift, and the CV is
  *  the source Michael actually maintains. Seven rows: enough to show the arc
  *  from enterprise QA to agent architecture, short enough to stay on one
- *  screen. The rest stays on the CV page, which is what the link is for. */
-const stations = experiences.list.slice(0, 7);
+ *  screen. The rest stays on the CV page, which is what the link is for.
+ *
+ *  Filter, then sort, then slice, in that order. This was a bare
+ *  `experiences.list.slice(0, 7)` over the FILE order, and the file opens with
+ *  the talks: three of the seven rows were a workshop, an Impulsvortrag and a
+ *  presentation, listed as career stations on the one act whose whole job is to
+ *  show the career. The CV page separates talks from positions for exactly this
+ *  reason, and the presentation did not. Slicing an unsorted list also meant the
+ *  act depended on the row order in config.cv.toml rather than on dates. */
+const stations = sortByRecency(experiences.list.filter(e => !isTalk(e))).slice(0, 7);
 
 const email = contact.list.find(c => c.class === 'email');
 const linkedin = contact.list.find(c => c.class === 'linkedin');
@@ -73,8 +81,16 @@ const website = contact.list.find(c => c.class === 'website');
 const portrait = `/images/${profile.avatar_story || 'profile_.jpg'}`;
 
 /** Keyed, never a raw path: a raw path can point at a file that was deleted for
- *  leaking personal data, and nothing in the build would notice. */
-const SHOTS = { nlpanalyse: shotNlp, sla: shotSla, angebotstest: shotRoute };
+ *  leaking personal data, and nothing in the build would notice.
+ *
+ *  `angebotstest` was a third key here, imported, typed in i18n.ts and used by
+ *  no act. It was a cropped Kibana chart of response-time percentiles from a
+ *  2019 load test, and every project act already carries its own picture, so it
+ *  was wiring with nothing on the other end. The file stays in
+ *  src/assets/story/; only the wiring is gone. Giving it an act would have meant
+ *  writing a caption claiming a provenance nobody verified, on a page whose
+ *  first act argues that declared is not verified. */
+const SHOTS = { nlpanalyse: shotNlp, sla: shotSla };
 const FIGURES = {
   proofpair: FigProofPair, timeline: FigTimeline, mesh: FigMesh,
   route: FigRoute, gate: FigGate, checks: FigChecks,

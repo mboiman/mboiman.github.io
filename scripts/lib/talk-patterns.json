@@ -1,0 +1,19 @@
+{
+  "_comment": "Single source of truth for telling a talk or workshop apart from a career position. Read by src/lib/experience.ts (website, via Vite JSON import) and by scripts/html_to_pdf.js (PDF, via require). It lived as two hand-kept copies before, one TypeScript and one JavaScript, and they had already drifted: the PDF copy never knew 'keynote' or 'guest talk', so an entry titled 'Keynote: ...' was a talk on the website and a career position in the PDF. Patterns are lowercase regex fragments, matched case-insensitively.",
+  "position": [
+    "workshop",
+    "pr(?:ä|ae)sentation",
+    "presentation",
+    "impuls[ -]?vortrag",
+    "vortrag",
+    "keynote",
+    "guest lecture",
+    "guest talk",
+    "lecture",
+    "anwendungen von ki"
+  ],
+  "company": [
+    "workshop",
+    "pr(?:ä|ae)sentation"
+  ]
+}
