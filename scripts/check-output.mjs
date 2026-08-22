@@ -16,6 +16,11 @@
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+// One rule, two artifacts: scripts/html_to_pdf.js runs the same findDashes over
+// the HTML it hands to Puppeteer, because the PDF is never an HTML page in dist/
+// and no guard here would ever see it. Two regexes for one rule stay in sync
+// exactly as long as nobody edits one of them.
+import { findDashes } from './lib/visible-text.js';
 
 const dist = process.argv[2] ?? 'dist';
 const errors = [];
@@ -30,41 +35,15 @@ function htmlFiles(dir) {
   return out;
 }
 
-/** Everything a reader can see: no scripts, no styles, no HTML comments, no tags. */
-function visibleText(html) {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<!--[\s\S]*?-->/g, ' ')
-    .replace(/<[^>]+>/g, ' ');
-}
-
-/** Title and meta description are read too, just not inside the page. */
-function metaText(html) {
-  const bits = [];
-  const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-  if (title) bits.push(title[1]);
-  for (const m of html.matchAll(/<meta[^>]+content="([^"]*)"[^>]*>/gi)) bits.push(m[1]);
-  return bits.join('\n');
-}
-
 let pages = 0;
 let images = 0;
 for (const file of htmlFiles(dist)) {
   pages += 1;
   const html = readFileSync(file, 'utf8');
 
-  // ── No em or en dash as punctuation, anywhere a reader can see it ──────────
-  // Deduplicated per page: one title lands in <title>, og:title and twitter:title,
-  // and three identical lines about one dash only make the report harder to read.
-  const seen = new Set();
-  for (const [label, text] of [['text', visibleText(html)], ['meta', metaText(html)]]) {
-    for (const m of text.matchAll(/[^\n]{0,40}[—–][^\n]{0,40}/g)) {
-      const snippet = m[0].trim().replace(/\s+/g, ' ');
-      if (seen.has(snippet)) continue;
-      seen.add(snippet);
-      errors.push(`${file} (${label}): em or en dash in "${snippet}"`);
-    }
+  // ── No em or en dash as punctuation, anywhere a reader can see it ─────────
+  for (const { where, snippet } of findDashes(html)) {
+    errors.push(`${file} (${where}): em or en dash in "${snippet}"`);
   }
 
   // ── An image is either content with an alt, or explicitly hidden ───────────
