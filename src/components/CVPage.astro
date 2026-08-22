@@ -136,6 +136,23 @@ function clipLead(text: string): string {
   return lastStop > 40 ? clipped.slice(0, lastStop + 1) : `${clipped}…`;
 }
 
+/**
+ * The public links buried in a talk's `details`.
+ *
+ * Talks rendered as three lines (title, host, date) and nothing else, so their
+ * `details` reached no reader at all: 5,035 characters in the German branch.
+ * Two of those characters-worth are the only third-party evidence on this whole
+ * page, a public slide deck and the GitHub repo of the bot built in the
+ * workshop, and "pitch.com" produced zero hits in the built HTML.
+ */
+function talkLinks(details: string): { label: string; url: string }[] {
+  const out: { label: string; url: string }[] = [];
+  const rx = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+  let m: RegExpExecArray | null;
+  while ((m = rx.exec(details || ''))) out.push({ label: m[1], url: m[2] });
+  return out;
+}
+
 function splitDetails(details: string): { open: string; foldTitle: string; fold: string } {
   const focusPattern = new RegExp(`^(${t.truncatePatterns.join('|')})`, 'i');
   const toolPattern = new RegExp(`^(${t.truncateToolPatterns.join('|')})`, 'i');
@@ -597,6 +614,16 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   <h3 class="text-sm font-medium font-sans leading-snug" style="color: var(--accent)">{talk.position}</h3>
                   <p class="text-xs mt-1" style="color: var(--text-secondary)">{talk.company}</p>
                   <span class="cv-date-pill inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md">{talk.dates}</span>
+                  {splitDetails(talk.details ?? '').open && (
+                    <div class="talk-copy mt-3 text-[13px] leading-[1.7]" set:html={formatToHTML(splitDetails(talk.details ?? '').open)} />
+                  )}
+                  {talkLinks(talk.details ?? '').length > 0 && (
+                    <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                      {talkLinks(talk.details ?? '').map(l => (
+                        <a href={l.url} target="_blank" rel="noopener" class="cv-talk-link">{l.label}</a>
+                      ))}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -818,6 +845,17 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      shadow and the accent ring outside it were three treatments on one face. */
   .cv-avatar {
     border: 1px solid var(--line);
+  }
+
+  .cv-talk-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .talk-copy {
+    color: var(--text-secondary);
+    max-width: 56ch;
   }
 
   .cv-facts {
