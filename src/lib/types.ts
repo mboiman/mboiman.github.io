@@ -33,6 +33,11 @@ export interface ProjectItem {
   category: string;
   featured: boolean;
   screenshot?: string;
+  /** What is on the screenshot, in this branch's language. Required whenever
+   *  `screenshot` is set (enforced by scripts/check-i18n.mjs): the cards used to
+   *  render alt="", which tells a screen reader to skip the very picture the
+   *  card offers as its evidence. */
+  screenshot_alt?: string;
   tagline: string;
   challenge?: string;
   solution?: string;

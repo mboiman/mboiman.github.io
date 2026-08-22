@@ -341,6 +341,28 @@ if (rankSets.de !== rankSets.en) {
 }
 
 /**
+ * A screenshot without an alt text.
+ *
+ * The project cards rendered `alt=""` on all seven pictures, in both languages.
+ * An empty alt is a real instruction: it tells a screen reader the image is
+ * decoration and to skip it. On these cards the picture IS the evidence the card
+ * offers, and two of the seven are illustrations whose figures are placeholders,
+ * which a reader who cannot see them has every right to be told. The
+ * presentation had already settled this question the other way (see the `alt`
+ * comment in src/lib/i18n.ts); the CV page never got the memo.
+ */
+for (const branch of ['de', 'en']) {
+  for (const p of cv?.languages?.[branch]?.params?.projects?.list ?? []) {
+    if (p.screenshot && !String(p.screenshot_alt ?? '').trim()) {
+      errors.push(`config.cv.toml ${branch}: project "${p.title}" has a screenshot but no screenshot_alt. Say what is on it.`);
+    }
+    if (!p.screenshot && p.screenshot_alt) {
+      errors.push(`config.cv.toml ${branch}: project "${p.title}" has screenshot_alt but no screenshot.`);
+    }
+  }
+}
+
+/**
  * One talk is one talk.
  *
  * Michael gave a single Impulsvortrag at TU Darmstadt in 04/2026 and said so

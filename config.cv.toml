@@ -1359,6 +1359,7 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         category = "Training & Workshops"
         featured = true
         screenshot = "projects/aiagentworkshop.png"
+        screenshot_alt = "Illustration zum Workshop: ein Editor mit KI-Assistenz und der Auswahl zwischen mehreren Modellen, daneben ein Ablauf von MCP über A2A zum Agenten und zum Test."
         tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
 
 **Workshop-Inhalte:**
@@ -1378,6 +1379,7 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         category = "Consulting & Strategy"
         featured = true
         screenshot = "projects/aistrategy.png"
+        screenshot_alt = "Illustration einer Strategie-Übersicht mit Beispielkacheln für ROI, Business Case, Amortisation und KPIs. Die Zahlen darin sind Platzhalter, keine Projektergebnisse."
         tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
 
 **Beratungsleistungen:**
@@ -1419,6 +1421,7 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/angebotstest.png"
+        screenshot_alt = "Kibana-Dashboard der Dauerlauf-Validierung: Zähler für beantwortete Anfragen und berechnete Angebote, darunter der Verlauf der Angebotsermittlung und die Perzentile der Antwortzeit."
         tagline = """**Enterprise Legacy-Transformation mit durchgängiger Qualitätssicherung**
 
 **Das Problem:** Komplexe Mainframe-Preiskalkulation mit Millionen von Kombinationsmöglichkeiten sollte sicher migriert werden, ohne Qualitätsverlust oder Datenfehler.
@@ -1487,6 +1490,7 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/django-sla-dashboard.jpg"
+        screenshot_alt = "SLA-Dashboard aus der Evaluierung: Verfügbarkeitsverlauf über 24 Stunden, Verteilung der Antwortzeiten nach Zeitfenstern, Service-Tabelle und ein Ring für die SLA-Einhaltung."
         tagline = """**Enterprise SLA Monitoring Dashboard für Service Level Agreements**
 
 Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Evaluierung (2023-2025) zur Überwachung von Service Level Agreements mit Echtzeit-Metriken und automatisierter Alarmierung.
@@ -1517,6 +1521,7 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitycluster.png"
+        screenshot_alt = "Ausschnitt der QualityCluster-Seite mit drei Arbeitsprinzipien: One Bug Policy, Logging before Debugging, und möglichst viele statt möglichst wenige Rechte im Team."
         tagline = """
 QualityCluster ist ein Zusammenschluss von Quality Engineers, um gemeinsam bessere Lösungen im Bereich Software Qualitätssicherung zu entwickeln.
 Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirklichen.
@@ -1534,6 +1539,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "AI & Machine Learning"
         featured = true
         screenshot = "projects/websiteanalyzer.png"
+        screenshot_alt = "Streamlit-Oberfläche der Textanalyse: Balken für erkannte Emotionen, ein Ring für die Prioritäten und eine Wortwolke der häufigsten Begriffe."
         tagline = "Interaktive Streamlit-Demonstrationen für NLP-Textanalyse und KI-gesteuerte Dokumentenverarbeitung."
 
         [[languages.de.params.projects.list]]
@@ -1587,6 +1593,7 @@ Telefonischer Sprachassistent, der freie Termine live aus dem Terminportal liest
         category = "AI & Machine Learning"
         featured = true
         screenshot = "projects/nlpanalyse.png"
+        screenshot_alt = "Dashboard mit Kategorien und Verlaufskurven der automatischen E-Mail-Klassifizierung."
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
         challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden, zeitintensiv und fehleranfällig."
         solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
@@ -1672,6 +1679,7 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         category = "Training & Workshops"
         featured = true
         screenshot = "projects/aiagentworkshop.png"
+        screenshot_alt = "Illustration for the workshop: an editor with AI assistance and a choice of models, beside a flow from MCP through A2A to agent and test."
         tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
 
 **Workshop Content:**
@@ -1691,6 +1699,7 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         category = "Consulting & Strategy"
         featured = true
         screenshot = "projects/aistrategy.png"
+        screenshot_alt = "Illustration of a strategy overview with sample tiles for ROI, business case, amortisation and KPIs. The figures in it are placeholders, not project results."
         tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
 
 **Consulting Services:**
@@ -1732,6 +1741,7 @@ Real-time quality overview for enterprise go/no-go decisions.
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/angebotstest.png"
+        screenshot_alt = "Kibana dashboard of the continuous validation: counters for answered requests and calculated quotes, below them the quote-calculation timeline and the response-time percentiles."
         tagline = """**Enterprise Legacy Transformation with End-to-End Quality Assurance**
 
 **The Challenge:** Complex mainframe price calculation with millions of combination possibilities needed secure migration, without quality loss or data errors.
@@ -1803,6 +1813,7 @@ Dual-run validation for safely migrating a mainframe price calculation.
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/django-sla-dashboard.jpg"
+        screenshot_alt = "SLA dashboard from the evaluation: availability over 24 hours, response times distributed across buckets, a service table and a ring for SLA compliance."
         tagline = """**Enterprise SLA Monitoring Dashboard for Service Level Agreements**
 
 Development of a comprehensive SLA monitoring system as part of a BKS evaluation project (2023-2025) for monitoring Service Level Agreements with real-time metrics and automated alerting.
@@ -1833,6 +1844,7 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
         category = "Quality Engineering"
         featured = true
         screenshot = "projects/qualitycluster.png"
+        screenshot_alt = "Section of the QualityCluster site with three working principles: one bug policy, logging before debugging, and as many team permissions as possible rather than as few as necessary."
         tagline = """
 QualityCluster is an alliance of quality engineers jointly developing better solutions in software quality assurance.
 Our goal is to implement more quality through a higher degree of automation.
@@ -1846,6 +1858,7 @@ Our goal is to implement more quality through a higher degree of automation.
         category = "AI & Machine Learning"
         featured = true
         screenshot = "projects/websiteanalyzer.png"
+        screenshot_alt = "Streamlit interface of the text analysis: bars for detected emotions, a ring for priorities and a word cloud of the most frequent terms."
         tagline = "Interactive Streamlit demonstrations for NLP text analysis and AI-driven document processing."
 
         [[languages.en.params.projects.list]]
@@ -1893,6 +1906,7 @@ A phone assistant that reads free appointment slots live from the booking portal
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
         screenshot = "projects/nlpanalyse.png"
+        screenshot_alt = "Dashboard showing categories and trend curves of the automatic email classification."
         featured = true
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
         challenge = "Incoming emails had to be manually read, classified and transferred to SAP, which was time-consuming and error-prone."
