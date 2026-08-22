@@ -1,1 +1,33 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/de/"><link rel="canonical" href="/de/"><title>Redirecting...</title></head><body><a href="/de/">Weiter zur deutschen Version</a></body></html>
+<!DOCTYPE html><html lang="de" data-astro-cid-lcdefpme><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Michael Boiman</title><link rel="canonical" href="https://mboiman.github.io/"><link rel="alternate" hreflang="de" href="https://mboiman.github.io/de/"><link rel="alternate" hreflang="en" href="https://mboiman.github.io/en/"><link rel="alternate" hreflang="x-default" href="https://mboiman.github.io/"><script>
+    // Same storage key and the same two values the toggle in
+    // src/layouts/BaseLayout.astro writes, so a visitor who picked light on the
+    // CV page does not get a dark flash on the way in. With nothing stored, the
+    // media query in the style block decides.
+    (() => {
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.classList.add(saved);
+        }
+      } catch {}
+    })();
+  </script><script>
+    // Priority order, not "does the list contain de somewhere".
+    (() => {
+      const offered = ['de', 'en'];
+      try {
+        const tags = (navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language]).filter(Boolean);
+        let target = '';
+        for (const tag of tags) {
+          const base = String(tag).toLowerCase().split('-')[0];
+          if (offered.indexOf(base) !== -1) { target = base; break; }
+        }
+        location.replace('/' + (target || 'de') + '/');
+      } catch {
+        location.replace('/de/');
+      }
+    })();
+  </script><style>:root{--bg:#f8fbff;--text:#17212b;--accent:#2563eb}@media (prefers-color-scheme:dark){:root:not(.light){--bg:#0f172a;--text:#f8fbff;--accent:#93c5fd}}:root.dark{--bg:#0f172a;--text:#f8fbff;--accent:#93c5fd}body{background:var(--bg);min-height:100vh;color:var(--text);place-items:center;margin:0;font-family:system-ui,sans-serif;display:grid}ul[data-astro-cid-lcdefpme]{gap:1.25rem;padding:0;font-size:1rem;list-style:none;display:flex}a[data-astro-cid-lcdefpme]{color:var(--accent)}
+</style></head><body data-astro-cid-lcdefpme><nav aria-label="Sprache wählen" data-astro-cid-lcdefpme><ul data-astro-cid-lcdefpme><li data-astro-cid-lcdefpme><a href="/de/" hreflang="de" data-astro-cid-lcdefpme>Zur deutschen Fassung</a></li><li data-astro-cid-lcdefpme><a href="/en/" hreflang="en" lang="en" data-astro-cid-lcdefpme>Go to the English version</a></li></ul></nav></body></html>
