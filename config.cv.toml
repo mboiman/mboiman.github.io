@@ -1446,6 +1446,7 @@ Guideline-basierter KI-Agent in der Entwicklungsumgebung, der Tests aus Jira-Sto
         [[languages.de.params.projects.list]]
         title = "AI Context Orchestrator: Multi-Repo Development Platform"
         anchor = "ai-context-orchestrator"
+        url = "https://github.com/bks-lab/open-bridge"
         pdf_rank = 6
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
@@ -1772,6 +1773,7 @@ Guideline-based AI agent in the IDE that generates tests from Jira stories.
         [[languages.en.params.projects.list]]
         title = "AI Context Orchestrator: Multi-Repo Development Platform"
         anchor = "ai-context-orchestrator"
+        url = "https://github.com/bks-lab/open-bridge"
         pdf_rank = 6
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
