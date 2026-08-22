@@ -1658,10 +1658,17 @@ const widgetStrings = {
       if (endpoint) {
         let host = endpoint;
         try { host = new URL(endpoint).host; } catch {}
-        // Only LINK the endpoint if it's a trusted host (same allowlist as the fetch
-        // target). A semi-trusted card must not turn the widget into an open-redirect
-        // to an arbitrary external site; otherwise show the host as plain text.
-        proto.appendChild(metaLine(t.cardEndpoint || 'Endpoint', host, isAllowedAgent(endpoint) ? endpoint : undefined));
+        // NOT a link, on purpose. An A2A endpoint answers POST; a browser click is
+        // a GET and can only come back as "405 Method Not Allowed", which is what
+        // the verification anchor on the CV page did until 2026-08-22. A control
+        // whose only possible outcome is an error should not look clickable. The
+        // clickable proof of this agent is its card, and the reader is looking at
+        // it right now.
+        //
+        // (The former isAllowedAgent() check guarded against a semi-trusted card
+        // turning the widget into an open redirect. Rendering plain text is the
+        // stricter version of the same protection, so the guard is not lost.)
+        proto.appendChild(metaLine(t.cardEndpoint || 'Endpoint', host));
       }
       cardEl.appendChild(proto);
 

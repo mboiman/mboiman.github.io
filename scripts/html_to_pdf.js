@@ -4,6 +4,7 @@ const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
 const { formatTextToParagraphs } = require('./lib/markdown-utils');
+const { findDashes } = require('./lib/visible-text');
 
 // Verification anchors come from config.cv.toml (ui.impact_metrics). There is
 // deliberately NO hardcoded fallback here: the previous one held '40+ Skills' and
@@ -385,7 +386,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <div class="experience-item">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
-          <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
+          <div class="experience-dates">${exp.dates}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
         <div class="experience-details">
@@ -402,7 +403,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <div class="experience-item experience-medium">
         <div class="experience-header">
           <div class="experience-title">${exp.position}</div>
-          <div class="experience-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</div>
+          <div class="experience-dates">${exp.dates}</div>
         </div>
         <div class="experience-company">${exp.company}</div>
         <div class="experience-details">
@@ -417,7 +418,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       <table class="compact-table">
         ${compactExperiences.map(exp => `
           <tr class="compact-row">
-            <td class="compact-dates">${exp.dates.replace(/\s*[-–]\s*/, ' – ')}</td>
+            <td class="compact-dates">${exp.dates}</td>
             <td class="compact-role"><strong>${exp.position}</strong>, ${exp.company}</td>
             <td class="compact-summary">${extractFirstSentence(exp.details)}</td>
           </tr>
@@ -1128,6 +1129,19 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
   // Generate HTML content directly from TOML config
   const htmlContent = await generateHTMLFromConfig(langConfig, profileImageBase64, targetLang);
+
+  // Same rule as scripts/check-output.mjs applies to the site, checked here
+  // because the PDF is a second artifact that no HTML guard ever sees. It is
+  // needed: this renderer used to rewrite every clean date range from the TOML
+  // ("01/2024-04/2025") into a spaced en dash on the way out, ten per PDF, none
+  // of them present in any source file. The two callers share one rule module
+  // rather than one regex each.
+  const dashes = findDashes(htmlContent, { includeMeta: false });
+  if (dashes.length) {
+    console.error(`PDF content check failed for [${targetLang}]:`);
+    for (const d of dashes) console.error(`  - em or en dash in "${d.snippet}"`);
+    throw new Error('em or en dash in PDF content');
+  }
 
   await page.setContent(htmlContent, {
     waitUntil: ['domcontentloaded'],
