@@ -1,8 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
-import { formatToHTML, formatMarkdown } from '../lib/markdown';
+import { formatToHTML, formatBlocks, formatMarkdown } from '../lib/markdown';
 import { i18n } from '../lib/i18n';
 
 interface Props {
@@ -14,7 +15,26 @@ const otherLang = lang === 'de' ? 'en' : 'de';
 const t = i18n[lang];
 
 const data = getCVData(lang);
-const { profile, contact, ui, experiences, projects, summary, education, language: langs, skills, agent_proof } = data;
+const { profile, contact, ui, experiences, projects, summary, education, language: langs, agent_proof } = data;
+
+/**
+ * Project screenshots, processed instead of served raw.
+ *
+ * They used to sit in public/ and render through a plain <img>, which Astro
+ * copies through untouched: 5,8 MB of PNG and JPEG for seven cards, the largest
+ * of them 3020 pixels wide inside a box 160 pixels high, no webp, no srcset.
+ * The presentation next door has done it right the whole time (astro:assets with
+ * widths + sizes); this is the same page in the same repo.
+ *
+ * Keyed by the file name the TOML already carries, so config.cv.toml stays the
+ * place where a project declares its picture.
+ */
+const SHOTS = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.{png,jpg,jpeg,webp}', { eager: true }),
+  ).map(([path, mod]) => [path.split('/').pop()!, mod.default]),
+);
+const shotFor = (screenshot?: string) => (screenshot ? SHOTS[screenshot.split('/').pop()!] : undefined);
 
 const featuredProjects = projects.list.filter(p => p.featured);
 const otherProjects = projects.list.filter(p => !p.featured);
@@ -338,14 +358,19 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredProjects.map((project, projectIndex) => (
                 <div class={`cv-project-card rounded-xl overflow-hidden cursor-pointer group${projectIndex >= INITIAL_PROJECTS ? ' cv-project-extra hidden' : ''}`} id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
-                  {project.screenshot && (
+                  {shotFor(project.screenshot) && (
                     <div class="h-40 overflow-hidden relative">
-                      <img src={`/images/${project.screenshot}`} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      {/* alt comes from config.cv.toml, never the empty string. These
+                          pictures are the evidence for the card next to them, and two
+                          of the seven are illustrations whose numbers are placeholders,
+                          which a reader who cannot see them has every right to know.
+                          scripts/check-i18n.mjs fails the build on a shot without one. */}
+                      <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 46rem" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/16 to-transparent"></div>
                       <p class="absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase text-white/80">{project.category}</p>
                     </div>
                   )}
-                  {!project.screenshot && (
+                  {!shotFor(project.screenshot) && (
                     <div class="px-5 pt-4">
                       <p class="text-[10px] tracking-[0.2em] uppercase" style="color: var(--accent)">{project.category}</p>
                     </div>
@@ -371,7 +396,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                       </div>
                     )}
 
-                    <div class="project-copy text-[13px] leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatMarkdown(project.tagline)} />
+                    <div class="project-copy text-[13px] leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatBlocks(project.tagline)} />
                   </div>
                 </div>
               ))}
@@ -423,11 +448,11 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                       const d = splitDetails(exp.details);
                       return (
                         <>
-                          <div class="text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(d.intro)} />
+                          <div class="exp-copy text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.intro)} />
                           {d.tools && (
                             <details class="cv-tools-details mt-2">
                               <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{d.toolsTitle}</summary>
-                              <div class="mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)] [&_p]:mb-3" style="color: var(--text-secondary)" set:html={formatToHTML(d.tools)} />
+                              <div class="exp-copy mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.tools)} />
                             </details>
                           )}
                         </>
@@ -580,10 +605,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      sechs Woertern umbrach. Michael: "der hauptteil wird immer noch nicht
      breiter". Stimmte, und es lag nicht an der Chat-Spalte.
 
-     Jetzt waechst die Seite mit dem Platz, den sie hat, bis 90rem. Der Rand ist
+     Jetzt waechst die Seite mit dem Platz, den sie hat, bis 100rem. Der Rand ist
      ein Anteil statt einer festen Zahl, damit er im gleichen Verhaeltnis bleibt,
      ob die Chat-Spalte offen ist oder nicht. Der Deckel bleibt, weil eine Vita
-     ueber 90rem keine Zeilenlaenge mehr hat, die man lesen will; die Prosa im
+     ueber 100rem keine Zeilenlaenge mehr hat, die man lesen will; die Prosa im
      Kopf ist ohnehin separat auf 42rem begrenzt und waechst nicht mit. */
   .cv-shell {
     width: 100%;
@@ -933,4 +958,38 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .project-copy :global(p:last-child) {
     margin-bottom: 0;
   }
+
+  /* ── Listen ───────────────────────────────────────────────────────────────
+     Die Seite hatte keine. formatMarkdown machte aus "- Punkt" das ZEICHEN "•"
+     und verband die Zeilen mit <br>; im gebauten HTML standen null <ul> und
+     null <li>, live nachgezählt. Für ein Dokument, das fast nur aus Listen
+     besteht, ist das der Unterschied zwischen "Liste, sechs Einträge" mit
+     Sprungmöglichkeit und einem durchlaufenden Absatz mit Aufzaehlungszeichen
+     mitten im Satz. Der Punkt ist gesetzt statt list-style, damit die Optik
+     bleibt, wie sie war, und die Einrückung stimmt. */
+  .project-copy :global(ul),
+  .exp-copy :global(ul) {
+    list-style: none;
+    margin: 0 0 0.65rem;
+    padding: 0;
+  }
+  .project-copy :global(ul:last-child),
+  .exp-copy :global(ul:last-child) {
+    margin-bottom: 0;
+  }
+  .project-copy :global(li),
+  .exp-copy :global(li) {
+    position: relative;
+    padding-left: 1.05rem;
+    margin-bottom: 0.28rem;
+  }
+  .project-copy :global(li::before),
+  .exp-copy :global(li::before) {
+    content: "\2022";
+    position: absolute;
+    left: 0.15rem;
+    color: var(--accent);
+  }
+  .exp-copy :global(p) { margin-bottom: 0.65rem; }
+  .exp-copy :global(p:last-child) { margin-bottom: 0; }
 </style>

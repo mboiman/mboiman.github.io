@@ -8,3 +8,11 @@ venv/
 applications/
 public/assets_images
 .idea/
+
+# Generierte Lebenslauf-PDFs. Beide Deploy-Workflows bauen sie vor `npm run build`
+# neu aus config.cv.toml, die eingecheckten Kopien waren also immer nur ein
+# veralteter Abzug: der Stand auf main stammte vom 21.08. und kannte weder den
+# Sprachbot noch die korrigierte TU-Darmstadt-Zeile. Dazu Diff-Rauschen bei jeder
+# Inhaltsänderung. Lokal vorher `npm run pdf:de` / `npm run pdf:en`, sonst
+# zeigt der Download-Knopf im lokalen Build ins Leere.
+public/pdfs/*.pdf

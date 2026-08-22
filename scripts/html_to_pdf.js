@@ -10,18 +10,14 @@ const { formatTextToParagraphs } = require('./lib/markdown-utils');
 // '20+ Repos orchestriert' and would have quietly reintroduced them into the PDF
 // the moment the TOML field went missing. Fail loudly instead.
 
-// Top 8 projects by impact — ordered by priority
-const TOP_PROJECTS = [
-  'Quality Dashboard',
-  '24/7 Automated Legacy Migration Validator',
-  'E-Invoicing Automation Platform',
-  'AI Context Orchestrator',
-  'E-Mail-Klassifizierung',
-  'Email Classification',
-  'Developer Workshop: AI-Agent',
-  'Medical Transcription System',
-  'AI Learning Platform',
-];
+// Which projects reach the PDF, and in which order, is declared in
+// config.cv.toml as `pdf_rank` on the project itself. This used to be a
+// hardcoded TOP_PROJECTS list right here, matched against titles by substring,
+// and it silently decided the PDF's contents from a second place. A project
+// added to the TOML could never appear, however correct its entry was: that is
+// exactly what happened to the voice-assistant project on 2026-08-21. The list
+// also disagreed with itself — the comment said "top 8", the array held 9, and
+// the code took slice(0, 4), so ranks 5 to 9 never rendered at all.
 
 // Specialization bar keywords
 const SPECIALIZATIONS = {
@@ -260,23 +256,29 @@ function truncateProjectDescription(text, maxWords = 70) {
 }
 
 /**
- * Check if a project matches one of the top priority projects
+ * The PDF's project selection, read from the TOML. A project takes part by
+ * carrying a numeric `pdf_rank`; the rank is the order. No fallback and no
+ * silent empty result: an unranked config is a config error, and the same
+ * "fail loudly" rule already governs the verification anchors above.
  */
-function isTopProject(title) {
-  return TOP_PROJECTS.some(tp => title.includes(tp) || tp.includes(title.substring(0, 20)));
-}
-
-/**
- * Sort projects by priority order
- */
-function sortByPriority(projects) {
-  return projects.sort((a, b) => {
-    const aIdx = TOP_PROJECTS.findIndex(tp => a.title.includes(tp) || tp.includes(a.title.substring(0, 20)));
-    const bIdx = TOP_PROJECTS.findIndex(tp => b.title.includes(tp) || tp.includes(b.title.substring(0, 20)));
-    const aPrio = aIdx === -1 ? 999 : aIdx;
-    const bPrio = bIdx === -1 ? 999 : bIdx;
-    return aPrio - bPrio;
-  });
+function rankedProjects(langConfig, targetLang) {
+  const ranked = (langConfig.projects.list || [])
+    .filter(p => Number.isFinite(p.pdf_rank))
+    .sort((a, b) => a.pdf_rank - b.pdf_rank);
+  if (!ranked.length) {
+    throw new Error(
+      `config.cv.toml [${targetLang}]: no project carries pdf_rank, so the PDF would ` +
+      'ship without a projects section. Add pdf_rank = <n> to the projects that belong in it.'
+    );
+  }
+  const seen = new Set();
+  for (const p of ranked) {
+    if (seen.has(p.pdf_rank)) {
+      throw new Error(`config.cv.toml [${targetLang}]: pdf_rank ${p.pdf_rank} is used twice ("${p.title}").`);
+    }
+    seen.add(p.pdf_rank);
+  }
+  return ranked;
 }
 
 // Function to generate HTML content from TOML configuration
@@ -424,11 +426,12 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     </div>
   ` : '';
 
-  // Generate project items — top 4 by impact priority. Screenshots are not
-  // rendered in the PDF (result-first text cards instead); sharp stays in use
-  // for the profile photo below.
-  const featuredProjects = langConfig.projects.list.filter(p => p.featured && isTopProject(p.title));
-  const sortedProjects = sortByPriority(featuredProjects).slice(0, 4);
+  // Generate project items, in the order config.cv.toml declares via pdf_rank.
+  // No slice here: the count is a content decision and lives in the TOML, not
+  // in a magic number next to the renderer. Screenshots are not rendered in the
+  // PDF (result-first text cards instead); sharp stays in use for the profile
+  // photo below.
+  const sortedProjects = rankedProjects(langConfig, targetLang);
 
   // First N cards live in the 70% column on page 1; the rest render as a
   // full-width two-column row after .cv-main, so page 2 never shows the
@@ -941,7 +944,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         /* === UTILITIES === */
         .page-break-before { page-break-before: always; }
-        .page-break-avoid { page-break-inside: avoid; }
+        .page-break-avoid { page-break-inside: avoid; break-inside: avoid; }
         .no-print { display: none !important; }
     </style>
 </head>
@@ -1026,7 +1029,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
         ${workshopExperiences.length > 0 ? `
         <!-- Workshops & Presentations -->
-        <section class="cv-section cv-full-width">
+        <!-- page-break-avoid: with five ranked projects the German edition grew a
+             fifth page, and this block split across it, leaving a page that held
+             two orphaned cards. As one unit it either fits or moves whole. -->
+        <section class="cv-section cv-full-width page-break-avoid">
             <h2>${workshopLabel}</h2>
             <div class="workshop-grid">
                 ${workshopHtml}

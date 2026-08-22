@@ -21,13 +21,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Before the PDFs, not after: both PDFs are rendered from the same
+      # config.cv.toml this checks, so a bad config should fail in a second
+      # rather than after two Puppeteer runs. The build below runs it again
+      # (npm run build), which is what keeps it un-bypassable.
+      - name: Check content guards
+        run: npm run check:i18n
+
       - name: Generate PDFs
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
 
       - name: Build Astro
-        run: npx astro build
+        # npm run build, NOT npx astro build. The i18n/content guard
+        # (scripts/check-i18n.mjs) hangs off the npm script; calling astro
+        # directly skipped it on every deployment this repo ever made, while
+        # the comments in src/lib/i18n.ts claimed it ran "at build time".
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
