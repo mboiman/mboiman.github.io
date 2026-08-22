@@ -1346,20 +1346,11 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
 '''
 
         [[languages.de.params.projects.list]]
-        title   = "MCP: Model Context Protokoll & A2A"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024), universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025), Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
-
-        [[languages.de.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
         anchor = "dev-workshop"
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
-        screenshot = "projects/aiagentworkshop.png"
-        screenshot_alt = "Illustration zum Workshop: ein Editor mit KI-Assistenz und der Auswahl zwischen mehreren Modellen, daneben ein Ablauf von MCP über A2A zum Agenten und zum Test."
         tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
 
 **Workshop-Inhalte:**
@@ -1378,8 +1369,6 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
-        screenshot = "projects/aistrategy.png"
-        screenshot_alt = "Illustration einer Strategie-Übersicht mit Beispielkacheln für ROI, Business Case, Amortisation und KPIs. Die Zahlen darin sind Platzhalter, keine Projektergebnisse."
         tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
 
 **Beratungsleistungen:**
@@ -1443,10 +1432,18 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
 
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
+        anchor = "ai-test-generation"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
-        featured = false
-        tagline = "Guideline-basierter KI-Agent im IDE, der Tests prompt-basiert direkt aus Jira-Stories generiert."
+        featured = true
+        # Substanz im tagline, NICHT in challenge/solution/impact: die drei Felder
+        # rendern nirgends (weder Website noch PDF noch Präsentation), sieben
+        # Projekte tragen sie trotzdem. Siehe PR-Text.
+        tagline = """Guideline-basierter KI-Agent in der Entwicklungsumgebung, der Tests direkt aus Jira-Stories erzeugt.
+
+- **Problem:** Aus einer Story die Testfälle abzuleiten ist Fleißarbeit, und sie fällt bei jeder Story neu an. Ein Sprachmodell ohne Vorgaben erfindet dabei Schritte und Selektoren, die es in der Anwendung nicht gibt.
+- **Lösung:** Der Agent liest die Story über die Jira-API und schreibt den Test daraus. Die Vorgaben des Projekts, also Seitenobjekte, Namenskonventionen und erlaubte Selektoren, stehen als Regeldatei daneben und begrenzen, was er erzeugen darf.
+- **Ergebnis:** Der Test entsteht im Stil des bestehenden Playwright-Projekts. Aus dem Tippen einer leeren Datei wird das Prüfen eines Entwurfs."""
 
         [[languages.de.params.projects.list]]
         title = "Medical Transcription System"
@@ -1599,13 +1596,6 @@ Telefonischer Sprachassistent, der freie Termine live aus dem Terminportal liest
         solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
         impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
 
-        [[languages.de.params.projects.list]]
-        title = "Automatisierte NLP-Analyse von PDF-Dokumenten"
-        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Einsatz von spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER) und Sentiment Analysis zur automatisierten Extraktion und Klassifizierung von Dokumenteninhalten."
-
       [languages.en.params.projects]
         enable = true
         icon = "fa-rocket"
@@ -1666,20 +1656,11 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
 '''
 
         [[languages.en.params.projects.list]]
-        title = "MCP: Model Context Protocol & A2A"
-        tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024), universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025), peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
-
-        [[languages.en.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
         anchor = "dev-workshop"
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
-        screenshot = "projects/aiagentworkshop.png"
-        screenshot_alt = "Illustration for the workshop: an editor with AI assistance and a choice of models, beside a flow from MCP through A2A to agent and test."
         tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
 
 **Workshop Content:**
@@ -1698,8 +1679,6 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
-        screenshot = "projects/aistrategy.png"
-        screenshot_alt = "Illustration of a strategy overview with sample tiles for ROI, business case, amortisation and KPIs. The figures in it are placeholders, not project results."
         tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
 
 **Consulting Services:**
@@ -1763,10 +1742,17 @@ Dual-run validation for safely migrating a mainframe price calculation.
 
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
+        anchor = "ai-test-generation"
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
-        featured = false
-        tagline = "Guideline-based AI agent in the IDE that generates tests prompt-based directly from Jira stories."
+        featured = true
+        # See the German branch: the substance lives in tagline, because
+        # challenge/solution/impact render nowhere.
+        tagline = """Guideline-based AI agent in the IDE that generates tests directly from Jira stories.
+
+- **Problem:** Deriving test cases from a story is manual work, and it comes back with every story. A language model without constraints invents steps and selectors the application does not have.
+- **Solution:** The agent reads the story over the Jira API and writes the test from it. The project's own conventions, page objects, naming rules and permitted selectors, sit beside it as a rule file and bound what it may produce.
+- **Result:** The test comes out in the style of the existing Playwright project. Typing an empty file turns into reviewing a draft."""
 
         [[languages.en.params.projects.list]]
         title = "Medical Transcription System"
@@ -1912,25 +1898,3 @@ A phone assistant that reads free appointment slots live from the booking portal
         challenge = "Incoming emails had to be manually read, classified and transferred to SAP, which was time-consuming and error-prone."
         solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
         impact = "Emails automatically classified, processed and transferred to ERP."
-
-        [[languages.en.params.projects.list]]
-        title = "Automated NLP Analysis of PDF Documents"
-        tech_stack = ["Python", "spaCy", "NLTK", "OpenAI GPT-4", "PyPDF2"]
-        category = "AI & Machine Learning"
-        featured = false
-        tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification."
-
-      # [languages.*.params.skills] entfernt 2026-08-22: 56 Einträge, die nichts
-      # gerendert haben. Die sichtbaren Skills kommen aus ui.sidebar_skills, sowohl
-      # auf der Website (CVPage.astro) als auch im PDF (html_to_pdf.js). Hart
-      # nachgewiesen: "Hugging Face", "Django REST", "ArgoCD" und "PyPDF2" standen
-      # hier und kamen weder auf /de/ noch auf /en/ noch in einem der beiden PDFs
-      # vor. Der Block war damit die falsche Quelle, die richtig aussah: wer die
-      # Skills pflegte, pflegte mit hoher Wahrscheinlichkeit ihn. Nebenbei trug er
-      # 22 Trenner der Bauart " - ", also genau die Ersatz-Gedankenstriche, gegen
-      # die scripts/check-i18n.mjs geschrieben ist.
-
-# [languages.*.params.footer] blocks removed: orphaned config. The site footers
-# (CVPage.astro / StoryPage.astro / LegalLayout.astro) render from src/lib/i18n.ts
-# strings; the former consumer Footer.astro no longer exists. No runtime code reads
-# footer.copyright / .license_* / .attribution_* (verified via grep over src/ + scripts/).

@@ -62,6 +62,29 @@ for (const file of htmlFiles(dist)) {
   }
 }
 
+// ── The root must offer both languages, not just redirect to one ───────────
+// It used to carry a bare <meta http-equiv="refresh" content="0;url=/de/">, so
+// every visitor landed on German, including one whose browser announces no
+// German at all. GitHub Pages cannot read Accept-Language, so the decision has
+// to happen in the page, and the page has to keep working without JavaScript.
+const rootFile = join(dist, 'index.html');
+try {
+  const root = readFileSync(rootFile, 'utf8');
+  for (const target of ['/de/', '/en/']) {
+    if (!new RegExp(`href="[^"]*${target}"`).test(root)) {
+      errors.push(`${rootFile}: no link to ${target}. The root has to offer both languages, not pick one for everyone.`);
+    }
+  }
+  if (!/navigator\.languages?/.test(root)) {
+    errors.push(`${rootFile}: no language detection. A fixed redirect sends every visitor to the same language.`);
+  }
+  if (!/<noscript>/.test(root)) {
+    errors.push(`${rootFile}: no <noscript> fallback. Without JavaScript the root would be a dead end.`);
+  }
+} catch {
+  errors.push(`${rootFile}: missing. The root page is the entry point.`);
+}
+
 if (!pages) {
   console.error(`output check failed: no HTML found under ${dist}/. Did the build run?`);
   process.exit(1);

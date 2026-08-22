@@ -1,13 +1,56 @@
 ---
+// Sprachweiche der Wurzel.
+//
+// Vorher stand hier ein blankes <meta http-equiv="refresh" content="0;url=/de/">.
+// Damit landete JEDER Besucher auf Deutsch, auch der, dessen Browser kein Wort
+// Deutsch anmeldet, und erfuhr von der englischen Fassung nur, wenn er den
+// Umschalter im Kopf der Seite fand. GitHub Pages kann Accept-Language nicht
+// auswerten, also entscheidet der Browser selbst, bevor irgendetwas gerendert
+// wird.
+//
+// Regel: steht irgendwo in navigator.languages ein de, geht es nach /de/, sonst
+// nach /en/. location.replace statt href, damit der Zurück-Knopf den Besucher
+// nicht in diese Seite zurückwirft. Ohne JavaScript greift das alte Verhalten
+// über <noscript>, und sichtbar stehen beide Wege ohnehin da.
 ---
-<html>
+<html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0;url=/de/" />
-  <link rel="canonical" href="/de/" />
-  <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michael Boiman</title>
+  <meta name="robots" content="noindex,follow" />
+  <link rel="canonical" href="https://mboiman.github.io/de/" />
+  <link rel="alternate" hreflang="de" href="https://mboiman.github.io/de/" />
+  <link rel="alternate" hreflang="en" href="https://mboiman.github.io/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://mboiman.github.io/de/" />
+  <script is:inline>
+    (() => {
+      try {
+        const tags = navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || 'de'];
+        const wantsGerman = tags.some((t) => String(t).toLowerCase().startsWith('de'));
+        location.replace(wantsGerman ? '/de/' : '/en/');
+      } catch {
+        location.replace('/de/');
+      }
+    })();
+  </script>
+  <noscript><meta http-equiv="refresh" content="0;url=/de/" /></noscript>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; min-height: 100vh;
+           display: grid; place-items: center; background: #f8fbff; color: #0f172a; }
+    ul { list-style: none; padding: 0; display: flex; gap: 1.25rem; font-size: 1rem; }
+    a { color: #1d4ed8; }
+    @media (prefers-color-scheme: dark) { body { background: #0f172a; color: #e2e8f0; } a { color: #93c5fd; } }
+  </style>
 </head>
 <body>
-  <a href="/de/">Weiter zur deutschen Version</a>
+  <nav aria-label="Sprache wählen">
+    <ul>
+      <li><a href="/de/" hreflang="de">Zur deutschen Fassung</a></li>
+      <li><a href="/en/" hreflang="en">Go to the English version</a></li>
+    </ul>
+  </nav>
 </body>
 </html>

@@ -297,8 +297,14 @@ for (const branch of ['de', 'en']) {
   if (!params) { errors.push(`config.cv.toml: no languages.${branch}.params`); continue; }
   const testString = (v, at) => {
     if (/[—–]/.test(v)) errors.push(`config.cv.toml ${branch} ${at}: em or en dash in "${v}"`);
-    // A newline followed by "- " is a markdown bullet, not a replacement dash.
-    if (/(?<!\n)\s-\s/.test(v)) errors.push(`config.cv.toml ${branch} ${at}: spaced hyphen reads as a dash in "${v}". Use a middot or rebuild the sentence.`);
+    // A "- " that opens a line is a markdown bullet, not a replacement dash, so
+    // the bullet marker is stripped before the test rather than excluded by a
+    // lookbehind. The lookbehind version only forgave a bullet that followed a
+    // BLANK line: in a list, every bullet from the second on is preceded by the
+    // previous bullet's full stop, and fired. It flagged the first multi-line
+    // tagline written after the rule shipped.
+    const withoutBullets = v.replace(/^[ \t]*[-*][ \t]+/gm, '');
+    if (/\s-\s/.test(withoutBullets)) errors.push(`config.cv.toml ${branch} ${at}: spaced hyphen reads as a dash in "${v}". Use a middot or rebuild the sentence.`);
   };
   const walk = (node, path, key) => {
     if (typeof node === 'string') {
@@ -339,6 +345,43 @@ for (const branch of ['de', 'en']) {
 // branch only produces two different CVs behind one download button.
 if (rankSets.de !== rankSets.en) {
   errors.push(`config.cv.toml: pdf_rank differs between branches.\n      de: ${rankSets.de}\n      en: ${rankSets.en}`);
+}
+
+/**
+ * The two branches must carry the SAME projects.
+ *
+ * Deleting a project by hand means deleting it twice, and the two entries are
+ * six hundred lines apart. On 2026-08-22 a deletion pass matched three of four
+ * blocks (the fourth wrote `title   =` with extra spaces) and left the German
+ * branch with seventeen projects against sixteen English ones. Nothing here
+ * would have noticed: the act parity above reads i18n.ts, not the TOML.
+ *
+ * Compared by anchor where there is one, and by position otherwise, because a
+ * title is translated and an anchor is not.
+ */
+{
+  const lists = Object.fromEntries(['de', 'en'].map(
+    (b) => [b, cv?.languages?.[b]?.params?.projects?.list ?? []],
+  ));
+  if (lists.de.length !== lists.en.length) {
+    errors.push(`config.cv.toml: project count differs, de=${lists.de.length} en=${lists.en.length}. The two branches are one CV in two languages.`);
+  } else {
+    lists.de.forEach((p, i) => {
+      const q = lists.en[i];
+      if ((p.anchor ?? null) !== (q.anchor ?? null)) {
+        errors.push(`config.cv.toml projects[${i}]: anchor differs, de="${p.anchor ?? '-'}" en="${q.anchor ?? '-'}" ("${p.title}" vs "${q.title}").`);
+      }
+      if (!!p.featured !== !!q.featured) {
+        errors.push(`config.cv.toml projects[${i}] "${p.title}": featured differs between branches, so the card renders at a different size per language.`);
+      }
+      if (!!p.screenshot !== !!q.screenshot) {
+        errors.push(`config.cv.toml projects[${i}] "${p.title}": screenshot present in one branch only.`);
+      }
+      if (Number.isFinite(p.pdf_rank) !== Number.isFinite(q.pdf_rank)) {
+        errors.push(`config.cv.toml projects[${i}] "${p.title}": pdf_rank present in one branch only.`);
+      }
+    });
+  }
 }
 
 /**
