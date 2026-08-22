@@ -1,7 +1,6 @@
 # Page settings
 
 baseurl = "https://mboiman.github.io/"
-languageCode = "de-de"
 title = "Michael Boiman CV"
 
 # Hugo-Reste entfernt 2026-08-22: disableRSS / disableSitemap / disable404 /
@@ -13,12 +12,9 @@ title = "Michael Boiman CV"
 
 # Mehrsprachige Konfiguration
 defaultContentLanguage = "de"
-defaultContentLanguageInSubdir = true
 
 [languages]
   [languages.de]
-    languageCode = "de-de"
-    languageName = "Deutsch"
     title = "Michael Boiman CV"
 
     [languages.de.params]
@@ -420,7 +416,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Schwerpunkte**
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
 - **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
-- **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk via Storecove Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
+- **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk über einen zertifizierten Peppol Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
 - **SAP ByDesign Kopplung**: Automatische Übertragung validierter Rechnungsdaten an SAP ByDesign für nahtlose ERP-Integration.
 - **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit und Austauschbarkeit von Infrastruktur-Komponenten.
 - **Salesforce-Einspielung**: Weiterleitung der aufbereiteten Rechnungsdaten per E-Mail an das nachgelagerte System für den Salesforce-Import.
@@ -436,7 +432,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Tools & Technologien**
 - Azure Functions: Serverlose Orchestrierung der Automatisierungs-Workflows.
 - Python: Implementierung der Kernlogik für Datenextraktion, Klassifizierung und Integration mit automatisierten CI/CD-Prozessen, Paketierung und umfassenden Unit- sowie Integrationstests zur Qualitätssicherung.
-- E-Invoicing: Peppol Network, Storecove API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
+- E-Invoicing: Peppol Network, Access-Point-API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
 - ERP Integration: SAP ByDesign, Salesforce
 - Microsoft Graph API: Zugriff auf Outlook-Postfächer und SharePoint-Dokumentbibliotheken.
 - GitHub: Versionskontrolle, CI/CD-Pipelines und kollaborative Entwicklung.
@@ -479,9 +475,9 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
         [[languages.de.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
-        anchor = "ryze"
+        anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
-        company = "BKS im Auftrag für Ryze"
+        company = "BKS im Auftrag eines Kunden aus der Nachhaltigkeitsbranche"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
@@ -684,8 +680,6 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         """
 
       [languages.en]
-    languageCode = "en-us"
-    languageName = "English"
     title = "Michael Boiman CV"
 
     [languages.en.params]
@@ -1070,7 +1064,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Focus areas**
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
 - **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
-- **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point for automated invoice receipt and dispatch with UBL/CII formats.
+- **Peppol Network Integration**: Connection to European e-invoicing network through a certified Peppol Access Point for automated invoice receipt and dispatch with UBL/CII formats.
 - **SAP ByDesign Integration**: Automatic transfer of validated invoice data to SAP ByDesign for seamless ERP integration.
 - **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability and interchangeability of infrastructure components.
 - **Salesforce integration**: Forwarding prepared invoice data via email to the downstream system for Salesforce import.
@@ -1086,7 +1080,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Tools & technologies**
 - Azure Functions: Serverless orchestration of automation workflows.
 - Python: Core logic for data extraction, classification and integration with automated CI/CD processes, packaging, and comprehensive unit and integration tests for quality assurance.
-- E-Invoicing: Peppol Network, Storecove API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
+- E-Invoicing: Peppol Network, Access-Point-API, ZUGFeRD/Factur-X, XRechnung, UBL 2.1, CII
 - ERP Integration: SAP ByDesign, Salesforce
 - Microsoft Graph API: Access to Outlook mailboxes and SharePoint libraries.
 - GitHub: Version control, CI/CD pipelines and collaborative development.
@@ -1129,9 +1123,9 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
         [[languages.en.params.experiences.list]]
         position = "AI Engineering Lead & ML Solutions Architect"
-        anchor = "ryze"
+        anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
-        company = "BKS on behalf of Ryze"
+        company = "BKS on behalf of a client in the sustainability sector"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
 
@@ -1338,31 +1332,30 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         icon = "fa-rocket"
         title = "Projekte & Lösungen"
         intro = "**Innovative KI-Lösungen und Automatisierungstools**"
-        non_featured_layout = "grid"
 
         [[languages.de.params.projects.list]]
         title = "E-Invoicing Automation Platform"
         anchor = "e-invoicing-platform"
         pdf_rank = 1
-        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Peppol Access Point", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
         tagline = """**Produktive E-Rechnungs-Pipeline (Peppol/EN 16931)**
 
 **Kernfunktionen:**
-• **Peppol Network Integration**: Anbindung an europäisches E-Invoicing-Netzwerk via Storecove Access Point
+• **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk über einen zertifizierten Access Point
 • **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 konform)
 • **ERP-Kopplung**: Automatische Übertragung an SAP ByDesign mit Validierung und Fehlerbehandlung
 • **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters, sieben Repositories
 • **Mehr Testcode als Produktivcode**: rund 46.700 Zeilen Anwendungscode gegen 81.600 Zeilen Tests, etwa 2.900 automatisierte Testfälle. Jedes der sieben Repositories erzwingt in der CI eine Mindest-Testabdeckung, 75 Prozent im Kern-Service
 • **Formatabdeckung**: ZUGFeRD und Factur-X ab 2.0.1, XRechnung in UBL- und CII-Syntax, UBL 2.1, PDF/A-3 mit eingebettetem XML, dazu ein Formaterkenner, der die Varianten am Namensraum unterscheidet
-• **Dual-Channel Inbound**: Storecove Webhook (Push) + E-Mail Inbox (Pull) für redundante Verarbeitung
+• **Dual-Channel Inbound**: Access-Point-Webhook (Push) + E-Mail-Postfach (Pull) für redundante Verarbeitung
 
 **Impact:** Produktives System: Peppol-Anbindung nach EN 16931, automatisierte Ein- und Ausgangsrechnungsverarbeitung bis ins ERP. Die Ausgangsstrecke durchläuft 13 Verarbeitungsschritte vom SAP-Dokument bis zur Peppol-Zustellung, jeder einzeln testbar."""
         tagline_pdf = '''
 Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
 • **Problem:** Ein- und Ausgangsrechnungen in mehreren Formaten (ZUGFeRD, XRechnung, UBL) mussten EN-16931-konform verarbeitet werden.
-• **Lösung:** Peppol-Anbindung via Storecove, hexagonale Architektur, automatische Übergabe an SAP ByDesign.
+• **Lösung:** Peppol-Anbindung über einen zertifizierten Access Point, hexagonale Architektur, automatische Übergabe ins ERP.
 • **Ergebnis:** Produktives System, die Rechnungsverarbeitung läuft automatisiert bis ins ERP. Sieben Repositories, rund 2.900 automatisierte Testfälle, mehr Testcode als Produktivcode, erzwungene Coverage-Schwelle je Repository.
 '''
 
@@ -1428,10 +1421,6 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
 • **Lösung:** End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischen PDF-Reports.
 • **Ergebnis:** Datenbasierte Freigabe-Entscheidungen in Echtzeit statt manueller Datensammlung.
 '''
-        challenge = "Go/No-Go-Entscheidungen erforderten stundenlanges Zusammentragen aus den Testwerkzeugen mehrerer Teams, mehrerer Umgebungen und weiterer Datenquellen."
-        solution = "Durchgängige End-to-End-Pipeline mit Echtzeit-Dashboard, Multi-Source-Integration und automatischer PDF-Report-Generierung."
-        impact = "Datenbasierte Freigabe-Entscheidungen in Echtzeit über die Testwerkzeuge mehrerer Teams und Umgebungen hinweg, mit automatischen PDF-Reports."
-
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
         anchor = "ai-test-generation"
@@ -1478,10 +1467,6 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
 • **Lösung:** Orchestrierungs-Hub mit dreigeteilter Registry, einem Skill-Baum für alle Werkzeuge und Hook-basiertem Permission-System.
 • **Ergebnis:** Workflows von Incident-Response bis Meeting-Protokollierung laufen weitgehend automatisiert.
 '''
-        challenge = "Enterprise-Entwicklung über viele Repos, mehrere Kunden und diverse Tools erforderte ständigen Kontextwechsel und manuelle Koordination."
-        solution = "Zentrales Steuerungssystem mit dreigeteilter Registry, einem Skill-Baum für alle Werkzeuge und Hook-basiertem Permission System."
-        impact = "AI-gestützte Workflows von Incident-Response bis Meeting-Protokollierung, orchestriert über einen zentralen Hub."
-
         # Ersatz für den 2026-08-22 gelöschten Eintrag "MCP: Model Context
         # Protokoll & A2A". Der erklärte, was die beiden Protokolle SIND. Michael:
         # "schau woran ich arbeite, wäre falsch sowas nicht drin zu haben" — und er
@@ -1526,10 +1511,6 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
 • **Umsetzungsbegleitung:** Vom Konzept zur produktiven AI-Lösung
 
 **Deliverables:** AI-Strategie-Template, ROI-Calculator, Implementierungs-Roadmap, Executive Workshop, Umsetzungsbegleitung"""
-        challenge = "Unternehmen erkennen AI-Potenziale, aber es fehlt der strukturierte Weg von der Vision zur messbaren Umsetzung."
-        solution = "Ganzheitliche Beratung mit Strategieentwicklung, ROI-Bewertung, Executive Workshops und Umsetzungsbegleitung."
-        impact = "Messbare AI-Roadmaps mit konkreten Business Cases, von der Strategie direkt zur produktiven Lösung."
-
         [[languages.de.params.projects.list]]
         title = "Medical Transcription System"
         anchor = "medical-transcription"
@@ -1640,10 +1621,6 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "AI & Machine Learning"
         featured = true
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
-        challenge = "Messebesucher fanden relevante Informationen auf der Website nur schwer, mit hoher Absprungrate und verpassten Leads."
-        solution = "Interaktiver Chatbot mit RAG, GPT-4 und Vector Embeddings, der Messeinhalte kontextbezogen in Echtzeit beantwortet."
-        impact = "Höhere Besucherinteraktion auf Messe-Websites, weniger verlorene Leads durch relevante, kontextgenaue Antworten."
-
         # Sprachbot. Nachgetragen 2026-08-21: Akt 05 der Präsentation zeigte
         # dieses Projekt, ohne dass der Lebenslauf eine Zeile dazu trug, und der
         # Auftakt kündigt fünf Projekte an, von denen der Lebenslauf nur vier
@@ -1668,10 +1645,6 @@ Zwei Kanäle auf derselben Fachlogik, WhatsApp und Telefon, die freie Termine li
 • **Lösung:** Das Modell führt das Gespräch, die freien Zeiten kommen live aus der Portal-API. Der Bot merkt vor und bucht nie.
 • **Ergebnis:** Der WhatsApp-Kanal läuft seit 08/2026 produktiv beim Auftraggeber mit echten Endnutzern und Datenhaltung in Deutschland; die Einwilligung steht vor dem ersten inhaltlichen Satz.
 '''
-        challenge = "Anrufe gingen verloren, weil während der Arbeit niemand abnehmen konnte. Ein Sprachmodell darf sich Termine aber unter keinen Umständen ausdenken."
-        solution = "Das Modell führt das Gespräch, die freien Zeiten kommen live aus der Portal-API. Der Bot merkt vor und bucht nie, die Einwilligung steht vor dem ersten inhaltlichen Satz."
-        impact = "Anrufer bekommen echte freie Zeiten genannt, während eine kurze Zwischenansage die Antwortzeit überbrückt. Datum und Uhrzeit werden als Wörter ausgegeben, weil die Sprachausgabe einzelne Ziffern verschluckt."
-
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         anchor = "email-classification"
@@ -1681,40 +1654,35 @@ Zwei Kanäle auf derselben Fachlogik, WhatsApp und Telefon, die freie Termine li
         screenshot = "projects/nlpanalyse.png"
         screenshot_alt = "Dashboard mit Kategorien und Verlaufskurven der automatischen E-Mail-Klassifizierung."
         tagline = "Vollständige Automatisierungslösung mit Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker Container und GitHub Actions CI/CD."
-        challenge = "Eingehende E-Mails mussten manuell gelesen, klassifiziert und in SAP übertragen werden, zeitintensiv und fehleranfällig."
-        solution = "End-to-End-Automatisierung mit Microsoft Graph API, GPT-3.5-Turbo, Azure Functions und SAP-RFC-Anbindung."
-        impact = "E-Mails werden automatisch klassifiziert, verarbeitet und ins ERP übertragen."
-
       [languages.en.params.projects]
         enable = true
         icon = "fa-rocket"
         title = "Projects & Solutions"
         intro = "**Innovative AI solutions and automation tools**"
-        non_featured_layout = "grid"
 
         [[languages.en.params.projects.list]]
         title = "E-Invoicing Automation Platform"
         anchor = "e-invoicing-platform"
         pdf_rank = 1
-        tech_stack = ["Python", "Azure Functions", "Peppol", "Storecove", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
+        tech_stack = ["Python", "Azure Functions", "Peppol", "Peppol Access Point", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
         tagline = """**Production E-Invoicing Pipeline (Peppol/EN 16931)**
 
 **Core Features:**
-• **Peppol Network Integration**: Connection to European e-invoicing network via Storecove Access Point
+• **Peppol Network Integration**: connection to the European e-invoicing network through a certified Access Point
 • **Multi-Format Support**: ZUGFeRD, Factur-X, XRechnung, UBL 2.1, CII (EN 16931 compliant)
 • **ERP Integration**: Automatic transfer to SAP ByDesign with validation and error handling
 • **Hexagonal Architecture**: Domain-driven design with Ports & Adapters, seven repositories
 • **More test code than production code**: around 46,700 lines of application code against 81,600 lines of tests, roughly 2,900 automated test cases. Every one of the seven repositories enforces a minimum test coverage in CI, 75 percent in the core service
 • **Format coverage**: ZUGFeRD and Factur-X from 2.0.1, XRechnung in UBL and CII syntax, UBL 2.1, PDF/A-3 with embedded XML, plus a format detector that tells the variants apart by namespace
-• **Dual-Channel Inbound**: Storecove Webhook (Push) + Email Inbox (Pull) for redundant processing
+• **Dual-Channel Inbound**: access-point webhook (push) + email inbox (pull) for redundant processing
 
 **Impact:** Production system: Peppol connectivity per EN 16931, automated inbound and outbound invoice processing through to the ERP. The outbound route runs 13 processing steps from the SAP document to Peppol delivery, each independently testable."""
         tagline_pdf = '''
 Production e-invoicing pipeline compliant with EU standard EN 16931.
 • **Problem:** Inbound and outbound invoices in multiple formats (ZUGFeRD, XRechnung, UBL) required EN 16931-compliant processing.
-• **Solution:** Peppol connection via Storecove, hexagonal architecture, automatic transfer to SAP ByDesign.
+• **Solution:** Peppol connection through a certified access point, hexagonal architecture, automatic transfer into the ERP.
 • **Result:** Production system, invoice processing runs automated end-to-end into the ERP. Seven repositories, roughly 2,900 automated test cases, more test code than production code, an enforced coverage threshold per repository.
 '''
 
@@ -1780,10 +1748,6 @@ Real-time quality overview for enterprise go/no-go decisions.
 • **Solution:** End-to-end pipeline with live dashboard, multi-source integration and automated PDF reports.
 • **Result:** Data-driven release decisions in real time instead of manual collection.
 '''
-        challenge = "Go/No-Go decisions required hours of manual data gathering across the test tools of several teams, several environments and further data sources."
-        solution = "End-to-end pipeline with real-time dashboard, multi-source integration and automatic PDF report generation."
-        impact = "Data-driven release decisions in real time across the test tools of several teams and environments, with automated PDF reports."
-
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
         anchor = "ai-test-generation"
@@ -1829,10 +1793,6 @@ Central control system for AI-assisted development across customer, partner and 
 • **Solution:** Orchestration hub with a three-way split registry, one skill tree for every tool and a hook-based permission system.
 • **Result:** Workflows from incident response to meeting documentation largely automated.
 '''
-        challenge = "Enterprise development across many repos, multiple customers and diverse tools required constant context switching and manual coordination."
-        solution = "Central control system with a three-way split registry, one skill tree for every tool and a hook-based permission system."
-        impact = "AI-assisted workflows from incident response to meeting documentation, orchestrated through one central hub."
-
         # See the German branch for why this replaced the deleted protocol entry.
         [[languages.en.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
@@ -1869,10 +1829,6 @@ Central control system for AI-assisted development across customer, partner and 
 • **Implementation Support:** From concept to productive AI solution
 
 **Deliverables:** AI strategy template, ROI calculator, implementation roadmap, executive workshop, implementation support"""
-        challenge = "Organizations recognize AI potential but lack a structured path from vision to measurable implementation."
-        solution = "End-to-end consulting with strategy development, ROI assessment, executive workshops and implementation support."
-        impact = "Measurable AI roadmaps with concrete business cases, from strategy directly to productive solutions."
-
         [[languages.en.params.projects.list]]
         title = "Medical Transcription System"
         anchor = "medical-transcription"
@@ -1982,10 +1938,6 @@ Our goal is to implement more quality through a higher degree of automation.
         category = "AI & Machine Learning"
         featured = true
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
-        challenge = "Trade-fair visitors struggled to find relevant information on the website, driving high bounce rates and missed leads."
-        solution = "Interactive chatbot with RAG, GPT-4 and vector embeddings, delivering context-aware real-time answers from trade-fair content."
-        impact = "Higher visitor engagement on trade-fair websites, fewer lost leads through relevant, context-accurate responses."
-
         # Siehe den deutschen Zweig.
         [[languages.en.params.projects.list]]
         title = "Appointment enquiry over WhatsApp and phone"
@@ -2005,10 +1957,6 @@ Two channels on one domain core, WhatsApp and phone, reading free slots live fro
 • **Solution:** The model runs the conversation, the free slots come live from the portal API. It pencils an appointment in but never books it.
 • **Result:** The WhatsApp channel has been in production at the client since 08/2026 with real end users and data residency in Germany; consent comes before the first substantive sentence.
 '''
-        challenge = "Calls were lost because nobody could pick up during work. A language model, however, must never invent an appointment."
-        solution = "The model runs the conversation, the free slots come live from the portal API. It pencils an appointment in but never books it, and consent comes before the first substantive sentence."
-        impact = "Callers hear real open slots while a short holding line covers the response time. Date and time are spoken as words, because speech synthesis swallows individual digits."
-
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
         anchor = "email-classification"
@@ -2018,10 +1966,6 @@ Two channels on one domain core, WhatsApp and phone, reading free slots live fro
         screenshot_alt = "Dashboard showing categories and trend curves of the automatic email classification."
         featured = true
         tagline = "Complete automation solution with Microsoft Graph API, SAP RFC, Azure Functions (Python), OpenAI GPT-3.5-Turbo, Elasticsearch 8.x, Kibana Dashboards, Docker containers, and GitHub Actions CI/CD."
-        challenge = "Incoming emails had to be manually read, classified and transferred to SAP, which was time-consuming and error-prone."
-        solution = "End-to-end automation with Microsoft Graph API, GPT-3.5-Turbo, Azure Functions and SAP RFC integration."
-        impact = "Emails automatically classified, processed and transferred to ERP."
-
       # [languages.*.params.skills] entfernt 2026-08-22: 56 Einträge, die nichts
       # gerendert haben. Die sichtbaren Skills kommen aus ui.sidebar_skills, sowohl
       # auf der Website (CVPage.astro) als auch im PDF (html_to_pdf.js). Hart

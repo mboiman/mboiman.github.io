@@ -17,7 +17,7 @@ const otherLang = lang === 'de' ? 'en' : 'de';
 const t = i18n[lang];
 
 const data = getCVData(lang);
-const { profile, contact, ui, experiences, projects, summary, education, language: langs, agent_proof } = data;
+const { profile, contact, ui, experiences, projects, summary, education, language: langs, agent_proof, license_sidebar } = data;
 
 /**
  * Project screenshots, processed instead of served raw.
@@ -256,6 +256,16 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   1440, so the name broke across two lines. */}
               <h1 class="text-[clamp(2.25rem,4.4vw,4.75rem)] font-light tracking-[-0.02em] font-sans leading-[1.02] cv-hero-title">{profile.name}</h1>
               <p class="cv-tagline mt-3 max-w-2xl text-base sm:text-lg">{ui.tagline}</p>
+              {/* Availability, capacity, location and contract form. A buyer
+                  searches for exactly these and found none of them anywhere on
+                  the page: the one availability sentence in config.cv.toml
+                  renders into the PDF only. Directly under the tagline, because
+                  by the time someone scrolls to the projects the decision is
+                  usually made. Not a card, not a badge row: a plain line, so it
+                  reads as fact rather than as a claim. */}
+              <ul class="cv-facts mt-3 flex flex-col gap-0.5 text-[13px]">
+                {t.facts.map(fact => <li>{fact}</li>)}
+              </ul>
             </div>
           </div>
 
@@ -647,18 +657,25 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </div>
           )}
 
-          {/* Certifications */}
-          <div class="cv-sidebar-card">
-            <h2 class="cv-sidebar-title">{ui.sidebar_qualifications_title}</h2>
-            <div class="space-y-2.5 text-sm">
-              {['ISTQB Certified Tester', 'Dynatrace Diagnostics', 'Agile (Scrum/Kanban)'].map(cert => (
-                <div class="flex items-center gap-2.5">
-                  <div class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background: var(--accent)"></div>
-                  <span>{cert}</span>
-                </div>
-              ))}
+          {/* The "Zusätzliche Qualifikationen" block used to stand here with
+              three hardcoded English strings, on both language pages. Two of
+              them (ISTQB, Dynatrace) are already in the education list directly
+              above, and "Agile (Scrum/Kanban)" is verbatim one of the skill
+              chips, so it appeared twice per page. Removed rather than
+              translated: it carried no information the sidebar did not already
+              carry. `ui.sidebar_qualifications_title` stays in the TOML as the
+              heading if it ever comes back with its own content. */}
+
+          {/* License */}
+          {license_sidebar?.enable && (
+            <div class="cv-sidebar-card">
+              <h2 class="cv-sidebar-title">{license_sidebar.title}</h2>
+              {/* This notice declares an attribution requirement, and it
+                  rendered nowhere: "CC BY 4.0" produced zero hits in either
+                  built page. A licence nobody can read binds nobody. */}
+              <p class="text-[13px] leading-[1.6]" style="color: var(--text-secondary)" set:html={formatMarkdown(license_sidebar.notice)} />
             </div>
-          </div>
+          )}
 
         </div>
       </aside>
@@ -801,6 +818,13 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      shadow and the accent ring outside it were three treatments on one face. */
   .cv-avatar {
     border: 1px solid var(--line);
+  }
+
+  .cv-facts {
+    color: var(--text-secondary);
+    list-style: none;
+    padding: 0;
+    max-width: 44ch;
   }
 
   .cv-tagline {
