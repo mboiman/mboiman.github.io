@@ -3,17 +3,12 @@
 baseurl = "https://mboiman.github.io/"
 languageCode = "de-de"
 title = "Michael Boiman CV"
-theme = "bks-theme"
 
-# Do not build files for websites. Need them? Set to false
-disableRSS = true
-disableSitemap = true
-disable404 = true
-
-# Global parameters
-[params]
-  styles = "styles.css"
-
+# Hugo-Reste entfernt 2026-08-22: disableRSS / disableSitemap / disable404 /
+# theme / contentDir / weight / params.styles. Die Seite ist seit dem
+# Astro-Umbau kein Hugo mehr, die Schalter steuerten nichts. disableSitemap
+# war dabei aktiv irreführend: astro.config.mjs baut sehr wohl eine Sitemap,
+# und sie liegt live unter /sitemap-index.xml.
 
 
 # Mehrsprachige Konfiguration
@@ -25,8 +20,6 @@ defaultContentLanguageInSubdir = true
     languageCode = "de-de"
     languageName = "Deutsch"
     title = "Michael Boiman CV"
-    contentDir = "content/de"
-    weight = 1
 
     [languages.de.params]
       description = "Lebenslauf von Michael Boiman"
@@ -664,8 +657,6 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
     languageCode = "en-us"
     languageName = "English"
     title = "Michael Boiman CV"
-    contentDir = "content/en"
-    weight = 2
 
     [languages.en.params]
       description = "CV of Michael Boiman"
@@ -1359,7 +1350,7 @@ Produktive E-Rechnungs-Pipeline nach EU-Standard EN 16931.
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024) - universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025) - Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
+        tagline = "Implementierung von Next-Generation AI-Interoperabilitäts-Protokollen: **MCP** (Anthropic, 2024), universeller Standard für sichere AI-zu-Tool-Verbindungen mit JSON-RPC 2.0, offiziell von OpenAI & Google DeepMind adoptiert. **A2A** (Google, 2025), Peer-to-Peer-Framework für Agent-zu-Agent-Kommunikation mit capability-basierten Agent Cards. Ermöglicht sowohl Tool-Integration als auch Multi-Agent-Kollaboration in Enterprise-Umgebungen mit SSE-Streaming und sicherer HTTPS-Kommunikation."
 
         [[languages.de.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
@@ -1672,7 +1663,7 @@ Production e-invoicing pipeline compliant with EU standard EN 16931.
         tech_stack = ["Python", "TypeScript", "LLMs", "API Integration", "JSON-RPC", "A2A Protocol", "SSE", "HTTP(S)"]
         category = "AI & Machine Learning"
         featured = false
-        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024) - universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025) - peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
+        tagline = "Implementation of next-generation AI interoperability protocols: **MCP** (Anthropic, 2024), universal standard for secure AI-to-tool connections with JSON-RPC 2.0, officially adopted by OpenAI & Google DeepMind. **A2A** (Google, 2025), peer-to-peer framework for agent-to-agent communication with capability-based Agent Cards. Enables both tool integration and multi-agent collaboration in enterprise environments with SSE streaming and secure HTTPS communication."
 
         [[languages.en.params.projects.list]]
         title = "Developer Workshop: AI-Agent Development & Integration"
@@ -1915,192 +1906,15 @@ A phone assistant that reads free appointment slots live from the booking portal
         featured = false
         tagline = "Implementation of spaCy, NLTK, PyPDF2, OpenAI GPT-3.5/4, Named Entity Recognition (NER), and Sentiment Analysis for automated content extraction and classification."
 
-      [languages.de.params.skills]
-        enable = true
-        icon = "fa-rocket"
-        title = "Skills & Tools"
-
-        [[languages.de.params.skills.list]]
-        skill = "Agent-Orchestrierung: MCP (Model Context Protocol) & A2A (Agent2Agent)"
-
-        [[languages.de.params.skills.list]]
-        skill = "Multi-Agent-Systeme & Tool-Integration (Claude Code, Hooks, Agent-SDK)"
-
-        [[languages.de.params.skills.list]]
-        skill = "E-Invoicing nach EU-Standard: Peppol, EN 16931, XRechnung/ZUGFeRD"
-
-        [[languages.de.params.skills.list]]
-        skill = "Quality Engineering & Testautomatisierung"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Playwright & End-to-End Testing"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Cucumber / Gauge (BDD)"
-
-        [[languages.de.params.skills.list]]
-        skill = "Python (Datenanalyse, ML/AI, Automatisierung)"
-
-        [[languages.de.params.skills.list]]
-        skill = "LLMs & AI APIs - Claude (primär), Gemini, OpenAI GPT"
-        
-        [[languages.de.params.skills.list]]
-        skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Django & Django REST Framework"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Software-Entwicklung, -Design, -Architektur"
-
-        [[languages.de.params.skills.list]]
-        skill = "Jira & Confluence"
-                
-        [[languages.de.params.skills.list]]
-        skill = "IntelliJ & VS Code"
-
-        [[languages.de.params.skills.list]]
-        skill = "CDC - Spring Contract & Pact.io"
-
-        [[languages.de.params.skills.list]]
-        skill = "CI/CD-Workflows - GitLab & GitHub & Jenkins"
-
-        [[languages.de.params.skills.list]]
-        skill = "Kubernetes - Helm & Terraform & ArgoCD"
-
-        [[languages.de.params.skills.list]]
-        skill = "REST & Postman"
-
-        [[languages.de.params.skills.list]]
-        skill = "Last und Performance Testing mit JMeter, Gatling"
-
-        [[languages.de.params.skills.list]]
-        skill = "AWS & Google & Azure"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Azure Functions & Serverless Architectures"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Microsoft Graph API & Office 365 Integration"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Data Science - Pandas, NumPy, Streamlit"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Web Scraping & Data Extraction - Requests, PyPDF2, PDF Generation"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Container & Orchestration - Docker, Kubernetes"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Enterprise APIs - SAP RFC, Microsoft Graph, LeanIX, Confluence API"
-        
-        [[languages.de.params.skills.list]]
-        skill = "Multi-Source Data Integration & API Orchestration"
-
-        [[languages.de.params.skills.list]]
-        skill = """
-        Dashboards & Analyse - \n
-        Kibana(+ES) & Graylog &  \n
-        Grafana & Instana & Azure Log Analytics
-        """
-
-        [[languages.de.params.skills.list]]
-        skill = "MobileDev - Xcode & Flutter & Swift"
-
-# NOTE: NOT rendered on the website. Website skills = ui.sidebar_skills + skillGroupConfig in src/components/CVPage.astro. Edits here only affect the PDF export.
-      [languages.en.params.skills]
-        enable = true
-        icon = "fa-rocket"
-        title = "SKILLS & TOOLS"
-
-        [[languages.en.params.skills.list]]
-        skill = "Agent Orchestration: MCP (Model Context Protocol) & A2A (Agent2Agent)"
-
-        [[languages.en.params.skills.list]]
-        skill = "Multi-Agent Systems & Tool Integration (Claude Code, Hooks, Agent SDK)"
-
-        [[languages.en.params.skills.list]]
-        skill = "E-Invoicing to EU Standard: Peppol, EN 16931, XRechnung/ZUGFeRD"
-
-        [[languages.en.params.skills.list]]
-        skill = "Quality Engineering & Test Automation"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Playwright & End-to-End Testing"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Cucumber / Gauge (BDD)"
-
-        [[languages.en.params.skills.list]]
-        skill = "Python (Data Analysis, ML/AI, Automation)"
-
-        [[languages.en.params.skills.list]]
-        skill = "LLMs & AI APIs - Claude (primary), Gemini, OpenAI GPT"
-        
-        [[languages.en.params.skills.list]]
-        skill = "ML/AI Frameworks - LangChain, Hugging Face, Vector Embeddings"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Django & Django REST Framework"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Software Development, Design, Architecture"
-
-        [[languages.en.params.skills.list]]
-        skill = "JIRA & Confluence"
-
-        [[languages.en.params.skills.list]]
-        skill = "IntelliJ & VS Code"
-
-        [[languages.en.params.skills.list]]
-        skill = "CDC - Spring Contract & Pact.io"
-
-        [[languages.en.params.skills.list]]
-        skill = "CI/CD Workflows - GitLab, GitHub & Jenkins"
-
-        [[languages.en.params.skills.list]]
-        skill = "Kubernetes - Helm, Terraform & ArgoCD"
-
-        [[languages.en.params.skills.list]]
-        skill = "REST & Postman"
-
-        [[languages.en.params.skills.list]]
-        skill = "Load & Performance Testing with JMeter, Gatling"
-
-        [[languages.en.params.skills.list]]
-        skill = "AWS, Google Cloud & Azure"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Azure Functions & Serverless Architectures"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Microsoft Graph API & Office 365 Integration"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Data Science - Pandas, NumPy, Streamlit"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Web Scraping & Data Extraction - Requests, PyPDF2, PDF Generation"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Container & Orchestration - Docker, Kubernetes"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Enterprise APIs - SAP RFC, Microsoft Graph, LeanIX, Confluence API"
-        
-        [[languages.en.params.skills.list]]
-        skill = "Multi-Source Data Integration & API Orchestration"
-
-        [[languages.en.params.skills.list]]
-        skill = """
-Dashboards & Analytics -  
-Kibana (+ES) & Graylog &  
-Grafana & Instana & Azure Log Analytics
-        """
-
-        [[languages.en.params.skills.list]]
-        skill = "Mobile Dev - Xcode, Flutter & Swift"
+      # [languages.*.params.skills] entfernt 2026-08-22: 56 Einträge, die nichts
+      # gerendert haben. Die sichtbaren Skills kommen aus ui.sidebar_skills, sowohl
+      # auf der Website (CVPage.astro) als auch im PDF (html_to_pdf.js). Hart
+      # nachgewiesen: "Hugging Face", "Django REST", "ArgoCD" und "PyPDF2" standen
+      # hier und kamen weder auf /de/ noch auf /en/ noch in einem der beiden PDFs
+      # vor. Der Block war damit die falsche Quelle, die richtig aussah: wer die
+      # Skills pflegte, pflegte mit hoher Wahrscheinlichkeit ihn. Nebenbei trug er
+      # 22 Trenner der Bauart " - ", also genau die Ersatz-Gedankenstriche, gegen
+      # die scripts/check-i18n.mjs geschrieben ist.
 
 # [languages.*.params.footer] blocks removed: orphaned config. The site footers
 # (CVPage.astro / StoryPage.astro / LegalLayout.astro) render from src/lib/i18n.ts

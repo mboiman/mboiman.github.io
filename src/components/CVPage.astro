@@ -14,7 +14,7 @@ const otherLang = lang === 'de' ? 'en' : 'de';
 const t = i18n[lang];
 
 const data = getCVData(lang);
-const { profile, contact, ui, experiences, projects, summary, education, language: langs, skills, agent_proof } = data;
+const { profile, contact, ui, experiences, projects, summary, education, language: langs, agent_proof } = data;
 
 const featuredProjects = projects.list.filter(p => p.featured);
 const otherProjects = projects.list.filter(p => !p.featured);

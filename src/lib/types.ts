@@ -16,11 +16,6 @@ export interface LanguageItem {
   level: string;
 }
 
-export interface AIShowcaseItem {
-  name: string;
-  description: string;
-}
-
 export interface ExperienceItem {
   position: string;
   dates: string;
@@ -51,10 +46,6 @@ export interface ProjectItem {
 // back to a raw markdown dump next to a designed act. The presentation now renders
 // from `i18n.decisions`, and the visual anchor is a verifiable identifier, never a
 // counter. Do not reintroduce these fields.
-
-export interface SkillItem {
-  skill: string;
-}
 
 export interface AgentProof {
   eyebrow: string;
@@ -89,7 +80,6 @@ export interface UIStrings {
 
 export interface CVData {
   ui: UIStrings;
-  ai_showcase: { enable: boolean; list: AIShowcaseItem[] };
   agent_proof: AgentProof;
   /** `avatar_story` is the portrait used by the presentation; `avatar` stays the CV one. */
   profile: { name: string; tagline: string; avatar: string; avatar_story?: string };
@@ -99,15 +89,10 @@ export interface CVData {
   summary: { enable: boolean; icon: string; title: string; summary: string };
   experiences: { enable: boolean; icon: string; title: string; list: ExperienceItem[] };
   projects: { enable: boolean; icon: string; title: string; intro: string; list: ProjectItem[] };
-  skills: { enable: boolean; icon: string; title: string; list: SkillItem[] };
-  footer: {
-    copyright: string;
-    license_title: string;
-    license_text: string;
-    license_link: string;
-    license_link_text: string;
-    attribution_format: string;
-    attribution_link: string;
-    attribution_hint: string;
-  };
 }
+
+// Absichtlich NICHT hier: `skills`, `ai_showcase`, `footer`. Alle drei standen als
+// Pflichtfelder in CVData, ohne dass config.cv.toml sie (noch) trug: footer und
+// ai_showcase waren längst gelöscht, skills wurde am 2026-08-22 gelöscht, weil
+// nichts es rendert. Ein Pflichtfeld für Daten, die es nicht gibt, ist eine
+// Behauptung über die Config, keine Beschreibung.
