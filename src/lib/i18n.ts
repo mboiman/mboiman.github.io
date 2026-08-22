@@ -273,6 +273,16 @@ export interface I18nStrings {
   navLanguage: string;
   navFooter: string;
   sidebarLabel: string;
+  /**
+   * The three numbers a buyer looks for and did not find anywhere on this page.
+   *
+   * Availability, weekly capacity and work location produced zero hits in the
+   * built HTML; the one availability sentence that exists lives in
+   * config.cv.toml and renders only into the PDF. A recruiter decides from these
+   * before reading a single project. Keep it short enough to stay one line per
+   * entry, and keep it honest: a stale availability date is worse than none.
+   */
+  facts: string[];
 
   /** The presentation, in order. First act opens, second carries the portrait, last closes. */
   acts: PitchAct[];
@@ -341,6 +351,12 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navLanguage: 'Sprache und Ansicht',
     navFooter: 'Fußzeile',
     sidebarLabel: 'Profil-Kurzangaben',
+    facts: [
+      'Freiberuflich · verfügbar ab sofort · 5 Tage/Woche',
+      'Frankfurt am Main und Remote · Reisebereitschaft nach Absprache',
+      'Mandate auf eigene Rechnung oder über die BKS-Lab GmbH, je nach Rahmen',
+      'Stundensatz auf Anfrage',
+    ],
     acts: [
       {
         id: '01-auftakt',
@@ -801,6 +817,12 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navLanguage: 'Language and appearance',
     navFooter: 'Footer',
     sidebarLabel: 'Profile at a glance',
+    facts: [
+      'Freelance · available immediately · 5 days per week',
+      'Frankfurt am Main and remote · travel by arrangement',
+      'Engagements on my own account or through BKS-Lab GmbH, whichever fits',
+      'Day rate on request',
+    ],
     acts: [
       {
         id: '01-auftakt',

@@ -12,7 +12,8 @@
  * The rules below are not style preferences. Each one is a mistake that
  * already shipped once.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join, extname } from 'node:path';
 import { parse as tomlParse } from 'toml';
 import { i18n } from '../src/lib/i18n.ts';
 import { catchAllSkills, multiGroupSkills } from '../src/lib/skill-groups.ts';
@@ -543,6 +544,67 @@ const proseSources = [
 for (const [file, blob] of proseSources) {
   for (const rx of OVERCLAIMS) {
     if (rx.test(blob)) errors.push(`${file}: the TU Darmstadt talk is described as a standing role (${rx}). It was one Impulsvortrag, 04/2026.`);
+  }
+}
+
+/**
+ * A config field that no renderer reads.
+ *
+ * This is the failure this repo keeps producing, and it is expensive in a way
+ * that looks free: the field is there, it is filled in, it reads as maintained,
+ * and it reaches nobody. Three rounds of it, all found by hand, all on the same
+ * day: `[languages.*.params.skills]` carried 56 entries that appeared on neither
+ * page and in neither PDF; `challenge` / `solution` / `impact` carried 36 field
+ * instances across six projects per branch that no renderer has ever read; five
+ * Hugo keys survived the move to Astro because `getSiteConfig()` is never
+ * called. Whoever edits the CV cannot tell the difference from the inside.
+ *
+ * The check is deliberately crude: does the key NAME appear anywhere in src/ or
+ * scripts/. That over-accepts (a key named `title` is referenced by something
+ * else entirely) but never over-rejects, so it cannot block honest work. It is a
+ * floor, not a proof.
+ *
+ * ALLOWED holds keys that legitimately have no reader. Add to it only with a
+ * reason on the line, because every silent entry here is a field that will look
+ * maintained forever.
+ */
+const ALLOWED_WITHOUT_READER = new Map([
+  ['sidebar_qualifications_title', 'heading kept for a block that was removed as duplicated content; see CVPage.astro'],
+]);
+{
+  const roots = ['src', 'scripts'];
+  const exts = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs']);
+  const files = [];
+  const walkDir = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) walkDir(full);
+      else if (exts.has(extname(entry.name))) files.push(full);
+    }
+  };
+  for (const r of roots) { try { walkDir(r); } catch { /* absent root is fine */ } }
+  const blob = files.map((f) => readFileSync(f, 'utf8')).join('\n');
+
+  const keysInToml = new Set();
+  const collect = (node) => {
+    if (Array.isArray(node)) { node.forEach(collect); return; }
+    if (node && typeof node === 'object') {
+      for (const [k, v] of Object.entries(node)) { keysInToml.add(k); collect(v); }
+    }
+  };
+  collect(cv);
+
+  for (const key of [...keysInToml].sort()) {
+    if (ALLOWED_WITHOUT_READER.has(key)) continue;
+    const referenced = new RegExp(`\\b${key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(blob);
+    if (!referenced) {
+      errors.push(
+        `config.cv.toml: key "${key}" is read by nothing in src/ or scripts/. ` +
+        `Render it or delete it; a field nobody reads still looks maintained. ` +
+        `If it is legitimately unread, add it to ALLOWED_WITHOUT_READER with the reason.`
+      );
+    }
   }
 }
 
