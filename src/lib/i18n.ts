@@ -70,6 +70,15 @@ export interface AgentWidgetStrings {
   cardModes: string;       // input/output modes label
   cardSkills: string;      // skills section heading
   cardExamplesHint: string;// hint above clickable examples
+  /**
+   * Shown only when the agent card is written in another language than the page.
+   * The card is a single-language artifact (A2A has no field for it), so on the
+   * English page every piece of prose it contributes arrived in German: the
+   * description, all five skill names and descriptions, and the example
+   * questions, which were clickable and would have sent a German question.
+   */
+  cardSourceNote: string;  // "this card is published in <other language>"
+  cardExamplesStatic: string;// hint above examples that are shown but not clickable
   cardStreaming: string;   // capability badge
   cardPush: string;        // capability badge
   cardLoading: string;     // while fetching the card
@@ -713,6 +722,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardModes: 'Ein-/Ausgabe',
       cardSkills: 'Fähigkeiten',
       cardExamplesHint: 'Beispiel-Frage anklicken zum Starten',
+      cardSourceNote: 'Der Agent veröffentlicht seinen Steckbrief auf Englisch. Die Protokollangaben darunter sind sprachneutral.',
+      cardExamplesStatic: 'Beispiel-Fragen aus dem Steckbrief, in der Sprache des Steckbriefs',
       cardStreaming: 'Streaming',
       cardPush: 'Push',
       cardLoading: 'Lade Agent-Card …',
@@ -1140,6 +1151,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardModes: 'Input/Output',
       cardSkills: 'Skills',
       cardExamplesHint: 'Click an example question to start',
+      cardSourceNote: 'The agent publishes its card in German. The protocol facts below are language-neutral.',
+      cardExamplesStatic: 'Example questions from the card, in the language the card is written in',
       cardStreaming: 'Streaming',
       cardPush: 'Push',
       cardLoading: 'Loading agent card …',

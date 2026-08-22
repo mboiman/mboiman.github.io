@@ -855,6 +855,19 @@ const widgetStrings = {
   .aw-card-ex::before { content: "›  "; color: var(--accent-hover, var(--accent)); font-weight: 700; }
   .aw-card-ex:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }
   .aw-card-ex:focus-visible { outline: 2px solid var(--accent-hover, var(--accent)); outline-offset: 1px; }
+  /* A card example in a language the reader did not ask for: shown as evidence,
+     never as a button. No pointer, no hover, no chevron promising an action. */
+  .aw-card-ex.is-static {
+    display: block; cursor: default; border-style: dashed;
+    background: transparent; color: var(--text-secondary);
+  }
+  .aw-card-ex.is-static::before { content: none; }
+  .aw-card-srcnote {
+    font-size: 0.66rem; line-height: 1.45; margin: 0 0 0.6rem;
+    padding: 0.35rem 0.5rem; border-radius: 6px;
+    color: var(--text-secondary);
+    border: 1px dashed color-mix(in srgb, var(--text) 22%, transparent);
+  }
   .aw-card-empty, .aw-card-loading { font-size: 0.8rem; color: var(--text-secondary); padding: 0.5rem 0; }
 
   /* ───────────────────────── Composer ───────────────────────── */
@@ -1491,7 +1504,10 @@ const widgetStrings = {
           if (card && card.capabilities && typeof card.capabilities.streaming === 'boolean') {
             streamingSupported = card.capabilities.streaming;
           }
-          if (card && card.name) { subtitleEl.textContent = (lang === 'de' && card.description) || t.headerSubtitle; }
+          // Same rule as the card body: the description is only usable as a
+          // subtitle when the card speaks the reader's language. This line
+          // hardcoded 'de' and was the only place that knew about the mismatch.
+          if (card && card.name) { subtitleEl.textContent = (cardLang(card) === lang && card.description) || t.headerSubtitle; }
           return (card && typeof card === 'object') ? card : null;
         } catch {
           // Non-fatal: keep streaming-first default and try anyway.
@@ -1558,6 +1574,36 @@ const widgetStrings = {
       if (text != null) n.textContent = text;
       return n;
     }
+    /**
+     * The language the agent card is written in.
+     *
+     * An A2A card is a single-language artifact and the spec carries no field
+     * for which language that is, so it is declared here and can be overridden
+     * the day a card does carry one. It matters because the card is rendered on
+     * both language versions of this site: before this, the English page showed
+     * the German description, all five German skill names and descriptions, and
+     * German example questions that were clickable and would have sent a German
+     * question to the agent. The header subtitle was already guarded for exactly
+     * this reason (`lang === 'de' && card.description`); nothing below it was.
+     */
+    function cardLang(card: any): string {
+      const declared = card && typeof card.language === 'string' ? card.language.trim() : '';
+      return declared || 'de';
+    }
+
+    /**
+     * A card-sourced prose node. When the card speaks another language than the
+     * page, the node says so in markup, so a screen reader switches voice and
+     * the browser offers to translate instead of reading German with English
+     * phonemes. Machine facts (bindings, versions, modes, tags, ids) are left
+     * alone: they are language-neutral and are the actual evidence.
+     */
+    function cardProse(tag: string, cls: string, text: string, foreign: string | null): HTMLElement {
+      const n = el(tag, cls, text);
+      if (foreign) n.setAttribute('lang', foreign);
+      return n;
+    }
+
     function cardSection(heading: string): HTMLElement {
       const s = el('div', 'aw-card-section');
       s.appendChild(el('h4', 'aw-card-section-h', heading)); // real heading (under the h3 name) for AT
@@ -1583,10 +1629,16 @@ const widgetStrings = {
       if (!card) { cardEl.appendChild(el('p', 'aw-card-empty', t.cardUnavailable || 'Agent card unavailable.')); return; }
 
       cardEl.appendChild(el('p', 'aw-card-eyebrow', t.cardTitle || 'Agent Card'));
+      const cl = cardLang(card);
+      const foreign = cl === lang ? null : cl;   // null = card speaks the page's language
+
+      // The name is NOT marked: it is a proper noun ("Michael Boiman Agent") and
+      // belongs to no language, like the protocol badges below it.
       cardEl.appendChild(el('h3', 'aw-card-name', String(card.name || t.headerTitle || 'Agent')));
       const desc = typeof card.description === 'string' ? card.description.trim() : '';
-      if (desc) cardEl.appendChild(el('p', 'aw-card-desc', desc));
+      if (desc) cardEl.appendChild(cardProse('p', 'aw-card-desc', desc, foreign));
       if (t.cardIntro) cardEl.appendChild(el('p', 'aw-card-intro', t.cardIntro));
+      if (foreign && t.cardSourceNote) cardEl.appendChild(el('p', 'aw-card-srcnote', t.cardSourceNote));
 
       // --- A2A protocol section: bindings, capabilities, version, modes, endpoint ---
       const proto = cardSection(t.cardProtocol || 'A2A protocol');
@@ -1620,9 +1672,9 @@ const widgetStrings = {
         skills.forEach((s: any) => {
           if (!s) return;
           const item = el('div', 'aw-card-skill');
-          item.appendChild(el('h5', 'aw-card-skill-name', String(s.name || s.id || '')));
+          item.appendChild(cardProse('h5', 'aw-card-skill-name', String(s.name || s.id || ''), foreign));
           if (typeof s.description === 'string' && s.description.trim()) {
-            item.appendChild(el('div', 'aw-card-skill-desc', s.description.trim()));
+            item.appendChild(cardProse('div', 'aw-card-skill-desc', s.description.trim(), foreign));
           }
           if (Array.isArray(s.tags) && s.tags.length) {
             const tg = el('div', 'aw-card-tags');
@@ -1631,10 +1683,20 @@ const widgetStrings = {
           }
           const examples = Array.isArray(s.examples) ? s.examples.filter((q: any) => typeof q === 'string' && q.trim()) : [];
           if (examples.length) {
-            if (t.cardExamplesHint) item.appendChild(el('div', 'aw-card-ex-hint', t.cardExamplesHint));
+            const hint = foreign ? t.cardExamplesStatic : t.cardExamplesHint;
+            if (hint) item.appendChild(el('div', 'aw-card-ex-hint', hint));
             const list = el('div', 'aw-card-examples');
             examples.forEach((q: string) => {
               const text = q.trim();
+              if (foreign) {
+                // Shown, because it is what the card declares, but NOT clickable:
+                // a click sends the question verbatim, the agent answers in the
+                // language it was asked, and an English reader would get a German
+                // answer from a button they could not read. The page's own quick
+                // prompts sit in the chat view, in the reader's language.
+                list.appendChild(cardProse('span', 'aw-card-ex is-static', text, foreign));
+                return;
+              }
               const chip = document.createElement('button');
               chip.type = 'button';
               chip.className = 'aw-card-ex';
