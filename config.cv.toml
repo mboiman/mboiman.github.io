@@ -49,24 +49,39 @@ defaultContentLanguageInSubdir = true
         pdf_download = "PDF herunterladen"
         sidebar_skills_title = "Technische Skills"
         sidebar_qualifications_title = "Zusätzliche Qualifikationen"
+        # Reihenfolge = Nähe zur laufenden Arbeit, nicht Alphabet. Jeder Eintrag
+        # muss im CV-Text einen Beleg haben; "Google ADK" ist am 2026-08-22 raus,
+        # weil der Text selbst sagt, dass es im Juli 2026 abgelöst wurde, und eine
+        # Liste unter der Überschrift "Technische Skills" im Präsens steht.
+        # Neu dazu: was die beiden laufenden Engagements tatsächlich benutzen
+        # (BKS LLM Infra seit 06/2025, TÜV Süd seit 09/2025) und vorher nur in
+        # zugeklappten Werkzeuglisten stand.
+        # ACHTUNG: ein Eintrag, der keiner Gruppe in src/lib/skill-groups.ts
+        # entspricht, rendert NICHT. Der Wächter bricht darauf.
         sidebar_skills = [
           "Quality Engineering",
           "Playwright",
+          "Behave / pytest (BDD)",
           "Cucumber/Gauge",
           "Python",
+          "TypeScript",
+          "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
           "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
-          "Google ADK",
+          "a2a-sdk & Agent Cards",
+          "JSON-RPC 2.0 & SSE",
           "LangChain",
           "Peppol/E-Invoicing (EN 16931)",
-          "CI/CD",
-          "Kubernetes",
           "Azure Functions",
+          "Azure DevOps",
+          "Azure Monitor & KQL",
+          "CI/CD",
+          "Docker",
+          "Kubernetes",
           "Grafana",
           "Elasticsearch",
           "REST APIs",
-          "Docker",
           "JMeter",
           "Gatling",
           "Agile (Scrum/Kanban)"
@@ -283,7 +298,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Eigenbetriebene Infrastruktur**: Hub und Dienste laufen auf eigener Hardware (launchd-Services, Geräte-Flotte über Tailscale) mit 3-2-1-Backup-Strategie (restic/rclone auf NAS).
 
 **Tools & Technologien**
-- LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP); Google Agent Development Kit (ADK) bis 07/2026, seitdem a2a-sdk
 - AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-nach-A2A-Gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -683,24 +698,31 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         pdf_download = "Download PDF"
         sidebar_skills_title = "Technical Skills"
         sidebar_qualifications_title = "Additional Qualifications"
+        # See the German branch. Same list, the headings are what differs.
         sidebar_skills = [
           "Quality Engineering",
           "Playwright",
+          "Behave / pytest (BDD)",
           "Cucumber/Gauge",
           "Python",
+          "TypeScript",
+          "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
           "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
-          "Google ADK",
+          "a2a-sdk & Agent Cards",
+          "JSON-RPC 2.0 & SSE",
           "LangChain",
           "Peppol/E-Invoicing (EN 16931)",
-          "CI/CD",
-          "Kubernetes",
           "Azure Functions",
+          "Azure DevOps",
+          "Azure Monitor & KQL",
+          "CI/CD",
+          "Docker",
+          "Kubernetes",
           "Grafana",
           "Elasticsearch",
           "REST APIs",
-          "Docker",
           "JMeter",
           "Gatling",
           "Agile (Scrum/Kanban)"
@@ -916,7 +938,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Self-Operated Infrastructure**: hub and services run on own hardware (launchd services, device fleet over Tailscale) with a 3-2-1 backup strategy (restic/rclone to NAS).
 
 **Tools & Technologies**
-- LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
+- LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP); Google Agent Development Kit (ADK) until 07/2026, a2a-sdk since
 - AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
 - Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-to-A2A gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
@@ -1321,6 +1343,28 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         solution = "Zentrales Steuerungssystem mit dreigeteilter Registry, einem Skill-Baum für alle Werkzeuge und Hook-basiertem Permission System."
         impact = "AI-gestützte Workflows von Incident-Response bis Meeting-Protokollierung, orchestriert über einen zentralen Hub."
 
+        # Ersatz für den 2026-08-22 gelöschten Eintrag "MCP: Model Context
+        # Protokoll & A2A". Der erklärte, was die beiden Protokolle SIND. Michael:
+        # "schau woran ich arbeite, wäre falsch sowas nicht drin zu haben" — und er
+        # hatte recht: nachgemessen stand MCP/A2A im Projektraster danach nur noch
+        # auf der Workshop-Karte, also als etwas, das er lehrt, nicht als etwas, das
+        # er baut. Diese Karte zeigt das Gebaute. Jede Aussage darin ist nachprüfbar:
+        # das Gateway liegt offen in bks-lab/open-bridge unter agents/_gateway, der
+        # Steckbrief antwortet öffentlich, und der Agent auf dieser Seite ist einer
+        # der drei.
+        [[languages.de.params.projects.list]]
+        title = "Agenten-Netz und MCP-nach-A2A-Gateway"
+        anchor = "agent-mesh-gateway"
+        url = "https://mboiman.bks-lab.com/.well-known/agent-card.json"
+        tech_stack = ["Python", "a2a-sdk", "A2A Protocol 1.0", "Agent Cards", "JSON-RPC 2.0", "SSE Streaming", "MCP", "FastAPI"]
+        category = "AI & Machine Learning"
+        featured = true
+        tagline = """Drei Agenten, ein Übersetzer, ein offenes Protokoll. Der Agent auf dieser Seite gehört dazu.
+
+- **Problem:** Ein Agent, der nur sein eigenes Wissen hat, rät bei allem daneben, was daneben liegt. Ihn mit fremdem Wissen vollzuladen macht ihn nicht klüger, nur teurer und schwerer prüfbar.
+- **Lösung:** Drei Agenten mit je eigenem Gebiet, Person, Firma und quelloffenes Projekt, befragen sich gegenseitig über das offene A2A-Protokoll, ausschließlich lesend. Davor steht ein zustandsloses Gateway, das dieselben Agenten als drei Werkzeuge für MCP-Clients bereitstellt, ohne eigenes Modell und ohne eigene Logik.
+- **Ergebnis:** Eine Fachfrage wird weitergereicht statt geraten, und die fremde Antwort ist als fremd gekennzeichnet. Der Steckbrief ist öffentlich abrufbar, das generische Gerüst liegt unter MIT offen."""
+
         [[languages.de.params.projects.list]]
         title = "E-Invoicing Automation Platform"
         anchor = "e-invoicing-platform"
@@ -1630,6 +1674,20 @@ Central control system for AI-assisted development across customer, partner and 
         challenge = "Enterprise development across many repos, multiple customers and diverse tools required constant context switching and manual coordination."
         solution = "Central control system with a three-way split registry, one skill tree for every tool and a hook-based permission system."
         impact = "AI-assisted workflows from incident response to meeting documentation, orchestrated through one central hub."
+
+        # See the German branch for why this replaced the deleted protocol entry.
+        [[languages.en.params.projects.list]]
+        title = "Agent mesh and MCP-to-A2A gateway"
+        anchor = "agent-mesh-gateway"
+        url = "https://mboiman.bks-lab.com/.well-known/agent-card.json"
+        tech_stack = ["Python", "a2a-sdk", "A2A Protocol 1.0", "Agent Cards", "JSON-RPC 2.0", "SSE Streaming", "MCP", "FastAPI"]
+        category = "AI & Machine Learning"
+        featured = true
+        tagline = """Three agents, one translator, one open protocol. The agent on this page is one of them.
+
+- **Problem:** An agent that only holds its own knowledge guesses at everything outside it. Loading it up with someone else's knowledge does not make it smarter, only more expensive and harder to check.
+- **Solution:** Three agents, each with its own subject, a person, a company and an open-source project, consult each other over the open A2A protocol, read-only. In front of them sits a stateless gateway that offers the same agents to MCP clients as three tools, with no model and no logic of its own.
+- **Result:** A subject question gets passed on instead of guessed, and the borrowed answer is marked as borrowed. The agent card is publicly retrievable, and the generic framework behind it is open under MIT."""
 
         [[languages.en.params.projects.list]]
         title = "E-Invoicing Automation Platform"

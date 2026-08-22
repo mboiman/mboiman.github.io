@@ -15,6 +15,7 @@
 import { readFileSync } from 'node:fs';
 import { parse as tomlParse } from 'toml';
 import { i18n } from '../src/lib/i18n.ts';
+import { orphanSkills } from '../src/lib/skill-groups.ts';
 
 /**
  * Bullet budget per act kind. A uniform budget was the old shape and it is what
@@ -345,6 +346,35 @@ for (const branch of ['de', 'en']) {
 // branch only produces two different CVs behind one download button.
 if (rankSets.de !== rankSets.en) {
   errors.push(`config.cv.toml: pdf_rank differs between branches.\n      de: ${rankSets.de}\n      en: ${rankSets.en}`);
+}
+
+/**
+ * A skill that renders nowhere.
+ *
+ * The sidebar buckets ui.sidebar_skills by regex, and an entry that matches no
+ * group is dropped without a trace. The component warned on the console at
+ * build time, which is not a guard: a warning in a build log that ends in
+ * "Complete!" is a warning nobody reads. The patterns now live in
+ * src/lib/skill-groups.ts and are imported here, so there is one definition and
+ * a red build instead.
+ */
+for (const branch of ['de', 'en']) {
+  const skills = cv?.languages?.[branch]?.params?.ui?.sidebar_skills ?? [];
+  if (!skills.length) {
+    errors.push(`config.cv.toml ${branch}: ui.sidebar_skills is empty.`);
+    continue;
+  }
+  const orphans = orphanSkills(skills);
+  if (orphans.length) {
+    errors.push(`config.cv.toml ${branch}: sidebar skills match no group and would render nowhere: ${orphans.join(', ')}. Add a pattern in src/lib/skill-groups.ts or reword the skill.`);
+  }
+}
+// Both branches share the patterns, so they must share the list; only the group
+// headings are translated.
+{
+  const de = (cv?.languages?.de?.params?.ui?.sidebar_skills ?? []).join('|');
+  const en = (cv?.languages?.en?.params?.ui?.sidebar_skills ?? []).join('|');
+  if (de !== en) errors.push('config.cv.toml: ui.sidebar_skills differs between branches. The skills are the same person in both languages.');
 }
 
 /**
