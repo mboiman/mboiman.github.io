@@ -21,15 +21,52 @@
 /** One system that is actually running, shown in the act that replaced the numbers. */
 export interface RunningItem {
   title: string;
-  /** One sentence on the mechanism. Not a benefit, not an adjective. */
+  /**
+   * One sentence on the mechanism. Not a benefit, not an adjective.
+   *
+   * RENDER IT. These four sentences are the densest prose in the whole
+   * verification block, and the card in CVPage.astro showed `title` and `proof`
+   * only, so all four sat in the file and reached nobody. A card that reads
+   * "open-bridge, die quelloffene Schicht" over a URL states what it is called;
+   * the mechanism line is the part that says what it does. It belongs one line
+   * under the title and above the proof.
+   */
   mechanism: string;
-  /** The proof itself: standard, repo, address. Rendered monospace. */
+  /**
+   * The proof itself: standard, repo, address. Rendered monospace.
+   *
+   * No pinned release number, and none in this comment either: the version
+   * guard in scripts/check-i18n.mjs greps this file for the literal pattern, so
+   * a number quoted in prose here is a number the guard counts.
+   *
+   * The open-bridge anchor used to name a release while the repo was six minors
+   * further along, with the same number repeated in four passages of
+   * config.cv.toml. Every release meant five hand edits, and the edit was missed
+   * twice on one day. A version pinned in prose on a page whose argument is
+   * "open it and check" ages into the opposite of a proof. The repo link plus
+   * the licence carries the claim on its own, and the link is always current.
+   */
   proof: string;
   /** Optional link — only when the proof can genuinely be opened by a visitor. */
   proofUrl?: string;
-  /** `public` renders a filled marker, `closed` a hollow one plus the reason. */
+  /**
+   * `public` renders a filled marker, `closed` a hollow one plus the reason.
+   *
+   * The card list filters on `state === 'public'`, so a closed entry renders
+   * nowhere at all rather than as a hollow marker. One entry is `public` and
+   * carries no `proofUrl`, which renders an anchor with no href.
+   */
   state: 'public' | 'closed';
-  /** Why it is not public. Required when state is `closed`. */
+  /**
+   * Why it is not public, or what "public" means where it is not a clickable
+   * page. Required when state is `closed`.
+   *
+   * Kept although nothing reads it today, unlike the seven dead UI labels
+   * removed alongside it. Those were labels a renderer can restate in one line;
+   * this is the only record of WHY a proof cannot be opened, it cannot be
+   * reconstructed from anywhere else in the repo, and it is the missing half of
+   * the two defects named on `state` above.
+   */
   stateNote?: string;
 }
 
@@ -76,8 +113,22 @@ export interface AgentWidgetStrings {
    * English page every piece of prose it contributes arrived in German: the
    * description, all five skill names and descriptions, and the example
    * questions, which were clickable and would have sent a German question.
+   *
+   * Carries a `{lang}` placeholder, filled from `cardLangNames` with the
+   * language the card actually declares. It used to name a fixed language in
+   * the sentence itself, which is only correct as long as the card stays in
+   * German, and the live card declares no language at all.
    */
-  cardSourceNote: string;  // "this card is published in <other language>"
+  cardSourceNote: string;
+  /**
+   * Language names for the `{lang}` slot above, keyed by the primary subtag the
+   * card declares. A map rather than a second pair of fixed sentences, because
+   * the trigger and the claim were two different things: the note fires whenever
+   * the card's language differs from the page's, and then asserted a language it
+   * had never read. A card published in French would have been announced as
+   * German on the English page.
+   */
+  cardLangNames: Record<string, string>;
   cardExamplesStatic: string;// hint above examples that are shown but not clickable
   cardStreaming: string;   // capability badge
   cardPush: string;        // capability badge
@@ -130,7 +181,7 @@ export interface ActFigure {
 export interface ActShot {
   /** Key into the image map in StoryPage, never a raw path: a raw path can
    *  point at a file that was removed for leaking, and nothing would catch it. */
-  src: 'nlpanalyse' | 'sla' | 'angebotstest';
+  src: 'nlpanalyse' | 'sla';
   /** What it shows, and that it is his own. Required. */
   caption: string;
   /** Describes the screenshot for a screen reader. The caption says whose work
@@ -207,12 +258,21 @@ export interface PitchAct {
 
 export interface I18nStrings {
   pdfDownload: string;
+  /** Label of the link into the presentation. Names what is behind it, because
+   *  a visitor decides from the label alone whether to spend the click. */
   experienceTheStory: string;
   storyBackToCv: string;
   classicCV: string;
   otherLangLabel: string;
-  skipToContent: string;
-  availability: string;
+
+  /** Accessible names for the controls in the page chrome. They were hardcoded
+   *  in the components, in one language, so the German page announced English
+   *  control names to a screen reader and nothing in the build noticed. */
+  darkModeToLight: string;
+  darkModeToDark: string;
+  navLanguage: string;
+  navFooter: string;
+  sidebarLabel: string;
 
   /** The presentation, in order. First act opens, second carries the portrait, last closes. */
   acts: PitchAct[];
@@ -249,11 +309,6 @@ export interface I18nStrings {
   builtOn: string;
   builtOnNote: string;
 
-  // Aria labels (story page)
-  ariaStatement: string;
-  ariaProfile: string;
-  ariaContact: string;
-
   // CV page only
   running: RunningItem[];
   careerIntro: string;
@@ -261,8 +316,6 @@ export interface I18nStrings {
   careerDetails: string[];
   cvRunningTitle: string;
   cvFooterOtherLang: string;
-  experienceTitle: string;
-  earlierPositions: string;
   legalPrivacy: string;
   legalImpressum: string;
   truncatePatterns: string[];
@@ -274,12 +327,20 @@ export interface I18nStrings {
 export const i18n: Record<'de' | 'en', I18nStrings> = {
   de: {
     pdfDownload: 'PDF herunterladen',
-    experienceTheStory: 'Die Arbeit ansehen',
+    // Said "Die Arbeit ansehen", which describes every link on the page. Behind
+    // it lie five projects with challenge, solution and result in plain
+    // language, and a visitor decides from the label alone. The number matches
+    // the manifest bullet on the presentation, which scripts/check-i18n.mjs
+    // already ties to the number of project acts.
+    experienceTheStory: 'Fünf Projekte im Detail',
     storyBackToCv: 'Zum Lebenslauf',
     classicCV: 'Klassischer Lebenslauf',
     otherLangLabel: 'English',
-    skipToContent: 'Zum Inhalt springen',
-    availability: 'Verfügbar für Quality Engineering, Testautomatisierung, KI-Architektur und Workshops.',
+    darkModeToLight: 'Zur hellen Ansicht wechseln',
+    darkModeToDark: 'Zur dunklen Ansicht wechseln',
+    navLanguage: 'Sprache und Ansicht',
+    navFooter: 'Fußzeile',
+    sidebarLabel: 'Profil-Kurzangaben',
     acts: [
       {
         id: '01-auftakt',
@@ -641,10 +702,14 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentFactUnknown: 'nicht abrufbar',
     builtOn: 'zuletzt gebaut am',
     builtOnNote: 'Zur Bauzeit gestempelt, nicht getippt.',
-    ariaStatement: 'Leitsatz',
-    ariaProfile: 'Profil',
-    ariaContact: 'Kontakt',
     running: [
+      {
+        title: 'Die Rechnungsstrecke',
+        mechanism: 'Aus- und Eingangsrechnungen eines Online-Stellenmarkts laufen produktiv zwischen SAP Business ByDesign und dem Peppol-Netz. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Schicht.',
+        proof: 'EN 16931 · Peppol BIS 3.0',
+        state: 'closed',
+        stateNote: 'Kunde unter NDA',
+      },
       {
         title: 'Der Agent auf dieser Seite',
         mechanism: 'Er beantwortet Fragen zu diesem Lebenslauf. Bei einer Fachfrage rät er nicht, sondern befragt selbständig einen zweiten Agenten nach dem offenen A2A-Standard und kennzeichnet dessen Antwort als fremd.',
@@ -655,16 +720,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       {
         title: 'open-bridge, die quelloffene Schicht',
         mechanism: 'Das generische Gerüst hinter dieser Arbeitsweise liegt öffentlich unter MIT: Betriebshandbuch, Fähigkeiten, Regeln, Agenten-Laufzeit. Vor jedem Merge laufen Pflichtprüfungen, darunter ein Scan auf durchgesickerte Inhalte.',
-        proof: 'github.com/bks-lab/open-bridge · MIT · v0.20.2',
+        proof: 'github.com/bks-lab/open-bridge · MIT',
         proofUrl: 'https://github.com/bks-lab/open-bridge',
         state: 'public',
-      },
-      {
-        title: 'Die Rechnungsstrecke',
-        mechanism: 'Aus- und Eingangsrechnungen eines Online-Stellenmarkts laufen produktiv zwischen SAP Business ByDesign und dem Peppol-Netz. Eingehend über zwei parallele Wege, per Webhook und aus einem Postfach, beide enden in derselben Schicht.',
-        proof: 'EN 16931 · Peppol BIS 3.0',
-        state: 'closed',
-        stateNote: 'Kunde unter NDA',
       },
       {
         title: 'Das Übersetzungs-Gateway',
@@ -674,8 +732,6 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         stateNote: 'offen für MCP-Clients, anonym nur Auskunft; keine Seite zum Anklicken',
       },
     ],
-    experienceTitle: 'Stationen',
-    earlierPositions: 'Frühere Positionen',
     careerIntro: 'Quality Engineer und KI-Architekt aus Frankfurt am Main. Quality Engineering und KI-Architektur laufen bei mir parallel, nicht nacheinander: die Prüfdisziplin ist der Grund, warum mein Agentensystem Tore und Belege hat statt blind zu handeln.',
     talksTitle: 'Vorträge & Workshops',
     careerDetails: [
@@ -722,7 +778,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardModes: 'Ein-/Ausgabe',
       cardSkills: 'Fähigkeiten',
       cardExamplesHint: 'Beispiel-Frage anklicken zum Starten',
-      cardSourceNote: 'Der Agent veröffentlicht seinen Steckbrief auf Englisch. Die Protokollangaben darunter sind sprachneutral.',
+      cardSourceNote: 'Der Agent veröffentlicht seinen Steckbrief auf {lang}. Die Protokollangaben darunter sind sprachneutral.',
+      cardLangNames: { de: 'Deutsch', en: 'Englisch', fr: 'Französisch', es: 'Spanisch' },
       cardExamplesStatic: 'Beispiel-Fragen aus dem Steckbrief, in der Sprache des Steckbriefs',
       cardStreaming: 'Streaming',
       cardPush: 'Push',
@@ -735,12 +792,15 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
 
   en: {
     pdfDownload: 'Download PDF',
-    experienceTheStory: 'See the work',
+    experienceTheStory: 'Five projects in detail',
     storyBackToCv: 'Back to CV',
     classicCV: 'Classic CV',
     otherLangLabel: 'Deutsch',
-    skipToContent: 'Skip to content',
-    availability: 'Available for quality engineering, test automation, AI architecture and workshops.',
+    darkModeToLight: 'Switch to light mode',
+    darkModeToDark: 'Switch to dark mode',
+    navLanguage: 'Language and appearance',
+    navFooter: 'Footer',
+    sidebarLabel: 'Profile at a glance',
     acts: [
       {
         id: '01-auftakt',
@@ -1069,10 +1129,14 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     agentFactUnknown: 'not retrievable',
     builtOn: 'last built on',
     builtOnNote: 'Stamped at build time, not typed.',
-    ariaStatement: 'Statement',
-    ariaProfile: 'Profile',
-    ariaContact: 'Contact',
     running: [
+      {
+        title: 'The invoicing pipeline',
+        mechanism: 'Outbound and inbound invoices for an online job marketplace run in production between SAP Business ByDesign and the Peppol network. Inbound arrives over two parallel routes, a webhook and a mailbox, and both end in the same layer.',
+        proof: 'EN 16931 · Peppol BIS 3.0',
+        state: 'closed',
+        stateNote: 'client under NDA',
+      },
       {
         title: 'The agent on this page',
         mechanism: 'It answers questions about this CV. On a subject-matter question it does not guess: it consults a second agent over the open A2A standard on its own initiative, and marks that answer as coming from elsewhere.',
@@ -1083,16 +1147,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       {
         title: 'open-bridge, the open-source layer',
         mechanism: 'The generic scaffolding behind this way of working is public under MIT: operating manual, skills, rules, agent runtime. Mandatory checks run before every merge, one of them a scan for leaked content.',
-        proof: 'github.com/bks-lab/open-bridge · MIT · v0.20.2',
+        proof: 'github.com/bks-lab/open-bridge · MIT',
         proofUrl: 'https://github.com/bks-lab/open-bridge',
         state: 'public',
-      },
-      {
-        title: 'The invoicing pipeline',
-        mechanism: 'Outbound and inbound invoices for an online job marketplace run in production between SAP Business ByDesign and the Peppol network. Inbound arrives over two parallel routes, a webhook and a mailbox, and both end in the same layer.',
-        proof: 'EN 16931 · Peppol BIS 3.0',
-        state: 'closed',
-        stateNote: 'client under NDA',
       },
       {
         title: 'The translation gateway',
@@ -1102,8 +1159,6 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
         stateNote: 'open to MCP clients, anonymous gets lookups only; not a page you can click',
       },
     ],
-    experienceTitle: 'Positions',
-    earlierPositions: 'Earlier positions',
     careerIntro: 'Quality engineer and AI architect based in Frankfurt am Main. Quality engineering and AI architecture run in parallel for me rather than in sequence: the testing discipline is the reason my agent system has gates and evidence instead of acting blind.',
     talksTitle: 'Speaking & Workshops',
     careerDetails: [
@@ -1151,7 +1206,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardModes: 'Input/Output',
       cardSkills: 'Skills',
       cardExamplesHint: 'Click an example question to start',
-      cardSourceNote: 'The agent publishes its card in German. The protocol facts below are language-neutral.',
+      cardSourceNote: 'The agent publishes its card in {lang}. The protocol facts below are language-neutral.',
+      cardLangNames: { de: 'German', en: 'English', fr: 'French', es: 'Spanish' },
       cardExamplesStatic: 'Example questions from the card, in the language the card is written in',
       cardStreaming: 'Streaming',
       cardPush: 'Push',

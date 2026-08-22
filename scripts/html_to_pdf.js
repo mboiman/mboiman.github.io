@@ -20,10 +20,15 @@ const { findDashes } = require('./lib/visible-text');
 // also disagreed with itself — the comment said "top 8", the array held 9, and
 // the code took slice(0, 4), so ranks 5 to 9 never rendered at all.
 
-// Specialization bar keywords
+// Specialization bar keywords.
+//
+// "Multi-Cloud" stood here in both languages and the PDF behind it never
+// mentioned a second cloud: Azure appears seventeen times in the generated
+// document, AWS and Google Cloud not once. A headline claim the body cannot
+// back is the one kind of line this CV is not allowed to carry.
 const SPECIALIZATIONS = {
-  de: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Multi-Cloud', 'Peppol/E-Invoice'],
-  en: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Multi-Cloud', 'Peppol/E-Invoice'],
+  de: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Azure & Serverless', 'Peppol/E-Invoice'],
+  en: ['Quality Engineering', 'LLM/AI Architecture', 'CI/CD Automation', 'Azure & Serverless', 'Peppol/E-Invoice'],
 };
 
 const CONTACT_ICON_PATHS = {
@@ -192,20 +197,17 @@ function extractFirstSentence(details) {
 /**
  * Detect if an experience entry is a workshop/presentation (not a regular position)
  */
+const TALK_PATTERNS = require('./lib/talk-patterns.json');
+const TALK_POSITION_RE = new RegExp(TALK_PATTERNS.position.join('|'), 'i');
+const TALK_COMPANY_RE = new RegExp(TALK_PATTERNS.company.join('|'), 'i');
+
+// Mirrors src/lib/experience.ts. Both read scripts/lib/talk-patterns.json, so a
+// new pattern reaches BOTH renderers. The two hand-kept copies this replaces had
+// already drifted apart.
 function isWorkshopOrPresentation(exp) {
-  const lowerPos = exp.position.toLowerCase();
-  const lowerCompany = (exp.company || '').toLowerCase();
-  return lowerPos.includes('workshop') ||
-    lowerPos.includes('präsentation') ||
-    lowerPos.includes('presentation') ||
-    lowerPos.includes('impulsvortrag') ||
-    lowerPos.includes('vortrag') ||
-    lowerPos.includes('guest lecture') ||
-    lowerPos.includes('lecture') ||
-    lowerPos.includes('anwendungen von ki') ||
-    lowerCompany.includes('workshop') ||
-    lowerCompany.includes('präsentation');
+  return TALK_POSITION_RE.test(exp.position || '') || TALK_COMPANY_RE.test(exp.company || '');
 }
+
 
 /**
  * Truncate a project description to approximately maxWords words, without ever
@@ -261,6 +263,13 @@ function truncateProjectDescription(text, maxWords = 70) {
  * carrying a numeric `pdf_rank`; the rank is the order. No fallback and no
  * silent empty result: an unranked config is a config error, and the same
  * "fail loudly" rule already governs the verification anchors above.
+ *
+ * There is deliberately no cap in here and none at the call site either. The
+ * hardcoded predecessor took slice(0, 4) and silently dropped everything below
+ * rank five, which is why a project could be ranked and still be missing from
+ * the PDF. How many projects belong in the document is a content decision and
+ * lives in config.cv.toml; the only split downstream is between the page-one
+ * column and the full-width overflow row, and both halves are rendered.
  */
 function rankedProjects(langConfig, targetLang) {
   const ranked = (langConfig.projects.list || [])
@@ -1139,8 +1148,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
   const dashes = findDashes(htmlContent, { includeMeta: false });
   if (dashes.length) {
     console.error(`PDF content check failed for [${targetLang}]:`);
-    for (const d of dashes) console.error(`  - em or en dash in "${d.snippet}"`);
-    throw new Error('em or en dash in PDF content');
+    for (const d of dashes) console.error(`  - ${d.kind} in "${d.snippet}"`);
+    throw new Error('dash used as punctuation in PDF content');
   }
 
   await page.setContent(htmlContent, {

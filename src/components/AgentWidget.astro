@@ -1558,6 +1558,22 @@ const widgetStrings = {
       }));
     }
 
+    // --- Live badge on the host page (progressive enhancement) ---------------
+    // The green "Live" pill next to the headline was static markup: it claimed a
+    // running agent on a page whose whole argument is that a declared state is
+    // not a verified one. It now starts on the honest "not checked yet" and is
+    // switched here, at the same moment and from the same card as the chips.
+    // The three labels ride on the element itself (server-rendered, translated).
+    function renderAgentLive(card: any): void {
+      const host = document.querySelector('[data-agent-live]');
+      if (!host) return;                       // host page has no badge, nothing to do
+      const reachable = !!card && typeof card === 'object';
+      const label = host.getAttribute(reachable ? 'data-live-ok' : 'data-live-down');
+      host.setAttribute('data-state', reachable ? 'ok' : 'down');
+      const text = host.querySelector('[data-agent-live-text]');
+      if (text && label) text.textContent = label;   // textContent, never innerHTML
+    }
+
     // =========================================================================
     // AGENT-CARD VIEW — renders the live A2A card inside the panel. Every value is
     // injected via textContent (never innerHTML), so even a compromised/injected
@@ -1638,7 +1654,13 @@ const widgetStrings = {
       const desc = typeof card.description === 'string' ? card.description.trim() : '';
       if (desc) cardEl.appendChild(cardProse('p', 'aw-card-desc', desc, foreign));
       if (t.cardIntro) cardEl.appendChild(el('p', 'aw-card-intro', t.cardIntro));
-      if (foreign && t.cardSourceNote) cardEl.appendChild(el('p', 'aw-card-srcnote', t.cardSourceNote));
+      if (foreign && t.cardSourceNote) {
+        // Primaer-Subtag kleinschreiben, damit "de-DE" trifft. Unbekannter Tag
+        // faellt auf den Rohwert zurueck, statt eine Sprache zu behaupten.
+        var primary = String(foreign).split('-')[0].toLowerCase();
+        var langName = (t.cardLangNames && t.cardLangNames[primary]) || foreign;
+        cardEl.appendChild(el('p', 'aw-card-srcnote', t.cardSourceNote.replace('{lang}', langName)));
+      }
 
       // --- A2A protocol section: bindings, capabilities, version, modes, endpoint ---
       const proto = cardSection(t.cardProtocol || 'A2A protocol');
@@ -2019,6 +2041,16 @@ const widgetStrings = {
       const label = (target.querySelector('h2, h3, h4') as HTMLElement | null)?.textContent?.trim()
         || target.getAttribute('data-cv-group')?.trim() || '';
       const reveal = () => {
+        // A card can be folded away now: the featured projects past the sixth sit
+        // behind a checkbox, and the long half of a card or a station sits in a
+        // <details>. Unfold first, or the jump lands on a zero-height element.
+        const showAll = document.getElementById('cv-projects-all') as HTMLInputElement | null;
+        if (showAll && target.closest('.cv-project-extra')) showAll.checked = true;
+        let fold = target.closest('details') as HTMLDetailsElement | null;
+        while (fold) {
+          fold.open = true;
+          fold = (fold.parentElement?.closest('details') ?? null) as HTMLDetailsElement | null;
+        }
         target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block });
         target.classList.add('bridge-flash');
         flashEl = target;
@@ -2326,23 +2358,20 @@ const widgetStrings = {
     }
 
     const OPEN_KEY = 'bridgeAgentWidgetOpen';
-    // The chat is open by default on the CV page. First visit: open only where the
-    // two-column layout has room for it (lg+, with the content shift below); stay
-    // collapsed on phones and narrow tablets (an open panel would cover the CV).
-    // After that, always honor the visitor's last explicit choice.
-    const hasRoomForPanel = () => window.matchMedia('(min-width: 1024px)').matches;
+    // The panel starts CLOSED for everyone. It used to dock itself on first
+    // visit from 1024px up and take clamp(20rem, 26vw, 26rem) of the page from
+    // 1280px: measured at 1440px that left the main column at 660px instead of
+    // 904px, a project card at 318px instead of 440px, the h1 broken over two
+    // lines, <main> starting at y=951 and not one line of the CV in the first
+    // screen. A visitor who never asked for a chat paid for it with a third of
+    // the document. Only the visitor's own earlier 'open' opens it now, which
+    // also makes the `aw-no-autoopen` class the presentation sets moot: nothing
+    // opens itself any more, so there is nothing left for it to opt out of.
     function shouldAutoOpen(): boolean {
-      // The presentation opts out entirely: it is a composed, viewport-high
-      // sequence, and a panel that opens itself covers a third of every act,
-      // including the portrait. There the panel stays a launcher until the
-      // visitor asks for it, and the presentation has an act built for exactly
-      // that. An explicit earlier choice still wins, in both directions.
       let s: string | null = null;
       try { s = localStorage.getItem(OPEN_KEY); } catch {}
-      if (s === 'closed') return false;   // visitor closed it → keep it closed
-      if (s === 'open') return true;       // visitor opened it → keep it open
-      if (document.documentElement.classList.contains('aw-no-autoopen')) return false;
-      return hasRoomForPanel();            // first visit: open only with room to spare
+      if (s === 'open') return true;   // visitor opened it before → keep it open
+      return false;                    // first visit (and 'closed'): stay a launcher
     }
     function openPanel(opts: { focus?: boolean; persist?: boolean } = {}) {
       panel.hidden = false;
@@ -2423,6 +2452,9 @@ const widgetStrings = {
     // failure the server-rendered fallback simply stays. loadAgentCard() de-dupes and
     // caches, so this is at most ONE extra GET of static JSON, and zero when auto-open
     // already fetched it.
-    loadAgentCard().then(renderAgentFacts);
+    loadAgentCard().then((card) => {
+      renderAgentFacts(card);
+      renderAgentLive(card);
+    });
   }
 </script>

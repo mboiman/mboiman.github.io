@@ -67,6 +67,17 @@
   --accent-deep: #123f93;
   --line: rgba(23,33,43,0.10);
   --glow: rgba(37,99,235,0.16);
+  /* Shadow base as bare channels, so every box-shadow can pick its own alpha.
+     The six shadows on the CV page were written as rgba(15,23,42,alpha), and
+     rgb(15,23,42) is character for character the dark-mode --bg: in dark mode
+     they painted the page colour onto the page colour, i.e. nothing. */
+  --shadow-rgb: 15 23 42;
+  /* Reachability green. It used to sit raw in three places inside CVPage's
+     scoped style plus one html.dark override. Measured, not guessed:
+     --ok-text on --ok-bg is 5.86:1 light and 10.89:1 dark. */
+  --ok: #10b981;
+  --ok-bg: #e7f8f2;
+  --ok-text: #076c51;
   --page-background:
     radial-gradient(circle at 14% -8%, rgba(37,99,235,0.10), transparent 34rem),
     radial-gradient(circle at 88% 14%, rgba(59,130,246,0.055), transparent 30rem),
@@ -94,10 +105,19 @@ html.dark {
   --accent: #93c5fd;
   --accent-hover: #bfdbfe;
   --accent-soft: #1e3a5f;
-  --accent-cta: #3b82f6;
+  /* #3b82f6 carried white text at 3.68:1, below AA. The comment on the light
+     value claimed AA for both branches; only the light one had been measured.
+     #2563eb is 5.17:1 against white (relative luminance 0.1532). */
+  --accent-cta: #2563eb;
   --accent-deep: #1d4ed8;
-  --line: rgba(226,232,240,0.10);
+  /* 0.10 was a hairline that vanished on the dark surfaces; the cards lost
+     their edge and the page read as one slab. */
+  --line: rgba(226,232,240,0.18);
   --glow: rgba(59,130,246,0.18);
+  --shadow-rgb: 0 0 0;
+  --ok: #10b981;
+  --ok-bg: #162f3b;
+  --ok-text: #a7f3d0;
   --page-background:
     radial-gradient(circle at 14% -8%, rgba(59,130,246,0.12), transparent 34rem),
     radial-gradient(circle at 88% 14%, rgba(147,197,253,0.05), transparent 30rem),
@@ -114,6 +134,10 @@ html.dark {
   outline: 2px solid var(--accent-hover);
   outline-offset: 2px;
   border-radius: 3px;
+  /* `transition-colors` animates outline-color too, so the ring started in the
+     element's text colour: on the primary button that is white on a light
+     surface for 150ms, exactly while the eye is looking for it. */
+  transition-property: none;
 }
 
 html {
@@ -272,12 +296,59 @@ h1, h2, h3, h4 {
   .reveal { opacity: 1; transform: none; }
 }
 
-/* === Print === */
+/* === Print ===
+   Colouring the body was not enough. Every text block on the CV page carries
+   its own `style="color: var(--text-secondary)"`, and an inline colour on the
+   child beats an inherited one from the body: with dark mode active the whole
+   running text printed #a9b5c7 on white paper, 2.07:1. So the print sheet
+   resets the TOKENS for both palettes and lets the existing rules stand. */
 @media print {
+  :root,
+  html.dark {
+    --bg: #ffffff;
+    --bg-alt: #ffffff;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
+    --text: #000000;
+    --text-secondary: #333333;      /* 12.6:1 on paper */
+    --accent: #123f93;              /* 9.7:1 on paper; the dark-mode #93c5fd was unreadable */
+    --accent-hover: #123f93;
+    --accent-cta: #123f93;
+    --accent-deep: #123f93;
+    --accent-soft: #ffffff;
+    --line: rgba(0,0,0,0.35);
+    --glow: transparent;
+    --shadow-rgb: 0 0 0;
+    --ok: #0f7a5c;
+    --ok-bg: #ffffff;
+    --ok-text: #06503c;
+    --page-background: #ffffff;
+  }
+
   body { background: white !important; color: black !important; font-size: 11pt; }
   .act { min-height: auto; padding: 2rem 1rem; }
   .no-print { display: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
   #scroll-progress { display: none !important; }
   img { mix-blend-mode: normal !important; }
+
+  /* A fold is a screen affordance, not a property of the document. The pages
+     open every <details> before printing (see CVPage), so here only the
+     disclosure triangle goes away while the label stays as a heading. */
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+
+  /* Page 4 used to open with two sliced card fragments. */
+  .cv-experience-card,
+  .cv-project-card,
+  .cv-mini-project,
+  .cv-metric-card,
+  .cv-sidebar-card { break-inside: avoid; }
+  .cv-section-title,
+  .cv-sidebar-title { break-after: avoid; }
+  .cv-project-card,
+  .cv-experience-card,
+  .cv-mini-project,
+  .cv-metric-card,
+  .cv-sidebar-card { box-shadow: none !important; }
 }

@@ -1,6 +1,6 @@
 /**
  * The reader-visible text of an HTML document, and the dash rule that applies
- * to it. Shared, not copied: scripts/check-output.mjs walks dist/ with it, and
+ * to it (em dash, en dash, and the spaced double hyphen that replaces them). Shared, not copied: scripts/check-output.mjs walks dist/ with it, and
  * scripts/html_to_pdf.js runs it over the HTML it is about to hand to
  * Puppeteer. Two artifacts, two callers, one rule.
  *
@@ -30,11 +30,17 @@ function metaText(html) {
 }
 
 /**
- * Em and en dashes used as punctuation, deduplicated per document because one
- * title lands in <title>, og:title and twitter:title and three identical lines
- * about one dash only make the report harder to read.
+ * Dashes used as punctuation, deduplicated per document because one title lands
+ * in <title>, og:title and twitter:title and three identical lines about one
+ * dash only make the report harder to read.
  *
- * Returns [{ where, snippet }]. Empty means clean.
+ * Two forms, one rule: the em or en dash itself, and the spaced double hyphen
+ * that is its ASCII stand-in. The second one was missing here, so
+ * "Testautomatisierung -- der Weg" passed both the site and the PDF while the
+ * rule this guard cites forbids it. A hyphen inside a word and a CLI flag stay
+ * untouched, because both forms require whitespace or a real dash character.
+ *
+ * Returns [{ where, kind, snippet }]. Empty means clean.
  */
 function findDashes(html, { includeMeta = true } = {}) {
   const seen = new Set();
@@ -42,12 +48,19 @@ function findDashes(html, { includeMeta = true } = {}) {
   const sources = includeMeta
     ? [['text', visibleText(html)], ['meta', metaText(html)]]
     : [['text', visibleText(html)]];
+  const forms = [
+    ['em or en dash', /[^\n]{0,40}[—–][^\n]{0,40}/g],
+    ['double hyphen', /[^\n]{0,40}\s--+\s[^\n]{0,40}/g],
+  ];
   for (const [where, text] of sources) {
-    for (const m of text.matchAll(/[^\n]{0,40}[—–][^\n]{0,40}/g)) {
-      const snippet = m[0].trim().replace(/\s+/g, ' ');
-      if (seen.has(snippet)) continue;
-      seen.add(snippet);
-      hits.push({ where, snippet });
+    for (const [kind, rx] of forms) {
+      for (const m of text.matchAll(rx)) {
+        const snippet = m[0].trim().replace(/\s+/g, ' ');
+        const key = `${kind}:${snippet}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        hits.push({ where, kind, snippet });
+      }
     }
   }
   return hits;
