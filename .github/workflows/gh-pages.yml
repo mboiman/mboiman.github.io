@@ -61,6 +61,24 @@ jobs:
         # the comments in src/lib/i18n.ts claimed it ran "at build time".
         run: npm run build
 
+      # Cached HTML must keep finding its stylesheet and its script.
+      #
+      # Pages answers HTML with `cache-control: max-age=600` while Astro renames
+      # an asset whenever its content changes, so for ten minutes after a deploy
+      # the edge hands out markup that names files this deploy just removed.
+      # Measured on 2026-09-04 against the previous published build: the CVPage
+      # stylesheet and the agent widget's script both answered 404, so a visitor
+      # in that window saw the page unstyled and the chat dead.
+      #
+      # Runs only on main, and only after the build, so the build's own guard
+      # still measures a clean tree. Details and the one-generation rule:
+      # scripts/carry-assets.mjs
+      - name: Carry the previous build's code assets forward
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git fetch --depth=1 origin gh-pages || echo "no gh-pages yet, nothing to carry"
+          node scripts/carry-assets.mjs
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
