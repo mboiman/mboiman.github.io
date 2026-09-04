@@ -70,11 +70,16 @@ jobs:
       # stylesheet and the agent widget's script both answered 404, so a visitor
       # in that window saw the page unstyled and the chat dead.
       #
-      # Runs only on main, and only after the build, so the build's own guard
-      # still measures a clean tree. Details and the one-generation rule:
-      # scripts/carry-assets.mjs
+      # Runs on EVERY build, not only on main. Gating it on main would mean the
+      # step first executes in the run where it matters, with nothing having
+      # exercised it: the first CI run of this workflow was green while the step
+      # was skipped entirely. On a pull request it only adds files to dist/,
+      # which nothing on a pull request publishes, and in exchange every PR
+      # proves the fetch and the script still work in this environment.
+      #
+      # After the build on purpose, so the build's own guard still measures a
+      # clean tree. Details and the one-generation rule: scripts/carry-assets.mjs
       - name: Carry the previous build's code assets forward
-        if: github.ref == 'refs/heads/main'
         run: |
           git fetch --depth=1 origin gh-pages || echo "no gh-pages yet, nothing to carry"
           node scripts/carry-assets.mjs
