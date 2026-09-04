@@ -1631,8 +1631,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/illu-wecation.webp"
-        screenshot_alt = "Illustration: ein geschwungener Weg verbindet zwei Bausteine und führt an vier Markierungsnadeln vorbei."
+        screenshot = "projects/wecation-screens.png"
+        screenshot_alt = "Fünf Bildschirme der Reise-App nebeneinander: Kalender zur Terminfindung, Filter für Dauer, Budget und Kategorie, Kacheln zur Reiseart, dazu zwei Hotelkarten mit Zeitraum, Ort und Preis."
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
@@ -1641,8 +1641,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/illu-messe-chatbot.webp"
-        screenshot_alt = "Illustration: zwei Bausteine stehen sich an einem Tresen gegenüber, dazwischen schweben drei leere Sprechblasen auf einem Bogen."
+        screenshot = "projects/chatbot-kennzahlen.png"
+        screenshot_alt = "Kibana-Board des Messe-Chatbots über zehn Tage: Anzahl der Anfragen im Zeitverlauf, verbrauchte Token je Anfrage, dazu die Kennzahlen 38,50 Sekunden Antwortzeit im 95. Perzentil, 1.129 Token im 99. Perzentil und 121 Anfragen insgesamt."
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
         # Sprachbot. Nachgetragen 2026-08-21: Akt 05 der Präsentation zeigte
         # dieses Projekt, ohne dass der Lebenslauf eine Zeile dazu trug, und der
@@ -1973,8 +1973,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
-        screenshot = "projects/illu-wecation.webp"
-        screenshot_alt = "Illustration: a winding path connects two blocks and passes four map pins along the way."
+        screenshot = "projects/wecation-screens.png"
+        screenshot_alt = "Five screens of the travel app side by side: a calendar for finding a date, filters for duration, budget and category, tiles for the kind of trip, and two hotel cards with period, location and price."
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
@@ -1983,8 +1983,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/illu-messe-chatbot.webp"
-        screenshot_alt = "Illustration: two blocks face each other across a counter, three empty speech bubbles float between them along an arc."
+        screenshot = "projects/chatbot-kennzahlen.png"
+        screenshot_alt = "Kibana board of the trade-fair chatbot over ten days: request count over time, tokens consumed per request, plus the figures 38.50 seconds response time at the 95th percentile, 1,129 tokens at the 99th percentile and 121 requests in total."
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
         # Siehe den deutschen Zweig.
         [[languages.en.params.projects.list]]
