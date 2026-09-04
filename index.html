@@ -2,10 +2,18 @@
     // Same storage key and the same two values the toggle in
     // src/layouts/BaseLayout.astro writes, so a visitor who picked light on the
     // CV page does not get a dark flash on the way in. With nothing stored, the
-    // media query in the style block decides.
+    // media query in the style block decides, which is now also what `system`
+    // means: the key is ABSENT in that state, so there is nothing to read here
+    // and the media query is the whole answer.
+    //
+    // The key was renamed with the three state control. This page is the reason
+    // to say so out loud: it is the second reader of that key and it lives
+    // outside the layout, so a rename that only touched BaseLayout would have
+    // left the root page silently reading a name nobody writes any more. It
+    // would not have failed anything, it would just have stopped matching.
     (() => {
       try {
-        const saved = localStorage.getItem('theme');
+        const saved = localStorage.getItem('theme-choice');
         if (saved === 'dark' || saved === 'light') {
           document.documentElement.classList.add(saved);
         }
