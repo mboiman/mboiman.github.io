@@ -6,6 +6,27 @@ on:
       - main
   pull_request:
 
+# Zwei Laeufe auf demselben Zweig duerfen sich nicht ueberholen.
+#
+# Am 2026-09-04 ist genau das passiert, und es hat die Live-Seite fuer 27 Minuten
+# auf einen aelteren Stand zurueckgesetzt:
+#
+#   2a557e7 (dependabot)  gestartet 09:25:16  FERTIG 09:32:45
+#   0f1add6 (PR #75)      gestartet 09:25:38  FERTIG 09:32:16
+#
+# Der aeltere Commit war 29 Sekunden spaeter fertig und hat die neuere
+# Veroeffentlichung ueberschrieben. peaceiris/actions-gh-pages schreibt den
+# Zweig gh-pages neu, ohne zu pruefen, was dort steht, es gewinnt also schlicht
+# der Lauf, der zuletzt endet, nicht der neueste Commit.
+#
+# Die Gruppe haengt am ref, nicht am Workflow allein: zwei Pushes auf main
+# teilen sich eine Gruppe und der neuere bricht den laufenden aelteren ab,
+# waehrend jeder Pull Request seine eigene Gruppe behaelt und niemandem
+# dazwischenfaehrt.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-24.04
