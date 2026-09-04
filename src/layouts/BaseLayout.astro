@@ -19,8 +19,19 @@ const { title, description, lang } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
 const currentPath = Astro.url.pathname;
 const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
-// x-default must point to the same (de) URL across /de/ and /en/.
-const defaultPath = lang === 'de' ? currentPath : currentPath.replace('/en/', '/de/');
+/* x-default, and the two cases are genuinely different.
+ *
+ * The root page IS a language selector, which is what x-default names, and it
+ * says so about itself (src/pages/index.astro). But it only selects between the
+ * two HOME pages: it cannot take anyone to /de/story/. So the home pages name
+ * the root as their x-default and every deeper page keeps the German variant.
+ *
+ * Before this, all pages named the German variant while the root named itself,
+ * so the three URLs of the home cluster disagreed about their x-default. A
+ * cluster that disagrees is a cluster a crawler may discard whole. */
+const dePath = lang === 'de' ? currentPath : currentPath.replace('/en/', '/de/');
+const isLangHome = currentPath === `/${lang}/`;
+const defaultPath = isLangHome ? '/' : dePath;
 
 const siteOrigin = 'https://mboiman.github.io';
 const pageUrl = `${siteOrigin}${currentPath}`;
@@ -88,6 +99,7 @@ const personJsonLd = {
   <meta property="og:image" content={ogImageUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Michael Boiman, Quality Engineer und KI-Architekt, Frankfurt am Main" />
   <meta property="og:url" content={pageUrl} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />

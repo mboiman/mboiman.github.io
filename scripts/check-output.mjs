@@ -224,6 +224,34 @@ try {
   }
 }
 
+/*
+ * An internal link that costs a redirect on every click.
+ *
+ * Astro emits the legal pages as directories, so their address ends in a slash,
+ * and canonical, sitemap and hreflang all spell them that way. Seven links in
+ * four files spelled them without one. Measured against the live site on
+ * 2026-09-04: /de/impressum answers 301 to /de/impressum/, /de/impressum/
+ * answers 200. Nobody sees a broken page, everybody pays a round trip, and the
+ * two spellings of the same page sat in the markup for as long as the site has
+ * had legal pages.
+ *
+ * The rule is narrow on purpose: a link into this site, no file extension, no
+ * query, no fragment, must end in a slash. Anything pointing outward, at an
+ * asset or at an anchor is none of this check's business.
+ */
+{
+  const internalNoSlash = /href="(\/(?!\/)[^"#?]*)"/g;
+  for (const file of htmlFiles(dist)) {
+    const html = readFileSync(file, 'utf8');
+    for (const m of html.matchAll(internalNoSlash)) {
+      const href = m[1];
+      if (href.endsWith('/')) continue;
+      if (/\.[a-z0-9]{2,5}$/i.test(href)) continue;   // /pdfs/x.pdf, /favicon.ico
+      errors.push(`${file}: internal link "${href}" has no trailing slash, so it costs a 301 on every click. Canonical and sitemap spell it "${href}/".`);
+    }
+  }
+}
+
 if (!pages) {
   console.error(`output check failed: no HTML found under ${dist}/. Did the build run?`);
   process.exit(1);
