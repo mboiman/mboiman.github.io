@@ -268,8 +268,13 @@ export interface I18nStrings {
   /** Accessible names for the controls in the page chrome. They were hardcoded
    *  in the components, in one language, so the German page announced English
    *  control names to a screen reader and nothing in the build noticed. */
-  darkModeToLight: string;
-  darkModeToDark: string;
+  /* Three states, not two. The old pair named only the two forced modes, so
+     the control had no vocabulary for "follow the system" and no way back to it
+     once a visitor had clicked once. Each label names the CURRENT state and the
+     next step, because with three states the icon alone cannot say where you are. */
+  themeSystem: string;
+  themeLight: string;
+  themeDark: string;
   navLanguage: string;
   navFooter: string;
   sidebarLabel: string;
@@ -346,8 +351,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     storyBackToCv: 'Zum Lebenslauf',
     classicCV: 'Klassischer Lebenslauf',
     otherLangLabel: 'English',
-    darkModeToLight: 'Zur hellen Ansicht wechseln',
-    darkModeToDark: 'Zur dunklen Ansicht wechseln',
+    themeSystem: 'Darstellung folgt dem System. Weiter zu hell.',
+    themeLight: 'Darstellung ist hell. Weiter zu dunkel.',
+    themeDark: 'Darstellung ist dunkel. Weiter zur Systemeinstellung.',
     navLanguage: 'Sprache und Ansicht',
     navFooter: 'Fußzeile',
     sidebarLabel: 'Profil-Kurzangaben',
@@ -812,8 +818,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     storyBackToCv: 'Back to CV',
     classicCV: 'Classic CV',
     otherLangLabel: 'Deutsch',
-    darkModeToLight: 'Switch to light mode',
-    darkModeToDark: 'Switch to dark mode',
+    themeSystem: 'Appearance follows the system. Next: light.',
+    themeLight: 'Appearance is light. Next: dark.',
+    themeDark: 'Appearance is dark. Next: follow the system.',
     navLanguage: 'Language and appearance',
     navFooter: 'Footer',
     sidebarLabel: 'Profile at a glance',

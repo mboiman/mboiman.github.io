@@ -59,7 +59,7 @@ const personJsonLd = {
 ---
 
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={lang} data-theme="system">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -81,16 +81,35 @@ const personJsonLd = {
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImageUrl} />
-  <meta name="theme-color" content="#f8fbff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  {/* Two metas so the browser chrome follows the OS with no script at all.
+      When a visitor forces a mode, the toggle neutralises both and writes one
+      unconditional meta: the spec picks the FIRST meta whose media matches, so
+      an extra one appended later would never win on its own. */}
+  <meta name="theme-color" content="#f8fbff" media="(prefers-color-scheme: light)" data-theme-color="light" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" data-theme-color="dark" />
   <script is:inline>
     (() => {
       try {
-        const saved = localStorage.getItem('theme');
-        const isDark = saved
-          ? saved === 'dark'
-          : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.classList.toggle('dark', isDark);
+        /* TWO different things, kept apart on purpose:
+             data-theme  = the CHOICE  (system | light | dark)
+             .dark       = the RESOLVED state, which is what every stylesheet reads
+           The old code stored only the resolved state under `theme`, so a single
+           click wrote a value that could never be taken back: from then on the
+           OS was ignored forever and there was no control that could say
+           "follow the system again". Measured on the live page: click once, then
+           switch the OS, and the page stays put across reloads.
+           New key on purpose. A value under the old `theme` was written by a
+           two-state control that had no way to express "system", so it cannot be
+           read as a deliberate override. Ignoring it starts everyone on system,
+           which is the honest default, and nobody loses a choice they could
+           actually have made. */
+        const saved = localStorage.getItem('theme-choice');
+        const choice = saved === 'light' || saved === 'dark' ? saved : 'system';
+        const isDark = choice === 'dark'
+          || (choice === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        const root = document.documentElement;
+        root.dataset.theme = choice;
+        root.classList.toggle('dark', isDark);
       } catch {}
     })();
   </script>

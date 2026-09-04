@@ -491,8 +491,20 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                           pictures are the evidence for the card next to them, and two
                           of the seven are illustrations whose numbers are placeholders,
                           which a reader who cannot see them has every right to know.
-                          scripts/check-i18n.mjs fails the build on a shot without one. */}
-                      <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 46rem" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                          scripts/check-i18n.mjs fails the build on a shot without one.
+
+                          `sizes` was measured against the real box, not guessed
+                          from the grid. The old value said 92vw / 46vw / 46rem
+                          and was wrong at four breakpoints, worst at exactly
+                          768px: `(max-width: 768px)` and Tailwind's `md:`
+                          (min-width: 768px) BOTH match there, so the rule
+                          promised one column at 707px while the grid had already
+                          gone to two at 343px, a factor of 2.06. The card is also
+                          not 46vw of anything: a sidebar appears at `lg` and the
+                          column caps at 484px, so above 1280px the honest figure
+                          is 30rem, not 46rem. Boxes measured at fifteen widths
+                          from 360 to 3440. */}
+                      <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 767px) calc(100vw - 44px), (max-width: 1023px) 46vw, (max-width: 1279px) 31vw, 30rem" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                       <div class="cv-shot-scrim"></div>
                       <p class="cv-shot-category absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase">{project.category}</p>
                     </div>
