@@ -1340,6 +1340,8 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         tech_stack = ["Python", "Azure Functions", "Peppol", "Peppol Access Point", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
+        screenshot = "projects/illu-e-invoicing.webp"
+        screenshot_alt = "Illustration: ein leeres Blatt wandert auf einer Schiene durch drei Prüfbögen zu einem Baustein am Ende der Strecke."
         tagline = """**Produktive E-Rechnungs-Pipeline (Peppol/EN 16931)**
 
 **Kernfunktionen:**
@@ -1391,10 +1393,12 @@ Dual-Run-Validierung für die sichere Migration einer Mainframe-Preiskalkulation
         title = "Agenten-Netz und MCP-nach-A2A-Gateway"
         anchor = "agent-mesh-gateway"
         pdf_rank = 3
-        url = "https://mboiman.bks-lab.com/.well-known/agent-card.json"
+        url = "https://bks-lab.github.io/open-bridge/agents.html#gateway"
         tech_stack = ["Python", "a2a-sdk", "A2A Protocol 1.0", "Agent Cards", "JSON-RPC 2.0", "SSE Streaming", "MCP", "FastAPI"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-agent-mesh.webp"
+        screenshot_alt = "Illustration: drei gleich große Bausteine sind im Dreieck verbunden, davor steht eine schmale durchscheinende Scheibe, durch die eine der Verbindungen hindurchläuft."
         tagline = """Drei Agenten, ein Übersetzer, ein offenes Protokoll. Der Agent auf dieser Seite gehört dazu.
 
 - **Problem:** Ein Agent, der nur sein eigenes Wissen hat, rät bei allem daneben, was daneben liegt. Ihn mit fremdem Wissen vollzuladen macht ihn nicht klüger, nur teurer und schwerer prüfbar.
@@ -1414,6 +1418,8 @@ Drei Agenten, ein Übersetzer, ein offenes Protokoll. Der Agent auf meiner CV-Se
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
+        screenshot = "projects/illu-quality-dashboard.webp"
+        screenshot_alt = "Illustration: fünf einzelne Linien laufen von links zusammen und münden gebündelt in eine flache Platte."
         tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht: die Testwerkzeuge mehrerer Teams und Umgebungen unter einer Oberfläche, dazu Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
         tagline_pdf = '''
 Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
@@ -1428,6 +1434,8 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
         featured = true
+        screenshot = "projects/illu-test-generation.webp"
+        screenshot_alt = "Illustration: von einer aufrecht stehenden Karte fächern drei Linien auf und enden auf drei gleichen Kacheln, die zwischen zwei Führungsschienen liegen."
         # Substanz im tagline, NICHT in challenge/solution/impact: die drei Felder
         # rendern nirgends (weder Website noch PDF noch Präsentation), sieben
         # Projekte tragen sie trotzdem. Siehe PR-Text.
@@ -1451,6 +1459,8 @@ Guideline-basierter KI-Agent in der Entwicklungsumgebung, der Tests aus Jira-Sto
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
         featured = true
+        screenshot = "projects/illu-context-orchestrator.webp"
+        screenshot_alt = "Illustration: eine zentrale Nabe liest aus einem aufgefächerten Kartenstapel und verbindet sternförmig sieben einzelne Bausteine."
         tagline = """**Zentrales Steuerungssystem für Enterprise AI-Development**
 
 **Kernfunktionen:**
@@ -1483,6 +1493,8 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
+        screenshot = "projects/illu-workshop.webp"
+        screenshot_alt = "Illustration: eine aufrechte Tafel auf einem kleinen Sockel, davor sechs Würfel im Halbkreis, jeder mit einer Linie zur Tafel verbunden."
         tagline = """**Zielgruppe:** Entwickler, Technical Leads, DevOps Engineers
 
 **Workshop-Inhalte:**
@@ -1501,6 +1513,8 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
+        screenshot = "projects/illu-consulting.webp"
+        screenshot_alt = "Illustration: drei ansteigende Plateaus bilden eine Treppe, eine einzelne Linie steigt von der untersten Stufe bis zu einem Würfel auf der obersten."
         tagline = """**Zielgruppe:** C-Level, Management, Product Owner, Business Analysts
 
 **Beratungsleistungen:**
@@ -1518,6 +1532,8 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama 3.2", "Apple Silicon", "SOAP Protocol"]
         category = "Healthcare AI"
         featured = true
+        screenshot = "projects/illu-transcription.webp"
+        screenshot_alt = "Illustration: ein Wellenband läuft von links in einen Baustein hinein, rechts kommt ein leeres gefaltetes Blatt heraus."
         tagline = """**DSGVO-konforme Transkription von Arzt-Patient-Gesprächen**
 
 **Kernfunktionen:**
@@ -1535,6 +1551,8 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true
+        screenshot = "projects/illu-learning-platform.webp"
+        screenshot_alt = "Illustration: ein Stapel flacher Platten, eine davon schwebt darüber, umschlossen von einem aufrecht stehenden offenen Rahmen."
         tagline = """**EU-KI-Verordnung konforme Lernplattform für KI-Workshops**
 
 **Kernfunktionen:**
@@ -1613,6 +1631,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
+        screenshot = "projects/illu-wecation.webp"
+        screenshot_alt = "Illustration: ein geschwungener Weg verbindet zwei Bausteine und führt an vier Markierungsnadeln vorbei."
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
@@ -1621,6 +1641,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-messe-chatbot.webp"
+        screenshot_alt = "Illustration: zwei Bausteine stehen sich an einem Tresen gegenüber, dazwischen schweben drei leere Sprechblasen auf einem Bogen."
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
         # Sprachbot. Nachgetragen 2026-08-21: Akt 05 der Präsentation zeigte
         # dieses Projekt, ohne dass der Lebenslauf eine Zeile dazu trug, und der
@@ -1635,6 +1657,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "FastAPI", "WhatsApp Business Cloud API", "Speech-to-Text", "Text-to-Speech", "LLM", "Telefonie-Gateway", "Terminportal-API"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-appointment-enquiry.webp"
+        screenshot_alt = "Illustration: aus einer Sprechblase und einem Telefonhörer laufen zwei Linien in einen Baustein, rechts daneben liegt eine Reihe Kacheln, von denen eine hervorgehoben ist."
         tagline = """Zwei Kanäle auf derselben Fachlogik: ein WhatsApp-Assistent und ein telefonischer Sprachassistent, die freie Termine live aus dem Terminportal lesen, statt sie zu erfinden.
 
 - **Problem:** Anrufe gingen während der Arbeit verloren, und ein Sprachmodell darf sich Termine unter keinen Umständen ausdenken.
@@ -1668,6 +1692,8 @@ Zwei Kanäle auf derselben Fachlogik, WhatsApp und Telefon, die freie Termine li
         tech_stack = ["Python", "Azure Functions", "Peppol", "Peppol Access Point", "SAP ByDesign", "ZUGFeRD", "Factur-X", "UBL", "Hexagonal Architecture"]
         category = "Enterprise Integration"
         featured = true
+        screenshot = "projects/illu-e-invoicing.webp"
+        screenshot_alt = "Illustration: a blank sheet travels along a rail through three checkpoint arches to a block at the end of the run."
         tagline = """**Production E-Invoicing Pipeline (Peppol/EN 16931)**
 
 **Core Features:**
@@ -1719,10 +1745,12 @@ Dual-run validation for safely migrating a mainframe price calculation.
         title = "Agent mesh and MCP-to-A2A gateway"
         anchor = "agent-mesh-gateway"
         pdf_rank = 3
-        url = "https://mboiman.bks-lab.com/.well-known/agent-card.json"
+        url = "https://bks-lab.github.io/open-bridge/agents.html#gateway"
         tech_stack = ["Python", "a2a-sdk", "A2A Protocol 1.0", "Agent Cards", "JSON-RPC 2.0", "SSE Streaming", "MCP", "FastAPI"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-agent-mesh.webp"
+        screenshot_alt = "Illustration: three equally sized blocks connected in a triangle, in front of them a narrow translucent slab through which one of the connections passes."
         tagline = """Three agents, one translator, one open protocol. The agent on this page is one of them.
 
 - **Problem:** An agent that only holds its own knowledge guesses at everything outside it. Loading it up with someone else's knowledge does not make it smarter, only more expensive and harder to check.
@@ -1742,6 +1770,8 @@ Three agents, one translator, one open protocol. The agent on my CV page is one 
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
+        screenshot = "projects/illu-quality-dashboard.webp"
+        screenshot_alt = "Illustration: five separate lines come in from the left, merge into one and land on a single flat plate."
         tagline = "End-to-end solution for real-time quality monitoring: the test tools of several teams and environments under one surface, plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
         tagline_pdf = '''
 Real-time quality overview for enterprise go/no-go decisions.
@@ -1756,6 +1786,8 @@ Real-time quality overview for enterprise go/no-go decisions.
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
         featured = true
+        screenshot = "projects/illu-test-generation.webp"
+        screenshot_alt = "Illustration: three lines fan out from an upright card and end on three identical tiles lying between two guide rails."
         # See the German branch: the substance lives in tagline, because
         # challenge/solution/impact render nowhere.
         tagline = """Guideline-based AI agent in the IDE that generates tests directly from Jira stories.
@@ -1778,6 +1810,8 @@ Guideline-based AI agent in the IDE that generates tests from Jira stories.
         tech_stack = ["Python", "YAML", "Claude Code Plugins", "Hooks API", "GitHub Actions", "Elasticsearch", "Azure Functions", "Microsoft Graph API"]
         category = "AI & DevOps"
         featured = true
+        screenshot = "projects/illu-context-orchestrator.webp"
+        screenshot_alt = "Illustration: a central hub reads from a fanned stack of cards and connects out to seven separate blocks."
         tagline = """**Central Control System for Enterprise AI Development**
 
 **Core Features:**
@@ -1802,6 +1836,8 @@ Central control system for AI-assisted development across customer, partner and 
         tech_stack = ["Anthropic Claude", "Google Gemini", "OpenAI GPT-4o", "MCP", "A2A", "Playwright", "JSON-RPC", "IDE Integration", "CI/CD"]
         category = "Training & Workshops"
         featured = true
+        screenshot = "projects/illu-workshop.webp"
+        screenshot_alt = "Illustration: an upright board on a small plinth, six cubes arranged in a semicircle in front of it, each linked to the board by a line."
         tagline = """**Target Audience:** Developers, Technical Leads, DevOps Engineers
 
 **Workshop Content:**
@@ -1820,6 +1856,8 @@ Central control system for AI-assisted development across customer, partner and 
         tech_stack = ["AI Strategy", "Process Analysis", "ROI Assessment", "Implementation Planning", "Change Management", "Executive Workshops", "Quality Engineering"]
         category = "Consulting & Strategy"
         featured = true
+        screenshot = "projects/illu-consulting.webp"
+        screenshot_alt = "Illustration: three rising plateaus form a staircase, a single line climbs from the lowest step to a cube resting on the highest."
         tagline = """**Target Audience:** C-Level, Management, Product Owners, Business Analysts
 
 **Consulting Services:**
@@ -1837,6 +1875,8 @@ Central control system for AI-assisted development across customer, partner and 
         tech_stack = ["Python", "Whisper", "Pyannote", "Ollama", "Llama 3.2", "Apple Silicon", "SOAP Protocol"]
         category = "Healthcare AI"
         featured = true
+        screenshot = "projects/illu-transcription.webp"
+        screenshot_alt = "Illustration: a wave ribbon runs into a block from the left, a blank folded sheet comes out on the right."
         tagline = """**GDPR-Compliant Transcription of Doctor-Patient Conversations**
 
 **Core Features:**
@@ -1854,6 +1894,8 @@ Central control system for AI-assisted development across customer, partner and 
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true
+        screenshot = "projects/illu-learning-platform.webp"
+        screenshot_alt = "Illustration: a stack of flat plates with one lifted above it, enclosed by an upright open frame."
         tagline = """**EU AI Act Compliant Learning Platform for AI Workshops**
 
 **Core Features:**
@@ -1931,6 +1973,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Flutter", "Google Cloud", "Firebase", "Dart"]
         category = "Mobile & Web Development"
         featured = true
+        screenshot = "projects/illu-wecation.webp"
+        screenshot_alt = "Illustration: a winding path connects two blocks and passes four map pins along the way."
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
@@ -1939,6 +1983,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-messe-chatbot.webp"
+        screenshot_alt = "Illustration: two blocks face each other across a counter, three empty speech bubbles float between them along an arc."
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
         # Siehe den deutschen Zweig.
         [[languages.en.params.projects.list]]
@@ -1948,6 +1994,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "FastAPI", "WhatsApp Business Cloud API", "Speech-to-Text", "Text-to-Speech", "LLM", "Telephony gateway", "Booking portal API"]
         category = "AI & Machine Learning"
         featured = true
+        screenshot = "projects/illu-appointment-enquiry.webp"
+        screenshot_alt = "Illustration: two lines run from a speech bubble and a telephone handset into a block, beside it a row of tiles with one of them raised."
         tagline = """Two channels on one domain core: a WhatsApp assistant and a phone assistant that read free slots live from the booking portal instead of inventing them.
 
 - **Problem:** Calls were lost during working hours, and a language model must never invent an appointment.

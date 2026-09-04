@@ -486,15 +486,15 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 return (
                 <div class={`cv-project-card rounded-xl overflow-hidden group${projectIndex >= INITIAL_PROJECTS ? ' cv-project-extra' : ''}`} id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
                   {shotFor(project.screenshot) && (
-                    <div class="h-40 overflow-hidden relative">
+                    <div class="cv-shot overflow-hidden relative">
                       {/* alt comes from config.cv.toml, never the empty string. These
                           pictures are the evidence for the card next to them, and two
                           of the seven are illustrations whose numbers are placeholders,
                           which a reader who cannot see them has every right to know.
                           scripts/check-i18n.mjs fails the build on a shot without one. */}
-                      <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 46rem" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/16 to-transparent"></div>
-                      <p class="absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase text-white/80">{project.category}</p>
+                      <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 768px) 92vw, (max-width: 1280px) 46vw, 46rem" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      <div class="cv-shot-scrim"></div>
+                      <p class="cv-shot-category absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase">{project.category}</p>
                     </div>
                   )}
                   {!shotFor(project.screenshot) && (
@@ -505,11 +505,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   <div class="p-5">
                     <h3 class="text-base font-medium font-sans mb-2 leading-tight">
                       {project.url ? (
-                        /* The card itself is no longer a pointer: fourteen of the
-                           seventeen carry no link at all, and none was reachable by
-                           keyboard. Where a url exists, the title anchor spreads a
-                           ::after over the card, so a real <a> covers the surface and
-                           takes the focus ring with it. */
+                        /* Only the title is the click target. The ::after below
+                           still spreads the FOCUS RING across the card, so a
+                           keyboard user sees what is selected, but it takes no
+                           clicks: see the pointer-events note in the style block. */
                         <a href={project.url} target="_blank" rel="noopener" class="cv-project-link hover:text-[var(--accent)] transition-colors inline-flex items-center gap-1.5">
                           {project.title}
                           <svg class="w-3.5 h-3.5 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -1113,10 +1112,67 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   /* Only a card that HAS a url gets a clickable surface, and it gets it from a
      real anchor, so it is keyboard reachable and takes the focus ring with it.
      The card itself carried `cursor: pointer` on all seventeen. */
+  /* The picture box. It was 160px tall with a scrim over its FULL height
+     (`from-black/70 via-black/16 to-transparent`), so the lower half of every
+     screenshot was dimmed whether anything sat on it or not: on the
+     QualityCluster shot the picture read as fog.
+     The label was NOT a contrast failure, and it is worth writing down that it
+     was measured rather than assumed. On the live page the ground under it ran
+     5.27:1 (Django SLA) to 10.89:1 against white, all of it past AA. What hurt
+     was the ground being BUSY, not dark enough: on a shot of a text page the
+     site copy ran straight under the glyphs. So the fix is a foot band tall
+     enough for the label and nothing more, blurred behind (see the scrim), which
+     leaves the picture above it untouched. Measured again after: 6.69:1 to
+     19.62:1 across all seventeen cards, identical in both themes.
+     The band is mixed from the dark ground (#020617) rather than pure black so
+     it sits in the page instead of punching a hole in it, and the label keeps
+     its own shadow for wherever the band runs thin. The box grew to 192px
+     because a screenshot cropped to 160px inside a 438px-wide card is a sliver;
+     paired with `object-top`, a dashboard now shows its head instead of a
+     random middle slice. */
+  .cv-shot { height: 12rem; }
+
+  .cv-shot-scrim {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 4.5rem;
+    background: linear-gradient(
+      to top,
+      rgba(2, 6, 23, 0.82),
+      rgba(2, 6, 23, 0.44) 55%,
+      rgba(2, 6, 23, 0)
+    );
+    /* The band alone is not enough where the picture under it is a page of body
+       copy: on the QualityCluster shot the site text read straight through it and
+       fought the label glyph for glyph. The blur turns whatever is under the band
+       into a wash, so the label always sits on an even ground. It costs nothing on
+       the illustrations, whose lower edge is flat colour anyway. */
+    /* Unprefixed only. Writing the -webkit- twin by hand made the build emit the
+       PREFIXED declaration and drop the standard one, so the browser computed
+       `backdrop-filter: none` while the source looked correct. Caught by reading
+       the shipped stylesheet and the computed style, not the source. The bundler
+       adds whatever prefix its targets need. */
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .cv-shot-category {
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(2, 6, 23, 0.92);
+  }
+
+  /* The overlay PAINTS the focus ring across the card and takes no clicks.
+     It used to take them: `inset: 0` on an <a> spreads a live hit area over the
+     whole card, so the blue category line, the tech chips and the body copy all
+     opened the card's url, and none of the three is a link. Measured at five
+     points on the agent-mesh card, every one of them resolved to the same
+     anchor. `pointer-events: none` keeps the ring, drops the hit area, and
+     gives text selection back. The title stays the click target it looks like. */
   .cv-project-link::after {
     content: "";
     position: absolute;
     inset: 0;
+    pointer-events: none;
   }
 
   .cv-project-link:focus-visible::after {
@@ -1125,8 +1181,9 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     border-radius: 0.75rem;
   }
 
-  /* The disclosure has to stay above that surface, or its own summary would be
-     swallowed by the card-wide link. */
+  /* Belt and braces since the overlay stopped taking clicks: the disclosure
+     keeps its own stacking context, so no later change to the ring can swallow
+     its summary again. */
   .cv-project-card .cv-card-details {
     position: relative;
     z-index: 1;
