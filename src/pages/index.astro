@@ -24,7 +24,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Michael Boiman</title>
+  <title>Michael Boiman · Quality Engineer & KI-Architekt</title>
+  {/* Until 2026-09-04 this head carried a title and nothing else. That made the
+      most-linked URL of the whole site, the one on the business card and on the
+      GitHub profile, produce an EMPTY link preview: a Slack or LinkedIn crawler
+      asking for mboiman.github.io/ got a bare <title> and no image, no summary.
+      Measured: 0 og tags, 0 description. The two language pages had the full set
+      all along, but nobody links those. */}
+  <meta name="description" content="Lebenslauf von Michael Boiman, freiberuflicher Quality Engineer und KI-Architekt in Frankfurt am Main. Verfügbar auf Deutsch und Englisch." />
+  <meta name="author" content="Michael Boiman" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta property="og:title" content="Michael Boiman · Quality Engineer & KI-Architekt" />
+  <meta property="og:description" content="Testautomatisierung, Agenten nach MCP und A2A, E-Invoicing nach EN 16931. Deutsch und Englisch." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Michael Boiman" />
+  <meta property="og:url" content="https://mboiman.github.io/" />
+  <meta property="og:image" content="https://mboiman.github.io/images/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Michael Boiman, Quality Engineer und KI-Architekt, Frankfurt am Main" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Michael Boiman · Quality Engineer & KI-Architekt" />
+  <meta name="twitter:description" content="Testautomatisierung, Agenten nach MCP und A2A, E-Invoicing nach EN 16931. Deutsch und Englisch." />
+  <meta name="twitter:image" content="https://mboiman.github.io/images/og-card.png" />
   {/* This page is its own destination, not a copy of the German one: it is the
       only page that lets a visitor choose, which is exactly what x-default
       names. Canonical points here for the same reason. It carried

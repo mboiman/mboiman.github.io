@@ -789,9 +789,9 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         <a href={`/${otherLang}/`} hreflang={otherLang} class="cv-footer-link">{t.cvFooterOtherLang}</a>
       </p>
       <p class="mt-2 text-xs">
-        <a href={`/${lang}/datenschutz`} class="cv-footer-link">{t.legalPrivacy}</a>
+        <a href={`/${lang}/datenschutz/`} class="cv-footer-link">{t.legalPrivacy}</a>
         &nbsp;&middot;&nbsp;
-        <a href={`/${lang}/impressum`} class="cv-footer-link">{t.legalImpressum}</a>
+        <a href={`/${lang}/impressum/`} class="cv-footer-link">{t.legalImpressum}</a>
       </p>
     </nav>
   </footer>
@@ -1194,12 +1194,31 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      because a screenshot cropped to 160px inside a 438px-wide card is a sliver;
      paired with `object-top`, a dashboard now shows its head instead of a
      random middle slice. */
-  .cv-shot { height: 12rem; }
+  /* A RATIO, not a frozen height. The 192px above were tuned for a 438px card,
+     and 438/192 is 2.28, which is exactly the ratio the twelve illustrations are
+     drawn at (1600x702). So the house ratio was already the right answer, it was
+     just written down as one number that only holds at one width.
+
+     What the frozen height did everywhere else, measured on 2026-09-04: at a
+     viewport of 767px the card is 711px wide, the box stays 192px, the ratio
+     becomes 3.70 and the Quality-Dashboard shot loses 56.7 percent of its height.
+     At 1024px the card is 303px, the ratio drops to 1.58 and the Reise-App shot
+     loses 30.9 percent of its WIDTH instead. The crop wandered with the window,
+     so a visitor on a laptop and one on a tablet saw different parts of the same
+     evidence.
+
+     With the ratio, twelve of the seventeen pictures show whole at every width,
+     and the five real screenshots crop the same way on every screen. */
+  .cv-shot { aspect-ratio: 1600 / 702; }
 
   .cv-shot-scrim {
     position: absolute;
     inset: auto 0 0 0;
-    height: 4.5rem;
+    /* Was a flat 4.5rem, which was fine while the box was always 192px. Now the
+       box follows the card width, and on a narrow desktop column (303px card,
+       133px box) a fixed 72px band would cover 54 percent of the picture. The
+       cap keeps the band from eating the evidence it sits on. */
+    height: min(4.5rem, 45%);
     background: linear-gradient(
       to top,
       rgba(2, 6, 23, 0.82),

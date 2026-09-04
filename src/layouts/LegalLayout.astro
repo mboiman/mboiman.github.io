@@ -24,7 +24,12 @@ const year = new Date().getFullYear();
 // the lang segment and keeps the same slug.
 const otherLang = lang === 'de' ? 'en' : 'de';
 const pageSlug = Astro.url.pathname.split('/').filter(Boolean).pop() ?? '';
-const otherLangHref = `/${otherLang}/${pageSlug}`;
+// Trailing slash, like every other internal link and like the canonical this
+// page emits for itself. Without it the switch cost a 301 on every use, and the
+// source grep for the four hand-written footer links did not see this one
+// because the path is assembled from a variable. The guard in
+// scripts/check-output.mjs reads the built HTML and found it at once.
+const otherLangHref = `/${otherLang}/${pageSlug}/`;
 const otherLangLabel = lang === 'en' ? t.cvFooterOtherLang : t.otherLangLabel;
 ---
 <BaseLayout title={title} description={description} lang={lang}>
@@ -44,9 +49,9 @@ const otherLangLabel = lang === 'en' ? t.cvFooterOtherLang : t.otherLangLabel;
 
   <footer class="legal-foot">
     <nav class="legal-foot-links" aria-label={lang === 'en' ? 'Legal' : 'Rechtliches'}>
-      <a href={`/${lang}/datenschutz`}>{t.legalPrivacy}</a>
+      <a href={`/${lang}/datenschutz/`}>{t.legalPrivacy}</a>
       <span aria-hidden="true">·</span>
-      <a href={`/${lang}/impressum`}>{t.legalImpressum}</a>
+      <a href={`/${lang}/impressum/`}>{t.legalImpressum}</a>
       <span aria-hidden="true">·</span>
       <a href={backHref}>{t.classicCV}</a>
     </nav>

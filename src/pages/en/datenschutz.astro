@@ -10,8 +10,10 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
   <p class="legal-updated">Last updated: June 2026</p>
 
   <p class="legal-muted">
-    This is an English courtesy translation. The
-    <a href="/de/datenschutz">German version</a> is legally authoritative.
+    {/* The article and the link stay on ONE line. With the link on the next
+        line Astro dropped the whitespace between them and the page rendered
+        "TheGerman version", measured in dist, not guessed from the source. */}
+    This is an English courtesy translation. <a href="/de/datenschutz/">The German version</a> is legally authoritative.
   </p>
 
   <p>
