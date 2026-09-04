@@ -239,7 +239,7 @@ Ergänzend gebe ich dieses Wissen weiter, in Entwickler- und Business-Workshops 
         dates = "04/2026"
         company = "TU Darmstadt · Fachgebiet Wirtschaftsinformatik · Praktikum „KI-Startup: Von der Idee zur Umsetzung“"
         details = """
-**Geladener Impulsgeber** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren. Der Impuls ist direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
+**Impulsvortrag** in einem Block-Praktikum für Bachelor-Studierende der Informatik (FB20). Vermittelt, wie agentisches Coding und KI-Prototyping in echten Projekten funktionieren. Der Impuls ist direkt anschlussfähig an die anschließende Team-Arbeit der Studierenden an eigenen Startup-Ideen.
 
 **Inhalte**
 - Vom Prompt zum Prototyp: KI-Werkzeugketten, mit denen ein MVP in Stunden statt Wochen steht
@@ -288,7 +288,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
-- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht: 35 Skills, 23 Regeln, 796 automatisierte Testfälle in 51 Testdateien, 30 Releases seit Juni 2026. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe mit
+- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026. Die Zählstände stehen im Repo, damit sie hier nicht altern. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe mit
 - **Datentrennung als Architektur, nicht als Absprache**: Getrennte Instanzen je Mandant, eine Regel, die den Zugriff zwischen Instanzen verbietet, und ein fail-closed-Vertrag für das Materialisieren geteilter Konfiguration (der Abgleich bricht ab, statt im Zweifel zu schreiben). Schutz gegen Datenabfluss an drei Stellen: Pre-Commit-Hook, Pre-Push-Hook und drei Validatoren in der CI. Dazu eine adversariale Simulation, die den Schutz regelmäßig selbst angreift, als eigener CI-Job in einer abgeschotteten Sandbox
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0. Rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden (vier weitere Beitragende)
 - **Telemetrie nach OpenTelemetry**: Logs, Metriken und Traces über OTLP an eine verwaltete Senke, mit fester Feldkonvention und Namensschema, gedeckeltem Ingest-Schlüssel und nach Mandant getrennten Leserechten (als Rechteschnitt gemessen, nicht als Absicht dokumentiert). Ehrlicher Reifegrad: der Logpfad ist im Betrieb, Metriken und Traces sind verdrahtet und noch nicht abgenommen
@@ -530,7 +530,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Prompt Engineering und KI-Integration in Geschäftsprozesse
 - Integration über RESTful APIs
 
-Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0) verfügbar. Der komplette Quellcode des entwickelten Q&A-Bots ist in meinem [GitHub-Repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot) dokumentiert.
+Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0) verfügbar. Der komplette Quellcode des entwickelten Q&A-Bots ist in meinem [GitHub-Repository](https://github.com/bks-lab/workshop-q-a-scrap-bot) dokumentiert.
         """
 
         [[languages.de.params.experiences.list]]
@@ -710,7 +710,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         # See the German branch. Same list, the headings are what differs.
         sidebar_skills = [
           "Quality Engineering",
-          "Spezifikation & Verifikationsdesign",
+          "Specification & Verification Design",
           "Playwright",
           "Behave / pytest (BDD)",
           "Cucumber/Gauge",
@@ -887,7 +887,7 @@ I also pass this knowledge on, in developer and business workshops and in an inv
         dates = "04/2026"
         company = "TU Darmstadt · Information Systems Group · Lab course “AI Startup: From Idea to Execution”"
         details = """
-**Invited guest speaker** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects. The talk connects directly to the students' subsequent team work on their own startup ideas.
+**Guest lecture** in a block lab course for Bachelor's students in Computer Science (Dept. 20). Shared how agentic coding and AI prototyping work in real projects. The talk connects directly to the students' subsequent team work on their own startup ideas.
 
 **Topics**
 - From prompt to prototype: AI toolchains that get an MVP done in hours, not weeks
@@ -936,7 +936,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
-- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge, with a live demo site. The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope: 35 skills, 23 rules, 796 automated test cases across 51 test files, 30 releases since June 2026. Attack fixtures for path traversal, secrets and malformed overlays run as their own CI stage
+- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge, with a live demo site. The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope, with its own test suite and continuous releases since June 2026. The counts live in the repo, so they cannot go stale here. Attack fixtures for path traversal, secrets and malformed overlays run as their own CI stage
 - **Data separation as architecture, not as agreement**: separate instances per client, a rule forbidding access between instances, and a fail-closed contract for materialising shared configuration (the sync aborts rather than writing on doubt). Protection against data leakage at three points: pre-commit hook, pre-push hook and three validators in CI. Plus an adversarial simulation that attacks the protection itself on a schedule, as its own CI job in a sealed sandbox
 - **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0. Around 4,600 lines of Python with 98 automated test cases, built as a team effort (four further contributors)
 - **OpenTelemetry-based telemetry**: logs, metrics and traces over OTLP into a managed sink, with a fixed field convention and naming scheme, a capped ingest key and read rights separated per client (measured as an access cut, not documented as an intention). Honest maturity: the log path is in operation, metrics and traces are wired and not yet accepted
@@ -1001,7 +1001,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
 **Key Focus Areas**
 - Single Source of Truth: Central truth in Confluence, avoiding redundant versions
-- Shift-Left Documentation: Parallel code and documentation development for higher currency
+- Shift-Left Documentation: Code and documentation developed in parallel, so both stay up to date
 - Automation First: Bots and CI/CD jobs for recurring tasks, automatic updates
 - OpenAPI Documentation: Automatic generation on code merge, Consumer-Driven Contracts
 - Documentation Debt Management: Dashboard-based visibility, Tech-Debt labels
@@ -1158,7 +1158,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Presentation content**
 - Comprehensive overview of AI fields and patterns (supervised/unsupervised/semi-supervised learning)
 - Deep dives into machine learning, deep learning and natural language processing
-- Detailed look at GPT models and their functionality (next token prediction)
+- Detailed look at GPT models and how they work (next token prediction)
 - Practical prompt engineering with examples for various use cases
 - Introduction to tools such as Hugging Face, Stable Diffusion, Midjourney and Auto-GPT
 
@@ -1178,7 +1178,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Prompt engineering and AI integration into business processes
 - Integration via RESTful APIs
 
-The full presentation is available at [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0). The complete source code of the developed Q&A bot is documented in my [GitHub repository](https://github.com/boiman-solutions/workshop-q-a-scrap-bot).
+The full presentation is available at [Pitch.com](https://pitch.com/public/bc7eaebb-5fb1-4e6f-bf84-ce9363c7abc0). The complete source code of the developed Q&A bot is documented in my [GitHub repository](https://github.com/bks-lab/workshop-q-a-scrap-bot).
         """
 
         [[languages.en.params.experiences.list]]
@@ -1247,7 +1247,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         dates = "04/2015-09/2015"
         company = "Telekom"
         details = """
-**Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new functionalities for IFA.
+**Senior iOS Developer**: Further development of the rebuilt version of Deutsche Telekom's **Customer Center App**, extension with new features for IFA.
 **Key responsibilities**
 - Swift
 - iOS 8
@@ -1283,10 +1283,10 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Creation, maintenance and scheduling of test automation
 - User acceptance tests
 - Training of new testers and test automation engineers
-- Support as test manager after project completion in regular operation
+- Support as test manager after project completion, in steady-state operation
 - Setup of acceptance tests
 - Transfer of functional specification and detailed specification to Quality Center
-- Monitoring of implemented requirements against the detailed concept
+- Monitoring of implemented requirements against the detailed design spec
 
 **Tools**
 - HP ALM

@@ -417,6 +417,52 @@ for (const branch of ['de', 'en']) {
 }
 
 /**
+ * A label that was never translated at all.
+ *
+ * The check above treats a DIFFERING entry as a notice, and that is right: it is
+ * either a translation or a typo, and only a reader can say which. What it does
+ * not see is the opposite case, and that is the one that shipped. On 2026-09-04
+ * "Spezifikation & Verifikationsdesign" stood in the English sidebar and in the
+ * English PDF. Both branches were character-identical there, so nothing differed,
+ * so nothing was reported, and the build called the branches "structurally
+ * identical" while a German label sat on the English page.
+ *
+ * Identical is normal for this list: Playwright, Python, Docker and most other
+ * entries are proper nouns. So identity alone proves nothing, and the test has
+ * to be the wording itself. That makes this a HEURISTIC, deliberately: a list of
+ * German markers that no English technology label carries. It grows by one entry
+ * whenever a case slips through, exactly like OVERCLAIMS above. Umlauts alone
+ * would not have caught this one, which is why stems are in the list too.
+ *
+ * Scoped to the `ui` block on purpose. Longer prose gets read by a human before
+ * it ships; a two-word label in a sidebar does not.
+ */
+const GERMAN_MARKERS = [
+  /[äöüß]/i,
+  /\bspezifikat/i, /\bverifikat/i, /\bqualifikat/i,
+  /\w+(ung|heit|keit|schaft)\b/i,
+  /\b(zusätzlich|kenntnis|erfahrung|anforderung|umgebung|fähigkeit)/i,
+];
+// Proper nouns that stay German in an English CV. Extend rather than weaken a marker.
+const GERMAN_ALLOWED = [/^TÜV\b/i, /Fachhochschule/i, /Diplom-/i, /\bGmbH\b/, /Deutsche\s+Telekom/i];
+{
+  const walk = (node, path, out) => {
+    if (typeof node === 'string') out.push([path, node]);
+    else if (Array.isArray(node)) node.forEach((v, i) => walk(v, `${path}[${i}]`, out));
+    else if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) walk(v, `${path}.${k}`, out);
+  };
+  const strings = [];
+  walk(cv?.languages?.en?.params?.ui ?? {}, 'en.params.ui', strings);
+  for (const [path, value] of strings) {
+    if (GERMAN_ALLOWED.some((rx) => rx.test(value))) continue;
+    const hit = GERMAN_MARKERS.find((rx) => rx.test(value));
+    if (hit) {
+      errors.push(`config.cv.toml ${path}: "${value}" reads as German on the English page (matched ${hit}). Translate it, or add the proper noun to GERMAN_ALLOWED in scripts/check-i18n.mjs.`);
+    }
+  }
+}
+
+/**
  * The two branches must carry the SAME projects.
  *
  * Deleting a project by hand means deleting it twice, and the two entries are
@@ -537,8 +583,31 @@ const OVERCLAIMS = [
   /Impulsgeber\s+an\s+der\s+TU/i,
   /(regelmäßig|regularly|wiederholt|repeatedly)[^.]{0,40}TU\s+Darmstadt/i,
 ];
+/*
+ * The surface this reads has to be the surface the reader sees.
+ *
+ * Measured on 2026-09-04: `npm run check:i18n` ended green while
+ * "Geladener Impulsgeber" stood in dist/de/index.html and "Invited guest
+ * speaker" in dist/en/index.html, both of them word for word on the list above.
+ * They live in experiences.list[].details, and this only ever read
+ * summary.summary. A guard that measures a narrower surface than the renderer
+ * is worse than none: it reports the all-clear for the very field nobody is
+ * watching. The talk stayed overstated for a fortnight behind a green build.
+ *
+ * So every field a renderer turns into prose belongs in here. When a new prose
+ * field is added to the TOML, it belongs in this list on the same day.
+ */
+const branchProse = (b) => {
+  const p = cv?.languages?.[b]?.params ?? {};
+  return [
+    p.summary?.summary ?? '',
+    ...(p.experiences?.list ?? []).flatMap((e) => [e.position ?? '', e.company ?? '', e.details ?? '']),
+    ...(p.projects?.list ?? []).flatMap((x) => [x.title ?? '', x.tagline ?? '', x.tagline_pdf ?? '']),
+    ...(p.interests?.list ?? []).map((x) => x.details ?? x.name ?? ''),
+  ].join('\n');
+};
 const proseSources = [
-  ['config.cv.toml', ['de', 'en'].map((b) => cv?.languages?.[b]?.params?.summary?.summary ?? '').join('\n')],
+  ['config.cv.toml', ['de', 'en'].map(branchProse).join('\n')],
   ['src/lib/i18n.ts', [de, en].flatMap((b) => [b.careerIntro, ...(b.careerDetails ?? [])]).join('\n')],
 ];
 for (const [file, blob] of proseSources) {
