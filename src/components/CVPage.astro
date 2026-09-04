@@ -36,7 +36,33 @@ const SHOTS = Object.fromEntries(
     import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.{png,jpg,jpeg,webp}', { eager: true }),
   ).map(([path, mod]) => [path.split('/').pop()!, mod.default]),
 );
-const shotFor = (screenshot?: string) => (screenshot ? SHOTS[screenshot.split('/').pop()!] : undefined);
+/**
+ * A declared picture that has no file is a BUILD ERROR, not a missing image.
+ *
+ * This used to return undefined and the card simply rendered without its
+ * picture. Nothing failed: not the build, not check-i18n (which only asks
+ * whether a screenshot has an alt), not check-output (which only inspects the
+ * <img> tags that DO exist). Caught by accident while renaming an asset: the
+ * build stayed green and the image count fell from 44 to 42, which is the only
+ * place the loss showed at all, and only to someone reading the number.
+ *
+ * StoryPage has thrown on this since the image audit, for the same reason and
+ * with the sharper case in mind: a path can point at a file that was deleted
+ * because it leaked personal data, and silence is the worst possible answer.
+ * The two pages now behave the same way.
+ */
+const shotFor = (screenshot?: string) => {
+  if (!screenshot) return undefined;
+  const key = screenshot.split('/').pop()!;
+  const shot = SHOTS[key];
+  if (!shot) {
+    throw new Error(
+      `CVPage: config.cv.toml names the picture "${key}", and src/assets/projects/ has no such file. ` +
+      `Known: ${Object.keys(SHOTS).sort().join(', ')}`,
+    );
+  }
+  return shot;
+};
 
 /**
  * The portrait, processed instead of served raw.
