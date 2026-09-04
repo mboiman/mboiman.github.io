@@ -1632,7 +1632,7 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         category = "Mobile & Web Development"
         featured = true
         screenshot = "projects/wecation-screens.png"
-        screenshot_alt = "Fünf Bildschirme der Reise-App nebeneinander: Kalender zur Terminfindung, Filter für Dauer, Budget und Kategorie, Kacheln zur Reiseart, dazu zwei Hotelkarten mit Zeitraum, Ort und Preis."
+        screenshot_alt = "Sieben Bildschirme der Reise-App nebeneinander: Kalender zur Terminfindung, Filter für Dauer, Budget und Kategorie, Kacheln zur Reiseart, zwei Hotelkarten mit Zeitraum und Preis, eine Abstimmung mit Kommentaren und die Buchungsübersicht mit Bezahlung."
         tagline = "wecation ist eine kollaborative Lösung zur Organisation gemeinsamer Erlebnisse: Plane, suche, stimme dich mit deinen Freunden oder Kollegen kollaborativ ab und genießt gemeinsam das Erlebnis! Entwickelt mit Flutter und Google Cloud."
 
         [[languages.de.params.projects.list]]
@@ -1641,8 +1641,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/chatbot-kennzahlen.png"
-        screenshot_alt = "Kibana-Board des Messe-Chatbots über zehn Tage: Anzahl der Anfragen im Zeitverlauf, verbrauchte Token je Anfrage, dazu die Kennzahlen 38,50 Sekunden Antwortzeit im 95. Perzentil, 1.129 Token im 99. Perzentil und 121 Anfragen insgesamt."
+        screenshot = "projects/chatbot-anfragen.png"
+        screenshot_alt = "Wortwolke echter Nutzerfragen an den Messe-Chatbot, aus dem Kibana-Board: nach Hallenplan, Vorträgen, Ausstellern, Live-Events und Öffnungszeiten, dazu eine Frage nach dem Ergebnis von eins plus eins. Drei Namen Dritter sind unkenntlich gemacht."
         tagline = "Entwicklung eines interaktiven Chatbots mit RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI und Streamlit-Frontend zur Optimierung der Benutzerinteraktion auf Messe-Websites."
         # Sprachbot. Nachgetragen 2026-08-21: Akt 05 der Präsentation zeigte
         # dieses Projekt, ohne dass der Lebenslauf eine Zeile dazu trug, und der
@@ -1974,7 +1974,7 @@ Our goal is to implement more quality through a higher degree of automation.
         category = "Mobile & Web Development"
         featured = true
         screenshot = "projects/wecation-screens.png"
-        screenshot_alt = "Five screens of the travel app side by side: a calendar for finding a date, filters for duration, budget and category, tiles for the kind of trip, and two hotel cards with period, location and price."
+        screenshot_alt = "Seven screens of the travel app side by side: a calendar for finding a date, filters for duration, budget and category, tiles for the kind of trip, two hotel cards with period and price, a vote with comments, and the booking summary with payment."
         tagline = "wecation is a collaborative solution for organising shared experiences: plan, search, coordinate with friends or colleagues and enjoy the activity together! Built with Flutter and Google Cloud."
 
         [[languages.en.params.projects.list]]
@@ -1983,8 +1983,8 @@ Our goal is to implement more quality through a higher degree of automation.
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
-        screenshot = "projects/chatbot-kennzahlen.png"
-        screenshot_alt = "Kibana board of the trade-fair chatbot over ten days: request count over time, tokens consumed per request, plus the figures 38.50 seconds response time at the 95th percentile, 1,129 tokens at the 99th percentile and 121 requests in total."
+        screenshot = "projects/chatbot-anfragen.png"
+        screenshot_alt = "Word cloud of real visitor questions to the trade-fair chatbot, taken from the Kibana board: about the hall plan, talks, exhibitors, live events and opening hours, and one asking what one plus one is. Three names of third parties are redacted."
         tagline = "Development of an interactive chatbot using RAG (Retrieval-Augmented Generation), OpenAI GPT-4, Vector Embeddings, Python FastAPI, and Streamlit frontend to optimize user interaction on trade-fair websites."
         # Siehe den deutschen Zweig.
         [[languages.en.params.projects.list]]
