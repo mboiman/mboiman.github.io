@@ -882,12 +882,16 @@ const widgetStrings = {
   #agent-widget-input {
     flex: 1 1 auto;
     min-width: 0;
-    padding: 9px 12px;
+    /* 16px, not 14. Below 16 iOS Safari zooms the whole page in when the field
+       is tapped and does not zoom back out, which on a phone leaves the visitor
+       stranded in a magnified layout. The padding gives back the height the
+       larger type takes, so the field still measures 40px. */
+    padding: 8px 12px;
     border-radius: 8px;            /* rounded.md */
     border: 1px solid var(--aw-border);
     background: var(--bg);
     color: var(--text);
-    font-size: 0.875rem;           /* 14px */
+    font-size: 1rem;               /* 16px */
     font-family: inherit;
     line-height: 1.4;
     transition: border-color 0.15s ease-out, box-shadow 0.15s ease-out;
@@ -1093,19 +1097,28 @@ const widgetStrings = {
     // what a visitor types. Allowlist: localhost + *.bks-lab.com.
     function isAllowedAgent(u: string): boolean {
       try {
-        const h = new URL(u).hostname;
-        return h === 'localhost' || h === '127.0.0.1' || h === '::1'
-          || h === 'bks-lab.com' || h.endsWith('.bks-lab.com');
+        const { hostname: h, protocol } = new URL(u);
+        const local = h === 'localhost' || h === '127.0.0.1' || h === '::1';
+        // Plain http only for a local dev host. Measured on 2026-09-04:
+        // http://klartext.bks-lab.com passed and was stored, so a crafted link
+        // could downgrade the transport for everything a visitor typed.
+        if (protocol !== 'https:' && !(local && protocol === 'http:')) return false;
+        return local || h === 'bks-lab.com' || h.endsWith('.bks-lab.com');
       } catch { return false; }
     }
     function resolveAgentUrl(): string {
       try {
         const qp = new URLSearchParams(window.location.search).get('agent');
         if (qp && isAllowedAgent(qp)) {
-          try { localStorage.setItem(OVERRIDE_KEY, trimSlash(qp)); } catch {}
+          try { sessionStorage.setItem(OVERRIDE_KEY, trimSlash(qp)); } catch {}
           return trimSlash(qp);
         }
-        const stored = localStorage.getItem(OVERRIDE_KEY);
+        // sessionStorage, not localStorage. The override used to outlive the tab:
+        // one visit to /de/?agent=... repointed the widget for every later visit
+        // to the plain URL, with nothing on screen saying so. A debugging switch
+        // has no business surviving the tab it was typed into. An old value from
+        // the localStorage era is dropped once, below.
+        const stored = sessionStorage.getItem(OVERRIDE_KEY);
         if (stored && isAllowedAgent(stored)) return trimSlash(stored);
       } catch {}
       const host = window.location.hostname;
@@ -1114,6 +1127,7 @@ const widgetStrings = {
       }
       return 'https://mboiman.bks-lab.com';
     }
+    try { localStorage.removeItem(OVERRIDE_KEY); } catch {}   // retired key, cleared once
     const agentUrl = resolveAgentUrl();
 
     // --- contextId persistence (port of useSessionId) -------------------------
@@ -1136,7 +1150,10 @@ const widgetStrings = {
         return uuid();
       }
     }
-    const contextId = getContextId();
+    // NOT called here. Until 2026-09-04 this ran at module init, so merely
+    // opening /de/impressum/ wrote a persistent identifier into the visitor's
+    // browser that survived reloads and page changes, for a chat they never
+    // started. It is called from buildBody() now, on the first message.
 
     // =========================================================================
     // SAFE rich-text renderer — escape-FIRST, then re-introduce an audited subset.
@@ -1787,7 +1804,7 @@ const widgetStrings = {
             role: 'user',
             parts: [{ kind: 'text', text: message }],
             messageId: uuid(),
-            contextId: contextId,
+            contextId: getContextId(),
             // Machine channel (A2A message.metadata): tells the agent WHERE it is
             // being addressed from — page, language, the section in view, and the
             // highlight anchors that actually exist on THIS page. Separate from the
@@ -1799,7 +1816,17 @@ const widgetStrings = {
       });
     }
 
-    async function postMessage(message: string, useStreaming: boolean): Promise<Response> {
+    // A silent agent used to freeze the chat for good. Measured on 2026-09-04:
+    // with the POST never answering, the panel still said "Agent arbeitet ..."
+    // after 60 seconds, input and send button locked, no error, no way out. The
+    // agent-card fetch had carried a timeout since day one; this one had none.
+    //
+    // Two different limits, because streaming and buffered fail differently:
+    // a buffered call is one round trip and gets a plain deadline, while a stream
+    // may legitimately run long and must instead be cut when it goes QUIET.
+    const POST_TIMEOUT_MS = 45000;
+    const STREAM_IDLE_MS = 30000;
+    async function postMessage(message: string, useStreaming: boolean, signal?: AbortSignal): Promise<Response> {
       return fetch(agentUrl, {
         method: 'POST',
         headers: {
@@ -1807,6 +1834,7 @@ const widgetStrings = {
           Accept: useStreaming ? 'text/event-stream' : 'application/json',
         },
         mode: 'cors',
+        signal,
         body: buildBody(message, useStreaming),
       });
     }
@@ -1815,6 +1843,7 @@ const widgetStrings = {
     async function handleStream(
       res: Response,
       indicator: { el: HTMLElement; setStep: (s: string) => void },
+      onFrame?: () => void,
     ): Promise<Outcome> {
       const reader = res.body?.getReader();
       if (!reader) throw new Error('no-stream-body');
@@ -1866,6 +1895,7 @@ const widgetStrings = {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
+          onFrame?.();   // a frame arrived, so the stream is alive: restart the idle clock
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split('\n');
           buffer = lines.pop() || '';
@@ -2162,6 +2192,12 @@ const widgetStrings = {
       busy = b;
       sendBtn.disabled = b;
       input.disabled = b;
+      // The error bubble is built inside the catch of send(), while busy is still
+      // true, so its retry button was born disabled and nothing ever switched it
+      // back: measured on 2026-09-04, clicking it changed no fetch count and added
+      // no row. setBusy(false) runs in the finally right after, so switching every
+      // retry button here is what makes the affordance real.
+      document.querySelectorAll<HTMLButtonElement>('.aw-retry').forEach((el) => { el.disabled = b; });
       // Block the card toggle while streaming — else opening the card hides the
       // message list and the live answer renders into it invisibly.
       if (cardBtn) cardBtn.disabled = b;
@@ -2185,23 +2221,40 @@ const widgetStrings = {
       try {
         if (streamingSupported) {
           indicator = makeWorkingIndicator();
+          // The clock measures SILENCE, not total duration: every frame restarts
+          // it, so a long answer is never cut off, and a stream that opens and
+          // then says nothing dies after STREAM_IDLE_MS instead of hanging.
+          const ctl = new AbortController();
+          let timedOut = false;
+          const cut = () => { timedOut = true; ctl.abort(); };
+          let idle = setTimeout(cut, STREAM_IDLE_MS);
+          const bump = () => { clearTimeout(idle); idle = setTimeout(cut, STREAM_IDLE_MS); };
           try {
-            const res = await postMessage(message, true);
+            const res = await postMessage(message, true, ctl.signal);
+            bump();
             reached = true; cardEverReached = true;
             if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
-            const outcome = await handleStream(res, indicator); // removes indicator in finally
+            const outcome = await handleStream(res, indicator, bump); // removes indicator in finally
             indicator = null;
             if (outcome.kind === 'answer') { runDirectives(outcome.text); return; } // bubble already rendered live
             renderOutcome(outcome);
             return;
-          } catch {
+          } catch (err) {
             if (indicator) { try { indicator.el.remove(); } catch {} indicator = null; }
+            // A timeout is NOT a reason to try again. Falling through here made the
+            // freeze longer instead of shorter: measured, the visitor waited 30 s
+            // for the idle cut and then another 45 s for the buffered deadline,
+            // with the working indicator up the whole time. The fallback exists for
+            // an agent that cannot stream, not for one that has gone quiet.
+            if (timedOut) throw err;
             // fall through to buffered (the documented fallback)
+          } finally {
+            clearTimeout(idle);
           }
         }
 
         indicator = makeWorkingIndicator();
-        const res2 = await postMessage(message, false);
+        const res2 = await postMessage(message, false, AbortSignal.timeout(POST_TIMEOUT_MS));
         reached = true; cardEverReached = true;
         if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
         const outcome = await handleBuffered(res2, indicator);
@@ -2452,9 +2505,15 @@ const widgetStrings = {
     // failure the server-rendered fallback simply stays. loadAgentCard() de-dupes and
     // caches, so this is at most ONE extra GET of static JSON, and zero when auto-open
     // already fetched it.
-    loadAgentCard().then((card) => {
-      renderAgentFacts(card);
-      renderAgentLive(card);
-    });
+    // Only where the page has something to correct. Both renderers already bail
+    // on a missing host element, but the FETCH ran regardless: measured on
+    // 2026-09-04, all eight pages contacted the agent host on load, the legal
+    // pages included, for a card nothing on them could display.
+    if (document.querySelector('[data-agent-facts], [data-agent-live]')) {
+      loadAgentCard().then((card) => {
+        renderAgentFacts(card);
+        renderAgentLive(card);
+      });
+    }
   }
 </script>

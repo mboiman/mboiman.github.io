@@ -54,6 +54,21 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       address) to protect the service against abuse and overload.
     </li>
     <li>
+      <strong>What travels with a message:</strong> Alongside your input, technical
+      details about the page context are transmitted: the path of the open page, the
+      selected interface language, the section currently in view, and that page's
+      anchors. They let the agent point at a specific place in the CV in its reply.
+      No personal details about you and no content from other websites are sent.
+    </li>
+    <li>
+      <strong>Fetching the agent card:</strong> On the pages that display the agent's
+      reachability status, its public agent card (<em>agent-card.json</em>) is fetched
+      once as the page loads, without any action on your part. Your IP address is
+      transmitted to the endpoint named above in doing so. No input is sent and
+      nothing is stored in your browser. On every other page, including the legal
+      notice and this privacy notice, that fetch does not happen.
+    </li>
+    <li>
       <strong>Storage of the conversation:</strong>
       <strong>We do not store the conversation.</strong> The conversation history is held
       only transiently in memory for the duration of the session and is lost on restart
@@ -63,7 +78,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     <li>
       <strong>Local browser storage:</strong> To operate the chat, a technical session
       identifier is stored in your browser's local storage so a conversation can
-      continue across a page reload. This storage is technically necessary
+      continue across a page reload. It is created when you send your first message,
+      not when the page loads. This storage is technically necessary
       (§ 25(2) no. 2 TTDSG) and is not used for tracking. No analytics or advertising
       cookies are set.
     </li>

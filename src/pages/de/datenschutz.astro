@@ -52,6 +52,23 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       und Überlastung zu schützen.
     </li>
     <li>
+      <strong>Was mit einer Nachricht mitgeht:</strong> Neben Ihrer Eingabe werden
+      technische Angaben zum Seitenkontext übertragen: der Pfad der geöffneten Seite,
+      die eingestellte Oberflächensprache, der gerade sichtbare Abschnitt sowie die
+      Sprungmarken dieser Seite. Sie ermöglichen dem Agenten, in seiner Antwort auf
+      eine bestimmte Stelle im Lebenslauf zu verweisen. Es werden keine Angaben zu
+      Ihrer Person und keine Inhalte anderer Websites übertragen.
+    </li>
+    <li>
+      <strong>Abruf der Agentenkarte:</strong> Auf den Seiten, die den
+      Erreichbarkeitsstatus des Agenten anzeigen, wird beim Laden der Seite einmalig
+      dessen öffentliche Agentenkarte (<em>agent-card.json</em>) abgerufen, ohne Ihr
+      Zutun. Dabei wird Ihre IP-Adresse an den oben genannten Endpunkt übermittelt.
+      Eingaben werden dabei nicht übertragen und nichts in Ihrem Browser gespeichert.
+      Auf allen übrigen Seiten, darunter Impressum und Datenschutzerklärung, findet
+      dieser Abruf nicht statt.
+    </li>
+    <li>
       <strong>Speicherung des Verlaufs:</strong>
       <strong>Wir speichern den Verlauf nicht.</strong> Der Gesprächsverlauf wird
       ausschließlich flüchtig im Arbeitsspeicher für die Dauer der Sitzung
@@ -63,7 +80,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       <strong>Lokale Speicherung im Browser:</strong> Für den Betrieb des Chats wird
       im lokalen Speicher (localStorage) Ihres Browsers eine technische
       Sitzungskennung abgelegt, damit ein Gespräch über das Neuladen der Seite
-      fortgesetzt werden kann. Diese Speicherung ist technisch erforderlich
+      fortgesetzt werden kann. Sie entsteht erst, wenn Sie die erste Nachricht
+      absenden, nicht schon beim Aufruf der Seite. Diese Speicherung ist technisch erforderlich
       (§ 25 Abs. 2 Nr. 2 TTDSG) und dient nicht der Nachverfolgung. Es werden keine
       Cookies zu Analyse- oder Werbezwecken gesetzt.
     </li>
