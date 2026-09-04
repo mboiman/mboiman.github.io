@@ -1418,8 +1418,8 @@ Drei Agenten, ein Übersetzer, ein offenes Protokoll. Der Agent auf meiner CV-Se
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/illu-quality-dashboard.webp"
-        screenshot_alt = "Illustration: fünf einzelne Linien laufen von links zusammen und münden gebündelt in eine flache Platte."
+        screenshot = "projects/qualitydashboard-redacted.png"
+        screenshot_alt = "Grafana-Board der Dauerlauf-Testautomatisierung: die Gesamtquote 95,7 Prozent groß links, daneben die Einzelquoten je System, darunter eine Heatmap der Erfolgsraten je Umgebung sowie Testarten und Auslöser. Alle System-, Team- und Boardnamen des Auftraggebers sind unkenntlich gemacht."
         tagline = "Durchgängige End-to-End-Lösung für Echtzeit-Qualitätsübersicht: die Testwerkzeuge mehrerer Teams und Umgebungen unter einer Oberfläche, dazu Multi-Source-Integration (Pipeline, LeanIX, Jira, Confluence) für automatische PDF-Reports mit offenen Punkten, Bugs und technischen Schulden."
         tagline_pdf = '''
 Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
@@ -1770,8 +1770,8 @@ Three agents, one translator, one open protocol. The agent on my CV page is one 
         tech_stack = ["Grafana", "Elasticsearch", "Python", "CI/CD", "Playwright", "Jira API", "Confluence API", "LeanIX", "PDF Generation"]
         category = "Quality Engineering"
         featured = true
-        screenshot = "projects/illu-quality-dashboard.webp"
-        screenshot_alt = "Illustration: five separate lines come in from the left, merge into one and land on a single flat plate."
+        screenshot = "projects/qualitydashboard-redacted.png"
+        screenshot_alt = "Grafana board of the continuous test automation: the overall pass rate of 95.7 percent large on the left, the individual rates per system beside it, below that a heatmap of success rates per environment plus test types and triggers. Every system, team and board name belonging to the client is redacted."
         tagline = "End-to-end solution for real-time quality monitoring: the test tools of several teams and environments under one surface, plus multi-source integration (Pipeline, LeanIX, Jira, Confluence) for automated PDF reports with open issues, bugs, and technical debt."
         tagline_pdf = '''
 Real-time quality overview for enterprise go/no-go decisions.
