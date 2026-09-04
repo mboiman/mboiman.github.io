@@ -14,40 +14,69 @@ const t = i18n[lang ?? 'de'];
 // Both bundles travel with the button, so the script can label it by the
 // document's own language even where the prop was not passed.
 const labels = {
-  de: { toLight: i18n.de.darkModeToLight, toDark: i18n.de.darkModeToDark },
-  en: { toLight: i18n.en.darkModeToLight, toDark: i18n.en.darkModeToDark },
+  de: { system: i18n.de.themeSystem, light: i18n.de.themeLight, dark: i18n.de.themeDark },
+  en: { system: i18n.en.themeSystem, light: i18n.en.themeLight, dark: i18n.en.themeDark },
 };
 ---
 
-{/* Both icons are rendered and CSS picks the one that fits the current theme:
-    the inline script in BaseLayout sets html.dark before the body paints, so the
-    right symbol is on screen without any script of ours running at all. Before
-    this the button shipped both icons `hidden` and measured 18x18px empty until
-    the module script arrived. The aria-label is the one thing CSS cannot switch,
-    so it is server-rendered for the light state and corrected on load. */}
+{/* THREE states, not two: system, light, dark, and back to system.
+
+    Following the OS was already implemented and already worked, right up until
+    the first click. The old control wrote `localStorage.theme` on every click,
+    and the OS listener bailed out whenever that key existed, so one click shut
+    the coupling off permanently and no control could give it back. Measured on
+    the live page before this change: click once, switch the OS, reload, and the
+    page stays where the click left it. Clearing site data was the only way out.
+
+    The icon shows the CURRENT state, not the next one. With two states "the
+    other one" was a fair thing to show; with three, a visitor has to be able to
+    see whether they are on `system` or on a value they forced. The aria-label
+    carries both, the state and the next step, since CSS cannot switch it.
+
+    All three icons are rendered and CSS picks one from `html[data-theme]`, which
+    the inline script in BaseLayout sets before the body paints and which the
+    server already renders as "system", so the button is never empty even if that
+    script throws. */}
 <button
   id="dark-mode-toggle"
   type="button"
-  aria-label={t.darkModeToDark}
+  aria-label={t.themeSystem}
   data-labels={JSON.stringify(labels)}
   class="theme-toggle p-2 rounded-lg transition-colors duration-200 cursor-pointer"
 >
-  <svg id="icon-sun" class="icon-sun w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+  <svg class="icon-system w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17 9 20l-1 1h8l-1-1-.75-3M4 5h16a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+  </svg>
+  <svg class="icon-sun w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
   </svg>
-  <svg id="icon-moon" class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+  <svg class="icon-moon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
   </svg>
 </button>
 
 <script>
   const toggle = document.getElementById('dark-mode-toggle');
+  const root = document.documentElement;
 
-  type ToggleLabels = { toLight: string; toDark: string };
-  const FALLBACK: ToggleLabels = { toLight: 'Zur hellen Ansicht wechseln', toDark: 'Zur dunklen Ansicht wechseln' };
+  type Choice = 'system' | 'light' | 'dark';
+  const ORDER: Choice[] = ['system', 'light', 'dark'];
+  const KEY = 'theme-choice';
 
-  function labels(): ToggleLabels {
-    const lang = (document.documentElement.lang || 'de').toLowerCase().startsWith('en') ? 'en' : 'de';
+  // The same two colours as the media metas in BaseLayout, kept as literals
+  // rather than read back from the stylesheet: this runs on every click and must
+  // not depend on a custom property resolving.
+  const CHROME = { light: '#f8fbff', dark: '#0f172a' };
+
+  type Labels = Record<Choice, string>;
+  const FALLBACK: Labels = {
+    system: 'Darstellung folgt dem System. Weiter zu hell.',
+    light: 'Darstellung ist hell. Weiter zu dunkel.',
+    dark: 'Darstellung ist dunkel. Weiter zur Systemeinstellung.',
+  };
+
+  function labels(): Labels {
+    const lang = (root.lang || 'de').toLowerCase().startsWith('en') ? 'en' : 'de';
     try {
       const all = JSON.parse(toggle?.getAttribute('data-labels') || '{}');
       return all[lang] || FALLBACK;
@@ -56,28 +85,67 @@ const labels = {
     }
   }
 
-  function updateLabel() {
-    if (!toggle) return;
-    const isDark = document.documentElement.classList.contains('dark');
-    const l = labels();
-    toggle.setAttribute('aria-label', isDark ? l.toLight : l.toDark);
+  function current(): Choice {
+    const c = root.dataset.theme;
+    return c === 'light' || c === 'dark' ? c : 'system';
+  }
+
+  function prefersDark(): boolean {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  /**
+   * The browser uses the FIRST theme-color meta whose media matches, so a forced
+   * mode cannot just append one: the two media metas have to stop matching
+   * first. On `system` they are handed back, which is the one state where the OS
+   * should decide the address bar as well.
+   */
+  function paintChrome(choice: Choice, isDark: boolean) {
+    const metas = document.querySelectorAll<HTMLMetaElement>('meta[data-theme-color]');
+    const forced = document.getElementById('theme-color-forced') as HTMLMetaElement | null;
+    if (choice === 'system') {
+      metas.forEach((m) => m.setAttribute('media', `(prefers-color-scheme: ${m.dataset.themeColor})`));
+      forced?.remove();
+      return;
+    }
+    metas.forEach((m) => m.setAttribute('media', 'not all'));
+    const meta = forced ?? document.createElement('meta');
+    meta.id = 'theme-color-forced';
+    meta.name = 'theme-color';
+    meta.content = isDark ? CHROME.dark : CHROME.light;
+    if (!forced) document.head.appendChild(meta);
+  }
+
+  function apply(choice: Choice, persist: boolean) {
+    const isDark = choice === 'dark' || (choice === 'system' && prefersDark());
+    root.dataset.theme = choice;
+    root.classList.toggle('dark', isDark);
+    if (persist) {
+      try {
+        if (choice === 'system') localStorage.removeItem(KEY);
+        else localStorage.setItem(KEY, choice);
+      } catch {}
+    }
+    toggle?.setAttribute('aria-label', labels()[choice]);
+    paintChrome(choice, isDark);
   }
 
   toggle?.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
-    const isDark = document.documentElement.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    updateLabel();
+    const next = ORDER[(ORDER.indexOf(current()) + 1) % ORDER.length];
+    apply(next, true);
   });
 
-  // Follow the OS setting live — until the user makes an explicit choice
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (localStorage.getItem('theme')) return;
-    document.documentElement.classList.toggle('dark', e.matches);
-    updateLabel();
+  // The OS switches under us. Only `system` listens, and `system` is now a state
+  // a visitor can return to instead of a one way door.
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (current() === 'system') apply('system', false);
   });
 
-  updateLabel();
+  apply(current(), false);
+
+  // The two state control's key. Nothing reads it any more, so clear it once
+  // rather than leaving a stale value in every returning visitor's browser.
+  try { localStorage.removeItem('theme'); } catch {}
 </script>
 
 <style>
@@ -93,7 +161,15 @@ const labels = {
     border-color: color-mix(in srgb, var(--accent) 26%, var(--line));
   }
 
-  /* The button offers the OTHER state: a moon in light mode, a sun in dark. */
-  :global(html:not(.dark)) .icon-sun { display: none; }
-  :global(html.dark) .icon-moon { display: none; }
+  /* One icon per state, picked from the attribute the server already renders.
+     Hidden by rule rather than by a `hidden` attribute on purpose: a stylesheet
+     rule beats that attribute, and the button used to ship its icons hidden and
+     measure 18x18 empty until the module script arrived. */
+  .icon-system,
+  .icon-sun,
+  .icon-moon { display: none; }
+
+  :global(html[data-theme='system']) .icon-system,
+  :global(html[data-theme='light']) .icon-sun,
+  :global(html[data-theme='dark']) .icon-moon { display: block; }
 </style>
