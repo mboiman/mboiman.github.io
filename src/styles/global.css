@@ -1,11 +1,23 @@
 @import "tailwindcss";
 
+/* The six faces are SUBSET, not the upstream files. Each full face ships 928
+   glyphs, among them 192 Cyrillic and 73 Greek; this site renders 114 distinct
+   characters in total. 383 kB became 143 kB with nothing on the page changing.
+   Cut and documented by scripts/subset-fonts.sh, which also says how to get the
+   originals back from upstream. */
+
 @font-face {
   font-family: "IBM Plex Sans";
   src: url("/fonts/ibm-plex-sans/IBMPlexSans-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -14,6 +26,12 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -22,6 +40,12 @@
   font-weight: 450;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -30,6 +54,12 @@
   font-weight: 500;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -38,6 +68,12 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -46,6 +82,12 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+  /* Mirrors scripts/subset-fonts.sh exactly. The faces carry only these
+     blocks, so declaring them is not decoration: it tells the browser to
+     skip the download for text it cannot render anyway, and it is the
+     value scripts/check-output.mjs holds the built pages against. */
+  unicode-range: U+0000-00FF, U+0100-017F, U+2000-206F, U+20A0-20BF,
+    U+2190-21FF, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* === CSS Variables (outside Tailwind layers) === */

@@ -78,7 +78,26 @@ const linkedin = contact.list.find(c => c.class === 'linkedin');
 const github = contact.list.find(c => c.class === 'github');
 const website = contact.list.find(c => c.class === 'website');
 
-const portrait = `/images/${profile.avatar_story || 'profile_.jpg'}`;
+/* The portrait, keyed and processed, for the same reason the SHOTS below are:
+   this was the last raw path on the page, and it pointed into public/, so Astro
+   copied a 750x1000 JPEG of 362 kB through untouched, for a box that is 96 CSS px
+   on the CV and 748 here. One source, a derivation per use: 1.6 kB there, 67 kB
+   here, same picture.
+   What this does NOT fix, stated so nobody reads it into the change: on a retina
+   screen this act still wants about 1500px and the source has 750, so the build
+   caps there and drops the larger widths. Sharper needs a bigger photograph, not
+   a better pipeline.
+   A missing key now fails the build instead of shipping a broken <img>. */
+const PORTRAITS = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<{ default: ImageMetadata }>('../assets/portraits/*.{png,jpg,jpeg,webp}', { eager: true }),
+  ).map(([path, mod]) => [path.split('/').pop()!, mod.default]),
+);
+const portraitKey = profile.avatar_story || 'profile_.jpg';
+const portrait = PORTRAITS[portraitKey];
+if (!portrait) {
+  throw new Error(`StoryPage: no portrait named "${portraitKey}" in src/assets/portraits/`);
+}
 
 /** Keyed, never a raw path: a raw path can point at a file that was deleted for
  *  leaking personal data, and nothing in the build would notice.
@@ -204,7 +223,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
           {act.kind === 'portrait' && (
             <div class="portrait-split">
               <div class="portrait-side">
-                <img src={portrait} alt={profile.name} width="750" height="1000" class="portrait-bleed" />
+                <Image src={portrait} alt={profile.name} widths={[400, 800, 1200, 1500]} sizes="(max-width: 900px) 92vw, 52vw" class="portrait-bleed" loading="eager" />
               </div>
               <div class="portrait-copy rise-stagger">
                 <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
@@ -534,7 +553,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                 <a href="https://github.com/bks-lab/open-bridge" target="_blank" rel="noopener" class="cta">open-bridge</a>
                 {website && <a href={website.url} target="_blank" rel="noopener" class="cta">BKS-Lab</a>}
               </p>
-              <img src={portrait} alt="" aria-hidden="true" width="750" height="1000" class="portrait-mark mt-9" />
+              <Image src={portrait} alt="" aria-hidden="true" widths={[96, 192, 288]} sizes="6rem" class="portrait-mark mt-9" loading="lazy" />
               <p class="mt-8 text-[0.7rem]" style="color: var(--text-secondary)">
                 {t.builtOn} {buildDate}
                 <span class="block mt-1 text-[0.66rem]">{t.builtOnNote}</span>

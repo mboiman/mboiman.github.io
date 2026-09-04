@@ -20,7 +20,27 @@ import { join } from 'node:path';
 // the HTML it hands to Puppeteer, because the PDF is never an HTML page in dist/
 // and no guard here would ever see it. Two regexes for one rule stay in sync
 // exactly as long as nobody edits one of them.
-import { findDashes } from './lib/visible-text.js';
+import { findDashes, visibleText, metaText } from './lib/visible-text.js';
+
+/**
+ * Entities back to characters before anything counts them.
+ *
+ * This matters in ONE direction and it is the dangerous one: a `&#x10D;` reads
+ * as seven ASCII characters in the raw file, all of them inside the range, so a
+ * counter that skips this step would wave through exactly the character the
+ * range does not cover.
+ */
+const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0' };
+const decodeEntities = (text) =>
+  String(text).replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (whole, body) => {
+    if (body[0] === '#') {
+      const cp = body[1] === 'x' || body[1] === 'X'
+        ? parseInt(body.slice(2), 16)
+        : parseInt(body.slice(1), 10);
+      return Number.isFinite(cp) && cp > 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : whole;
+    }
+    return NAMED[body.toLowerCase()] ?? whole;
+  });
 
 const dist = process.argv[2] ?? 'dist';
 const errors = [];
@@ -55,11 +75,100 @@ for (const file of htmlFiles(dist)) {
   for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
     images += 1;
     const tag = m[0];
-    const alt = tag.match(/\salt="([^"]*)"/);
+    // Two spellings of the same thing. Astro's <Image alt=""> serialises the
+    // empty string as a BARE `alt`, which HTML parses as alt="" and every
+    // screen reader treats as the explicit skip instruction it is. The first
+    // version of this check only knew the quoted form and failed a decorative
+    // image that was marked correctly, which is a check measuring the
+    // serialisation instead of the meaning. Absent still fails, and empty still
+    // needs aria-hidden or role=presentation: neither of those got looser.
+    const quoted = tag.match(/\salt="([^"]*)"/);
+    const bare = /\salt(?=[\s/>])/.test(tag);
+    const altValue = quoted ? quoted[1] : (bare ? '' : null);
     const hidden = /\saria-hidden="true"/.test(tag) || /\srole="presentation"/.test(tag);
-    if (!alt) errors.push(`${file}: <img> without an alt attribute: ${tag.slice(0, 110)}`);
-    else if (!alt[1].trim() && !hidden) {
+    if (altValue === null) errors.push(`${file}: <img> without an alt attribute: ${tag.slice(0, 110)}`);
+    else if (!altValue.trim() && !hidden) {
       errors.push(`${file}: <img alt=""> without aria-hidden. Say what is on it, or mark it decorative: ${tag.slice(0, 110)}`);
+    }
+  }
+}
+
+/**
+ * Every character the pages set has to be inside a face's unicode-range.
+ *
+ * The six faces are subset (scripts/subset-fonts.sh): 928 glyphs down to 405,
+ * 383 kB down to 143 kB. That trade is only safe while the content stays inside
+ * the range that was cut, and content is the half that moves. A German CV that
+ * gains a Czech customer name, a Greek letter in a formula or a bullet from a
+ * different block would not fail anything: the character simply renders from the
+ * system stack, in a different face, and nobody notices for months.
+ *
+ * Checked against the DECLARED range rather than the font binary, which is the
+ * weaker of the two and worth saying out loud. The declaration is generated from
+ * the same list as the subset command and both name each other, so a drift
+ * between them is a deliberate edit in two files, not an accident. What this
+ * catches is the accident: new text outside the cut.
+ */
+{
+  const cssFiles = [];
+  const walkCss = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, entry.name);
+      if (entry.isDirectory()) walkCss(p);
+      else if (entry.name.endsWith('.css')) cssFiles.push(p);
+    }
+  };
+  try { walkCss(dist); } catch { /* no dist, the caller already failed */ }
+
+  const spans = [];
+  for (const f of cssFiles) {
+    for (const m of readFileSync(f, 'utf8').matchAll(/unicode-range:\s*([^;}]+)/g)) {
+      for (const part of m[1].split(',')) {
+        const token = part.trim();
+        // THREE spellings, and the third is the one that bit. The build rewrites
+        // `U+0000-00FF` into the wildcard form `U+??`, which is the same range
+        // and perfectly legal CSS. A parser that only knew the explicit forms
+        // read the shipped sheet as if Latin-1 were not covered and then flagged
+        // "<", "\\" and "^" as unrenderable. Source and artifact disagreed, and
+        // the artifact was right.
+        const wild = token.match(/^U\+([0-9A-Fa-f]*)(\?+)$/);
+        if (wild) {
+          const lo = wild[1] + '0'.repeat(wild[2].length);
+          const hi = wild[1] + 'F'.repeat(wild[2].length);
+          spans.push([parseInt(lo, 16), parseInt(hi, 16)]);
+          continue;
+        }
+        const r = token.match(/^U\+([0-9A-Fa-f]+)(?:-([0-9A-Fa-f]+))?$/);
+        if (r) { spans.push([parseInt(r[1], 16), parseInt(r[2] ?? r[1], 16)]); continue; }
+        errors.push(`unicode-range token "${token}" in ${f} is in a spelling this check does not know. Teach it rather than ignoring it: an unparsed token silently narrows what counts as covered.`);
+      }
+    }
+  }
+
+  if (!spans.length) {
+    errors.push('no unicode-range in any built stylesheet. The faces are subset; without the declaration the browser downloads them for text they cannot render.');
+  } else {
+    const outside = new Map();
+    for (const file of htmlFiles(dist)) {
+      const html = readFileSync(file, 'utf8');
+      // Same reach as the dash rule: visible text plus the strings inside the
+      // inline scripts, because the i18n labels travel as JSON in there.
+      const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]).join(' ');
+      const text = decodeEntities(`${visibleText(html)} ${metaText(html)} ${scripts}`);
+      for (const ch of text) {
+        const cp = ch.codePointAt(0);
+        if (cp <= 32) continue;
+        if (!spans.some(([a, b]) => cp >= a && cp <= b)) {
+          outside.set(ch, (outside.get(ch) ?? 0) + 1);
+        }
+      }
+    }
+    for (const [ch, n] of outside) {
+      errors.push(
+        `character "${ch}" (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')}) appears ${n}x ` +
+        `but sits outside every declared unicode-range, so it renders from the system font. ` +
+        `Either widen the range in src/styles/global.css AND scripts/subset-fonts.sh, or drop the character.`,
+      );
     }
   }
 }

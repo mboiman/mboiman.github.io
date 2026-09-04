@@ -7,6 +7,13 @@ interface Props {
 
 import '../styles/global.css';
 import AgentWidget from '../components/AgentWidget.astro';
+/* The portrait moved out of public/ so both pages can derive their own sizes
+   from it. Only the structured data still wants an absolute URL to a portrait,
+   and it is read by crawlers, never fetched by a visitor, so the emitted
+   original is the right thing to point at. Importing it is also what keeps the
+   file in the build at all now that no page references the public path. */
+import { getImage } from 'astro:assets';
+import portraitSource from '../assets/portraits/profile_.jpg';
 
 const { title, description, lang } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
@@ -18,7 +25,12 @@ const defaultPath = lang === 'de' ? currentPath : currentPath.replace('/en/', '/
 const siteOrigin = 'https://mboiman.github.io';
 const pageUrl = `${siteOrigin}${currentPath}`;
 const ogImageUrl = `${siteOrigin}/images/og-card.png`;
-const profileImageUrl = `${siteOrigin}/images/profile_.jpg`;
+/* Derived, not the emitted original. Importing the source alone would ship the
+   750x1000 JPEG of 362 kB into dist for the sake of one meta tag that no visitor
+   ever fetches. This asks for the same picture at the same width in webp, which
+   is 67 kB, and the original then has no reason to be emitted at all. */
+const portraitAsset = await getImage({ src: portraitSource, width: 750, format: 'webp' });
+const profileImageUrl = `${siteOrigin}${portraitAsset.src}`;
 const authorName = 'Michael Boiman';
 const jobTitle = lang === 'de'
   ? 'Quality Engineer & KI-Architekt'

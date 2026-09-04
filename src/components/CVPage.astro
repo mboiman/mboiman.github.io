@@ -38,6 +38,32 @@ const SHOTS = Object.fromEntries(
 );
 const shotFor = (screenshot?: string) => (screenshot ? SHOTS[screenshot.split('/').pop()!] : undefined);
 
+/**
+ * The portrait, processed instead of served raw.
+ *
+ * It sat in public/ behind a hardcoded <img src>, so Astro copied it through
+ * untouched: 362 kB of 750x1000 JPEG for a box that is 88 or 96 CSS px wide.
+ * On the first load it was the single heaviest resource on the page, larger
+ * than all seventeen project pictures together at 768px. The presentation next
+ * door has the opposite problem with the same file, blowing it up to 748x832
+ * from a 750px source, so one card is four times too heavy while the other is
+ * too small. One source, two derivations, both right.
+ *
+ * Keyed by file name like SHOTS above, so config.cv.toml stays the place where
+ * a portrait is named.
+ *
+ * NOT resolved here on purpose: the TOML also carries `profile.avatar`
+ * ("profile.png"), and this page has never rendered it, it renders the file
+ * below. Making the key suddenly load-bearing would change the picture on the
+ * page, which is a content decision, not a performance one.
+ */
+const PORTRAITS = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<{ default: ImageMetadata }>('../assets/portraits/*.{png,jpg,jpeg,webp}', { eager: true }),
+  ).map(([path, mod]) => [path.split('/').pop()!, mod.default]),
+);
+const avatar = PORTRAITS['profile_.jpg'];
+
 const featuredProjects = projects.list.filter(p => p.featured);
 const otherProjects = projects.list.filter(p => !p.featured);
 /* `agent_proof` is a required field of CVData and both TOML branches define it,
@@ -265,7 +291,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 45% under a picture that already carries a ring and a shadow is
                 two decorations on one face. */}
             <div class="flex-shrink-0">
-              <img src="/images/profile_.jpg" alt={profile.name} class="cv-avatar w-[5.5rem] h-[5.5rem] sm:w-24 sm:h-24 rounded-full object-cover grayscale-[10%]" width="96" height="96" />
+              <Image src={avatar} alt={profile.name} widths={[88, 96, 176, 192, 288]} sizes="(max-width: 640px) 5.5rem, 6rem" class="cv-avatar w-[5.5rem] h-[5.5rem] sm:w-24 sm:h-24 rounded-full object-cover grayscale-[10%]" loading="eager" />
             </div>
             <div class="min-w-0">
               {/* A fixed 4.75rem from 1024px up needed 537px for "Michael
