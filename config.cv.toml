@@ -23,8 +23,12 @@ defaultContentLanguage = "de"
       
       [languages.de.params.ui]
         tagline = "Freiberuflicher Quality Engineer & KI-Architekt · Frankfurt am Main"
-        seo_description = "Freiberuflicher Quality Engineer und KI-Architekt aus Frankfurt: Testautomatisierung, Agenten nach MCP und A2A, Azure Functions und produktives Peppol-E-Invoicing nach EN 16931."
-        story_seo_description = "Die Arbeit von Michael Boiman, nachprüfbar dargestellt: E-Invoicing nach EN 16931 im Regelbetrieb, ein Netz aus A2A-Agenten, quelloffene Agenten-Infrastruktur unter MIT, und Quality Engineering im regulierten Umfeld."
+        # Eigener Titel fuer die Trefferliste, getrennt von der sichtbaren
+        # tagline. Aus `${name} · ${tagline}` wurden 88 Zeichen und 749 px,
+        # abgeschnitten wird ab rund 580 px, und weg war ausgerechnet der Ort.
+        seo_title = "Michael Boiman · Quality Engineer & KI-Architekt, Frankfurt"
+        seo_description = "Freiberuflicher Quality Engineer und KI-Architekt aus Frankfurt: Peppol-E-Invoicing nach EN 16931, MCP- und A2A-Agenten, Testautomatisierung."
+        story_seo_description = "Vier Belege statt vier Behauptungen: E-Invoicing nach EN 16931 im Regelbetrieb, ein Netz aus A2A-Agenten, quelloffene Infrastruktur unter MIT."
         location = "Frankfurt am Main"
         availability = "Freiberuflich · verfügbar für neue Projekte"
         hero_intro = "Ich verbinde Quality Engineering mit KI-Architektur: Testautomatisierung, Multi-Agent-Systeme nach MCP und A2A, und E-Invoicing-Plattformen nach EU-Standard. Jede Aussage hier trägt ihren Beleg daneben."
@@ -321,7 +325,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "Senior Quality Engineer · Testautomatisierung und Monitoring"
         anchor = "tuev-sued"
-        dates = "seit 09/2025"
+        dates = "09/2025-09/2026"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
@@ -688,8 +692,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       
       [languages.en.params.ui]
         tagline = "Freelance Quality Engineer & AI Architect · Frankfurt am Main"
-        seo_description = "Freelance quality engineer and AI architect based in Frankfurt: test automation, agents over MCP and A2A, Azure Functions, and production Peppol e-invoicing to EN 16931."
-        story_seo_description = "The work of Michael Boiman, presented so it can be checked: e-invoicing to EN 16931 in production, a network of A2A agents, open-source agent infrastructure under MIT, and quality engineering in a regulated setting."
+        seo_title = "Michael Boiman · Quality Engineer & AI Architect, Frankfurt"
+        seo_description = "Freelance quality engineer and AI architect in Frankfurt: Peppol e-invoicing to EN 16931, agents over MCP and A2A, test automation."
+        story_seo_description = "Four proofs instead of four claims: e-invoicing to EN 16931 in production, a network of A2A agents, open-source infrastructure under MIT."
         location = "Frankfurt am Main, Germany"
         availability = "Freelance · available for new projects"
         hero_intro = "I combine quality engineering with AI architecture: test automation, multi-agent systems over MCP and A2A, and e-invoicing platforms to EU standards. Every claim here carries its proof beside it."
@@ -969,7 +974,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "Senior Quality Engineer · Test Automation and Monitoring"
         anchor = "tuev-sued"
-        dates = "since 09/2025"
+        dates = "09/2025-09/2026"
         company = "TÜV Süd"
         details = """
 **Quality Engineering** for an enterprise platform for AI-powered document processing in medical device certification (MDR/IVDR) with AI chat integration and data pipeline automation.
