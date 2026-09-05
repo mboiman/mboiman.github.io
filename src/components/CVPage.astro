@@ -205,12 +205,19 @@ function talkLinks(details: string): { label: string; url: string }[] {
   return out;
 }
 
-function splitDetails(details: string): { open: string; foldTitle: string; fold: string } {
+type ToolBlock = { title: string; body: string };
+
+function splitDetails(details: string): { open: string; foldTitle: string; fold: string; tools: ToolBlock | null } {
   const focusPattern = new RegExp(`^(${t.truncatePatterns.join('|')})`, 'i');
   const toolPattern = new RegExp(`^(${t.truncateToolPatterns.join('|')})`, 'i');
 
   const open: string[] = [];
   const folded: DetailBlock[] = [];
+  /* The tool block leaves the fold and becomes its own return value, because it
+     is the only part of a station that belongs BESIDE the narrative rather than
+     under it. See the card below: the copy stops at 56 characters per line, and
+     on a 862px card that left 376px of nothing, on all twelve. */
+  const tools: DetailBlock[] = [];
   let focusTaken = false;
 
   for (const block of toBlocks(details)) {
@@ -233,7 +240,11 @@ function splitDetails(details: string): { open: string; foldTitle: string; fold:
       if (tail.join('').trim()) folded.push({ title: block.title, lines: tail });
       continue;
     }
-    if (focusPattern.test(block.title) || toolPattern.test(block.title)) {
+    if (toolPattern.test(block.title)) {
+      tools.push(block);
+      continue;
+    }
+    if (focusPattern.test(block.title)) {
       folded.push(block);
       continue;
     }
@@ -245,6 +256,15 @@ function splitDetails(details: string): { open: string; foldTitle: string; fold:
     open: open.join('\n\n').trim(),
     foldTitle,
     fold: folded.map(blockToMarkdown).join('\n\n').trim(),
+    /* Title and body apart, because the title has two jobs depending on how much
+       room the card has: beside the text it is a heading, underneath it is the
+       label of a disclosure. */
+    tools: tools.length
+      ? {
+          title: [...new Set(tools.map(block => block.title).filter(Boolean))].join(' · '),
+          body: tools.map(block => block.lines.join('\n').trim()).filter(Boolean).join('\n\n'),
+        }
+      : null,
   };
 }
 
@@ -300,6 +320,15 @@ const barSections = [
   experiences.enable ? { id: 'section-experience', label: experiences.title } : null,
   talks.length > 0 ? { id: 'section-talks', label: t.talksTitle } : null,
 ].filter((entry): entry is { id: string; label: string } => entry !== null);
+
+/* The number in front of a section heading. Read off `barSections` rather than
+   counted in CSS, for one reason: a CSS counter would number whatever headings
+   happen to carry the class, and could then disagree with the bar about how
+   many sections there are and in which order. One array answers both. */
+const sectionNo = (id: string) => {
+  const index = barSections.findIndex(section => section.id === id);
+  return index < 0 ? '' : String(index + 1).padStart(2, '0');
+};
 
 const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expander
 ---
@@ -558,7 +587,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             anchor as a side effect of building a navigation bar. */}
         {summary.enable && (
           <section id="section-profile">
-            <h2 class="cv-section-title">{summary.title}</h2>
+            <h2 class="cv-section-title"><span class="cv-section-no" aria-hidden="true">{sectionNo('section-profile')}</span>{summary.title}</h2>
 
             {/* Intro */}
             <p class="cv-measure text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
@@ -621,7 +650,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         {/* PROJEKTE VOR ERFAHRUNG */}
         {projects.enable && (
           <section id="section-projects" data-cv-anchor="projects" data-cv-group={projects.title}>
-            <h2 class="cv-section-title">{projects.title}</h2>
+            <h2 class="cv-section-title"><span class="cv-section-no" aria-hidden="true">{sectionNo('section-projects')}</span>{projects.title}</h2>
             <p class="text-sm mb-6" style="color: var(--text-secondary)" set:html={formatMarkdown(projects.intro)} />
 
             {/* Eleven of seventeen cards used to ship with `hidden`, and
@@ -734,7 +763,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         {/* Berufserfahrung */}
         {experiences.enable && (
           <section id="section-experience" data-cv-anchor="experience" data-cv-group={experiences.title}>
-            <h2 class="cv-section-title">{experiences.title}</h2>
+            <h2 class="cv-section-title"><span class="cv-section-no" aria-hidden="true">{sectionNo('section-experience')}</span>{experiences.title}</h2>
             <div class="cv-timeline space-y-6 relative ml-3 pl-7">
               {jobs.map((exp, i) => (
                 <div class="relative" id={exp.anchor ? `exp-${exp.anchor}` : undefined} data-cv-anchor={exp.anchor}>
@@ -751,16 +780,44 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                     </div>
                     {(() => {
                       const d = splitDetails(exp.details);
+                      /* Two columns, and only where there is a second column to
+                         fill: a station without a tool block keeps the single
+                         column it had, rather than reserving a third of the card
+                         for nothing. */
                       return (
-                        <>
-                          <div class="exp-copy text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.open)} />
-                          {d.fold && (
-                            <details class="cv-card-details mt-2">
-                              <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{d.foldTitle}</summary>
-                              <div class="exp-copy mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.fold)} />
-                            </details>
+                        <div class:list={['cv-exp-body', d.tools && 'is-split']}>
+                          <div class="cv-exp-main">
+                            <div class="exp-copy text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.open)} />
+                            {d.fold && (
+                              <details class="cv-card-details mt-2">
+                                <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{d.foldTitle}</summary>
+                                <div class="exp-copy mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.fold)} />
+                              </details>
+                            )}
+                          </div>
+                          {d.tools && (
+                            /* Folded where the card is too narrow for a second
+                               column, open where it is not, and CSS decides
+                               which. Measured on 2026-09-05: rendering the tool
+                               block into the flow at a viewport of 768px (card
+                               672px) added 2.620px of page height across the
+                               twelve stations, and 2.703px at 1024px. Beside the
+                               text, at 1440px, it costs 139px. So the block only
+                               unfolds itself where it has a column to stand in.
+
+                               A checkbox, not a <details>: a closed <details>
+                               hides its own content in the user agent, and no
+                               container query can talk it out of that. This is
+                               the mechanism the project grid has used since it
+                               stopped shipping eleven cards behind `hidden`. */
+                            <div class="cv-exp-rail">
+                              <input type="checkbox" id={`cv-tools-${exp.anchor ?? i}`} class="cv-exp-tools-check sr-only" />
+                              <label for={`cv-tools-${exp.anchor ?? i}`} class="cv-exp-tools-label">{d.tools.title}</label>
+                              <p class="cv-exp-tools-title">{d.tools.title}</p>
+                              <div class="exp-tools cv-exp-tools-body" set:html={formatToHTML(d.tools.body)} />
+                            </div>
                           )}
-                        </>
+                        </div>
                       );
                     })()}
                   </div>
@@ -773,7 +830,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         {/* Vorträge & Workshops */}
         {talks.length > 0 && (
           <section id="section-talks" data-cv-anchor="talks" data-cv-group={t.talksTitle}>
-            <h2 class="cv-section-title">{t.talksTitle}</h2>
+            <h2 class="cv-section-title"><span class="cv-section-no" aria-hidden="true">{sectionNo('section-talks')}</span>{t.talksTitle}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {talks.map(talk => (
                   <div class="cv-mini-project p-4 rounded-lg" id={talk.anchor ? `exp-${talk.anchor}` : undefined} data-cv-anchor={talk.anchor}>
@@ -1478,6 +1535,24 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     background: var(--accent);
   }
 
+  /* The section number. Small, monospace and on the baseline of a heading that
+     runs up to 3rem, so it reads as the numbering of a document rather than as a
+     second headline. It borrows the idiom the presentation already uses for its
+     acts, which is the point: the two pages are one system.
+
+     `aria-hidden` in the markup, not here. "Null eins" announced before every
+     heading is noise for a reader who cannot see the numbering it belongs to,
+     and the bar already names the same four sections in the same order. */
+  .cv-section-no {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-right: 0.85rem;
+    vertical-align: baseline;
+  }
+
   .cv-sidebar-card {
     padding: 1.25rem;
     border-radius: 0.75rem;
@@ -1643,6 +1718,144 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .cv-experience-card {
     transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+    /* The card measures itself. What decides whether a station has room for two
+       columns is the CARD's width, and that hangs on the viewport, on whether
+       the sidebar is there, and on whether the agent panel has taken its rail.
+       A media query would have to recompute all three and would be wrong at the
+       first change to any of them. */
+    container-type: inline-size;
+  }
+
+  /* ── Station: Erzählung links, Werkzeuge rechts ───────────────────────────
+     The running text is capped at 56 characters per line; the card was not.
+     Measured at a viewport of 1440px: card 862px, text 437px, and 376px of
+     nothing to the right of it, 44 percent, on all twelve cards at once. That
+     is the emptiest surface on the page, and the thing that belongs in it was
+     one fold away: the tool block, which splitDetails now hands over separately.
+
+     A station without a tool block stays single column. Reserving a third of the
+     card for an empty rail would trade one kind of hole for another. */
+  /* Folded, the rail is one more disclosure under the text and is priced like
+     one: no rule above it, no padding, and a label the size of the summaries
+     next to it. Measured on 2026-09-05, the first version cost 914px of page
+     height at 768 and 1024px viewports, and 528 of those were twelve labels at
+     44px each. */
+  .cv-exp-rail {
+    margin-top: 0.75rem;
+    min-width: 0;
+  }
+
+  @container (min-width: 44rem) {
+    .cv-exp-body.is-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    /* Beside the text the hairline runs vertically, so the rail reads as a
+       column of its own rather than as a paragraph that fell off the end. */
+    .cv-exp-body.is-split .cv-exp-rail {
+      margin-top: 0;
+      padding-top: 0;
+      padding-left: 2rem;
+      border-top: none;
+      border-left: 1px solid var(--line);
+    }
+    /* Room for a column means no reason to fold. The toggle goes away entirely
+       rather than becoming a control that changes nothing. */
+    .cv-exp-body.is-split .cv-exp-tools-check,
+    .cv-exp-body.is-split .cv-exp-tools-label { display: none; }
+    .cv-exp-body.is-split .cv-exp-tools-title { display: block; }
+    .cv-exp-body.is-split .cv-exp-tools-body { display: block; }
+  }
+
+  /* Paper has no folds. Same rule the project cards and the station disclosures
+     already follow. */
+  @media print {
+    .cv-exp-tools-label { display: none !important; }
+    .cv-exp-tools-title { display: block !important; }
+    .cv-exp-tools-body { display: block !important; }
+  }
+
+  /* NARROW CARD: a label that folds the block away, exactly as before.
+     WIDE CARD: a heading over an open column. Two elements, one string, and the
+     container query renders exactly one of them, so neither the eye nor a screen
+     reader ever meets both. */
+  .cv-exp-tools-label,
+  .cv-exp-tools-title {
+    margin: 0;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Sized like the <details> summaries in the same card rather than like a
+     navigation control: 12px, accent, one line. The extra vertical padding is
+     what is left of the touch budget once twelve of these have to fit on a page
+     that is already 12.500px long at this width. */
+  .cv-exp-tools-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0;
+    color: var(--accent);
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* The user agent draws a <summary> marker as a small filled triangle. A label
+     is not a summary and gets none, so it draws its own, at the size the marker
+     next to it has. */
+  .cv-exp-tools-label::before {
+    content: "\25B6";
+    font-size: 0.72em;
+    line-height: 1;
+    transition: transform 0.18s ease-out;
+  }
+
+  .cv-exp-tools-check:checked ~ .cv-exp-tools-label::before { transform: rotate(90deg); }
+
+  /* The checkbox is sr-only, so its focus has to show on the label. */
+  .cv-exp-tools-check:focus-visible ~ .cv-exp-tools-label {
+    outline: 2px solid var(--accent-hover);
+    outline-offset: 2px;
+  }
+
+  .cv-exp-tools-title { display: none; }
+  .cv-exp-tools-body { display: none; }
+  .cv-exp-tools-check:checked ~ .cv-exp-tools-body { display: block; }
+
+  .exp-tools {
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    line-height: 1.65;
+    margin-top: 0.5rem;
+  }
+
+  .exp-tools :global(ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .exp-tools :global(li) {
+    position: relative;
+    padding-left: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .exp-tools :global(li:last-child) { margin-bottom: 0; }
+
+  .exp-tools :global(li::before) {
+    content: "\2022";
+    position: absolute;
+    left: 0.05rem;
+    color: var(--accent);
   }
 
   .cv-experience-card:hover {
