@@ -284,6 +284,23 @@ function splitTagline(tagline: string): { lead: string; foldTitle: string; fold:
   return { lead: parts[0].trim(), foldTitle: labels.slice(0, 3).join(' · '), fold: rest };
 }
 
+/* ── Section bar entries ───────────────────────────────────────────────────
+   Built from the SAME four conditions the sections render under, so the bar can
+   never offer a jump into a section that is switched off. Order is reading
+   order, which is also the order the scroll marker walks.
+
+   Why the bar exists at all, measured on 2026-09-05: the page is 10.885px tall
+   at a viewport of 1440 and 18.797px at 390, roughly twelve and twenty-two
+   screens, and it carried exactly ONE in-page link in the whole document, the
+   skip link. There was no way to reach the work history other than scrolling
+   past everything in front of it. */
+const barSections = [
+  summary.enable ? { id: 'section-profile', label: summary.title } : null,
+  projects.enable ? { id: 'section-projects', label: projects.title } : null,
+  experiences.enable ? { id: 'section-experience', label: experiences.title } : null,
+  talks.length > 0 ? { id: 'section-talks', label: t.talksTitle } : null,
+].filter((entry): entry is { id: string; label: string } => entry !== null);
+
 const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expander
 ---
 
@@ -298,7 +315,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   lang={lang}
 >
   {/* Header */}
-  <header class="cv-hero relative overflow-hidden">
+  <header id="top" class="cv-hero relative overflow-hidden">
     <div class="cv-shell relative pt-6 pb-14 lg:pb-16">
       {/* Top bar. A nav landmark with a name: the page had none at all, so a
           screen-reader rotor offered nothing to jump to, and the two language
@@ -450,6 +467,83 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     </div>
   </header>
 
+  {/* ── Section bar ─────────────────────────────────────────────────────────
+      Sticky, not fixed, and placed directly after the header: it rides up with
+      the hero, parks under the top edge, and needs no scroll listener to know
+      when to appear. Being in the flow also means the rail the agent panel
+      reserves from 1280px up (body padding-right, see AgentWidget) simply moves
+      it along. The presentation's nav is fixed and has to subtract that width
+      by hand.
+
+      It carries the agent button that used to be a floating circle in the
+      bottom right corner. That corner belongs to the viewport, so whatever the
+      layout happened to put underneath was covered. Measured across the whole
+      page on 2026-09-05: at 390px the circle sat on text at 11 scroll
+      positions, at 430 at 9, at 768 at 6, and at 1024 it stood permanently on a
+      chip of the sticky sidebar. Only 1440 was clear. The standby rule that
+      shipped on 2026-09-05 fixed the hero and only the hero, because that is
+      the one place it was measured. A button inside the layout cannot land on
+      anything.
+
+      No language switch and no theme button in here. The header carries both,
+      the footer carries the language link, and DarkModeToggle binds by a fixed
+      id, so a second instance would be a duplicate id with a dead button under
+      it. The width that buys goes to the section names. */}
+  <nav class="cv-bar no-print" aria-label={t.navSections}>
+    <div class="cv-shell cv-bar-inner">
+      <a href="#top" class="cv-bar-home" aria-label={t.backToTop}>{profile.name}</a>
+
+      {barSections.length > 0 && (
+        <ul class="cv-bar-links">
+          {barSections.map(section => (
+            <li>
+              <a href={`#${section.id}`} class="cv-bar-link" data-cv-bar-link={section.id}>{section.label}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* The same four entries, folded, for the widths where four names do not
+          fit in a row. Rendered from the same array rather than written out a
+          second time, so the two lists cannot drift; CSS shows exactly one of
+          them at any width. A <details> because it needs no script at all and
+          brings its own keyboard behaviour. */}
+      {barSections.length > 0 && (
+        <details class="cv-bar-jump">
+          <summary class="cv-bar-jump-summary">
+            <span>{t.jumpTo}</span>
+            <svg class="cv-bar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+          </summary>
+          <ul class="cv-bar-jump-list">
+            {barSections.map(section => (
+              <li>
+                <a href={`#${section.id}`} class="cv-bar-jump-link" data-cv-bar-link={section.id}>{section.label}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+
+      {/* `data-agent-open` is the whole contract with AgentWidget: a page that
+          carries this element hosts the agent entry itself, and the widget
+          keeps its floating launcher out of the way. aria-label repeats the
+          visible text so the button keeps a name at the widths where the label
+          is hidden. */}
+      <button
+        type="button"
+        class="cv-bar-ask"
+        data-agent-open
+        aria-label={agentProof.ask}
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="agent-widget-panel"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.83L3 20l1.36-3.4A7.68 7.68 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+        <span class="cv-bar-ask-text">{agentProof.ask}</span>
+      </button>
+    </div>
+  </nav>
+
   {/* Main Layout */}
   <div class="cv-shell py-12">
     <div class="flex flex-col lg:flex-row gap-12">
@@ -458,8 +552,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
       <main id="main" class="lg:w-[70%] space-y-14">
 
         {/* Karriereprofil */}
+        {/* An id, and deliberately no data-cv-anchor: the id is what the bar
+            jumps to, while data-cv-anchor is the set of targets the AGENT is
+            told it may highlight. Adding one here would hand the agent a new
+            anchor as a side effect of building a navigation bar. */}
         {summary.enable && (
-          <section>
+          <section id="section-profile">
             <h2 class="cv-section-title">{summary.title}</h2>
 
             {/* Intro */}
@@ -702,7 +800,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
       {/* Sidebar (30%). Named, because an unnamed <aside> is an unnamed landmark
           the reader cannot identify in a rotor. */}
       <aside class="lg:w-[30%]" aria-label={t.sidebarLabel}>
-        <div class="lg:sticky lg:top-6 space-y-6">
+        <div class="cv-sidebar-stick lg:sticky space-y-6">
 
           {/* Skills */}
           <div class="cv-sidebar-card">
@@ -844,6 +942,64 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         delete (d as HTMLElement).dataset.printOpened;
       });
     });
+
+    // ── Section bar: which section the reader is actually in ────────────────
+    // Progressive enhancement. Without this the bar still navigates; with it,
+    // it also answers the other half of the question, which on a page of nearly
+    // eleven thousand pixels is the more useful half.
+    //
+    // A scroll listener rather than an IntersectionObserver, because the four
+    // sections are wildly different heights (the career profile is around
+    // 1000px, the work history around 6000px). "Which one intersects a band"
+    // therefore asks a different question per section, while "which heading was
+    // the last one to pass under the bar" is one rule that holds for all four.
+    const barLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-cv-bar-link]'));
+    if (barLinks.length) {
+      const bar = document.querySelector('.cv-bar') as HTMLElement | null;
+      const seen = new Set<string>();
+      const targets: { id: string; el: HTMLElement }[] = [];
+      for (const link of barLinks) {
+        const id = link.dataset.cvBarLink || '';
+        if (!id || seen.has(id)) continue;
+        seen.add(id);
+        const el = document.getElementById(id);
+        if (el) targets.push({ id, el });
+      }
+
+      let queued = false;
+      const mark = () => {
+        queued = false;
+        const line = (bar?.offsetHeight ?? 0) + 8;
+        let current = '';
+        for (const target of targets) {
+          if (target.el.getBoundingClientRect().top - line <= 0) current = target.id;
+        }
+        // The last section is short enough that its heading can stop above the
+        // line while the document is already at its end. At the bottom of the
+        // page it is the section being read, whatever the arithmetic says.
+        const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (atEnd && targets.length) current = targets[targets.length - 1].id;
+        for (const link of barLinks) {
+          if (link.dataset.cvBarLink === current) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+      };
+      const queue = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(mark);
+      };
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue);
+      mark();
+    }
+
+    // A <details> stays open after the link inside it was followed, so the
+    // folded list would cover the very section it just jumped to.
+    const barJump = document.querySelector('.cv-bar-jump') as HTMLDetailsElement | null;
+    barJump?.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('.cv-bar-jump-link')) barJump.open = false;
+    });
   </script>
 </BaseLayout>
 
@@ -867,6 +1023,198 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     max-width: 100rem;
     margin-inline: auto;
     padding-inline: clamp(1.25rem, 3.5%, 4rem);
+  }
+
+  /* ── Section bar ──────────────────────────────────────────────────────────
+     Height comes from --cv-bar-h in global.css, because three rules in two
+     files need the same number: this one, the scroll offset of every jump
+     target, and the sticky sidebar. */
+  .cv-bar {
+    position: sticky;
+    top: 0;
+    z-index: 40;                /* above the page, below the agent panel */
+    height: var(--cv-bar-h);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    border-bottom: 1px solid var(--line);
+    /* Unprefixed only. Hand-writing the -webkit- twin once made the build emit
+       the prefixed declaration and DROP the standard one, on the card scrim
+       further down this file. The bundler adds whatever its targets need. */
+    backdrop-filter: blur(14px);
+  }
+
+  .cv-bar-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  .cv-bar-home {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-height: 44px;
+    color: var(--text);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition: color 0.18s ease-out;
+  }
+  .cv-bar-home:hover { color: var(--accent); }
+
+  .cv-bar-links {
+    display: none;              /* the folded list takes over below 1024 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: clamp(0.5rem, 1.6vw, 1.5rem);
+    min-width: 0;
+  }
+
+  .cv-bar-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    transition: color 0.18s ease-out;
+  }
+  .cv-bar-link:hover { color: var(--text); }
+  .cv-bar-link[aria-current="location"] { color: var(--text); }
+
+  /* The marker is a pseudo-element that is always there and only changes
+     opacity. An underline that appears and disappears would take its 2px out of
+     the flow and shift the bar's contents every time the reader scrolls past a
+     heading. */
+  .cv-bar-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.5rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.18s ease-out;
+  }
+  .cv-bar-link[aria-current="location"]::after { opacity: 1; }
+
+  .cv-bar-jump { position: relative; flex: 0 0 auto; }
+
+  .cv-bar-jump-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding-inline: 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+    cursor: pointer;
+    list-style: none;           /* Firefox keeps a marker without this */
+  }
+  .cv-bar-jump-summary::-webkit-details-marker { display: none; }
+  .cv-bar-jump-summary:hover { color: var(--text); }
+
+  .cv-bar-chevron {
+    width: 0.85rem;
+    height: 0.85rem;
+    transition: transform 0.18s ease-out;
+  }
+  .cv-bar-jump[open] .cv-bar-chevron { transform: rotate(180deg); }
+
+  .cv-bar-jump-list {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 1;
+    min-width: 13rem;
+    margin: 0;
+    padding: 0.3rem;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: 0.65rem;
+    background: var(--surface);
+    box-shadow: 0 24px 48px -30px rgb(var(--shadow-rgb) / 0.5);
+  }
+
+  .cv-bar-jump-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.6rem;
+    border-radius: 0.4rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  .cv-bar-jump-link:hover { background: var(--bg-alt); color: var(--text); }
+  .cv-bar-jump-link[aria-current="location"] { color: var(--accent); }
+
+  /* margin-left:auto rather than a spacer element: the ask button is the one
+     thing in the bar that keeps its place at every width. */
+  .cv-bar-ask {
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    min-width: 44px;
+    padding-inline: 0.9rem;
+    border-radius: 0.5rem;
+    background: var(--accent-cta);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.18s ease-out;
+  }
+  .cv-bar-ask:hover { background: var(--accent-deep); }
+  .cv-bar-ask svg { width: 1rem; height: 1rem; flex: 0 0 auto; }
+  .cv-bar-ask-text { display: none; }
+
+  @media (min-width: 480px) {
+    .cv-bar-ask-text { display: inline; }
+  }
+
+  /* The four section names in a row, or folded. The switch is measured rather
+     than picked off a breakpoint list: with the row forced on at every width,
+     the gap between the last section name and the ask button runs out at 768px
+     in German (18px left) and at 820px in English (9px left), because English
+     spends 23 characters on "Professional Experience" alone. Below that the
+     names slide under the button instead of wrapping, since the bar has one
+     fixed row of height. 900px is the first width where both languages keep
+     real air: 135px in German, 81px in English. */
+  @media (min-width: 900px) {
+    .cv-bar-links { display: flex; }
+    .cv-bar-jump { display: none; }
+  }
+
+  /* Every jump target clears the bar. Covers the four section headings, the
+     deep links into a single project or station, and the agent's own highlight,
+     which reaches the same elements through scrollIntoView and honours the same
+     property. Without it each of them lands with its heading under the bar. */
+  [id^="section-"],
+  [id^="project-"],
+  [id^="exp-"],
+  #main {
+    scroll-margin-top: calc(var(--cv-bar-h) + 1rem);
+  }
+
+  /* The sidebar sticks BELOW the bar. It used to stick at 1.5rem from the top,
+     which is now inside the bar. */
+  @media (min-width: 1024px) {
+    .cv-sidebar-stick { top: calc(var(--cv-bar-h) + 1.5rem); }
   }
 
   /* Ein breites Layout ist nicht dasselbe wie eine breite Textzeile. Die
