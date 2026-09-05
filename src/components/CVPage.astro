@@ -404,9 +404,19 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   by the time someone scrolls to the projects the decision is
                   usually made. Not a card, not a badge row: a plain line, so it
                   reads as fact rather than as a claim. */}
-              <ul class="cv-facts mt-3 flex flex-col gap-0.5 text-[13px]">
-                {t.facts.map(fact => <li>{fact}</li>)}
-              </ul>
+              {/* A description list, not four sentences in a column. Each entry
+                  says what it is before it says the value, so the eye finds
+                  "Verfügbar" and "Stundensatz" without reading a line of prose.
+                  No boxes and no colour: these are facts, and a badge would make
+                  them look like claims. */}
+              <dl class="cv-facts mt-4">
+                {t.facts.map(fact => (
+                  <div class="cv-fact">
+                    <dt class="cv-fact-label">{fact.label}</dt>
+                    <dd class="cv-fact-value">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
 
@@ -503,7 +513,17 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           </div>
 
           <div class="mt-4">
-            <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em]" style="color: var(--text-secondary)">{agentProof.promptTitle}</p>
+            <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em]" style="color: var(--text-secondary)">{agentProof.promptTitle}</p>
+            {/* The one thing about this agent that no other CV has, and until now
+                the page never mentioned it: the answer takes the reader to the
+                entry it came from. Written conditionally because the agent
+                PROPOSES the jump and the widget only executes a proposal that
+                matches a real anchor. Measured against the live agent on
+                2026-09-05: of the three questions below, the first jumps to
+                tuev-sued, the third to agent-mesh-gateway, and the one about free
+                slots jumps nowhere, correctly, because a calendar answer has no
+                place on this page to point at. */}
+            <p class="mb-3 text-[12px] leading-snug" style="color: var(--text-secondary)">{agentProof.promptNote}</p>
             <div class="space-y-2">
               {agentProof.prompts.map(prompt => (
                 <button type="button" data-agent-prompt={prompt} class="cv-prompt-button w-full rounded-lg px-3 py-2 text-left text-sm leading-snug transition">
@@ -1367,11 +1387,54 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     max-width: 56ch;
   }
 
+  /* ── Kopf-Fakten ──────────────────────────────────────────────────────────
+     Verfügbarkeit, Ort, Rahmen und Satz sind die vier Angaben, wegen derer
+     jemand diese Seite überhaupt öffnet, und sie standen als vier volle Sätze
+     in 13px Sekundärgrau, vierzeilig umbrechend und auf dem Telefon zentriert.
+     Jetzt Label über Wert: das Label sagt, worauf man schaut, der Wert ist kurz
+     genug für einen Blick. Kein Kasten, keine Farbe, keine Abzeichen. */
+  /* Two columns on a phone, one wrapping row from the width where the hero
+     stops being a single column. Centring five items wraps them 1/2/2 and puts
+     a lone entry in the middle of the first line; a grid pairs them and aligns
+     the labels under each other, which is what makes a row of facts scannable
+     in the first place. Left-aligned like the contact chips right below, which
+     have never been centred on a phone either. */
   .cv-facts {
-    color: var(--text-secondary);
-    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: start;
+    text-align: left;
+    gap: 0.75rem 1.25rem;
+    margin: 0;
     padding: 0;
-    max-width: 44ch;
+    max-width: 46rem;
+  }
+
+  .cv-fact { min-width: 0; }
+
+  .cv-fact-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .cv-fact-value {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--text);
+  }
+
+  @media (min-width: 640px) {
+    .cv-facts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.75rem 1.75rem;
+    }
   }
 
   .cv-tagline {

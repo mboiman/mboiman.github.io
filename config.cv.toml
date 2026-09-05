@@ -104,12 +104,13 @@ defaultContentLanguage = "de"
       [languages.de.params.agent_proof]
         eyebrow = "Live Proof statt Portfolio-Behauptung"
         headline = "Mein CV hat einen eigenen KI-Agenten."
-        text = "Er beantwortet Fragen zu Erfahrung und Stack, liest freie Zeitslots nur als Free/Busy und kann Terminwünsche an mich weitergeben. Für fachliche Fragen fragt er selbstständig einen zweiten Agenten: Agent-zu-Agent, nicht nur Chatbot. Terminwünsche gehen an mich und werden erst nach meiner persönlichen Freigabe beantwortet."
+        text = "Er beantwortet Fragen zu Erfahrung und Stack und springt dabei zu der Station, über die er spricht. Für fachliche Tiefe fragt er selbst einen zweiten Agenten, Agent-zu-Agent statt Chatbot. Terminwünsche leitet er weiter, freigegeben werden sie von mir."
         status = "Live auf mboiman.bks-lab.com"
         card = "Agent-Steckbrief (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
         ask = "Agent fragen"
         promptTitle = "Schnell fragen"
+        promptNote = "Passt die Antwort zu einer Station, springt die Seite dorthin."
         prompts = [
           "Passt Michael für AI-QA in regulierten Systemen?",
           "Wann hat Michael nächste Woche Zeit für ein Gespräch?",
@@ -754,12 +755,13 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
       [languages.en.params.agent_proof]
         eyebrow = "Live proof, not a portfolio claim"
         headline = "This CV has its own AI agent."
-        text = "It answers questions about experience and stack, reads free slots as free/busy only, and can hand meeting requests to me. For domain questions it consults a second agent on its own: agent-to-agent, not just a chatbot. Meeting requests go to me and are only answered after my personal approval."
+        text = "It answers questions about experience and stack, and jumps to the entry it is talking about. For domain depth it consults a second agent itself, agent-to-agent rather than chatbot. Meeting requests it passes on; approving them is mine."
         status = "Live at mboiman.bks-lab.com"
         card = "Agent profile card (A2A)"
         endpoint = "JSON-RPC · Streaming · Free/Busy · Handoff"
         ask = "Ask the agent"
         promptTitle = "Try a question"
+        promptNote = "When an answer matches an entry, the page jumps to it."
         prompts = [
           "Is Michael a fit for AI-QA in regulated systems?",
           "When is Michael available next week?",

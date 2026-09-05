@@ -82,6 +82,26 @@ const checkParity = (a, b, path) => {
 };
 checkParity(de, en, '');
 
+// ── Hero facts ─────────────────────────────────────────────────────────────
+// checkParity walks objects, not arrays: it sees that both branches HAVE a
+// `facts` key and stops there. That blind spot already shipped something. Until
+// 2026-09-05 the German branch said "Stundensatz auf Anfrage" and the English
+// one "Day rate on request", so the same CV quoted two different commercial
+// units depending on which language you opened, and nothing looked.
+if (de.facts.length !== en.facts.length) {
+  errors.push(`facts: de has ${de.facts.length} entries, en has ${en.facts.length}`);
+}
+for (const [name, branch] of [['de', de.facts], ['en', en.facts]]) {
+  branch.forEach((fact, i) => {
+    const where = `${name}.facts[${i}]`;
+    if (!fact?.label?.trim()) errors.push(`${where}: no label`);
+    if (!fact?.value?.trim()) errors.push(`${where}: no value`);
+    const blob = `${fact?.label ?? ''} ${fact?.value ?? ''}`;
+    if (/[—–]/.test(blob)) errors.push(`${where}: em or en dash used as punctuation`);
+    if (/\s--+\s/.test(blob)) errors.push(`${where}: double hyphen used as punctuation`);
+  });
+}
+
 // ── Act structure parity ───────────────────────────────────────────────────
 if (de.acts.length !== en.acts.length) {
   errors.push(`act count differs: de=${de.acts.length} en=${en.acts.length}`);

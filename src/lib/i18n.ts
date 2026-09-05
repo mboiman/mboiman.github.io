@@ -298,7 +298,16 @@ export interface I18nStrings {
    * before reading a single project. Keep it short enough to stay one line per
    * entry, and keep it honest: a stale availability date is worse than none.
    */
-  facts: string[];
+  /**
+   * The four or five things a buyer looks for before reading anything else.
+   *
+   * Label and value apart, not one sentence each. They used to be four full
+   * sentences in 13px secondary grey, wrapping raggedly over four lines and
+   * centred on a phone: the most decision-relevant text on the page rendered as
+   * the least legible. A label tells the eye what it is looking at, a value is
+   * short enough to be read at a glance, and neither needs a badge around it.
+   */
+  facts: { label: string; value: string }[];
 
   /** The presentation, in order. First act opens, second carries the portrait, last closes. */
   acts: PitchAct[];
@@ -372,11 +381,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     backToTop: 'Nach oben',
     linkCheck: '{ok} von {n} verlinkten Adressen dieser Seite am {date} erreichbar.',
     sidebarLabel: 'Profil-Kurzangaben',
+    // "Freiberuflich" is gone: the tagline directly above already says it.
     facts: [
-      'Freiberuflich · verfügbar ab sofort · 5 Tage/Woche',
-      'Frankfurt am Main und Remote · Reisebereitschaft nach Absprache',
-      'Mandate auf eigene Rechnung oder über die BKS-Lab GmbH, je nach Rahmen',
-      'Stundensatz auf Anfrage',
+      { label: 'Verfügbar', value: 'ab sofort, 5 Tage/Woche' },
+      { label: 'Ort', value: 'Frankfurt am Main und Remote' },
+      { label: 'Reise', value: 'nach Absprache' },
+      { label: 'Abrechnung', value: 'eigene Rechnung oder BKS-Lab GmbH' },
+      { label: 'Stundensatz', value: 'auf Anfrage' },
     ],
     acts: [
       {
@@ -843,11 +854,16 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     backToTop: 'Back to top',
     linkCheck: '{ok} of {n} linked addresses on this page reachable on {date}.',
     sidebarLabel: 'Profile at a glance',
+    // "Hourly rate", not "day rate". The two branches disagreed about the unit
+    // Michael bills in: German said Stundensatz, English said day rate. Same CV,
+    // two different commercial terms, and nothing checked it. Aligned to the
+    // German wording, which is the default page.
     facts: [
-      'Freelance · available immediately · 5 days per week',
-      'Frankfurt am Main and remote · travel by arrangement',
-      'Engagements on my own account or through BKS-Lab GmbH, whichever fits',
-      'Day rate on request',
+      { label: 'Available', value: 'immediately, 5 days a week' },
+      { label: 'Based', value: 'Frankfurt am Main and remote' },
+      { label: 'Travel', value: 'by arrangement' },
+      { label: 'Billing', value: 'own account or BKS-Lab GmbH' },
+      { label: 'Hourly rate', value: 'on request' },
     ],
     acts: [
       {

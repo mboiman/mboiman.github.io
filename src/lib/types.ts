@@ -61,6 +61,9 @@ export interface AgentProof {
   endpoint: string;
   ask: string;
   promptTitle: string;
+  /** One line saying what a quick question does to the page. Conditional on
+   *  purpose: the agent proposes the jump, so it does not always happen. */
+  promptNote: string;
   prompts: string[];
   facts: string[];
 }
