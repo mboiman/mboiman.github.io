@@ -284,6 +284,10 @@ export interface I18nStrings {
   jumpTo: string;
   /** Accessible name of the bar's name link, which goes back to the top. */
   backToTop: string;
+  /** Result of scripts/check-links.mjs, rendered under the proof cards.
+   *  `{ok}`, `{n}` and `{date}` are replaced. Renders only when the check has
+   *  actually run, so the sentence is never older than the deploy. */
+  linkCheck: string;
   sidebarLabel: string;
   /**
    * The three numbers a buyer looks for and did not find anywhere on this page.
@@ -366,6 +370,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navSections: 'Abschnitte',
     jumpTo: 'Springen',
     backToTop: 'Nach oben',
+    linkCheck: '{ok} von {n} verlinkten Adressen dieser Seite am {date} erreichbar.',
     sidebarLabel: 'Profil-Kurzangaben',
     facts: [
       'Freiberuflich · verfügbar ab sofort · 5 Tage/Woche',
@@ -836,6 +841,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navSections: 'Sections',
     jumpTo: 'Jump to',
     backToTop: 'Back to top',
+    linkCheck: '{ok} of {n} linked addresses on this page reachable on {date}.',
     sidebarLabel: 'Profile at a glance',
     facts: [
       'Freelance · available immediately · 5 days per week',

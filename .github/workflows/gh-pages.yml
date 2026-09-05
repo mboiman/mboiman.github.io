@@ -54,6 +54,15 @@ jobs:
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
 
+      # Before the build, because the page states the result and can only state
+      # what already exists on disk. It never fails: a third party being down
+      # for a minute is not a reason to refuse a deploy, and the sentence on the
+      # page reports whatever was actually measured. Without this step the file
+      # is missing and the page simply says nothing about it.
+      - name: Check the addresses the CV links to
+        run: npm run check:links
+        continue-on-error: true
+
       - name: Build Astro
         # npm run build, NOT npx astro build. The i18n/content guard
         # (scripts/check-i18n.mjs) hangs off the npm script; calling astro

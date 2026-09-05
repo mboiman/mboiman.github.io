@@ -330,6 +330,27 @@ const sectionNo = (id: string) => {
   return index < 0 ? '' : String(index + 1).padStart(2, '0');
 };
 
+/* ── Link check ────────────────────────────────────────────────────────────
+   What scripts/check-links.mjs last measured, or nothing.
+
+   Glob rather than a plain import, because the file is gitignored and a plain
+   import of a missing module is a build error. A clone without a check simply
+   renders no sentence, which is the honest state: nothing was measured, so
+   nothing is claimed.
+
+   Read at BUILD time, so the date on the page is the date of the deploy that
+   produced it and can never drift ahead of the measurement. */
+type LinkState = { checkedAt: string; total: number; ok: number; failures: { url: string; status: number }[] };
+const linkState = (Object.values(
+  import.meta.glob<{ default: LinkState }>('../data/link-state.json', { eager: true }),
+)[0]?.default) as LinkState | undefined;
+
+/** 2026-09-05 → 05.09.2026 in German, ISO left alone in English. */
+const linkCheckDate = (iso: string) => {
+  const [year, month, day] = iso.split('-');
+  return lang === 'de' ? `${day}.${month}.${year}` : iso;
+};
+
 const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expander
 ---
 
@@ -637,6 +658,21 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 );
               })}
             </div>
+
+            {/* The cards above are addresses a reader can open. This line says
+                when they were last opened by the build, and how many answered.
+                It renders only when a check actually ran: a sentence about a
+                measurement that did not happen is the exact thing this block
+                exists to argue against. "Erreichbar" is what was tested and all
+                that is claimed, see the definition in scripts/check-links.mjs. */}
+            {linkState && (
+              <p class="cv-link-check mb-8">
+                {t.linkCheck
+                  .replace('{ok}', String(linkState.ok))
+                  .replace('{n}', String(linkState.total))
+                  .replace('{date}', linkCheckDate(linkState.checkedAt))}
+              </p>
+            )}
 
             {/* Details */}
             <div class="cv-measure space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
@@ -1578,6 +1614,14 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+
+  .cv-link-check {
+    margin-top: -1.25rem;          /* sits under the card grid, not as its own block */
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--text-secondary);
   }
 
   .cv-metric-card,

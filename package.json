@@ -15,7 +15,8 @@
     "pdf:de": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de",
     "pdf:en": "./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en",
     "check:i18n": "node --experimental-strip-types scripts/check-i18n.mjs",
-    "check:output": "node scripts/check-output.mjs"
+    "check:output": "node scripts/check-output.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.1",
