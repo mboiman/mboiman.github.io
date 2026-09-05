@@ -1,0 +1,116 @@
+---
+/*
+ * The page a visitor gets when a link has gone stale.
+ *
+ * Until 2026-09-05 there was none, so an old or mistyped address landed on
+ * GitHub\'s generic error page: a different typeface, a different colour, no
+ * name, and no way back other than editing the address bar. On a CV that is
+ * the worst possible moment to look like somebody else\'s site, because the
+ * stale link is usually one Michael handed out himself.
+ *
+ * Deliberately NOT on BaseLayout. That layout emits a canonical URL, an
+ * hreflang set and a Person object in JSON-LD, and every one of those is a
+ * claim about a page that exists. This one does not exist by definition, so it
+ * carries `noindex` and nothing else.
+ *
+ * Both languages, statically, no detection. GitHub Pages serves this one file
+ * for /de/whatever and /en/whatever alike and tells the page nothing about
+ * which was asked for, so guessing would be wrong half the time. Two short
+ * lines cost less than a wrong guess, and they work with no JavaScript.
+ */
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="de" data-theme="system">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seite nicht gefunden · Michael Boiman</title>
+  <meta name="description" content="Diese Adresse gibt es nicht mehr. Zurück zum Lebenslauf von Michael Boiman, auf Deutsch oder Englisch." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="theme-color" content="#f8fbff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <script is:inline>
+    /* Same key and the same two values the toggle writes, so a visitor who
+       chose light does not get a dark flash on the way to an error page. */
+    (() => {
+      try {
+        const saved = localStorage.getItem('theme-choice');
+        const choice = saved === 'light' || saved === 'dark' ? saved : 'system';
+        const isDark = choice === 'dark'
+          || (choice === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = choice;
+        document.documentElement.classList.toggle('dark', isDark);
+      } catch {}
+    })();
+  </script>
+  <style>
+    .nf-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .nf-card { max-width: 34rem; width: 100%; }
+    .nf-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .nf-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      line-height: 1.15;
+      margin: 0.75rem 0 0;
+    }
+    .nf-lead { color: var(--text-secondary); margin: 1rem 0 0; }
+    .nf-en { color: var(--text-secondary); margin: 0.35rem 0 0; font-size: 0.9375rem; }
+    .nf-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+    .nf-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;              /* a tap target, not a word */
+      padding: 0 1.125rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9375rem;
+    }
+    .nf-link:hover { border-color: var(--accent); color: var(--accent); }
+    .nf-link-primary {
+      background: var(--accent-cta);
+      border-color: var(--accent-cta);
+      color: #fff;
+    }
+    .nf-link-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #fff; }
+    .nf-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <main class="nf-wrap">
+    <div class="nf-card">
+      <p class="nf-code">Fehler 404</p>
+      <h1 class="nf-title">Diese Seite gibt es nicht.</h1>
+      <p class="nf-lead">
+        Der Link ist alt, oder in der Adresse steckt ein Tippfehler. Der Lebenslauf
+        selbst ist da, hier entlang:
+      </p>
+      <p class="nf-en">This page does not exist. The CV itself is right here.</p>
+      <div class="nf-links">
+        <a class="nf-link nf-link-primary" href="/de/">Lebenslauf auf Deutsch</a>
+        <a class="nf-link" href="/en/">CV in English</a>
+        <a class="nf-link" href="/de/story/">Projekt-Story</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

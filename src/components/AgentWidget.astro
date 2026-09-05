@@ -234,6 +234,10 @@ const widgetStrings = {
   }
   #agent-widget-launcher svg { width: 26px; height: 26px; }
   #agent-widget-launcher.aw-hidden { display: none; }
+  /* Stands down while the page's own "ask the agent" button is on screen. See
+     the observer in the script below for why. */
+  #agent-widget-launcher.aw-standby,
+  #agent-widget-label.aw-standby { display: none; }
 
   #agent-widget-label {
     position: fixed;
@@ -958,9 +962,16 @@ const widgetStrings = {
     #agent-widget-maximize { display: none; }
     #agent-widget-header { padding-left: 16px; }
     .aw-row { max-width: 94%; }
-    #agent-widget-label {
-      display: none;
-    }
+  }
+
+  /* The label is a 153px pill to the left of the launcher, and between 640 and
+     1279 it reached straight into the page: measured on 2026-09-04 at a viewport
+     of 1024 it covered 36 percent of a quick-question button. It earns its space
+     only where there is space, so it appears from 1280 up. One rule, not two:
+     the old copy lived inside the mobile block and said the same thing for a
+     narrower range, which is how two places start disagreeing. */
+  @media (max-width: 1279px) {
+    #agent-widget-label { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2514,6 +2525,35 @@ const widgetStrings = {
         renderAgentFacts(card);
         renderAgentLive(card);
       });
+    }
+
+    // The launcher stands down while the page's OWN ask-the-agent button is on
+    // screen. Two reasons, and the second is the measured one.
+    //
+    // It is redundant there: the hero already offers the same action, larger and
+    // labelled. And it is in the way: a fixed 56px circle in the bottom right
+    // corner lands on whatever the layout happens to put there. Measured on
+    // 2026-09-04, it covered 15.6 percent of the "PDF herunterladen" button at a
+    // viewport of 430 and 12.6 percent of the GitHub link at 390. No amount of
+    // nudging fixes that for every width, because the corner belongs to the
+    // viewport and the content underneath moves.
+    //
+    // Only the CV pages have that hero button. Everywhere else (story, legal)
+    // there is nothing to defer to, so the launcher stays put.
+    const heroAsk = document.querySelector('.cv-primary-cta[data-agent-prompt]');
+    if (heroAsk && typeof IntersectionObserver === 'function') {
+      const standby = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            launcher.classList.toggle('aw-standby', entry.isIntersecting);
+            launcherLabel?.classList.toggle('aw-standby', entry.isIntersecting);
+          }
+        },
+        // Most of the button, not a sliver of it: a single visible pixel is not a
+        // reason to take the launcher away.
+        { threshold: 0.6 },
+      );
+      standby.observe(heroAsk);
     }
   }
 </script>

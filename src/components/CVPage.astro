@@ -288,7 +288,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 ---
 
 <BaseLayout
-  title={`${profile.name} · ${ui.tagline}`}
+  {/* The visible tagline and the search-result title are two different jobs.
+      Composing the title from the tagline made it 88 characters and 749 px
+      wide, and a result is cut at roughly 580 px: what fell off the end was
+      "· Frankfurt am Main", the one word a regional search needs to see. The
+      tagline itself stays as it is, it reads correctly under the name. */}
+  title={ui.seo_title || `${profile.name} · ${ui.tagline}`}
   description={ui.seo_description || ui.tagline}
   lang={lang}
 >

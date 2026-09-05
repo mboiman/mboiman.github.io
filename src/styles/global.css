@@ -91,9 +91,44 @@
 }
 
 /* === CSS Variables (outside Tailwind layers) === */
+/*
+ * A fallback that is the same SIZE as the real thing.
+ *
+ * `font-display: swap` means the page is first painted in a fallback and then
+ * repainted in IBM Plex, and until 2026-09-05 those two had different metrics,
+ * so the whole page moved when the swap happened. Measured under Fast 3G with
+ * the CPU throttled 4x: CLS 0.14653, against a good-experience threshold of
+ * 0.1. Ungedrosselt it read 0.00004, which is why it never showed up on the
+ * machine it was built on. The header measured 804px in the fallback and 769px
+ * in IBM Plex, and everything below it jumped 35px.
+ *
+ * The numbers are derived, not guessed. IBM Plex Sans: 1000 units per em, hhea
+ * ascent 1025, descent -275, line gap 0, and an average advance of 0.5630em
+ * over the 53 letters plus space. Arial, read out of a canvas: 0.5777em over
+ * the same set. So:
+ *
+ *   size-adjust       = 0.5630 / 0.5777      = 97.45%
+ *   ascent-override   = 1.025  / 0.9745      = 105.18%
+ *   descent-override  = 0.275  / 0.9745      = 28.22%
+ *
+ * Arial and Helvetica by name rather than the system font, because `local()`
+ * needs a family name and `system-ui` has none to give. The visitor sees
+ * Arial-shaped letters on IBM Plex's metrics for a fraction of a second, which
+ * is the trade: a slightly different shape instead of the whole page moving.
+ * `system-ui` stays in the stack behind it for anyone who has neither.
+ */
+@font-face {
+  font-family: "IBM Plex Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 97.45%;
+  ascent-override: 105.18%;
+  descent-override: 28.22%;
+  line-gap-override: 0%;
+}
+
 :root {
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: "IBM Plex Sans", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Fallback", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: "IBM Plex Sans", "IBM Plex Fallback", system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, Consolas, monospace;
   --bg: #f8fbff;
   --bg-alt: #eef5fb;

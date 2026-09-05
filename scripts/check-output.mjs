@@ -225,6 +225,76 @@ try {
 }
 
 /*
+ * A title or description that gets cut off in the result list.
+ *
+ * Google truncates on PIXEL width, not on characters, and the two disagree:
+ * "WWWW" and "iiii" are the same four characters and nowhere near the same
+ * width. Measured on 2026-09-04, the German title ran 749 px against a budget
+ * of roughly 580, and what fell off the end was "· Frankfurt am Main", the one
+ * part a regional search needs to read. The descriptions ran 1144 px and, on
+ * the story pages, 1366 px against roughly 920.
+ *
+ * So this measures width, not length. The table below is Arial\'s advance width
+ * per character at font-size 1, read out of a real canvas once; the sum ignores
+ * kerning, which cost 0.23 percent on the longest string on this site. The
+ * budgets carry that error plus a margin.
+ *
+ * Arial because that is what the result list is set in. A character the table
+ * does not know falls back to a middling width, and too many unknowns fail the
+ * check rather than passing it: a measurement that cannot see its own subject
+ * must not report all-clear.
+ */
+const ARIAL = {
+  ' ':0.2778, '!':0.2778, '"':0.355, '#':0.5562, '$':0.5562, '%':0.8892, '&':0.667, '\'':0.1909,
+  '(':0.333, ')':0.333, '*':0.3892, '+':0.584, ',':0.2778, '-':0.333, '.':0.2778, '/':0.2778,
+  '0':0.5562, '1':0.5562, '2':0.5562, '3':0.5562, '4':0.5562, '5':0.5562, '6':0.5562, '7':0.5562,
+  '8':0.5562, '9':0.5562, ':':0.2778, ';':0.2778, '<':0.584, '=':0.584, '>':0.584, '?':0.5562,
+  '@':1.0151, 'A':0.667, 'B':0.667, 'C':0.7222, 'D':0.7222, 'E':0.667, 'F':0.6108, 'G':0.7778,
+  'H':0.7222, 'I':0.2778, 'J':0.5, 'K':0.667, 'L':0.5562, 'M':0.833, 'N':0.7222, 'O':0.7778,
+  'P':0.667, 'Q':0.7778, 'R':0.7222, 'S':0.667, 'T':0.6108, 'U':0.7222, 'V':0.667, 'W':0.9438,
+  'X':0.667, 'Y':0.667, 'Z':0.6108, '[':0.2778, '\\':0.2778, ']':0.2778, '^':0.4692, '_':0.5562,
+  '`':0.333, 'a':0.5562, 'b':0.5562, 'c':0.5, 'd':0.5562, 'e':0.5562, 'f':0.2778, 'g':0.5562,
+  'h':0.5562, 'i':0.2222, 'j':0.2222, 'k':0.5, 'l':0.2222, 'm':0.833, 'n':0.5562, 'o':0.5562,
+  'p':0.5562, 'q':0.5562, 'r':0.333, 's':0.5, 't':0.2778, 'u':0.5562, 'v':0.5, 'w':0.7222,
+  'x':0.5, 'y':0.5, 'z':0.5, '{':0.334, '|':0.2598, '}':0.334, '~':0.584, '·':0.333,
+  'Ä':0.667, 'Ö':0.7778, 'Ü':0.7222, 'ß':0.6108, 'ä':0.5562, 'ö':0.5562, 'ü':0.5562, '–':0.5562,
+  '—':1, '’':0.2222, '“':0.333, '”':0.333, '„':0.333, '…':1, '€':0.5562,
+};
+const TITLE_BUDGET_PX = 580;   // ~600 px in the SERP, minus margin for kerning
+const DESC_BUDGET_PX = 920;    // two lines of description at 14px
+const UNKNOWN_TOLERANCE = 0.05;
+
+function textWidth(text, size) {
+  let width = 0;
+  let unknown = 0;
+  for (const ch of text) {
+    const w = ARIAL[ch];
+    if (w === undefined) { unknown += 1; width += 0.55 * size; } else { width += w * size; }
+  }
+  return { px: Math.round(width), unknownRatio: text.length ? unknown / text.length : 0 };
+}
+
+for (const file of htmlFiles(dist)) {
+  const html = readFileSync(file, 'utf8');
+  const title = decodeEntities((html.match(/<title>([^<]*)<\/title>/) ?? [])[1] ?? '');
+  const desc = decodeEntities((html.match(/<meta name="description" content="([^"]*)"/) ?? [])[1] ?? '');
+  if (!title) errors.push(`${file}: no <title>. Every page needs one, it is the headline of its search result.`);
+  if (!desc) errors.push(`${file}: no meta description, so the result list quotes whatever it finds on the page.`);
+  for (const [what, text, size, budget] of [
+    ['title', title, 20, TITLE_BUDGET_PX],
+    ['description', desc, 14, DESC_BUDGET_PX],
+  ]) {
+    if (!text) continue;
+    const { px, unknownRatio } = textWidth(text, size);
+    if (unknownRatio > UNKNOWN_TOLERANCE) {
+      errors.push(`${file}: the ${what} uses characters the width table does not know (${Math.round(unknownRatio * 100)}%). Add them to ARIAL in scripts/check-output.mjs rather than trusting a guessed width.`);
+    } else if (px > budget) {
+      errors.push(`${file}: the ${what} measures ${px}px against a budget of ${budget}px, so the end is cut off in the result list. Shorten it, or move what matters to the front.`);
+    }
+  }
+}
+
+/*
  * An internal link that costs a redirect on every click.
  *
  * Astro emits the legal pages as directories, so their address ends in a slash,
