@@ -284,6 +284,16 @@ export interface I18nStrings {
   jumpTo: string;
   /** Accessible name of the bar's name link, which goes back to the top. */
   backToTop: string;
+  /** Command palette. Everything it lists it reads off the page itself, so only
+   *  its own chrome needs strings. */
+  paletteOpen: string;
+  paletteLabel: string;
+  palettePlaceholder: string;
+  paletteEmpty: string;
+  /** `{q}` is replaced with what the visitor typed. */
+  paletteAsk: string;
+  paletteEntries: string;
+  paletteActions: string;
   /** Result of scripts/check-links.mjs, rendered under the proof cards.
    *  `{ok}`, `{n}` and `{date}` are replaced. Renders only when the check has
    *  actually run, so the sentence is never older than the deploy. */
@@ -379,6 +389,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navSections: 'Abschnitte',
     jumpTo: 'Springen',
     backToTop: 'Nach oben',
+    paletteOpen: 'Schnell springen',
+    paletteLabel: 'Schnellsuche',
+    palettePlaceholder: 'Abschnitt, Projekt oder Station suchen',
+    paletteEmpty: 'Nichts gefunden. Enter fragt den Agenten.',
+    paletteAsk: 'Den Agenten fragen: {q}',
+    paletteEntries: 'Projekte und Stationen',
+    paletteActions: 'Aktionen',
     linkCheck: '{ok} von {n} verlinkten Adressen dieser Seite am {date} erreichbar.',
     sidebarLabel: 'Profil-Kurzangaben',
     // "Freiberuflich" is gone: the tagline directly above already says it.
@@ -852,6 +869,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     navSections: 'Sections',
     jumpTo: 'Jump to',
     backToTop: 'Back to top',
+    paletteOpen: 'Quick jump',
+    paletteLabel: 'Quick search',
+    palettePlaceholder: 'Search a section, project or entry',
+    paletteEmpty: 'Nothing found. Enter asks the agent.',
+    paletteAsk: 'Ask the agent: {q}',
+    paletteEntries: 'Projects and entries',
+    paletteActions: 'Actions',
     linkCheck: '{ok} of {n} linked addresses on this page reachable on {date}.',
     sidebarLabel: 'Profile at a glance',
     // "Hourly rate", not "day rate". The two branches disagreed about the unit
