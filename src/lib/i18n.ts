@@ -382,12 +382,16 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     linkCheck: '{ok} von {n} verlinkten Adressen dieser Seite am {date} erreichbar.',
     sidebarLabel: 'Profil-Kurzangaben',
     // "Freiberuflich" is gone: the tagline directly above already says it.
+    //
+    // No rate line either, on Michael's word (2026-09-05): "stundensatz will ich
+    // nicht schreiben hier". The page names no unit and no number, so it cannot
+    // anchor a negotiation before one has started. What went in on 2026-09-05
+    // and came straight back out was "Stundensatz / auf Anfrage".
     facts: [
       { label: 'Verfügbar', value: 'ab sofort, 5 Tage/Woche' },
       { label: 'Ort', value: 'Frankfurt am Main und Remote' },
       { label: 'Reise', value: 'nach Absprache' },
       { label: 'Abrechnung', value: 'eigene Rechnung oder BKS-Lab GmbH' },
-      { label: 'Stundensatz', value: 'auf Anfrage' },
     ],
     acts: [
       {
@@ -854,16 +858,18 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     backToTop: 'Back to top',
     linkCheck: '{ok} of {n} linked addresses on this page reachable on {date}.',
     sidebarLabel: 'Profile at a glance',
-    // "Hourly rate", not "day rate". The two branches disagreed about the unit
-    // Michael bills in: German said Stundensatz, English said day rate. Same CV,
-    // two different commercial terms, and nothing checked it. Aligned to the
-    // German wording, which is the default page.
+    // The rate line is gone from both branches, see the German one above.
+    //
+    // It is worth keeping why it was ever looked at: the two branches quoted
+    // DIFFERENT commercial units, German "Stundensatz auf Anfrage" against
+    // English "Day rate on request", and nothing checked it. The guard in
+    // scripts/check-i18n.mjs came out of that and stays, because the next thing
+    // to drift apart will not be the rate.
     facts: [
       { label: 'Available', value: 'immediately, 5 days a week' },
       { label: 'Based', value: 'Frankfurt am Main and remote' },
       { label: 'Travel', value: 'by arrangement' },
       { label: 'Billing', value: 'own account or BKS-Lab GmbH' },
-      { label: 'Hourly rate', value: 'on request' },
     ],
     acts: [
       {
