@@ -234,10 +234,11 @@ const widgetStrings = {
   }
   #agent-widget-launcher svg { width: 26px; height: 26px; }
   #agent-widget-launcher.aw-hidden { display: none; }
-  /* Stands down while the page's own "ask the agent" button is on screen. See
-     the observer in the script below for why. */
-  #agent-widget-launcher.aw-standby,
-  #agent-widget-label.aw-standby { display: none; }
+  /* The page hosts the entry itself (see aw-hosted in the script below). Not the
+     same state as aw-hidden, which is the launcher stepping aside while the
+     panel is open and comes back on close; this one never comes back. */
+  #agent-widget-launcher.aw-hosted,
+  #agent-widget-label.aw-hosted { display: none; }
 
   #agent-widget-label {
     position: fixed;
@@ -1067,6 +1068,16 @@ const widgetStrings = {
   if (root) {
     const launcher = document.getElementById('agent-widget-launcher') as HTMLButtonElement;
     const launcherLabel = document.getElementById('agent-widget-label') as HTMLButtonElement | null;
+    // A page may host the entry to the panel itself. The CV pages put an ask
+    // button into their sticky section bar, and a button that sits in the layout
+    // cannot cover anything, which a fixed circle in the viewport's bottom right
+    // corner provably could: measured over the whole page on 2026-09-05, it sat
+    // on text at 11 scroll positions at 390px, 9 at 430, 6 at 768, and at 1024 it
+    // stood permanently on a chip of the sticky sidebar.
+    //
+    // Where no page offers one (the presentation, the legal pages) the floating
+    // launcher stays exactly as it was.
+    const hostedOpener = document.querySelector('[data-agent-open]') as HTMLButtonElement | null;
     const panel = document.getElementById('agent-widget-panel') as HTMLElement;
     const closeBtn = document.getElementById('agent-widget-close') as HTMLButtonElement;
     const maximizeBtn = document.getElementById('agent-widget-maximize') as HTMLButtonElement | null;
@@ -2444,6 +2455,7 @@ const widgetStrings = {
       launcher.classList.add('aw-hidden');
       launcherLabel?.classList.add('aw-hidden');
       launcher.setAttribute('aria-expanded', 'true');
+      hostedOpener?.setAttribute('aria-expanded', 'true');
       // The class is the whole mechanism now. The space the page gives up comes
       // from --aw-rail in the stylesheet above, off the same number the panel is
       // sized with, instead of a hardcoded 26rem written here as an inline
@@ -2477,7 +2489,12 @@ const widgetStrings = {
       launcher.classList.remove('aw-hidden');
       launcherLabel?.classList.remove('aw-hidden');
       launcher.setAttribute('aria-expanded', 'false');
-      launcher.focus();
+      hostedOpener?.setAttribute('aria-expanded', 'false');
+      // Focus goes back to the control that opened the panel. Calling focus() on
+      // the floating launcher where the page hosts its own would aim at a
+      // display:none element, which does nothing at all and drops the keyboard
+      // user back at the top of the document.
+      (hostedOpener ?? launcher).focus();
     }
 
     applyStrings();
@@ -2487,6 +2504,11 @@ const widgetStrings = {
       launcherLabel.addEventListener('click', () => openPanel());
     }
     launcher.addEventListener('click', () => openPanel());
+    if (hostedOpener) {
+      launcher.classList.add('aw-hosted');
+      launcherLabel?.classList.add('aw-hosted');
+      hostedOpener.addEventListener('click', () => openPanel());
+    }
     window.addEventListener('bridge-agent:prompt', (event) => {
       const custom = event as CustomEvent<{ text?: string }>;
       openPanelWithPrompt(custom.detail?.text || '');
@@ -2527,33 +2549,12 @@ const widgetStrings = {
       });
     }
 
-    // The launcher stands down while the page's OWN ask-the-agent button is on
-    // screen. Two reasons, and the second is the measured one.
-    //
-    // It is redundant there: the hero already offers the same action, larger and
-    // labelled. And it is in the way: a fixed 56px circle in the bottom right
-    // corner lands on whatever the layout happens to put there. Measured on
-    // 2026-09-04, it covered 15.6 percent of the "PDF herunterladen" button at a
-    // viewport of 430 and 12.6 percent of the GitHub link at 390. No amount of
-    // nudging fixes that for every width, because the corner belongs to the
-    // viewport and the content underneath moves.
-    //
-    // Only the CV pages have that hero button. Everywhere else (story, legal)
-    // there is nothing to defer to, so the launcher stays put.
-    const heroAsk = document.querySelector('.cv-primary-cta[data-agent-prompt]');
-    if (heroAsk && typeof IntersectionObserver === 'function') {
-      const standby = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            launcher.classList.toggle('aw-standby', entry.isIntersecting);
-            launcherLabel?.classList.toggle('aw-standby', entry.isIntersecting);
-          }
-        },
-        // Most of the button, not a sliver of it: a single visible pixel is not a
-        // reason to take the launcher away.
-        { threshold: 0.6 },
-      );
-      standby.observe(heroAsk);
-    }
+    // The standby observer that used to stand here is gone with the launcher it
+    // hid. It watched the hero's ask button and took the circle away while that
+    // button was on screen, which fixed the hero and only the hero, because the
+    // hero is where it had been measured. Everywhere below it the circle went on
+    // landing on whatever the layout put in the corner. On the pages that had
+    // that hero button the floating launcher no longer renders at all, so there
+    // is nothing left to stand down.
   }
 </script>

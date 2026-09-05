@@ -277,6 +277,13 @@ export interface I18nStrings {
   themeDark: string;
   navLanguage: string;
   navFooter: string;
+  /** Accessible name of the sticky section bar (§ Section bar in CVPage). */
+  navSections: string;
+  /** Label of the bar's section disclosure below the width where the four
+      section links fit side by side. */
+  jumpTo: string;
+  /** Accessible name of the bar's name link, which goes back to the top. */
+  backToTop: string;
   sidebarLabel: string;
   /**
    * The three numbers a buyer looks for and did not find anywhere on this page.
@@ -356,6 +363,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     themeDark: 'Darstellung ist dunkel. Weiter zur Systemeinstellung.',
     navLanguage: 'Sprache und Ansicht',
     navFooter: 'Fußzeile',
+    navSections: 'Abschnitte',
+    jumpTo: 'Springen',
+    backToTop: 'Nach oben',
     sidebarLabel: 'Profil-Kurzangaben',
     facts: [
       'Freiberuflich · verfügbar ab sofort · 5 Tage/Woche',
@@ -823,6 +833,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     themeDark: 'Appearance is dark. Next: follow the system.',
     navLanguage: 'Language and appearance',
     navFooter: 'Footer',
+    navSections: 'Sections',
+    jumpTo: 'Jump to',
+    backToTop: 'Back to top',
     sidebarLabel: 'Profile at a glance',
     facts: [
       'Freelance · available immediately · 5 days per week',
