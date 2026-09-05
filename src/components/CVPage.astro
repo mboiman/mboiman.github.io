@@ -594,6 +594,30 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         </details>
       )}
 
+      {/* The right-hand group. Both controls sit in one flex item so the auto
+          margin that pushes them to the edge does not depend on which of them is
+          currently rendered. */}
+      <div class="cv-bar-right">
+        {/* The palette's only visible affordance. A shortcut nobody is told
+            about is a shortcut for the person who wrote it.
+
+            Text, not the ⌘ glyph: scripts/check-output.mjs caught U+2318 sitting
+            outside the declared unicode-range, so it would have rendered from
+            whatever font the system offered next. Widening the range means
+            re-subsetting six faces for one character, and "Cmd K" says the same
+            thing in glyphs the page already carries. Ctrl is what ships, because
+            it is the correct legend everywhere except Apple, and the script
+            corrects it there.
+
+            The chip appears only once the script has run: without it the palette
+            does not exist, and a button that does nothing is worse than no
+            button. `html.cv-palette-ready` rather than the `hidden` attribute,
+            because a class rule with `display` beats `[hidden]` and the chip
+            would have stayed visible. */}
+        <button type="button" class="cv-bar-kbd" data-palette-open aria-label={t.paletteOpen} title={t.paletteOpen}>
+          <kbd data-palette-key>Ctrl K</kbd>
+        </button>
+
       {/* `data-agent-open` is the whole contract with AgentWidget: a page that
           carries this element hosts the agent entry itself, and the widget
           keeps its floating launcher out of the way. aria-label repeats the
@@ -611,6 +635,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.83L3 20l1.36-3.4A7.68 7.68 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
         <span class="cv-bar-ask-text">{agentProof.ask}</span>
       </button>
+      </div>
     </div>
   </nav>
 
@@ -989,6 +1014,46 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     </div>
   </div>
 
+  {/* ── Command palette ──────────────────────────────────────────────────────
+      Everything it offers it reads off the page it is on: the four sections from
+      the bar's own links, every project and station from the [data-cv-anchor]
+      set the agent is also told about, and the four actions from links that are
+      already in the document. Nothing is written down twice, so the palette
+      cannot offer a route the page does not have.
+
+      Its own chrome is the only thing that needs strings, and those arrive as
+      data attributes rather than as literals in the script, the same rule the
+      agent widget follows. */}
+  <div
+    id="cv-palette"
+    class="no-print"
+    hidden
+    data-ask={t.paletteAsk}
+    data-group-sections={t.navSections}
+    data-group-entries={t.paletteEntries}
+    data-group-actions={t.paletteActions}
+  >
+    <div class="cv-palette-backdrop" data-palette-close></div>
+    <div class="cv-palette-box" role="dialog" aria-modal="true" aria-label={t.paletteLabel}>
+      <input
+        id="cv-palette-input"
+        type="text"
+        class="cv-palette-input"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="cv-palette-list"
+        aria-autocomplete="list"
+        aria-label={t.paletteLabel}
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        placeholder={t.palettePlaceholder}
+      />
+      <ul id="cv-palette-list" class="cv-palette-list" role="listbox" aria-label={t.paletteLabel}></ul>
+      <p class="cv-palette-empty" hidden>{t.paletteEmpty}</p>
+    </div>
+  </div>
+
   {/* Footer */}
   <footer class="py-10 px-6 text-center text-sm border-t" style="color: var(--text-secondary); border-color: var(--line)">
     <p>&copy; {new Date().getFullYear()} {profile.name} &middot; BKS-Lab &middot; Frankfurt am Main</p>
@@ -1113,6 +1178,236 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     barJump?.addEventListener('click', (event) => {
       if ((event.target as HTMLElement).closest('.cv-bar-jump-link')) barJump.open = false;
     });
+
+    // ── Command palette ─────────────────────────────────────────────────────
+    // Cmd/Ctrl+K opens a list of everything this page can take you to. The list
+    // is READ OFF THE PAGE, never written down here: the four sections come from
+    // the bar's own links, every project and station from the [data-cv-anchor]
+    // set the agent is told about, and the actions from links the document
+    // already carries. A palette that keeps its own copy of the page drifts from
+    // it on the first edit.
+    //
+    // Whatever is typed and matches nothing is still useful: it goes to the
+    // agent, which is the one thing on this page that can answer a question the
+    // document does not literally contain.
+    const palette = document.getElementById('cv-palette');
+    const paletteInput = document.getElementById('cv-palette-input') as HTMLInputElement | null;
+    const paletteList = document.getElementById('cv-palette-list') as HTMLUListElement | null;
+    const paletteEmpty = palette?.querySelector('.cv-palette-empty') as HTMLElement | null;
+
+    if (palette && paletteInput && paletteList && paletteEmpty) {
+      type PaletteItem = { kind: 'section' | 'entry' | 'action'; label: string; hint: string; run: () => void };
+
+      const groupTitle: Record<PaletteItem['kind'], string> = {
+        section: palette.dataset.groupSections || '',
+        entry: palette.dataset.groupEntries || '',
+        action: palette.dataset.groupActions || '',
+      };
+      const askTemplate = palette.dataset.ask || '';
+
+      /** Lower-cased, accent-stripped, ß folded: "Vortrage" finds "Vorträge". */
+      const fold = (value: string) => value
+        .toLowerCase()
+        .replace(/ß/g, 'ss')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
+      const goTo = (id: string) => {
+        // Setting an identical hash fires no hashchange, so the reveal that
+        // normally runs on one has to be called directly.
+        if (location.hash === `#${id}`) revealTarget(`#${id}`);
+        else location.hash = `#${id}`;
+      };
+
+      function buildIndex(): PaletteItem[] {
+        const items: PaletteItem[] = [];
+        const seen = new Set<string>();
+
+        document.querySelectorAll<HTMLAnchorElement>('.cv-bar-links [data-cv-bar-link]').forEach((link) => {
+          const id = link.dataset.cvBarLink || '';
+          if (!id || seen.has(id)) return;
+          seen.add(id);
+          items.push({ kind: 'section', label: (link.textContent || '').trim(), hint: '', run: () => goTo(id) });
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-cv-anchor]').forEach((el) => {
+          if (el.hasAttribute('data-cv-group') || !el.id || seen.has(el.id)) return;
+          const label = (el.querySelector('h3, h4')?.textContent || '').trim();
+          if (!label) return;
+          seen.add(el.id);
+          // The line under the title: the employer on a station, the category on
+          // a project. Whichever the card has, and nothing invented.
+          const hint = (el.querySelector('h3 + p, .cv-shot-category, .cv-mini-project p')?.textContent || '').trim();
+          const id = el.id;
+          items.push({ kind: 'entry', label, hint: hint.slice(0, 48), run: () => goTo(id) });
+        });
+
+        // Actions come from links the page already has, with the page's own
+        // wording, so the palette cannot offer a route that does not exist.
+        const home = document.querySelector<HTMLAnchorElement>('.cv-bar-home');
+        const pdf = document.querySelector<HTMLAnchorElement>('.cv-hero a[download]');
+        const story = document.querySelector<HTMLAnchorElement>('footer a[href$="/story/"]');
+        const other = document.querySelector<HTMLAnchorElement>('footer a[hreflang]');
+        const linkAction = (el: HTMLAnchorElement | null, label?: string) => {
+          if (!el) return;
+          const text = (label || el.textContent || '').trim();
+          if (!text) return;
+          items.push({ kind: 'action', label: text, hint: '', run: () => el.click() });
+        };
+        linkAction(home, home?.getAttribute('aria-label') || undefined);
+        linkAction(pdf);
+        linkAction(story);
+        linkAction(other);
+        return items;
+      }
+
+      const index = buildIndex();
+      let shown: PaletteItem[] = [];
+      let active = 0;
+
+      /** 3 whole-start, 2 word-start, 1 anywhere, 0.5 in the hint, -1 no match. */
+      function score(item: PaletteItem, query: string): number {
+        if (!query) return 0;
+        const label = fold(item.label);
+        const at = label.indexOf(query);
+        if (at === 0) return 3;
+        if (at > 0) return /[^a-z0-9]/.test(label[at - 1]) ? 2 : 1;
+        return fold(item.hint).includes(query) ? 0.5 : -1;
+      }
+
+      function render(raw: string): void {
+        const query = fold(raw.trim());
+        const matched = query
+          ? index
+              .map((item, i) => ({ item, i, s: score(item, query) }))
+              .filter((x) => x.s >= 0)
+              .sort((a, b) => (b.s - a.s) || (a.i - b.i))
+              .map((x) => x.item)
+          : index.slice();
+
+        if (raw.trim()) {
+          const text = raw.trim();
+          matched.push({
+            kind: 'action',
+            label: askTemplate.replace('{q}', text),
+            hint: '',
+            run: () => window.dispatchEvent(new CustomEvent('bridge-agent:prompt', { detail: { text } })),
+          });
+        }
+
+        shown = matched;
+        active = 0;
+        paletteList.replaceChildren();
+        paletteEmpty.hidden = shown.length > 0;
+
+        let lastKind: string | null = null;
+        shown.forEach((item, i) => {
+          if (item.kind !== lastKind && groupTitle[item.kind]) {
+            const head = document.createElement('li');
+            head.className = 'cv-palette-group';
+            head.setAttribute('role', 'presentation');
+            head.textContent = groupTitle[item.kind];
+            paletteList.appendChild(head);
+            lastKind = item.kind;
+          }
+          const li = document.createElement('li');
+          li.className = 'cv-palette-option';
+          li.id = `cv-palette-option-${i}`;
+          li.setAttribute('role', 'option');
+          li.setAttribute('aria-selected', String(i === active));
+          const name = document.createElement('span');
+          name.textContent = item.label;
+          li.appendChild(name);
+          if (item.hint) {
+            const hint = document.createElement('span');
+            hint.className = 'cv-palette-hint';
+            hint.textContent = item.hint;
+            li.appendChild(hint);
+          }
+          li.addEventListener('click', () => choose(i));
+          paletteList.appendChild(li);
+        });
+        syncActive();
+      }
+
+      function syncActive(): void {
+        const options = paletteList.querySelectorAll<HTMLElement>('.cv-palette-option');
+        options.forEach((el, i) => el.setAttribute('aria-selected', String(i === active)));
+        const current = options[active];
+        if (current) {
+          paletteInput.setAttribute('aria-activedescendant', current.id);
+          current.scrollIntoView({ block: 'nearest' });
+        } else {
+          paletteInput.removeAttribute('aria-activedescendant');
+        }
+      }
+
+      function move(delta: number): void {
+        if (!shown.length) return;
+        active = (active + delta + shown.length) % shown.length;
+        syncActive();
+      }
+
+      function choose(i: number): void {
+        const item = shown[i];
+        if (!item) return;
+        closePalette();
+        item.run();
+      }
+
+      let paletteReturn: HTMLElement | null = null;
+      function openPalette(): void {
+        paletteReturn = document.activeElement as HTMLElement | null;
+        palette!.hidden = false;
+        paletteInput.value = '';
+        render('');
+        paletteInput.focus();
+      }
+      function closePalette(): void {
+        palette!.hidden = true;
+        paletteInput.removeAttribute('aria-activedescendant');
+        if (paletteReturn && document.contains(paletteReturn)) paletteReturn.focus();
+        paletteReturn = null;
+      }
+
+      paletteInput.addEventListener('input', () => render(paletteInput.value));
+      palette.querySelector('[data-palette-close]')?.addEventListener('click', closePalette);
+      document.querySelectorAll('[data-palette-open]').forEach((el) => {
+        el.addEventListener('click', () => (palette!.hidden ? openPalette() : closePalette()));
+      });
+
+      // Capture, not bubble. The agent widget also listens for Escape on the
+      // document, and while the palette is open Escape belongs to the palette:
+      // a capture listener on the document runs before any bubble listener on
+      // it, so stopping propagation here settles the order.
+      document.addEventListener('keydown', (event) => {
+        const key = event.key.toLowerCase();
+        if ((event.metaKey || event.ctrlKey) && key === 'k') {
+          event.preventDefault();
+          if (palette!.hidden) openPalette(); else closePalette();
+          return;
+        }
+        if (palette!.hidden) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          event.stopPropagation();
+          closePalette();
+          return;
+        }
+        if (event.key === 'ArrowDown') { event.preventDefault(); move(1); return; }
+        if (event.key === 'ArrowUp') { event.preventDefault(); move(-1); return; }
+        if (event.key === 'Enter') { event.preventDefault(); choose(active); return; }
+        // Tab leaves rather than cycling inside a list that has one field.
+        if (event.key === 'Tab') closePalette();
+      }, true);
+
+      // Only now does the chip appear: before this line the shortcut does not
+      // exist, and a control that does nothing is worse than no control.
+      const key = document.querySelector('[data-palette-key]');
+      const apple = /mac|iphone|ipad|ipod/i.test(navigator.platform || navigator.userAgent || '');
+      if (key && apple) key.textContent = 'Cmd K';
+      document.documentElement.classList.add('cv-palette-ready');
+    }
   </script>
 </BaseLayout>
 
@@ -1271,10 +1566,48 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-bar-jump-link:hover { background: var(--bg-alt); color: var(--text); }
   .cv-bar-jump-link[aria-current="location"] { color: var(--accent); }
 
-  /* margin-left:auto rather than a spacer element: the ask button is the one
-     thing in the bar that keeps its place at every width. */
-  .cv-bar-ask {
+  /* margin-left:auto on the GROUP, not on the button: the shortcut chip appears
+     only from 1100px up, and an auto margin that lives on whichever control
+     happens to be rendered stops working the moment that control is hidden. */
+  .cv-bar-right {
     margin-left: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .cv-bar-kbd {
+    display: none;                    /* → shown from 1100px, see below */
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding-inline: 0.55rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.18s ease-out, border-color 0.18s ease-out;
+  }
+  .cv-bar-kbd:hover {
+    color: var(--text);
+    border-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+  }
+  /* A fixed width, so swapping "Ctrl K" for "Cmd K" on an Apple keyboard moves
+     nothing next to it. */
+  .cv-bar-kbd kbd {
+    display: inline-block;
+    min-width: 3.4rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .cv-bar-ask {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
@@ -1311,6 +1644,129 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   @media (min-width: 900px) {
     .cv-bar-links { display: flex; }
     .cv-bar-jump { display: none; }
+  }
+
+  /* The chip costs 44px plus a gap, and at 900px the bar has 132px of air in
+     German and 78px in English. Spending most of the English reserve on a hint
+     is the wrong trade, so the chip waits for a width where both languages have
+     room to spare. */
+  @media (min-width: 1100px) {
+    :global(html.cv-palette-ready) .cv-bar-kbd { display: inline-flex; }
+  }
+
+  /* ── Command palette ──────────────────────────────────────────────────────
+     A modal over everything, the agent panel included: while it is open it is
+     the only thing being operated. */
+  #cv-palette {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(3rem, 12vh, 8rem) 1rem 1rem;
+  }
+
+  .cv-palette-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(var(--shadow-rgb) / 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .cv-palette-box {
+    position: relative;
+    width: min(34rem, 100%);
+    max-height: min(60vh, 32rem);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 0.9rem;
+    background: var(--surface);
+    box-shadow: 0 40px 80px -32px rgb(var(--shadow-rgb) / 0.5);
+    overflow: hidden;
+  }
+
+  .cv-palette-input {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 0.95rem 1.1rem;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    /* 16px on purpose: anything smaller and iOS Safari zooms the page in when
+       the field takes focus. The agent widget's input learned that in #82. */
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .cv-palette-input::placeholder { color: var(--text-secondary); }
+  .cv-palette-input:focus { outline: none; }
+
+  .cv-palette-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.35rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* :global, and it is load-bearing. Every row in this list is created by the
+     script at runtime, and Astro scopes component CSS by stamping an attribute
+     onto the elements IN THE TEMPLATE. A node built with createElement never
+     gets that stamp, so a plain `.cv-palette-option` rule matches nothing at
+     all: the first version of this palette rendered as a column of unstyled
+     text with the label and the hint run together, and every functional test
+     passed while it did, because they read textContent and counted rows. The
+     list element itself is in the template, so it anchors the selector. */
+  .cv-palette-list :global(.cv-palette-group) {
+    padding: 0.5rem 0.75rem 0.25rem;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .cv-palette-list :global(.cv-palette-option) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .cv-palette-list :global(.cv-palette-option > span:first-child) {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cv-palette-list :global(.cv-palette-option[aria-selected="true"]) {
+    background: var(--bg-alt);
+  }
+
+  .cv-palette-list :global(.cv-palette-hint) {
+    margin-left: auto;
+    flex: 0 0 auto;
+    max-width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+
+  .cv-palette-empty {
+    margin: 0;
+    padding: 0.85rem 1.1rem;
+    color: var(--text-secondary);
+    font-size: 13px;
   }
 
   /* Every jump target clears the bar. Covers the four section headings, the
