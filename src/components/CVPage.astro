@@ -559,6 +559,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
       the footer carries the language link, and DarkModeToggle binds by a fixed
       id, so a second instance would be a duplicate id with a dead button under
       it. The width that buys goes to the section names. */}
+  {/* Ein Pixel, das misst, ob die Leiste schon oben angedockt hat. Ein
+      IntersectionObserver darauf ist billiger als ein Scroll-Horcher und sagt
+      dasselbe. Negative Untergrenze, damit die Zeile nichts an der Höhe
+      ändert. */}
+  <div class="cv-bar-sentinel no-print" aria-hidden="true"></div>
+
   <nav class="cv-bar no-print" aria-label={t.navSections}>
     <div class="cv-shell cv-bar-inner">
       <a href="#top" class="cv-bar-home" aria-label={t.backToTop}>{profile.name}</a>
@@ -1409,6 +1415,27 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
       document.documentElement.classList.add('cv-palette-ready');
     }
 
+    // ── Angedockt oder nicht ────────────────────────────────────────────────
+    // Der Fühler steht ein Pixel über der Leiste. Verlässt er das Fenster nach
+    // oben, klebt die Leiste. Ein Beobachter darauf feuert genau zweimal je
+    // Richtungswechsel, ein Scroll-Horcher würde dieselbe Auskunft bei jedem
+    // Bild neu berechnen.
+    //
+    // Der Startwert wird synchron gelesen, nicht dem ersten Rückruf überlassen:
+    // wer mit einem Tiefenlink mitten in die Seite kommt, hätte sonst ein Bild
+    // lang eine durchsichtige Leiste über dem Text.
+    const bar = document.querySelector('.cv-bar') as HTMLElement | null;
+    const barSentinel = document.querySelector('.cv-bar-sentinel');
+    if (bar && barSentinel && 'IntersectionObserver' in window) {
+      const setState = (pinned: boolean) => {
+        bar.dataset.barState = pinned ? 'pinned' : 'floating';
+      };
+      setState(barSentinel.getBoundingClientRect().top <= 0);
+      new IntersectionObserver(([entry]) => {
+        setState(!entry.isIntersecting && entry.boundingClientRect.top <= 0);
+      }).observe(barSentinel);
+    }
+
     // ── Auftauchen ──────────────────────────────────────────────────────────
     // Zusatz, kein Träger. Die Seite steht vollständig da, bevor diese Zeilen
     // laufen; sie versteckt hier gleich etwas und gibt es beim Erreichen wieder
@@ -1531,6 +1558,38 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
        the prefixed declaration and DROP the standard one, on the card scrim
        further down this file. The bundler adds whatever its targets need. */
     backdrop-filter: blur(14px);
+  }
+
+  .cv-bar-sentinel {
+    height: 1px;
+    margin-bottom: -1px;
+  }
+
+  /* ── Die Leiste sieht erst wie eine Leiste aus, wenn sie eine ist ─────────
+     Sie steht im Fluss und dockt erst beim Scrollen oben an. Bis dahin liegt
+     sie am Fuß des Kopfbereichs, und gemessen am 06.09.2026 heißt das auf einem
+     Laptop: bei 1440x900 steht sie 131px über der Unterkante des Fensters, bei
+     1512x982 213px, bei 1920x1080 333px. Wer die Seite öffnet, sieht also
+     zuerst eine Leiste UNTEN, die aussieht wie eine Fußleiste, und erst beim
+     Scrollen wandert sie nach oben. Michael ist genau darüber gestolpert.
+
+     Fläche, Unschärfe und Trennlinie sind das, was sie als Leiste lesbar macht.
+     Solange sie im Kopfbereich liegt, braucht sie davon nichts: dort ist sie
+     eine Reihe Abschnittsnamen unter dem Kopf, und der Kopf hat seine eigene
+     Trennlinie bereits. Erst beim Andocken kommt die Optik dazu.
+
+     Ausgangszustand ist ABSICHTLICH die alte Optik. Der schwebende Zustand wird
+     vom Skript gesetzt, nachdem der Fühler steht. Ohne JavaScript bleibt es
+     deshalb bei dem, was heute live ist, statt bei einer transparenten Leiste,
+     die über den Text scrollt. */
+  .cv-bar[data-bar-state="floating"] {
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
+  .cv-bar {
+    transition: background-color 0.22s ease-out, border-color 0.22s ease-out;
   }
 
   .cv-bar-inner {
