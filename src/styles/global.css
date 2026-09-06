@@ -163,6 +163,7 @@
   --r-sm: 0.5rem;
   --r-md: 0.75rem;
   --r-lg: 1rem;
+  --r-xl: 1.5rem;
   --r-pill: 9999px;
   --bg: #f8fbff;
   --bg-alt: #eef5fb;
@@ -244,7 +245,7 @@ html.dark {
 :focus-visible {
   outline: 2px solid var(--accent-hover);
   outline-offset: 2px;
-  border-radius: 3px;
+  border-radius: var(--r-xs);
   /* `transition-colors` animates outline-color too, so the ring started in the
      element's text colour: on the primary button that is white on a light
      surface for 150ms, exactly while the eye is looking for it. */
@@ -262,7 +263,7 @@ body {
   background: var(--page-background);
   color: var(--text);
   line-height: 1.75;
-  font-size: 16px;
+  font-size: var(--fs-16);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -330,14 +331,14 @@ h1, h2, h3, h4 {
 
 .terminal {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--fs-13);
   line-height: 2;
   overflow-x: auto;
 }
 
 @media (min-width: 640px) {
   .terminal {
-    font-size: 14px;
+    font-size: var(--fs-14);
   }
 }
 

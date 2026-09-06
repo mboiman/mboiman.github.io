@@ -199,7 +199,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                   <li class="bullet"><span class="bullet-mark" aria-hidden="true">·</span><span>{b}</span></li>
                 ))}
               </ul>
-              {act.hook && <p class="mt-7 text-[0.82rem] max-w-[38rem] cue" style="--cue:1.8s; color: var(--text-secondary)">{act.hook}</p>}
+              {act.hook && <p class="mt-7 fs-13 max-w-[38rem] cue" style="--cue:1.8s; color: var(--text-secondary)">{act.hook}</p>}
               {act.anchor && (
                 <p class="mt-5 cue" style="--cue:1.95s">
                   <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
@@ -233,7 +233,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">·</span><span>{b}</span></li>
                   ))}
                 </ul>
-                {act.hook && <p class="mt-7 text-[0.86rem]" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
+                {act.hook && <p class="mt-7 fs-14" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
               </div>
             </div>
           )}
@@ -258,7 +258,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                   );
                 })}
               </div>
-              {act.hook && <p class="mt-8 text-[0.92rem] rise" style="color: var(--text-secondary)">{act.hook}</p>}
+              {act.hook && <p class="mt-8 fs-15 rise" style="color: var(--text-secondary)">{act.hook}</p>}
               <p class="mt-5 flex flex-wrap gap-x-6 gap-y-2 rise" style="font-size: clamp(0.95rem, 1.3vw, 1.15rem)">
                 {email && <a href={email.url} class="cta" style="color: var(--accent)">{email.title}</a>}
                 {linkedin && <a href={linkedin.url} target="_blank" rel="noopener" class="cta">LinkedIn</a>}
@@ -353,7 +353,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                           <span class={`term-line term-${l.kind}`} style={`--i:${i}`}>{l.kind === 'cmd' ? <><span class="term-p">$ </span>{l.text}</> : l.text}{'\n'}</span>
                         ))}</code></pre>
                       </div>
-                      <p class="mt-3 text-[0.68rem]" style="color: var(--text-secondary)">{act.terminal.recorded}</p>
+                      <p class="mt-3 fs-11" style="color: var(--text-secondary)">{act.terminal.recorded}</p>
                     </div>
                   )}
                 </div>
@@ -382,7 +382,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     <li class="bullet" style={`--i:${i + 2}`}><span class="bullet-mark" aria-hidden="true">{i + 1}</span><span>{b}</span></li>
                   ))}
                 </ol>
-                {act.hook && <p class="mt-6 text-[0.88rem] max-w-[46rem]" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
+                {act.hook && <p class="mt-6 fs-14 max-w-[46rem]" style={`--i:${act.bullets.length + 2}; color: var(--text-secondary)`}>{act.hook}</p>}
                 {act.anchor && (
                   <p class="mt-5" style={`--i:${act.bullets.length + 3}`}>
                     <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
@@ -448,7 +448,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                     </li>
                   ))}
                 </ul>
-                {act.hook && <p class="mt-7 text-[0.86rem]" style="color: var(--text-secondary)">{act.hook}</p>}
+                {act.hook && <p class="mt-7 fs-14" style="color: var(--text-secondary)">{act.hook}</p>}
                 {act.anchor && (
                   <p class="mt-5">
                     <a href={act.anchor.url} target="_blank" rel="noopener" class="proof">{act.anchor.text}</a>
@@ -502,7 +502,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
               <div class="rise-stagger">
                 <p class="act-eyebrow" style="--i:0">{act.eyebrow}</p>
                 <h2 class="act-h" style="--i:1">{act.headline}</h2>
-                <p class="mt-6 text-[0.86rem] max-w-[26rem]" style="--i:2; color: var(--text-secondary)">
+                <p class="mt-6 fs-14 max-w-[26rem]" style="--i:2; color: var(--text-secondary)">
                   {t.stationsNote}
                 </p>
                 <p class="mt-5" style="--i:3">
@@ -554,11 +554,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
                 {website && <a href={website.url} target="_blank" rel="noopener" class="cta">BKS-Lab</a>}
               </p>
               <Image src={portrait} alt="" aria-hidden="true" widths={[96, 192, 288]} sizes="6rem" class="portrait-mark mt-9" loading="lazy" />
-              <p class="mt-8 text-[0.7rem]" style="color: var(--text-secondary)">
+              <p class="mt-8 fs-11" style="color: var(--text-secondary)">
                 {t.builtOn} {buildDate}
-                <span class="block mt-1 text-[0.66rem]">{t.builtOnNote}</span>
+                <span class="block mt-1 fs-11">{t.builtOnNote}</span>
               </p>
-              <p class="mt-6 text-[0.7rem] no-print" style="color: var(--text-secondary)">
+              <p class="mt-6 fs-11 no-print" style="color: var(--text-secondary)">
                 <a href={`/${lang}/`} class="hover:opacity-100">{t.classicCV}</a>
                 &nbsp;&middot;&nbsp;
                 <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} class="hover:opacity-100">PDF</a>
@@ -598,11 +598,11 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     .story-key-hint {
       align-items: center;
       border: 1px solid var(--line);
-      border-radius: 9999px;
+      border-radius: var(--r-pill);
       padding: 0.28rem 0.55rem;
       color: var(--accent);
       background: color-mix(in srgb, var(--accent) 7%, var(--surface));
-      font-size: 0.72rem;
+      font-size: var(--fs-12);
       font-weight: 500;
       letter-spacing: 0.08em;
     }
@@ -705,17 +705,17 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     .phone {
       width: min(17rem, 30vw);
       border: 1px solid var(--line);
-      border-radius: 1.5rem;
+      border-radius: var(--r-xl);
       background: var(--surface-elevated);
       padding: 1rem;
       display: flex; flex-direction: column; gap: 0.5rem;
     }
     .phone-bubble {
       font-family: var(--font-mono);
-      font-size: 0.76rem;
+      font-size: var(--fs-12);
       line-height: 1.45;
       padding: 0.5rem 0.7rem;
-      border-radius: 0.7rem;
+      border-radius: var(--r-md);
       background: color-mix(in srgb, var(--accent) 8%, transparent);
       color: var(--text);
     }
@@ -725,7 +725,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       color: var(--text-secondary);
     }
     .phone-note {
-      font-size: 0.66rem;
+      font-size: var(--fs-11);
       line-height: 1.4;
       color: var(--text-secondary);
       margin-top: 0.2rem;
@@ -737,7 +737,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     .probe-note {
       display: block;
       margin-top: 0.3rem;
-      font-size: 0.7rem;
+      font-size: var(--fs-11);
       line-height: 1.4;
       color: var(--text-secondary);
     }
@@ -746,10 +746,10 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     .agent-facts {
       margin-top: 1.2rem;
       display: flex; flex-direction: column; gap: 0.7rem;
-      font-size: 0.8rem;
+      font-size: var(--fs-13);
     }
     .agent-facts > div { display: grid; grid-template-columns: 8rem 1fr; gap: 0.8rem; }
-    .agent-facts dt { color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.66rem; padding-top: 0.15rem; }
+    .agent-facts dt { color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; font-size: var(--fs-11); padding-top: 0.15rem; }
     .agent-facts dd { color: var(--text); margin: 0; }
     /* Same reason as the terminal block in story.css: the skills row made this
        card one line taller, and on a 640px-high screen the act had no spare
@@ -769,10 +769,10 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
        global part cannot reach past this act. */
     .agent-skills :global(.agent-skill) {
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: var(--fs-11);
       line-height: 1.5;
       padding: 0.12rem 0.5rem;
-      border-radius: 4px;
+      border-radius: var(--r-xs);
       /* A tint rather than a border: --line sits at ten percent alpha, which
          is right for a card edge and invisible at chip size on the same
          surface. Tinting off --accent carries both themes. */
@@ -842,7 +842,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     }
     .tree-row { display: flex; gap: 0.8rem; align-items: baseline; }
     .tree-path { color: var(--slab-text); min-width: 6.5rem; }
-    .tree-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+    .tree-label { font-size: var(--fs-11); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
     .tree-row.is-private .tree-path { opacity: 0.52; }
 
     .closing {
@@ -872,19 +872,19 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     :global(#story-keyboard-hint) {
       font-family: var(--font-body);
       border: 1px solid var(--line);
-      border-radius: 9999px;
+      border-radius: var(--r-pill);
       background: color-mix(in srgb, var(--surface) 86%, transparent);
       box-shadow: 0 14px 32px -26px rgba(15,23,42,0.36);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
     :global(#story-step-counter) {
-      padding: 0.42rem 0.62rem; font-size: 0.72rem;
+      padding: 0.42rem 0.62rem; font-size: var(--fs-12);
       letter-spacing: 0.12em; font-variant-numeric: tabular-nums;
     }
     :global(#story-keyboard-hint) {
       padding: 0.42rem 0.7rem; color: var(--text-secondary);
-      font-size: 0.66rem; font-weight: 500;
+      font-size: var(--fs-11); font-weight: 500;
       letter-spacing: 0.18em; text-transform: uppercase;
     }
 
@@ -1160,7 +1160,7 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       hint.id = 'story-keyboard-hint';
       hint.setAttribute('aria-hidden', 'true');
       const navLabel = document.documentElement.lang === 'en' ? 'Navigate' : 'Navigieren';
-      hint.innerHTML = '<span style="font-size:.8rem;letter-spacing:.05em">← →</span><span>' + navLabel + '</span>';
+      hint.innerHTML = '<span style="font-size: var(--fs-13);letter-spacing:.05em">← →</span><span>' + navLabel + '</span>';
       // Centred on the READING area, not on the viewport: with the chat rail
       // open the two are no longer the same, and a hint centred on the viewport
       // drifts under the rail. --aw-rail is 0 whenever the rail is closed, so
