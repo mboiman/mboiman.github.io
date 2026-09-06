@@ -421,7 +421,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           </div>
 
           {ui.hero_intro && (
-            <p class="cv-proof-text mt-6 max-w-[42rem] text-[15px] leading-[1.75]">
+            <p class="cv-proof-text mt-6 max-w-[42rem] fs-15 leading-[1.75]">
               {ui.hero_intro}
             </p>
           )}
@@ -465,14 +465,14 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
         </div>
 
         <div class="cv-agent-card no-print rounded-2xl p-5 lg:p-5">
-          <div class="cv-kicker inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-4 text-[11px] font-medium uppercase tracking-[0.08em]">
+          <div class="cv-kicker inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-4 fs-11 font-medium uppercase tracking-[0.08em]">
             <span class="h-1.5 w-1.5 rounded-full" style="background: var(--accent)"></span>
             {agentProof.eyebrow}
           </div>
           <div class="flex items-start justify-between gap-4">
             <div>
-              <p class="text-[11px] font-semibold uppercase tracking-[0.16em]" style="color: var(--accent)">{agentProof.card}</p>
-              <h2 class="mt-2 text-xl sm:text-[1.55rem] font-sans font-light tracking-[-0.01em] leading-tight">{agentProof.headline}</h2>
+              <p class="fs-11 font-semibold uppercase tracking-[0.16em]" style="color: var(--accent)">{agentProof.card}</p>
+              <h2 class="mt-2 text-xl sm:text-2xl font-sans font-light tracking-[-0.01em] leading-tight">{agentProof.headline}</h2>
             </div>
             {/* The badge said "Live" in the markup and nothing ever checked it.
                 On a page whose argument is that a declared state is not a
@@ -481,7 +481,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 the widget from the same agent-card fetch that fills the chips
                 below (see renderAgentLive in AgentWidget.astro). */}
             <span
-              class="cv-live-badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium"
+              class="cv-live-badge inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 fs-11 font-medium"
               data-agent-live
               data-live-ok={t.agentReachable}
               data-live-down={t.agentUnavailable}
@@ -492,7 +492,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             </span>
           </div>
 
-          <p class="mt-3 text-[13px] leading-[1.7]" style="color: var(--text-secondary)">
+          <p class="mt-3 fs-13 leading-[1.7]" style="color: var(--text-secondary)">
             {agentProof.text}
           </p>
 
@@ -507,13 +507,13 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 live card said otherwise. The card is the source of truth. */}
             <div class="mt-4 flex flex-wrap gap-2" data-agent-facts>
               {agentProof.facts.map(fact => (
-                <span class="cv-agent-fact rounded-full px-2.5 py-1 text-[11px]">{fact}</span>
+                <span class="cv-agent-fact rounded-full px-2.5 py-1 fs-11">{fact}</span>
               ))}
             </div>
           </div>
 
           <div class="mt-4">
-            <p class="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em]" style="color: var(--text-secondary)">{agentProof.promptTitle}</p>
+            <p class="mb-1 fs-11 font-semibold uppercase tracking-[0.14em]" style="color: var(--text-secondary)">{agentProof.promptTitle}</p>
             {/* The one thing about this agent that no other CV has, and until now
                 the page never mentioned it: the answer takes the reader to the
                 entry it came from. Written conditionally because the agent
@@ -523,7 +523,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 tuev-sued, the third to agent-mesh-gateway, and the one about free
                 slots jumps nowhere, correctly, because a calendar answer has no
                 place on this page to point at. */}
-            <p class="mb-3 text-[12px] leading-snug" style="color: var(--text-secondary)">{agentProof.promptNote}</p>
+            <p class="mb-3 fs-12 leading-snug" style="color: var(--text-secondary)">{agentProof.promptNote}</p>
             <div class="space-y-2">
               {agentProof.prompts.map(prompt => (
                 <button type="button" data-agent-prompt={prompt} class="cv-prompt-button w-full rounded-lg px-3 py-2 text-left text-sm leading-snug transition">
@@ -656,7 +656,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             <h2 class="cv-section-title"><span class="cv-section-no" aria-hidden="true">{sectionNo('section-profile')}</span>{summary.title}</h2>
 
             {/* Intro */}
-            <p class="cv-measure text-[15px] leading-[1.85] mb-8" style="color: var(--text-secondary)">
+            <p class="cv-measure fs-15 leading-[1.85] mb-8" style="color: var(--text-secondary)">
               {t.careerIntro}
             </p>
 
@@ -669,7 +669,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 was describing into dist/de/index.html. */}
             {/* Spaced 11px capitals at 75% opacity on the accent colour came to
                 3.23:1. Same size, --text-secondary, no opacity: 5.90:1. */}
-            <p class="text-[11px] tracking-[0.2em] uppercase mb-3" style="color: var(--text-secondary)">{t.cvRunningTitle}</p>
+            <p class="fs-11 tracking-[0.2em] uppercase mb-3" style="color: var(--text-secondary)">{t.cvRunningTitle}</p>
             {/* Every entry renders, not only `state: public`.
                 The filter dropped exactly one card, and it was the only one
                 showing a customer system: what was left were three cards about
@@ -693,11 +693,11 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   >
                     <p class="text-sm font-medium">{item.title}</p>
                     {item.mechanism && (
-                      <p class="text-[13px] mt-1.5 leading-[1.6]" style="color: var(--text-secondary)">{item.mechanism}</p>
+                      <p class="fs-13 mt-1.5 leading-[1.6]" style="color: var(--text-secondary)">{item.mechanism}</p>
                     )}
                     <p class="text-xs mt-2 break-words" style="color: var(--accent); font-family: var(--font-mono, ui-monospace, Menlo, monospace)">{item.proof}</p>
                     {item.stateNote && (
-                      <p class="text-[11px] mt-1.5" style="color: var(--text-secondary)">{item.stateNote}</p>
+                      <p class="fs-11 mt-1.5" style="color: var(--text-secondary)">{item.stateNote}</p>
                     )}
                   </Tag>
                 );
@@ -720,7 +720,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
             )}
 
             {/* Details */}
-            <div class="cv-measure space-y-3 text-[14px] leading-[1.85]" style="color: var(--text-secondary)">
+            <div class="cv-measure space-y-3 fs-14 leading-[1.85]" style="color: var(--text-secondary)">
               {t.careerDetails.map(detail => (
                 <p set:html={detail} />
               ))}
@@ -771,12 +771,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                           from 360 to 3440. */}
                       <Image src={shotFor(project.screenshot)!} alt={project.screenshot_alt ?? ''} widths={[400, 800, 1200, 1600]} sizes="(max-width: 767px) calc(100vw - 44px), (max-width: 1023px) 46vw, (max-width: 1279px) 31vw, 30rem" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                       <div class="cv-shot-scrim"></div>
-                      <p class="cv-shot-category absolute bottom-3 left-4 text-[10px] tracking-[0.2em] uppercase">{project.category}</p>
+                      <p class="cv-shot-category absolute bottom-3 left-4 fs-10 tracking-[0.2em] uppercase">{project.category}</p>
                     </div>
                   )}
                   {!shotFor(project.screenshot) && (
                     <div class="px-5 pt-4">
-                      <p class="text-[10px] tracking-[0.2em] uppercase" style="color: var(--accent)">{project.category}</p>
+                      <p class="fs-10 tracking-[0.2em] uppercase" style="color: var(--accent)">{project.category}</p>
                     </div>
                   )}
                   <div class="p-5">
@@ -796,19 +796,19 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                     {project.tech_stack?.length > 0 && (
                       <div class="flex flex-wrap gap-1.5 mb-3">
                         {project.tech_stack.slice(0, 6).map(tech => (
-                          <span class="cv-tech-chip text-[12px] px-2 py-0.5 rounded-md font-medium">{tech}</span>
+                          <span class="cv-tech-chip fs-12 px-2 py-0.5 rounded-md font-medium">{tech}</span>
                         ))}
                         {project.tech_stack.length > 6 && (
-                          <span class="text-[12px] px-2 py-0.5 rounded-md" style="color: var(--text-secondary)">+{project.tech_stack.length - 6}</span>
+                          <span class="fs-12 px-2 py-0.5 rounded-md" style="color: var(--text-secondary)">+{project.tech_stack.length - 6}</span>
                         )}
                       </div>
                     )}
 
-                    <div class="project-copy text-[13px] leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatBlocks(copy.lead)} />
+                    <div class="project-copy fs-13 leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatBlocks(copy.lead)} />
                     {copy.fold && (
                       <details class="cv-card-details mt-3">
-                        <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{copy.foldTitle}</summary>
-                        <div class="project-copy mt-2 text-[13px] leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatBlocks(copy.fold)} />
+                        <summary class="cursor-pointer fs-12 font-medium select-none" style="color: var(--accent)">{copy.foldTitle}</summary>
+                        <div class="project-copy mt-2 fs-13 leading-[1.75] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatBlocks(copy.fold)} />
                       </details>
                     )}
                   </div>
@@ -829,10 +829,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
               <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {otherProjects.map(project => (
                   <div class="cv-mini-project p-4 rounded-lg">
-                    <p class="text-[10px] tracking-[0.15em] uppercase mb-1" style="color: var(--accent)">{project.category}</p>
+                    <p class="fs-10 tracking-[0.15em] uppercase mb-1" style="color: var(--accent)">{project.category}</p>
                     <h4 class="text-sm font-medium font-sans mb-1">{project.title}</h4>
                     {project.tech_stack?.length > 0 && (
-                      <p class="text-[10px]" style="color: var(--text-secondary)">{project.tech_stack.slice(0, 4).join(' · ')}</p>
+                      <p class="fs-10" style="color: var(--text-secondary)">{project.tech_stack.slice(0, 4).join(' · ')}</p>
                     )}
                   </div>
                 ))}
@@ -854,10 +854,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   <div class="cv-experience-card p-6 rounded-xl">
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
                       <div>
-                        <h3 class="text-[15px] font-medium font-sans leading-snug" style="color: var(--accent)">{exp.position}</h3>
+                        <h3 class="fs-15 font-medium font-sans leading-snug" style="color: var(--accent)">{exp.position}</h3>
                         <p class="text-sm mt-1 font-medium" style="color: var(--text-secondary)">{exp.company}</p>
                       </div>
-                      <span class="cv-date-pill text-[11px] font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start">{exp.dates}</span>
+                      <span class="cv-date-pill fs-11 font-medium px-2.5 py-1 rounded-md whitespace-nowrap self-start">{exp.dates}</span>
                     </div>
                     {(() => {
                       const d = splitDetails(exp.details);
@@ -868,11 +868,11 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                       return (
                         <div class:list={['cv-exp-body', d.tools && 'is-split']}>
                           <div class="cv-exp-main">
-                            <div class="exp-copy text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.open)} />
+                            <div class="exp-copy fs-13 leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.open)} />
                             {d.fold && (
                               <details class="cv-card-details mt-2">
-                                <summary class="cursor-pointer text-[12px] font-medium select-none" style="color: var(--accent)">{d.foldTitle}</summary>
-                                <div class="exp-copy mt-2 text-[13px] leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.fold)} />
+                                <summary class="cursor-pointer fs-12 font-medium select-none" style="color: var(--accent)">{d.foldTitle}</summary>
+                                <div class="exp-copy mt-2 fs-13 leading-[1.9] [&_strong]:font-medium [&_strong]:text-[var(--text)]" style="color: var(--text-secondary)" set:html={formatToHTML(d.fold)} />
                               </details>
                             )}
                           </div>
@@ -917,9 +917,9 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                   <div class="cv-mini-project p-4 rounded-lg" id={talk.anchor ? `exp-${talk.anchor}` : undefined} data-cv-anchor={talk.anchor}>
                   <h3 class="text-sm font-medium font-sans leading-snug" style="color: var(--accent)">{talk.position}</h3>
                   <p class="text-xs mt-1" style="color: var(--text-secondary)">{talk.company}</p>
-                  <span class="cv-date-pill inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-md">{talk.dates}</span>
+                  <span class="cv-date-pill inline-block mt-2 fs-11 font-medium px-2 py-0.5 rounded-md">{talk.dates}</span>
                   {splitDetails(talk.details ?? '').open && (
-                    <div class="talk-copy mt-3 text-[13px] leading-[1.7]" set:html={formatToHTML(splitDetails(talk.details ?? '').open)} />
+                    <div class="talk-copy mt-3 fs-13 leading-[1.7]" set:html={formatToHTML(splitDetails(talk.details ?? '').open)} />
                   )}
                   {talkLinks(talk.details ?? '').length > 0 && (
                     <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs">
@@ -981,7 +981,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
                 {langs.list.map(l => (
                   <div class="flex justify-between items-center text-sm">
                     <span>{l.language}</span>
-                    <span class="cv-date-pill text-[11px] px-2.5 py-0.5 rounded-md font-medium">{l.level}</span>
+                    <span class="cv-date-pill fs-11 px-2.5 py-0.5 rounded-md font-medium">{l.level}</span>
                   </div>
                 ))}
               </div>
@@ -1004,7 +1004,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
               {/* This notice declares an attribution requirement, and it
                   rendered nowhere: "CC BY 4.0" produced zero hits in either
                   built page. A licence nobody can read binds nobody. */}
-              <p class="text-[13px] leading-[1.6]" style="color: var(--text-secondary)" set:html={formatMarkdown(license_sidebar.notice)} />
+              <p class="fs-13 leading-[1.6]" style="color: var(--text-secondary)" set:html={formatMarkdown(license_sidebar.notice)} />
             </div>
           )}
 
@@ -1408,6 +1408,89 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
       if (key && apple) key.textContent = 'Cmd K';
       document.documentElement.classList.add('cv-palette-ready');
     }
+
+    // ── Auftauchen ──────────────────────────────────────────────────────────
+    // Zusatz, kein Träger. Die Seite steht vollständig da, bevor diese Zeilen
+    // laufen; sie versteckt hier gleich etwas und gibt es beim Erreichen wieder
+    // frei. Deshalb die Reihenfolge: erst wird gemessen, was ohnehin außerhalb
+    // des Sichtfelds liegt, dann wird nur DAS versteckt. Was beim Laden zu
+    // sehen ist, bleibt zu sehen, auch der per Tiefenlink angesprungene Ort,
+    // weil revealTarget() weiter oben schon gescrollt hat.
+    if (
+      'IntersectionObserver' in window &&
+      window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+    ) {
+      const revealables = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          '.cv-section-title, .cv-project-card, .cv-experience-card, .cv-mini-project',
+        ),
+      );
+      // 0.9 statt 1: eine Karte, die beim Laden zu einem Zehntel hereinragt,
+      // ist bereits gesehen worden. Sie danach noch einzublenden wäre eine
+      // Bewegung ohne Anlass.
+      const pending = revealables.filter(
+        (el) => el.getBoundingClientRect().top > window.innerHeight * 0.9,
+      );
+      for (const el of pending) el.classList.add('cv-reveal-pending');
+
+      const show = (el: HTMLElement) => {
+        if (!el.classList.contains('cv-reveal-pending')) return;
+        el.classList.remove('cv-reveal-pending');
+        el.classList.add('cv-reveal-in');
+      };
+
+      const watcher = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            show(entry.target as HTMLElement);
+            watcher.unobserve(entry.target);
+          }
+          // Ein Beobachter meldet einen WECHSEL. Wer über ein Element hinweg
+          // springt, statt daran vorbeizuscrollen, erzeugt keinen: das Element
+          // war vorher nicht im Bild und ist es nachher auch nicht, also
+          // schweigt der Beobachter und die Karte bleibt unsichtbar stehen.
+          // Gemessen am 06.09.2026: nach einem Sprung von 1000 auf 3000 Pixel
+          // blieben fünf Elemente hängen, darunter zwei Projektkarten und zwei
+          // Abschnittstitel. Genau das passiert bei jedem Tiefenlink und bei
+          // jedem Eintrag der Befehlspalette.
+          //
+          // Deshalb räumt jeder Rückruf auch auf, was inzwischen oberhalb der
+          // Unterkante liegt. Das kostet nichts extra: es läuft nur, wenn der
+          // Beobachter ohnehin schon geweckt wurde, nie bei jedem Bild.
+          for (const el of pending) {
+            if (!el.classList.contains('cv-reveal-pending')) continue;
+            if (el.getBoundingClientRect().top < window.innerHeight) {
+              show(el);
+              watcher.unobserve(el);
+            }
+          }
+        },
+        // Etwas früher als die Kante, damit die Bewegung fertig ist, wenn das
+        // Element gelesen wird, statt unter dem Blick zu starten.
+        { rootMargin: '0px 0px 12% 0px', threshold: 0 },
+      );
+      for (const el of pending) watcher.observe(el);
+
+      // Netz. Auf einer Vita ist unsichtbarer Inhalt der teuerste aller
+      // Fehler, also gibt es einen Ausgang, der nicht am Beobachter hängt:
+      // Sprungziele werden sofort freigegeben, und nach vier Sekunden fällt
+      // die Sperre ohnehin. Beides kostet nichts, solange nichts schiefgeht.
+      const freeAround = (hash: string) => {
+        const target = hash ? document.querySelector(hash) : null;
+        if (!target) return;
+        let node: HTMLElement | null = target as HTMLElement;
+        while (node) {
+          show(node);
+          node = node.parentElement;
+        }
+      };
+      freeAround(location.hash);
+      window.addEventListener('hashchange', () => freeAround(location.hash));
+      window.setTimeout(() => {
+        for (const el of pending) show(el);
+      }, 4000);
+    }
   </script>
 </BaseLayout>
 
@@ -1463,7 +1546,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     flex: 0 0 auto;
     min-height: 44px;
     color: var(--text);
-    font-size: 0.8125rem;
+    font-size: var(--fs-13);
     font-weight: 500;
     letter-spacing: -0.01em;
     white-space: nowrap;
@@ -1487,7 +1570,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     align-items: center;
     min-height: 44px;
     color: var(--text-secondary);
-    font-size: 0.8125rem;
+    font-size: var(--fs-13);
     white-space: nowrap;
     transition: color 0.18s ease-out;
   }
@@ -1505,7 +1588,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     right: 0;
     bottom: 0.5rem;
     height: 2px;
-    border-radius: 2px;
+    border-radius: var(--r-pill);
     background: var(--accent);
     opacity: 0;
     transition: opacity 0.18s ease-out;
@@ -1521,10 +1604,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     min-height: 44px;
     padding-inline: 0.65rem;
     border: 1px solid var(--line);
-    border-radius: 0.5rem;
+    border-radius: var(--r-sm);
     background: color-mix(in srgb, var(--surface) 70%, transparent);
     color: var(--text-secondary);
-    font-size: 0.8125rem;
+    font-size: var(--fs-13);
     white-space: nowrap;
     cursor: pointer;
     list-style: none;           /* Firefox keeps a marker without this */
@@ -1549,7 +1632,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     padding: 0.3rem;
     list-style: none;
     border: 1px solid var(--line);
-    border-radius: 0.65rem;
+    /* Außen 12px, innen 8px, bei 4.8px Polsterung: verschachtelte Radien
+       stimmen, wenn innen = außen minus Abstand ist. 12 - 4.8 = 7.2, die
+       nächste Sprosse darunter ist 8. Vorher standen hier 0.65rem außen und
+       0.4rem innen, zwei Zahlen ohne Bezug zueinander, und die Ecken der
+       Einträge liefen sichtbar an der Kante der Klappe vorbei. */
+    border-radius: var(--r-md);
     background: var(--surface);
     box-shadow: 0 24px 48px -30px rgb(var(--shadow-rgb) / 0.5);
   }
@@ -1559,9 +1647,9 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     align-items: center;
     min-height: 44px;
     padding-inline: 0.6rem;
-    border-radius: 0.4rem;
+    border-radius: var(--r-sm);
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: var(--fs-14);
   }
   .cv-bar-jump-link:hover { background: var(--bg-alt); color: var(--text); }
   .cv-bar-jump-link[aria-current="location"] { color: var(--accent); }
@@ -1584,7 +1672,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     min-height: 44px;
     min-width: 44px;
     padding-inline: 0.55rem;
-    border-radius: 0.5rem;
+    border-radius: var(--r-sm);
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 70%, transparent);
     color: var(--text-secondary);
@@ -1602,7 +1690,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     min-width: 3.4rem;
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-11);
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
@@ -1616,10 +1704,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     min-height: 44px;
     min-width: 44px;
     padding-inline: 0.9rem;
-    border-radius: 0.5rem;
+    border-radius: var(--r-sm);
     background: var(--accent-cta);
     color: #fff;
-    font-size: 0.8125rem;
+    font-size: var(--fs-13);
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
@@ -1681,7 +1769,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     display: flex;
     flex-direction: column;
     border: 1px solid var(--line);
-    border-radius: 0.9rem;
+    border-radius: var(--r-lg);
     background: var(--surface);
     box-shadow: 0 40px 80px -32px rgb(var(--shadow-rgb) / 0.5);
     overflow: hidden;
@@ -1697,7 +1785,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     color: var(--text);
     /* 16px on purpose: anything smaller and iOS Safari zooms the page in when
        the field takes focus. The agent widget's input learned that in #82. */
-    font-size: 16px;
+    font-size: var(--fs-16);
     line-height: 1.4;
   }
   .cv-palette-input::placeholder { color: var(--text-secondary); }
@@ -1721,7 +1809,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      list element itself is in the template, so it anchors the selector. */
   .cv-palette-list :global(.cv-palette-group) {
     padding: 0.5rem 0.75rem 0.25rem;
-    font-size: 10px;
+    font-size: var(--fs-10);
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1733,10 +1821,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     align-items: baseline;
     gap: 0.85rem;
     padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: var(--r-sm);
     cursor: pointer;
     color: var(--text);
-    font-size: 14px;
+    font-size: var(--fs-14);
     line-height: 1.35;
   }
 
@@ -1759,14 +1847,14 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     text-overflow: ellipsis;
     white-space: nowrap;
     color: var(--text-secondary);
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
 
   .cv-palette-empty {
     margin: 0;
     padding: 0.85rem 1.1rem;
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: var(--fs-13);
   }
 
   /* Every jump target clears the bar. Covers the four section headings, the
@@ -1869,7 +1957,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-fact { min-width: 0; }
 
   .cv-fact-label {
-    font-size: 10px;
+    font-size: var(--fs-10);
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1879,7 +1967,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .cv-fact-value {
     margin: 0;
-    font-size: 13.5px;
+    font-size: var(--fs-14);
     line-height: 1.45;
     color: var(--text);
   }
@@ -1963,11 +2051,11 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     min-height: 34px;
     max-width: min(100%, 18rem);
     padding: 0.375rem 0.625rem 0.375rem 0.375rem;
-    border-radius: 9999px;
+    border-radius: var(--r-pill);
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 72%, transparent);
     color: var(--text-secondary);
-    font-size: 0.82rem;
+    font-size: var(--fs-13);
     font-weight: 450;
     line-height: 1.15;
     transition: color 0.18s ease-out, background 0.18s ease-out, border-color 0.18s ease-out;
@@ -1980,7 +2068,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     width: 1.45rem;
     height: 1.45rem;
     flex: 0 0 auto;
-    border-radius: 9999px;
+    border-radius: var(--r-pill);
     background: color-mix(in srgb, var(--accent) 10%, var(--surface));
     color: var(--accent);
   }
@@ -1992,7 +2080,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .cv-contact-badge {
     font-family: var(--font-body);
-    font-size: 0.58rem;
+    font-size: var(--fs-10);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1;
@@ -2100,7 +2188,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
      and the bar already names the same four sections in the same order. */
   .cv-section-no {
     font-family: var(--font-mono);
-    font-size: 0.95rem;
+    font-size: var(--fs-15);
     font-weight: 500;
     letter-spacing: 0.06em;
     color: var(--accent);
@@ -2110,7 +2198,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .cv-sidebar-card {
     padding: 1.25rem;
-    border-radius: 0.75rem;
+    border-radius: var(--r-md);
     background: var(--surface);
     border: 1px solid var(--line);
     box-shadow: 0 24px 48px -42px rgb(var(--shadow-rgb) / 0.34);
@@ -2118,7 +2206,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .cv-sidebar-title {
     font-family: var(--font-display);
-    font-size: 0.8rem;
+    font-size: var(--fs-13);
     font-weight: 600;
     color: var(--accent);
     margin-bottom: 0.75rem;
@@ -2129,7 +2217,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-skill-group-title {
     font-family: var(--font-body);
     color: var(--text);
-    font-size: 0.72rem;
+    font-size: var(--fs-11);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -2138,7 +2226,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-link-check {
     margin-top: -1.25rem;          /* sits under the card grid, not as its own block */
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: var(--fs-11);
     letter-spacing: 0.02em;
     color: var(--text-secondary);
   }
@@ -2252,7 +2340,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-project-link:focus-visible::after {
     outline: 2px solid var(--accent-hover);
     outline-offset: -3px;
-    border-radius: 0.75rem;
+    border-radius: var(--r-md);
   }
 
   /* Belt and braces since the overlay stopped taking clicks: the disclosure
@@ -2348,7 +2436,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   .cv-exp-tools-title {
     margin: 0;
     color: var(--text);
-    font-size: 11px;
+    font-size: var(--fs-11);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -2364,7 +2452,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
     gap: 0.4rem;
     padding: 0.35rem 0;
     color: var(--accent);
-    font-size: 12px;
+    font-size: var(--fs-12);
     text-transform: none;
     letter-spacing: 0;
     cursor: pointer;
@@ -2395,7 +2483,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 
   .exp-tools {
     color: var(--text-secondary);
-    font-size: 12.5px;
+    font-size: var(--fs-13);
     line-height: 1.65;
     margin-top: 0.5rem;
   }
@@ -2505,4 +2593,110 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   }
   .exp-copy :global(p) { margin-bottom: 0.625rem; }
   .exp-copy :global(p:last-child) { margin-bottom: 0; }
+  /* ── Umbruch ──────────────────────────────────────────────────────────────
+     Die Seite hatte keinen. `story.css` nutzt balance und pretty seit Langem,
+     die Vita nicht, und das sieht man an genau der Stelle, an der es weh tut:
+     eine Überschrift, deren letztes Wort allein auf der zweiten Zeile steht,
+     und ein Absatz, der mit einem einzelnen Wort endet. Bei „Berufliche
+     Erfahrung" und den vier Abschnittstiteln passiert das je nach Fensterbreite
+     ständig, weil die Titel bis 3rem groß werden.
+
+     balance verteilt kurze Blöcke gleichmäßig (bis sechs Zeilen, danach lässt
+     der Browser es bleiben), pretty zieht nur die letzte Zeile eines Absatzes
+     glatt. Browser ohne Unterstützung ignorieren die Zeile stillschweigend, es
+     gibt also keinen Rückfallpfad zu bauen. */
+  .cv-section-title,
+  .cv-hero-title,
+  .cv-sidebar-title,
+  .cv-exp-tools-title,
+  .cv-exp-tools-label,
+  .cv-fact-value,
+  main :is(h3, h4),
+  aside :is(h3, h4) {
+    text-wrap: balance;
+  }
+
+  .cv-tagline,
+  .cv-proof-text,
+  .cv-measure,
+  .talk-copy,
+  .cv-link-check,
+  .exp-copy,
+  .exp-tools,
+  .project-copy {
+    text-wrap: pretty;
+  }
+
+  /* ── Gedrückt ─────────────────────────────────────────────────────────────
+     Jedes anfassbare Element der Seite hatte hover und focus-visible, keines
+     hatte einen aktiven Zustand. Mit der Maus fällt das kaum auf, weil der
+     Zeiger sowieso etwas hervorhebt; auf dem Telefon gibt es keinen hover, und
+     bis der Finger loslässt und die Seite reagiert, hat nichts bestätigt, dass
+     der Druck angekommen ist. Das betrifft hier alles, was in dieser Runde
+     dazugekommen ist: die Leiste, die Palette und die zwölf Werkzeug-Schalter.
+
+     Ein Pixel nach unten statt scale(0.98): eine Skalierung rastert Text neu
+     und lässt eine 11px-Beschriftung für die Dauer des Drucks unscharf werden.
+     Die Rückmeldung darf nichts kosten, was man lesen wollte. */
+  .cv-bar-home:active,
+  .cv-bar-link:active,
+  .cv-bar-jump-summary:active,
+  .cv-bar-jump-link:active,
+  .cv-bar-kbd:active,
+  .cv-bar-ask:active,
+  .cv-exp-tools-label:active,
+  .cv-prompt-button:active,
+  .cv-contact-link:active,
+  .cv-skill-chip:active,
+  .cv-lang-link:active,
+  .cv-footer-link:active {
+    transform: translateY(1px);
+  }
+
+  /* Die Palettenzeilen entstehen zur Laufzeit, also hier :global aus demselben
+     Grund wie oben: ohne den Anker am Listenelement trifft die Regel nichts. */
+  .cv-palette-list :global(.cv-palette-option:active) {
+    transform: translateY(1px);
+  }
+
+  /* ── Auftauchen ───────────────────────────────────────────────────────────
+     Die eine Geschmacksentscheidung dieser Runde, und die einzige Zeile hier,
+     die nicht aus einem gemessenen Befund kommt: Karten und Abschnittstitel
+     UNTERHALB des ersten Bildschirms blenden beim Erreichen ein.
+
+     Drei Riegel, damit daraus keine Falle wird. Erstens gilt die Regel nur bei
+     `prefers-reduced-motion: no-preference`, sie beginnt für die anderen also
+     gar nicht erst. Zweitens versteckt sie nichts von sich aus: `cv-reveal-
+     pending` setzt das Skript, und zwar nur auf Elemente, die beim Laden
+     nachweislich außerhalb des Sichtfelds liegen. Ohne JavaScript steht alles
+     da. Drittens Animation statt transition, weil `.cv-project-card` und
+     `.cv-experience-card` ihre eigene transition für Rand und Fläche haben und
+     eine zweite Kurzschreibweise sie überschrieben hätte.
+
+     8px und 420ms. Die Vorlage, aus der die Idee stammt, schlägt 16px, Unschärfe
+     und 800ms vor; das ist die Bewegung einer Verkaufsseite. Auf einer Vita ist
+     die Bewegung nur dazu da, dem Auge zu sagen, dass etwas Neues beginnt. */
+  @media (prefers-reduced-motion: no-preference) {
+    .cv-reveal-pending { opacity: 0; }
+
+    .cv-reveal-in {
+      animation: cvReveal 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
+    }
+  }
+
+  @keyframes cvReveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Papier scrollt nicht. Sollte das Skript ein Element als „noch nicht
+     erreicht" markiert haben, während gedruckt wird, wäre es sonst leer. */
+  @media print {
+    .cv-reveal-pending,
+    .cv-reveal-in {
+      opacity: 1 !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
 </style>
