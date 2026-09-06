@@ -137,6 +137,33 @@
      changing the bar's height cannot leave one of the three behind. Not
      theme-dependent: the same number in light and dark. */
   --cv-bar-h: 3.5rem;
+
+  /* ── Schriftleiter und Radien ─────────────────────────────────────────────
+     Gemessen am 06.09.2026 trug die CV-Seite dreizehn feste Schriftgrößen
+     zwischen 9,28px und 16px. Drei Paare davon kann niemand unterscheiden:
+     0.8125rem und 13px sind dieselbe Zahl, zweimal geschrieben; 0.82rem und
+     13px liegen 0,12px auseinander; 0.8rem und 12px 0,8px. Das ist keine
+     Gestaltung, das ist der Rückstand aus fünf Pull Requests, von denen jeder
+     einen Wert gewählt hat, der neben dem vorigen richtig aussah.
+
+     Sieben Sprossen, jede eine ganze Pixelzahl, benannt nach ihrem Wert, damit
+     eine falsche Zuordnung beim Lesen auffällt. Radien decken sich absichtlich
+     mit Tailwinds eigenen Stufen (lg 8, xl 12, 2xl 16), denn das Markup nutzt
+     die Klassen und das Stylesheet die Token: zwei Schreibweisen für dieselbe
+     Leiter, nicht zwei Leitern. scripts/check-scale.mjs hält das. */
+  --fs-10: 0.625rem;
+  --fs-11: 0.6875rem;
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-15: 0.9375rem;
+  --fs-16: 1rem;
+
+  --r-xs: 0.25rem;
+  --r-sm: 0.5rem;
+  --r-md: 0.75rem;
+  --r-lg: 1rem;
+  --r-pill: 9999px;
   --bg: #f8fbff;
   --bg-alt: #eef5fb;
   --surface: #ffffff;
@@ -250,6 +277,16 @@ h1, h2, h3, h4 {
   background-color: var(--accent-cta);
   color: white;
 }
+
+/* Die Leiter als Klassen, für das Markup. Ungeschichtet und damit stärker als
+   Tailwinds `@layer utilities`, was hier egal ist: kein Element trägt beides. */
+.fs-10 { font-size: var(--fs-10); }
+.fs-11 { font-size: var(--fs-11); }
+.fs-12 { font-size: var(--fs-12); }
+.fs-13 { font-size: var(--fs-13); }
+.fs-14 { font-size: var(--fs-14); }
+.fs-15 { font-size: var(--fs-15); }
+.fs-16 { font-size: var(--fs-16); }
 
 /* === Custom Components === */
 .act {

@@ -1011,7 +1011,14 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
     const navRight = document.getElementById('nav-right');
     const progressBar = document.getElementById('scroll-progress');
 
-    window.addEventListener('scroll', () => {
+    // Gedrosselt, und zwar aus demselben Grund wie der zweite Horcher weiter
+    // unten in dieser Datei: der Rumpf schreibt bei JEDEM Scroll-Ereignis
+    // `progressBar.style.width` und schaltet vier Klassen um. Ein Scroll-
+    // Ereignis kann pro Bild mehrfach kommen, ein Layout pro Bild reicht.
+    // Das Muster stand 200 Zeilen tiefer schon richtig da, hier fehlte es.
+    let ticking = 0;
+    const onScroll = () => {
+      ticking = 0;
       const y = window.scrollY;
       const show = y > 300;
       [navPdf, navRight].forEach(el => {
@@ -1029,7 +1036,12 @@ const storyTitle = `${profile.name} · ${lang === 'de' ? 'Projekt-Story' : 'Proj
       // reaches it, so nothing is both focusable and invisible.
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (progressBar && max > 0) progressBar.style.width = `${(y / max) * 100}%`;
+    };
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = requestAnimationFrame(onScroll);
     }, { passive: true });
+    onScroll();
   </script>
 
   <script>
