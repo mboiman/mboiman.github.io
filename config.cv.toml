@@ -63,6 +63,13 @@ defaultContentLanguage = "de"
         # zugeklappten Werkzeuglisten stand.
         # ACHTUNG: ein Eintrag, der keiner Gruppe in src/lib/skill-groups.ts
         # entspricht, rendert NICHT. Der Wächter bricht darauf.
+        # "Agent-Harness Engineering" NICHT zu "Harness" kürzen: Harness ist auch
+        # ein CI/CD-Anbieter (harness.io), und ein nackter Chip liest sich für jeden
+        # Delivery-Menschen und für ATS-Matching als Erfahrung mit diesem Produkt.
+        # Das "Agent-" davor ist die ganze Unterscheidung. Der Begriff selbst hat
+        # sich Anfang 2026 gesetzt (Hashimoto "Agent = Model + Harness", Fowler,
+        # Anthropic) und benennt die Kategorie, die der Rollen-Bullet bei BKS LLM
+        # Infra bisher nur in Einzelteilen beschrieben hat.
         sidebar_skills = [
           "Quality Engineering",
           "Spezifikation & Verifikationsdesign",
@@ -73,6 +80,7 @@ defaultContentLanguage = "de"
           "TypeScript",
           "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
+          "Agent-Harness Engineering",
           "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
           "a2a-sdk & Agent Cards",
@@ -294,6 +302,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
 **Schwerpunkte**
 - **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026. Die Zählstände stehen im Repo, damit sie hier nicht altern. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe mit
+- **Harness Engineering**: Was ein Agent leistet, entscheidet sich zum größten Teil außerhalb des Modells: Kontext, Werkzeugauswahl, Rechte, Zustand über Sitzungen hinweg, Verifikation. Diese Schicht wird hier gemessen statt geschätzt. Was eine Sitzung lädt, bevor sie das erste Wort beantwortet, trägt eine deklarierte Obergrenze, die ein CI-Schritt in Bytes prüft; Regelwerke, die selten greifen, laden erst auf ihr Stichwort statt beim Start; die Projekt-Registraturen liegen als Karte im Kontext und werden einzeln nachgeladen; ein weiterer Prüfschritt meldet, was im Baum existiert, aber aus keiner geladenen Datei mehr erreichbar ist, und greift sich zur Kontrolle selbst an. Die vier Werkzeuge dahinter liegen offen und laufen in der öffentlichen CI: measure-context.py, standing-orders.py, context-index.py, check-reachability.py
 - **Datentrennung als Architektur, nicht als Absprache**: Getrennte Instanzen je Mandant, eine Regel, die den Zugriff zwischen Instanzen verbietet, und ein fail-closed-Vertrag für das Materialisieren geteilter Konfiguration (der Abgleich bricht ab, statt im Zweifel zu schreiben). Schutz gegen Datenabfluss an drei Stellen: Pre-Commit-Hook, Pre-Push-Hook und drei Validatoren in der CI. Dazu eine adversariale Simulation, die den Schutz regelmäßig selbst angreift, als eigener CI-Job in einer abgeschotteten Sandbox
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0. Rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden (vier weitere Beitragende)
 - **Telemetrie nach OpenTelemetry**: Logs, Metriken und Traces über OTLP an eine verwaltete Senke, mit fester Feldkonvention und Namensschema, gedeckeltem Ingest-Schlüssel und nach Mandant getrennten Leserechten (als Rechteschnitt gemessen, nicht als Absicht dokumentiert). Ehrlicher Reifegrad: der Logpfad ist im Betrieb, Metriken und Traces sind verdrahtet und noch nicht abgenommen
@@ -306,7 +315,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
 - **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
 - **Arbeitszeit-Erfassung**: Commit-basierte Arbeitszeitanalyse mit automatischer Projekt-Zuordnung. Erste Stufe lief gegen Clockify; seit Juli 2026 im Aufbau als eigene Registry semantischer Konventionen auf Basis von OpenTelemetry Weaver, mit drei Schichten (Rohbeobachtung, abgeleiteter Block, abrechenbare Zeit), kanonischer JSON-Serialisierung nach RFC 8785 und einem Integritätsprofil nach OCSF
-- **Claude Code Plugin-Ecosystem**: 102 Skills in der produktiven Instanz, über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription (87 abgelegte Besprechungen), PDF/Zertifikat-Generierung, SharePoint-Integration. Jeder Skill trägt eine von vier Scope-Stufen (core, org, personal, user), die ein CI-Validator prüft; daran hängt, was überhaupt nach außen veröffentlicht werden darf
+- **Claude Code Plugin-Ecosystem**: 112 Skills in der produktiven Instanz, über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription (104 abgelegte Besprechungen), PDF/Zertifikat-Generierung, SharePoint-Integration. Jeder Skill trägt eine von vier Scope-Stufen (core, org, personal, user), die ein CI-Validator prüft; daran hängt, was überhaupt nach außen veröffentlicht werden darf
 - **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit dreigeteilter Registry (Instanz-Basis, geteiltes Org-Fragment, persönliches Fragment), damit Firmendaten und Personendaten getrennt verteilt werden können. Trägt Repos, Kunden, Infrastruktur und Skills, dazu automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
 - **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen: Branch-Schutz, Secret-Erkennung und Deployment-Gates
 - **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA): automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
@@ -724,6 +733,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "TypeScript",
           "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
+          "Agent Harness Engineering",
           "LLMs (Claude, Gemini, GPT)",
           "Agent Orchestration (MCP & A2A)",
           "a2a-sdk & Agent Cards",
@@ -944,6 +954,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
 **Key Responsibilities**
 - **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge, with a live demo site. The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope, with its own test suite and continuous releases since June 2026. The counts live in the repo, so they cannot go stale here. Attack fixtures for path traversal, secrets and malformed overlays run as their own CI stage
+- **Harness engineering**: what an agent achieves is decided mostly outside the model: context, tool selection, permissions, state across sessions, verification. That layer is measured here rather than estimated. What a session loads before it answers the first word carries a declared ceiling that a CI step checks in bytes; rules that rarely bite load on their trigger word instead of at start-up; the project registries sit in context as a card and are fetched one entry at a time; a further check reports what exists in the tree but is no longer reachable from any file a session loads, and attacks itself to prove it still catches things. The four tools behind this are public and run in public CI: measure-context.py, standing-orders.py, context-index.py, check-reachability.py
 - **Data separation as architecture, not as agreement**: separate instances per client, a rule forbidding access between instances, and a fail-closed contract for materialising shared configuration (the sync aborts rather than writing on doubt). Protection against data leakage at three points: pre-commit hook, pre-push hook and three validators in CI. Plus an adversarial simulation that attacks the protection itself on a schedule, as its own CI job in a sealed sandbox
 - **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0. Around 4,600 lines of Python with 98 automated test cases, built as a team effort (four further contributors)
 - **OpenTelemetry-based telemetry**: logs, metrics and traces over OTLP into a managed sink, with a fixed field convention and naming scheme, a capped ingest key and read rights separated per client (measured as an access cut, not documented as an intention). Honest maturity: the log path is in operation, metrics and traces are wired and not yet accepted
@@ -956,7 +967,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
 - **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
 - **Work-time capture**: commit-based work time analysis with automatic project assignment. The first stage ran against Clockify; since July 2026 it is being rebuilt as a private registry of semantic conventions on OpenTelemetry Weaver, with three layers (raw observation, derived block, billable time), canonical JSON serialisation per RFC 8785 and an integrity profile per OCSF
-- **Claude Code Plugin Ecosystem**: 102 skills in the productive instance, discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks: log analysis, deployment verification, incident handling, email management, meeting transcription (87 filed meetings), PDF/certificate generation, SharePoint integration. Every skill carries one of four scope tiers (core, org, personal, user) checked by a CI validator; what may be published outward depends on it
+- **Claude Code Plugin Ecosystem**: 112 skills in the productive instance, discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks: log analysis, deployment verification, incident handling, email management, meeting transcription (104 filed meetings), PDF/certificate generation, SharePoint integration. Every skill carries one of four scope tiers (core, org, personal, user) checked by a CI validator; what may be published outward depends on it
 - **Context Orchestrator**: central multi-repo control system with a three-way split registry (instance base, shared org fragment, personal fragment), so company data and personal data can be distributed separately. It carries repos, customers, infrastructure and skills, plus automatic cross-repo navigation and structured work tracking with archiving
 - **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations: branch protection, secret detection and deployment gates
 - **Production Operations E-Invoicing**: ongoing management of an e-invoicing platform for a leading online job platform (under NDA): automated incident management, log analysis, weekly reporting and go-live tracking
@@ -1478,7 +1489,7 @@ Guideline-basierter KI-Agent in der Entwicklungsumgebung, der Tests aus Jira-Sto
 • **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
 • **Open-Source-Schicht**: Three-Tier-Architektur. Die generische CORE-Schicht liegt offen als bks-lab/open-bridge (MIT, mit Live-Demo-Seite) und speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
 
-**Impact:** Im täglichen Einsatz: 102 Skills, 5 Sub-Agenten, 13 Dauerregeln, 87 automatisch abgelegte Besprechungen. Sechs voneinander getrennte Instanzen teilen sich denselben quelloffenen Kern, ohne dass Daten zwischen ihnen fließen."""
+**Impact:** Im täglichen Einsatz: 112 Skills, 5 Sub-Agenten, 15 Dauerregeln, 104 automatisch abgelegte Besprechungen. Sechs voneinander getrennte Instanzen teilen sich denselben quelloffenen Kern, ohne dass Daten zwischen ihnen fließen."""
         tagline_pdf = '''
 Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner- und interne Repos hinweg.
 • **Problem:** Entwicklung über viele Repos und mehrere Kunden erforderte ständigen Kontextwechsel und manuelle Koordination.
@@ -1829,7 +1840,7 @@ Guideline-based AI agent in the IDE that generates tests from Jira stories.
 • **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
 • **Open-source layer**: three-tier architecture. The generic CORE layer is public as bks-lab/open-bridge (MIT, with a live demo site) and is fed from this seed instance, with a BKS overlay in between.
 
-**Impact:** In daily use: 102 skills, 5 sub-agents, 13 standing orders, 87 automatically filed meetings. Six mutually isolated instances share the same open-source core without data flowing between them."""
+**Impact:** In daily use: 112 skills, 5 sub-agents, 15 standing orders, 104 automatically filed meetings. Six mutually isolated instances share the same open-source core without data flowing between them."""
         tagline_pdf = '''
 Central control system for AI-assisted development across customer, partner and internal repos.
 • **Problem:** Development across many repos and multiple customers required constant context switching and manual coordination.
