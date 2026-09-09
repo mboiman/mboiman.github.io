@@ -1,11 +1,4 @@
 {
-  "files": [
-    "AgentWidget.astro_astro_type_script_index_0_lang.Cwr6JLhy.js",
-    "CVPage.DQZh1K5O.css",
-    "CVPage.astro_astro_type_script_index_0_lang.DFElTF7D.js",
-    "DarkModeToggle.o4eByPwG.css",
-    "StoryPage.BwOoLD8k.css",
-    "global.NtyjnKEH.css"
-  ],
+  "files": [],
   "note": "One deploy of grace for cached HTML. See scripts/carry-assets.mjs."
 }
