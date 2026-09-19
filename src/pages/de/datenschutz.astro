@@ -12,8 +12,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
   <p>
     Diese Website (<strong>mboiman.github.io</strong>) ist eine persönliche
     Lebenslauf-Website mit einem optionalen KI-Chat-Assistenten. Personenbezogene
-    Daten werden nur im nachfolgend beschriebenen, minimalen Umfang verarbeitet. Es
-    findet <strong>kein Tracking, keine Werbung und keine Analyse-Cookies</strong> statt.
+    Daten werden nur im nachfolgend beschriebenen Umfang verarbeitet. Es findet
+    <strong>kein Tracking, keine Werbung und keine Analyse-Cookies</strong> statt.
   </p>
 
   <h2>1. Verantwortlicher</h2>
@@ -37,28 +37,36 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
 
   <h2>3. KI-Chat-Assistent</h2>
   <p>
-    Auf der Website wird ein optionaler Chat-Assistent angeboten. Die Nutzung ist
-    freiwillig, eine Verarbeitung Ihrer Eingaben erfolgt nur, wenn Sie selbst eine
-    Nachricht absenden.
+    Auf der Website wird ein optionaler Chat-Assistent angeboten (im Folgenden:
+    Agent). Er beantwortet Fragen zu Michael Boimans beruflichem Profil und nimmt
+    Anfragen und Terminwünsche für ihn entgegen. Die Nutzung ist freiwillig, eine
+    Verarbeitung Ihrer Eingaben erfolgt nur, wenn Sie selbst eine Nachricht absenden.
+    Derselbe Agent ist unter <em>mboiman.bks-lab.com</em> auch für andere
+    Software-Agenten erreichbar. Für Nachrichten auf diesem Weg gilt diese Ziffer
+    entsprechend.
   </p>
+
+  <h3>Antworten und Protokolle</h3>
   <ul>
     <li>
-      <strong>Verarbeitung der Nachrichten:</strong> Ihre Eingaben werden an den
-      Agenten-Endpunkt <em>mboiman.bks-lab.com</em> übermittelt. Die Antwort erzeugt
-      ein Sprachmodell von <strong>Anthropic</strong> (Anthropic PBC, San Francisco,
-      USA, „Claude"); der Agent läuft dazu auf einem Rechner von Michael Boiman, der
-      die Anfrage an das Modell weiterreicht. Der Transport erfolgt über
-      <strong>Cloudflare</strong> (Cloudflare, Inc., USA), das dabei technische
+      <strong>Erzeugung der Antworten:</strong> Ihre Nachricht wird an den
+      Agenten-Endpunkt <em>mboiman.bks-lab.com</em> übermittelt. Der Agent läuft auf
+      einem Rechner von Michael Boiman. Die Antwort erzeugt ein Sprachmodell von
+      <strong>Anthropic</strong> („Claude“). Dafür erhält Anthropic Ihre Nachricht,
+      den bisherigen Verlauf des Gesprächs und den Seitenkontext (nächster Punkt).
+      Der Transport erfolgt über <strong>Cloudflare</strong>, das dabei technische
       Verbindungsdaten (u. a. IP-Adresse) verarbeitet, um den Dienst vor Missbrauch
       und Überlastung zu schützen.
     </li>
     <li>
       <strong>Was mit einer Nachricht mitgeht:</strong> Neben Ihrer Eingabe werden
-      technische Angaben zum Seitenkontext übertragen: der Pfad der geöffneten Seite,
-      die eingestellte Oberflächensprache, der gerade sichtbare Abschnitt sowie die
-      Sprungmarken dieser Seite. Sie ermöglichen dem Agenten, in seiner Antwort auf
-      eine bestimmte Stelle im Lebenslauf zu verweisen. Es werden keine Angaben zu
-      Ihrer Person und keine Inhalte anderer Websites übertragen.
+      technische Angaben übertragen: der Pfad der geöffneten Seite, die eingestellte
+      Oberflächensprache, der gerade sichtbare Abschnitt, die Sprungmarken dieser
+      Seite, welche Bedienelemente das Chatfenster darstellen kann (etwa
+      Vorschlagsknöpfe) und die technische Sitzungskennung (siehe „Lokale Speicherung
+      im Browser“). So kann der Agent auf eine bestimmte Stelle im Lebenslauf
+      verweisen und Ihre Nachrichten einem Gespräch zuordnen. Weitere Angaben über Sie
+      und Inhalte anderer Websites werden nicht übertragen.
     </li>
     <li>
       <strong>Abruf der Agentenkarte:</strong> Auf den Seiten, die den
@@ -70,108 +78,212 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       dieser Abruf nicht statt.
     </li>
     <li>
-      <strong>Speicherung des Gesprächsverlaufs:</strong> Für die Dauer der Sitzung
-      liegt der Verlauf im Arbeitsspeicher des Agenten. Seit dem 6. August 2026 wird
-      jeder Gesprächsschritt zusätzlich dauerhaft protokolliert: Frage, Antwort,
-      eine Gesprächskennung, die Position im Gespräch und die Antwortdauer, im
-      Klartext, in einer Elastic-Cloud-Umgebung eines Kontos der BKS-Lab GmbH.
-      Getrennt davon führen die Betriebsprotokolle nur technische Angaben ohne
-      Gesprächsinhalt (siehe Ziffer 5 zu den Fristen).
+      <strong>Gesprächsverlauf:</strong> Damit der Agent an frühere Nachrichten
+      anknüpfen kann, hält er den Verlauf eines Gesprächs im Arbeitsspeicher. Bei
+      einem Neustart des Dienstes geht dieser verloren. Zusätzlich legt die
+      Claude-Software auf dem Rechner zu jeder Antwort eine Sitzungsdatei ab, die Ihre
+      Nachricht, den bisherigen Verlauf und die Antwort enthält.
     </li>
     <li>
-      <strong>Lokale Speicherung im Browser:</strong> Für den Betrieb des Chats wird
-      im lokalen Speicher (localStorage) Ihres Browsers eine technische
-      Sitzungskennung abgelegt, damit ein Gespräch über das Neuladen der Seite
-      fortgesetzt werden kann. Sie entsteht erst, wenn Sie die erste Nachricht
-      absenden, nicht schon beim Aufruf der Seite. Diese Speicherung ist technisch erforderlich
-      (§ 25 Abs. 2 Nr. 2 TTDSG) und dient nicht der Nachverfolgung. Es werden keine
-      Cookies zu Analyse- oder Werbezwecken gesetzt.
+      <strong>Gesprächsprotokolle:</strong> Jede Frage und jede Antwort wird mit
+      Gesprächskennung, laufender Nummer und Antwortdauer im Klartext protokolliert.
+      Die Protokolle liegen bei <strong>Elastic Cloud</strong> in einem Konto der
+      BKS-Lab GmbH, gespeichert in Frankfurt am Main (Region eu-central-1 von Amazon
+      Web Services). Zugriff haben Michael Boiman und die Administratoren dieses
+      Kontos. Die Protokolle dienen dem Betrieb und der Fehlersuche, dem Erkennen von
+      Missbrauch und der Verbesserung der Antworten (siehe „Auswertungen“). Diese
+      Protokollierung besteht seit dem 6. August 2026.
     </li>
     <li>
-      <strong>Kontakt- und Terminanfragen:</strong> Wenn Sie aktiv eine Anfrage
-      stellen, werden die von Ihnen gemachten Angaben (z. B. Name, Kontaktweg, Thema,
-      Wunschtermin, Nachricht) zusammen mit den letzten Gesprächsschritten lokal als
-      Datei gespeichert und per E-Mail über Microsoft 365 (Absender
-      <em>ai@bks-lab.com</em>) an Michael Boiman weitergeleitet. Eine tägliche
-      Übersicht offener Gespräche geht ebenfalls an Michael Boiman; erkennt das
-      System einen Missbrauchsversuch, geht dazu eine stille Meldung an ihn, ohne
-      dass Sie etwas davon sehen.
+      <strong>Betriebsprotokolle:</strong> Zusätzlich entstehen, bei Elastic Cloud und
+      auf dem Rechner, Protokolle ohne Gesprächsinhalt (Gesprächskennung, Zeitpunkt,
+      Dauer, Länge von Anfrage und Antwort, Ergebnis). Sie dienen dem sicheren und
+      stabilen Betrieb.
     </li>
     <li>
-      <strong>Kapazitätsauskunft:</strong> Fragen Sie nach der aktuellen
-      Verfügbarkeit, liest der Agent einen von Michael Boiman hinterlegten
-      Auslastungswert. Dabei werden keine Angaben zu Ihrer Person verarbeitet.
+      <strong>Rückfragen bei weiteren Agenten:</strong> Fragen zur BKS-Lab GmbH oder
+      zum Projekt open-bridge gibt der Agent in allgemeiner Form, ohne Ihren Namen und
+      Ihre Kontaktdaten, an zwei weitere Agenten weiter. Sie laufen auf demselben
+      Rechner und arbeiten ebenso (Antworten über Anthropic, Protokolle bei Elastic
+      Cloud).
+    </li>
+  </ul>
+
+  <h3>Anfragen, Termine und Benachrichtigungen</h3>
+  <ul>
+    <li>
+      <strong>Terminwünsche und Anfragen:</strong> Möchten Sie einen Termin mit
+      Michael Boiman oder richten Sie eine Anfrage an ihn, etwa zu einem Projekt, einer
+      Stelle, einer Zusammenarbeit oder einem Angebot, nimmt der Agent Ihre Angaben
+      auf: Name, Kontaktdaten, Firma und Website (sofern genannt), Thema,
+      Wunschtermin, Ihr Anliegen, Ihre Antworten auf seine Rückfragen und die letzten
+      Nachrichten des Gesprächs. Hinzu kommen seine Einschätzung des Anliegens und bei
+      Anfragen eine Empfehlung und ein Antwortentwurf für Michael Boiman. Die Angaben
+      werden auf dem Rechner gespeichert und per E-Mail an Michael Boiman
+      weitergeleitet. Über Ihr Anliegen entscheidet Michael Boiman selbst. Nur
+      Verkaufsangebote an ihn lehnt der Agent nach dessen Vorgaben selbst ab.
     </li>
     <li>
-      <strong>Sprechstunden-Buchung (sofern angeboten):</strong> Bietet der Agent
-      einen Sprechstundentermin an und bestätigen Sie diesen, erhalten Sie einen
-      zeitlich befristeten Bestätigungscode per E-Mail sowie, sofern ein Termin
-      zustande kommt, eine Kalendereinladung.
+      <strong>Sprechstunde (sofern angeboten):</strong> Bietet der Agent feste
+      Gesprächstermine an, kann er einen davon für Sie buchen. Dazu sendet er einen
+      Bestätigungscode an die E-Mail-Adresse, die Sie nennen. Gebucht ist der Termin
+      erst, wenn Sie den Code im Chat eingeben. Anschließend erhalten Sie und Michael
+      Boiman eine E-Mail mit Kalendereinladung. Gespeichert werden E-Mail-Adresse,
+      Name (sofern genannt), Termin und Stand der Buchung. Um Missbrauch zu verhindern,
+      ist die Zahl der Codes je Gespräch, je Adresse und je Stunde begrenzt.
     </li>
     <li>
-      <strong>Telegram-Benachrichtigung (sofern aktiviert):</strong> Ist diese
-      Funktion aktiv, erhält Michael Boiman über Telegram (Telegram FZ-LLC) eine
-      Benachrichtigung über neue Gespräche. Ihre Kontaktdaten werden dabei nicht
-      an Telegram übermittelt.
+      <strong>Benachrichtigungen an Michael Boiman:</strong> Die E-Mails verschickt der
+      Agent über das Postfach ai@bks-lab.com der BKS-Lab GmbH bei
+      <strong>Microsoft 365</strong>. Michael Boiman empfängt sie in seinem Postfach
+      bei <strong>Google</strong> (Gmail). Einmal täglich erhält er zudem eine
+      Übersicht über Gespräche, die nach Rückfragen des Agenten offen geblieben sind,
+      und über Anfragen ohne eigene E-Mail. Sofern aktiviert, meldet der Agent ihm
+      einen Terminwunsch zusätzlich über den Messenger <strong>Telegram</strong>, nur
+      mit Art der Anfrage, Wunschtermin und einer kurzen Kennung, ohne Namen,
+      Kontaktdaten oder Text von Ihnen. Beantwortet Michael Boiman die Meldung dort,
+      sendet der Agent Ihnen seine Antwort (Zusage mit Kalendereinladung, Vorschlag
+      eines anderen Termins oder Absage) an die E-Mail-Adresse aus Ihrem Terminwunsch.
     </li>
     <li>
-      <strong>Wöchentliche Auswertung unbeantworteter Fragen:</strong> Die
-      gespeicherten Gesprächsverläufe werden automatisiert daraufhin ausgewertet,
-      welche Fragen der Agent nicht zufriedenstellend beantworten konnte. Das
-      Ergebnis dieser Auswertung geht ausschließlich an Michael Boiman und dient
-      der Verbesserung des Agenten.
+      <strong>Hinweise auf Missbrauch:</strong> Erkennt der Agent einen
+      Missbrauchsversuch, etwa den Versuch, ihn zu manipulieren oder nicht öffentliche
+      Angaben herauszufinden, eine Drohung oder Spam, oder eine erkennbar gezielte
+      Recherche zu Michael Boiman, meldet er das per E-Mail an Michael Boiman: mit
+      kurzer Beschreibung, seiner Einschätzung, wer anfragt, und den letzten
+      Nachrichten des Gesprächs. Einen Hinweis im Chat erhalten Sie darüber nicht.
     </li>
     <li>
-      <strong>Technische Sitzungsdateien des Agenten:</strong> Der Agent legt bei
-      der Bearbeitung einer Anfrage lokale, technische Sitzungsdateien an (kein
-      gesonderter Inhalt gegenüber dem Gesprächsverlauf).
+      <strong>Auskünfte ohne weitere Daten über Sie:</strong> Freie Termine nennt der
+      Agent aus einer Übersicht belegter Zeiten, ohne Inhalte von Terminen. Seine
+      Auskunft zur Projektkapazität beruht auf einer Angabe, die Michael Boiman selbst
+      pflegt. Für beides werden über das Gespräch hinaus keine Daten über Sie
+      verarbeitet.
+    </li>
+  </ul>
+
+  <h3>Auswertungen</h3>
+  <p>
+    Einmal pro Woche werden die Gesprächsprotokolle automatisch danach ausgewertet,
+    welche Fragen der Agent nicht oder nur ausweichend beantworten konnte. Die
+    gefundenen Fragen und Antworten ordnet dafür gegebenenfalls ein Sprachmodell von
+    Anthropic nach Themen. Das Ergebnis mit einzelnen Beispielfragen erhält nur Michael
+    Boiman per E-Mail. Es dient dazu, die öffentlichen Angaben im Lebenslauf zu
+    ergänzen.
+  </p>
+
+  <h3>Lokale Speicherung im Browser</h3>
+  <p>
+    Mit Ihrer ersten Nachricht legt der Chat im lokalen Speicher (localStorage) Ihres
+    Browsers eine zufällige technische Sitzungskennung ab, nicht schon beim Aufruf der
+    Seite. Sie wird mit jeder Nachricht übertragen, damit ein Gespräch über das
+    Neuladen der Seite fortgesetzt werden kann, und erscheint in den oben genannten
+    Protokollen und Anfragen. Gespräche aus demselben Browser lassen sich darüber
+    einander zuordnen. Außerdem merkt sich der Browser, ob Sie das Chatfenster geöffnet
+    oder geschlossen haben und welche Größe Sie eingestellt haben. Diese Speicherung
+    ist für die von Ihnen genutzte Funktion erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG) und
+    dient nicht der Nachverfolgung. Sie entfernen diese Angaben, indem Sie die
+    Websitedaten für mboiman.github.io in Ihrem Browser löschen. Cookies zu Analyse-
+    oder Werbezwecken werden nicht gesetzt.
+  </p>
+
+  <h3>Rechtsgrundlagen</h3>
+  <ul>
+    <li>
+      Beantwortung Ihrer Fragen, Gesprächsverlauf, Gesprächs- und Betriebsprotokolle,
+      Rückfragen bei weiteren Agenten, Hinweise auf Missbrauch, Begrenzung der
+      Bestätigungscodes und wöchentliche Auswertung: Art. 6 Abs. 1 lit. f DSGVO. Das
+      berechtigte Interesse liegt in der Beantwortung von Fragen zu Michael Boimans
+      Person und Tätigkeit, im sicheren und stabilen Betrieb, in der Abwehr von
+      Missbrauch und in der Verbesserung der Antworten.
+    </li>
+    <li>
+      Terminwünsche, Anfragen, Buchungen der Sprechstunde samt Bestätigungscode, die
+      Benachrichtigungen an Michael Boiman und seine Antwort an Sie: Art. 6 Abs. 1
+      lit. b DSGVO (Maßnahmen auf Ihre Anfrage vor einem möglichen Vertrag). Fragen
+      Sie im Namen eines Unternehmens an, ist Rechtsgrundlage Art. 6 Abs. 1 lit. f
+      DSGVO. Das berechtigte Interesse liegt in der Bearbeitung geschäftlicher
+      Anfragen.
     </li>
   </ul>
   <p>
-    Rechtsgrundlage für den Betrieb des Chats, seine Protokollierung und die
-    Auswertung zur Verbesserung des Agenten ist Art. 6 Abs. 1 lit. f DSGVO
-    (berechtigtes Interesse an der Beantwortung von Anfragen zu meiner Person und
-    Tätigkeit sowie an einem zuverlässigen, sicheren Betrieb); für die Übermittlung
-    von Kontaktdaten im Rahmen einer Anfrage oder Sprechstundenbuchung Art. 6 Abs. 1
-    lit. b DSGVO (Anbahnung) bzw. Art. 6 Abs. 1 lit. a DSGVO (Einwilligung durch das
-    Absenden).
+    Eine automatisierte Entscheidung im Sinne von Art. 22 DSGVO findet nicht statt.
   </p>
   <p class="legal-muted">
-    Hinweis: Bitte geben Sie im Chat keine besonderen Kategorien personenbezogener
-    Daten (z. B. Gesundheits-, Religions- oder politische Daten) ein und beschränken
-    Sie vertrauliche Angaben auf das für Ihre Anfrage Nötige, da der Gesprächsverlauf
-    gemäß Ziffer 3 und 5 gespeichert wird.
+    Hinweis: Bitte geben Sie im Chat keine vertraulichen Angaben und keine besonderen
+    Kategorien personenbezogener Daten (z. B. Gesundheits-, Religions- oder politische
+    Daten) ein. Für einen Terminwunsch genügen Name und eine Kontaktmöglichkeit.
   </p>
 
   <h2>4. Empfänger und Übermittlung in Drittländer</h2>
+  <p>Im beschriebenen Umfang erhalten folgende Stellen Daten:</p>
+  <ul>
+    <li><strong>GitHub</strong> (GitHub, Inc., USA): Hosting der Website.</li>
+    <li>
+      <strong>Cloudflare</strong> (Cloudflare, Inc., USA): Transport und Schutz des
+      Chats.
+    </li>
+    <li>
+      <strong>Anthropic</strong> (Anthropic PBC, San Francisco, USA): Erzeugung der
+      Antworten und Ordnen der Themen in der wöchentlichen Auswertung. Die Daten
+      werden dabei auch in den USA verarbeitet.
+    </li>
+    <li>
+      <strong>BKS-Lab GmbH</strong>: stellt das Protokollkonto bei Elastic Cloud und
+      das Absenderpostfach bei Microsoft 365 bereit. Als Auftragsverarbeiter sind
+      dafür <strong>Elastic</strong> (Elasticsearch B.V., Niederlande, Speicherort
+      Frankfurt am Main) und <strong>Microsoft</strong> (Microsoft Ireland Operations
+      Limited, Irland) eingesetzt.
+    </li>
+    <li>
+      <strong>Google</strong> (Google Ireland Limited, Irland): Postfach von Michael
+      Boiman, in dem die E-Mails des Agenten eingehen.
+    </li>
+    <li>
+      <strong>Telegram</strong> (sofern aktiviert): Benachrichtigung an Michael Boiman
+      über einen Terminwunsch. Der Anbieter hat seinen Sitz außerhalb der EU. Die
+      Nachricht enthält keine Angaben, anhand derer Telegram Sie identifizieren könnte.
+    </li>
+  </ul>
   <p>
-    Im beschriebenen Umfang werden Daten an folgende Dienste übermittelt:
-    <strong>GitHub</strong> (Hosting, USA), <strong>Cloudflare</strong> (Transport
-    und Schutz des Chats, USA) und <strong>Anthropic</strong> (KI-Antworten, USA).
-    Gesprächsprotokolle liegen in einer <strong>Elastic-Cloud</strong>-Umgebung
-    eines Kontos der BKS-Lab GmbH; Anfragen, Terminwünsche und
-    Sprechstunden-Bestätigungen werden über <strong>Microsoft 365</strong>
-    (Microsoft Corporation) versendet, jeweils in der von diesem Konto genutzten
-    Rechenzentrumsregion. Ist die Telegram-Benachrichtigung aktiviert, erhält
-    <strong>Telegram</strong> (Telegram FZ-LLC) eine Nachricht ohne Ihre
-    Kontaktdaten. Soweit Daten dabei in einem Land außerhalb der EU/des EWR
-    verarbeitet werden, erfolgt dies auf Grundlage des EU-U.S. Data Privacy
+    Mehrere dieser Anbieter haben ihren Sitz in den USA oder gehören zu
+    Unternehmensgruppen mit Sitz in den USA, sodass Daten auch dort verarbeitet werden
+    können. Übermittlungen in die USA erfolgen auf Grundlage des EU-U.S. Data Privacy
     Framework (soweit das jeweilige Unternehmen zertifiziert ist) bzw. der
-    EU-Standardvertragsklauseln gemäß Art. 46 DSGVO. Darüber hinaus werden keine
-    Daten an Dritte weitergegeben.
+    EU-Standardvertragsklauseln gemäß Art. 46 DSGVO. An sonstige Dritte werden keine
+    Daten weitergegeben.
   </p>
 
   <h2>5. Speicherdauer</h2>
+  <p>
+    Die automatische Löschung nach Fristen wird derzeit eingerichtet. Vorgesehen sind
+    die folgenden Zeiträume, danach werden die Daten gelöscht, soweit keine
+    gesetzlichen Aufbewahrungspflichten entgegenstehen.
+  </p>
   <ul>
-    <li><strong>Gesprächsprotokolle (Elastic):</strong> 90 Tage.</li>
-    <li><strong>Betriebsprotokolle ohne Gesprächsinhalt:</strong> 30 Tage.</li>
     <li>
-      <strong>Terminwünsche, Anfragen und Sprechstunden-Buchungen:</strong>
-      12 Monate; danach Löschung, soweit keine gesetzlichen
-      Aufbewahrungspflichten entgegenstehen.
+      <strong>Gesprächsverlauf im Arbeitsspeicher:</strong> flüchtig, bis zum Neustart
+      des Dienstes oder bis er von neueren Gesprächen verdrängt wird.
     </li>
-    <li><strong>Bestätigungscodes für Sprechstundentermine:</strong> 24 Stunden.</li>
-    <li><strong>Technische Sitzungsdateien des Agenten:</strong> 30 Tage.</li>
+    <li><strong>Gesprächsprotokolle (Fragen und Antworten):</strong> 90 Tage.</li>
+    <li><strong>Betriebsprotokolle ohne Gesprächsinhalt:</strong> 30 Tage.</li>
+    <li><strong>Sitzungsdateien der Claude-Software:</strong> 30 Tage.</li>
+    <li>
+      <strong>Terminwünsche, Anfragen und Hinweise auf Missbrauch:</strong> 12 Monate.
+      Entsteht aus einer Anfrage eine Zusammenarbeit, gelten die dafür
+      vorgeschriebenen Fristen.
+    </li>
+    <li><strong>Buchungen der Sprechstunde:</strong> 12 Monate ab dem Termin.</li>
+    <li><strong>Bestätigungscodes der Sprechstunde:</strong> 24 Stunden.</li>
+    <li>
+      <strong>E-Mails und Telegram-Nachrichten an Michael Boiman</strong>
+      (Benachrichtigungen, Übersichten, Auswertungen): 12 Monate.
+    </li>
+    <li><strong>Bei Anthropic:</strong> nach den Bedingungen von Anthropic.</li>
+    <li>
+      <strong>Sitzungskennung und Fenstereinstellungen im Browser:</strong> bis Sie die
+      Websitedaten löschen.
+    </li>
     <li><strong>Server-Zugriffsdaten beim Hosting:</strong> nach Maßgabe von GitHub.</li>
   </ul>
 
@@ -184,6 +296,13 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Zur Ausübung genügt
     eine formlose Nachricht an
     <a href="mailto:mboiman@gmail.com">mboiman@gmail.com</a>.
+  </p>
+  <p>
+    Das gilt auch für den Chat: Sie können der Protokollierung Ihres Gesprächs
+    widersprechen und die Löschung Ihrer Angaben verlangen. Damit Michael Boiman Ihr
+    Gespräch findet, nennen Sie bitte Datum und ungefähre Uhrzeit und, wenn möglich,
+    Ihre erste Frage. Wenn Sie keine Protokollierung wünschen, schreiben Sie bitte
+    direkt eine E-Mail, statt den Chat zu nutzen.
   </p>
 
   <h2>7. Beschwerderecht</h2>
