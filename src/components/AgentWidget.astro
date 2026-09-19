@@ -599,6 +599,24 @@ const widgetStrings = {
     border-bottom-left-radius: 4px;
     box-shadow: 0 1px 3px -1px rgba(0,0,0,0.10);
   }
+  /* Cancel affordance on the working indicator, the escape hatch for the
+     longer buffered deadline (see POST_TIMEOUT_MS). Pushed to the pill's
+     trailing edge so it never crowds the dots/label. */
+  .aw-cancel-btn {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 2px 9px;
+    font: inherit;
+    font-size: var(--fs-11);
+    line-height: 1.3;
+    cursor: pointer;
+    border-radius: var(--r-sm);
+    border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+    background: transparent;
+    color: var(--text-secondary);
+    transition: background-color 0.15s ease-out;
+  }
+  .aw-cancel-btn:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
   .aw-dots { display: inline-flex; gap: 3px; flex-shrink: 0; }
   .aw-dots span {
     width: 5px; height: 5px; border-radius: var(--r-pill);
@@ -1033,6 +1051,24 @@ const widgetStrings = {
   .aw-view-on-page:hover { background: color-mix(in srgb, var(--accent, #e23b3b) 22%, transparent); }
   .aw-view-on-page:focus-visible { outline: 2px solid var(--accent, #e23b3b); outline-offset: 2px; }
   .aw-view-on-page svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* Agent-proposed quick replies ("offers"), at most two pill buttons under
+     the last agent answer. Same visual family as the "show on the page" pill
+     (accent-tinted, not a bold CTA), so a proposed next step reads as an
+     invitation, not as a fill-in-the-form control. */
+  .aw-offer-row { flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+  .aw-offer-btn {
+    display: inline-flex; align-items: center;
+    font: inherit; font-size: var(--fs-12); font-weight: 500; line-height: 1.2;
+    color: var(--accent, #e23b3b);
+    background: color-mix(in srgb, var(--accent, #e23b3b) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent, #e23b3b) 40%, transparent);
+    border-radius: var(--r-pill); padding: 7px 13px; cursor: pointer;
+    transition: background .15s ease;
+  }
+  .aw-offer-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--accent, #e23b3b) 22%, transparent); }
+  .aw-offer-btn:focus-visible { outline: 2px solid var(--accent, #e23b3b); outline-offset: 2px; }
+  .aw-offer-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 
 <script>
@@ -1046,6 +1082,7 @@ const widgetStrings = {
     launcherText?: string;
     connecting: string; working: string; errorConnect: string;
     errorSend: string; errorAgent: string; emptyAnswer: string; retry: string;
+    cancel?: string; cancelled?: string; workingSlow?: string;
     maximize?: string; restore?: string; resize?: string;
     cardOpen?: string; cardBack?: string; cardTitle?: string; cardIntro?: string;
     cardProtocol?: string; cardEndpoint?: string; cardModes?: string; cardSkills?: string;
@@ -1290,19 +1327,34 @@ const widgetStrings = {
     }
 
     // ── Agent UI directives ──────────────────────────────────────────────────
-    // The agent may append a machine-only directive proposing a page action,
-    // e.g.  ⟦ui:highlight tuev-sued⟧  on its own line at the end of the reply.
-    // We (1) STRIP it from EVERY render so it never shows — even mid-stream a
-    // half-typed sentinel is hidden — and (2) collect anchors so send() can run
-    // the scroll+highlight once, on the final answer. Parsing the RAW text (pre-
-    // escape) is fine: the sentinel chars ⟦ ⟧ are not HTML-special.
+    // The agent may append machine-only directives proposing a page action, each
+    // on its own line at the end of the reply:
+    //   ⟦ui:highlight tuev-sued⟧        at most one, scroll + flash a section
+    //   ⟦ui:offer Wann sind Sie frei?⟧  at most two, rendered as quick-reply buttons
+    // We (1) STRIP both kinds from EVERY render so neither ever shows as text
+    // (even mid-stream a half-typed sentinel of either kind is hidden), and
+    // (2) collect anchors/offers so send() can run the highlight once and render
+    // the offer buttons, on the final answer. Parsing the RAW text (pre-escape)
+    // is fine: the sentinel chars ⟦ ⟧ are not HTML-special.
     const UI_DIRECTIVE_RE = /⟦\s*ui:highlight\s+([a-z0-9-]+)\s*⟧/g;
-    function parseDirectives(raw: string): { text: string; anchors: string[] } {
+    const UI_OFFER_RE = /⟦\s*ui:offer\s+([^⟧\n]{1,80})⟧/g;
+    function parseDirectives(raw: string): { text: string; anchors: string[]; offers: string[] } {
       const anchors: string[] = [];
-      let text = String(raw ?? '').replace(UI_DIRECTIVE_RE, (_m: string, a: string) => { anchors.push(a); return ''; });
-      text = text.replace(/⟦\s*ui:highlight[^⟧]*$/, '');      // hide a not-yet-closed (streaming) sentinel
+      const offers: string[] = [];
+      let text = String(raw ?? '')
+        .replace(UI_DIRECTIVE_RE, (_m: string, a: string) => { anchors.push(a); return ''; })
+        // Button text only ever goes through textContent when rendered (see
+        // addOfferButtons); the trim/slice here is a UX cap (the contract's own
+        // 40-character limit), not an XSS defence.
+        .replace(UI_OFFER_RE, (_m: string, o: string) => {
+          const clean = o.trim().slice(0, 40);
+          if (clean) offers.push(clean);
+          return '';
+        });
+      // hide a not-yet-closed (streaming) sentinel of either kind
+      text = text.replace(/⟦\s*ui:(?:highlight|offer)[^⟧]*$/, '');
       text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-      return { text, anchors };
+      return { text, anchors, offers: offers.slice(0, 2) };
     }
 
     /** MAIN ENTRY. raw = untrusted agent text. Returns sanitised HTML for innerHTML. */
@@ -1496,7 +1548,11 @@ const widgetStrings = {
       return wrap;
     }
 
-    function makeWorkingIndicator(): { el: HTMLElement; setStep: (s: string) => void } {
+    // onCancel: when given, the indicator carries a small cancel button, the
+    // escape hatch for a wait long enough to need one. The streaming attempt
+    // omits it (its own idle clock already cuts a silent stream); the buffered
+    // fallback, whose deadline can now run to POST_TIMEOUT_MS, passes one.
+    function makeWorkingIndicator(onCancel?: () => void): { el: HTMLElement; setStep: (s: string) => void } {
       const row = makeRow('agent');
       const pill = document.createElement('div');
       pill.className = 'aw-working';
@@ -1508,6 +1564,14 @@ const widgetStrings = {
       label.textContent = t.working;
       pill.appendChild(dots);
       pill.appendChild(label);
+      if (onCancel) {
+        const cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = 'aw-cancel-btn';
+        cancelBtn.textContent = t.cancel || 'Abbrechen';
+        cancelBtn.addEventListener('click', onCancel);
+        pill.appendChild(cancelBtn);
+      }
       row.appendChild(pill);
       messagesEl.appendChild(row);
       scrollToBottom();
@@ -1846,8 +1910,18 @@ const widgetStrings = {
     // Two different limits, because streaming and buffered fail differently:
     // a buffered call is one round trip and gets a plain deadline, while a stream
     // may legitimately run long and must instead be cut when it goes QUIET.
-    const POST_TIMEOUT_MS = 45000;
+    //
+    // The buffered deadline used to sit at 45 s while the server's own budget for
+    // one turn runs up to 150 s: measured on 2026-09-19, the widget gave up on a
+    // request the server was still going to answer, 105 s before its own limit.
+    // Aligned to the server's budget plus a network buffer, so the fallback only
+    // ever times out after the server itself would have. To keep that longer wait
+    // from reading as a freeze, POST_SLOW_HINT_MS switches the indicator to a calm
+    // "taking longer" line partway through, and the indicator carries a cancel
+    // button the whole time (see makeWorkingIndicator).
+    const POST_TIMEOUT_MS = 165000;   // 150 s server budget + 15 s network buffer
     const STREAM_IDLE_MS = 30000;
+    const POST_SLOW_HINT_MS = 20000;  // "this is taking a bit longer" past ~20 s
     async function postMessage(message: string, useStreaming: boolean, signal?: AbortSignal): Promise<Response> {
       return fetch(agentUrl, {
         method: 'POST',
@@ -2125,10 +2199,43 @@ const widgetStrings = {
       return true;
     }
 
-    // Execute directives carried by a final answer — at most ONE highlight.
+    // =========================================================================
+    // AGENT-PROPOSED QUICK REPLIES ("offers"), at most two buttons under the
+    // last agent response (⟦ui:offer …⟧, see parseDirectives). A click sends the
+    // button's exact text as the visitor's next message. Same posture as the
+    // highlight anchor: the agent PROPOSES text, the widget renders it, never
+    // HTML, never innerHTML. A compromised/prompt-injected agent can at most add
+    // up to two plain-text buttons that send a chat message on click.
+    // =========================================================================
+    let offerRowEl: HTMLElement | null = null;
+    function removeOfferButtons(): void {
+      if (offerRowEl) { offerRowEl.remove(); offerRowEl = null; }
+    }
+    function addOfferButtons(offers: string[]): void {
+      removeOfferButtons();
+      if (!offers.length) return;
+      const row = document.createElement('div');
+      row.className = 'aw-row aw-row-agent aw-offer-row';
+      for (const offerText of offers) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'aw-offer-btn';
+        btn.textContent = offerText;   // XSS-safe: never innerHTML on untrusted agent text
+        btn.addEventListener('click', () => { void send(offerText); });
+        row.appendChild(btn);
+      }
+      messagesEl.appendChild(row);
+      scrollToBottom();
+      offerRowEl = row;
+    }
+
+    // Execute directives carried by a final answer: at most ONE highlight,
+    // at most TWO offer buttons. Offers replace whatever the previous answer
+    // showed (send() also clears them the moment a new message goes out).
     function runDirectives(text: string): void {
-      const { anchors } = parseDirectives(text);
+      const { anchors, offers } = parseDirectives(text);
       for (const a of anchors) { if (highlightAnchor(a)) break; }
+      addOfferButtons(offers);
     }
 
     // Dev hook: drive the highlight from the console without an agent (test recipe).
@@ -2187,12 +2294,19 @@ const widgetStrings = {
             || '').trim().replace(/\s+/g, ' ').slice(0, 80)
         : '';
       const path = location.pathname;
+      // Machine-readable capability line, fixed English key and array syntax on
+      // purpose (a wire contract other Bridge-Agent tracks parse against, not
+      // prose, see UI-VERTRAG). Its presence is what gates ⟦ui:…⟧ directives on
+      // the agent side; without a runtime_context block at all, none are valid.
+      const UI_CAPS = `ui_capabilities: ["highlight","offer"]`;
       if (lang === 'en') {
         const vis = visAnchor
           ? `Currently in the visitor's view: section “${visLabel}” (anchor ${visAnchor}).`
           : `No specific section is in the visitor's view right now.`;
         return [
           `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section via ⟦ui:highlight <anchor>⟧.`,
+          UI_CAPS,
+          `You may also propose up to two short next steps as buttons: append at most two lines ⟦ui:offer <button text>⟧ after the highlight line (highlight first, then offers). Button text: at most 40 characters, plain text, no ⟦ or ⟧. A click sends that exact text as the visitor's next message.`,
           vis,
           sections.length ? `Section anchors (each spans a whole group — use one for a category/overview question, e.g. "which talks?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
           entries.length ? `Single-entry anchors (use one when the answer points at a specific entry): ${entries.join(', ')}.` : '',
@@ -2203,6 +2317,8 @@ const widgetStrings = {
         : `Aktuell ist kein bestimmter Abschnitt im Blickfeld des Besuchers.`;
       return [
         `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben via ⟦ui:highlight <anchor>⟧.`,
+        UI_CAPS,
+        `Sie können außerdem bis zu zwei kurze nächste Schritte als Knöpfe vorschlagen: höchstens zwei Zeilen ⟦ui:offer <Knopftext>⟧ nach der Highlight-Zeile anhängen (erst highlight, dann offers). Knopftext: höchstens 40 Zeichen, reiner Text, ohne ⟦ oder ⟧. Ein Klick sendet genau diesen Text als nächste Nachricht des Besuchers.`,
         vis,
         sections.length ? `Abschnitts-Anker (umfassen je eine ganze Gruppe — einer davon für Kategorie-/Übersichtsfragen, z. B. „welche Vorträge?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
         entries.length ? `Einzel-Anker (einer davon, wenn die Antwort auf einen bestimmten Eintrag zeigt): ${entries.join(', ')}.` : '',
@@ -2233,12 +2349,14 @@ const widgetStrings = {
 
     async function send(message: string): Promise<void> {
       if (!message.trim() || busy) return;
+      removeOfferButtons();        // any offers under the previous answer are spent
       lastUserMessage = message;
       if (cardShown) closeCard();   // sending switches back to the chat view
       setBusy(true);
       addBubble('user', message);
 
       let reached = false;
+      let cancelledByUser = false;
       let indicator: { el: HTMLElement; setStep: (s: string) => void } | null = null;
       try {
         if (streamingSupported) {
@@ -2265,9 +2383,9 @@ const widgetStrings = {
             if (indicator) { try { indicator.el.remove(); } catch {} indicator = null; }
             // A timeout is NOT a reason to try again. Falling through here made the
             // freeze longer instead of shorter: measured, the visitor waited 30 s
-            // for the idle cut and then another 45 s for the buffered deadline,
-            // with the working indicator up the whole time. The fallback exists for
-            // an agent that cannot stream, not for one that has gone quiet.
+            // for the idle cut and then POST_TIMEOUT_MS again for the buffered
+            // deadline, with the working indicator up the whole time. The fallback
+            // exists for an agent that cannot stream, not for one that has gone quiet.
             if (timedOut) throw err;
             // fall through to buffered (the documented fallback)
           } finally {
@@ -2275,18 +2393,36 @@ const widgetStrings = {
           }
         }
 
-        indicator = makeWorkingIndicator();
-        const res2 = await postMessage(message, false, AbortSignal.timeout(POST_TIMEOUT_MS));
-        reached = true; cardEverReached = true;
-        if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
-        const outcome = await handleBuffered(res2, indicator);
-        indicator = null;
-        renderOutcome(outcome);
-        if (outcome.kind === 'answer') runDirectives(outcome.text);
+        // Buffered fallback: one round trip, no incremental frames to watch, so
+        // its own AbortController (not just AbortSignal.timeout) is what makes a
+        // cancel button possible. A slow hint replaces "silence" with "still
+        // there" partway through the now much longer POST_TIMEOUT_MS wait.
+        const ctl2 = new AbortController();
+        indicator = makeWorkingIndicator(() => { cancelledByUser = true; ctl2.abort(); });
+        const deadline2 = setTimeout(() => ctl2.abort(), POST_TIMEOUT_MS);
+        const slowHint2 = setTimeout(() => { indicator?.setStep(t.workingSlow || t.working); }, POST_SLOW_HINT_MS);
+        try {
+          const res2 = await postMessage(message, false, ctl2.signal);
+          reached = true; cardEverReached = true;
+          if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
+          const outcome = await handleBuffered(res2, indicator);
+          indicator = null;
+          renderOutcome(outcome);
+          if (outcome.kind === 'answer') runDirectives(outcome.text);
+        } finally {
+          clearTimeout(deadline2);
+          clearTimeout(slowHint2);
+        }
       } catch {
         if (indicator) { try { indicator.el.remove(); } catch {} }
-        const unreachable = !reached || !cardEverReached;
-        addErrorBubble(unreachable ? t.errorConnect : t.errorSend);
+        if (cancelledByUser) {
+          // A cancel is the visitor's own choice, not a failure: a plain agent
+          // bubble, never the red error styling or a retry button.
+          addBubble('agent', t.cancelled || t.errorSend);
+        } else {
+          const unreachable = !reached || !cardEverReached;
+          addErrorBubble(unreachable ? t.errorConnect : t.errorSend);
+        }
       } finally {
         setBusy(false);
         if (panelOpen) input.focus();
@@ -2530,6 +2666,18 @@ const widgetStrings = {
     // focus:false so a page load never scrolls to or steals focus for the widget;
     // persist:false so an auto-open is never stored as the visitor's choice.
     if (shouldAutoOpen()) openPanel({ focus: false, persist: false });
+
+    // Deep-link: an incoming #agent anchor is an explicit request to open the
+    // chat (a CTA elsewhere on the site, or a shared link), same fragment on
+    // every locale path (…/#agent, …/en/#agent). No element on the page carries
+    // id="agent", so the browser's own hash-scroll never fires for it. Once
+    // acted on, the fragment is dropped from the visible URL (replaceState, no
+    // new history entry) so a later reload of the same tab does not reopen a
+    // chat the visitor has since closed.
+    if (location.hash === '#agent') {
+      if (!panelOpen) openPanel();
+      try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+    }
 
     // The page's fact chips describe the LIVE agent, so read them off the live card
     // rather than trusting the hand-written strings the server rendered: those drifted
