@@ -135,6 +135,7 @@ const LANG = {
     ip: /IP-Adresse/,
     senderBox: /Absenderpostfach/,
     toVisitor: /an Sie\b/,
+    noAutoDelete: /nicht eingerichtet|ohne automatische Löschung/,
     ownResponsibility: /eigener Verantwortung/,
     noDpa: /kein(?:en)? Vertrag zur Auftragsverarbeitung/,
     training: /Training/,
@@ -149,6 +150,7 @@ const LANG = {
     ip: /IP address/,
     senderBox: /sending mailbox/,
     toVisitor: /\bto you\b/,
+    noAutoDelete: /[Nn]o automatic deletion|without automatic deletion/,
     ownResponsibility: /own responsibility/,
     noDpa: /no data processing agreement/i,
     training: /\btrain/i,
@@ -188,6 +190,16 @@ for (const lang of ['de', 'en']) {
   // in the sender's Sent Items. A retention list without them is incomplete.
   if (!s5.some((t) => L.senderBox.test(t) && L.toVisitor.test(t))) {
     errors.push(`${file} section 5: needs a retention line for the agent's emails to the visitor in the sending mailbox.`);
+  }
+  // The mailboxes (ai@bks-lab.com Sent Items, Michael's Gmail) and the Telegram chat
+  // have no automatic deletion. The first version promised 12 months for them, which
+  // nothing implemented. Every section-5 line about a mailbox has to say that there is
+  // no automatic deletion. When a rule or a Graph cleanup exists, change the text and
+  // this check in the same commit.
+  for (const t of s5.filter((t) => L.senderBox.test(t))) {
+    if (!L.noAutoDelete.test(t)) {
+      errors.push(`${file} section 5: "${t.slice(0, 60)}…" names a mailbox without saying that no automatic deletion is set up there.`);
+    }
   }
 
   // The agent runs on a Claude subscription, not under Anthropic's Commercial
