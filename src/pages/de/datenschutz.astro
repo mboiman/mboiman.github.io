@@ -69,14 +69,17 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       und Inhalte anderer Websites werden nicht übertragen.
     </li>
     <li>
-      <strong>Abruf der Agentenkarte:</strong> Auf den Seiten, die den
-      Erreichbarkeitsstatus des Agenten anzeigen, wird beim Laden der Seite einmalig
-      dessen öffentliche Agentenkarte (<em>agent-card.json</em>) abgerufen, ohne Ihr
-      Zutun. Dabei wird Ihre IP-Adresse an den oben genannten Endpunkt übermittelt und
-      dort im Betriebsprotokoll des Rechners verzeichnet (siehe „Betriebsprotokolle“).
-      Eingaben werden dabei nicht übertragen und nichts in Ihrem Browser gespeichert.
-      Auf allen übrigen Seiten, darunter Impressum und Datenschutzerklärung, findet
-      dieser Abruf nicht statt.
+      <strong>Abruf der Agentenkarte:</strong> Beim Öffnen des Chatfensters wird je
+      Seitenaufruf einmal die öffentliche Agentenkarte des Agenten
+      (<em>agent-card.json</em>) abgerufen, auf jeder Seite dieser Website, auch auf
+      Impressum und Datenschutzerklärung. Das gilt auch, wenn sich das Fenster von selbst
+      öffnet, weil Sie es bei Ihrem letzten Besuch offen gelassen haben, und wenn Sie eine
+      Seite über einen Link mit <em>#agent</em> aufrufen, der das Chatfenster öffnet. Auf
+      den Seiten, die den Erreichbarkeitsstatus des Agenten anzeigen, wird sie zusätzlich
+      beim Laden der Seite abgerufen, ohne Ihr Zutun. Dabei wird Ihre IP-Adresse an den
+      oben genannten Endpunkt übermittelt und dort im Betriebsprotokoll des Rechners
+      verzeichnet (siehe „Betriebsprotokolle“). Eingaben werden dabei nicht übertragen,
+      und der Abruf selbst speichert nichts in Ihrem Browser.
     </li>
     <li>
       <strong>Gesprächsverlauf:</strong> Damit der Agent an frühere Nachrichten
@@ -136,7 +139,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       erst, wenn Sie den Code im Chat eingeben. Anschließend erhalten Sie und Michael
       Boiman eine E-Mail mit Kalendereinladung. Gespeichert werden E-Mail-Adresse,
       Name (sofern genannt), Thema, Termin und Stand der Buchung. Um Missbrauch zu
-      verhindern, ist die Zahl der Codes je Gespräch, je Adresse und je Stunde begrenzt.
+      verhindern, ist die Zahl der Codes je Gespräch, je Adresse, je Mail-Domain, je
+      Stunde und je Tag begrenzt.
     </li>
     <li>
       <strong>Benachrichtigungen an Michael Boiman:</strong> Die E-Mails verschickt der
@@ -150,6 +154,10 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       Kontaktdaten oder Text von Ihnen. Beantwortet Michael Boiman die Meldung dort,
       sendet der Agent Ihnen seine Antwort (Zusage mit Kalendereinladung, Vorschlag
       eines anderen Termins oder Absage) an die E-Mail-Adresse aus Ihrem Terminwunsch.
+      Alle E-Mails des Agenten an Sie (Bestätigungscode, Kalendereinladung, Antwort von
+      Michael Boiman) kommen von ai@bks-lab.com. Antworten auf diese E-Mails, auch Zu-
+      und Absagen zur Kalendereinladung, gehen an dieses Postfach. Sie werden dort nicht
+      automatisch ausgewertet. Michael Boiman liest sie selbst.
     </li>
     <li>
       <strong>Hinweise auf Missbrauch:</strong> Erkennt der Agent einen
@@ -305,8 +313,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     </li>
     <li>
       <strong>E-Mails des Agenten an Sie</strong> (Bestätigungscode, Kalendereinladung,
-      Antwort von Michael Boiman) im Absenderpostfach: ebenso, ohne automatische
-      Löschung nach einer festen Frist.
+      Antwort von Michael Boiman) und Ihre Antworten darauf im Absenderpostfach: ebenso,
+      ohne automatische Löschung nach einer festen Frist.
     </li>
     <li>
       <strong>Weitergegebene Fragen bei den zwei weiteren Agenten</strong> (ohne Ihren

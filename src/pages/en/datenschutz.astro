@@ -72,13 +72,16 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       about you and no content from other websites are sent.
     </li>
     <li>
-      <strong>Fetching the agent card:</strong> On the pages that display the agent's
-      reachability status, its public agent card (<em>agent-card.json</em>) is fetched
-      once as the page loads, without any action on your part. Your IP address is
-      transmitted to the endpoint named above in doing so and recorded there in the
-      computer's operational log (see "Operational logs"). No input is sent and nothing
-      is stored in your browser. On every other page, including the legal
-      notice and this privacy notice, that fetch does not happen.
+      <strong>Fetching the agent card:</strong> When the chat window opens, the agent's
+      public agent card (<em>agent-card.json</em>) is fetched once per page view, on
+      every page of this website, including the legal notice and this privacy notice.
+      This also applies when the window opens by itself because you left it open on your
+      last visit, and when you open a page through a link with <em>#agent</em>, which
+      opens the chat window. On the pages that display the agent's reachability status,
+      it is also fetched as the page loads, without any action on your part. Your IP
+      address is transmitted to the endpoint named above in doing so and recorded there
+      in the computer's operational log (see "Operational logs"). No input is sent, and
+      the fetch itself stores nothing in your browser.
     </li>
     <li>
       <strong>Conversation history:</strong> So the agent can build on earlier
@@ -135,8 +138,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       the email address you provide. The slot is only booked once you enter the code in
       the chat. You and Michael Boiman then receive an email with a calendar
       invitation. The email address, name (if given), topic, slot and booking status
-      are stored. To prevent abuse, the number of codes per conversation, per address and
-      per hour is limited.
+      are stored. To prevent abuse, the number of codes per conversation, per address,
+      per mail domain, per hour and per day is limited.
     </li>
     <li>
       <strong>Notifications to Michael Boiman:</strong> The agent sends its emails
@@ -150,6 +153,10 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       name, contact details or any text from you. If Michael Boiman responds there, the
       agent sends you his answer (confirmation with calendar invitation, proposal of a
       different time or cancellation) at the email address from your meeting request.
+      All of the agent's emails to you (confirmation code, calendar invitation, Michael
+      Boiman's answer) come from ai@bks-lab.com. Replies to these emails, including
+      accepting or declining the calendar invitation, go to that mailbox. They are not
+      evaluated automatically there. Michael Boiman reads them himself.
     </li>
     <li>
       <strong>Abuse reports:</strong> If the agent detects an abuse attempt, such as an
@@ -296,8 +303,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     </li>
     <li>
       <strong>The agent's emails to you</strong> (confirmation code, calendar
-      invitation, Michael Boiman's answer) in the sending mailbox: likewise, without
-      automatic deletion after a fixed period.
+      invitation, Michael Boiman's answer) and your replies to them in the sending
+      mailbox: likewise, without automatic deletion after a fixed period.
     </li>
     <li>
       <strong>Questions passed on to the two other agents</strong> (without your name

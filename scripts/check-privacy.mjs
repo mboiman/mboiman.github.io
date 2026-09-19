@@ -107,6 +107,11 @@ const FORBIDDEN = [
   // account's admin list (infra/remotes/elastic.yaml, master_key).
   [/Zugriff haben Michael Boiman und die Administratoren/i, 'more people can read the logs than the account admins'],
   [/Michael Boiman and the administrators of that account have access/i, 'more people can read the logs than the account admins'],
+  // Acceptance 2026-09-19: the widget fetches the card whenever the chat window opens,
+  // also by itself (window left open last time) and via ...#agent, on every page,
+  // the legal pages included (headless probe: /de/impressum/ and /en/datenschutz/).
+  [/Auf allen übrigen Seiten, darunter Impressum/i, 'the card is fetched whenever the chat window opens, on every page'],
+  [/On every other page, including the legal\s+notice/i, 'the card is fetched whenever the chat window opens, on every page'],
 ];
 for (const [where, text] of [
   [PATHS.de, flat(pages.de)],
@@ -144,6 +149,12 @@ const LANG = {
     litB: /Art\.\s*6 Abs\.\s*1 lit\.\s*b/,
     litF: /Art\.\s*6 Abs\.\s*1 lit\.\s*f/,
     objection: /Protokollierung Ihres Gesprächs widersprechen/,
+    card: /Agentenkarte/,
+    cardOnOpen: /Öffnen des Chatfensters/,
+    cardDeepLink: /#agent/,
+    replies: /Antworten auf diese E-Mails/,
+    repliesNotEvaluated: /nicht automatisch ausgewertet/,
+    repliesKept: /Ihre Antworten/,
   },
   en: {
     opLog: /operational log/i,
@@ -159,6 +170,12 @@ const LANG = {
     litB: /Art\.\s*6\(1\)\(b\)/,
     litF: /Art\.\s*6\(1\)\(f\)/,
     objection: /object to your conversation being logged/,
+    card: /agent card/,
+    cardOnOpen: /open(?:s|ing)? the chat window|chat window (?:is )?open/,
+    cardDeepLink: /#agent/,
+    replies: /[Rr]eplies to these emails/,
+    repliesNotEvaluated: /not evaluated automatically/,
+    repliesKept: /your replies/,
   },
 };
 
@@ -238,6 +255,28 @@ for (const lang of ['de', 'en']) {
   // keys, not a named admin list.
   if (!s3.some((t) => L.elastic.test(t) && L.keys.test(t))) {
     errors.push(`${file} section 3: the conversation-log item has to say that holders of the account's access keys can read the logs.`);
+  }
+
+  // The card fetch happens on opening the chat window, on every page, also when the
+  // window opens by itself or through the #agent link (acceptance 2026-09-19). The
+  // item has to say so; the forbidden sentence above caught the old claim.
+  const card = s3.find((t) => L.card.test(t) && L.ip.test(t)) ?? '';
+  if (!card) {
+    errors.push(`${file} section 3: no item on fetching the agent card with the IP address.`);
+  } else {
+    if (!L.cardOnOpen.test(card)) errors.push(`${file} section 3, agent card: has to say that opening the chat window fetches it.`);
+    if (!L.cardDeepLink.test(card)) errors.push(`${file} section 3, agent card: has to name the #agent link that opens the window.`);
+  }
+
+  // Replies to the agent's emails land in ai@bks-lab.com. The mailbox watcher sets
+  // them aside without reading them (Bridge: infra/channels/ai-mailbox-set-aside.json).
+  // Section 3 says where they go and that nothing evaluates them, section 5 keeps them
+  // with the agent's emails, without automatic deletion.
+  if (!s3.some((t) => L.replies.test(t) && /ai@bks-lab\.com/.test(t) && L.repliesNotEvaluated.test(t))) {
+    errors.push(`${file} section 3: has to say that replies to the agent's emails go to ai@bks-lab.com and are not evaluated automatically.`);
+  }
+  if (!s5.some((t) => L.senderBox.test(t) && L.toVisitor.test(t) && L.repliesKept.test(t))) {
+    errors.push(`${file} section 5: the retention line for the agent's emails to the visitor has to cover the visitor's replies.`);
   }
 
   if (!L.litB.test(all) || !L.litF.test(all)) {
