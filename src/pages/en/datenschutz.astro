@@ -75,8 +75,9 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       <strong>Fetching the agent card:</strong> On the pages that display the agent's
       reachability status, its public agent card (<em>agent-card.json</em>) is fetched
       once as the page loads, without any action on your part. Your IP address is
-      transmitted to the endpoint named above in doing so. No input is sent and
-      nothing is stored in your browser. On every other page, including the legal
+      transmitted to the endpoint named above in doing so and recorded there in the
+      computer's operational log (see "Operational logs"). No input is sent and nothing
+      is stored in your browser. On every other page, including the legal
       notice and this privacy notice, that fetch does not happen.
     </li>
     <li>
@@ -91,15 +92,20 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       plain text together with the conversation identifier, its sequence number and the
       response time. The logs are kept at <strong>Elastic Cloud</strong> in an account
       of BKS-Lab GmbH, stored in Frankfurt am Main (Amazon Web Services region
-      eu-central-1). Michael Boiman and the administrators of that account have access.
-      The logs serve operation and troubleshooting, detecting abuse and improving the
-      answers (see "Evaluations"). This logging has been in place since 6 August 2026.
+      eu-central-1). They can be read by Michael Boiman and by anyone with access to
+      that account or to one of its access keys. BKS-Lab GmbH also uses the account for
+      other projects, including a client project in which such a key is currently
+      stored. The logs serve operation and troubleshooting, detecting abuse and
+      improving the answers (see "Evaluations"). This logging has been in place since
+      6 August 2026.
     </li>
     <li>
       <strong>Operational logs:</strong> In addition, logs without conversation content
       are kept at Elastic Cloud and on the computer (conversation identifier, time,
-      duration, length of request and answer, outcome). They serve secure and stable
-      operation.
+      duration, length of request and answer, outcome). The operational log on the
+      computer also records every request to the endpoint with your IP address, the
+      address requested and the outcome, including the agent card fetch. The
+      operational logs serve secure and stable operation and the prevention of abuse.
     </li>
     <li>
       <strong>Consulting other agents:</strong> Questions about BKS-Lab GmbH or the
@@ -128,8 +134,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       slots, it can book one of them for you. To do so, it sends a confirmation code to
       the email address you provide. The slot is only booked once you enter the code in
       the chat. You and Michael Boiman then receive an email with a calendar
-      invitation. The email address, name (if given), slot and booking status are
-      stored. To prevent abuse, the number of codes per conversation, per address and
+      invitation. The email address, name (if given), topic, slot and booking status
+      are stored. To prevent abuse, the number of codes per conversation, per address and
       per hour is limited.
     </li>
     <li>
@@ -150,7 +156,8 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       attempt to manipulate it or to obtain non-public information, a threat or spam, or
       clearly targeted research about Michael Boiman, it reports this to Michael Boiman
       by email, with a short description, its assessment of who is asking and the last
-      messages of the conversation. You are not notified of this in the chat.
+      messages of the conversation. It keeps the same details on the computer. You are
+      not notified of this in the chat.
     </li>
     <li>
       <strong>Information that needs no further data about you:</strong> The agent
@@ -186,9 +193,9 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
   <h3>Legal bases</h3>
   <ul>
     <li>
-      Answering your questions, conversation history, conversation and operational
-      logs, consulting other agents, abuse reports, limiting confirmation codes and the
-      weekly evaluation: Art. 6(1)(f) GDPR. The legitimate interest lies in answering
+      Answering your questions, conversation history, the agent card fetch,
+      conversation and operational logs, consulting other agents, abuse reports,
+      limiting confirmation codes and the weekly evaluation: Art. 6(1)(f) GDPR. The legitimate interest lies in answering
       questions about Michael Boiman and his work, in secure and stable operation, in
       preventing abuse and in improving the answers.
     </li>
@@ -218,9 +225,15 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       the chat.
     </li>
     <li>
-      <strong>Anthropic</strong> (Anthropic PBC, San Francisco, USA): generating the
-      answers and grouping topics in the weekly evaluation. The data is also processed
-      in the USA in doing so.
+      <strong>Anthropic</strong> (Anthropic Ireland, Limited, Ireland): generating the
+      answers, including for the questions passed on to the other agents, and grouping
+      topics in the weekly evaluation. For this the agent uses a Claude subscription of
+      Michael Boiman, not Anthropic's offering for business customers. Anthropic
+      therefore processes the data under its own responsibility, according to its terms
+      of use and its privacy policy. There is no data processing agreement. Whether
+      Anthropic also uses the content to train its models depends on a setting in that
+      subscription. The data is also processed in the USA. According to Anthropic, it
+      bases transfers there on the EU Standard Contractual Clauses.
     </li>
     <li>
       <strong>BKS-Lab GmbH</strong>: provides the logging account at Elastic Cloud and
@@ -240,11 +253,12 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     </li>
   </ul>
   <p>
-    Several of these providers are based in the USA or belong to groups of companies
-    based in the USA, so data may also be processed there. Transfers to the USA take
-    place on the basis of the EU-U.S. Data Privacy Framework (where the respective
-    company is certified) or the EU Standard Contractual Clauses pursuant to Art. 46
-    GDPR. No data is passed on to any other third parties.
+    GitHub, Cloudflare, Elastic, Microsoft and Google are based in the USA or belong to
+    groups of companies based in the USA, so data may also be processed there. For
+    these providers, transfers to the USA take place on the basis of the EU-U.S. Data
+    Privacy Framework (where the respective company is certified) or the EU Standard
+    Contractual Clauses pursuant to Art. 46 GDPR. No data is passed on to any other
+    third parties.
   </p>
 
   <h2>5. Retention period</h2>
@@ -258,19 +272,32 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       restarts or it is displaced by newer conversations.
     </li>
     <li><strong>Conversation logs (questions and answers):</strong> 90 days.</li>
-    <li><strong>Operational logs without conversation content:</strong> 30 days.</li>
+    <li>
+      <strong>Operational logs without conversation content,</strong> including the IP
+      addresses in the computer's operational log: 30 days.
+    </li>
     <li><strong>Session files of the Claude software:</strong> 30 days.</li>
     <li>
-      <strong>Meeting requests, inquiries and abuse reports:</strong> 12 months. If an
-      inquiry leads to a working relationship, the periods prescribed for that apply.
+      <strong>Meeting requests and inquiries:</strong> 12 months. If an inquiry leads to
+      a working relationship, the periods prescribed for that apply.
     </li>
+    <li><strong>Abuse reports on the computer:</strong> 90 days.</li>
     <li><strong>Office hours bookings:</strong> 12 months from the appointment.</li>
     <li><strong>Office hours confirmation codes:</strong> 24 hours.</li>
     <li>
       <strong>Emails and Telegram messages to Michael Boiman</strong> (notifications,
-      overviews, evaluations): 12 months.
+      overviews, evaluations, abuse reports), in his mailbox and in the sending mailbox:
+      12 months.
     </li>
-    <li><strong>At Anthropic:</strong> in accordance with Anthropic's terms.</li>
+    <li>
+      <strong>The agent's emails to you</strong> (confirmation code, calendar
+      invitation, Michael Boiman's answer) in the sending mailbox: 12 months.
+    </li>
+    <li>
+      <strong>At Anthropic:</strong> according to Anthropic, 30 days if the use for
+      training is switched off in the subscription, otherwise up to five years. Content
+      flagged by Anthropic's safety systems up to two years.
+    </li>
     <li>
       <strong>Session identifier and window settings in the browser:</strong> until you
       delete the site data.
