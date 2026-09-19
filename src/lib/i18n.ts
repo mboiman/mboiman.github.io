@@ -94,6 +94,9 @@ export interface AgentWidgetStrings {
   errorAgent: string;      // agent reachable but reported a terminal error (no text)
   emptyAnswer: string;     // agent completed with nothing usable
   retry: string;           // retry button label on error bubbles
+  cancel: string;          // cancel button on the working indicator (buffered fallback)
+  cancelled: string;       // shown after the visitor cancels an in-flight request
+  workingSlow: string;     // shown ~20s into the buffered fallback: "taking longer"
   maximize: string;        // enlarge-panel button label
   restore: string;         // restore-panel-size button label
   resize: string;          // drag-resize grip tooltip
@@ -134,9 +137,10 @@ export interface AgentWidgetStrings {
   cardPush: string;        // capability badge
   cardLoading: string;     // while fetching the card
   cardUnavailable: string; // card fetch failed
-  // Privacy disclosure — shown at the point of collection (under the composer)
+  // Privacy disclosure, point of collection: revealed together with the
+  // composer the moment the chat opens, not a one-time toast.
   privacyNote: string;     // one-line data note
-  privacyLink: string;     // link label → /de/datenschutz · /en/privacy
+  privacyLink: string;     // link label → /de/datenschutz · /en/datenschutz
 }
 
 /**
@@ -831,6 +835,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       errorAgent: 'Beim Beantworten ist ein Fehler aufgetreten. Bitte erneut versuchen.',
       emptyAnswer: 'Keine Antwort erhalten.',
       retry: 'Erneut versuchen',
+      cancel: 'Abbrechen',
+      cancelled: 'Anfrage abgebrochen.',
+      workingSlow: 'Das dauert gerade etwas länger …',
       maximize: 'Vergrößern',
       restore: 'Verkleinern',
       resize: 'Zum Ändern der Größe ziehen',
@@ -851,7 +858,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardLoading: 'Lade Agent-Card …',
       cardUnavailable: 'Agent-Card gerade nicht erreichbar.',
       privacyNote: 'Das Gespräch wird protokolliert, bitte keine vertraulichen Daten eingeben.',
-      privacyLink: 'Datenschutz',
+      privacyLink: 'Datenschutzerklärung',
     },
   },
 
@@ -1282,6 +1289,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       errorAgent: 'Something went wrong while answering. Please try again.',
       emptyAnswer: 'No answer received.',
       retry: 'Try again',
+      cancel: 'Cancel',
+      cancelled: 'Request cancelled.',
+      workingSlow: 'This is taking a little longer …',
       maximize: 'Enlarge',
       restore: 'Restore size',
       resize: 'Drag to resize',
@@ -1302,7 +1312,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardLoading: 'Loading agent card …',
       cardUnavailable: 'Agent card unavailable right now.',
       privacyNote: "The conversation is logged, so please don't enter confidential data.",
-      privacyLink: 'Privacy',
+      privacyLink: 'Privacy policy',
     },
   },
 };

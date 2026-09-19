@@ -93,9 +93,9 @@
           const base = String(tag).toLowerCase().split('-')[0];
           if (offered.indexOf(base) !== -1) { target = base; break; }
         }
-        location.replace('/' + (target || 'de') + '/');
+        location.replace('/' + (target || 'de') + '/' + location.search + location.hash);
       } catch {
-        location.replace('/de/');
+        location.replace('/de/' + location.search + location.hash);
       }
     })();
   </script>
