@@ -108,7 +108,7 @@ but which are NOT documented in my CV (config.cv.toml).
 ### English Language Proficiency
 
 **English C1 Professional Usage - Concrete Examples:**
-- **TÜV Süd IDAS (2025-present):** 90% English working environment
+- **TÜV Süd IDAS (09/2025-09/2026):** 90% English working environment
   - Complete technical documentation in English (README, API docs, test specifications)
   - Daily stakeholder communication in English
   - International team collaboration
