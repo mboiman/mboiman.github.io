@@ -1,11 +1,9 @@
 /**
  * How the sidebar skills are bucketed, and the rule that no skill may fall out.
  *
- * Two renderers read `ui.sidebar_skills`, and they disagree about grouping:
- * the CV page renders the groups below, scripts/html_to_pdf.js renders the same
- * list FLAT, as one row of chips with no headings at all. So a skill matching
- * no pattern is not invisible, it is inconsistent: present in the PDF, absent
- * from the page. The build used to fail on it with the message "would render
+ * Two renderers read `ui.sidebar_skills`, the CV page and scripts/html_to_pdf.js,
+ * and since 2026-09-24 both group them through this module. A skill matching
+ * no pattern is not invisible: it lands in the catch-all on both. The build used to fail on it with the message "would render
  * nowhere", which was simply untrue and blocked entries such as Terraform,
  * Kibana, SQL or ISTQB that no pattern was ever written for.
  *
@@ -86,7 +84,7 @@ export function groupedSkills(skills: string[], lang: 'de' | 'en'): SkillGroup[]
 
 /**
  * Skills that fall into the catch-all group. Not an error (they render, under
- * the catch-all heading on the page and flat in the PDF), but worth naming in
+ * the catch-all heading on the page and in the PDF), but worth naming in
  * the build log: a long list here means a heading is missing.
  */
 export function catchAllSkills(skills: string[]): string[] {

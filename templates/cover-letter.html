@@ -1,216 +1,93 @@
 <!DOCTYPE html>
-<html lang="{{LANGUAGE}}" class="pdf-cover-letter">
+<html lang="{{LANGUAGE}}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{NAME}} - Bewerbung {{COMPANY}}</title>
-    
+    <title>{{NAME}}, {{DOC_TITLE}} {{COMPANY}}</title>
     <style>
-        /* System fonts only — no external dependencies */
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        @page {
-            size: A4 portrait;
-            margin: 12mm 10mm 12mm 10mm;
-        }
-        
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            font-size: 10pt;
-            line-height: 1.5;
-            color: #2c3e50;
-            background: white;
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-        }
-        
-        .cover-letter-container { max-width: 100%; margin: 0; padding: 0; }
-        
-        /* Header (same as CV) */
-        .cv-header {
+        /* Fonts, tokens and the header come from scripts/lib/pdf-theme.js, the
+           same module the CV uses, so letter and CV print as one document. */
+        {{THEME_CSS}}
+
+        body { font-size: 10pt; line-height: 1.55; }
+
+        .letter-top {
             display: grid;
-            grid-template-columns: 110px 1fr;
-            gap: 20px;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 2px solid #3a8fa0;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr auto;
+            column-gap: 10mm;
+            align-items: end;
+            margin: 12mm 0 10mm 0;
         }
-        
-        .profile-photo {
-            width: 105px; height: 105px; border-radius: 50%;
-            border: 3px solid rgba(58, 143, 160, 0.2); object-fit: cover;
-        }
-        
-        .header-content h1 {
-            font-family: Georgia, 'Times New Roman', serif;
-            font-size: 18pt; font-weight: 700; color: #3a8fa0; margin-bottom: 3px;
-        }
-        
-        .header-tagline {
-            font-size: 9pt; color: #5a6c7d; font-weight: 600; margin-bottom: 8px;
-        }
-        
-        .contact-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 4px 20px; font-size: 7pt;
-        }
-        
-        .contact-item {
-            display: flex; align-items: center; gap: 4px;
-        }
-        
-        .contact-item i { width: 10px; color: #3a8fa0; font-size: 6pt; }
-        .contact-item a { color: #3a8fa0; text-decoration: none; }
-        
-        /* Letter content */
-        .letter-meta {
-            margin-bottom: 30px;
-            font-size: 9pt;
-            color: #5a6c7d;
-        }
-        
-        .letter-date {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        
-        .letter-address {
-            margin-bottom: 20px;
-        }
-        
-        .letter-subject {
+
+        .recipient { font-size: 10pt; line-height: 1.45; color: var(--ink); }
+        .letter-date { font-size: 10pt; color: var(--text); white-space: nowrap; }
+
+        .subject {
+            font-size: 10.5pt;
             font-weight: 600;
-            margin-bottom: 20px;
-            color: #3a8fa0;
+            color: var(--ink);
+            line-height: 1.4;
+            margin-bottom: 7mm;
         }
-        
-        .letter-content {
-            font-size: 10pt;
-            line-height: 1.6;
-        }
-        
-        .letter-content p {
-            margin-bottom: 12px;
-        }
-        
-        .letter-greeting {
-            margin-bottom: 15px;
-        }
-        
-        .letter-closing {
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-        
-        /* Requirement mapping section */
-        .requirements-mapping {
-            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
-            border-left: 4px solid #3a8fa0;
-            padding: 12px;
-            margin: 18px 0;
-            border-radius: 0 4px 4px 0;
-            page-break-inside: avoid;
-        }
-        
-        .requirements-mapping h3 {
-            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-            font-size: 12pt;
-            font-weight: 600;
-            color: #3a8fa0;
-            margin-bottom: 12px;
-        }
-        
-        .requirement-item {
-            margin-bottom: 8px;
-            padding: 6px 0;
-            border-bottom: 1px solid #e1e8ed;
-        }
-        
-        .requirement-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .requirement-label {
-            font-weight: 600;
-            color: #3a8fa0;
-            margin-bottom: 3px;
-        }
-        
-        .requirement-response {
-            color: #3c4858;
-            font-size: 9pt;
-        }
-        
-        .cv-reference {
-            color: #7a8b9a;
-            font-style: italic;
+
+        .body p { margin-bottom: 3.5mm; }
+        .body p:last-child { margin-bottom: 0; }
+        .greeting { margin-bottom: 3.5mm; }
+
+        .note {
             font-size: 8pt;
-            margin-top: 3px;
+            color: var(--muted);
+            font-style: italic;
         }
-        
-        .signature-area {
-            margin-top: 40px;
+
+        .sign-off { margin-top: 7mm; break-inside: avoid; page-break-inside: avoid; }
+
+        .enclosure {
+            margin-top: 10mm;
+            font-size: 9pt;
+            color: var(--muted);
         }
-        
-        /* Font Awesome icons replaced with simple text symbols for PDF */
-        .fa-envelope::before { content: "✉"; }
-        .fa-phone::before { content: "☎"; }
-        .fa-map-marker-alt::before { content: "📍"; }
-        .fa-linkedin::before { content: "💼"; }
-        .fa-github::before { content: "⚡"; }
-        .fa-globe::before { content: "🌐"; }
+
+        /* Requirement match: an enclosure on its own page, set as a table. */
+        .mapping { break-before: page; page-break-before: always; }
+        .req {
+            display: grid;
+            grid-template-columns: 52mm 1fr;
+            column-gap: 6mm;
+            padding: 3mm 0;
+            border-bottom: 0.5pt solid var(--rule-soft);
+            break-inside: avoid;
+            page-break-inside: avoid;
+            font-size: 9pt;
+            line-height: 1.5;
+        }
+        .req:last-child { border-bottom: none; }
+        .req-label { font-weight: 600; color: var(--ink); }
+        .req-ref { font-size: 8pt; color: var(--muted); margin-top: 1mm; }
     </style>
 </head>
 <body>
-    <div class="cover-letter-container">
-        <header class="cv-header">
-            <div class="profile-image">
-                <img src="{{PROFILE_IMAGE}}" alt="{{NAME}}" class="profile-photo">
-            </div>
-            <div class="header-content">
-                <h1>{{NAME}}</h1>
-                <div class="header-tagline">{{TAGLINE}}</div>
-                <div class="contact-grid">
-                    {{CONTACT_ITEMS}}
-                </div>
-            </div>
-        </header>
+    {{HEADER}}
 
-        {{AI_DISCLOSURE_TOP}}
+    {{AI_DISCLOSURE_TOP}}
 
-        <div class="letter-meta">
-            <div class="letter-date">{{DATE}}</div>
-            <div class="letter-address">
-                <strong>{{COMPANY}}</strong><br>
-                {{ADDRESS}}<br>
-                {{CONTACT_PERSON}}
-            </div>
-        </div>
-
-        <div class="letter-subject">
-            <strong>{{SUBJECT}}</strong>
-        </div>
-
-        <div class="letter-content">
-            <div class="letter-greeting">{{GREETING}}</div>
-
-            {{INTRO_PARAGRAPH}}
-
-            {{CLOSING_PARAGRAPH}}
-
-            <div class="letter-closing">
-                {{SIGN_OFF}}
-            </div>
-
-            {{REQUIREMENTS_SECTION}}
-
-            <div style="margin-top: 40px; padding: 15px; background: #f8fafc; border-left: 4px solid #3a8fa0; border-radius: 0 4px 4px 0; font-size: 9pt; color: #5a6c7d;">
-                <strong>📎 {{ATTACHMENT_LABEL}}</strong>
-            </div>
-        </div>
+    <div class="letter-top">
+        <div class="recipient">{{RECIPIENT}}</div>
+        <div class="letter-date">{{DATE}}</div>
     </div>
+
+    <div class="subject">{{SUBJECT}}</div>
+
+    <div class="body">
+        <div class="greeting">{{GREETING}}</div>
+        {{BODY}}
+    </div>
+
+    <div class="sign-off">
+        {{SIGN_OFF}}
+    </div>
+
+    <div class="enclosure">{{ATTACHMENT_LABEL}}</div>
+
+    {{REQUIREMENTS_SECTION}}
 </body>
 </html>
