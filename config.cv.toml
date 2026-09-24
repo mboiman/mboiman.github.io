@@ -59,7 +59,7 @@ defaultContentLanguage = "de"
         # jeden unsichtbar, der per Strg-F nach dem Werkzeug sucht. Rückgängig
         # am selben Tag.
         # Neu dazu: was die beiden laufenden Engagements tatsächlich benutzen
-        # (BKS LLM Infra seit 06/2025, TÜV Süd seit 09/2025) und vorher nur in
+        # (BKS LLM Infra seit 06/2025, TÜV Süd 09/2025-09/2026) und vorher nur in
         # zugeklappten Werkzeuglisten stand.
         # ACHTUNG: ein Eintrag, der keiner Gruppe in src/lib/skill-groups.ts
         # entspricht, rendert NICHT. Der Wächter bricht darauf.
@@ -301,7 +301,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
-- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026. Die Zählstände stehen im Repo, damit sie hier nicht altern. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe mit
+- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026. Die Zählstände stehen im Repo, damit sie hier nicht altern. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe
 - **Harness Engineering**: Was ein Agent leistet, entscheidet sich zum größten Teil außerhalb des Modells: Kontext, Werkzeugauswahl, Rechte, Zustand über Sitzungen hinweg, Verifikation. Diese Schicht wird hier gemessen statt geschätzt. Was eine Sitzung lädt, bevor sie das erste Wort beantwortet, trägt eine deklarierte Obergrenze, die ein CI-Schritt in Bytes prüft; Regelwerke, die selten greifen, laden erst auf ihr Stichwort statt beim Start; die Projekt-Registraturen liegen als Karte im Kontext und werden einzeln nachgeladen; ein weiterer Prüfschritt meldet, was im Baum existiert, aber aus keiner geladenen Datei mehr erreichbar ist, und greift sich zur Kontrolle selbst an. Die vier Werkzeuge dahinter liegen offen und laufen in der öffentlichen CI: measure-context.py, standing-orders.py, context-index.py, check-reachability.py
 - **Datentrennung als Architektur, nicht als Absprache**: Getrennte Instanzen je Mandant, eine Regel, die den Zugriff zwischen Instanzen verbietet, und ein fail-closed-Vertrag für das Materialisieren geteilter Konfiguration (der Abgleich bricht ab, statt im Zweifel zu schreiben). Schutz gegen Datenabfluss an drei Stellen: Pre-Commit-Hook, Pre-Push-Hook und drei Validatoren in der CI. Dazu eine adversariale Simulation, die den Schutz regelmäßig selbst angreift, als eigener CI-Job in einer abgeschotteten Sandbox
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0. Rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden (vier weitere Beitragende)
@@ -315,11 +315,11 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
 - **Selbst-dokumentierendes System**: LLM schreibt automatisch Projektstatus, Meeting-Protokolle und Issue-Updates zurück ins Git-Wiki; geschlossener Loop von Wiki-Lesen → Arbeit ausführen → Ergebnisse dokumentieren → Git-Commit mit strukturierter Protokollierung
 - **Arbeitszeit-Erfassung**: Commit-basierte Arbeitszeitanalyse mit automatischer Projekt-Zuordnung. Erste Stufe lief gegen Clockify; seit Juli 2026 im Aufbau als eigene Registry semantischer Konventionen auf Basis von OpenTelemetry Weaver, mit drei Schichten (Rohbeobachtung, abgeleiteter Block, abrechenbare Zeit), kanonischer JSON-Serialisierung nach RFC 8785 und einem Integritätsprofil nach OCSF
-- **Claude Code Plugin-Ecosystem**: 112 Skills in der produktiven Instanz, über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription (104 abgelegte Besprechungen), PDF/Zertifikat-Generierung, SharePoint-Integration. Jeder Skill trägt eine von vier Scope-Stufen (core, org, personal, user), die ein CI-Validator prüft; daran hängt, was überhaupt nach außen veröffentlicht werden darf
+- **Claude Code Plugin-Ecosystem**: 120 Skills in der produktiven Instanz, über eingecheckte Symlinks von Claude Code, Codex, Copilot CLI und Cursor gleichermaßen gefunden: Log-Analyse, Deployment-Verifikation, Incident-Handling, E-Mail-Management, Meeting-Transkription (104 abgelegte Besprechungen), PDF/Zertifikat-Generierung, SharePoint-Integration. Jeder Skill trägt eine von vier Scope-Stufen (core, org, personal, user), die ein CI-Validator prüft; daran hängt, was überhaupt nach außen veröffentlicht werden darf
 - **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit dreigeteilter Registry (Instanz-Basis, geteiltes Org-Fragment, persönliches Fragment), damit Firmendaten und Personendaten getrennt verteilt werden können. Trägt Repos, Kunden, Infrastruktur und Skills, dazu automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
 - **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen: Branch-Schutz, Secret-Erkennung und Deployment-Gates
 - **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA): automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
-- **Eigenbetriebene Infrastruktur**: 50 launchd-Dienste auf dem zentralen Host, 17 Geräte in der Registratur, über Tailscale statt über offene Ports erreichbar. Sicherung nach 3-2-1 als deklarierte Topologie: 10 Quellen, 5 Ziele, 16 Strecken (restic/rclone auf NAS), deren Ist-Stand gegen das Soll abgeglichen wird.
+- **Eigenbetriebene Infrastruktur**: 50 launchd-Dienste auf dem zentralen Host, 18 Geräte in der Registratur, über Tailscale statt über offene Ports erreichbar. Sicherung nach 3-2-1 als deklarierte Topologie: 10 Quellen, 5 Ziele, 16 Strecken (restic/rclone auf NAS), deren Ist-Stand gegen das Soll abgeglichen wird.
 
 **Tools & Technologien**
 - LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
@@ -404,7 +404,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Einführung von Gauge (BDD) 
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
-- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 
 **Tools** 
 - IntelliJ / Visual Studio Code 
@@ -429,7 +429,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
 **Schwerpunkte**
 - **Workflow-Automatisierung**: Extraktion, Analyse und Klassifizierung eingehender Rechnungen mittels Python und Azure Functions.
-- **E-Rechnungs-Klassifizierung & Daten-Extraction**: Vollständige Verarbeitung nach EU-Standards (EN 16931: ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
+- **E-Rechnungs-Klassifizierung & Datenextraktion**: Vollständige Verarbeitung nach EU-Norm EN 16931 (ZUGFeRD, XRechnung, Factur-X), inklusive Struktur- und Inhalts-Parsing.
 - **Peppol Network Integration**: Anbindung an das europäische E-Invoicing-Netzwerk über einen zertifizierten Peppol Access Point für automatisierten Rechnungsempfang und -versand mit UBL/CII-Formaten.
 - **SAP ByDesign Kopplung**: Automatische Übertragung validierter Rechnungsdaten an SAP ByDesign für nahtlose ERP-Integration.
 - **Hexagonale Architektur**: Domain-driven Design mit Ports & Adapters für maximale Testbarkeit und Austauschbarkeit von Infrastruktur-Komponenten.
@@ -457,7 +457,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         """
 
         [[languages.de.params.experiences.list]]
-        position = "AI-getriebene Automatisierte QA-Umgebung für Energie-Infrastruktur"
+        position = "KI-gestützte QA-Umgebung für Energie-Infrastruktur"
         anchor = "akkuswap"
         dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
@@ -562,7 +562,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Dokumentation von Qualitätsmetriken über Fortschritt der messbaren Qualität der Sprints 
 - Aufbau und Konzeption von CI/CD-Pipeline für Daten-Tests 
 - Fachliche und technische Analyse von Problemen 
-- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitäts-relevante Probleme 
+- Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 - Aufbau von Junit, Unit-Tests und Integrationstests unter anderen mit Java Cucumber 
 - Entwicklung einer hybriden App zur Präsentation (Review) der Ergebnisse in einer Web- oder mobilen Plattform 
 - Koordination Integrationstest zwischen den beteiligten Teams 
@@ -967,11 +967,11 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
 - **Self-Documenting System**: LLM automatically writes project status, meeting protocols, and issue updates back to Git wiki; closed loop of wiki reading → work execution → results documentation → Git commit with structured logging
 - **Work-time capture**: commit-based work time analysis with automatic project assignment. The first stage ran against Clockify; since July 2026 it is being rebuilt as a private registry of semantic conventions on OpenTelemetry Weaver, with three layers (raw observation, derived block, billable time), canonical JSON serialisation per RFC 8785 and an integrity profile per OCSF
-- **Claude Code Plugin Ecosystem**: 112 skills in the productive instance, discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks: log analysis, deployment verification, incident handling, email management, meeting transcription (104 filed meetings), PDF/certificate generation, SharePoint integration. Every skill carries one of four scope tiers (core, org, personal, user) checked by a CI validator; what may be published outward depends on it
+- **Claude Code Plugin Ecosystem**: 120 skills in the productive instance, discovered alike by Claude Code, Codex, Copilot CLI and Cursor through committed symlinks: log analysis, deployment verification, incident handling, email management, meeting transcription (104 filed meetings), PDF/certificate generation, SharePoint integration. Every skill carries one of four scope tiers (core, org, personal, user) checked by a CI validator; what may be published outward depends on it
 - **Context Orchestrator**: central multi-repo control system with a three-way split registry (instance base, shared org fragment, personal fragment), so company data and personal data can be distributed separately. It carries repos, customers, infrastructure and skills, plus automatic cross-repo navigation and structured work tracking with archiving
 - **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations: branch protection, secret detection and deployment gates
 - **Production Operations E-Invoicing**: ongoing management of an e-invoicing platform for a leading online job platform (under NDA): automated incident management, log analysis, weekly reporting and go-live tracking
-- **Self-Operated Infrastructure**: 50 launchd services on the central host, 17 devices in the registry, reachable over Tailscale rather than open ports. Backups follow 3-2-1 as a declared topology: 10 sources, 5 targets, 16 pipelines (restic/rclone to NAS), with actual state reconciled against intent.
+- **Self-Operated Infrastructure**: 50 launchd services on the central host, 18 devices in the registry, reachable over Tailscale rather than open ports. Backups follow 3-2-1 as a declared topology: 10 sources, 5 targets, 16 pipelines (restic/rclone to NAS), with actual state reconciled against intent.
 
 **Tools & Technologies**
 - LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
@@ -980,7 +980,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Microsoft Graph, Exchange Online, Elasticsearch, Kibana, OpenTelemetry/OTLP
-- Betrieb: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
+- Operations: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrated repos span Python, TypeScript, Rust and Go
         """
 
@@ -1077,18 +1077,18 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         dates = "01/2024-04/2025"
         company  = "BKS"
         details  = """
-**Technical lead & development**: Design and implementation of a scalable automation solution for processing e‑invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go‑live.
+**Technical lead & development**: Design and implementation of a scalable automation solution for processing e-invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go-live.
 
 **Focus areas**
 - **Workflow automation**: Extraction, analysis and classification of incoming invoices using Python and Azure Functions.
-- **E‑invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
+- **E-invoice classification & data extraction**: Full processing in accordance with EU standard EN 16931 (ZUGFeRD, XRechnung, Factur-X), including structural and content parsing.
 - **Peppol Network Integration**: Connection to European e-invoicing network through a certified Peppol Access Point for automated invoice receipt and dispatch with UBL/CII formats.
 - **SAP ByDesign Integration**: Automatic transfer of validated invoice data to SAP ByDesign for seamless ERP integration.
 - **Hexagonal Architecture**: Domain-driven design with Ports & Adapters for maximum testability and interchangeability of infrastructure components.
 - **Salesforce integration**: Forwarding prepared invoice data via email to the downstream system for Salesforce import.
 - **Auditing & logging**: Comprehensive documentation of all processing steps plus storage of original email content in the processing log.
 - **Outlook management & SharePoint archiving**: Automatic moving and categorising of emails into predefined Outlook folders; archiving of original and generated invoice documents via Microsoft Graph API.
-- **Monitoring & logging**: End‑to‑end real‑time monitoring with Kibana, including alerting and dashboard creation.
+- **Monitoring & logging**: End-to-end real-time monitoring with Kibana, including alerting and dashboard creation.
 - **Team coordination**: Managing the developer team incl. code reviews.
 - **AI Workflow Automation**: Development of AI skills for automating task tracking, issue management, and project documentation
 - **Intelligent Documentation System**: Automated wiki synchronization with git commit analysis and natural language documentation generation
@@ -1109,7 +1109,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         """
 
         [[languages.en.params.experiences.list]]
-        position = "AI-driven Automated QA Environment for Energy Infrastructure"
+        position = "AI-driven QA Environment for Energy Infrastructure"
         anchor = "akkuswap"
         dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
@@ -1489,7 +1489,7 @@ Guideline-basierter KI-Agent in der Entwicklungsumgebung, der Tests aus Jira-Sto
 • **Cross-Repo Automation**: Nahtlose Navigation und Operationen über Kunden-, Partner- und interne Repositories
 • **Open-Source-Schicht**: Three-Tier-Architektur. Die generische CORE-Schicht liegt offen als bks-lab/open-bridge (MIT, mit Live-Demo-Seite) und speist sich aus dieser Saat-Instanz, BKS-Overlay dazwischen.
 
-**Impact:** Im täglichen Einsatz: 112 Skills, 5 Sub-Agenten, 15 Dauerregeln, 104 automatisch abgelegte Besprechungen. Sechs voneinander getrennte Instanzen teilen sich denselben quelloffenen Kern, ohne dass Daten zwischen ihnen fließen."""
+**Impact:** Im täglichen Einsatz: 120 Skills, 5 Sub-Agenten, 15 Dauerregeln, 104 automatisch abgelegte Besprechungen. Sechs voneinander getrennte Instanzen teilen sich denselben quelloffenen Kern, ohne dass Daten zwischen ihnen fließen."""
         tagline_pdf = '''
 Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner- und interne Repos hinweg.
 • **Problem:** Entwicklung über viele Repos und mehrere Kunden erforderte ständigen Kontextwechsel und manuelle Koordination.
@@ -1840,7 +1840,7 @@ Guideline-based AI agent in the IDE that generates tests from Jira stories.
 • **Cross-Repo Automation**: Seamless navigation and operations across customer, partner and internal repositories
 • **Open-source layer**: three-tier architecture. The generic CORE layer is public as bks-lab/open-bridge (MIT, with a live demo site) and is fed from this seed instance, with a BKS overlay in between.
 
-**Impact:** In daily use: 112 skills, 5 sub-agents, 15 standing orders, 104 automatically filed meetings. Six mutually isolated instances share the same open-source core without data flowing between them."""
+**Impact:** In daily use: 120 skills, 5 sub-agents, 15 standing orders, 104 automatically filed meetings. Six mutually isolated instances share the same open-source core without data flowing between them."""
         tagline_pdf = '''
 Central control system for AI-assisted development across customer, partner and internal repos.
 • **Problem:** Development across many repos and multiple customers required constant context switching and manual coordination.
