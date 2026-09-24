@@ -18,7 +18,8 @@
     "check:output": "node scripts/check-output.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:scale": "node scripts/check-scale.mjs",
-    "check:privacy": "node scripts/check-privacy.mjs"
+    "check:privacy": "node scripts/check-privacy.mjs",
+    "test:pdf": "node --test test/pdf.test.cjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.1",

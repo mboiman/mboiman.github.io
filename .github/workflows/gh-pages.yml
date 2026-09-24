@@ -49,6 +49,11 @@ jobs:
       - name: Check content guards
         run: npm run check:i18n
 
+      # Letter and CV share one print design (scripts/lib/pdf-theme.js); this
+      # renders a sample application and fails on drift back to web styling.
+      - name: Test application PDFs
+        run: npm run test:pdf
+
       - name: Generate PDFs
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de

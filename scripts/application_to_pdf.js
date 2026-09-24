@@ -4,72 +4,104 @@ const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
 const { formatMarkdownToHTML } = require('./lib/markdown-utils');
+const { fontFaceCss, BASE_CSS, renderHeader, stripEmoji, escapeHtml, applyApplicationOverrides } = require('./lib/pdf-theme');
 
-// Function to generate cover letter HTML from template and data
-async function generateCoverLetterHTML(coverLetterData, langConfig, profileImageData) {
-  const templatePath = path.join(__dirname, '..', 'templates', 'cover-letter.html');
-  let template = fs.readFileSync(templatePath, 'utf8');
-  
-  // Generate contact items (same as CV)
-  const contactItems = langConfig.contact.list.map(item => {
-    const href = item.url ? `href="${item.url}"` : '';
-    const isLink = item.url;
-    return `
-      <div class="contact-item">
-        <i class="fa ${item.icon}"></i>
-        ${isLink ? `<a ${href}>${item.title}</a>` : `<span>${item.title}</span>`}
-      </div>
-    `;
-  }).join('');
-
-  // Generate requirements mapping (optional — flowing prose letters set requirements: [])
-  const requirementsList = coverLetterData.requirements || [];
-  const requirementsMapping = requirementsList.map(req => `
-    <div class="requirement-item">
-      <div class="requirement-label">${req.requirement}</div>
-      <div class="requirement-response">${req.response}</div>
-      <div class="cv-reference">${req.cvReference}</div>
-    </div>
-  `).join('');
-  // Only render the 🎯 box when there are requirements; otherwise the letter is pure prose
-  const requirementsSection = requirementsList.length
-    ? `<div class="requirements-mapping"><h3>🎯 ${langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications'}</h3>${requirementsMapping}</div>`
-    : '';
-
-  // Replace placeholders
-  template = template
-    .replace(/{{LANGUAGE}}/g, coverLetterData.language || 'de')
-    .replace(/{{NAME}}/g, langConfig.profile.name)
-    .replace(/{{COMPANY}}/g, coverLetterData.company)
-    .replace(/{{TAGLINE}}/g, langConfig.ui.tagline)
-    .replace(/{{PROFILE_IMAGE}}/g, profileImageData)
-    .replace(/{{CONTACT_ITEMS}}/g, contactItems)
-    .replace(/{{DATE}}/g, coverLetterData.date || `Frankfurt am Main, ${new Date().toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}`)
-    .replace(/{{ADDRESS}}/g, coverLetterData.address || '')
-    .replace(/{{CONTACT_PERSON}}/g, coverLetterData.contactPerson || '')
-    .replace(/{{SUBJECT}}/g, `${langConfig.ui.application_subject_prefix || 'Application for'} ${coverLetterData.position}`)
-    .replace(/{{GREETING}}/g, coverLetterData.greeting)
-    .replace(/{{AI_DISCLOSURE_TOP}}/g, coverLetterData.aiDisclosureTop ? `<div style="text-align: right; margin: 0 0 15px 0; font-size: 8pt; color: #7a8b9a; font-style: italic;">${formatMarkdownToHTML(coverLetterData.aiDisclosureTop)}</div>` : '')
-    .replace(/{{INTRO_PARAGRAPH}}/g, `<p>${formatMarkdownToHTML(coverLetterData.opening)}</p>`)
-    .replace(/{{REQUIREMENTS_SECTION}}/g, requirementsSection)
-    .replace(/{{REQUIREMENTS_MAPPING_TITLE}}/g, langConfig.ui.requirements_mapping_title || 'Your Requirements → My Qualifications')
-    .replace(/{{REQUIREMENTS_MAPPING}}/g, requirementsMapping)
-    .replace(/{{ATTACHMENT_LABEL}}/g, langConfig.ui.attachment_label || 'Attachment: Complete CV')
-    .replace(/{{CLOSING_PARAGRAPH}}/g, `
-      ${coverLetterData.addedValue ? `<p>${formatMarkdownToHTML(coverLetterData.addedValue)}</p>` : ''}
-      ${coverLetterData.aiDisclosure ? `<p style="margin-top: 15px; font-size: 8pt; color: #7a8b9a; font-style: italic;">${formatMarkdownToHTML(coverLetterData.aiDisclosure)}</p>` : ''}
-      ${coverLetterData.availability ? `<p>${formatMarkdownToHTML(coverLetterData.availability)}</p>` : ''}
-      ${coverLetterData.closing ? `<p>${formatMarkdownToHTML(coverLetterData.closing)}</p>` : ''}
-    `)
-    .replace(/{{SIGN_OFF}}/g, formatMarkdownToHTML(coverLetterData.signOff || 'Mit freundlichen Grüßen').replace(/\n/g, '<br>'));
-
-  return template;
+/** Blank-line separated text to <p> blocks, single newlines kept as <br>. */
+function paragraphs(text, cls) {
+  if (!text) return '';
+  return stripEmoji(text)
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${formatMarkdownToHTML(p).replace(/\n/g, '<br>')}</p>`)
+    .join('');
 }
 
-// Instead of generating CV HTML separately, we'll use a different approach:
-// Generate cover letter first, then call the existing CV generation system
+/**
+ * Recipient block in letter order: company, contact person, street, postcode
+ * and town. A one-line address such as "Schillerstraße 5, 76530 Baden-Baden"
+ * is split before the postcode, the way it would be written on an envelope.
+ */
+function recipientBlock(data) {
+  const lines = [data.company];
+  if (data.contactPerson) lines.push(data.contactPerson);
+  for (const raw of String(data.address || '').split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    const m = line.match(/^(.*?),\s*(\d{4,5}\s+.+)$/);
+    if (m) lines.push(m[1], m[2]); else lines.push(line);
+  }
+  return lines.filter(Boolean).map(escapeHtml).join('<br>');
+}
 
-(async () => {
+/** "Frankfurt am Main, 24. September 2026": the town is added when the data carries only the date. */
+function letterDate(data, langConfig, lang) {
+  if (data.date && data.date.includes(',')) return data.date;
+  const town = String(langConfig.ui.location || 'Frankfurt am Main').split(',')[0].trim();
+  const date = data.date || new Date().toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+  return `${town}, ${date}`;
+}
+
+function generateCoverLetterHTML(data, langConfig, profileImageData) {
+  langConfig = applyApplicationOverrides(langConfig, data);
+  const lang = data.language || 'de';
+  const de = lang !== 'en';
+  const templatePath = path.join(__dirname, '..', 'templates', 'cover-letter.html');
+  const template = fs.readFileSync(templatePath, 'utf8');
+
+  const requirements = data.requirements || [];
+  const mappingTitle = langConfig.ui.requirements_mapping_title || (de ? 'Ihre Anforderungen und meine Qualifikationen' : 'Your requirements and my qualifications');
+  const requirementsSection = requirements.length ? `
+    <section class="mapping">
+      ${renderHeader(langConfig, profileImageData)}
+      <h2 class="section-title">${escapeHtml(mappingTitle)}</h2>
+      ${requirements.map((r) => `
+        <div class="req">
+          <div class="req-label">${escapeHtml(stripEmoji(r.requirement))}</div>
+          <div>
+            <div>${formatMarkdownToHTML(stripEmoji(r.response))}</div>
+            ${r.cvReference ? `<div class="req-ref">${escapeHtml(stripEmoji(r.cvReference))}</div>` : ''}
+          </div>
+        </div>`).join('')}
+    </section>` : '';
+
+  let enclosure = stripEmoji(langConfig.ui.attachment_label || (de ? 'Anlage: Lebenslauf' : 'Enclosure: Curriculum vitae'));
+  if (requirements.length) enclosure += de ? ', Anforderungsabgleich' : ', requirements match';
+
+  const body = [
+    paragraphs(data.opening),
+    paragraphs(data.addedValue),
+    paragraphs(data.aiDisclosure, 'note'),
+    paragraphs(data.availability),
+    paragraphs(data.closing),
+  ].join('');
+
+  const values = {
+    LANGUAGE: lang,
+    NAME: escapeHtml(langConfig.profile.name),
+    DOC_TITLE: de ? 'Bewerbung' : 'Application',
+    COMPANY: escapeHtml(data.company || ''),
+    THEME_CSS: fontFaceCss() + BASE_CSS,
+    HEADER: renderHeader(langConfig, profileImageData),
+    AI_DISCLOSURE_TOP: data.aiDisclosureTop ? `<div class="note" style="margin-top:4mm;text-align:right">${formatMarkdownToHTML(stripEmoji(data.aiDisclosureTop))}</div>` : '',
+    RECIPIENT: recipientBlock(data),
+    DATE: escapeHtml(letterDate(data, langConfig, lang)),
+    SUBJECT: escapeHtml(stripEmoji(`${langConfig.ui.application_subject_prefix || (de ? 'Bewerbung als' : 'Application for')} ${data.position}`)),
+    GREETING: escapeHtml(stripEmoji(data.greeting || '')),
+    BODY: body,
+    SIGN_OFF: formatMarkdownToHTML(stripEmoji(data.signOff || (de ? 'Mit freundlichen Grüßen' : 'Kind regards'))).replace(/\n/g, '<br>'),
+    ATTACHMENT_LABEL: escapeHtml(enclosure),
+    REQUIREMENTS_SECTION: requirementsSection,
+  };
+  // split/join instead of String.replace: the values carry "$" (base64, prices)
+  // and replace() would read "$&" and friends as patterns.
+  return Object.entries(values).reduce((html, [key, value]) => html.split(`{{${key}}}`).join(value), template);
+}
+
+module.exports = { generateCoverLetterHTML, recipientBlock, letterDate };
+
+if (require.main === module) (async () => {
+
   const [,, configPath, outputPdf, language, coverLetterDataPath] = process.argv;
   
   if (!configPath || !outputPdf || !coverLetterDataPath) {
@@ -135,7 +167,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
   let profileImageBase64 = '';
   try {
     const compressedProfile = await sharp(profileImagePath)
-      .resize(210, 210, { 
+      .resize(320, 320, { 
         fit: 'cover',
         position: 'center'
       })
@@ -149,7 +181,7 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
   }
   
   // Generate cover letter HTML
-  const coverLetterHTML = await generateCoverLetterHTML(coverLetterData, langConfig, profileImageBase64);
+  const coverLetterHTML = generateCoverLetterHTML(coverLetterData, langConfig, profileImageBase64);
   
   // For now, just generate the cover letter PDF
   // The CV will be added by the orchestration script
@@ -188,10 +220,10 @@ async function generateCoverLetterHTML(coverLetterData, langConfig, profileImage
     preferCSSPageSize: false,
     displayHeaderFooter: false,
     margin: {
-      top: '8mm',
-      bottom: '10mm',
-      left: '8mm',
-      right: '8mm'
+      top: '14mm',
+      bottom: '16mm',
+      left: '16mm',
+      right: '16mm'
     },
     scale: 1.0,
     tagged: true
