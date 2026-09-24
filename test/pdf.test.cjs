@@ -119,7 +119,7 @@ test('letter: no requirements means no enclosure page', () => {
 
 test('letter: "$" in the data survives the template fill', () => {
   const html = generateCoverLetterHTML(fixture({ closing: 'Tagessatz $& 1.000 $1' }), config.languages.de.params, PHOTO);
-  assert.ok(html.includes('Tagessatz $& 1.000 $1'));
+  assert.ok(html.includes('Tagessatz $&amp; 1.000 $1'));
 });
 
 test('recipient block splits street and town', () => {
@@ -133,6 +133,29 @@ test('letter date gets the town once', () => {
   const params = config.languages.de.params;
   assert.equal(letterDate({ date: '24. September 2026' }, params, 'de'), 'Frankfurt am Main, 24. September 2026');
   assert.equal(letterDate({ date: 'Berlin, 1. Mai 2026' }, params, 'de'), 'Berlin, 1. Mai 2026');
+});
+
+test('letter date: US-style English date still gets the town', () => {
+  const params = config.languages.en.params;
+  assert.equal(letterDate({ date: 'April 12, 2026' }, params, 'en'), 'Frankfurt am Main, April 12, 2026');
+});
+
+test('emoji stripping keeps ®, © and ™ and paragraph breaks', () => {
+  assert.equal(stripEmoji('ISTQB® Certified Tester, Claude™ Code'), 'ISTQB® Certified Tester, Claude™ Code');
+  const html = generateCoverLetterHTML(fixture({ opening: 'Satz eins ✅\n\nSatz zwei', signOff: 'Mit freundlichen Grüßen 👋\n\nMichael Boiman' }), config.languages.de.params, PHOTO);
+  assert.match(html, /<p>Satz eins<\/p><p>Satz zwei<\/p>/);
+  assert.match(html, /Mit freundlichen Grüßen<br><br>Michael Boiman/);
+});
+
+test('letter prose is escaped and not rewritten as markdown', () => {
+  const html = generateCoverLetterHTML(fixture({
+    opening: '1. Oktober 2026 ist ein Start möglich.',
+    closing: 'Kurz gesagt:',
+    requirements: [{ requirement: 'Java', response: 'Java mit List<String> und Map<K,V>', cvReference: 'CV: DVAG' }],
+  }), config.languages.de.params, PHOTO);
+  assert.match(html, /<p>1\. Oktober 2026 ist ein Start möglich\.<\/p>/);
+  assert.match(html, /<p>Kurz gesagt:<\/p>/);
+  assert.match(html, /List&lt;String&gt; und Map&lt;K,V&gt;/);
 });
 
 test('overrides never mutate the parsed TOML', () => {

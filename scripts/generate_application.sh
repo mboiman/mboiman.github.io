@@ -84,7 +84,7 @@ fi
 
 # Step 2: Generate CV PDF
 echo "📋 Generating CV..."
-node scripts/html_to_pdf.js "$CONFIG_FILE" "$CV_PDF" "$LANGUAGE" "$COVER_LETTER_DATA"
+node --experimental-strip-types scripts/html_to_pdf.js "$CONFIG_FILE" "$CV_PDF" "$LANGUAGE" "$COVER_LETTER_DATA"
 
 if [ ! -f "$CV_PDF" ]; then
     echo "❌ Failed to generate CV PDF"

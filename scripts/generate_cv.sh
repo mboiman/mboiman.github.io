@@ -34,9 +34,9 @@ fi
 
 # Generate PDF directly from TOML config (no Hugo needed)
 if [ -n "$LANGUAGE" ]; then
-  node scripts/html_to_pdf.js "$CONFIG" "$OUTPUT_PDF" "$LANGUAGE"
+  node --experimental-strip-types scripts/html_to_pdf.js "$CONFIG" "$OUTPUT_PDF" "$LANGUAGE"
 else
-  node scripts/html_to_pdf.js "$CONFIG" "$OUTPUT_PDF"
+  node --experimental-strip-types scripts/html_to_pdf.js "$CONFIG" "$OUTPUT_PDF"
 fi
 
 # Validate PDF was created

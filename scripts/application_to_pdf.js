@@ -3,17 +3,16 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-const { formatMarkdownToHTML } = require('./lib/markdown-utils');
-const { fontFaceCss, BASE_CSS, renderHeader, stripEmoji, escapeHtml, applyApplicationOverrides } = require('./lib/pdf-theme');
+const { fontFaceCss, BASE_CSS, renderHeader, stripEmoji, escapeHtml, applyApplicationOverrides, prose } = require('./lib/pdf-theme');
 
 /** Blank-line separated text to <p> blocks, single newlines kept as <br>. */
 function paragraphs(text, cls) {
   if (!text) return '';
-  return stripEmoji(text)
+  return String(text)
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean)
-    .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${formatMarkdownToHTML(p).replace(/\n/g, '<br>')}</p>`)
+    .map((p) => `<p${cls ? ` class="${cls}"` : ''}>${prose(p)}</p>`)
     .join('');
 }
 
@@ -36,7 +35,9 @@ function recipientBlock(data) {
 
 /** "Frankfurt am Main, 24. September 2026": the town is added when the data carries only the date. */
 function letterDate(data, langConfig, lang) {
-  if (data.date && data.date.includes(',')) return data.date;
+  // A town prefix is text up to a comma, then the date. "April 12, 2026"
+  // also has a comma but starts with the date, so it still gets the town.
+  if (data.date && /^[^\d,]+,\s*\S/.test(data.date)) return data.date;
   const town = String(langConfig.ui.location || 'Frankfurt am Main').split(',')[0].trim();
   const date = data.date || new Date().toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
   return `${town}, ${date}`;
@@ -59,7 +60,7 @@ function generateCoverLetterHTML(data, langConfig, profileImageData) {
         <div class="req">
           <div class="req-label">${escapeHtml(stripEmoji(r.requirement))}</div>
           <div>
-            <div>${formatMarkdownToHTML(stripEmoji(r.response))}</div>
+            <div>${prose(r.response)}</div>
             ${r.cvReference ? `<div class="req-ref">${escapeHtml(stripEmoji(r.cvReference))}</div>` : ''}
           </div>
         </div>`).join('')}
@@ -83,13 +84,13 @@ function generateCoverLetterHTML(data, langConfig, profileImageData) {
     COMPANY: escapeHtml(data.company || ''),
     THEME_CSS: fontFaceCss() + BASE_CSS,
     HEADER: renderHeader(langConfig, profileImageData),
-    AI_DISCLOSURE_TOP: data.aiDisclosureTop ? `<div class="note" style="margin-top:4mm;text-align:right">${formatMarkdownToHTML(stripEmoji(data.aiDisclosureTop))}</div>` : '',
+    AI_DISCLOSURE_TOP: data.aiDisclosureTop ? `<div class="note" style="margin-top:4mm;text-align:right">${prose(data.aiDisclosureTop)}</div>` : '',
     RECIPIENT: recipientBlock(data),
     DATE: escapeHtml(letterDate(data, langConfig, lang)),
     SUBJECT: escapeHtml(stripEmoji(`${langConfig.ui.application_subject_prefix || (de ? 'Bewerbung als' : 'Application for')} ${data.position}`)),
     GREETING: escapeHtml(stripEmoji(data.greeting || '')),
     BODY: body,
-    SIGN_OFF: formatMarkdownToHTML(stripEmoji(data.signOff || (de ? 'Mit freundlichen Grüßen' : 'Kind regards'))).replace(/\n/g, '<br>'),
+    SIGN_OFF: prose(data.signOff || (de ? 'Mit freundlichen Grüßen' : 'Kind regards')),
     ATTACHMENT_LABEL: escapeHtml(enclosure),
     REQUIREMENTS_SECTION: requirementsSection,
   };

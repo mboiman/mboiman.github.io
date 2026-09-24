@@ -143,13 +143,29 @@ function contactDisplay(item) {
 }
 
 function escapeHtml(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 /** Pictographs are for chat, not for a document someone files. */
 function stripEmoji(text) {
   if (!text) return '';
-  return String(text).replace(/\p{Extended_Pictographic}️?\s*/gu, '').trim();
+  // ©, ® and ™ are Extended_Pictographic too, and belong in names such as
+  // "ISTQB®". Only spaces after a pictograph go, never a line break.
+  return String(text).replace(/(?![©®™])\p{Extended_Pictographic}\uFE0F?[ \t]*/gu, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/[ \t]{2,}/g, ' ')
+    .trim();
+}
+
+/**
+ * Letter prose to HTML: escaped first, so "List<String>" stays text, then only
+ * **bold** and line breaks. Deliberately none of the list or heading rewriting
+ * of markdown-utils, which turned "1. Oktober 2026 ..." into a bullet.
+ */
+function prose(text) {
+  return escapeHtml(stripEmoji(text))
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
 }
 
 /**
@@ -161,7 +177,7 @@ function renderHeader(langConfig, photoDataUrl) {
   const contacts = (langConfig.contact && langConfig.contact.list) || [];
   const contactHtml = contacts.map((item) => {
     const label = escapeHtml(contactDisplay(item));
-    return item.url ? `<a href="${item.url}">${label}</a>` : `<span>${label}</span>`;
+    return item.url ? `<a href="${escapeHtml(item.url)}">${label}</a>` : `<span>${label}</span>`;
   }).join('<span class="sep">|</span>');
 
   const metaParts = [ui.location, ui.availability].filter(Boolean).map(escapeHtml);
@@ -223,6 +239,7 @@ function applyApplicationOverrides(langConfig, data) {
 }
 
 module.exports = {
+  prose,
   applyApplicationOverrides,
   fontFaceCss,
   BASE_CSS,
