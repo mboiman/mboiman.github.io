@@ -1,5 +1,7 @@
 /**
- * Browser behaviour the alternative CV views share (minimal, future).
+ * Browser behaviour the alternative CV views share. The minimal view uses all
+ * of it (initCvLinks); the future view draws a graph instead of lists and takes
+ * only readFocus, focusText and agentPrompts.
  *
  * Written once when the third view arrived: the minimal page carried all of
  * this inline, and a second copy in the future page would have drifted the
@@ -25,10 +27,21 @@ const ANCHOR = /^[a-z0-9-]+$/;
  * an application is ever written into this public repository. An unknown
  * anchor is ignored, not an error.
  */
-function applyFocus(): void {
+/** The anchors and the recipient's name from a tailored link, validated. */
+export function readFocus(): { anchors: string[]; name: string } {
   const params = new URLSearchParams(location.search);
-  const focus = (params.get('focus') || '')
+  const anchors = (params.get('focus') || '')
     .split(',').map(a => a.trim()).filter(a => ANCHOR.test(a)).slice(0, 20);
+  return { anchors, name: (params.get('for') || '').trim().slice(0, 80) };
+}
+
+/** The banner sentence for a tailored link: with the name, or without. */
+export function focusText(banner: HTMLElement, name: string): string {
+  return name ? (banner.dataset.for || '').replace('{for}', name) : (banner.dataset.plain || '');
+}
+
+function applyFocus(): void {
+  const { anchors: focus, name } = readFocus();
   const banner = document.querySelector<HTMLElement>('[data-focus-banner]');
   if (!focus.length || !banner) return;
 
@@ -48,8 +61,7 @@ function applyFocus(): void {
     el.parentElement?.prepend(el);
   });
 
-  const name = (params.get('for') || '').trim().slice(0, 80);
-  const text = name ? (banner.dataset.for || '').replace('{for}', name) : (banner.dataset.plain || '');
+  const text = focusText(banner, name);
   const out = banner.querySelector('[data-focus-text]');
   if (out) out.textContent = text;   // textContent: the name comes from the URL
   banner.hidden = false;
@@ -84,7 +96,7 @@ function printOpen(): void {
 }
 
 /** The same event the classic page sends; AgentWidget opens and asks. */
-function agentPrompts(): void {
+export function agentPrompts(): void {
   document.querySelectorAll<HTMLElement>('[data-agent-prompt]').forEach(button => {
     button.addEventListener('click', () => {
       const text = button.getAttribute('data-agent-prompt') || '';

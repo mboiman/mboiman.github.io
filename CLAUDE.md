@@ -47,7 +47,9 @@ This is an Astro-based CV generation system that creates a multilingual (German/
 - `src/layouts/` - Page layouts
 - `src/pages/{de,en}/` - Localized page entry points (routes under `/de/` and `/en/`)
 - Three views of the CV: classic `/de/` (`CVPage.astro`), minimal `/de/minimal/`
-  (`CVMinimal.astro`), future `/de/future/` (`CVFuture.astro`). Same data, one
+  (`CVMinimal.astro`), future `/de/future/` (`CVFuture.astro`, the career as an
+  interactive graph laid out at build time by `src/lib/career-graph.ts`, tested by
+  `npm run test:graph`). Same data, one
   switch (`ViewSwitch.astro`), shared browser behaviour in `src/lib/cv-links.ts`.
   README "Three Views of the CV" has the tailored link, entry links, remembered
   view, print and agent styling

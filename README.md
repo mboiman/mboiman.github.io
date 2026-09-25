@@ -67,10 +67,32 @@ moves between them.
 |---|---|---|---|
 | Classic | `/de/`, `/en/` | `CVPage.astro` | The original page: cards, sidebar, agent card in the hero |
 | Minimal | `/de/minimal/`, `/en/minimal/` | `CVMinimal.astro` | Typographic, two columns, entries fold open with a plus (after the Jev product page) |
-| Future | `/de/future/`, `/en/future/` | `CVFuture.astro` | Dark, measuring grid, the agent console in the hero, stations as a timeline |
+| Future | `/de/future/`, `/en/future/` | `CVFuture.astro` | Not a document: the career as one interactive graph (see below) |
 
 Minimal and Future are on trial: they carry `noindex` and are left out of the
 sitemap (`astro.config.mjs`).
+
+### The career graph (Future)
+
+One screen, no scrolling on a desktop. Stations are bars on a time axis, talks
+are marks on the axis, competencies and projects are rows below, and a line
+joins a competency to every station and project whose text names it. Hover or
+focus lights a node and its lines; a click opens it in the side panel, which
+shows the profile until something is picked. The agent sits in a command line
+at the bottom; when it points at an entry, that node lights and the panel opens
+it. Below 900 px the panel stands above the graph and the graph scrolls sideways.
+
+- Layout at build time: `src/lib/career-graph.ts` turns the TOML into
+  coordinates and SVG paths; the browser only highlights and switches panels.
+- Competency nodes are a curated list (`SKILLS` in that file), each with the
+  patterns it matches. A line exists only where a pattern occurs in that entry's
+  text, and a competency joining fewer than two entries is left out.
+- Tests: `npm run test:graph` (bars never overlap, rows stay in the frame,
+  every line joins two existing nodes). Both deploys run it.
+- Entry links use the same ids as the other views (`#exp-dvag`,
+  `#project-…`), plus `#skill-<key>`. Selecting a node writes its id into the
+  address bar, so the URL is always a link to what is on screen.
+- A tailored link marks its entries in yellow instead of reordering.
 
 ### Tailored link for one application (Minimal and Future)
 
@@ -81,7 +103,8 @@ https://mboiman.github.io/de/minimal/?for=DB%20InfraGO&focus=db-vertrieb,tuev-su
 - `focus`: `anchor` values from `config.cv.toml`, strongest first. The named
   stations and projects move to the top of their list in that order, open, and
   carry a "Passend"/"Matching" tag. Unknown anchors are ignored.
-- `for`: the recipient's name, shown in one line above the sections.
+- `for`: the recipient's name, shown in one line above the sections (in
+  Future: the matching nodes are marked in the graph instead of moved).
 - Evaluated in the browser only (`src/lib/cv-links.ts`). Nothing about an
   application is written into this public repository.
 
@@ -119,6 +142,7 @@ and facts from its agent card through the same `[data-agent-live]` and
 | `src/components/ViewSwitch.astro` | The three-way switch; colours come from the page through `--vs-*` variables |
 | `src/lib/cv-links.ts` | Tailored link, entry links, print, agent prompt buttons; pages opt in through `data-focus-*` attributes |
 | `src/lib/station-details.ts` | How a station's `details` split into open text, "more" and the tool list |
+| `src/lib/career-graph.ts` | Layout of the career graph: axis, lanes, competency and project rows, lines |
 
 ## PDF Generation
 

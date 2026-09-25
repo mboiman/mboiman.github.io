@@ -402,14 +402,29 @@ export interface I18nStrings {
   future: {
     toFuture: string;
     seoTitle: string;
-    /** `{date}` is the build date, stamped at build time. */
-    eyebrow: string;
-    coords: string;
-    consoleTitle: string;
-    consoleOpen: string;
+    /** Accessible name of the graph and the one-line reading hint beside it. */
+    graphLabel: string;
+    hint: string;
+    today: string;
     running: string;
-    statePublic: string;
-    stateClosed: string;
+    legendStations: string;
+    legendTalks: string;
+    legendSkills: string;
+    legendProjects: string;
+    profile: string;
+    back: string;
+    close: string;
+    /** Heading over the list of entries a competency is joined to. */
+    connects: string;
+    askLabel: string;
+    askPlaceholder: string;
+    askSend: string;
+    openConsole: string;
+    swipe: string;
+    /** Banner of a tailored link here: the graph marks entries, it does not reorder. */
+    focusFor: string;
+    focusPlain: string;
+    focusReset: string;
   };
   agentWidget: AgentWidgetStrings;
 }
@@ -884,14 +899,27 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     },
     future: {
       toFuture: 'Futur',
-      seoTitle: 'Michael Boiman · Lebenslauf, Futur-Ansicht',
-      eyebrow: 'Lebenslauf · Stand {date}',
-      coords: 'Frankfurt am Main · 50,11° N · 8,68° E',
-      consoleTitle: 'Agent-Konsole',
-      consoleOpen: 'Konsole öffnen',
+      seoTitle: 'Michael Boiman · Lebenslauf als Karriere-Graph',
+      graphLabel: 'Karriere-Graph: Stationen auf der Zeitachse, darunter Kompetenzen und Projekte',
+      hint: 'Wählen Sie eine Station, eine Kompetenz oder ein Projekt. Die Linien verbinden jede Kompetenz mit den Stationen und Projekten, in denen sie vorkommt.',
+      today: 'heute',
       running: 'laufend',
-      statePublic: 'öffentlich',
-      stateClosed: 'nicht öffentlich',
+      legendStations: 'Stationen',
+      legendTalks: 'Vorträge',
+      legendSkills: 'Kompetenzen',
+      legendProjects: 'Projekte',
+      profile: 'Profil',
+      back: 'Zurück zum Profil',
+      close: 'Schließen',
+      connects: 'Kommt vor in',
+      askLabel: 'Frage an den Agenten',
+      askPlaceholder: 'Frag den Agenten, zum Beispiel: Erfahrung mit Peppol?',
+      askSend: 'Fragen',
+      openConsole: 'Konsole',
+      swipe: 'Zum Erkunden seitlich wischen',
+      focusFor: 'Für {for} zusammengestellt. Die passenden Einträge sind im Graphen gelb markiert.',
+      focusPlain: 'Die passenden Einträge sind im Graphen gelb markiert.',
+      focusReset: 'Markierung aufheben',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1371,14 +1399,27 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     },
     future: {
       toFuture: 'Future',
-      seoTitle: 'Michael Boiman · CV, future view',
-      eyebrow: 'Curriculum vitae · as of {date}',
-      coords: 'Frankfurt am Main · 50.11° N · 8.68° E',
-      consoleTitle: 'Agent console',
-      consoleOpen: 'Open console',
+      seoTitle: 'Michael Boiman · CV as a career graph',
+      graphLabel: 'Career graph: positions on a time axis, competencies and projects below',
+      hint: 'Pick a position, a competency or a project. The lines join each competency to the positions and projects that name it.',
+      today: 'today',
       running: 'ongoing',
-      statePublic: 'public',
-      stateClosed: 'not public',
+      legendStations: 'Positions',
+      legendTalks: 'Talks',
+      legendSkills: 'Competencies',
+      legendProjects: 'Projects',
+      profile: 'Profile',
+      back: 'Back to the profile',
+      close: 'Close',
+      connects: 'Appears in',
+      askLabel: 'Question for the agent',
+      askPlaceholder: 'Ask the agent, e.g. experience with Peppol?',
+      askSend: 'Ask',
+      openConsole: 'Console',
+      swipe: 'Swipe sideways to explore',
+      focusFor: 'Put together for {for}. The matching entries are marked in yellow in the graph.',
+      focusPlain: 'The matching entries are marked in yellow in the graph.',
+      focusReset: 'Clear the marks',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',
