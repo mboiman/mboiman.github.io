@@ -128,6 +128,57 @@ const BASE_CSS = `
 `;
 
 /**
+ * The second print style, matching the minimal view of the website
+ * (src/components/CVMinimal.astro): grey ink instead of the blue accent, the
+ * name set large, section headings as plain words instead of spaced capitals,
+ * and a greyscale round portrait. Only tokens and a few header rules change;
+ * layout and page logic stay the same, so both styles break pages alike.
+ */
+const MINIMAL_CSS = `
+  :root {
+    --ink: #2F3133;
+    --text: #45484C;
+    --muted: #6A6E73;
+    --rule: #D9DBDE;
+    --rule-soft: #E8E9EB;
+    --accent: #45484C;
+  }
+  .doc-header { border-bottom: 0.5pt solid var(--rule); grid-template-columns: 20mm 1fr; }
+  .doc-photo { width: 20mm; height: 20mm; border-radius: 50%; filter: grayscale(100%); }
+  .doc-name { font-size: 28pt; font-weight: 500; letter-spacing: -0.03em; line-height: 1; }
+  .doc-tagline { font-size: 11.5pt; color: var(--ink); margin-top: 2mm; }
+  .section-title {
+    font-size: 14pt;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    border-bottom: none;
+    padding-bottom: 0;
+    margin: 6mm 0 2.5mm 0;
+  }
+`;
+
+const STYLES = ['classic', 'minimal'];
+
+/**
+ * Which print style a document uses. An application names it in its JSON
+ * (`"style": "minimal"`); the site PDFs get it from CV_PDF_STYLE, which
+ * generate_cv.sh sets from `--style=minimal`. Anything unknown fails loudly,
+ * because a typo would otherwise ship the other style without a word.
+ */
+function resolveStyle(explicit) {
+  const style = explicit || process.env.CV_PDF_STYLE || 'classic';
+  if (!STYLES.includes(style)) throw new Error(`Unknown PDF style "${style}", expected one of: ${STYLES.join(', ')}`);
+  return style;
+}
+
+/** Fonts, tokens and header for one style. */
+function themeCss(style) {
+  return fontFaceCss() + BASE_CSS + (resolveStyle(style) === 'minimal' ? MINIMAL_CSS : '');
+}
+
+/**
  * The printable form of a contact entry. The TOML titles are written for the
  * website ("Persönliches GitHub", "michael-boiman"), where the link carries the
  * address; on paper the address itself has to be visible.
@@ -235,6 +286,7 @@ function applyApplicationOverrides(langConfig, data) {
   if (h.tagline) cfg.profile.tagline = h.tagline;
   if (h.location !== undefined) cfg.ui.location = h.location;
   if (h.availability !== undefined) cfg.ui.availability = h.availability;
+  if (data.style) cfg.pdf_style = resolveStyle(data.style);
   return cfg;
 }
 
@@ -243,6 +295,8 @@ module.exports = {
   applyApplicationOverrides,
   fontFaceCss,
   BASE_CSS,
+  themeCss,
+  resolveStyle,
   renderHeader,
   contactDisplay,
   stripEmoji,

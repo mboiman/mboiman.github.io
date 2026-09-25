@@ -7,6 +7,10 @@ BASE_CONFIG="config.cv.toml"
 POSITIONAL=()
 for arg in "$@"; do
   case $arg in
+    --style=*)
+      # Print style: classic (default) or minimal, read by scripts/lib/pdf-theme.js
+      export CV_PDF_STYLE="${arg#--style=}"
+      ;;
     --standalone)
       # kept for backwards compatibility, ignored
       ;;
@@ -22,7 +26,7 @@ OUTPUT_PDF="${2:-cv_custom.pdf}"
 LANGUAGE="$3"
 
 if [ -z "$1" ]; then
-  echo "Usage: $0 <config.toml> [output.pdf] [language]"
+  echo "Usage: $0 <config.toml> [output.pdf] [language] [--style=classic|minimal]"
   echo "Available languages: de, en"
   exit 1
 fi

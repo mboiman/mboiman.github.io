@@ -6,6 +6,9 @@ interface Props {
   /** Keeps a page out of search results, e.g. the minimal view while it is on
    *  trial. astro.config.mjs leaves the same pages out of the sitemap. */
   noindex?: boolean;
+  /** Which of the two CV views this page is. The classic one sends a visitor
+   *  who picked the minimal view (localStorage `cv-view`) there before paint. */
+  view?: 'classic' | 'minimal';
 }
 
 import '../styles/global.css';
@@ -18,7 +21,7 @@ import AgentWidget from '../components/AgentWidget.astro';
 import { getImage } from 'astro:assets';
 import portraitSource from '../assets/portraits/profile_.jpg';
 
-const { title, description, lang, noindex = false } = Astro.props;
+const { title, description, lang, noindex = false, view } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
 const currentPath = Astro.url.pathname;
 const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
@@ -85,7 +88,7 @@ const personJsonLd = {
 ---
 
 <!DOCTYPE html>
-<html lang={lang} data-theme="system">
+<html lang={lang} data-theme="system" class={view === 'minimal' ? 'cv-minimal' : undefined}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -141,6 +144,18 @@ const personJsonLd = {
       } catch {}
     })();
   </script>
+  {view === 'classic' && (
+    <script is:inline>
+      // Only a click on the view switch writes `cv-view`, never a visit, so
+      // this follows a choice the visitor made. The hash survives, and the
+      // entry ids are the same on both views.
+      try {
+        if (localStorage.getItem('cv-view') === 'minimal') {
+          location.replace(location.pathname.replace(/\/?$/, '/') + 'minimal/' + location.search + location.hash);
+        }
+      } catch {}
+    </script>
+  )}
   <link rel="canonical" href={pageUrl} />
   <link rel="alternate" hreflang={lang} href={pageUrl} />
   <link rel="alternate" hreflang={otherLang} href={`${siteOrigin}${otherPath}`} />
@@ -169,6 +184,13 @@ const personJsonLd = {
       { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
     );
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // The view switch (classic | minimal) remembers a click, and only a click.
+    document.querySelectorAll<HTMLAnchorElement>('[data-view-choice]').forEach((link) => {
+      link.addEventListener('click', () => {
+        try { localStorage.setItem('cv-view', link.dataset.viewChoice || 'classic'); } catch {}
+      });
+    });
   </script>
 
   {/* AI chat widget (JS-injected, print-hidden, excluded from PDF) */}

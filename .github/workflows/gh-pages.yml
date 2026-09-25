@@ -58,6 +58,8 @@ jobs:
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE_Minimal.pdf de --style=minimal
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN_Minimal.pdf en --style=minimal
 
       # Before the build, because the page states the result and can only state
       # what already exists on disk. It never fails: a third party being down

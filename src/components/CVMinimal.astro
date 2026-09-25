@@ -69,15 +69,15 @@ const station = (details: string) => {
 const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
 ---
 
-<BaseLayout title={m.seoTitle} description={ui.seo_description || ui.tagline} lang={lang} noindex>
+<BaseLayout title={m.seoTitle} description={ui.seo_description || ui.tagline} lang={lang} noindex view="minimal">
   <div class="mn">
     <aside class="mn-intro" aria-label={t.sidebarLabel}>
       <div class="mn-top no-print">
         <Image src={portrait} alt={profile.name} widths={[64, 128]} sizes="4rem" class="mn-portrait" loading="eager" />
         <nav class="mn-controls" aria-label={t.navLanguage}>
           <span class="mn-switch" role="group" aria-label={m.switchLabel}>
-            <a href={`/${lang}/`} class="mn-switch-link">{m.toClassic}</a>
-            <a href={`/${lang}/minimal/`} class="mn-switch-link is-active" aria-current="page">{m.toMinimal}</a>
+            <a href={`/${lang}/`} class="mn-switch-link" data-view-choice="classic">{m.toClassic}</a>
+            <a href={`/${lang}/minimal/`} class="mn-switch-link is-active" aria-current="page" data-view-choice="minimal">{m.toMinimal}</a>
           </span>
           <a href="/de/minimal/" hreflang="de" class:list={['mn-lang', lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
           <a href="/en/minimal/" hreflang="en" class:list={['mn-lang', lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
@@ -126,6 +126,12 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
     </aside>
 
     <main id="main" class="mn-main">
+      {/* Filled by the script below when the link names entries (?focus=),
+          so a plain visit renders nothing here. */}
+      <div class="mn-focus" hidden data-for={m.focusFor} data-plain={m.focusPlain} data-tag={m.focusTag}>
+        <p class="mn-focus-text"></p>
+        <a class="mn-focus-reset" href={`/${lang}/minimal/`}>{m.focusReset}</a>
+      </div>
       {/* Verifiable first, as on the classic page: what a reader can open
           outranks what they have to believe. */}
       <section class="mn-section">
@@ -170,6 +176,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
                 </summary>
                 {(() => {
                   const st = station(exp.details);
+                  const anchorOf = exp.anchor;
                   return (
                     <div class="mn-body">
                       <Fragment set:html={st.open} />
@@ -179,6 +186,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
                           <Fragment set:html={st.more} />
                         </details>
                       )}
+                      {anchorOf && <p class="mn-permalink no-print"><a href={`#exp-${anchorOf}`}>{m.permalink}</a></p>}
                     </div>
                   );
                 })()}
@@ -207,6 +215,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
                 <div class="mn-body">
                   <Fragment set:html={formatBlocks(project.tagline)} />
                   {project.tech_stack?.length > 0 && <p class="mn-note">{project.tech_stack.join(' · ')}</p>}
+                  {project.anchor && <p class="mn-permalink no-print"><a href={`#project-${project.anchor}`}>{m.permalink}</a></p>}
                   {project.url && <p class="mn-proof"><a href={project.url} target="_blank" rel="noopener">{m.proofOpen}: {project.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></p>}
                 </div>
               </details>
@@ -251,6 +260,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
                 </summary>
                 {(() => {
                   const st = station(talk.details ?? '');
+                  const anchorOf = talk.anchor;
                   return (
                     <div class="mn-body">
                       <Fragment set:html={st.open} />
@@ -260,6 +270,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
                           <Fragment set:html={st.more} />
                         </details>
                       )}
+                      {anchorOf && <p class="mn-permalink no-print"><a href={`#exp-${anchorOf}`}>{m.permalink}</a></p>}
                     </div>
                   );
                 })()}
@@ -295,7 +306,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
       <div class="mn-cta">
         <p class="mn-cta-title">{m.ctaTitle}</p>
         <div class="mn-cta-actions">
-          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="mn-cta-secondary">{t.pdfDownload}</a>
+          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}_Minimal.pdf`} download class="mn-cta-secondary">{t.pdfDownload}</a>
           {email && (
             <a href={email.url} class="mn-cta-primary">
               {m.ctaButton}
@@ -312,6 +323,73 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
       </footer>
     </main>
   </div>
+
+  <script>
+    /* ── A link made for one application ────────────────────────────────
+       ?for=DB%20InfraGO&focus=db-vertrieb,tuev-sued,e-invoicing-platform
+       moves the named entries to the top of their list, in the order given,
+       opens them, and says so in a line above the sections. Built entirely
+       in the browser from the URL: nothing about an application is ever
+       written into this public repository. /job-application builds the link
+       from the anchors in config.cv.toml.
+
+       Anchors are checked against the pattern the agent uses too, and only
+       entries that exist move; an unknown anchor is ignored, not an error. */
+    const ANCHOR = /^[a-z0-9-]+$/;
+    const params = new URLSearchParams(location.search);
+    const focus = (params.get('focus') || '')
+      .split(',').map(a => a.trim()).filter(a => ANCHOR.test(a)).slice(0, 20);
+    const banner = document.querySelector<HTMLElement>('.mn-focus');
+    const hits = focus
+      .map(a => document.querySelector<HTMLDetailsElement>(`.mn-list > details[data-cv-anchor="${a}"]`))
+      .filter((el): el is HTMLDetailsElement => el !== null);
+
+    if (hits.length && banner) {
+      // Reverse, so prepending leaves them in the order the link gave.
+      [...hits].reverse().forEach(el => {
+        el.open = true;
+        el.classList.add('is-focus');
+        const tag = document.createElement('span');
+        tag.className = 'mn-focus-tag';
+        tag.textContent = banner.dataset.tag || '';
+        el.querySelector('.mn-item-title')?.prepend(tag);
+        el.parentElement?.prepend(el);
+      });
+      const name = (params.get('for') || '').trim().slice(0, 80);
+      const text = name ? (banner.dataset.for || '').replace('{for}', name) : (banner.dataset.plain || '');
+      const p = banner.querySelector('.mn-focus-text');
+      if (p) p.textContent = text;
+      banner.hidden = false;
+    }
+
+    /* ── Links to one entry ─────────────────────────────────────────────
+       #exp-dvag or #project-agent-mesh-gateway opens that entry and brings
+       it into view. A closed <details> has no height, so the browser's own
+       jump lands on the summary at best; opening first makes it land. */
+    const openFromHash = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!(el instanceof HTMLDetailsElement)) return;
+      el.open = true;
+      el.scrollIntoView({ block: 'start' });
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+
+    /* ── Print ──────────────────────────────────────────────────────────
+       A closed <details> prints as its summary alone, so a printout lost
+       every station. Everything opens for the print and goes back after. */
+    let closed: HTMLDetailsElement[] = [];
+    window.addEventListener('beforeprint', () => {
+      closed = [...document.querySelectorAll<HTMLDetailsElement>('.mn details:not([open])')];
+      closed.forEach(d => { d.open = true; });
+    });
+    window.addEventListener('afterprint', () => {
+      closed.forEach(d => { d.open = false; });
+      closed = [];
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -513,8 +591,118 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
     .mn-cta { position: sticky; bottom: 0; z-index: 5; padding: 1.25rem 0; }
   }
 
+  .mn-focus {
+    margin-top: 1.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--mn-line);
+    font-size: var(--fs-15);
+    color: var(--mn-ink);
+  }
+  .mn-focus[hidden] { display: none; }
+  .mn-focus-reset { display: inline-block; margin-top: 0.35rem; font-size: var(--fs-13); color: var(--mn-muted); text-decoration: underline; text-underline-offset: 3px; }
+  .mn-focus-reset:hover { color: var(--mn-ink); }
+  .mn-item-title :global(.mn-focus-tag) {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: var(--fs-11);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mn-muted);
+  }
+  .mn-permalink { margin-top: 0.6rem; font-size: var(--fs-12); }
+  .mn-body .mn-permalink a { color: var(--mn-muted); }
+
+  /* ── The agent, dressed for this view ────────────────────────────────
+     AgentWidget builds its panel at runtime and colours it from the site
+     tokens (--bg, --text, --accent). Here those tokens are pointed at this
+     view's greys, and the few shapes that carry the classic look (rounded
+     corners, gradient bubble, tinted avatar, red highlight ring) are set
+     square and flat. Everything is scoped to html.cv-minimal, which only
+     this page sets, so the classic page keeps its widget unchanged. */
+  :global(html.cv-minimal #agent-widget-root) {
+    --bg: var(--mn-bg);
+    --text: var(--mn-ink);
+    --text-secondary: var(--mn-muted);
+    --accent: var(--mn-ink);
+    --accent-hover: var(--mn-ink);
+    --accent-cta: var(--mn-btn);
+    --aw-grad: var(--mn-btn);
+    --aw-border: var(--mn-line);
+    --aw-border-strong: var(--mn-line);
+    --aw-elev-panel: 0 24px 60px -24px rgba(0, 0, 0, 0.25);
+  }
+  :global(html.cv-minimal #agent-widget-panel) { border-radius: 0; border-color: var(--mn-line); }
+  :global(html.cv-minimal #agent-widget-header),
+  :global(html.cv-minimal #agent-widget-form) { background: var(--mn-bg); }
+  :global(html.cv-minimal #agent-widget-title) { font-size: 1.15rem; font-weight: 500; letter-spacing: -0.02em; }
+  :global(html.cv-minimal .aw-avatar) { background: transparent; border-color: var(--mn-line); color: var(--mn-ink); }
+  /* The question: a black block, like the contact button. */
+  :global(html.cv-minimal .aw-msg.aw-user) {
+    background: var(--mn-btn);
+    color: var(--mn-btn-text);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :global(html.cv-minimal .aw-msg.aw-user a) { color: var(--mn-btn-text); }
+  /* The answer: no box, a hairline on the left, the same form as an open
+     entry on the page. */
+  :global(html.cv-minimal .aw-msg.aw-agent) {
+    background: transparent;
+    border: 0;
+    border-left: 1px solid var(--mn-muted);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 2px 0 2px 12px;
+    color: var(--mn-text);
+  }
+  :global(html.cv-minimal .aw-msg.aw-agent a) { color: var(--mn-ink); }
+  :global(html.cv-minimal #agent-widget-input),
+  :global(html.cv-minimal #agent-widget-send),
+  :global(html.cv-minimal .aw-icon-btn),
+  :global(html.cv-minimal .aw-offer-btn),
+  :global(html.cv-minimal .aw-view-on-page),
+  :global(html.cv-minimal .aw-card-ex),
+  :global(html.cv-minimal .aw-working) { border-radius: 0; }
+  :global(html.cv-minimal #agent-widget-send) { background: var(--mn-btn); color: var(--mn-btn-text); }
+  :global(html.cv-minimal #agent-widget-send:hover:not(:disabled)) { transform: none; filter: none; opacity: 0.88; }
+  :global(html.cv-minimal #agent-widget-input:focus-visible) { border-color: var(--mn-ink); box-shadow: none; }
+  :global(html.cv-minimal .aw-offer-btn),
+  :global(html.cv-minimal .aw-view-on-page) { background: transparent; border-color: var(--mn-ink); color: var(--mn-ink); }
+  :global(html.cv-minimal .aw-offer-btn:hover:not(:disabled)),
+  :global(html.cv-minimal .aw-view-on-page:hover) { background: var(--mn-btn); color: var(--mn-btn-text); }
+  /* The entry the agent points at: an ink ring instead of the alert red. */
+  :global(html.cv-minimal .bridge-flash) {
+    outline: 1px solid var(--mn-ink);
+    outline-offset: 8px;
+    border-radius: 0;
+    animation: mn-flash 2.6s ease-out forwards;
+  }
+  @keyframes mn-flash {
+    0% { outline-color: transparent; }
+    15%, 70% { outline-color: var(--mn-ink); }
+    100% { outline-color: transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.cv-minimal .bridge-flash) { animation: none; }
+  }
+
+  /* Print: one column, no controls, every entry open (the script opens the
+     <details> on beforeprint; the ::details-content rule covers a browser
+     that prints without firing it). */
   @media print {
-    .mn-intro { border: 0; }
-    .mn-cta { display: none; }
+    :global(:root) { --mn-bg: #ffffff; --mn-ink: #1f2022; --mn-text: #333538; --mn-muted: #5d6166; }
+    .mn-intro { border: 0; padding: 0 0 1rem; position: static; height: auto; }
+    .mn-top, .mn-ask, .mn-cta, .mn-plus, .mn-focus, .no-print { display: none !important; }
+    .mn-main { padding: 0; }
+    .mn-section { display: block; padding: 1rem 0; }
+    .mn-head p { display: none; }
+    .mn-head h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .mn-item summary { padding: 0.4rem 0; }
+    .mn-item-title, .mn-row h3 { font-size: 1.05rem; }
+    .mn-body { margin-bottom: 0.8rem; font-size: 0.8rem; max-width: none; }
+    .mn-item summary, .mn-row { break-inside: avoid; break-after: avoid; }
+    .mn details::details-content { content-visibility: visible; display: block; }
+    .mn-more summary { text-decoration: none; color: var(--mn-ink); font-weight: 500; }
   }
 </style>

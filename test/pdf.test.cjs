@@ -16,7 +16,7 @@ const { PDFDocument, PDFDict, PDFName } = require('pdf-lib');
 const ROOT = path.join(__dirname, '..');
 const { generateHTMLFromConfig, startKey } = require('../scripts/html_to_pdf.js');
 const { generateCoverLetterHTML, recipientBlock, letterDate } = require('../scripts/application_to_pdf.js');
-const { applyApplicationOverrides, contactDisplay, stripEmoji } = require('../scripts/lib/pdf-theme.js');
+const { applyApplicationOverrides, contactDisplay, stripEmoji, resolveStyle } = require('../scripts/lib/pdf-theme.js');
 const { findDashes } = require('../scripts/lib/visible-text');
 
 const config = toml.parse(fs.readFileSync(path.join(ROOT, 'config.cv.toml'), 'utf8'));
@@ -99,6 +99,22 @@ test('CV: stations newest start first, earlier positions without a summary colum
   assert.ok(starts.length >= 6);
   assert.deepEqual(starts, [...starts].sort((a, b) => b - a));
   assert.doesNotMatch(html, /earlier-summary/);
+});
+
+test('minimal style: letter and CV both switch, and still share one header', async () => {
+  const data = fixture({ style: 'minimal' });
+  const params = config.languages.de.params;
+  const letter = generateCoverLetterHTML(data, params, PHOTO);
+  const cv = await generateHTMLFromConfig(applyApplicationOverrides(params, data), PHOTO, 'de');
+  for (const html of [letter, cv]) assert.match(html, /filter: grayscale\(100%\)/, 'minimal tokens reach the document');
+  assert.equal(headerOf(letter), headerOf(cv));
+  const classic = await generateHTMLFromConfig(params, PHOTO, 'de');
+  assert.doesNotMatch(classic, /grayscale\(100%\)/, 'classic stays the default');
+});
+
+test('an unknown PDF style fails loudly', () => {
+  assert.throws(() => resolveStyle('minmal'), /Unknown PDF style/);
+  assert.equal(resolveStyle(undefined), process.env.CV_PDF_STYLE || 'classic');
 });
 
 test('startKey reads every date form in the TOML', () => {
