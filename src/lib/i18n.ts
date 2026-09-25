@@ -370,6 +370,26 @@ export interface I18nStrings {
   truncatePatterns: string[];
   truncateToolPatterns: string[];
   showAllProjects: string;
+  /** The second, typographic view of the CV under /<lang>/minimal/. Only its
+   *  own chrome lives here; every fact it shows comes from the same TOML and the
+   *  same keys as the classic page, so the two views cannot disagree. */
+  minimal: {
+    toMinimal: string;
+    toClassic: string;
+    switchLabel: string;
+    seoTitle: string;
+    eyebrow: string;
+    running: { title: string; text: string };
+    experience: { title: string; text: string };
+    projects: { title: string; text: string };
+    skills: { title: string; text: string };
+    talks: { title: string; text: string };
+    background: { title: string; text: string };
+    ctaTitle: string;
+    ctaButton: string;
+    proofOpen: string;
+    more: string;
+  };
   agentWidget: AgentWidgetStrings;
 }
 
@@ -819,6 +839,23 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Präsentationsinhalte', 'Praktischer', 'Practical', 'Hauptverantwortlichkeiten', 'Projekte\\b', 'Energiesektor', 'Quantifizierbare', 'Quantifiable', 'Technische Lösungen', 'Focus areas', 'Key Focus'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Eingesetzte', 'Technical Stack', 'Technischer'],
     showAllProjects: 'Alle Projekte anzeigen ({n} weitere)',
+    minimal: {
+      toMinimal: 'Minimal',
+      toClassic: 'Klassisch',
+      switchLabel: 'Ansicht wählen',
+      seoTitle: 'Michael Boiman · Lebenslauf, Minimal-Ansicht',
+      eyebrow: 'Lebenslauf',
+      running: { title: 'Prüfbar', text: 'Was Sie selbst öffnen können, und was unter NDA bleibt' },
+      experience: { title: 'Stationen', text: 'Projekte und Anstellungen, die jüngste zuerst' },
+      projects: { title: 'Projekte', text: 'Eigene Arbeiten und Lösungen für Kunden' },
+      skills: { title: 'Kompetenzen', text: 'Nach Gebiet gruppiert' },
+      talks: { title: 'Vorträge', text: 'Workshops und Vorträge, in denen ich das Wissen weitergebe' },
+      background: { title: 'Ausbildung', text: 'Abschlüsse, Zertifikate und Sprachen' },
+      ctaTitle: 'Passt das zu Ihrem Projekt?',
+      ctaButton: 'Kontakt aufnehmen',
+      proofOpen: 'Öffnen',
+      more: 'Mehr',
+    },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
       launcherText: 'Live-KI-Agent fragen',
@@ -1273,6 +1310,23 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     truncatePatterns: ['Schwerpunkte', 'Key Responsibilities', 'Workshop-Inhalte', 'Workshop Content', 'Practical', 'Projekte\\b', 'Projects\\b', 'Energy Sector', 'Technical Solutions', 'Focus areas', 'Key Focus', 'Key responsibilities', 'Presentation content'],
     truncateToolPatterns: ['Tools', 'Technologien', 'Technologies', 'Technical Stack', 'Technischer'],
     showAllProjects: 'Show all projects ({n} more)',
+    minimal: {
+      toMinimal: 'Minimal',
+      toClassic: 'Classic',
+      switchLabel: 'Choose a view',
+      seoTitle: 'Michael Boiman · CV, minimal view',
+      eyebrow: 'Curriculum vitae',
+      running: { title: 'Verifiable', text: 'What you can open yourself, and what stays under NDA' },
+      experience: { title: 'Positions', text: 'Engagements and employment, most recent first' },
+      projects: { title: 'Projects', text: 'Own work and solutions built for clients' },
+      skills: { title: 'Competencies', text: 'Grouped by field' },
+      talks: { title: 'Talks', text: 'Workshops and talks where I pass the knowledge on' },
+      background: { title: 'Education', text: 'Degrees, certificates and languages' },
+      ctaTitle: 'Does this fit your project?',
+      ctaButton: 'Get in touch',
+      proofOpen: 'Open',
+      more: 'More',
+    },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',
       launcherText: 'Ask the live AI agent',

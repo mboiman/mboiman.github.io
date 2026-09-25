@@ -7,6 +7,7 @@ import { formatToHTML, formatBlocks, formatMarkdown } from '../lib/markdown';
 import { i18n } from '../lib/i18n';
 import { groupedSkills } from '../lib/skill-groups';
 import { isTalk, sortByRecency } from '../lib/experience';
+import { splitDetails as splitStation } from '../lib/station-details';
 
 interface Props {
   lang: 'de' | 'en';
@@ -135,58 +136,8 @@ function getContactBadge(item: { class?: string }) {
 const jobs = sortByRecency(experiences.list.filter(e => !isTalk(e)));
 const talks = sortByRecency(experiences.list.filter(isTalk));
 
-/* ── Station details: what stays open, what folds ──────────────────────────
-   The old split kept the intro and the TOOL list and threw the focus block
-   away. On the running mandate that meant one sentence plus six lines of
-   product names on the page, while ten focus bullets, the only place where the
-   work itself is described, rendered nowhere. It also knew two states, focus
-   and tools, so anything AFTER the tool list stayed in tool mode: the block
-   "Wichtige Erfolge" folded into a disclosure labelled "Technischer Stack".
-
-   The string is parsed into blocks at bold-ONLY heading lines, and each block
-   is routed by its heading:
-
-     lead (no heading)  visible, clipped at 80 words
-     first focus block  heading + first three bullets visible, remainder folds
-     further focus      folds whole
-     tool block         folds whole
-     anything else      visible. This is the third state, and it is what ends
-                        tool mode instead of swallowing the rest of the entry
-
-   The disclosure is labelled with the headings that are actually inside it,
-   so it can never again announce a section it does not contain. */
-
-type DetailBlock = { title: string | null; lines: string[] };
-
-/** A line that is nothing but a bold heading, optional trailing colon/space. */
-const HEADING_ONLY = /^\s*\*\*(.+?)\*\*\s*:?\s*$/;
-/** Bullet markers used in config.cv.toml: dash, asterisk, middot, bullet. */
-const BULLET_LINE = /^\s*(?:[-*]|[•·])\s+/;
-/** How many bullets of the focus block the card shows before folding. */
-const VISIBLE_HIGHLIGHTS = 3;
-
-function toBlocks(text: string): DetailBlock[] {
-  const blocks: DetailBlock[] = [{ title: null, lines: [] }];
-  for (const raw of (text || '').split('\n')) {
-    const heading = raw.match(HEADING_ONLY);
-    if (heading) blocks.push({ title: heading[1].replace(/:\s*$/, '').trim(), lines: [] });
-    else blocks[blocks.length - 1].lines.push(raw);
-  }
-  return blocks.filter(b => b.title !== null || b.lines.join('').trim() !== '');
-}
-
-function blockToMarkdown(block: DetailBlock): string {
-  return [block.title ? `**${block.title}**` : '', ...block.lines].join('\n').trim();
-}
-
-/** Clip the lead to 80 words, backing up to the last sentence end. */
-function clipLead(text: string): string {
-  const words = text.split(/\s+/);
-  if (words.length <= 80) return text;
-  const clipped = words.slice(0, 80).join(' ');
-  const lastStop = Math.max(clipped.lastIndexOf('. '), clipped.lastIndexOf('! '), clipped.lastIndexOf('? '));
-  return lastStop > 40 ? clipped.slice(0, lastStop + 1) : `${clipped}…`;
-}
+/* Station split: src/lib/station-details.ts, shared with the minimal view. */
+const splitDetails = (details: string) => splitStation(details, t.truncatePatterns, t.truncateToolPatterns);
 
 /**
  * The public links buried in a talk's `details`.
@@ -205,68 +156,6 @@ function talkLinks(details: string): { label: string; url: string }[] {
   return out;
 }
 
-type ToolBlock = { title: string; body: string };
-
-function splitDetails(details: string): { open: string; foldTitle: string; fold: string; tools: ToolBlock | null } {
-  const focusPattern = new RegExp(`^(${t.truncatePatterns.join('|')})`, 'i');
-  const toolPattern = new RegExp(`^(${t.truncateToolPatterns.join('|')})`, 'i');
-
-  const open: string[] = [];
-  const folded: DetailBlock[] = [];
-  /* The tool block leaves the fold and becomes its own return value, because it
-     is the only part of a station that belongs BESIDE the narrative rather than
-     under it. See the card below: the copy stops at 56 characters per line, and
-     on a 862px card that left 376px of nothing, on all twelve. */
-  const tools: DetailBlock[] = [];
-  let focusTaken = false;
-
-  for (const block of toBlocks(details)) {
-    if (block.title === null) {
-      const lead = block.lines.join('\n').trim();
-      if (lead) open.push(clipLead(lead));
-      continue;
-    }
-    if (!focusTaken && focusPattern.test(block.title)) {
-      focusTaken = true;
-      let seen = 0;
-      let cut = block.lines.length;
-      for (let i = 0; i < block.lines.length; i += 1) {
-        if (!BULLET_LINE.test(block.lines[i])) continue;
-        seen += 1;
-        if (seen === VISIBLE_HIGHLIGHTS) { cut = i + 1; break; }
-      }
-      open.push(blockToMarkdown({ title: block.title, lines: block.lines.slice(0, cut) }));
-      const tail = block.lines.slice(cut);
-      if (tail.join('').trim()) folded.push({ title: block.title, lines: tail });
-      continue;
-    }
-    if (toolPattern.test(block.title)) {
-      tools.push(block);
-      continue;
-    }
-    if (focusPattern.test(block.title)) {
-      folded.push(block);
-      continue;
-    }
-    open.push(blockToMarkdown(block));
-  }
-
-  const foldTitle = [...new Set(folded.map(b => b.title).filter(Boolean))].join(' · ');
-  return {
-    open: open.join('\n\n').trim(),
-    foldTitle,
-    fold: folded.map(blockToMarkdown).join('\n\n').trim(),
-    /* Title and body apart, because the title has two jobs depending on how much
-       room the card has: beside the text it is a heading, underneath it is the
-       label of a disclosure. */
-    tools: tools.length
-      ? {
-          title: [...new Set(tools.map(block => block.title).filter(Boolean))].join(' · '),
-          body: tools.map(block => block.lines.join('\n').trim()).filter(Boolean).join('\n\n'),
-        }
-      : null,
-  };
-}
 
 /* ── Project taglines ──────────────────────────────────────────────────────
    Measured at 1440px, the first two cards were 1129px high against 716px for
@@ -373,6 +262,13 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           language switch and a theme button on paper are ink for nothing. */}
       <nav class="no-print flex items-center justify-end mb-8 text-sm" aria-label={t.navLanguage}>
         <div class="flex items-center gap-3">
+          {/* The second view, under /<lang>/minimal/, on trial side by side
+              with this one (src/components/CVMinimal.astro). */}
+          <span class="cv-view-switch" role="group" aria-label={t.minimal.switchLabel}>
+            <a href={`/${lang}/`} class="cv-view-link is-active" aria-current="page">{t.minimal.toClassic}</a>
+            <a href={`/${lang}/minimal/`} class="cv-view-link">{t.minimal.toMinimal}</a>
+          </span>
+          <span class="opacity-20" aria-hidden="true">|</span>
           <a href="/de/" hreflang="de" aria-current={lang === 'de' ? 'true' : undefined} class={lang === 'de' ? 'cv-lang-link is-active' : 'cv-lang-link'}>DE</a>
           <span class="opacity-20" aria-hidden="true">|</span>
           <a href="/en/" hreflang="en" aria-current={lang === 'en' ? 'true' : undefined} class={lang === 'en' ? 'cv-lang-link is-active' : 'cv-lang-link'}>EN</a>
@@ -1522,6 +1418,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 </BaseLayout>
 
 <style>
+  /* Switch between the two views. Quiet on purpose: it is a trial, not a
+     feature the page should lead with. */
+  .cv-view-switch { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r-xs); overflow: hidden; }
+  .cv-view-link { padding: 0.2rem 0.6rem; color: var(--text-secondary); text-decoration: none; }
+  .cv-view-link:hover { color: var(--text); }
+  .cv-view-link.is-active { background: var(--text); color: var(--bg); }
   /* ── Seitenbreite ─────────────────────────────────────────────────────────
      Was hier vorher stand: `max-w-6xl mx-auto` plus eine feste Polsterung, also
      ein harter Deckel bei 72rem auf JEDEM Schirm. Gemessen war der Inhalt bei

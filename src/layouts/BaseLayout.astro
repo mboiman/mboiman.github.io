@@ -3,6 +3,9 @@ interface Props {
   title: string;
   description: string;
   lang: 'de' | 'en';
+  /** Keeps a page out of search results, e.g. the minimal view while it is on
+   *  trial. astro.config.mjs leaves the same pages out of the sitemap. */
+  noindex?: boolean;
 }
 
 import '../styles/global.css';
@@ -15,7 +18,7 @@ import AgentWidget from '../components/AgentWidget.astro';
 import { getImage } from 'astro:assets';
 import portraitSource from '../assets/portraits/profile_.jpg';
 
-const { title, description, lang } = Astro.props;
+const { title, description, lang, noindex = false } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
 const currentPath = Astro.url.pathname;
 const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
@@ -89,6 +92,7 @@ const personJsonLd = {
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="author" content="Michael Boiman" />
+  {noindex && <meta name="robots" content="noindex, follow" />}
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
