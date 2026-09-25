@@ -5,7 +5,7 @@ const toml = require('toml');
 const sharp = require('sharp');
 const { formatTextToParagraphs } = require('./lib/markdown-utils');
 const { findDashes } = require('./lib/visible-text');
-const { fontFaceCss, BASE_CSS, renderHeader, footerTemplate, applyApplicationOverrides } = require('./lib/pdf-theme');
+const { themeCss, renderHeader, footerTemplate, applyApplicationOverrides } = require('./lib/pdf-theme');
 const { groupedSkills } = require('../src/lib/skill-groups.ts');
 
 // Verification anchors come from config.cv.toml (ui.impact_metrics). There is
@@ -372,8 +372,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     <meta charset="utf-8">
     <title>${langConfig.profile.name}, ${de ? 'Lebenslauf' : 'CV'}</title>
     <style>
-        ${fontFaceCss()}
-        ${BASE_CSS}
+        ${themeCss(langConfig.pdf_style)}
 
         body { font-size: 9pt; line-height: 1.45; }
         .muted { color: var(--muted); }

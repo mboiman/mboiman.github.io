@@ -389,6 +389,12 @@ export interface I18nStrings {
     ctaButton: string;
     proofOpen: string;
     more: string;
+    /** Banner of a tailored link (?for=…&focus=…). `{for}` is the name from the URL. */
+    focusFor: string;
+    focusPlain: string;
+    focusReset: string;
+    focusTag: string;
+    permalink: string;
   };
   agentWidget: AgentWidgetStrings;
 }
@@ -855,6 +861,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       ctaButton: 'Kontakt aufnehmen',
       proofOpen: 'Öffnen',
       more: 'Mehr',
+      focusFor: 'Für {for} zusammengestellt. Die passenden Einträge stehen oben und sind aufgeklappt.',
+      focusPlain: 'Die passenden Einträge stehen oben und sind aufgeklappt.',
+      focusReset: 'Ganzen Lebenslauf in normaler Reihenfolge zeigen',
+      focusTag: 'Passend',
+      permalink: 'Link zu diesem Eintrag',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1326,6 +1337,11 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       ctaButton: 'Get in touch',
       proofOpen: 'Open',
       more: 'More',
+      focusFor: 'Put together for {for}. The matching entries are at the top and open.',
+      focusPlain: 'The matching entries are at the top and open.',
+      focusReset: 'Show the whole CV in its usual order',
+      focusTag: 'Matching',
+      permalink: 'Link to this entry',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

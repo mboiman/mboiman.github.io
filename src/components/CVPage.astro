@@ -252,6 +252,7 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
   title={ui.seo_title || `${profile.name} · ${ui.tagline}`}
   description={ui.seo_description || ui.tagline}
   lang={lang}
+  view="classic"
 >
   {/* Header */}
   <header id="top" class="cv-hero relative overflow-hidden">
@@ -265,8 +266,8 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           {/* The second view, under /<lang>/minimal/, on trial side by side
               with this one (src/components/CVMinimal.astro). */}
           <span class="cv-view-switch" role="group" aria-label={t.minimal.switchLabel}>
-            <a href={`/${lang}/`} class="cv-view-link is-active" aria-current="page">{t.minimal.toClassic}</a>
-            <a href={`/${lang}/minimal/`} class="cv-view-link">{t.minimal.toMinimal}</a>
+            <a href={`/${lang}/`} class="cv-view-link is-active" aria-current="page" data-view-choice="classic">{t.minimal.toClassic}</a>
+            <a href={`/${lang}/minimal/`} class="cv-view-link" data-view-choice="minimal">{t.minimal.toMinimal}</a>
           </span>
           <span class="opacity-20" aria-hidden="true">|</span>
           <a href="/de/" hreflang="de" aria-current={lang === 'de' ? 'true' : undefined} class={lang === 'de' ? 'cv-lang-link is-active' : 'cv-lang-link'}>DE</a>

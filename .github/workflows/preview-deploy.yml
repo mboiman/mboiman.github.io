@@ -42,6 +42,8 @@ jobs:
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN.pdf en
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE_Minimal.pdf de --style=minimal
+          ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_EN_Minimal.pdf en --style=minimal
 
       - name: Build Astro for Preview
         # npm run build, NOT npx astro build. The i18n/content guard

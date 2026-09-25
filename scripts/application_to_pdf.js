@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const toml = require('toml');
 const sharp = require('sharp');
-const { fontFaceCss, BASE_CSS, renderHeader, stripEmoji, escapeHtml, applyApplicationOverrides, prose } = require('./lib/pdf-theme');
+const { themeCss, renderHeader, stripEmoji, escapeHtml, applyApplicationOverrides, prose } = require('./lib/pdf-theme');
 
 /** Blank-line separated text to <p> blocks, single newlines kept as <br>. */
 function paragraphs(text, cls) {
@@ -82,7 +82,7 @@ function generateCoverLetterHTML(data, langConfig, profileImageData) {
     NAME: escapeHtml(langConfig.profile.name),
     DOC_TITLE: de ? 'Bewerbung' : 'Application',
     COMPANY: escapeHtml(data.company || ''),
-    THEME_CSS: fontFaceCss() + BASE_CSS,
+    THEME_CSS: themeCss(data.style),
     HEADER: renderHeader(langConfig, profileImageData),
     AI_DISCLOSURE_TOP: data.aiDisclosureTop ? `<div class="note" style="margin-top:4mm;text-align:right">${prose(data.aiDisclosureTop)}</div>` : '',
     RECIPIENT: recipientBlock(data),
