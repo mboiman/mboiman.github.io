@@ -46,6 +46,11 @@ This is an Astro-based CV generation system that creates a multilingual (German/
 - `src/components/*.astro` - Astro components for the CV sections
 - `src/layouts/` - Page layouts
 - `src/pages/{de,en}/` - Localized page entry points (routes under `/de/` and `/en/`)
+- Three views of the CV: classic `/de/` (`CVPage.astro`), minimal `/de/minimal/`
+  (`CVMinimal.astro`), future `/de/future/` (`CVFuture.astro`). Same data, one
+  switch (`ViewSwitch.astro`), shared browser behaviour in `src/lib/cv-links.ts`.
+  README "Three Views of the CV" has the tailored link, entry links, remembered
+  view, print and agent styling
 - `public/` - Static assets (CSS, JavaScript, images)
 
 ### Build Process
@@ -186,9 +191,16 @@ When modifying the layout or styling:
     "phone": "015233822623",
     "linkedin": "https://www.linkedin.com/in/mboiman/",
     "website": "https://mboiman.github.io"
-  }
+  },
+  "header": { "tagline": "[optional]", "availability": "[optional]" },
+  "style": "classic"
 }
 ```
+
+- `style`: `classic` (Standard) oder `minimal`, gilt für Anschreiben und CV.
+- Online-CV im Anschreiben als zugeschnittener Link in die Minimal-Ansicht:
+  `https://mboiman.github.io/de/minimal/?for=<Firma>&focus=<anchor>,<anchor>`,
+  Anker aus `config.cv.toml`. Nur im Browser ausgewertet, nichts landet im Repo.
 
 ### Dateistruktur applications/
 

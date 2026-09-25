@@ -396,6 +396,21 @@ export interface I18nStrings {
     focusTag: string;
     permalink: string;
   };
+  /** The third view under /<lang>/future/. Section names, focus banner and
+   *  permalink text come from `minimal`, which both alternative views share;
+   *  this block holds only what the future view says and the others do not. */
+  future: {
+    toFuture: string;
+    seoTitle: string;
+    /** `{date}` is the build date, stamped at build time. */
+    eyebrow: string;
+    coords: string;
+    consoleTitle: string;
+    consoleOpen: string;
+    running: string;
+    statePublic: string;
+    stateClosed: string;
+  };
   agentWidget: AgentWidgetStrings;
 }
 
@@ -866,6 +881,17 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusReset: 'Ganzen Lebenslauf in normaler Reihenfolge zeigen',
       focusTag: 'Passend',
       permalink: 'Link zu diesem Eintrag',
+    },
+    future: {
+      toFuture: 'Futur',
+      seoTitle: 'Michael Boiman · Lebenslauf, Futur-Ansicht',
+      eyebrow: 'Lebenslauf · Stand {date}',
+      coords: 'Frankfurt am Main · 50,11° N · 8,68° E',
+      consoleTitle: 'Agent-Konsole',
+      consoleOpen: 'Konsole öffnen',
+      running: 'laufend',
+      statePublic: 'öffentlich',
+      stateClosed: 'nicht öffentlich',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1342,6 +1368,17 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusReset: 'Show the whole CV in its usual order',
       focusTag: 'Matching',
       permalink: 'Link to this entry',
+    },
+    future: {
+      toFuture: 'Future',
+      seoTitle: 'Michael Boiman · CV, future view',
+      eyebrow: 'Curriculum vitae · as of {date}',
+      coords: 'Frankfurt am Main · 50.11° N · 8.68° E',
+      consoleTitle: 'Agent console',
+      consoleOpen: 'Open console',
+      running: 'ongoing',
+      statePublic: 'public',
+      stateClosed: 'not public',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

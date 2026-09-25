@@ -95,7 +95,10 @@
         }
         // The view a visitor picked with the switch on the CV page, if any.
         let view = '';
-        try { if (localStorage.getItem('cv-view') === 'minimal') view = 'minimal/'; } catch {}
+        try {
+          const stored = localStorage.getItem('cv-view');
+          if (stored === 'minimal' || stored === 'future') view = stored + '/';
+        } catch {}
         location.replace('/' + (target || 'de') + '/' + view + location.search + location.hash);
       } catch {
         location.replace('/de/' + location.search + location.hash);

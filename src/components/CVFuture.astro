@@ -1,0 +1,800 @@
+---
+/**
+ * The third view of the CV: dark, a measuring grid, and the agent in front.
+ *
+ * Asked for on 2026-09-25 next to "classic" and "minimal". "Futuristic" is
+ * read here as what the profile actually does rather than as decoration: the
+ * CV has its own agent, so the agent console stands in the hero where the
+ * other views put a photo or a sentence, with its live state read from the
+ * agent card (the same [data-agent-live] / [data-agent-facts] contract the
+ * classic hero uses, filled by AgentWidget). The rest is set as a readout:
+ * monospace labels, section codes, a timeline whose running station pulses.
+ *
+ * Same data as the other two views (config.cv.toml, i18n.ts, the sort rule in
+ * experience.ts, the station split in station-details.ts); the tailored link,
+ * entry links, print and agent prompts come from cv-links.ts. Dark only, by
+ * design: this view is a look, and a light variant of it would be the
+ * minimal view.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ViewSwitch from './ViewSwitch.astro';
+import { getCVData } from '../lib/toml-loader';
+import { formatBlocks } from '../lib/markdown';
+import { i18n } from '../lib/i18n';
+import { groupedSkills } from '../lib/skill-groups';
+import { isTalk, sortByRecency } from '../lib/experience';
+import { splitDetails } from '../lib/station-details';
+
+interface Props {
+  lang: 'de' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = i18n[lang];
+const m = t.minimal;
+const f = t.future;
+
+const data = getCVData(lang);
+const { profile, contact, ui, experiences, projects, education, language: langs, agent_proof: agentProof } = data;
+
+const jobs = sortByRecency(experiences.list.filter(e => !isTalk(e)));
+const talks = sortByRecency(experiences.list.filter(isTalk));
+const allProjects = [...projects.list.filter(p => p.featured), ...projects.list.filter(p => !p.featured)];
+const skillGroups = groupedSkills(ui.sidebar_skills, lang);
+const email = contact.list.find(c => c.url?.startsWith('mailto:'));
+
+const buildDate = new Date().toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const isRunning = (dates: string) => /^\s*(seit|since|ab|from)\b/i.test(dates || '');
+
+const contactText = (item: { url?: string; title: string }) => {
+  const url = item.url || '';
+  if (url.startsWith('mailto:')) return url.slice(7);
+  if (url.startsWith('tel:')) return item.title;
+  if (/^https?:\/\//.test(url)) return url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  return item.title;
+};
+
+/** Lead and three highlights open, the rest behind one line. As on the other views. */
+const station = (details: string) => {
+  const d = splitDetails(details || '', t.truncatePatterns, t.truncateToolPatterns);
+  const more = [d.fold, d.tools ? `**${d.tools.title}**\n${d.tools.body}` : ''].filter(Boolean).join('\n\n');
+  return { open: formatBlocks(d.open), more: formatBlocks(more), moreTitle: [d.foldTitle, d.tools?.title].filter(Boolean).join(' · ') };
+};
+
+/** A project card shows its first paragraph; the full text is on the other views. */
+const lead = (tagline: string) => formatBlocks((tagline || '').trim().split(/\n\s*\n/)[0] || '');
+
+const code = (n: number) => String(n).padStart(2, '0');
+const modules = [
+  { id: 'fx-running', title: m.running.title },
+  experiences.enable ? { id: 'fx-stations', title: m.experience.title } : null,
+  projects.enable ? { id: 'fx-projects', title: m.projects.title } : null,
+  { id: 'fx-skills', title: m.skills.title },
+  talks.length ? { id: 'fx-talks', title: m.talks.title } : null,
+  education.enable || langs.enable ? { id: 'fx-background', title: m.background.title } : null,
+].filter((x): x is { id: string; title: string } => x !== null);
+const codeOf = (id: string) => code(modules.findIndex(x => x.id === id) + 1);
+---
+
+<BaseLayout title={f.seoTitle} description={ui.seo_description || ui.tagline} lang={lang} noindex view="future">
+  <div class="fx">
+    <div class="fx-grid" aria-hidden="true"></div>
+
+    <header class="fx-hud">
+      <a href="#top" class="fx-logo" aria-label={t.backToTop}>MB<span>/</span>CV</a>
+      <nav class="fx-nav" aria-label={t.navSections}>
+        {modules.map(x => <a href={`#${x.id}`}><span>{codeOf(x.id)}</span>{x.title}</a>)}
+      </nav>
+      <div class="fx-hud-right">
+        <ViewSwitch lang={lang} current="future" />
+        <nav class="fx-lang" aria-label={t.navLanguage}>
+          <a href="/de/future/" hreflang="de" class:list={[lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+          <a href="/en/future/" hreflang="en" class:list={[lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="top" class="fx-hero">
+        <div class="fx-id">
+          <p class="fx-eyebrow">[ {f.eyebrow.replace('{date}', buildDate)} ]</p>
+          <h1 class="fx-name">{profile.name}<span class="fx-caret" aria-hidden="true"></span></h1>
+          <p class="fx-tagline">{ui.tagline}</p>
+          <p class="fx-intro">{t.careerIntro}</p>
+
+          <dl class="fx-readouts">
+            {t.facts.map(fact => (
+              <div class="fx-readout">
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <p class="fx-coords">{f.coords}</p>
+          <ul class="fx-contacts">
+            {contact.list.slice(0, 6).map(item => (
+              <li><a href={item.url || '#'} target={item.url?.startsWith('mailto:') || item.url?.startsWith('tel:') ? '_self' : '_blank'} rel="noopener">{contactText(item)}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        {/* The console. Live state and facts are rewritten by AgentWidget from
+            the agent card; what renders here is the honest "not checked yet"
+            and the fallback facts, exactly as on the classic hero. */}
+        <aside class="fx-console no-print" aria-label={f.consoleTitle}>
+          <div class="fx-console-bar">
+            <span class="fx-console-title">{f.consoleTitle}</span>
+            <span class="fx-live" data-agent-live data-live-ok={t.agentReachable} data-live-down={t.agentUnavailable} role="status">
+              <span class="fx-live-dot" aria-hidden="true"></span>
+              <span data-agent-live-text>{t.agentCardStatic}</span>
+            </span>
+          </div>
+          <div class="fx-console-body">
+            <p class="fx-console-status">{agentProof.status}</p>
+            <h2 class="fx-console-head">{agentProof.headline}</h2>
+            <p class="fx-console-text">{agentProof.text}</p>
+            <div class="fx-facts" data-agent-facts>
+              {agentProof.facts.map(fact => <span>{fact}</span>)}
+            </div>
+            <p class="fx-label">{agentProof.promptTitle}</p>
+            <p class="fx-console-note">{agentProof.promptNote}</p>
+            <div class="fx-prompts">
+              {agentProof.prompts.map(prompt => (
+                <button type="button" class="fx-prompt" data-agent-prompt={prompt}>
+                  <span class="fx-prompt-mark" aria-hidden="true">&gt;</span>{prompt}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              class="fx-console-open"
+              data-agent-open
+              aria-label={agentProof.ask}
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls="agent-widget-panel"
+            >{f.consoleOpen}</button>
+          </div>
+        </aside>
+      </section>
+
+      <div class="fx-focus" hidden data-focus-banner data-for={m.focusFor} data-plain={m.focusPlain} data-tag={m.focusTag}>
+        <p data-focus-text></p>
+        <a href={`/${lang}/future/`}>{m.focusReset}</a>
+      </div>
+
+      <section id="fx-running" class="fx-module reveal">
+        <header class="fx-module-head">
+          <p class="fx-code">{codeOf('fx-running')}</p>
+          <h2>{m.running.title}</h2>
+          <p>{m.running.text}</p>
+        </header>
+        <div class="fx-cards">
+          {t.running.map((item, i) => (
+            <article class="fx-card">
+              <p class="fx-card-code">{codeOf('fx-running')}.{i + 1}<span class:list={['fx-state', item.state === 'public' && 'is-public']}>{item.state === 'public' ? f.statePublic : f.stateClosed}</span></p>
+              <h3>{item.title}</h3>
+              {item.mechanism && <p class="fx-card-text">{item.mechanism}</p>}
+              <p class="fx-proof">{item.proofUrl ? <a href={item.proofUrl} target="_blank" rel="noopener">{item.proof}</a> : item.proof}</p>
+              {item.stateNote && <p class="fx-card-note">{item.stateNote}</p>}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {experiences.enable && (
+        <section id="fx-stations" class="fx-module reveal" data-cv-anchor="experience" data-cv-group={experiences.title}>
+          <header class="fx-module-head">
+            <p class="fx-code">{codeOf('fx-stations')}</p>
+            <h2>{m.experience.title}</h2>
+            <p>{m.experience.text}</p>
+          </header>
+          <div class="fx-timeline" data-focus-list>
+            {jobs.map(exp => {
+              const st = station(exp.details);
+              return (
+                <details class:list={['fx-station', isRunning(exp.dates) && 'is-running']} id={exp.anchor ? `exp-${exp.anchor}` : undefined} data-cv-anchor={exp.anchor}>
+                  <summary>
+                    <span class="fx-date">{exp.dates}</span>
+                    <span class="fx-node" aria-hidden="true"></span>
+                    <span class="fx-station-title" data-focus-title>
+                      {isRunning(exp.dates) && <span class="fx-running">{f.running}</span>}
+                      <h3>{exp.position}</h3>
+                      <span class="fx-company">{exp.company}</span>
+                    </span>
+                    <span class="fx-toggle" aria-hidden="true"></span>
+                  </summary>
+                  <div class="fx-body">
+                    <Fragment set:html={st.open} />
+                    {st.more && (
+                      <details class="fx-more">
+                        <summary>{st.moreTitle || m.more}</summary>
+                        <Fragment set:html={st.more} />
+                      </details>
+                    )}
+                    {exp.anchor && <p class="fx-permalink no-print"><a href={`#exp-${exp.anchor}`}>{m.permalink}</a></p>}
+                  </div>
+                </details>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {projects.enable && (
+        <section id="fx-projects" class="fx-module reveal" data-cv-anchor="projects" data-cv-group={projects.title}>
+          <header class="fx-module-head">
+            <p class="fx-code">{codeOf('fx-projects')}</p>
+            <h2>{m.projects.title}</h2>
+            <p>{m.projects.text}</p>
+          </header>
+          <div class="fx-cards fx-cards-3" data-focus-list>
+            {allProjects.map(project => (
+              <article class="fx-card" id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
+                <p class="fx-card-code" data-focus-title>{project.category}</p>
+                <h3>{project.title}</h3>
+                <div class="fx-card-text" set:html={lead(project.tagline)} />
+                {project.tech_stack?.length > 0 && (
+                  <p class="fx-tags">{project.tech_stack.slice(0, 6).map(tech => <span>{tech}</span>)}</p>
+                )}
+                {project.url && <p class="fx-proof"><a href={project.url} target="_blank" rel="noopener">{project.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></p>}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section id="fx-skills" class="fx-module reveal">
+        <header class="fx-module-head">
+          <p class="fx-code">{codeOf('fx-skills')}</p>
+          <h2>{m.skills.title}</h2>
+          <p>{m.skills.text}</p>
+        </header>
+        <div class="fx-skillgroups">
+          {skillGroups.map(group => (
+            <div class="fx-skillgroup">
+              <h3>{group.title}</h3>
+              <p class="fx-tags">{group.items.map(skill => <span>{skill}</span>)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {talks.length > 0 && (
+        <section id="fx-talks" class="fx-module reveal" data-cv-anchor="talks" data-cv-group={t.talksTitle}>
+          <header class="fx-module-head">
+            <p class="fx-code">{codeOf('fx-talks')}</p>
+            <h2>{m.talks.title}</h2>
+            <p>{m.talks.text}</p>
+          </header>
+          <div class="fx-timeline" data-focus-list>
+            {talks.map(talk => {
+              const st = station(talk.details ?? '');
+              return (
+                <details class="fx-station" id={talk.anchor ? `exp-${talk.anchor}` : undefined} data-cv-anchor={talk.anchor}>
+                  <summary>
+                    <span class="fx-date">{talk.dates}</span>
+                    <span class="fx-node" aria-hidden="true"></span>
+                    <span class="fx-station-title" data-focus-title>
+                      <h3>{talk.position}</h3>
+                      <span class="fx-company">{talk.company}</span>
+                    </span>
+                    <span class="fx-toggle" aria-hidden="true"></span>
+                  </summary>
+                  <div class="fx-body">
+                    <Fragment set:html={st.open} />
+                    {talk.anchor && <p class="fx-permalink no-print"><a href={`#exp-${talk.anchor}`}>{m.permalink}</a></p>}
+                  </div>
+                </details>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {(education.enable || langs.enable) && (
+        <section id="fx-background" class="fx-module reveal">
+          <header class="fx-module-head">
+            <p class="fx-code">{codeOf('fx-background')}</p>
+            <h2>{m.background.title}</h2>
+            <p>{m.background.text}</p>
+          </header>
+          <div class="fx-cards">
+            {education.enable && (
+              <article class="fx-card">
+                <p class="fx-card-code">{education.title}</p>
+                <ul class="fx-plain">
+                  {education.list.map(edu => (
+                    <li><strong>{edu.degree}</strong><span>{[edu.college, edu.dates].filter(Boolean).join(' · ')}</span></li>
+                  ))}
+                </ul>
+              </article>
+            )}
+            {langs.enable && (
+              <article class="fx-card">
+                <p class="fx-card-code">{langs.title}</p>
+                <ul class="fx-plain">
+                  {langs.list.map(l => <li><strong>{l.language}</strong><span>{l.level}</span></li>)}
+                </ul>
+              </article>
+            )}
+          </div>
+        </section>
+      )}
+
+      <section class="fx-cta no-print">
+        <p class="fx-cta-title">{m.ctaTitle}</p>
+        <div class="fx-cta-actions">
+          {email && (
+            <a href={email.url} class="fx-btn">
+              {m.ctaButton}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </a>
+          )}
+          <a href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download class="fx-link">{t.pdfDownload}</a>
+        </div>
+      </section>
+
+      <footer class="fx-footer">
+        <span>&copy; {new Date().getFullYear()} {profile.name}</span>
+        <a href={`/${lang}/impressum/`}>{t.legalImpressum}</a>
+        <a href={`/${lang}/datenschutz/`}>{t.legalPrivacy}</a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Tailored links, entry links, print and agent prompts, shared with the
+    // minimal view.
+    import { initCvLinks } from '../lib/cv-links';
+    initCvLinks();
+  </script>
+</BaseLayout>
+
+<style>
+  /* Own tokens, prefixed. One signal colour, a cool mint, used for state and
+     for the few things that act; everything else is grey on near black.
+     Contrast measured against --fx-bg: text 9.9:1, muted 5.6:1, accent 13:1. */
+  .fx {
+    --fx-bg: #06080c;
+    --fx-panel: rgba(13, 18, 26, 0.78);
+    --fx-line: rgba(148, 163, 184, 0.16);
+    --fx-line-strong: rgba(148, 163, 184, 0.32);
+    --fx-ink: #e8eef5;
+    --fx-text: #b4bfcc;
+    --fx-muted: #7d8896;
+    --fx-accent: #5eead4;
+    --fx-accent-dim: rgba(94, 234, 212, 0.12);
+    --fx-accent-line: rgba(94, 234, 212, 0.45);
+    --fx-mono: var(--font-mono);
+    --vs-line: var(--fx-line-strong);
+    --vs-text: var(--fx-muted);
+    --vs-text-hover: var(--fx-ink);
+    --vs-active-bg: var(--fx-accent);
+    --vs-active-text: var(--fx-bg);
+    --vs-radius: 0;
+
+    position: relative;
+    min-height: 100vh;
+    background: var(--fx-bg);
+    color: var(--fx-text);
+    font-family: var(--font-body);
+    overflow-x: clip;
+  }
+  :global(html.cv-future body) { background: #06080c; }
+  :global(html.cv-future) { color-scheme: dark; }
+
+  /* The measuring grid, fading out downwards, and one glow at the top left. */
+  .fx-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--fx-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--fx-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 30% 0%, #000 20%, transparent 75%);
+    opacity: 0.55;
+  }
+  .fx::before {
+    content: "";
+    position: absolute;
+    top: -20rem; left: -12rem;
+    width: 48rem; height: 48rem;
+    background: radial-gradient(circle, rgba(94, 234, 212, 0.10), transparent 62%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .fx > :not(.fx-grid) { position: relative; z-index: 1; }
+
+  .fx a { color: inherit; }
+  .fx :global([id]) { scroll-margin-top: 5rem; }
+
+  /* ── HUD ─────────────────────────────────────────────────────────────── */
+  .fx-hud {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.25rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(6, 8, 12, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--fx-line);
+    font-family: var(--fx-mono);
+    font-size: var(--fs-12);
+  }
+  .fx-logo { font-weight: 600; letter-spacing: 0.12em; color: var(--fx-ink); text-decoration: none; }
+  .fx-logo span { color: var(--fx-accent); padding: 0 0.1em; }
+  .fx-nav { display: none; gap: 1.25rem; }
+  .fx-nav a { color: var(--fx-muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fx-nav a span { color: var(--fx-accent); margin-right: 0.45em; }
+  .fx-nav a:hover { color: var(--fx-ink); }
+  .fx-hud-right { display: flex; align-items: center; gap: 1rem; font-family: var(--font-body); }
+  .fx-lang { display: flex; gap: 0.6rem; font-size: var(--fs-13); }
+  .fx-lang a { color: var(--fx-muted); text-decoration: none; }
+  .fx-lang a.is-active { color: var(--fx-ink); font-weight: 600; }
+
+  main { padding: 0 1.25rem; max-width: 84rem; margin: 0 auto; }
+
+  /* ── Hero ────────────────────────────────────────────────────────────── */
+  /* minmax(0, 1fr), not the implicit auto track: an auto track grows to the
+     min-content of its widest child, and on a phone that pushed the whole
+     hero past the right edge, where overflow-x: clip hid it without a trace. */
+  .fx-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding: 3.5rem 0 3rem; }
+  .fx-eyebrow, .fx-coords, .fx-label, .fx-code, .fx-card-code, .fx-date, .fx-company, .fx-running, .fx-state {
+    font-family: var(--fx-mono);
+  }
+  .fx-eyebrow { font-size: var(--fs-12); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fx-accent); }
+  .fx-name {
+    margin-top: 1.1rem;
+    font-size: clamp(3.25rem, 8vw, 7.25rem);
+    font-weight: 300;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    color: var(--fx-ink);
+  }
+  .fx-caret {
+    display: inline-block;
+    width: 0.08em; height: 0.8em;
+    margin-left: 0.12em;
+    background: var(--fx-accent);
+    vertical-align: baseline;
+    animation: fx-blink 1.1s steps(1) infinite;
+  }
+  @keyframes fx-blink { 50% { opacity: 0; } }
+  .fx-tagline { margin-top: 1.25rem; font-size: clamp(1.3rem, 2.2vw, 1.85rem); font-weight: 300; line-height: 1.25; color: var(--fx-ink); max-width: 38rem; }
+  .fx-intro { margin-top: 1.25rem; font-size: var(--fs-16); line-height: 1.65; max-width: 38rem; }
+
+  .fx-readouts { margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 0.6rem; max-width: 42rem; }
+  .fx-readout {
+    position: relative;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--fx-line);
+    background: var(--fx-panel);
+  }
+  /* Corner marks: two short strokes at opposite corners. */
+  .fx-readout::before, .fx-readout::after, .fx-card::before, .fx-card::after {
+    content: ""; position: absolute; width: 8px; height: 8px; border-color: var(--fx-accent-line); border-style: solid;
+  }
+  .fx-readout::before, .fx-card::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .fx-readout::after, .fx-card::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+  .fx-readout dt { font-family: var(--fx-mono); font-size: var(--fs-11); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx-muted); }
+  .fx-readout dd { margin-top: 0.3rem; font-size: var(--fs-14); color: var(--fx-ink); }
+
+  .fx-coords { margin-top: 1.5rem; font-size: var(--fs-12); color: var(--fx-muted); letter-spacing: 0.06em; }
+  .fx-contacts { margin-top: 0.9rem; list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: var(--fs-14); }
+  .fx-contacts a { color: var(--fx-text); text-decoration: none; border-bottom: 1px solid var(--fx-line-strong); }
+  .fx-contacts a:hover { color: var(--fx-accent); border-color: var(--fx-accent); }
+
+  /* ── Console ─────────────────────────────────────────────────────────── */
+  .fx-console {
+    align-self: start;
+    border: 1px solid var(--fx-line-strong);
+    background: var(--fx-panel);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.05), 0 30px 80px -40px rgba(94, 234, 212, 0.35);
+  }
+  .fx-console-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--fx-line);
+    font-family: var(--fx-mono); font-size: var(--fs-12);
+  }
+  .fx-console-title { letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx-ink); }
+  .fx-live { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--fx-muted); }
+  .fx-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fx-muted); }
+  .fx-live[data-state="ok"] { color: var(--fx-accent); }
+  .fx-live[data-state="ok"] .fx-live-dot { background: var(--fx-accent); box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.6); animation: fx-pulse 2s ease-out infinite; }
+  .fx-live[data-state="down"] .fx-live-dot { background: #f87171; }
+  @keyframes fx-pulse { 0% { box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.55); } 100% { box-shadow: 0 0 0 9px rgba(94, 234, 212, 0); } }
+
+  .fx-console-body { padding: 1.25rem 1.1rem 1.2rem; }
+  .fx-console-status { font-family: var(--fx-mono); font-size: var(--fs-12); color: var(--fx-accent); }
+  .fx-console-head { margin-top: 0.6rem; font-size: 1.45rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; color: var(--fx-ink); }
+  .fx-console-text { margin-top: 0.7rem; font-size: var(--fs-14); line-height: 1.6; }
+  .fx-facts { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .fx-facts > :global(*) {
+    padding: 0.2rem 0.5rem !important;
+    border: 1px solid var(--fx-line-strong);
+    border-radius: 0 !important;
+    font-family: var(--fx-mono);
+    font-size: var(--fs-11) !important;
+    color: var(--fx-text);
+    background: transparent;
+  }
+  .fx-label { margin-top: 1.3rem; font-size: var(--fs-11); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fx-muted); }
+  .fx-console-note { margin-top: 0.35rem; font-size: var(--fs-13); line-height: 1.5; color: var(--fx-muted); }
+  .fx-prompts { margin-top: 0.8rem; display: grid; gap: 0.45rem; }
+  .fx-prompt {
+    display: flex; gap: 0.6rem; align-items: baseline;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font: inherit; font-size: var(--fs-14); line-height: 1.4;
+    color: var(--fx-ink);
+    background: transparent;
+    border: 1px solid var(--fx-line);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .fx-prompt:hover, .fx-prompt:focus-visible { border-color: var(--fx-accent-line); background: var(--fx-accent-dim); outline: none; }
+  .fx-prompt-mark { font-family: var(--fx-mono); color: var(--fx-accent); }
+  .fx-console-open {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font: inherit; font-size: var(--fs-15); font-weight: 500;
+    color: var(--fx-bg);
+    background: var(--fx-accent);
+    border: 0;
+    cursor: pointer;
+  }
+  .fx-console-open:hover { filter: brightness(1.08); }
+  .fx-console-open:focus-visible { outline: 2px solid var(--fx-ink); outline-offset: 2px; }
+
+  /* ── Focus banner ────────────────────────────────────────────────────── */
+  .fx-focus { margin-bottom: 1rem; padding: 0.9rem 1rem; border: 1px solid var(--fx-accent-line); background: var(--fx-accent-dim); color: var(--fx-ink); font-size: var(--fs-15); }
+  .fx-focus[hidden] { display: none; }
+  .fx-focus a { display: inline-block; margin-top: 0.3rem; font-size: var(--fs-13); color: var(--fx-muted); }
+  .fx :global(.cv-focus-tag) {
+    display: inline-block;
+    margin-right: 0.6rem;
+    padding: 0.05rem 0.4rem;
+    font-family: var(--fx-mono);
+    font-size: var(--fs-10);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fx-bg);
+    background: var(--fx-accent);
+    vertical-align: middle;
+  }
+  .fx :global(.is-focus) { border-color: var(--fx-accent-line); }
+
+  /* ── Modules ─────────────────────────────────────────────────────────── */
+  .fx-module { padding: 3rem 0; border-top: 1px solid var(--fx-line); }
+  .fx-module-head { display: grid; gap: 0.35rem; margin-bottom: 1.75rem; max-width: 40rem; }
+  .fx-code { font-size: var(--fs-12); color: var(--fx-accent); letter-spacing: 0.12em; }
+  .fx-module-head h2 { font-size: clamp(2rem, 3.6vw, 3rem); font-weight: 300; letter-spacing: -0.03em; line-height: 1.05; color: var(--fx-ink); }
+  .fx-module-head p:last-child { font-size: var(--fs-16); color: var(--fx-muted); }
+
+  .fx-cards { display: grid; gap: 0.9rem; }
+  .fx-card {
+    position: relative;
+    padding: 1.1rem 1.1rem 1.2rem;
+    border: 1px solid var(--fx-line);
+    background: var(--fx-panel);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .fx-card:hover { border-color: var(--fx-line-strong); }
+  .fx-card-code { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: var(--fs-11); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx-muted); }
+  .fx-state { padding: 0.05rem 0.4rem; border: 1px solid var(--fx-line-strong); font-size: var(--fs-10); color: var(--fx-muted); }
+  .fx-state.is-public { border-color: var(--fx-accent-line); color: var(--fx-accent); }
+  .fx-card h3 { margin-top: 0.55rem; font-size: 1.15rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; color: var(--fx-ink); }
+  .fx-card-text { margin-top: 0.55rem; font-size: var(--fs-14); line-height: 1.6; }
+  .fx-card-text :global(strong) { font-weight: 500; color: var(--fx-ink); }
+  .fx-card-note { margin-top: 0.4rem; font-size: var(--fs-12); color: var(--fx-muted); }
+  .fx-proof { margin-top: 0.7rem; font-family: var(--fx-mono); font-size: var(--fs-12); color: var(--fx-accent); word-break: break-word; }
+  .fx-proof a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--fx-accent-line); }
+  .fx-tags { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .fx-tags span { padding: 0.15rem 0.45rem; border: 1px solid var(--fx-line); font-family: var(--fx-mono); font-size: var(--fs-11); color: var(--fx-text); }
+
+  /* ── Timeline ────────────────────────────────────────────────────────── */
+  .fx-timeline { position: relative; display: grid; }
+  .fx-timeline::before {
+    content: ""; position: absolute; top: 0.6rem; bottom: 0.6rem; left: 0.3rem; width: 1px;
+    background: linear-gradient(var(--fx-accent-line), var(--fx-line) 30%, var(--fx-line));
+  }
+  .fx-station > summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1rem 1fr auto;
+    grid-template-areas: "node date toggle" "node title toggle";
+    column-gap: 1rem;
+    padding: 0.85rem 0;
+    cursor: pointer;
+  }
+  .fx-station > summary::-webkit-details-marker { display: none; }
+  .fx-station > summary:focus-visible { outline: 1px solid var(--fx-accent); outline-offset: 4px; }
+  .fx-date { grid-area: date; font-size: var(--fs-12); color: var(--fx-muted); letter-spacing: 0.04em; }
+  .fx-node {
+    grid-area: node; align-self: start; margin-top: 0.3rem;
+    width: 0.6rem; height: 0.6rem;
+    border: 1px solid var(--fx-accent-line);
+    background: var(--fx-bg);
+    transform: rotate(45deg);
+  }
+  .fx-station.is-running .fx-node { background: var(--fx-accent); border-color: var(--fx-accent); animation: fx-pulse 2s ease-out infinite; }
+  .fx-station-title { grid-area: title; margin-top: 0.2rem; }
+  .fx-station-title h3 { display: inline; font-size: 1.2rem; font-weight: 400; letter-spacing: -0.01em; line-height: 1.35; color: var(--fx-ink); }
+  .fx-company { display: block; margin-top: 0.2rem; font-size: var(--fs-12); color: var(--fx-muted); }
+  .fx-running { display: inline-block; margin-right: 0.6rem; padding: 0.05rem 0.4rem; border: 1px solid var(--fx-accent-line); font-size: var(--fs-10); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx-accent); vertical-align: middle; }
+  .fx-toggle { grid-area: toggle; position: relative; width: 0.9rem; height: 0.9rem; margin-top: 0.3rem; color: var(--fx-muted); transition: transform 0.2s ease, color 0.2s ease; }
+  .fx-toggle::before, .fx-toggle::after { content: ""; position: absolute; background: currentColor; }
+  .fx-toggle::before { left: 0; right: 0; top: calc(50% - 0.5px); height: 1px; }
+  .fx-toggle::after { top: 0; bottom: 0; left: calc(50% - 0.5px); width: 1px; }
+  .fx-station > summary:hover .fx-toggle { color: var(--fx-accent); }
+  .fx-station[open] > summary .fx-toggle { transform: rotate(45deg); color: var(--fx-accent); }
+  .fx-station[open] > summary h3 { color: var(--fx-accent); }
+
+  .fx-body {
+    margin: 0 0 1.25rem 2rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--fx-line);
+    background: var(--fx-panel);
+    font-size: var(--fs-14);
+    line-height: 1.65;
+    max-width: 52rem;
+  }
+  .fx-body :global(p + p), .fx-body :global(p + ul), .fx-body :global(ul + p) { margin-top: 0.6rem; }
+  .fx-body :global(ul) { list-style: none; padding-left: 0; }
+  .fx-body :global(li) { position: relative; padding-left: 1rem; }
+  .fx-body :global(li)::before { content: ""; position: absolute; left: 0; top: 0.65em; width: 0.4rem; height: 1px; background: var(--fx-accent); }
+  .fx-body :global(li + li) { margin-top: 0.25rem; }
+  .fx-body :global(strong) { font-weight: 500; color: var(--fx-ink); }
+  .fx-body :global(a) { color: var(--fx-accent); }
+  .fx-more { margin-top: 0.7rem; }
+  .fx-more summary { cursor: pointer; font-family: var(--fx-mono); font-size: var(--fs-12); color: var(--fx-muted); }
+  .fx-more summary:hover { color: var(--fx-accent); }
+  .fx-more[open] summary { margin-bottom: 0.5rem; }
+  .fx-permalink { margin-top: 0.7rem; font-family: var(--fx-mono); font-size: var(--fs-11); }
+  .fx-body .fx-permalink a { color: var(--fx-muted); }
+
+  /* ── Skills, background ──────────────────────────────────────────────── */
+  .fx-skillgroups { display: grid; gap: 1.25rem; }
+  .fx-skillgroup h3 { font-family: var(--fx-mono); font-size: var(--fs-12); letter-spacing: 0.1em; text-transform: uppercase; color: var(--fx-muted); font-weight: 400; }
+  .fx-skillgroup .fx-tags { margin-top: 0.5rem; }
+  .fx-skillgroup .fx-tags span { font-family: var(--font-body); font-size: var(--fs-13); color: var(--fx-ink); }
+  .fx-plain { list-style: none; padding: 0; margin-top: 0.6rem; display: grid; gap: 0.6rem; }
+  .fx-plain li { display: grid; gap: 0.1rem; }
+  .fx-plain strong { font-weight: 500; color: var(--fx-ink); font-size: var(--fs-15); }
+  .fx-plain span { font-size: var(--fs-13); color: var(--fx-muted); }
+
+  /* ── Closing ─────────────────────────────────────────────────────────── */
+  .fx-cta {
+    margin: 1rem 0 0;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid var(--fx-accent-line);
+    background: linear-gradient(135deg, rgba(94, 234, 212, 0.10), rgba(94, 234, 212, 0) 60%), var(--fx-panel);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;
+  }
+  .fx-cta-title { font-size: clamp(1.7rem, 3.2vw, 2.7rem); font-weight: 300; letter-spacing: -0.03em; color: var(--fx-ink); }
+  .fx-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+  .fx-btn {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    padding: 0.95rem 1.4rem;
+    font-size: 1.1rem; font-weight: 500;
+    color: var(--fx-bg) !important;
+    background: var(--fx-accent);
+    text-decoration: none;
+    box-shadow: 0 0 32px -8px rgba(94, 234, 212, 0.6);
+  }
+  .fx-btn svg { width: 1.1em; height: 1.1em; }
+  .fx-btn:hover { filter: brightness(1.08); }
+  .fx-link { font-size: var(--fs-15); color: var(--fx-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--fx-line-strong); }
+  .fx-footer { display: flex; gap: 1.25rem; padding: 1.5rem 0 2.5rem; font-family: var(--fx-mono); font-size: var(--fs-11); color: var(--fx-muted); }
+
+  /* ── Wider screens ───────────────────────────────────────────────────── */
+  @media (min-width: 720px) {
+    .fx-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .fx-skillgroups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 2.5rem; }
+    .fx-station > summary {
+      grid-template-columns: 9.5rem 1rem 1fr auto;
+      grid-template-areas: "date node title toggle";
+    }
+    .fx-timeline::before { left: calc(9.5rem + 1rem + 0.3rem); }
+    .fx-date { margin-top: 0.3rem; }
+    .fx-station-title { margin-top: 0; }
+    .fx-body { margin-left: calc(9.5rem + 3rem); }
+  }
+  @media (min-width: 1024px) {
+    .fx-hud { padding: 0.85rem 2rem; }
+    .fx-nav { display: flex; }
+    main { padding: 0 2rem; }
+    .fx-hero { grid-template-columns: minmax(0, 1.35fr) minmax(22rem, 1fr); gap: 3.5rem; padding: 5rem 0 4rem; }
+    .fx-cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .fx-module { padding: 4rem 0; }
+  }
+  /* Two columns of the hero need the room; with the agent rail open the
+     widget takes a quarter of the width, so the nav steps back first. */
+  @media (min-width: 1024px) and (max-width: 1279px) { .fx-nav { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fx-caret, .fx-live-dot, .fx-station.is-running .fx-node { animation: none !important; }
+    .fx-toggle, .fx-card { transition: none; }
+  }
+
+  /* ── The agent panel in this view ────────────────────────────────────── */
+  :global(html.cv-future #agent-widget-root) {
+    --bg: #0b1017;
+    --text: #e8eef5;
+    --text-secondary: #7d8896;
+    --accent: #5eead4;
+    --accent-hover: #5eead4;
+    --accent-cta: #5eead4;
+    --aw-grad: #5eead4;
+    --aw-border: rgba(148, 163, 184, 0.16);
+    --aw-border-strong: rgba(148, 163, 184, 0.32);
+    --aw-elev-panel: 0 0 0 1px rgba(94, 234, 212, 0.18), 0 30px 80px -30px rgba(94, 234, 212, 0.35);
+  }
+  :global(html.cv-future #agent-widget-panel) { border-radius: 0; }
+  :global(html.cv-future #agent-widget-header),
+  :global(html.cv-future #agent-widget-form) { background: #0b1017; }
+  :global(html.cv-future #agent-widget-title) { font-family: var(--font-mono); font-size: var(--fs-13); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+  :global(html.cv-future .aw-avatar) { background: transparent; border-color: rgba(94, 234, 212, 0.45); color: #5eead4; border-radius: 0; transform: rotate(45deg) scale(0.8); }
+  :global(html.cv-future .aw-avatar svg) { transform: rotate(-45deg); }
+  :global(html.cv-future .aw-msg.aw-user) { background: #5eead4; color: #06080c; border-radius: 0; box-shadow: 0 0 24px -10px rgba(94, 234, 212, 0.8); }
+  :global(html.cv-future .aw-msg.aw-user a) { color: #06080c; }
+  :global(html.cv-future .aw-msg.aw-agent) {
+    background: rgba(13, 18, 26, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-left: 2px solid #5eead4;
+    border-radius: 0;
+    box-shadow: none;
+    color: #b4bfcc;
+  }
+  :global(html.cv-future .aw-msg.aw-agent strong) { color: #e8eef5; }
+  :global(html.cv-future #agent-widget-input),
+  :global(html.cv-future #agent-widget-send),
+  :global(html.cv-future .aw-icon-btn),
+  :global(html.cv-future .aw-offer-btn),
+  :global(html.cv-future .aw-view-on-page),
+  :global(html.cv-future .aw-card-ex),
+  :global(html.cv-future .aw-working) { border-radius: 0; }
+  :global(html.cv-future #agent-widget-send) { background: #5eead4; color: #06080c; }
+  :global(html.cv-future #agent-widget-input:focus-visible) { border-color: #5eead4; box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.15); }
+  :global(html.cv-future .bridge-flash) {
+    outline: 1px solid #5eead4;
+    outline-offset: 6px;
+    border-radius: 0;
+    animation: fx-flash 2.6s ease-out forwards;
+  }
+  @keyframes fx-flash {
+    0% { outline-color: transparent; box-shadow: none; }
+    15%, 70% { outline-color: #5eead4; box-shadow: 0 0 40px -12px rgba(94, 234, 212, 0.7); }
+    100% { outline-color: transparent; box-shadow: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.cv-future .bridge-flash) { animation: none; }
+  }
+
+  /* ── Print: ink on paper, every entry open ───────────────────────────── */
+  @media print {
+    .fx {
+      --fx-bg: #ffffff; --fx-panel: transparent; --fx-line: #d6d9dd; --fx-line-strong: #b9bec4;
+      --fx-ink: #111418; --fx-text: #2d3238; --fx-muted: #5b626a; --fx-accent: #111418; --fx-accent-line: #b9bec4;
+    }
+    :global(html.cv-future body) { background: #fff; }
+    .fx-grid, .fx::before, .fx-hud, .fx-console, .fx-focus, .fx-caret, .fx-toggle, .no-print { display: none !important; }
+    .fx-hero { display: block; padding: 0 0 1rem; }
+    .fx-name { font-size: 2.6rem; }
+    .fx-module { padding: 1rem 0; }
+    .fx-module-head h2 { font-size: 1.5rem; }
+    .fx-module-head p:last-child { display: none; }
+    .fx-station > summary, .fx-card { break-inside: avoid; }
+    .fx-body { margin-left: 0; border: 0; padding: 0 0 0.5rem; }
+    .fx-timeline::before, .fx-node { display: none; }
+    .fx details::details-content { content-visibility: visible; display: block; }
+  }
+</style>
