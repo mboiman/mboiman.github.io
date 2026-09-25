@@ -26,7 +26,8 @@ export default defineConfig({
         defaultLocale: 'de',
         locales: { de: 'de-DE', en: 'en-US' },
       },
-      filter: (page) => page !== 'https://mboiman.github.io/',
+      // The minimal view is on trial and carries noindex (src/pages/*/minimal/).
+      filter: (page) => page !== 'https://mboiman.github.io/' && !page.includes('/minimal/'),
     }),
   ],
   i18n: {
