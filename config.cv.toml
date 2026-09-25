@@ -296,7 +296,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
         dates = "seit 06/2025"
-        company = "BKS · AI Research & Development"
+        company = "BKS · AI Research & Development (intern)"
         details = """
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
@@ -423,7 +423,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
         dates = "01/2024-04/2025"
-        company  = "BKS"
+        company  = "BKS im Auftrag eines Kunden aus der Digitalwirtschaft"
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
@@ -491,7 +491,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
-        company = "BKS im Auftrag eines Kunden aus der Nachhaltigkeitsbranche"
+        company = "BKS im Auftrag eines Verlags"
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
@@ -948,7 +948,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         position = "LLM Infrastructure Architect & Automation Engineer"
         anchor = "bks-llm-infra"
         dates = "since 06/2025"
-        company = "BKS · AI Research & Development"
+        company = "BKS · AI Research & Development (internal)"
         details = """
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
@@ -1075,7 +1075,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         position = "Technical Lead & AI Automation Architect"
         anchor = "bks-ai-automation"
         dates = "01/2024-04/2025"
-        company  = "BKS"
+        company  = "BKS on behalf of a client in the digital economy"
         details  = """
 **Technical lead & development**: Design and implementation of a scalable automation solution for processing e-invoices and PDF invoices fetched from a mailbox of a leading online job platform (under NDA). Full responsibility from requirements analysis through implementation to production go-live.
 
@@ -1143,7 +1143,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         position = "AI Engineering Lead & ML Solutions Architect"
         anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
-        company = "BKS on behalf of a client in the sustainability sector"
+        company = "BKS on behalf of a publishing house"
         details = """
 **Project management & technical lead**: Development and deployment of an AI-driven email bot to automate customer communication, AI-assisted processing of incoming emails and triggering of follow-up activities in existing SAP systems. Responsible for end-to-end project coordination and team management from idea to implementation.
 
