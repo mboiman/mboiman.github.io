@@ -14,14 +14,15 @@ const toml = require('toml');
 const { PDFDocument, PDFDict, PDFName } = require('pdf-lib');
 
 const ROOT = path.join(__dirname, '..');
-const { generateHTMLFromConfig } = require('../scripts/html_to_pdf.js');
+const { generateHTMLFromConfig, startKey } = require('../scripts/html_to_pdf.js');
 const { generateCoverLetterHTML, recipientBlock, letterDate } = require('../scripts/application_to_pdf.js');
 const { applyApplicationOverrides, contactDisplay, stripEmoji } = require('../scripts/lib/pdf-theme.js');
 const { findDashes } = require('../scripts/lib/visible-text');
 
 const config = toml.parse(fs.readFileSync(path.join(ROOT, 'config.cv.toml'), 'utf8'));
 const PHOTO = 'data:image/jpeg;base64,AAAA';
-const EMOJI = /\p{Extended_Pictographic}/u;
+// ©, ® and ™ are Extended_Pictographic too, and belong in names such as "ISTQB®".
+const EMOJI = /(?![©®™])\p{Extended_Pictographic}/u;
 
 // Styling the old renderers used and a printed business document must not:
 // tinted card backgrounds, pills, chips, gradients, serif display type.
@@ -91,6 +92,20 @@ for (const lang of ['de', 'en']) {
     assert.equal(headerOf(letter), headerOf(cv));
   });
 }
+
+test('CV: stations newest start first, earlier positions without a summary column', async () => {
+  const html = await generateHTMLFromConfig(config.languages.de.params, PHOTO, 'de');
+  const starts = [...html.matchAll(/class="exp-dates">([^<]+)</g)].map((m) => startKey(m[1]));
+  assert.ok(starts.length >= 6);
+  assert.deepEqual(starts, [...starts].sort((a, b) => b - a));
+  assert.doesNotMatch(html, /earlier-summary/);
+});
+
+test('startKey reads every date form in the TOML', () => {
+  assert.equal(startKey('seit 06/2025'), 202506);
+  assert.equal(startKey('08/2021-05/2025'), 202108);
+  assert.equal(startKey('2023'), 202300);
+});
 
 test('letter: placeholders filled, emoji stripped, web styling gone', () => {
   const html = generateCoverLetterHTML(fixture(), config.languages.de.params, PHOTO);

@@ -143,19 +143,6 @@ function truncateToMedium(details) {
 }
 
 /**
- * Extract first sentence from experience details for compact tier.
- */
-function extractFirstSentence(details) {
-  if (!details) return '';
-  // Get the first bold line or first sentence
-  const boldMatch = details.match(/\*\*([^*]+)\*\*/);
-  if (boldMatch) return boldMatch[1].trim();
-  const sentenceMatch = details.match(/^[^.!?\n]+[.!?]/);
-  if (sentenceMatch) return sentenceMatch[0].trim();
-  return details.split('\n')[0].trim().substring(0, 120);
-}
-
-/**
  * Detect if an experience entry is a workshop/presentation (not a regular position)
  */
 const TALK_PATTERNS = require('./lib/talk-patterns.json');
@@ -252,6 +239,17 @@ function rankedProjects(langConfig, targetLang) {
   return ranked;
 }
 
+/**
+ * Start of a date range as a sortable number (YYYYMM). "seit 06/2025",
+ * "08/2021-05/2025" and "2023" all work; unknown formats sort last.
+ */
+function startKey(dates) {
+  const m = String(dates || '').match(/(\d{2})\/(\d{4})/);
+  if (m) return parseInt(m[2], 10) * 100 + parseInt(m[1], 10);
+  const y = String(dates || '').match(/(\d{4})/);
+  return y ? parseInt(y[1], 10) * 100 : 0;
+}
+
 // Function to generate HTML content from TOML configuration.
 //
 // Layout (2026-09-24): one column, in the order a recruiter reads a CV:
@@ -302,8 +300,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     else compactExperiences.push(exp);
   });
 
-  const renderExperience = (exp, details) => `
-      <div class="exp">
+  // Newest start first, across both tiers: the tier decides how much of a
+  // station prints, never where it stands. The TOML order is the website's.
+  // A medium station is short, so it never splits across a page; before, the
+  // tool list of one landed alone at the top of the next page.
+  const byStart = (a, b) => startKey(b.dates) - startKey(a.dates);
+  const renderExperience = (exp, details, keep) => `
+      <div class="exp${keep ? ' keep' : ''}">
         <div class="exp-head">
           <div class="exp-title">${exp.position}</div>
           <div class="exp-dates">${exp.dates}</div>
@@ -312,8 +315,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         <div class="exp-details">${formatTextToParagraphs(details)}</div>
       </div>`;
 
-  const fullExpHtml = fullExperiences.map(exp => renderExperience(exp, truncateToFull(exp.details || '', 4))).join('');
-  const mediumExpHtml = mediumExperiences.map(exp => renderExperience(exp, truncateToMedium(exp.details || ''))).join('');
+  const stationsHtml = [...fullExperiences, ...mediumExperiences].sort(byStart).map(exp => fullExperiences.includes(exp)
+    ? renderExperience(exp, truncateToFull(exp.details || '', 4), false)
+    : renderExperience(exp, truncateToMedium(exp.details || ''), true)).join('');
+  compactExperiences.sort(byStart);
 
   const compactExpHtml = compactExperiences.length > 0 ? `
       <table class="earlier">
@@ -321,7 +326,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
           <tr>
             <td class="earlier-dates">${exp.dates}</td>
             <td class="earlier-role"><strong>${exp.position}</strong><br><span class="muted">${exp.company}</span></td>
-            <td class="earlier-summary">${extractFirstSentence(exp.details)}</td>
           </tr>`).join('')}
       </table>` : '';
 
@@ -407,7 +411,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         tr:last-child td { border-bottom: none; }
         .earlier { font-size: 8.5pt; }
         .earlier-dates { width: 30mm; color: var(--muted); white-space: nowrap; padding-right: 4mm; }
-        .earlier-summary { width: 62mm; color: var(--muted); padding-left: 4mm; }
         .subhead { font-size: 8.5pt; font-weight: 600; color: var(--muted); margin: 3mm 0 1mm 0; break-after: avoid; }
 
         .projects { display: grid; grid-template-columns: 1fr 1fr; column-gap: 7mm; row-gap: 4mm; }
@@ -438,8 +441,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
     <section>
         <h2 class="section-title">${langConfig.experiences.title}</h2>
-        ${fullExpHtml}
-        ${mediumExpHtml}
+        ${stationsHtml}
         ${compactExperiences.length > 0 ? `<div class="subhead">${t.earlier}</div>${compactExpHtml}` : ''}
     </section>
 
@@ -466,7 +468,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
   `;
 }
 
-module.exports = { generateHTMLFromConfig };
+module.exports = { generateHTMLFromConfig, startKey };
 
 if (require.main === module) (async () => {
   // Optional 4th argument: the cover letter JSON of an application, so the
