@@ -14,14 +14,15 @@ const toml = require('toml');
 const { PDFDocument, PDFDict, PDFName } = require('pdf-lib');
 
 const ROOT = path.join(__dirname, '..');
-const { generateHTMLFromConfig } = require('../scripts/html_to_pdf.js');
+const { generateHTMLFromConfig, startKey, rangeOverlaps } = require('../scripts/html_to_pdf.js');
 const { generateCoverLetterHTML, recipientBlock, letterDate } = require('../scripts/application_to_pdf.js');
 const { applyApplicationOverrides, contactDisplay, stripEmoji } = require('../scripts/lib/pdf-theme.js');
 const { findDashes } = require('../scripts/lib/visible-text');
 
 const config = toml.parse(fs.readFileSync(path.join(ROOT, 'config.cv.toml'), 'utf8'));
 const PHOTO = 'data:image/jpeg;base64,AAAA';
-const EMOJI = /\p{Extended_Pictographic}/u;
+// ©, ® and ™ are Extended_Pictographic too, and belong in names such as "ISTQB®".
+const EMOJI = /(?![©®™])\p{Extended_Pictographic}/u;
 
 // Styling the old renderers used and a printed business document must not:
 // tinted card backgrounds, pills, chips, gradients, serif display type.
@@ -91,6 +92,38 @@ for (const lang of ['de', 'en']) {
     assert.equal(headerOf(letter), headerOf(cv));
   });
 }
+
+test('CV: stations with PDF fields print in one shape, newest start first', async () => {
+  const params = config.languages.de.params;
+  const html = await generateHTMLFromConfig(params, PHOTO, 'de');
+  const compact = params.experiences.list.filter((e) => e.pdf_summary);
+  assert.ok(compact.length >= 5, 'the recent stations carry pdf_summary');
+  for (const e of compact) {
+    assert.ok(html.includes(e.pdf_summary), `summary of "${e.position}" printed`);
+    assert.ok(!html.includes(e.details.slice(0, 80)), `long details of "${e.position}" not printed`);
+  }
+  assert.equal((html.match(/class="exp exp-compact"/g) || []).length, compact.length);
+  const starts = [...html.matchAll(/class="exp-dates">([^<]+)</g)].map((m) => startKey(m[1]));
+  assert.deepEqual(starts, [...starts].sort((a, b) => b - a), 'stations sorted by start date');
+  assert.match(html, /parallel laufende Einsätze/);
+});
+
+test('CV: projects section can be switched off', async () => {
+  const params = config.languages.de.params;
+  const html = await generateHTMLFromConfig(params, PHOTO, 'de', { projects: false });
+  assert.doesNotMatch(html, />Ausgewählte Projekte</);
+  const off = { ...params, ui: { ...params.ui, pdf_projects: false } };
+  assert.doesNotMatch(await generateHTMLFromConfig(off, PHOTO, 'de'), />Ausgewählte Projekte</);
+});
+
+test('date helpers: start key and overlap', () => {
+  assert.equal(startKey('seit 06/2025'), 202506);
+  assert.equal(startKey('08/2021-05/2025'), 202108);
+  assert.equal(startKey('2023'), 202300);
+  assert.ok(rangeOverlaps('08/2021-05/2025', '01/2024-04/2025'));
+  assert.ok(rangeOverlaps('seit 06/2025', '09/2025-09/2026'));
+  assert.ok(!rangeOverlaps('01/2017-05/2021', '08/2021-05/2025'));
+});
 
 test('letter: placeholders filled, emoji stripped, web styling gone', () => {
   const html = generateCoverLetterHTML(fixture(), config.languages.de.params, PHOTO);

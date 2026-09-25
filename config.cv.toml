@@ -30,7 +30,7 @@ defaultContentLanguage = "de"
         seo_description = "Freiberuflicher Quality Engineer und KI-Architekt aus Frankfurt: Peppol-E-Invoicing nach EN 16931, MCP- und A2A-Agenten, Testautomatisierung."
         story_seo_description = "Vier Belege statt vier Behauptungen: E-Invoicing nach EN 16931 im Regelbetrieb, ein Netz aus A2A-Agenten, quelloffene Infrastruktur unter MIT."
         location = "Frankfurt am Main"
-        availability = "Freiberuflich · verfügbar für neue Projekte"
+        availability = "Verfügbar für neue Projekte"
         hero_intro = "Ich verbinde Quality Engineering mit KI-Architektur: Testautomatisierung, Multi-Agent-Systeme nach MCP und A2A, und E-Invoicing-Plattformen nach EU-Standard. Jede Aussage hier trägt ihren Beleg daneben."
         ai_badge = "Quality Engineering und KI-Architektur, parallel statt nacheinander"
         ai_skills_title = "Quality Engineering & KI-Kompetenzen"
@@ -40,8 +40,8 @@ defaultContentLanguage = "de"
         # procedure. Consumed by the PDF export (scripts/html_to_pdf.js).
         impact_metrics = [
           { metric = "EN 16931", label = "E-Invoicing im Regelbetrieb", detail = "Peppol BIS 3.0 an SAP ByDesign" },
-          { metric = "MIT", label = "quelloffene Agenten-Infrastruktur", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
-          { metric = "A2A 1.0", label = "Agent zu diesem Lebenslauf", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com/.well-known/agent-card.json" }
+          { metric = "ISTQB®", label = "Certified Tester", detail = "Testmethodik nach internationalem Standard" },
+          { metric = "MCP · A2A 1.0", label = "Agenten-Systeme nach offenen Protokollen", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" }
         ]
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
@@ -297,6 +297,15 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "bks-llm-infra"
         dates = "seit 06/2025"
         company = "BKS · AI Research & Development (intern)"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Interne Forschung und Entwicklung: Agenten-Infrastruktur für Wissensmanagement, Projektsteuerung und Entwicklungsabläufe mit Claude, Gemini und GPT."
+        pdf_highlights = [
+          "open-bridge: quelloffene Agenten-Infrastruktur unter MIT-Lizenz (github.com/bks-lab/open-bridge) mit eigener Testsuite, Sicherheitsprüfungen in der CI und fortlaufenden Releases",
+          "Agenten-Netz nach A2A 1.0 mit MCP-nach-A2A-Gateway, rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden",
+          "Mandantentrennung als Architektur: getrennte Instanzen, Schutz gegen Datenabfluss per Pre-Commit-Hook, Pre-Push-Hook und Validatoren in der CI",
+          "Spezifikation und Verifikationsdesign vor dem Bauen: jedes Abnahmekriterium bekommt die stärkste verfügbare Prüfung, deterministischer Test vor Modell-Urteil",
+        ]
+        pdf_tech = ["Claude Code", "MCP", "A2A", "a2a-sdk", "Python", "FastAPI", "GitHub Actions", "OpenTelemetry", "Elasticsearch", "Cloudflare"]
         details = """
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
@@ -337,6 +346,15 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "tuev-sued"
         dates = "09/2025-09/2026"
         company = "TÜV Süd"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Quality Engineering für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung in der Medizinprodukte-Zertifizierung (MDR/IVDR)."
+        pdf_highlights = [
+          "Aufbau eines BDD-Testframeworks für die API mit Python und Behave, inklusive selbstheilender Authentifizierung und HTML-Berichten mit eingebetteten API-Antworten",
+          "Playwright-Suite über die komplette User Journey (Upload, Transformation, Download) mit Fehlerfall-Tests und Route-Mocking",
+          "Azure Monitor Workbooks mit KQL für die End-to-End-Überwachung im Live-Test und die Fehleranalyse",
+          "Testautomatisierung in den Azure-DevOps-Pipelines, Fehlerauswertung mit WIQL-Abfragen, Dashboards und PDF-Berichten für das Management",
+        ]
+        pdf_tech = ["Python", "Behave", "pytest", "Playwright", "TypeScript", "Azure Monitor", "KQL", "Application Insights", "Azure DevOps", "FastAPI", "Azure OpenAI"]
         details = """
 **Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
 
@@ -391,6 +409,15 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "dvag"
         dates = "08/2021-05/2025"
         company = "DVAG"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Testmanagement und Quality-Lead eines übergreifenden QA-Teams, Einführung von CI/CD mit Quality Gates."
+        pdf_highlights = [
+          "Grafana-Dashboards für Echtzeit-Transparenz über die Sprint-Qualität: Freigaben auf Datenbasis statt manueller Datensammlung",
+          "CI/CD-Pipeline für mehrere Backend- und Frontend-Teams konzipiert und aufgebaut, Releases über Quality Gates abgesichert",
+          "Einführung von Playwright und Gauge (BDD), Consumer-Driven Contracts mit Pact",
+          "Einarbeitung, Beratung und Schulung der Teams zu Qualitätsmetriken und Testautomatisierung",
+        ]
+        pdf_tech = ["Playwright", "Gauge", "Karate", "Java", "TypeScript", "Python", "GitHub (Reusable Workflows)", "Helm", "Grafana", "Pact"]
         details = """
 **Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
 
@@ -424,6 +451,15 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "bks-ai-automation"
         dates = "01/2024-04/2025"
         company  = "BKS im Auftrag eines Kunden aus der Digitalwirtschaft"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Technische Leitung einer Automatisierungslösung für E-Rechnungen und PDF-Rechnungen einer führenden Online-Jobplattform (unter NDA), von der Anforderungsanalyse bis zum Produktivbetrieb."
+        pdf_highlights = [
+          "Verarbeitung nach EN 16931 (ZUGFeRD, XRechnung, Factur-X) mit Klassifizierung und Datenextraktion in Python und Azure Functions",
+          "Anbindung an das Peppol-Netz über einen zertifizierten Access Point, Übergabe validierter Rechnungsdaten an SAP ByDesign",
+          "Hexagonale Architektur für Testbarkeit, lückenlose Protokollierung aller Verarbeitungsschritte, Monitoring mit Kibana",
+          "Steuerung des Entwicklerteams inklusive Code-Reviews",
+        ]
+        pdf_tech = ["Python", "Azure Functions", "Peppol", "UBL 2.1", "CII", "SAP ByDesign", "Microsoft Graph", "Kibana", "GitHub CI/CD"]
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
@@ -461,6 +497,14 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "akkuswap"
         dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "QA-Leitung für ein KI-gestütztes Simulationswerkzeug eines EU-weiten Netzes von Batterietausch-Stationen."
+        pdf_highlights = [
+          "QA-Konzept und Testframework für die KI-gesteuerte Simulation und die eigene KI-Server-Infrastruktur",
+          "Proof of Concept für automatisiertes Testen KI-gesteuerter Simulationen",
+          "Umfeld kritischer Energie-Infrastruktur (Vorgängerprojekt eHaul mit 50 Hertz)",
+        ]
+        pdf_tech = ["Python", "pytest", "Docker", "Linux", "Azure OpenAI", "Grafana"]
         pdf_tier = "medium"
         details = """
 **QA-Führung für EU-weite Batterie-Tausch-Infrastruktur**: AI-gestütztes Simulationswerkzeug für Batterietausch-Stationsnetzwerk mit Energie-Infrastruktur-Integration
@@ -492,6 +536,15 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
         company = "BKS im Auftrag eines Verlags"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Projekt- und technische Leitung eines KI-gestützten E-Mail-Bots, der eingehende Kundenmails klassifiziert und Folgeaktionen in SAP auslöst."
+        pdf_highlights = [
+          "Eigene ML-Modelle zur E-Mail-Klassifizierung, betrieben in Azure Functions",
+          "Anbindung an Outlook 365 über Microsoft Graph und an SAP zur Prüfung von Kundendaten",
+          "CI/CD, Monitoring mit Kibana und eine Streamlit-Oberfläche für Tests und Auswertung",
+          "Technische Führung des Entwicklerteams mit regelmäßigen Code-Reviews",
+        ]
+        pdf_tech = ["Python", "Azure Functions", "Microsoft Graph", "SAP API", "GitHub CI/CD", "Kibana", "Streamlit"]
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
@@ -552,6 +605,15 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         anchor = "db-vertrieb"
         dates = "01/2017-05/2021"
         company = "DB Vertrieb"
+        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
+        pdf_summary = "Testmanagement und Testautomatisierung (Kanban, Scrum, SAFe), Product Owner eines übergreifenden QA-Teams."
+        pdf_highlights = [
+          "Quality Gates in der CI/CD-Pipeline, Performance-Tests mit Gatling und JMeter direkt in der Pipeline",
+          "Fachliche und technische Dashboards mit Kibana, Graylog, Grafana und Instana",
+          "Fachliches Logging für Microservices zur Nachverfolgung von Berechnungen und Service-Interaktionen",
+          "Koordination der Integrationstests zwischen den beteiligten Teams",
+        ]
+        pdf_tech = ["Java", "Cucumber", "Cypress", "Selenium", "Gatling", "JMeter", "GitLab CI", "Jenkins", "Docker", "Kibana", "Grafana"]
         details = """
 **Testmanagement, Testkoordination, Testautomatisierung (agil: Kanban, Scrum, SAFe)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
@@ -706,15 +768,15 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         seo_description = "Freelance quality engineer and AI architect in Frankfurt: Peppol e-invoicing to EN 16931, agents over MCP and A2A, test automation."
         story_seo_description = "Four proofs instead of four claims: e-invoicing to EN 16931 in production, a network of A2A agents, open-source infrastructure under MIT."
         location = "Frankfurt am Main, Germany"
-        availability = "Freelance · available for new projects"
+        availability = "Available for new projects"
         hero_intro = "I combine quality engineering with AI architecture: test automation, multi-agent systems over MCP and A2A, and e-invoicing platforms to EU standards. Every claim here carries its proof beside it."
         ai_badge = "Quality engineering and AI architecture, in parallel rather than in sequence"
         ai_skills_title = "Quality Engineering & AI Competencies"
         # Verification anchors, not metrics. See the German block for the rule.
         impact_metrics = [
           { metric = "EN 16931", label = "e-invoicing in production", detail = "Peppol BIS 3.0 into SAP ByDesign" },
-          { metric = "MIT", label = "open-source agent infrastructure", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
-          { metric = "A2A 1.0", label = "agent for this CV", detail = "mboiman.bks-lab.com", url = "https://mboiman.bks-lab.com/.well-known/agent-card.json" }
+          { metric = "ISTQB®", label = "Certified Tester", detail = "test method to the international standard" },
+          { metric = "MCP · A2A 1.0", label = "agent systems on open protocols", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" }
         ]
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
