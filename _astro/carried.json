@@ -1,4 +1,6 @@
 {
-  "files": [],
+  "files": [
+    "CVPage.C0tKbOs0.css"
+  ],
   "note": "One deploy of grace for cached HTML. See scripts/carry-assets.mjs."
 }
