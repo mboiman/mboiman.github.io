@@ -40,8 +40,8 @@ defaultContentLanguage = "de"
         # procedure. Consumed by the PDF export (scripts/html_to_pdf.js).
         impact_metrics = [
           { metric = "EN 16931", label = "E-Invoicing im Regelbetrieb", detail = "Peppol BIS 3.0 an SAP ByDesign" },
-          { metric = "ISTQB®", label = "Certified Tester", detail = "Testmethodik nach internationalem Standard" },
-          { metric = "MCP · A2A 1.0", label = "Agenten-Systeme nach offenen Protokollen", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" }
+          { metric = "MIT", label = "quelloffene Agenten-Infrastruktur", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
+          { metric = "ISTQB®", label = "Certified Tester", detail = "Testmethodik nach internationalem Standard" }
         ]
         contact_label = "Kontakt"
         linkedin_label = "LinkedIn"
@@ -297,21 +297,12 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "bks-llm-infra"
         dates = "seit 06/2025"
         company = "BKS · AI Research & Development (intern)"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Interne Forschung und Entwicklung: Agenten-Infrastruktur für Wissensmanagement, Projektsteuerung und Entwicklungsabläufe mit Claude, Gemini und GPT."
-        pdf_highlights = [
-          "open-bridge: quelloffene Agenten-Infrastruktur unter MIT-Lizenz (github.com/bks-lab/open-bridge) mit eigener Testsuite, Sicherheitsprüfungen in der CI und fortlaufenden Releases",
-          "Agenten-Netz nach A2A 1.0 mit MCP-nach-A2A-Gateway, rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden",
-          "Mandantentrennung als Architektur: getrennte Instanzen, Schutz gegen Datenabfluss per Pre-Commit-Hook, Pre-Push-Hook und Validatoren in der CI",
-          "Spezifikation und Verifikationsdesign vor dem Bauen: jedes Abnahmekriterium bekommt die stärkste verfügbare Prüfung, deterministischer Test vor Modell-Urteil",
-        ]
-        pdf_tech = ["Claude Code", "MCP", "A2A", "a2a-sdk", "Python", "FastAPI", "GitHub Actions", "OpenTelemetry", "Elasticsearch", "Cloudflare"]
         details = """
 **Entwicklung eines LLM-orchestrierten Enterprise Development Ecosystems**: Vollständig integriertes System für Knowledge Management, Project Automation und Development Workflows mit Claude, Gemini und OpenAI GPT.
 
 **Schwerpunkte**
-- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026. Die Zählstände stehen im Repo, damit sie hier nicht altern. Angriffsfixtures für Pfad-Traversal, Secrets und fehlerhafte Overlays laufen als eigene CI-Stufe
-- **Harness Engineering**: Was ein Agent leistet, entscheidet sich zum größten Teil außerhalb des Modells: Kontext, Werkzeugauswahl, Rechte, Zustand über Sitzungen hinweg, Verifikation. Diese Schicht wird hier gemessen statt geschätzt. Was eine Sitzung lädt, bevor sie das erste Wort beantwortet, trägt eine deklarierte Obergrenze, die ein CI-Schritt in Bytes prüft; Regelwerke, die selten greifen, laden erst auf ihr Stichwort statt beim Start; die Projekt-Registraturen liegen als Karte im Kontext und werden einzeln nachgeladen; ein weiterer Prüfschritt meldet, was im Baum existiert, aber aus keiner geladenen Datei mehr erreichbar ist, und greift sich zur Kontrolle selbst an. Die vier Werkzeuge dahinter liegen offen und laufen in der öffentlichen CI: measure-context.py, standing-orders.py, context-index.py, check-reachability.py
+- **Quelloffene Agenten-Infrastruktur**: open-bridge unter MIT-Lizenz, öffentlich auf github.com/bks-lab/open-bridge, mit Live-Demo-Seite. Die generische CORE-Schicht (Agenten-Laufzeit, MCP-Gateway, Skill-Baum, Promote-Flow mit Content-Leak-Gate in der CI) entsteht aus der eigenen Instanz und wird scope-getrieben nach oben veröffentlicht, mit eigener Testsuite und fortlaufenden Releases seit Juni 2026.
+- **Harness Engineering**: Was ein Agent leistet, entscheidet sich zum größten Teil außerhalb des Modells: Kontext, Werkzeugauswahl, Rechte, Zustand über Sitzungen hinweg, Verifikation. Diese Schicht wird hier gemessen statt geschätzt. Was eine Sitzung lädt, bevor sie das erste Wort beantwortet, trägt eine deklarierte Obergrenze, die ein CI-Schritt in Bytes prüft; Regelwerke, die selten greifen, laden erst auf ihr Stichwort statt beim Start; die Projekt-Registraturen liegen als Karte im Kontext und werden einzeln nachgeladen; ein weiterer Prüfschritt meldet, was im Baum existiert, aber aus keiner geladenen Datei mehr erreichbar ist, und greift sich zur Kontrolle selbst an. Die Werkzeuge dahinter liegen offen und laufen in der öffentlichen CI
 - **Datentrennung als Architektur, nicht als Absprache**: Getrennte Instanzen je Mandant, eine Regel, die den Zugriff zwischen Instanzen verbietet, und ein fail-closed-Vertrag für das Materialisieren geteilter Konfiguration (der Abgleich bricht ab, statt im Zweifel zu schreiben). Schutz gegen Datenabfluss an drei Stellen: Pre-Commit-Hook, Pre-Push-Hook und drei Validatoren in der CI. Dazu eine adversariale Simulation, die den Schutz regelmäßig selbst angreift, als eigener CI-Job in einer abgeschotteten Sandbox
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0. Rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden (vier weitere Beitragende)
 - **Telemetrie nach OpenTelemetry**: Logs, Metriken und Traces über OTLP an eine verwaltete Senke, mit fester Feldkonvention und Namensschema, gedeckeltem Ingest-Schlüssel und nach Mandant getrennten Leserechten (als Rechteschnitt gemessen, nicht als Absicht dokumentiert). Ehrlicher Reifegrad: der Logpfad ist im Betrieb, Metriken und Traces sind verdrahtet und noch nicht abgenommen
@@ -346,15 +337,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "tuev-sued"
         dates = "09/2025-09/2026"
         company = "TÜV Süd"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Quality Engineering für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung in der Medizinprodukte-Zertifizierung (MDR/IVDR)."
-        pdf_highlights = [
-          "Aufbau eines BDD-Testframeworks für die API mit Python und Behave, inklusive selbstheilender Authentifizierung und HTML-Berichten mit eingebetteten API-Antworten",
-          "Playwright-Suite über die komplette User Journey (Upload, Transformation, Download) mit Fehlerfall-Tests und Route-Mocking",
-          "Azure Monitor Workbooks mit KQL für die End-to-End-Überwachung im Live-Test und die Fehleranalyse",
-          "Testautomatisierung in den Azure-DevOps-Pipelines, Fehlerauswertung mit WIQL-Abfragen, Dashboards und PDF-Berichten für das Management",
-        ]
-        pdf_tech = ["Python", "Behave", "pytest", "Playwright", "TypeScript", "Azure Monitor", "KQL", "Application Insights", "Azure DevOps", "FastAPI", "Azure OpenAI"]
         details = """
 **Quality Engineering** für eine Enterprise-Plattform zur KI-gestützten Dokumentenverarbeitung im Bereich Medizinprodukte-Zertifizierung (MDR/IVDR) mit AI-Chat-Integration und Daten-Pipeline-Automatisierung.
 
@@ -409,15 +391,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "dvag"
         dates = "08/2021-05/2025"
         company = "DVAG"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Testmanagement und Quality-Lead eines übergreifenden QA-Teams, Einführung von CI/CD mit Quality Gates."
-        pdf_highlights = [
-          "Grafana-Dashboards für Echtzeit-Transparenz über die Sprint-Qualität: Freigaben auf Datenbasis statt manueller Datensammlung",
-          "CI/CD-Pipeline für mehrere Backend- und Frontend-Teams konzipiert und aufgebaut, Releases über Quality Gates abgesichert",
-          "Einführung von Playwright und Gauge (BDD), Consumer-Driven Contracts mit Pact",
-          "Einarbeitung, Beratung und Schulung der Teams zu Qualitätsmetriken und Testautomatisierung",
-        ]
-        pdf_tech = ["Playwright", "Gauge", "Karate", "Java", "TypeScript", "Python", "GitHub (Reusable Workflows)", "Helm", "Grafana", "Pact"]
         details = """
 **Testmanagement & Testkoordination**, sowie Einführung von CI/CD mit Aufbau von QualityGates. Koordination als Quality-Lead (übergreifendes QA-Team) inklusive Einarbeitung, Hilfestellung, Beratung, Schulung zur Einführung von Qualitätsmetriken und Testautomatisierung innerhalb der Pipeline, Teamübergreifend
 
@@ -451,15 +424,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "bks-ai-automation"
         dates = "01/2024-04/2025"
         company  = "BKS im Auftrag eines Kunden aus der Digitalwirtschaft"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Technische Leitung einer Automatisierungslösung für E-Rechnungen und PDF-Rechnungen einer führenden Online-Jobplattform (unter NDA), von der Anforderungsanalyse bis zum Produktivbetrieb."
-        pdf_highlights = [
-          "Verarbeitung nach EN 16931 (ZUGFeRD, XRechnung, Factur-X) mit Klassifizierung und Datenextraktion in Python und Azure Functions",
-          "Anbindung an das Peppol-Netz über einen zertifizierten Access Point, Übergabe validierter Rechnungsdaten an SAP ByDesign",
-          "Hexagonale Architektur für Testbarkeit, lückenlose Protokollierung aller Verarbeitungsschritte, Monitoring mit Kibana",
-          "Steuerung des Entwicklerteams inklusive Code-Reviews",
-        ]
-        pdf_tech = ["Python", "Azure Functions", "Peppol", "UBL 2.1", "CII", "SAP ByDesign", "Microsoft Graph", "Kibana", "GitHub CI/CD"]
         details  = """
 **Technische Leitung & Entwicklung**: Konzeption und Umsetzung einer skalierbaren Automatisierungslösung für die Verarbeitung von E-Rechnungen und PDF-Rechnungen aus dem Postfach einer führenden Online-Jobplattform (unter NDA). Vollständige Verantwortung von der Anforderungsanalyse über die Implementierung bis zur Produktionseinführung.
 
@@ -497,14 +461,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "akkuswap"
         dates = "07/2024-01/2025"
         company = "AkkuSwap Startup"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "QA-Leitung für ein KI-gestütztes Simulationswerkzeug eines EU-weiten Netzes von Batterietausch-Stationen."
-        pdf_highlights = [
-          "QA-Konzept und Testframework für die KI-gesteuerte Simulation und die eigene KI-Server-Infrastruktur",
-          "Proof of Concept für automatisiertes Testen KI-gesteuerter Simulationen",
-          "Umfeld kritischer Energie-Infrastruktur (Vorgängerprojekt eHaul mit 50 Hertz)",
-        ]
-        pdf_tech = ["Python", "pytest", "Docker", "Linux", "Azure OpenAI", "Grafana"]
         pdf_tier = "medium"
         details = """
 **QA-Führung für EU-weite Batterie-Tausch-Infrastruktur**: AI-gestütztes Simulationswerkzeug für Batterietausch-Stationsnetzwerk mit Energie-Infrastruktur-Integration
@@ -536,15 +492,6 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         anchor = "ai-engineering-lead"
         dates = "04/2023-04/2024"
         company = "BKS im Auftrag eines Verlags"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Projekt- und technische Leitung eines KI-gestützten E-Mail-Bots, der eingehende Kundenmails klassifiziert und Folgeaktionen in SAP auslöst."
-        pdf_highlights = [
-          "Eigene ML-Modelle zur E-Mail-Klassifizierung, betrieben in Azure Functions",
-          "Anbindung an Outlook 365 über Microsoft Graph und an SAP zur Prüfung von Kundendaten",
-          "CI/CD, Monitoring mit Kibana und eine Streamlit-Oberfläche für Tests und Auswertung",
-          "Technische Führung des Entwicklerteams mit regelmäßigen Code-Reviews",
-        ]
-        pdf_tech = ["Python", "Azure Functions", "Microsoft Graph", "SAP API", "GitHub CI/CD", "Kibana", "Streamlit"]
         details = """
 **Projektmanagement & Technische Leitung**: Entwicklung und Einführung eines KI-gesteuerten E-Mail-Bots zur Automatisierung der Kundenkommunikation, KI-gestützte Verarbeitung eingehender E-Mails und Auslösen von Folge-Aktivitäten in bestehenden SAP-Systemen. Verantwortlich für die End-to-End-Projektkoordination und Teamsteuerung von der Idee bis zur Implementierung.
 
@@ -605,15 +552,6 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         anchor = "db-vertrieb"
         dates = "01/2017-05/2021"
         company = "DB Vertrieb"
-        # Nur für die PDF: ein Satz Kontext, 3 bis 4 Ergebnisse, eine Zeile Technologien.
-        pdf_summary = "Testmanagement und Testautomatisierung (Kanban, Scrum, SAFe), Product Owner eines übergreifenden QA-Teams."
-        pdf_highlights = [
-          "Quality Gates in der CI/CD-Pipeline, Performance-Tests mit Gatling und JMeter direkt in der Pipeline",
-          "Fachliche und technische Dashboards mit Kibana, Graylog, Grafana und Instana",
-          "Fachliches Logging für Microservices zur Nachverfolgung von Berechnungen und Service-Interaktionen",
-          "Koordination der Integrationstests zwischen den beteiligten Teams",
-        ]
-        pdf_tech = ["Java", "Cucumber", "Cypress", "Selenium", "Gatling", "JMeter", "GitLab CI", "Jenkins", "Docker", "Kibana", "Grafana"]
         details = """
 **Testmanagement, Testkoordination, Testautomatisierung (agil: Kanban, Scrum, SAFe)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
@@ -775,8 +713,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         # Verification anchors, not metrics. See the German block for the rule.
         impact_metrics = [
           { metric = "EN 16931", label = "e-invoicing in production", detail = "Peppol BIS 3.0 into SAP ByDesign" },
-          { metric = "ISTQB®", label = "Certified Tester", detail = "test method to the international standard" },
-          { metric = "MCP · A2A 1.0", label = "agent systems on open protocols", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" }
+          { metric = "MIT", label = "open-source agent infrastructure", detail = "github.com/bks-lab/open-bridge", url = "https://github.com/bks-lab/open-bridge" },
+          { metric = "ISTQB®", label = "Certified Tester", detail = "test method to the international standard" }
         ]
         contact_label = "Contact"
         linkedin_label = "LinkedIn"
@@ -1015,8 +953,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 **Development of LLM-orchestrated Enterprise Development Ecosystem**: Fully integrated system for knowledge management, project automation, and development workflows with Claude, Gemini, and OpenAI GPT.
 
 **Key Responsibilities**
-- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge, with a live demo site. The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope, with its own test suite and continuous releases since June 2026. The counts live in the repo, so they cannot go stale here. Attack fixtures for path traversal, secrets and malformed overlays run as their own CI stage
-- **Harness engineering**: what an agent achieves is decided mostly outside the model: context, tool selection, permissions, state across sessions, verification. That layer is measured here rather than estimated. What a session loads before it answers the first word carries a declared ceiling that a CI step checks in bytes; rules that rarely bite load on their trigger word instead of at start-up; the project registries sit in context as a card and are fetched one entry at a time; a further check reports what exists in the tree but is no longer reachable from any file a session loads, and attacks itself to prove it still catches things. The four tools behind this are public and run in public CI: measure-context.py, standing-orders.py, context-index.py, check-reachability.py
+- **Open-Source Agent Infrastructure**: open-bridge under the MIT licence, public at github.com/bks-lab/open-bridge, with a live demo site. The generic CORE layer (agent runtime, MCP gateway, skill tree, promote flow with a content-leak gate in CI) grows out of my own instance and is published upward by scope, with its own test suite and continuous releases since June 2026.
+- **Harness engineering**: what an agent achieves is decided mostly outside the model: context, tool selection, permissions, state across sessions, verification. That layer is measured here rather than estimated. What a session loads before it answers the first word carries a declared ceiling that a CI step checks in bytes; rules that rarely bite load on their trigger word instead of at start-up; the project registries sit in context as a card and are fetched one entry at a time; a further check reports what exists in the tree but is no longer reachable from any file a session loads, and attacks itself to prove it still catches things. The tools behind this are public and run in public CI
 - **Data separation as architecture, not as agreement**: separate instances per client, a rule forbidding access between instances, and a fail-closed contract for materialising shared configuration (the sync aborts rather than writing on doubt). Protection against data leakage at three points: pre-commit hook, pre-push hook and three validators in CI. Plus an adversarial simulation that attacks the protection itself on a schedule, as its own CI job in a sealed sandbox
 - **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0. Around 4,600 lines of Python with 98 automated test cases, built as a team effort (four further contributors)
 - **OpenTelemetry-based telemetry**: logs, metrics and traces over OTLP into a managed sink, with a fixed field convention and naming scheme, a capped ingest key and read rights separated per client (measured as an access cut, not documented as an intention). Honest maturity: the log path is in operation, metrics and traces are wired and not yet accepted

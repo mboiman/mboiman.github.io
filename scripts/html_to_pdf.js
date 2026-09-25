@@ -250,31 +250,6 @@ function startKey(dates) {
   return y ? parseInt(y[1], 10) * 100 : 0;
 }
 
-/**
- * A station that carries the PDF fields prints in one fixed shape: one
- * sentence of context, three or four results, one line of technologies.
- * The website keeps the long `details`; these fields exist only for paper,
- * where the free-form text grew into two pages of mixed schemas ("Schwerpunkte",
- * "Wichtige Erfolge", "Technischer Stack") and bulleted tool lists.
- */
-function rangeBounds(dates) {
-  const parts = String(dates || '').match(/\d{2}\/\d{4}|\d{4}/g) || [];
-  const key = (p) => p.includes('/') ? parseInt(p.slice(3), 10) * 100 + parseInt(p.slice(0, 2), 10) : parseInt(p, 10) * 100;
-  if (!parts.length) return null;
-  const start = key(parts[0]);
-  const end = parts.length > 1 ? key(parts[1]) : (/seit|since/i.test(dates) ? 999999 : start);
-  return [start, end];
-}
-
-function rangeOverlaps(a, b) {
-  const x = rangeBounds(a), y = rangeBounds(b);
-  return Boolean(x && y && x[0] < y[1] && y[0] < x[1]);
-}
-
-function hasCompactFields(exp) {
-  return Boolean(exp.pdf_summary && Array.isArray(exp.pdf_highlights) && exp.pdf_highlights.length);
-}
-
 // Function to generate HTML content from TOML configuration.
 //
 // Layout (2026-09-24): one column, in the order a recruiter reads a CV:
@@ -284,9 +259,8 @@ function hasCompactFields(exp) {
 // than the column beside it and pushed a nearly empty page into every PDF,
 // while professional experience only started on page three. All styling that
 // the cover letter shares lives in scripts/lib/pdf-theme.js.
-async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, options = {}) {
+async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) {
   const lang = targetLang || 'de';
-  const showProjects = options.projects !== undefined ? options.projects : langConfig.ui.pdf_projects !== false;
   const de = lang === 'de';
 
   // Verification anchors, sourced from TOML only (see the note at the top).
@@ -326,25 +300,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
     else compactExperiences.push(exp);
   });
 
-  // Newest start first, so the reader never has to reorder the stations in
-  // their head. The TOML order is the website's and stays untouched.
+  // Newest start first, across both tiers: the tier decides how much of a
+  // station prints, never where it stands. The TOML order is the website's.
+  // A medium station is short, so it never splits across a page; before, the
+  // tool list of one landed alone at the top of the next page.
   const byStart = (a, b) => startKey(b.dates) - startKey(a.dates);
-  compactExperiences.sort(byStart);
-
-  const renderCompact = (exp) => `
-      <div class="exp exp-compact">
-        <div class="exp-head">
-          <div class="exp-title">${exp.position}</div>
-          <div class="exp-dates">${exp.dates}</div>
-        </div>
-        <div class="exp-company">${exp.company}</div>
-        <p class="exp-summary">${exp.pdf_summary}</p>
-        <ul class="exp-results">${exp.pdf_highlights.map(h => `<li>${h}</li>`).join('')}</ul>
-        ${Array.isArray(exp.pdf_tech) && exp.pdf_tech.length ? `<div class="exp-tech"><span class="exp-tech-label">${de ? 'Technologien' : 'Technologies'}:</span> ${exp.pdf_tech.join(' · ')}</div>` : ''}
-      </div>`;
-
-  const renderExperience = (exp, details) => hasCompactFields(exp) ? renderCompact(exp) : `
-      <div class="exp">
+  const renderExperience = (exp, details, keep) => `
+      <div class="exp${keep ? ' keep' : ''}">
         <div class="exp-head">
           <div class="exp-title">${exp.position}</div>
           <div class="exp-dates">${exp.dates}</div>
@@ -353,13 +315,10 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
         <div class="exp-details">${formatTextToParagraphs(details)}</div>
       </div>`;
 
-  // One list across both tiers: the tier decides how much of a station
-  // prints, never where it stands.
-  const stations = [...fullExperiences, ...mediumExperiences].sort(byStart);
-  const stationsHtml = stations.map(exp => renderExperience(exp, fullExperiences.includes(exp)
-    ? truncateToFull(exp.details || '', 4)
-    : truncateToMedium(exp.details || ''))).join('');
-  const overlaps = stations.some((a, i) => stations.some((b, j) => i !== j && rangeOverlaps(a.dates, b.dates)));
+  const stationsHtml = [...fullExperiences, ...mediumExperiences].sort(byStart).map(exp => fullExperiences.includes(exp)
+    ? renderExperience(exp, truncateToFull(exp.details || '', 4), false)
+    : renderExperience(exp, truncateToMedium(exp.details || ''), true)).join('');
+  compactExperiences.sort(byStart);
 
   const compactExpHtml = compactExperiences.length > 0 ? `
       <table class="earlier">
@@ -371,7 +330,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
       </table>` : '';
 
   // Projects, in the order config.cv.toml declares via pdf_rank.
-  const projectsHtml = !showProjects ? '' : rankedProjects(langConfig, targetLang).map(project => {
+  const projectsHtml = rankedProjects(langConfig, targetLang).map(project => {
     const tech = project.tech_stack ? project.tech_stack.slice(0, 5).join(' · ') : '';
     const descriptionSource = project.tagline_pdf
       ? project.tagline_pdf.trim()
@@ -446,14 +405,6 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
         .exp-details ul:last-of-type { columns: 2; column-gap: 6mm; break-inside: avoid-page; }
         .exp-details p:has(+ ul) { break-after: avoid; page-break-after: avoid; margin-bottom: 0.5mm; }
 
-        .exp-compact { break-inside: avoid; page-break-inside: avoid; margin-bottom: 5mm; }
-        .exp-summary { font-size: 8.6pt; margin-bottom: 1.2mm; }
-        .exp-results { margin: 0 0 1.4mm 4mm; padding: 0; font-size: 8.6pt; }
-        .exp-results li { margin-bottom: 0.7mm; }
-        .exp-tech { font-size: 8pt; color: var(--muted); }
-        .exp-tech-label { font-weight: 600; color: var(--text); }
-        .exp-note { font-size: 8pt; color: var(--muted); margin: -1.5mm 0 3mm 0; }
-
         table { width: 100%; border-collapse: collapse; }
         tr { break-inside: avoid; page-break-inside: avoid; }
         td { vertical-align: top; padding: 1.2mm 0; border-bottom: 0.5pt solid var(--rule-soft); }
@@ -490,15 +441,14 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
 
     <section>
         <h2 class="section-title">${langConfig.experiences.title}</h2>
-        ${overlaps && stations.some(hasCompactFields) ? `<p class="exp-note">${de ? 'Zeiträume, die sich überschneiden, waren parallel laufende Einsätze.' : 'Overlapping periods were engagements that ran in parallel.'}</p>` : ''}
         ${stationsHtml}
         ${compactExperiences.length > 0 ? `<div class="subhead">${t.earlier}</div>${compactExpHtml}` : ''}
     </section>
 
-    ${showProjects ? `<section>
+    <section>
         <h2 class="section-title">${t.projects}</h2>
         <div class="projects">${projectsHtml}</div>
-    </section>` : ''}
+    </section>
 
     <div class="two-col">
         ${workshopExperiences.length > 0 ? `
@@ -518,7 +468,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang, 
   `;
 }
 
-module.exports = { generateHTMLFromConfig, startKey, rangeOverlaps };
+module.exports = { generateHTMLFromConfig, startKey };
 
 if (require.main === module) (async () => {
   // Optional 4th argument: the cover letter JSON of an application, so the
