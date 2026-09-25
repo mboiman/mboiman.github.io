@@ -32,7 +32,10 @@
           const base = String(tag).toLowerCase().split('-')[0];
           if (offered.indexOf(base) !== -1) { target = base; break; }
         }
-        location.replace('/' + (target || 'de') + '/' + location.search + location.hash);
+        // The view a visitor picked with the switch on the CV page, if any.
+        let view = '';
+        try { if (localStorage.getItem('cv-view') === 'minimal') view = 'minimal/'; } catch {}
+        location.replace('/' + (target || 'de') + '/' + view + location.search + location.hash);
       } catch {
         location.replace('/de/' + location.search + location.hash);
       }
