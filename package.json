@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "pdf-lib": "^1.17.1",
-    "puppeteer": "^25.9.0",
+    "puppeteer": "^25.11.0",
     "sharp": "^0.35.4",
     "toml": "^5.0.0"
   },
@@ -22,9 +22,9 @@
     "test:pdf": "node --experimental-strip-types --test test/pdf.test.cjs"
   },
   "devDependencies": {
-    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.2",
-    "astro": "^7.2.9",
+    "astro": "^7.3.3",
     "tailwindcss": "^4.2.1"
   }
 }
