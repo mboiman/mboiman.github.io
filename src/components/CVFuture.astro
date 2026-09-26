@@ -191,7 +191,7 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
           return (
             <article class="gx-article" data-panel={id}>
               <button type="button" class="gx-back no-print" data-goto="profile">{f.back}</button>
-              <p class="gx-kicker">{project.category}</p>
+              <p class="gx-kicker">{project.year ? `${project.year} · ` : ''}{project.category}</p>
               <h2 class="gx-h2">{project.title}</h2>
               <div class="gx-body" set:html={formatBlocks(project.tagline)} />
               {project.tech_stack?.length > 0 && <p class="gx-tech">{project.tech_stack.join(' · ')}</p>}
@@ -506,6 +506,32 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) playBtn.hidden = true;
     playBtn.addEventListener('click', play);
     svg.addEventListener('click', () => { if (raf) stopPlay(); });
+
+    /* ── First visit: the time lapse plays once by itself ──────────────
+       Once per visitor (localStorage, marked before it starts, so an
+       interrupted run counts too). Not for anyone who arrives with a link
+       to something specific: a tailored link or an entry link means the
+       reader came for that, and nine seconds of animation would stand in
+       the way. Any click, key or wheel stops it at once. */
+    const LAPSE_SEEN = 'cv-future-lapse-seen';
+    const autoplay = () => {
+      if (playBtn.hidden || marked.length || fromHash) return;
+      try {
+        if (localStorage.getItem(LAPSE_SEEN)) return;
+        localStorage.setItem(LAPSE_SEEN, '1');
+      } catch { return; }
+      const events = ['pointerdown', 'keydown', 'wheel'] as const;
+      const interrupt = (ev: Event) => {
+        if ((ev.target as Element | null)?.closest?.('[data-play]')) return;
+        if (raf) stopPlay();
+        events.forEach(t => document.removeEventListener(t, interrupt, true));
+      };
+      setTimeout(() => {
+        play();
+        events.forEach(t => document.addEventListener(t, interrupt, true));
+      }, 700);
+    };
+    autoplay();
 
     // A closed <details> prints as its summary alone.
     window.addEventListener('beforeprint', () => panel.querySelectorAll('details').forEach(d => { d.open = true; }));

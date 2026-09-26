@@ -63,6 +63,19 @@ test('the axis gives recent years more room than old ones, and says where it cha
   assert.ok(g.breakX !== null && g.breakX > at(2008) && g.breakX < at(2024), 'the scale change is marked');
 });
 
+test('a project with a year from the TOML appears in that year', () => {
+  const p = config.languages.de.params;
+  const g = buildCareerGraph({ lang: 'de', now: 2026.73, stations: p.experiences.list.filter((e) => !isTalk(e)), talks: [], projects: p.projects.list });
+  const dated = p.projects.list.filter((x) => typeof x.year === 'number');
+  assert.ok(dated.length >= 1, 'the TOML carries project years');
+  for (const proj of dated) {
+    const dot = g.projects.find((d) => d.anchor === proj.anchor);
+    const x = g.years.find(([, y]) => y === proj.year)[0];
+    assert.equal(dot.year, proj.year);
+    assert.ok(Math.abs(dot.reveal - x) < 0.2, `${proj.anchor} appears at ${proj.year}`);
+  }
+});
+
 test('dateRange reads every form in the TOML', () => {
   assert.deepEqual(dateRange('seit 06/2025', 2026.5), { start: 2025 + 5 / 12, end: 2026.5, running: true });
   assert.equal(dateRange('09/2025-09/2026', 2027).end, 2026 + 9 / 12);

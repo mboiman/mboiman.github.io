@@ -105,6 +105,13 @@ it. Below 900 px the panel stands above the graph and the graph scrolls sideways
   cursor runs along the axis and each station, competency, project and line
   appears when it is reached (`data-reveal`, computed at build time). Hidden
   for visitors who ask for reduced motion.
+- It plays once by itself on a visitor's first visit (`localStorage` key
+  `cv-future-lapse-seen`), except when the visitor arrives through a tailored
+  link or an entry link; any click, key or wheel stops it.
+- Projects appear in their own year where `config.cv.toml` gives one
+  (`year = 2024`, with the source as a comment beside it). A project without
+  a year appears once the last of its competencies has. Years are never
+  estimated into the TOML: no source, no year.
 
 ### Tailored link for one application (Minimal and Future)
 

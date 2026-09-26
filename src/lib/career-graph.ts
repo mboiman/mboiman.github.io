@@ -26,14 +26,15 @@ export interface GraphInput {
   now: number;
   stations: { anchor?: string; position: string; company: string; dates: string; details: string }[];
   talks: { anchor?: string; position: string; company: string; dates: string }[];
-  projects: { anchor?: string; title: string; category: string; tech_stack?: string[]; tagline: string }[];
+  projects: { anchor?: string; title: string; category: string; tech_stack?: string[]; tagline: string; year?: number }[];
 }
 
 export interface Bar { id: string; anchor: string; x1: number; x2: number; y: number; label: string; labelX: number; labelAnchor: 'start' | 'end'; running: boolean }
 export interface Mark { id: string; anchor: string; x: number; y: number; label: string }
 /** `count`: entries it joins. `since`: start year of its earliest station, or null. */
 export interface Pill { id: string; key: string; x: number; y: number; w: number; label: string; count: number; stations: number; projects: number; since: number | null; reveal: number }
-export interface Dot { id: string; anchor: string; x: number; y: number; lines: string[]; reveal: number }
+/** `year`: from the TOML when a source gave one, else null and `reveal` is inferred. */
+export interface Dot { id: string; anchor: string; x: number; y: number; lines: string[]; reveal: number; year: number | null }
 export interface Edge { from: string; to: string; d: string }
 export interface Tick { x: number; label: string }
 
@@ -280,14 +281,17 @@ export function buildCareerGraph(input: GraphInput): CareerGraph {
     const id = `p:${p.anchor}`;
     const ks = projectSkills.get(id) || [];
     const want = ks.length ? ks.reduce((a, k) => a + skillX.get(k)!, 0) / ks.length : W / 2;
-    // A project has no date of its own. In the time lapse it appears once the
-    // last of its competencies has, which is the earliest it could have been built.
-    const reveal = ks.length ? Math.max(...ks.map(k => skillReveal.get(k)!)) : W;
-    return { id, anchor: p.anchor!, want, w: 128, title: shortTitle(p.title), reveal };
+    // With a year from the TOML the project appears in that year. Without one
+    // it appears once the last of its competencies has, which is the earliest
+    // it could have been built: an inference, and only used where no source
+    // gave a year.
+    const year = typeof p.year === 'number' ? p.year : null;
+    const reveal = year !== null ? xOf(year) : ks.length ? Math.max(...ks.map(k => skillReveal.get(k)!)) : W;
+    return { id, anchor: p.anchor!, want, w: 128, title: shortTitle(p.title), reveal, year };
   }).sort((a, b) => a.want - b.want);
   const projectsOut: Dot[] = [0, 1].flatMap(row =>
     spread(wishedProjects.filter((_, i) => i % 2 === row), 8, PAD_X / 2, W - PAD_X / 2)
-      .map(d => ({ id: d.id, anchor: d.anchor, x: round(d.x), y: PROJECT_Y[row], lines: wrap(d.title, 17), reveal: round(Math.min(d.reveal, xOf(now))) })));
+      .map(d => ({ id: d.id, anchor: d.anchor, x: round(d.x), y: PROJECT_Y[row], lines: wrap(d.title, 17), reveal: round(Math.min(d.reveal, xOf(now))), year: d.year })));
 
   // ── Edges ────────────────────────────────────────────────────────────────
   const edges: Edge[] = [];
