@@ -1633,8 +1633,8 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
         anchor = "qualitycluster"
-        # year: start of the work. Source: laut Michael, 26.09.2026
-        year = 2022
+        # year: start of the work. Source: laut Michael, 26.09.2026 (Aufbau 06/2021 bis 08/2021)
+        year = 2021
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
@@ -2007,8 +2007,8 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
         anchor = "qualitycluster"
-        # year: start of the work. Source: laut Michael, 26.09.2026
-        year = 2022
+        # year: start of the work. Source: laut Michael, 26.09.2026 (Aufbau 06/2021 bis 08/2021)
+        year = 2021
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
