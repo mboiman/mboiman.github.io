@@ -19,6 +19,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ViewSwitch from './ViewSwitch.astro';
+import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
 import { formatBlocks } from '../lib/markdown';
 import { i18n } from '../lib/i18n';
@@ -98,6 +99,7 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
           <a href="/de/future/" hreflang="de" class:list={[lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
           <a href="/en/future/" hreflang="en" class:list={[lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
         </nav>
+        <DarkModeToggle lang={lang} />
       </div>
     </header>
 
@@ -224,8 +226,8 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
         <svg class="gx-svg" viewBox={`0 0 ${g.width} ${g.height}`} preserveAspectRatio="xMidYMin meet" role="group" aria-label={f.graphLabel} data-years={JSON.stringify(g.years)}>
           <defs>
             <linearGradient id="gx-bar" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.55" />
-              <stop offset="1" stop-color="#5eead4" />
+              <stop offset="0" class="gx-stop-a" />
+              <stop offset="1" class="gx-stop-b" />
             </linearGradient>
           </defs>
 
@@ -637,7 +639,55 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
 </BaseLayout>
 
 <style>
+  /* Light is the base, dark overrides it below, both from the same toggle as
+     the other views (html.dark, set before paint in BaseLayout). The graph
+     was dark only until 2026-09-26. Every colour of this view is a token here,
+     the rgb triples feed the glows and washes that need their own alpha. */
   .gx {
+    --gx-bg: #f5f7f9;
+    --gx-panel: #ffffff;
+    --gx-line: rgba(51, 65, 85, 0.13);
+    --gx-line-strong: rgba(51, 65, 85, 0.3);
+    --gx-ink: #111827;
+    --gx-text: #374151;
+    --gx-muted: #5b6572;
+    --gx-accent: #0f766e;
+    --gx-violet: #6d28d9;
+    --gx-amber: #b45309;
+    --gx-danger: #b91c1c;
+    --gx-on-accent: #ffffff;
+    --gx-accent-rgb: 13, 148, 136;
+    --gx-slate-rgb: 71, 85, 105;
+    --gx-amber-rgb: 217, 119, 6;
+    --gx-glass: rgba(255, 255, 255, 0.9);
+    --gx-bar-glass: rgba(245, 247, 249, 0.94);
+    --gx-skill-fill: #ffffff;
+    --gx-signal: #0f766e;
+    --gx-stop-a: #5eead4;
+    --gx-stop-a-opacity: 0.5;
+    --gx-stop-b: #2dd4bf;
+    --gx-mono: var(--font-mono);
+    --vs-line: var(--gx-line-strong);
+    --vs-text: var(--gx-muted);
+    --vs-text-hover: var(--gx-ink);
+    --vs-active-bg: var(--gx-accent);
+    --vs-active-text: var(--gx-on-accent);
+    --vs-radius: 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100vh;
+    height: 100dvh;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 35%, rgba(var(--gx-accent-rgb), 0.07), transparent 70%),
+      radial-gradient(circle, rgba(var(--gx-slate-rgb), 0.10) 1px, transparent 1.2px) 0 0 / 28px 28px,
+      var(--gx-bg);
+    color: var(--gx-text);
+    font-family: var(--font-body);
+  }
+
+  :global(html.dark) .gx {
     --gx-bg: #05070b;
     --gx-panel: #0a0f16;
     --gx-line: rgba(148, 163, 184, 0.14);
@@ -648,28 +698,33 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     --gx-accent: #5eead4;
     --gx-violet: #b4a5fb;
     --gx-amber: #fbbf24;
-    --gx-mono: var(--font-mono);
-    --vs-line: var(--gx-line-strong);
-    --vs-text: var(--gx-muted);
-    --vs-text-hover: var(--gx-ink);
-    --vs-active-bg: var(--gx-accent);
-    --vs-active-text: var(--gx-bg);
-    --vs-radius: 0;
-
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    height: 100vh;
-    height: 100dvh;
-    background:
-      radial-gradient(ellipse 60% 50% at 70% 35%, rgba(94, 234, 212, 0.07), transparent 70%),
-      radial-gradient(circle, rgba(148, 163, 184, 0.10) 1px, transparent 1.2px) 0 0 / 28px 28px,
-      var(--gx-bg);
-    color: var(--gx-text);
-    font-family: var(--font-body);
+    --gx-danger: #f87171;
+    --gx-on-accent: #05070b;
+    --gx-accent-rgb: 94, 234, 212;
+    --gx-slate-rgb: 148, 163, 184;
+    --gx-amber-rgb: 251, 191, 36;
+    --gx-glass: rgba(10, 15, 22, 0.86);
+    --gx-bar-glass: rgba(5, 7, 11, 0.92);
+    --gx-skill-fill: rgba(10, 15, 22, 0.95);
+    --gx-signal: #eafffb;
+    --gx-stop-a: #2dd4bf;
+    --gx-stop-a-opacity: 0.55;
+    --gx-stop-b: #5eead4;
   }
-  :global(html.cv-future body) { background: #05070b; }
-  :global(html.cv-future) { color-scheme: dark; }
+  :global(html.cv-future body) { background: #f5f7f9; }
+  :global(html.cv-future.dark body) { background: #05070b; }
+  :global(html.cv-future) { color-scheme: light; }
+  :global(html.cv-future.dark) { color-scheme: dark; }
+  .gx-stop-a { stop-color: var(--gx-stop-a); stop-opacity: var(--gx-stop-a-opacity); }
+  .gx-stop-b { stop-color: var(--gx-stop-b); }
+  /* The theme toggle reads the site's own tokens; here they come from ours. */
+  .gx-top-right {
+    --text: var(--gx-ink);
+    --text-secondary: var(--gx-muted);
+    --surface: var(--gx-panel);
+    --line: var(--gx-line-strong);
+    --accent: var(--gx-accent);
+  }
   .gx a { color: inherit; }
   .gx button { font: inherit; cursor: pointer; }
 
@@ -698,7 +753,7 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     position: relative;
     overflow-y: auto;
     padding: 1.4rem 1.4rem 2rem;
-    background: rgba(10, 15, 22, 0.86);
+    background: var(--gx-glass);
     border-right: 1px solid var(--gx-line);
     scrollbar-width: thin;
     scrollbar-color: var(--gx-line-strong) transparent;
@@ -718,8 +773,10 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-lead { margin-top: 0.6rem; font-size: var(--fs-15); color: var(--gx-ink); }
   .gx-sub { margin-top: 0.35rem; font-family: var(--gx-mono); font-size: var(--fs-12); color: var(--gx-muted); }
   .gx-hint { margin-top: 1rem; padding-left: 0.75rem; border-left: 2px solid var(--gx-accent); font-size: var(--fs-13); line-height: 1.55; color: var(--gx-text); }
-  .gx-facts { margin-top: 1.2rem; display: grid; gap: 0.3rem; font-size: var(--fs-13); }
-  .gx-facts div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.75rem; }
+  /* The label column is as wide as the longest label (STAATSANGEHÖRIGKEIT ran
+     into its value in a fixed 6.5rem), shared by every row through subgrid. */
+  .gx-facts { margin-top: 1.2rem; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 0.75rem; font-size: var(--fs-13); }
+  .gx-facts div { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
   .gx-facts dt { font-family: var(--gx-mono); font-size: var(--fs-11); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gx-muted); padding-top: 0.1rem; }
   .gx-facts dd { color: var(--gx-ink); }
   .gx-text { margin-top: 1.1rem; font-size: var(--fs-14); line-height: 1.6; }
@@ -727,11 +784,11 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-contacts a { text-decoration: none; border-bottom: 1px solid var(--gx-line-strong); }
   .gx-contacts a:hover { color: var(--gx-accent); border-color: var(--gx-accent); }
   .gx-actions { margin-top: 1.3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
-  .gx-btn { padding: 0.6rem 1rem; font-size: var(--fs-14); font-weight: 500; color: var(--gx-bg) !important; background: var(--gx-accent); text-decoration: none; }
+  .gx-btn { padding: 0.6rem 1rem; font-size: var(--fs-14); font-weight: 500; color: var(--gx-on-accent) !important; background: var(--gx-accent); text-decoration: none; }
   .gx-btn:hover { filter: brightness(1.08); }
   .gx-link { font-size: var(--fs-13); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--gx-line-strong); }
 
-  .gx-focus { margin: 0 2rem 1.2rem 0; padding: 0.75rem 0.85rem; border: 1px solid rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.08); font-size: var(--fs-13); color: var(--gx-ink); }
+  .gx-focus { margin: 0 2rem 1.2rem 0; padding: 0.75rem 0.85rem; border: 1px solid rgba(var(--gx-amber-rgb), 0.5); background: rgba(var(--gx-amber-rgb), 0.08); font-size: var(--fs-13); color: var(--gx-ink); }
   .gx-focus[hidden] { display: none; }
   .gx-focus a { display: inline-block; margin-top: 0.3rem; font-size: var(--fs-12); color: var(--gx-muted); }
 
@@ -775,7 +832,7 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
 
   .gx-edge {
     fill: none;
-    stroke: rgba(148, 163, 184, 0.18);
+    stroke: rgba(var(--gx-slate-rgb), 0.18);
     stroke-width: 1;
     stroke-dasharray: 1;
     animation: gx-draw 1.6s ease-out both;
@@ -795,7 +852,7 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
 
   .gx-node { cursor: pointer; outline: none; transition: opacity 0.2s ease; }
   .gx-hit { fill: transparent; }
-  /* A dark halo behind every label, so a line running under it cannot cut it. */
+  /* A halo in the background colour behind every label, so a line running under it cannot cut it. */
   .gx-node text { font-size: 15px; fill: var(--gx-text); transition: fill 0.2s ease; paint-order: stroke; stroke: var(--gx-bg); stroke-width: 4px; stroke-linejoin: round; }
   .gx-skill text { stroke: none; }
   .gx-svg.has-sel .gx-node:not(.is-lit):not(.is-sel):not(.is-hover),
@@ -804,18 +861,18 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
 
   .gx-bar .gx-shape { fill: url(#gx-bar); }
   .gx-bar text { fill: var(--gx-ink); }
-  .gx-bar:hover .gx-shape, .gx-bar.is-sel .gx-shape { filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.8)); }
+  .gx-bar:hover .gx-shape, .gx-bar.is-sel .gx-shape { filter: drop-shadow(0 0 6px rgba(var(--gx-accent-rgb), 0.8)); }
   .gx-pulse { fill: var(--gx-accent); transform-box: fill-box; transform-origin: center; animation: gx-pulse 1.8s ease-out infinite; }
   @keyframes gx-pulse { 0% { opacity: 0.9; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
 
   .gx-talk .gx-shape { fill: var(--gx-bg); stroke: var(--gx-amber); stroke-width: 1.5; }
   .gx-talk:hover .gx-shape, .gx-talk.is-sel .gx-shape { fill: var(--gx-amber); }
 
-  .gx-skill .gx-shape { fill: rgba(10, 15, 22, 0.95); stroke: var(--gx-line-strong); stroke-width: 1; transition: stroke 0.2s ease, fill 0.2s ease; }
+  .gx-skill .gx-shape { fill: var(--gx-skill-fill); stroke: var(--gx-line-strong); stroke-width: 1; transition: stroke 0.2s ease, fill 0.2s ease; }
   .gx-skill text { font-size: 14px; fill: var(--gx-ink); }
   .gx-skill:hover .gx-shape, .gx-skill.is-lit .gx-shape, .gx-skill.is-hover .gx-shape { stroke: var(--gx-accent); }
   .gx-skill.is-sel .gx-shape { fill: var(--gx-accent); stroke: var(--gx-accent); }
-  .gx-skill.is-sel text { fill: var(--gx-bg); }
+  .gx-skill.is-sel text { fill: var(--gx-on-accent); }
 
   .gx-project .gx-shape { fill: var(--gx-bg); stroke: var(--gx-violet); stroke-width: 1.5; transition: fill 0.2s ease; }
   .gx-project text { font-size: 13px; fill: var(--gx-text); }
@@ -823,37 +880,37 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-project:hover text, .gx-project.is-sel text { fill: var(--gx-ink); }
 
   /* A tailored link's entries: an amber ring that stays. */
-  .gx-node.is-focus .gx-shape { stroke: var(--gx-amber) !important; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7)); }
+  .gx-node.is-focus .gx-shape { stroke: var(--gx-amber) !important; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(var(--gx-amber-rgb), 0.7)); }
   .gx-bar.is-focus .gx-shape { fill: var(--gx-amber); }
 
   /* The agent's pointer: follow it, and let the node glow for a moment. */
   .gx-node:global(.bridge-flash) { outline: none !important; }
-  .gx-node:global(.bridge-flash) .gx-shape { filter: drop-shadow(0 0 10px rgba(94, 234, 212, 1)); }
+  .gx-node:global(.bridge-flash) .gx-shape { filter: drop-shadow(0 0 10px rgba(var(--gx-accent-rgb), 1)); }
 
   /* ── Command line ────────────────────────────────────────────────────── */
   .gx-ask {
     display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem;
     padding: 0.7rem 1.25rem;
     border-top: 1px solid var(--gx-line);
-    background: rgba(5, 7, 11, 0.92);
+    background: var(--gx-bar-glass);
   }
   .gx-live { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); white-space: nowrap; }
   .gx-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gx-muted); }
   .gx-live[data-state="ok"] { color: var(--gx-accent); }
   .gx-live[data-state="ok"] .gx-live-dot { background: var(--gx-accent); animation: gx-dot 2s ease-out infinite; }
-  .gx-live[data-state="down"] .gx-live-dot { background: #f87171; }
-  @keyframes gx-dot { 0% { box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.55); } 100% { box-shadow: 0 0 0 8px rgba(94, 234, 212, 0); } }
+  .gx-live[data-state="down"] .gx-live-dot { background: var(--gx-danger); }
+  @keyframes gx-dot { 0% { box-shadow: 0 0 0 0 rgba(var(--gx-accent-rgb), 0.55); } 100% { box-shadow: 0 0 0 8px rgba(var(--gx-accent-rgb), 0); } }
   .gx-form { flex: 1 1 26rem; max-width: 52rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.15rem 0.2rem 0.15rem 0.7rem; border: 1px solid var(--gx-line-strong); background: var(--gx-panel); }
-  .gx-form:focus-within { border-color: var(--gx-accent); box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12); }
+  .gx-form:focus-within { border-color: var(--gx-accent); box-shadow: 0 0 0 3px rgba(var(--gx-accent-rgb), 0.12); }
   .gx-prompt-mark { font-family: var(--gx-mono); color: var(--gx-accent); }
   .gx-form input { flex: 1; min-width: 0; padding: 0.45rem 0; font: inherit; font-size: var(--fs-16); color: var(--gx-ink); background: transparent; border: 0; outline: none; }
   .gx-form input::placeholder { color: var(--gx-muted); }
-  .gx-form button { padding: 0.4rem 0.8rem; font-size: var(--fs-13) !important; font-weight: 500; color: var(--gx-bg); background: var(--gx-accent); border: 0; }
+  .gx-form button { padding: 0.4rem 0.8rem; font-size: var(--fs-13) !important; font-weight: 500; color: var(--gx-on-accent); background: var(--gx-accent); border: 0; }
   .gx-kicker-gap { margin-top: 1.4rem; }
   .gx-suggest { margin-top: 0.5rem; display: grid; gap: 0.35rem; }
   .gx-suggest button { display: flex; gap: 0.5rem; padding: 0.5rem 0.65rem; text-align: left; font-size: var(--fs-13) !important; line-height: 1.4; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line); }
   .gx-suggest button span { font-family: var(--gx-mono); color: var(--gx-accent); }
-  .gx-suggest button:hover { border-color: var(--gx-accent); background: rgba(94, 234, 212, 0.06); }
+  .gx-suggest button:hover { border-color: var(--gx-accent); background: rgba(var(--gx-accent-rgb), 0.06); }
   .gx-console { padding: 0.3rem 0.65rem; font-family: var(--gx-mono); font-size: var(--fs-11) !important; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line-strong); }
   .gx-console:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
   .gx-legal { display: flex; gap: 0.8rem; margin-left: auto; font-size: var(--fs-11); color: var(--gx-muted); }
@@ -865,15 +922,15 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     padding: 0.45rem 0.8rem;
     font-family: var(--gx-mono); font-size: var(--fs-12) !important; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--gx-ink); background: var(--gx-panel); border: 1px solid var(--gx-accent);
-    box-shadow: 0 0 18px -6px rgba(94, 234, 212, 0.6);
+    box-shadow: 0 0 18px -6px rgba(var(--gx-accent-rgb), 0.6);
   }
   .gx-reopen span { color: var(--gx-accent); }
-  .gx-reopen:hover { background: rgba(94, 234, 212, 0.1); }
+  .gx-reopen:hover { background: rgba(var(--gx-accent-rgb), 0.1); }
   .gx.panel-closed .gx-reopen { display: inline-flex; }
 
   /* ── Counts, stats, legend, axis break ───────────────────────────────── */
   .gx-count { font-family: var(--gx-mono); font-size: 12px; fill: var(--gx-accent); }
-  .gx-skill.is-sel .gx-count { fill: var(--gx-bg); }
+  .gx-skill.is-sel .gx-count { fill: var(--gx-on-accent); }
   .gx-stat { margin-top: 0.4rem; font-family: var(--gx-mono); font-size: var(--fs-12); color: var(--gx-accent); }
   .gx-break line { stroke: var(--gx-muted); stroke-width: 1.2; }
   .gx-legend text { font-family: var(--gx-mono); font-size: 12px; fill: var(--gx-muted); }
@@ -884,12 +941,12 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-lg-project { fill: none; stroke: var(--gx-violet); stroke-width: 1.4; }
 
   /* Resting state: the lines are there, but quiet. They speak on hover. */
-  .gx-svg:not(.has-sel):not(.has-hover):not(.has-match):not(.is-playing) .gx-edge { stroke: rgba(148, 163, 184, 0.11); }
+  .gx-svg:not(.has-sel):not(.has-hover):not(.has-match):not(.is-playing) .gx-edge { stroke: rgba(var(--gx-slate-rgb), 0.11); }
 
   /* ── Live filter from the command line ───────────────────────────────── */
   .gx-svg.has-match .gx-node:not(.is-match) { opacity: 0.2; }
   .gx-svg.has-match .gx-edge:not(.is-match) { opacity: 0.12; }
-  .gx-svg.has-match .gx-node.is-match .gx-shape { filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.9)); }
+  .gx-svg.has-match .gx-node.is-match .gx-shape { filter: drop-shadow(0 0 6px rgba(var(--gx-accent-rgb), 0.9)); }
   .gx-svg.has-match .gx-edge.is-match { stroke: var(--gx-accent); opacity: 0.8; }
   .gx-match { font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); }
 
@@ -899,8 +956,8 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     display: inline-flex; align-items: center; gap: 0.5rem;
     padding: 0.4rem 0.8rem;
     font-family: var(--gx-mono); font-size: var(--fs-12) !important; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--gx-bg); background: var(--gx-accent); border: 0;
-    box-shadow: 0 0 24px -6px rgba(94, 234, 212, 0.7);
+    color: var(--gx-on-accent); background: var(--gx-accent); border: 0;
+    box-shadow: 0 0 24px -6px rgba(var(--gx-accent-rgb), 0.7);
   }
   .gx-play[hidden] { display: none; }
   .gx-play svg { width: 0.8rem; height: 0.8rem; fill: currentColor; }
@@ -912,18 +969,18 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-svg.is-playing .gx-node.is-on { opacity: 1; }
   .gx-svg.is-playing .gx-skill { transition: opacity 0.35s ease; }
   .gx-svg.is-playing .gx-edge {
-    opacity: 1; stroke: rgba(94, 234, 212, 0.32); stroke-width: 1.1;
+    opacity: 1; stroke: rgba(var(--gx-accent-rgb), 0.32); stroke-width: 1.1;
     stroke-dasharray: 1; stroke-dashoffset: 1; animation: none; transition: none;
   }
   .gx-svg.is-playing .gx-axis > g > text { transition: fill 0.4s ease; }
   .gx-svg.is-playing .gx-axis > g > text:global(.is-past) { fill: var(--gx-ink); }
   .gx-signals :global(.gx-signal) {
-    fill: #eafffb;
-    filter: drop-shadow(0 0 4px #5eead4) drop-shadow(0 0 10px rgba(94, 234, 212, 0.85));
+    fill: var(--gx-signal);
+    filter: drop-shadow(0 0 4px var(--gx-accent)) drop-shadow(0 0 10px rgba(var(--gx-accent-rgb), 0.85));
   }
   .gx-skill:global(.is-bump) .gx-shape { animation: gx-bump 0.45s ease-out; transform-box: fill-box; transform-origin: center; }
-  @keyframes gx-bump { 0% { transform: scale(1); } 35% { transform: scale(1.07); stroke: #5eead4; } 100% { transform: scale(1); } }
-  .gx-lapse-year { font-family: var(--gx-mono); font-size: 1.6rem; font-weight: 300; color: var(--gx-accent); letter-spacing: 0.04em; text-shadow: 0 0 16px rgba(94, 234, 212, 0.5); }
+  @keyframes gx-bump { 0% { transform: scale(1); } 35% { transform: scale(1.07); stroke: var(--gx-accent); } 100% { transform: scale(1); } }
+  .gx-lapse-year { font-family: var(--gx-mono); font-size: 1.6rem; font-weight: 300; color: var(--gx-accent); letter-spacing: 0.04em; text-shadow: 0 0 16px rgba(var(--gx-accent-rgb), 0.5); }
 
   /* ── Narrow screens: a page again, the graph scrolls sideways ────────── */
   @media (max-width: 899px) {
@@ -952,34 +1009,56 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   }
 
   /* ── The agent panel in this view ────────────────────────────────────── */
+  /* The widget sits outside .gx, so it carries its own copy of the tokens,
+     light first and dark from html.dark, like the graph. */
   :global(html.cv-future #agent-widget-root) {
-    --bg: #0a0f16;
-    --text: #e8eef5;
+    --gxa-panel: #ffffff;
+    --gxa-ink: #111827;
+    --gxa-text: #374151;
+    --gxa-accent: #0f766e;
+    --gxa-on-accent: #ffffff;
+    --gxa-rgb: 13, 148, 136;
+    --gxa-slate: 71, 85, 105;
+    --gxa-msg: #f5f7f9;
+    --bg: var(--gxa-panel);
+    --text: var(--gxa-ink);
+    --text-secondary: #5b6572;
+    --accent: var(--gxa-accent);
+    --accent-hover: var(--gxa-accent);
+    --accent-cta: var(--gxa-accent);
+    --aw-grad: var(--gxa-accent);
+    --aw-border: rgba(var(--gxa-slate), 0.16);
+    --aw-border-strong: rgba(var(--gxa-slate), 0.32);
+    --aw-elev-panel: 0 0 0 1px rgba(var(--gxa-rgb), 0.18), 0 30px 70px -30px rgba(15, 23, 42, 0.35);
+  }
+  :global(html.cv-future.dark #agent-widget-root) {
+    --gxa-panel: #0a0f16;
+    --gxa-ink: #e8eef5;
+    --gxa-text: #b4bfcc;
+    --gxa-accent: #5eead4;
+    --gxa-on-accent: #05070b;
+    --gxa-rgb: 94, 234, 212;
+    --gxa-slate: 148, 163, 184;
+    --gxa-msg: rgba(13, 18, 26, 0.9);
     --text-secondary: #7d8896;
-    --accent: #5eead4;
-    --accent-hover: #5eead4;
-    --accent-cta: #5eead4;
-    --aw-grad: #5eead4;
-    --aw-border: rgba(148, 163, 184, 0.16);
-    --aw-border-strong: rgba(148, 163, 184, 0.32);
     --aw-elev-panel: 0 0 0 1px rgba(94, 234, 212, 0.18), 0 30px 80px -30px rgba(94, 234, 212, 0.35);
   }
   :global(html.cv-future #agent-widget-panel) { border-radius: 0; }
   :global(html.cv-future #agent-widget-header),
-  :global(html.cv-future #agent-widget-form) { background: #0a0f16; }
+  :global(html.cv-future #agent-widget-form) { background: var(--gxa-panel); }
   :global(html.cv-future #agent-widget-title) { font-family: var(--font-mono); font-size: var(--fs-13); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
-  :global(html.cv-future .aw-avatar) { background: transparent; border-color: rgba(94, 234, 212, 0.45); color: #5eead4; }
-  :global(html.cv-future .aw-msg.aw-user) { background: #5eead4; color: #05070b; border-radius: 0; box-shadow: 0 0 24px -10px rgba(94, 234, 212, 0.8); }
-  :global(html.cv-future .aw-msg.aw-user a) { color: #05070b; }
+  :global(html.cv-future .aw-avatar) { background: transparent; border-color: rgba(var(--gxa-rgb), 0.45); color: var(--gxa-accent); }
+  :global(html.cv-future .aw-msg.aw-user) { background: var(--gxa-accent); color: var(--gxa-on-accent); border-radius: 0; box-shadow: 0 0 24px -10px rgba(var(--gxa-rgb), 0.8); }
+  :global(html.cv-future .aw-msg.aw-user a) { color: var(--gxa-on-accent); }
   :global(html.cv-future .aw-msg.aw-agent) {
-    background: rgba(13, 18, 26, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    border-left: 2px solid #5eead4;
+    background: var(--gxa-msg);
+    border: 1px solid rgba(var(--gxa-slate), 0.16);
+    border-left: 2px solid var(--gxa-accent);
     border-radius: 0;
     box-shadow: none;
-    color: #b4bfcc;
+    color: var(--gxa-text);
   }
-  :global(html.cv-future .aw-msg.aw-agent strong) { color: #e8eef5; }
+  :global(html.cv-future .aw-msg.aw-agent strong) { color: var(--gxa-ink); }
   :global(html.cv-future #agent-widget-input),
   :global(html.cv-future #agent-widget-send),
   :global(html.cv-future .aw-icon-btn),
@@ -987,8 +1066,8 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   :global(html.cv-future .aw-view-on-page),
   :global(html.cv-future .aw-card-ex),
   :global(html.cv-future .aw-working) { border-radius: 0; }
-  :global(html.cv-future #agent-widget-send) { background: #5eead4; color: #05070b; }
-  :global(html.cv-future #agent-widget-input:focus-visible) { border-color: #5eead4; box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.15); }
+  :global(html.cv-future #agent-widget-send) { background: var(--gxa-accent); color: var(--gxa-on-accent); }
+  :global(html.cv-future #agent-widget-input:focus-visible) { border-color: var(--gxa-accent); box-shadow: 0 0 0 3px rgba(var(--gxa-rgb), 0.15); }
 
   /* ── Print: the panel's text, every entry, ink on paper ──────────────── */
   @media print {
