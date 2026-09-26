@@ -1452,6 +1452,8 @@ Echtzeit-Qualitätsübersicht für Go/No-Go-Entscheidungen im Enterprise-Umfeld.
         [[languages.de.params.projects.list]]
         title = "KI-gesteuerte Testautomatisierung"
         anchor = "ai-test-generation"
+        # year: start of the work. Source: laut Michael, 26.09.2026
+        year = 2024
         pdf_rank = 5
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
@@ -1576,6 +1578,8 @@ Zentrales Steuerungssystem für AI-gestützte Entwicklung über Kunden-, Partner
         [[languages.de.params.projects.list]]
         title = "AI Learning Platform"
         anchor = "ai-learning-platform"
+        # year: start of the work. Source: Repo mboiman/learningfast, angelegt 08/2025; von Michael bestätigt 26.09.2026
+        year = 2025
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true
@@ -1629,6 +1633,8 @@ Entwicklung eines vollständigen SLA-Monitoring-Systems im Rahmen einer BKS-Eval
         [[languages.de.params.projects.list]]
         title = "QualityCluster"
         anchor = "qualitycluster"
+        # year: start of the work. Source: laut Michael, 26.09.2026
+        year = 2022
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
@@ -1672,6 +1678,8 @@ Unser Ziel ist es, mehr Qualität durch höheren Automatisierungsgrad zu verwirk
         [[languages.de.params.projects.list]]
         title = "KI-basierter Chatbot für Messe-Interaktion"
         anchor = "messe-chatbot"
+        # year: start of the work. Source: Repo bks-lab/workshop-q-a-scrap-bot, angelegt 06/2023; von Michael bestätigt 26.09.2026
+        year = 2023
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
@@ -1709,6 +1717,8 @@ Zwei Kanäle auf derselben Fachlogik, WhatsApp und Telefon, die freie Termine li
         [[languages.de.params.projects.list]]
         title = "E-Mail-Klassifizierung und -Verarbeitungsprozess"
         anchor = "email-classification"
+        # year: start of the work. Source: Repo bks-lab/vrm-ai-mail-bot, angelegt 06/2023; von Michael bestätigt 26.09.2026
+        year = 2023
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
         featured = true
@@ -1822,6 +1832,8 @@ Real-time quality overview for enterprise go/no-go decisions.
         [[languages.en.params.projects.list]]
         title = "AI-driven Test Automation"
         anchor = "ai-test-generation"
+        # year: start of the work. Source: laut Michael, 26.09.2026
+        year = 2024
         pdf_rank = 5
         tech_stack = ["Python", "OpenAI GPT-4", "Playwright", "IDE Integration", "Jira API"]
         category = "AI & Quality Engineering"
@@ -1937,6 +1949,8 @@ Central control system for AI-assisted development across customer, partner and 
         [[languages.en.params.projects.list]]
         title = "AI Learning Platform"
         anchor = "ai-learning-platform"
+        # year: start of the work. Source: Repo mboiman/learningfast, angelegt 08/2025; von Michael bestätigt 26.09.2026
+        year = 2025
         tech_stack = ["Astro", "React 19", "TypeScript", "Supabase", "EU AI Act"]
         category = "E-Learning & Compliance"
         featured = true
@@ -1993,6 +2007,8 @@ Development of a comprehensive SLA monitoring system as part of a BKS evaluation
         [[languages.en.params.projects.list]]
         title = "QualityCluster"
         anchor = "qualitycluster"
+        # year: start of the work. Source: laut Michael, 26.09.2026
+        year = 2022
         tech_stack = ["Hugo", "JavaScript", "GitHub Actions", "CI/CD"]
         category = "Quality Engineering"
         featured = true
@@ -2032,6 +2048,8 @@ Our goal is to implement more quality through a higher degree of automation.
         [[languages.en.params.projects.list]]
         title = "AI-Driven Chatbot for Trade-Fair Interaction"
         anchor = "messe-chatbot"
+        # year: start of the work. Source: Repo bks-lab/workshop-q-a-scrap-bot, angelegt 06/2023; von Michael bestätigt 26.09.2026
+        year = 2023
         tech_stack = ["Python", "OpenAI GPT-4", "Streamlit", "FastAPI", "Vector Embeddings"]
         category = "AI & Machine Learning"
         featured = true
@@ -2064,6 +2082,8 @@ Two channels on one domain core, WhatsApp and phone, reading free slots live fro
         [[languages.en.params.projects.list]]
         title = "Email Classification and Processing Workflow"
         anchor = "email-classification"
+        # year: start of the work. Source: Repo bks-lab/vrm-ai-mail-bot, angelegt 06/2023; von Michael bestätigt 26.09.2026
+        year = 2023
         tech_stack = ["Python", "Azure Functions", "OpenAI GPT-3.5", "Microsoft Graph API", "Elasticsearch", "Kibana", "Docker"]
         category = "AI & Machine Learning"
         screenshot = "projects/nlpanalyse.png"

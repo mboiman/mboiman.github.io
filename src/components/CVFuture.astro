@@ -206,6 +206,12 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
 
       {/* ── The graph ── */}
       <div class="gx-canvas no-print">
+        {/* Only while the panel is closed: the way back, where the panel was.
+            Below 900 px the closed panel left no way back at all, because the
+            top button was hidden there. */}
+        <button type="button" class="gx-reopen" data-goto="profile" aria-label={f.profile}>
+          <span aria-hidden="true">&gt;</span>{f.profile}
+        </button>
         <p class="gx-swipe">{f.swipe}</p>
         <div class="gx-play-wrap">
           <span class="gx-year" data-year aria-hidden="true"></span>
@@ -758,6 +764,19 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
   .gx-console:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
   .gx-legal { display: flex; gap: 0.8rem; margin-left: auto; font-size: var(--fs-11); color: var(--gx-muted); }
 
+  .gx-reopen {
+    display: none;
+    position: absolute; top: 0.9rem; left: 0.9rem; z-index: 3;
+    align-items: center; gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    font-family: var(--gx-mono); font-size: var(--fs-12) !important; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gx-ink); background: var(--gx-panel); border: 1px solid var(--gx-accent);
+    box-shadow: 0 0 18px -6px rgba(94, 234, 212, 0.6);
+  }
+  .gx-reopen span { color: var(--gx-accent); }
+  .gx-reopen:hover { background: rgba(94, 234, 212, 0.1); }
+  .gx.panel-closed .gx-reopen { display: inline-flex; }
+
   /* ── Counts, stats, legend, axis break ───────────────────────────────── */
   .gx-count { font-family: var(--gx-mono); font-size: 12px; fill: var(--gx-accent); }
   .gx-skill.is-sel .gx-count { fill: var(--gx-bg); }
@@ -816,8 +835,9 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     .gx-ask { position: sticky; bottom: 0; }
     .gx-legal { display: none; }
     .gx-play-wrap { position: static; padding: 0 1.25rem 0.5rem; }
+    .gx-reopen { position: static; margin: 0.6rem 1.25rem; }
+    .gx-profile-btn { padding: 0.2rem 0.5rem; }
     .gx-match { display: none; }
-    .gx-profile-btn { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
