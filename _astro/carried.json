@@ -1,8 +1,9 @@
 {
   "files": [
-    "CVMinimal.D4MV-EJS.css",
-    "CVPage.BwPKQn9x.css",
-    "DarkModeToggle.CRb_GShu.css"
+    "AgentWidget.astro_astro_type_script_index_0_lang.CkTrhrDJ.js",
+    "CVFuture.Bqe5xoQx.css",
+    "CVPage.Bc-eNlxZ.css",
+    "global.Bfm694gd.css"
   ],
   "note": "One deploy of grace for cached HTML. See scripts/carry-assets.mjs."
 }
