@@ -356,12 +356,47 @@ const widgetStrings = {
       border-width: 0 0 0 1px;
       animation: none;
     }
-    /* Resizing and maximising are gestures for a floating card. A rail's width
-       is the page's business, and dragging it would desynchronise the panel
-       from the space reserved for it. */
-    html.aw-panel-open #agent-widget-resize,
-    html.aw-panel-open #agent-widget-maximize { display: none; }
+    /* Resizing is a gesture for a floating card. A rail's width is the page's
+       business, and dragging it would desynchronise the panel from the space
+       reserved for it. The enlarge button stays: it no longer resizes, it
+       switches to the full-screen chat below, from the rail as from the card. */
+    html.aw-panel-open #agent-widget-resize { display: none; }
   }
+
+  /* ── Full-screen chat (enlarge button, or ?view=chat) ─────────────────────
+     Until 2026-09-26 the enlarge button grew the floating card to 95vw x 92vh
+     over the page, and in the rail it was hidden. Michael expected full screen
+     from it, in both. Now it switches to one view: the conversation alone,
+     centred over a plain ground that hides the page, with "Lebenslauf
+     ansehen" (and the same button, now "restore") to go back. The rail gives
+     its space back while this is on, so nothing is reserved twice. */
+  html.aw-view-chat.aw-panel-open { --aw-rail: 0px; }
+  html.aw-view-chat body { overflow: hidden; }
+  .aw-chat-backdrop {
+    position: fixed; inset: 0; z-index: 9998;
+    background: var(--bg);
+  }
+  @media (min-width: 640px) {
+    html.aw-view-chat.aw-panel-open #agent-widget-panel,
+    html.aw-view-chat.aw-panel-open #agent-widget-panel.aw-is-max {
+      top: 4vh; bottom: 4vh; left: 50%; right: auto;
+      translate: -50% 0;
+      width: min(46rem, 94vw);
+      min-width: 0; max-width: none;
+      height: auto; max-height: none;
+      border-radius: var(--r-lg);
+      border-width: 1px;
+    }
+  }
+  html.aw-view-chat #agent-widget-resize { display: none; }
+  .aw-cv-btn {
+    font: inherit; font-size: var(--fs-13); font-weight: 600;
+    padding: 0.3rem 0.7rem; margin-right: 0.25rem;
+    border-radius: var(--r-pill); border: 1px solid var(--aw-border);
+    background: transparent; color: inherit; cursor: pointer;
+    white-space: nowrap;
+  }
+  .aw-cv-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   @keyframes aw-pop {
     from { opacity: 0; transform: translateY(12px) scale(0.98); }
@@ -1073,7 +1108,7 @@ const widgetStrings = {
 
 <script>
   import { DEMOS } from '../lib/match-demos';
-  import { readVisitor, greetingFor, visitorQuery } from '../lib/greeting';
+  import { readVisitor, greetingFor, visitorQuery, readView } from '../lib/greeting';
   // ---------------------------------------------------------------------------
   // Vanilla A2A client — ported from bks-web (A2AChat.tsx / agentService.ts).
   // ---------------------------------------------------------------------------
@@ -2163,6 +2198,9 @@ const widgetStrings = {
       // anchor is /^[a-z0-9-]+$/ → safe to interpolate into the attribute selector.
       const target = document.querySelector<HTMLElement>(`[data-cv-anchor="${anchor}"]`);
       if (!target) return false;
+      // The full-screen chat hides the page. A highlight is the agent showing
+      // something ON the page, so it drops back to the normal view first.
+      leaveChatView();
       // single highlight: clear any previous ring + pending timeout first
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = 0; }
       if (flashEl) flashEl.classList.remove('bridge-flash');
@@ -2528,12 +2566,41 @@ const widgetStrings = {
       }
       syncMaximizeAria();
     }
-    function toggleMaximize() {
-      if (isMobile()) return;
-      sizeState = sizeState.mode === 'max' ? { mode: 'default' } : { mode: 'max' };
-      applySizeState(sizeState);
-      saveSizeState(sizeState);
+    // Full-screen chat: see the CSS block of the same name. Never persisted,
+    // so a reload is the normal page again.
+    let chatBackdrop: HTMLElement | null = null;
+    let cvBtn: HTMLButtonElement | null = null;
+    function inChatView(): boolean {
+      return document.documentElement.classList.contains('aw-view-chat');
+    }
+    function enterChatView() {
+      if (inChatView()) return;
+      if (!panelOpen) openPanel({ focus: false, persist: false });
+      document.documentElement.classList.add('aw-view-chat');
+      panel.classList.add('aw-is-max');           // restore icon, via the existing swap
+      chatBackdrop = document.createElement('div');
+      chatBackdrop.className = 'aw-chat-backdrop';
+      (root || document.body).appendChild(chatBackdrop);
+      cvBtn = document.createElement('button');
+      cvBtn.type = 'button';
+      cvBtn.className = 'aw-cv-btn';
+      cvBtn.textContent = lang === 'en' ? 'Show CV' : 'Lebenslauf ansehen';
+      cvBtn.addEventListener('click', leaveChatView);
+      panel.querySelector('.aw-header-actions')?.prepend(cvBtn);
+      syncMaximizeAria();
       scrollToBottom();
+    }
+    function leaveChatView() {
+      if (!inChatView()) return;
+      document.documentElement.classList.remove('aw-view-chat');
+      chatBackdrop?.remove(); chatBackdrop = null;
+      cvBtn?.remove(); cvBtn = null;
+      applySizeState(sizeState);                   // back to the card's own size, or the rail
+      scrollToBottom();
+    }
+    function toggleMaximize() {
+      if (isMobile()) return;                      // mobile is full screen already
+      if (inChatView()) leaveChatView(); else enterChatView();
     }
 
     // free drag-resize (pointer events); top-left grip grows the bottom-right panel.
@@ -2586,6 +2653,9 @@ const widgetStrings = {
     if (maximizeBtn) maximizeBtn.addEventListener('click', toggleMaximize);
     if (cardBtn) cardBtn.addEventListener('click', toggleCard);
     sizeState = loadSizeState();
+    // 'max' was the old enlarge button's stored state. The button now opens the
+    // full-screen chat and stores nothing, so an old 'max' falls back to default.
+    if (sizeState.mode === 'max') sizeState = { mode: 'default' };
 
     // --- Open / close ---------------------------------------------------------
     function applyStrings() {
@@ -2663,6 +2733,7 @@ const widgetStrings = {
       }
     }
     function closePanel() {
+      leaveChatView();   // closing from full screen must not leave the page behind a blank ground
       panel.hidden = true;
       panelOpen = false;
       document.documentElement.classList.remove('aw-panel-open');
@@ -2731,6 +2802,9 @@ const widgetStrings = {
         if (href.startsWith('/') && !href.includes('?')) a.setAttribute('href', href + carry);
       });
     }
+    // ?view=chat opens the full-screen chat directly (greeting.ts).
+    if (readView(location.search) === 'chat') enterChatView();
+
     if (location.hash === '#agent') {
       if (!panelOpen) openPanel();
       try { history.replaceState(null, '', location.pathname + location.search); } catch {}

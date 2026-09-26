@@ -5,7 +5,7 @@
 // plain name is dropped rather than escaped.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readVisitor, greetingFor, visitorQuery } from '../src/lib/greeting.ts';
+import { readVisitor, greetingFor, visitorQuery, readView } from '../src/lib/greeting.ts';
 
 const t = {
   greeting: 'Hallo, ich bin Michaels persönlicher KI-Agent.',
@@ -58,4 +58,11 @@ test('visitorQuery: a valid name and du travel with the language switch, nothing
   assert.equal(visitorQuery('?for=%3Cb%3E'), '');
   assert.equal(visitorQuery('?du=1'), '');
   assert.equal(visitorQuery(''), '');
+});
+
+test('readView: only view=chat opens the full-screen chat, anything else is the normal page', () => {
+  assert.equal(readView('?for=Anna&view=chat'), 'chat');
+  assert.equal(readView('?view=wide'), '');
+  assert.equal(readView('?for=Anna'), '');
+  assert.equal(readView(''), '');
 });
