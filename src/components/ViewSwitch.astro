@@ -6,10 +6,13 @@
  * Colours come from the page: each view sets --vs-line, --vs-text,
  * --vs-text-hover, --vs-active-bg and --vs-active-text on an ancestor. A click
  * is remembered (data-view-choice, handled in BaseLayout), a visit is not.
+ * The fourth entry, the project match, is a tool rather than a way to read
+ * the CV, so choosing it is not remembered: the home page keeps opening the
+ * view the visitor last picked for reading.
  */
 import { i18n } from '../lib/i18n';
 
-export type CvView = 'classic' | 'minimal' | 'future';
+export type CvView = 'classic' | 'minimal' | 'future' | 'match';
 
 interface Props {
   lang: 'de' | 'en';
@@ -22,6 +25,7 @@ const views: { id: CvView; href: string; label: string }[] = [
   { id: 'classic', href: `/${lang}/`, label: t.minimal.toClassic },
   { id: 'minimal', href: `/${lang}/minimal/`, label: t.minimal.toMinimal },
   { id: 'future', href: `/${lang}/future/`, label: t.future.toFuture },
+  { id: 'match', href: `/${lang}/match/`, label: t.match.toMatch },
 ];
 ---
 
@@ -31,7 +35,7 @@ const views: { id: CvView; href: string; label: string }[] = [
       href={v.href}
       class:list={['vs-link', v.id === current && 'is-active']}
       aria-current={v.id === current ? 'page' : undefined}
-      data-view-choice={v.id}
+      data-view-choice={v.id === 'match' ? undefined : v.id}
     >{v.label}</a>
   ))}
 </span>

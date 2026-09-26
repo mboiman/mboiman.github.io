@@ -231,13 +231,49 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     Daten) ein. Für einen Terminwunsch genügen Name und eine Kontaktmöglichkeit.
   </p>
 
-  <h2>4. Empfänger und Übermittlung in Drittländer</h2>
+  <h2>4. Projekt-Abgleich</h2>
+  <p>
+    Unter <em>/de/match/</em> lässt sich eine Ausschreibung mit Michael Boimans
+    Lebenslauf abgleichen. Die Beispielprojekte spielen eine gespeicherte Messung ab,
+    dabei geht aus Ihrem Browser keine Anfrage hinaus. Eine Datei, die Sie hochladen,
+    wird nur in Ihrem Browser gelesen und nicht übertragen. Ihr Text erscheint danach im
+    Textfeld.
+  </p>
+  <p>
+    Erst wenn Sie mit eigenem Text auf „Abgleich starten“ klicken, wird dieser Text
+    übertragen: an einen Dienst von Michael Boiman bei <strong>Cloudflare</strong>
+    (Cloudflare Workers), der ihn an die Jev-Schnittstelle von <strong>TypeSafe</strong>
+    weitergibt und die Antworten an Ihren Browser zurückschickt. Der Dienst speichert
+    weder den Text noch die Antworten. Cloudflare verarbeitet dabei technische
+    Verbindungsdaten (u. a. die IP-Adresse), um den Dienst zu betreiben und die Zahl der
+    Abgleiche je Adresse zu begrenzen. TypeSafe verarbeitet den Text, um die Fragen des
+    Abgleichs zu beantworten. Nach eigenen Angaben trainiert TypeSafe keine Modelle mit
+    diesen Eingaben und bewahrt sie so lange auf, wie es für den Dienst nötig ist. Daraus
+    abgeleitete technische Angaben (Telemetrie) darf TypeSafe unbefristet verwenden.
+  </p>
+  <p>
+    Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse liegt
+    darin, den von Ihnen angestoßenen Abgleich durchzuführen. Die Wertung ist eine
+    maschinelle Schätzung über Textstellen. Eine automatisierte Entscheidung im Sinne
+    von Art. 22 DSGVO findet nicht statt.
+  </p>
+  <p class="legal-muted">
+    Hinweis: Bitte fügen Sie keine vertraulichen Angaben und keine Namen oder
+    Kontaktdaten von Personen ein. Für den Abgleich genügen Aufgaben und Anforderungen.
+  </p>
+
+  <h2>5. Empfänger und Übermittlung in Drittländer</h2>
   <p>Im beschriebenen Umfang erhalten folgende Stellen Daten:</p>
   <ul>
     <li><strong>GitHub</strong> (GitHub, Inc., USA): Hosting der Website.</li>
     <li>
       <strong>Cloudflare</strong> (Cloudflare, Inc., USA): Transport und Schutz des
       Chats.
+    </li>
+    <li>
+      <strong>TypeSafe</strong> (TypeSafe AI, Inc., San Francisco, USA): Beantwortung
+      der Fragen beim Projekt-Abgleich mit eigenem Text (Ziffer 4). Cloudflare betreibt
+      dafür außerdem den Dienst, der den Text weiterreicht.
     </li>
     <li>
       <strong>Anthropic</strong> (Anthropic Ireland, Limited, Irland): Erzeugung der
@@ -273,11 +309,13 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     gehören zu Unternehmensgruppen mit Sitz in den USA, sodass Daten auch dort
     verarbeitet werden können. Für diese Anbieter erfolgen Übermittlungen in die USA auf
     Grundlage des EU-U.S. Data Privacy Framework (soweit das jeweilige Unternehmen
-    zertifiziert ist) bzw. der EU-Standardvertragsklauseln gemäß Art. 46 DSGVO. An
+    zertifiziert ist) bzw. der EU-Standardvertragsklauseln gemäß Art. 46 DSGVO. Für TypeSafe, das nach eigenen Angaben in den USA verarbeitet, erfolgt die
+    Übermittlung auf Grundlage der EU-Standardvertragsklauseln in dessen Vertrag zur
+    Auftragsverarbeitung. An
     sonstige Dritte werden keine Daten weitergegeben.
   </p>
 
-  <h2>5. Speicherdauer</h2>
+  <h2>6. Speicherdauer</h2>
   <p>
     Wo unten eine Frist steht, werden die Daten nach ihrem Ablauf automatisch gelöscht,
     soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Wo keine Frist
@@ -295,6 +333,11 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     </li>
     <li><strong>Sitzungsdateien der Claude-Software:</strong> 30 Tage.</li>
     <li>
+      <strong>Projekt-Abgleich:</strong> beim Dienst bei Cloudflare keine Speicherung.
+      Bei TypeSafe so lange, wie TypeSafe es für den Dienst für nötig hält. Eine feste
+      Frist nennt TypeSafe nicht.
+    </li>
+    <li>
       <strong>Terminwünsche und Anfragen,</strong> auch die Angaben, die zu einer
       Meldung über Telegram gespeichert werden: 12 Monate. Entsteht aus einer Anfrage eine Zusammenarbeit,
       gelten die dafür vorgeschriebenen Fristen.
@@ -309,7 +352,7 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       Ihres Anliegens oder als Nachweis der Kommunikation gebraucht werden. Eine
       automatische Löschung nach einer festen Frist ist dort nicht eingerichtet. Auf
       Ihre Anfrage löscht Michael Boiman sie, soweit keine Aufbewahrungspflicht
-      entgegensteht (siehe Ziffer 6).
+      entgegensteht (siehe Ziffer 7).
     </li>
     <li>
       <strong>E-Mails des Agenten an Sie</strong> (Bestätigungscode, Kalendereinladung,
@@ -333,7 +376,7 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     <li><strong>Server-Zugriffsdaten beim Hosting:</strong> nach Maßgabe von GitHub.</li>
   </ul>
 
-  <h2>6. Ihre Rechte</h2>
+  <h2>7. Ihre Rechte</h2>
   <p>
     Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung
     (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit
@@ -351,14 +394,14 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     direkt eine E-Mail, statt den Chat zu nutzen.
   </p>
 
-  <h2>7. Beschwerderecht</h2>
+  <h2>8. Beschwerderecht</h2>
   <p>
     Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.
     Zuständig ist u. a. der Hessische Beauftragte für Datenschutz und
     Informationsfreiheit, Postfach 3163, 65021 Wiesbaden.
   </p>
 
-  <h2>8. Änderungen</h2>
+  <h2>9. Änderungen</h2>
   <p>
     Diese Datenschutzerklärung wird angepasst, sobald sich das Angebot oder die
     rechtlichen Rahmenbedingungen ändern.

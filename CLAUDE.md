@@ -53,6 +53,12 @@ This is an Astro-based CV generation system that creates a multilingual (German/
   switch (`ViewSwitch.astro`), shared browser behaviour in `src/lib/cv-links.ts`.
   README "Three Views of the CV" has the tailored link, entry links, remembered
   view, print and agent styling
+- Project match `/de/match/` (`CVMatch.astro`): a posting against the CV, judged
+  by Jev (TypeSafe) per line, scored in `src/lib/match.ts`, tested by
+  `npm run test:match`. Examples replay stored runs (`src/data/match/`, measured
+  with `npm run measure:match`); own text goes to the worker in
+  `workers/jev-match/`. The TypeSafe key never goes into the repo: keychain entry
+  `typesafe-api` locally, Worker secret live. Details in the README
 - `public/` - Static assets (CSS, JavaScript, images)
 
 ### Build Process

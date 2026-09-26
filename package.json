@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.3.289",
     "puppeteer": "^25.11.0",
     "sharp": "^0.35.4",
     "toml": "^5.0.0"
@@ -20,7 +21,10 @@
     "check:scale": "node scripts/check-scale.mjs",
     "check:privacy": "node scripts/check-privacy.mjs",
     "test:pdf": "node --experimental-strip-types --test test/pdf.test.cjs",
-    "test:graph": "node --experimental-strip-types --test test/graph.test.mjs"
+    "test:graph": "node --experimental-strip-types --test test/graph.test.mjs",
+    "test:match": "node --experimental-strip-types --test test/match.test.mjs",
+    "measure:match": "node --experimental-strip-types scripts/jev-measure.mjs",
+    "og:match": "node --experimental-strip-types scripts/match-og.mjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.4",

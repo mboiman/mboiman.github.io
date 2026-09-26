@@ -1072,6 +1072,7 @@ const widgetStrings = {
 </style>
 
 <script>
+  import { DEMOS } from '../lib/match-demos';
   // ---------------------------------------------------------------------------
   // Vanilla A2A client — ported from bks-web (A2AChat.tsx / agentService.ts).
   // ---------------------------------------------------------------------------
@@ -1331,6 +1332,8 @@ const widgetStrings = {
     // on its own line at the end of the reply:
     //   ⟦ui:highlight tuev-sued⟧        at most one, scroll + flash a section
     //   ⟦ui:offer Wann sind Sie frei?⟧  at most two, rendered as quick-reply buttons
+    //   ⟦ui:match⟧ or ⟦ui:match <demo>⟧  at most one: a button that starts the
+    //                                     project match (see addMatchButton)
     // We (1) STRIP both kinds from EVERY render so neither ever shows as text
     // (even mid-stream a half-typed sentinel of either kind is hidden), and
     // (2) collect anchors/offers so send() can run the highlight once and render
@@ -1338,10 +1341,13 @@ const widgetStrings = {
     // is fine: the sentinel chars ⟦ ⟧ are not HTML-special.
     const UI_DIRECTIVE_RE = /⟦\s*ui:highlight\s+([a-z0-9-]+)\s*⟧/g;
     const UI_OFFER_RE = /⟦\s*ui:offer\s+([^⟧\n]{1,80})⟧/g;
-    function parseDirectives(raw: string): { text: string; anchors: string[]; offers: string[] } {
+    const UI_MATCH_RE = /⟦\s*ui:match(?:\s+([a-z0-9-]{1,40}))?\s*⟧/g;
+    function parseDirectives(raw: string): { text: string; anchors: string[]; offers: string[]; match: { demo: string } | null } {
       const anchors: string[] = [];
       const offers: string[] = [];
+      let match: { demo: string } | null = null;
       let text = String(raw ?? '')
+        .replace(UI_MATCH_RE, (_m: string, d?: string) => { if (!match) match = { demo: d || '' }; return ''; })
         .replace(UI_DIRECTIVE_RE, (_m: string, a: string) => { anchors.push(a); return ''; })
         // Button text only ever goes through textContent when rendered (see
         // addOfferButtons); the trim/slice here is a UX cap (the contract's own
@@ -1352,9 +1358,9 @@ const widgetStrings = {
           return '';
         });
       // hide a not-yet-closed (streaming) sentinel of either kind
-      text = text.replace(/⟦\s*ui:(?:highlight|offer)[^⟧]*$/, '');
+      text = text.replace(/⟦\s*ui:(?:highlight|offer|match)[^⟧]*$/, '');
       text = text.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-      return { text, anchors, offers: offers.slice(0, 2) };
+      return { text, anchors, offers: offers.slice(0, 2), match };
     }
 
     /** MAIN ENTRY. raw = untrusted agent text. Returns sanitised HTML for innerHTML. */
@@ -2229,13 +2235,50 @@ const widgetStrings = {
       offerRowEl = row;
     }
 
+    // ── The project match, proposed by the agent (⟦ui:match⟧) ──────────────
+    // The agent can only PROPOSE: the widget shows one button, and the match
+    // runs when the visitor clicks it, because own text leaves for Cloudflare
+    // and TypeSafe only on a click (privacy page, section 4). Without an id the
+    // posting is the visitor's last message; with one it is that example. On
+    // the match page the page takes it over through an event; anywhere else the
+    // posting waits in sessionStorage and the button opens the match page.
+    const DEMO_IDS = DEMOS.map((d) => d.id);
+    function addMatchButton(demo: string): void {
+      const posting = demo ? '' : lastUserMessage;
+      if (demo && !DEMO_IDS.includes(demo)) return;
+      if (!demo && posting.trim().length < 40) return;
+      if (!offerRowEl) {
+        offerRowEl = document.createElement('div');
+        offerRowEl.className = 'aw-row aw-row-agent aw-offer-row';
+        messagesEl.appendChild(offerRowEl);
+      }
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'aw-offer-btn aw-match-btn';
+      btn.textContent = lang === 'en' ? 'Start the project match' : 'Projekt-Abgleich starten';
+      btn.addEventListener('click', () => {
+        const detail = { text: posting, demo };
+        if (document.querySelector('[data-match-page]')) {
+          window.dispatchEvent(new CustomEvent('bridge-agent:match', { detail }));
+          if (isMobile()) closePanel();
+          return;
+        }
+        try { sessionStorage.setItem('cv-match-pending', JSON.stringify(detail)); } catch {}
+        location.href = `/${lang}/match/`;
+      });
+      offerRowEl.prepend(btn);
+      scrollToBottom();
+    }
+
     // Execute directives carried by a final answer: at most ONE highlight,
-    // at most TWO offer buttons. Offers replace whatever the previous answer
-    // showed (send() also clears them the moment a new message goes out).
+    // at most TWO offer buttons, at most one match button. Offers replace
+    // whatever the previous answer showed (send() also clears them the moment
+    // a new message goes out).
     function runDirectives(text: string): void {
-      const { anchors, offers } = parseDirectives(text);
+      const { anchors, offers, match } = parseDirectives(text);
       for (const a of anchors) { if (highlightAnchor(a)) break; }
       addOfferButtons(offers);
+      if (match) addMatchButton((match as { demo: string }).demo);
     }
 
     // Dev hook: drive the highlight from the console without an agent (test recipe).
@@ -2298,7 +2341,7 @@ const widgetStrings = {
       // purpose (a wire contract other Bridge-Agent tracks parse against, not
       // prose, see UI-VERTRAG). Its presence is what gates ⟦ui:…⟧ directives on
       // the agent side; without a runtime_context block at all, none are valid.
-      const UI_CAPS = `ui_capabilities: ["highlight","offer"]`;
+      const UI_CAPS = `ui_capabilities: ["highlight","offer","match"]`;
       if (lang === 'en') {
         const vis = visAnchor
           ? `Currently in the visitor's view: section “${visLabel}” (anchor ${visAnchor}).`
@@ -2307,6 +2350,7 @@ const widgetStrings = {
           `You are embedded on Michael Boiman's CV page (path ${path}, UI language ${lang}). You can guide this page: scrolling to and briefly highlighting one section via ⟦ui:highlight <anchor>⟧.`,
           UI_CAPS,
           `You may also propose up to two short next steps as buttons: append at most two lines ⟦ui:offer <button text>⟧ after the highlight line (highlight first, then offers). Button text: at most 40 characters, plain text, no ⟦ or ⟧. A click sends that exact text as the visitor's next message.`,
+          `Project match: when the visitor's last message is a job posting or project description and they want to know how Michael fits, append the line ⟦ui:match⟧ as the very last line; the widget offers a button that compares that message with the CV. To show an example instead, use ⟦ui:match <id>⟧ with one of: ${DEMO_IDS.join(', ')}. The match runs only when the visitor clicks.`,
           vis,
           sections.length ? `Section anchors (each spans a whole group — use one for a category/overview question, e.g. "which talks?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
           entries.length ? `Single-entry anchors (use one when the answer points at a specific entry): ${entries.join(', ')}.` : '',
@@ -2319,6 +2363,7 @@ const widgetStrings = {
         `Sie sind auf Michael Boimans CV-Seite eingebettet (Pfad ${path}, Oberflächensprache ${lang}). Sie können diese Seite führen: zu einem Abschnitt scrollen und ihn kurz hervorheben via ⟦ui:highlight <anchor>⟧.`,
         UI_CAPS,
         `Sie können außerdem bis zu zwei kurze nächste Schritte als Knöpfe vorschlagen: höchstens zwei Zeilen ⟦ui:offer <Knopftext>⟧ nach der Highlight-Zeile anhängen (erst highlight, dann offers). Knopftext: höchstens 40 Zeichen, reiner Text, ohne ⟦ oder ⟧. Ein Klick sendet genau diesen Text als nächste Nachricht des Besuchers.`,
+        `Projekt-Abgleich: Ist die letzte Nachricht des Besuchers eine Ausschreibung oder Projektbeschreibung und möchte er wissen, wie Michael dazu passt, hängen Sie als allerletzte Zeile ⟦ui:match⟧ an; das Widget zeigt dann einen Knopf, der genau diese Nachricht mit dem Lebenslauf abgleicht. Für ein Beispiel stattdessen ⟦ui:match <id>⟧ mit einem von: ${DEMO_IDS.join(', ')}. Der Abgleich läuft erst, wenn der Besucher klickt.`,
         vis,
         sections.length ? `Abschnitts-Anker (umfassen je eine ganze Gruppe — einer davon für Kategorie-/Übersichtsfragen, z. B. „welche Vorträge?"): ${sections.map((s) => `${s.a} (${s.label})`).join(', ')}.` : '',
         entries.length ? `Einzel-Anker (einer davon, wenn die Antwort auf einen bestimmten Eintrag zeigt): ${entries.join(', ')}.` : '',

@@ -437,6 +437,114 @@ export interface I18nStrings {
     stop: string;
     axisBreak: string;
   };
+  /** The fourth view under /<lang>/match/: a posting against the CV, judged
+   *  by Jev (TypeSafe) line by line and scored in code. Axis labels live in
+   *  src/lib/match.ts beside the text Jev reads for them. */
+  match: {
+    toMatch: string;
+    seoTitle: string;
+    seoDescription: string;
+    kicker: string;
+    title: string;
+    lead: string;
+    tabsLabel: string;
+    tabDemo: string;
+    tabText: string;
+    tabFile: string;
+    demoMeasured: string;
+    demoShow: string;
+    textLabel: string;
+    textPlaceholder: string;
+    textCount: string;
+    fileDrop: string;
+    fileTypes: string;
+    fileRead: string;
+    fileError: string;
+    fileTooBig: string;
+    start: string;
+    noteDemo: string;
+    noteLive: string;
+    liveDown: string;
+    tooShort: string;
+    errorLive: string;
+    errorRate: string;
+    modeReplay: string;
+    modeLive: string;
+    statusWaiting: string;
+    statusDone: string;
+    cRequests: string;
+    cJudgements: string;
+    cTime: string;
+    cTokens: string;
+    cCost: string;
+    costNote: string;
+    skip: string;
+    replay: string;
+    newRun: string;
+    reqTitle: string;
+    evidTitle: string;
+    evidHint: string;
+    must: string;
+    nice: string;
+    notReq: string;
+    levels: string[];
+    noEvidence: string;
+    evidCount: string;
+    kindStation: string;
+    kindProject: string;
+    kindProfile: string;
+    openEntry: string;
+    scoreTitle: string;
+    verdicts: Record<'strong' | 'good' | 'partial' | 'weak', string>;
+    subCoverage: string;
+    subMust: string;
+    subTopics: string;
+    radarLabel: string;
+    legendDemand: string;
+    legendCover: string;
+    legendProfile: string;
+    role: string;
+    roles: Record<string, string>;
+    gapsTitle: string;
+    gapsNone: string;
+    gapsNote: string;
+    weightsTitle: string;
+    weightsNote: string;
+    weightShare: string;
+    weightShareLabel: string;
+    weightMust: string;
+    weightMustX: string;
+    reset: string;
+    ctaTitle: string;
+    ctaText: string;
+    ctaMail: string;
+    mailSubject: string;
+    ctaAgent: string;
+    agentPrompt: string;
+    agentPromptNoGaps: string;
+    methodTitle: string;
+    methodLead: string;
+    steps: { title: string; body: string }[];
+    formulaTitle: string;
+    formula: string[];
+    limitsTitle: string;
+    limits: string[];
+    exampleTitle: string;
+    exampleNote: string;
+    pdfButton: string;
+    pdfHint: string;
+    pdfBusy: string;
+    pdfFailed: string;
+    pdfOwnPosting: string;
+    pdfLinesTitle: string;
+    pdfCols: [string, string, string, string];
+    pdfWeights: string;
+    pdfFooter: string;
+    pdfCvNote: string;
+    pdfCvMissing: string;
+    pdfFile: string;
+    ogAlt: string;
+  };
   agentWidget: AgentWidgetStrings;
 }
 
@@ -942,6 +1050,133 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       playLabel: 'Werdegang von {first} bis heute abspielen',
       stop: 'Anhalten',
       axisBreak: 'Vor {year} gestaucht dargestellt',
+    },
+    match: {
+      toMatch: 'Abgleich',
+      seoTitle: 'Michael Boiman · Projekt-Abgleich mit Jev',
+      seoDescription: 'Ausschreibung einfügen: Jev prüft jede Anforderung gegen Michaels Lebenslauf und nennt den Beleg.',
+      kicker: 'Projekt-Abgleich · mit Jev',
+      title: 'Passt Michael zu Ihrem Projekt?',
+      lead: 'Fügen Sie eine Ausschreibung ein, laden Sie eine Datei hoch oder nehmen Sie ein Beispiel. Jev, ein Modell von TypeSafe, prüft jede Anforderung gegen den Lebenslauf und nennt den Beleg. Die Wertung rechnet danach der Code dieser Seite, nachvollziehbar und einstellbar.',
+      tabsLabel: 'Woher das Projekt kommt',
+      tabDemo: 'Beispielprojekt',
+      tabText: 'Text einfügen',
+      tabFile: 'Datei hochladen',
+      demoMeasured: 'gemessen am {date}',
+      demoShow: 'Ausschreibung lesen',
+      textLabel: 'Ausschreibung oder Projektbeschreibung',
+      textPlaceholder: 'Ausschreibung hier einfügen, am besten mit Aufgaben und Anforderungen als Liste.',
+      textCount: '{n} von {max} Zeichen',
+      fileDrop: 'Datei hierher ziehen oder auswählen',
+      fileTypes: 'Text, Markdown, PDF oder Word (docx), bis 5 MB. Die Datei wird in Ihrem Browser gelesen. Der Text erscheint danach im Textfeld, dort können Sie ihn vor dem Start prüfen.',
+      fileRead: '{name} gelesen, {n} Zeichen. Bitte kurz prüfen und dann starten.',
+      fileError: 'Die Datei ließ sich nicht lesen. Bitte den Text einfügen.',
+      fileTooBig: 'Die Datei ist größer als 5 MB.',
+      start: 'Abgleich starten',
+      noteDemo: 'Ein Beispiel spielt eine gespeicherte Messung ab. Aus Ihrem Browser geht dabei keine Anfrage hinaus.',
+      noteLive: 'Eigener Text geht über einen Cloudflare-Worker an die Jev-API von TypeSafe in den USA. Der Worker speichert nichts. Bitte keine vertraulichen Angaben einfügen.',
+      liveDown: 'Der Live-Abgleich ist gerade nicht erreichbar. Die Beispielprojekte funktionieren trotzdem.',
+      tooShort: 'Zu wenig Text: Bitte mindestens zwei Anforderungen einfügen, am besten als Liste.',
+      errorLive: 'Der Abgleich ist fehlgeschlagen ({error}). Bitte später noch einmal versuchen.',
+      errorRate: 'Gerade laufen zu viele Abgleiche. Bitte in einer Minute noch einmal versuchen.',
+      modeReplay: 'Wiedergabe der Messung vom {date}',
+      modeLive: 'Live gemessen, gerade eben',
+      statusWaiting: 'Jev liest die Ausschreibung',
+      statusDone: '{total} Zeilen, {urteile} Urteile, {sekunden} s gemessene Antwortzeit',
+      cRequests: 'Anfragen',
+      cJudgements: 'Urteile',
+      cTime: 'Antwortzeit',
+      cTokens: 'Eingabetoken',
+      cCost: 'Kosten',
+      costNote: '{price} US-Dollar je Million Eingabetoken laut TypeSafe',
+      skip: 'Endzustand zeigen',
+      replay: 'Noch einmal abspielen',
+      newRun: 'Anderes Projekt',
+      reqTitle: 'Anforderungen aus dem Projekt',
+      evidTitle: 'Belege aus dem Lebenslauf',
+      evidHint: 'Jev wählt je Anforderung den Eintrag, der sie am besten belegt.',
+      must: 'Muss',
+      nice: 'Kann',
+      notReq: 'kein Kriterium',
+      levels: ['nicht belegt', 'verwandt', 'belegt', 'mehrfach belegt'],
+      noEvidence: 'kein Beleg',
+      evidCount: 'Anforderungen: {n}',
+      kindStation: 'Station',
+      kindProject: 'Projekt',
+      kindProfile: 'Profil',
+      openEntry: 'Im Lebenslauf ansehen',
+      scoreTitle: 'Gesamtwertung',
+      verdicts: { strong: 'Passt sehr gut', good: 'Passt gut', partial: 'Passt in Teilen', weak: 'Passt wenig' },
+      subCoverage: 'Anforderungen gedeckt',
+      subMust: 'Muss-Kriterien belegt',
+      subTopics: 'Themen-Passung',
+      radarLabel: 'Netzdiagramm: je Bereich, wie stark das Projekt ihn verlangt und wie gut der Lebenslauf ihn belegt',
+      legendDemand: 'Projekt verlangt',
+      legendCover: 'Lebenslauf belegt',
+      legendProfile: 'Bereich ohne eigene Zeile: Wert aus dem Gesamtprofil',
+      role: 'Rolle laut Jev: {role}',
+      roles: {
+        test_automation: 'Testautomatisierung',
+        qa_lead: 'QA-Leitung oder Testmanagement',
+        performance: 'Performance und Last',
+        ai_engineer: 'KI- und Agenten-Engineering',
+        developer: 'Softwareentwicklung',
+        consultant: 'Beratung oder Architektur',
+        other: 'andere Rolle',
+      },
+      gapsTitle: 'Offene Punkte',
+      gapsNone: 'Jede Anforderung hat einen Beleg im Lebenslauf.',
+      gapsNote: 'Hier findet Jev im Lebenslauf keinen oder nur einen verwandten Beleg. Das heißt nicht, dass die Erfahrung fehlt, nur dass der öffentliche Lebenslauf sie nicht zeigt.',
+      weightsTitle: 'Gewichtung',
+      weightsNote: 'Die Urteile bleiben, wie sie sind. Die Gewichte ändern nur die Rechnung im Code, dafür ist keine neue Anfrage nötig.',
+      weightShare: 'Anforderungen {a} % · Themen {b} %',
+      weightShareLabel: 'Anteil der Anforderungen an der Gesamtwertung',
+      weightMust: 'Muss-Kriterien zählen',
+      weightMustX: '{n}-fach',
+      reset: 'Zurücksetzen',
+      ctaTitle: 'Und jetzt?',
+      ctaText: 'Die Wertung ersetzt kein Gespräch. Wenn das Projekt interessant ist, schreiben Sie Michael oder fragen Sie seinen Agenten.',
+      ctaMail: 'E-Mail an Michael',
+      mailSubject: 'Projektanfrage',
+      ctaAgent: 'Agenten fragen',
+      agentPrompt: 'Ich habe ein Projekt mit den Schwerpunkten {axes}. Offene Punkte laut Abgleich: {gaps}. Wie passt Michael dazu, und ab wann wäre er verfügbar?',
+      agentPromptNoGaps: 'Ich habe ein Projekt mit den Schwerpunkten {axes}. Wie passt Michael dazu, und ab wann wäre er verfügbar?',
+      methodTitle: 'So entsteht die Wertung',
+      methodLead: 'Jev schreibt keinen Text. Es beantwortet kleine, feste Fragen mit einer Wahrscheinlichkeit, einer Auswahl oder einer Stufe. Die Wertung setzt der Code dieser Seite daraus zusammen.',
+      steps: [
+        { title: 'Code zerlegt', body: 'Die Ausschreibung wird in Zeilen zerlegt: jeder Listenpunkt eine Zeile, ein Absatz ohne Liste in Sätze. Überschriften fallen weg, höchstens 16 Zeilen gehen hinaus.' },
+        { title: 'Jev urteilt', body: 'Je Zeile eine Anfrage mit dem ganzen Lebenslauf: Ist das eine Anforderung, ist sie Pflicht, zu welchem Bereich gehört sie, welcher Eintrag belegt sie und wie gut, von 0 bis 3. Eine weitere Anfrage sagt, wie zentral jeder Bereich für das Projekt ist.' },
+        { title: 'Code rechnet', body: 'Deckung, Muss-Kriterien und Themen-Passung sind Arithmetik über diese Antworten. Wer die Gewichte verschiebt, ändert die Rechnung, nicht die Urteile.' },
+      ],
+      formulaTitle: 'Die Rechnung',
+      formula: [
+        'Deckung = Summe aus Gewicht × Stufe/3, geteilt durch die Summe der Gewichte. Eine Pflichtzeile wiegt doppelt.',
+        'Themen-Passung = je Bereich die mittlere Deckung seiner Zeilen, gewichtet damit, wie zentral der Bereich für das Projekt ist.',
+        'Gesamt = 70 % Deckung + 30 % Themen-Passung, auf 100 Punkte gerundet. Ab 85 sehr gut, ab 70 gut, ab 50 in Teilen.',
+        'Als belegt gilt eine Zeile ab Stufe 1,5, also näher an „in einer Rolle gemacht“ als an „verwandt“.',
+      ],
+      limitsTitle: 'Grenzen',
+      limits: [
+        'Jev sieht nur den öffentlichen Lebenslauf dieser Seite. Was dort nicht steht, kann es nicht belegen.',
+        'Die Fragen an Jev sind englisch, die Texte meist deutsch.',
+        'Jede Zeile wird einmal gefragt. Ein zweiter Lauf kann bei einzelnen Stufen leicht abweichen.',
+        'Die Wertung ist eine Maschinenschätzung über Textstellen, kein Urteil über Menschen und keine Zusage.',
+      ],
+      exampleTitle: 'Eine Anfrage an Jev, gekürzt',
+      exampleNote: 'Die Einträge des Lebenslaufs stehen einmal im Zustand, die Auswahl verweist per Pfad auf sie.',
+      pdfButton: 'Auswertung als PDF',
+      pdfHint: 'Mit dem Lebenslauf als PDF dahinter. Wird in Ihrem Browser erstellt.',
+      pdfBusy: 'PDF wird erstellt …',
+      pdfFailed: 'Das PDF ließ sich nicht erstellen. Bitte noch einmal versuchen.',
+      pdfOwnPosting: 'Eigene Ausschreibung',
+      pdfLinesTitle: 'Anforderungen und Belege',
+      pdfCols: ['Anforderung', 'Art', 'Stufe', 'Beleg im Lebenslauf'],
+      pdfWeights: 'Gewichtung: Anforderungen {a} %, Themen {b} %, Muss-Kriterien {n}-fach',
+      pdfFooter: 'Erstellt am {date} auf mboiman.github.io/de/match/',
+      pdfCvNote: 'Auf den folgenden Seiten: der Lebenslauf von Michael Boiman.',
+      pdfCvMissing: 'Den Lebenslauf finden Sie unter mboiman.github.io.',
+      pdfFile: 'Michael_Boiman_Abgleich',
+      ogAlt: 'Netzdiagramm eines Projekt-Abgleichs: was ein Beispielprojekt verlangt und was Michael Boimans Lebenslauf belegt, Gesamtwertung {score}',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1453,6 +1688,133 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       playLabel: 'Play the career from {first} to today',
       stop: 'Stop',
       axisBreak: 'Compressed before {year}',
+    },
+    match: {
+      toMatch: 'Match',
+      seoTitle: 'Michael Boiman · Project match with Jev',
+      seoDescription: 'Paste a job posting: Jev checks every requirement against Michael\'s CV and names the evidence.',
+      kicker: 'Project match · with Jev',
+      title: 'Does Michael fit your project?',
+      lead: 'Paste a job posting, upload a file or pick an example. Jev, a model by TypeSafe, checks every requirement against the CV and names the evidence. The code of this page then computes the score, traceable and adjustable.',
+      tabsLabel: 'Where the project comes from',
+      tabDemo: 'Example project',
+      tabText: 'Paste text',
+      tabFile: 'Upload file',
+      demoMeasured: 'measured on {date}',
+      demoShow: 'Read the posting',
+      textLabel: 'Job posting or project description',
+      textPlaceholder: 'Paste the posting here, ideally with tasks and requirements as a list.',
+      textCount: '{n} of {max} characters',
+      fileDrop: 'Drop a file here or choose one',
+      fileTypes: 'Text, Markdown, PDF or Word (docx), up to 5 MB. The file is read in your browser. Its text then appears in the text field, where you can check it before you start.',
+      fileRead: 'Read {name}, {n} characters. Please check it, then start.',
+      fileError: 'The file could not be read. Please paste the text.',
+      fileTooBig: 'The file is larger than 5 MB.',
+      start: 'Start the match',
+      noteDemo: 'An example replays a stored measurement. Your browser sends no request for it.',
+      noteLive: 'Your own text goes through a Cloudflare worker to the Jev API of TypeSafe in the US. The worker stores nothing. Please do not paste confidential details.',
+      liveDown: 'The live match is not reachable right now. The example projects still work.',
+      tooShort: 'Not enough text: please paste at least two requirements, ideally as a list.',
+      errorLive: 'The match failed ({error}). Please try again later.',
+      errorRate: 'Too many matches are running right now. Please try again in a minute.',
+      modeReplay: 'Replay of the measurement from {date}',
+      modeLive: 'Measured live, just now',
+      statusWaiting: 'Jev is reading the posting',
+      statusDone: '{total} lines, {urteile} judgements, {sekunden} s measured response time',
+      cRequests: 'Requests',
+      cJudgements: 'Judgements',
+      cTime: 'Response time',
+      cTokens: 'Input tokens',
+      cCost: 'Cost',
+      costNote: '{price} US dollars per million input tokens according to TypeSafe',
+      skip: 'Show end state',
+      replay: 'Play again',
+      newRun: 'Other project',
+      reqTitle: 'Requirements of the project',
+      evidTitle: 'Evidence from the CV',
+      evidHint: 'For each requirement Jev picks the entry that shows it best.',
+      must: 'Must',
+      nice: 'Nice',
+      notReq: 'not a criterion',
+      levels: ['not shown', 'related', 'shown', 'shown repeatedly'],
+      noEvidence: 'no evidence',
+      evidCount: 'Requirements: {n}',
+      kindStation: 'Position',
+      kindProject: 'Project',
+      kindProfile: 'Profile',
+      openEntry: 'Open in the CV',
+      scoreTitle: 'Overall score',
+      verdicts: { strong: 'Very good fit', good: 'Good fit', partial: 'Partial fit', weak: 'Weak fit' },
+      subCoverage: 'Requirements covered',
+      subMust: 'Must-haves shown',
+      subTopics: 'Topic fit',
+      radarLabel: 'Net diagram: for each area, how strongly the project asks for it and how well the CV shows it',
+      legendDemand: 'Project asks for',
+      legendCover: 'CV shows',
+      legendProfile: 'Area without a line of its own: value from the overall profile',
+      role: 'Role according to Jev: {role}',
+      roles: {
+        test_automation: 'test automation',
+        qa_lead: 'QA lead or test management',
+        performance: 'performance and load',
+        ai_engineer: 'AI and agent engineering',
+        developer: 'software development',
+        consultant: 'consulting or architecture',
+        other: 'other role',
+      },
+      gapsTitle: 'Open points',
+      gapsNone: 'Every requirement has evidence in the CV.',
+      gapsNote: 'Here Jev finds no evidence in the CV, or only related experience. That does not mean the experience is missing, only that the public CV does not show it.',
+      weightsTitle: 'Weighting',
+      weightsNote: 'The judgements stay as they are. The weights only change the arithmetic in code, no new request is needed.',
+      weightShare: 'Requirements {a} % · Topics {b} %',
+      weightShareLabel: 'Share of the requirements in the overall score',
+      weightMust: 'Must-haves count',
+      weightMustX: '{n} times',
+      reset: 'Reset',
+      ctaTitle: 'What now?',
+      ctaText: 'The score does not replace a conversation. If the project is interesting, write to Michael or ask his agent.',
+      ctaMail: 'Email Michael',
+      mailSubject: 'Project inquiry',
+      ctaAgent: 'Ask the agent',
+      agentPrompt: 'I have a project focused on {axes}. Open points according to the match: {gaps}. How does Michael fit, and when would he be available?',
+      agentPromptNoGaps: 'I have a project focused on {axes}. How does Michael fit, and when would he be available?',
+      methodTitle: 'How the score comes about',
+      methodLead: 'Jev writes no text. It answers small, fixed questions with a probability, a choice or a level. The code of this page composes the score from them.',
+      steps: [
+        { title: 'Code splits', body: 'The posting is split into lines: every list item one line, a paragraph without a list into sentences. Headings drop out, at most 16 lines go out.' },
+        { title: 'Jev judges', body: 'One request per line with the whole CV: is it a requirement, is it mandatory, which area does it belong to, which entry shows it and how well, from 0 to 3. One more request says how central each area is to the project.' },
+        { title: 'Code computes', body: 'Coverage, must-haves and topic fit are arithmetic over these answers. Moving the weights changes the arithmetic, not the judgements.' },
+      ],
+      formulaTitle: 'The arithmetic',
+      formula: [
+        'Coverage = sum of weight × level/3, divided by the sum of the weights. A mandatory line weighs double.',
+        'Topic fit = per area the mean coverage of its lines, weighted by how central the area is to the project.',
+        'Overall = 70 % coverage + 30 % topic fit, rounded to 100 points. From 85 very good, from 70 good, from 50 partial.',
+        'A line counts as shown from level 1.5, closer to "done in one role" than to "related".',
+      ],
+      limitsTitle: 'Limits',
+      limits: [
+        'Jev only sees the public CV of this site. What is not there, it cannot show.',
+        'The questions to Jev are in English, the texts are often German.',
+        'Every line is asked once. A second run may differ slightly on single levels.',
+        'The score is a machine estimate over passages of text, not a judgement about people and not a commitment.',
+      ],
+      exampleTitle: 'One request to Jev, shortened',
+      exampleNote: 'The CV entries sit in the state once, and the choice points at them by path.',
+      pdfButton: 'Evaluation as PDF',
+      pdfHint: 'With the CV as a PDF behind it. Made in your browser.',
+      pdfBusy: 'Making the PDF …',
+      pdfFailed: 'The PDF could not be made. Please try again.',
+      pdfOwnPosting: 'Own posting',
+      pdfLinesTitle: 'Requirements and evidence',
+      pdfCols: ['Requirement', 'Type', 'Level', 'Evidence in the CV'],
+      pdfWeights: 'Weighting: requirements {a} %, topics {b} %, must-haves {n} times',
+      pdfFooter: 'Made on {date} at mboiman.github.io/en/match/',
+      pdfCvNote: 'On the following pages: the CV of Michael Boiman.',
+      pdfCvMissing: 'The CV is at mboiman.github.io.',
+      pdfFile: 'Michael_Boiman_Match',
+      ogAlt: 'Net diagram of a project match: what an example project asks for and what Michael Boiman\'s CV shows, overall score {score}',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

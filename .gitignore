@@ -22,3 +22,10 @@ public/pdfs/*.pdf
 # Der Deploy-Workflow erzeugt sie vor `npm run build`; fehlt sie, sagt die
 # Seite dazu einfach nichts.
 src/data/link-state.json
+
+# CV-Einträge für den Live-Worker des Projekt-Abgleichs, beim Deploy aus
+# config.cv.toml erzeugt (scripts/match-entries.mjs). Nie einchecken: sonst
+# gäbe es einen zweiten Lebenslauf, der vom ersten abweicht.
+workers/jev-match/.generated/
+workers/jev-match/.wrangler/
+workers/jev-match/.dev.vars

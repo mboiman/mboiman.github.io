@@ -1,0 +1,38 @@
+# Live side of the project match (/match/ on mboiman.github.io).
+# The browser sends a posting, this worker asks Jev and returns typed answers.
+# Nothing is stored. The key is a Worker secret, never in this file:
+#   wrangler secret put TYPESAFE_API_KEY
+name = "jev-match"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[build]
+command = "node --experimental-strip-types ../../scripts/match-entries.mjs"
+
+# Ten runs per minute and address; a run is 1 + up to 16 Jev requests.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "7301"
+simple = { limit = 10, period = 60 }
+
+# All visitors together: 30 runs a minute. At about 7,500 input tokens per
+# request and 0.042 US$ per million that is at most about 0.16 US$ a minute;
+# a spend limit in the TypeSafe account is the second fence.
+[[ratelimits]]
+name = "GLOBAL_LIMITER"
+namespace_id = "7302"
+simple = { limit = 30, period = 60 }
+
+[vars]
+ALLOWED_ORIGINS = "https://mboiman.github.io"
+
+# Local work: wrangler dev --remote --env dev --var TYPESAFE_API_KEY:… --var MEASURE_TOKEN:…
+[env.dev]
+[env.dev.vars]
+ALLOWED_ORIGINS = "http://localhost:4321,http://localhost:4391"
+
+[[env.dev.ratelimits]]
+name = "LIMITER"
+namespace_id = "7303"
+simple = { limit = 10, period = 60 }
