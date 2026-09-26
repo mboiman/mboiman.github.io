@@ -211,10 +211,12 @@ JEV_VIA=http://localhost:8799 JEV_TOKEN=messlauf npm run measure:match
 `test:match` fails when a demo text no longer matches its stored run or an
 evidence entry left the CV, and warns when the profile was measured on an older CV.
 
-**Going live** for own text: `wrangler deploy` in `workers/jev-match` (it builds
-the CV entries from `config.cv.toml` first, so redeploy after CV changes), set
-the secret, set a spend limit in the TypeSafe account, then put the worker URL
-into `MATCH_ENDPOINT`. The privacy pages already describe this path
+**Live** since 2026-09-26 at `https://jev-match.mboiman.workers.dev` (Michael's
+private Cloudflare account, `account_id` in `wrangler.toml`). Redeploy after CV
+changes, because the worker carries the CV entries it was built with:
+`cd workers/jev-match && wrangler deploy --env=""`. The key is a Worker secret,
+set from the keychain without touching a file:
+`security find-generic-password -s typesafe-api -a mboiman -w | wrangler secret put TYPESAFE_API_KEY --env=""`. The privacy pages already describe this path
 (section 4).
 
 ### Remembered view

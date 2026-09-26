@@ -3,6 +3,8 @@
 # Nothing is stored. The key is a Worker secret, never in this file:
 #   wrangler secret put TYPESAFE_API_KEY
 name = "jev-match"
+# Michael's private account (bridge: identity/accounts/cloudflare-mboiman-private.yaml).
+account_id = "780e4f9d2c0979a1ae816f8abcc73674"
 main = "src/index.ts"
 compatibility_date = "2026-09-01"
 workers_dev = true
