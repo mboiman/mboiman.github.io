@@ -52,3 +52,14 @@ export function visitorQuery(search: string): string {
   if (v.du) q.set('du', '1');
   return '?' + q.toString();
 }
+
+export type ChatView = 'chat' | '';
+
+/**
+ * view=chat opens the conversation full screen, the CV one click behind it
+ * ("Lebenslauf ansehen"). The same view the enlarge button in the panel header
+ * switches to. Applied for the visit, never persisted.
+ */
+export function readView(search: string): ChatView {
+  return new URLSearchParams(search).get('view') === 'chat' ? 'chat' : '';
+}
