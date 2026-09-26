@@ -24,7 +24,8 @@
     "test:graph": "node --experimental-strip-types --test test/graph.test.mjs",
     "test:match": "node --experimental-strip-types --test test/match.test.mjs",
     "measure:match": "node --experimental-strip-types scripts/jev-measure.mjs",
-    "og:match": "node --experimental-strip-types scripts/match-og.mjs"
+    "og:match": "node --experimental-strip-types scripts/match-og.mjs",
+    "test:greeting": "node --experimental-strip-types --test test/greeting.test.mjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.4",

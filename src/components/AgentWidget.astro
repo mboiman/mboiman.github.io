@@ -1073,6 +1073,7 @@ const widgetStrings = {
 
 <script>
   import { DEMOS } from '../lib/match-demos';
+  import { readVisitor, greetingFor } from '../lib/greeting';
   // ---------------------------------------------------------------------------
   // Vanilla A2A client — ported from bks-web (A2AChat.tsx / agentService.ts).
   // ---------------------------------------------------------------------------
@@ -1080,6 +1081,7 @@ const widgetStrings = {
   type WidgetStr = {
     launcherLabel: string; headerTitle: string; headerSubtitle: string;
     inputPlaceholder: string; send: string; close: string; greeting: string;
+    greetingNamed?: string; greetingNamedDu?: string;
     launcherText?: string;
     connecting: string; working: string; errorConnect: string;
     errorSend: string; errorAgent: string; emptyAnswer: string; retry: string;
@@ -2642,7 +2644,8 @@ const widgetStrings = {
       // sized with, instead of a hardcoded 26rem written here as an inline
       // style. Two numbers for one geometry never stayed equal.
       document.documentElement.classList.add('aw-panel-open');
-      if (!greeted) { addBubble('agent', t.greeting); greeted = true; }
+      // ?for=<name>[&du=1] greets by name, see src/lib/greeting.ts.
+      if (!greeted) { addBubble('agent', greetingFor(t, readVisitor(location.search))); greeted = true; }
       if (!cardFetched) { cardFetched = true; loadAgentCard(); }
       // Auto-open is not a visitor decision — only persist 'open' when the
       // visitor opened the panel themselves (launcher, label, prompt buttons).
