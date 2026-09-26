@@ -39,3 +39,16 @@ export function greetingFor(t: GreetingStrings, v: Visitor): string {
   return named ? named.replace('{name}', v.name) : t.greeting;
 }
 
+
+/**
+ * The part of the query a personal link carries across the language switch:
+ * the validated name and du, nothing else. Empty when there is no valid name,
+ * so an ordinary visit keeps its plain /en/ and /de/ links.
+ */
+export function visitorQuery(search: string): string {
+  const v = readVisitor(search);
+  if (!v.name) return '';
+  const q = new URLSearchParams({ for: v.name });
+  if (v.du) q.set('du', '1');
+  return '?' + q.toString();
+}

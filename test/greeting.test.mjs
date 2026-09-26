@@ -5,7 +5,7 @@
 // plain name is dropped rather than escaped.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readVisitor, greetingFor } from '../src/lib/greeting.ts';
+import { readVisitor, greetingFor, visitorQuery } from '../src/lib/greeting.ts';
 
 const t = {
   greeting: 'Hallo, ich bin Michaels persönlicher KI-Agent.',
@@ -50,3 +50,12 @@ test('greetingFor: a language without a du form falls back to the named form', (
   assert.equal(greetingFor({ greeting: 'Hi.' }, { name: 'Kalpesh', du: false }), 'Hi.');
 });
 
+
+test('visitorQuery: a valid name and du travel with the language switch, nothing else', () => {
+  assert.equal(visitorQuery('?for=Anna&du=1&focus=tuev-sued'), '?for=Anna&du=1');
+  assert.equal(visitorQuery('?for=Anna'), '?for=Anna');
+  assert.equal(visitorQuery('?for=J%C3%BCrgen'), '?for=J%C3%BCrgen');
+  assert.equal(visitorQuery('?for=%3Cb%3E'), '');
+  assert.equal(visitorQuery('?du=1'), '');
+  assert.equal(visitorQuery(''), '');
+});

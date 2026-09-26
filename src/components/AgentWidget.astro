@@ -1073,7 +1073,7 @@ const widgetStrings = {
 
 <script>
   import { DEMOS } from '../lib/match-demos';
-  import { readVisitor, greetingFor } from '../lib/greeting';
+  import { readVisitor, greetingFor, visitorQuery } from '../lib/greeting';
   // ---------------------------------------------------------------------------
   // Vanilla A2A client — ported from bks-web (A2AChat.tsx / agentService.ts).
   // ---------------------------------------------------------------------------
@@ -2722,6 +2722,15 @@ const widgetStrings = {
     // acted on, the fragment is dropped from the visible URL (replaceState, no
     // new history entry) so a later reload of the same tab does not reopen a
     // chat the visitor has since closed.
+    // A personal link (?for=<name>) keeps the name across the language switch,
+    // otherwise /en/ greets a visitor who was just greeted by name on /de/ as a stranger.
+    const carry = visitorQuery(location.search);
+    if (carry) {
+      document.querySelectorAll<HTMLAnchorElement>('a[hreflang]').forEach((a) => {
+        const href = a.getAttribute('href') || '';
+        if (href.startsWith('/') && !href.includes('?')) a.setAttribute('href', href + carry);
+      });
+    }
     if (location.hash === '#agent') {
       if (!panelOpen) openPanel();
       try { history.replaceState(null, '', location.pathname + location.search); } catch {}
