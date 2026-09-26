@@ -56,21 +56,23 @@ public/             # Static assets (fonts, images, generated PDFs)
 2. **Website Build**: `astro build` renders the static multilingual site
 3. **Static Assets**: PDFs live in `public/pdfs/` and are served as downloadable assets
 
-## Three Views of the CV
+## Three Views of the CV, and a Project Match
 
 The same CV renders in three views. All three read the same `config.cv.toml`,
 the same `src/lib/i18n.ts` and the same sort rule, so a correction reaches every
 view at once. A switch at the top of each view (`src/components/ViewSwitch.astro`)
-moves between them.
+moves between them. Its fourth entry, the project match, is a tool rather than a
+view (see below).
 
 | View | Route | Component | Look |
 |---|---|---|---|
 | Classic | `/de/`, `/en/` | `CVPage.astro` | The original page: cards, sidebar, agent card in the hero |
 | Minimal | `/de/minimal/`, `/en/minimal/` | `CVMinimal.astro` | Typographic, two columns, entries fold open with a plus (after the Jev product page) |
 | Future | `/de/future/`, `/en/future/` | `CVFuture.astro` | Not a document: the career as one interactive graph (see below) |
+| Match | `/de/match/`, `/en/match/` | `CVMatch.astro` | A posting against the CV, judged by Jev line by line (see below) |
 
-Minimal and Future are on trial: they carry `noindex` and are left out of the
-sitemap (`astro.config.mjs`).
+Minimal, Future and Match are on trial: they carry `noindex` and are left out of
+the sitemap (`astro.config.mjs`).
 
 ### The career graph (Future)
 
@@ -137,6 +139,60 @@ https://mboiman.github.io/de/minimal/?for=DB%20InfraGO&focus=db-vertrieb,tuev-su
 scroll to it, in all three views. In Minimal and Future every open entry carries
 a "Link zu diesem Eintrag"/"Link to this entry" link.
 
+### The project match (Match)
+
+Paste a posting, upload a file (txt, md, pdf, docx; read in the browser, the text
+lands in the text field first) or pick one of three example projects. Jev, the
+typed-judgement model of TypeSafe, answers small questions; the score is code.
+
+- **Per line** of the posting, one request with the whole CV in the state: is it
+  a requirement (`is_req`), is it mandatory (`must`), which of eight areas
+  (`axis`), which CV entry shows it (`evidence`, a choice that points at
+  `cv.<id>` by path) and how well (`level`, 0 to 3).
+- **Per posting**, one request: how central each area is (`demand:*`) and what
+  kind of role it is.
+- **The score** (`scoreMatch` in `src/lib/match.ts`): coverage over the lines,
+  mandatory lines weigh double; topic fit per area from that area's lines; 70/30.
+  The page lets a visitor move both weights without a new request.
+
+The run plays calmly: rows light up as their answer arrives, a line draws to the
+evidence, the net diagram and the ring fill, the counters show the measured
+response time, tokens and cost. The status line says one thing while Jev works
+and one when it is done.
+
+| File | What it holds |
+|---|---|
+| `src/lib/match.ts` | Areas, CV entries, line splitting, the requests, reading answers, the score |
+| `src/lib/match-demos.ts` | The three invented example postings (DE and EN) |
+| `src/data/match/*.json` | Stored Jev measurements of the examples and of the CV profile |
+| `src/lib/match-file.ts` | Reading an upload in the browser (pdf.js on demand, docx without a zip library) |
+| `src/lib/match-config.ts` | `MATCH_ENDPOINT` of the live worker; empty means examples only |
+| `workers/jev-match/` | Cloudflare Worker for own text: holds the key, stores nothing, 10 runs per minute and address |
+| `scripts/jev-measure.mjs` | Measures the examples and the profile again (`npm run measure:match`) |
+| `test/match.test.mjs` | `npm run test:match`: splitting, requests, score, and that stored runs still fit the texts and the CV |
+
+**The key.** The TypeSafe key is never in the repository. The measure script
+reads it from `TYPESAFE_API_KEY` or the macOS keychain entry `typesafe-api`
+(account `mboiman`); the worker has it as a secret
+(`cd workers/jev-match && wrangler secret put TYPESAFE_API_KEY`).
+
+**Measuring again** after changing a demo text or the CV:
+
+```bash
+npm run measure:match
+# the home connection got 403 from TypeSafe on 2026-09-26; then go through the worker:
+cd workers/jev-match && wrangler dev --remote --port 8799 --var TYPESAFE_API_KEY:$(security find-generic-password -s typesafe-api -a mboiman -w)
+JEV_VIA=http://localhost:8799 npm run measure:match
+```
+
+`test:match` fails when a demo text no longer matches its stored run or an
+evidence entry left the CV, and warns when the profile was measured on an older CV.
+
+**Going live** for own text: `wrangler deploy` in `workers/jev-match` (it builds
+the CV entries from `config.cv.toml` first), set the secret, then put the worker
+URL into `MATCH_ENDPOINT`. The privacy pages already describe this path
+(section 4).
+
 ### Remembered view
 
 A click on the view switch stores the choice (`localStorage` key `cv-view`). The
@@ -162,7 +218,7 @@ and facts from its agent card through the same `[data-agent-live]` and
 
 | File | What it holds |
 |---|---|
-| `src/components/ViewSwitch.astro` | The three-way switch; colours come from the page through `--vs-*` variables |
+| `src/components/ViewSwitch.astro` | The switch between the views and the match; colours come from the page through `--vs-*` variables |
 | `src/lib/cv-links.ts` | Tailored link, entry links, print, agent prompt buttons; pages opt in through `data-focus-*` attributes |
 | `src/lib/station-details.ts` | How a station's `details` split into open text, "more" and the tool list |
 | `src/lib/career-graph.ts` | Layout of the career graph: axis, lanes, competency and project rows, lines |

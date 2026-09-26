@@ -1,0 +1,20 @@
+# Live side of the project match (/match/ on mboiman.github.io).
+# The browser sends a posting, this worker asks Jev and returns typed answers.
+# Nothing is stored. The key is a Worker secret, never in this file:
+#   wrangler secret put TYPESAFE_API_KEY
+name = "jev-match"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[build]
+command = "node --experimental-strip-types ../../scripts/match-entries.mjs"
+
+# Ten runs per minute and address; a run is 1 + up to 16 Jev requests.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "7301"
+simple = { limit = 10, period = 60 }
+
+[vars]
+ALLOWED_ORIGINS = "https://mboiman.github.io,http://localhost:4321,http://localhost:4391"

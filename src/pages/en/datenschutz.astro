@@ -223,13 +223,46 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     meeting request, a name and one way to reach you are enough.
   </p>
 
-  <h2>4. Recipients and transfers to third countries</h2>
+  <h2>4. Project match</h2>
+  <p>
+    Under <em>/en/match/</em> a job posting can be compared with Michael Boiman's CV.
+    The example projects replay a stored measurement; your browser sends no request for
+    them. A file you upload is read in your browser only and is not transmitted. Its
+    text then appears in the text field.
+  </p>
+  <p>
+    Only when you click "Start the match" with your own text is that text transmitted:
+    to a service of Michael Boiman at <strong>Cloudflare</strong> (Cloudflare Workers),
+    which passes it to the Jev interface of <strong>TypeSafe</strong> and sends the
+    answers back to your browser. The service stores neither the text nor the answers.
+    Cloudflare processes technical connection data (including the IP address) to run
+    the service and to limit the number of matches per address. TypeSafe processes the
+    text to answer the questions of the match. According to TypeSafe, it does not train
+    models on these inputs and keeps them for as long as necessary for the service.
+    TypeSafe may use technical data derived from them (telemetry) without time limit.
+  </p>
+  <p>
+    The legal basis is Art. 6(1)(f) GDPR. The legitimate interest lies in carrying out
+    the match you started. The score is a machine estimate over passages of text. No
+    automated decision within the meaning of Art. 22 GDPR takes place.
+  </p>
+  <p class="legal-muted">
+    Note: please do not paste confidential details or names or contact details of
+    people. Tasks and requirements are enough for the match.
+  </p>
+
+  <h2>5. Recipients and transfers to third countries</h2>
   <p>Within the scope described, the following parties receive data:</p>
   <ul>
     <li><strong>GitHub</strong> (GitHub, Inc., USA): hosting of the website.</li>
     <li>
       <strong>Cloudflare</strong> (Cloudflare, Inc., USA): transport and protection of
       the chat.
+    </li>
+    <li>
+      <strong>TypeSafe</strong> (TypeSafe AI, Inc., San Francisco, USA): answering the
+      questions of the project match with your own text (section 4). Cloudflare also
+      runs the service that passes the text on.
     </li>
     <li>
       <strong>Anthropic</strong> (Anthropic Ireland, Limited, Ireland): generating the
@@ -264,11 +297,13 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     groups of companies based in the USA, so data may also be processed there. For
     these providers, transfers to the USA take place on the basis of the EU-U.S. Data
     Privacy Framework (where the respective company is certified) or the EU Standard
-    Contractual Clauses pursuant to Art. 46 GDPR. No data is passed on to any other
+    Contractual Clauses pursuant to Art. 46 GDPR. For TypeSafe, which according to its own statement processes in the USA, the
+    transfer takes place on the basis of the EU Standard Contractual Clauses in its
+    data processing agreement. No data is passed on to any other
     third parties.
   </p>
 
-  <h2>5. Retention period</h2>
+  <h2>6. Retention period</h2>
   <p>
     Where a period is given below, the data is deleted automatically once it has
     expired, unless statutory retention obligations apply. Where there is no period,
@@ -286,6 +321,11 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     </li>
     <li><strong>Session files of the Claude software:</strong> 30 days.</li>
     <li>
+      <strong>Project match:</strong> no storage in the service at Cloudflare. At
+      TypeSafe, as long as TypeSafe considers it necessary for the service. TypeSafe
+      states no fixed period.
+    </li>
+    <li>
       <strong>Meeting requests and inquiries,</strong> including the details stored for
       a notification via Telegram: 12 months. If an inquiry leads to a working relationship,
       the periods prescribed for that apply.
@@ -299,7 +339,7 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
       emails is kept in the sending mailbox. There: as long as they are needed to handle your request or as a record of the
       communication. No automatic deletion after a fixed period is set up there. At
       your request, Michael Boiman deletes them unless a retention obligation applies
-      (see section 6).
+      (see section 7).
     </li>
     <li>
       <strong>The agent's emails to you</strong> (confirmation code, calendar
@@ -323,7 +363,7 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     <li><strong>Server access data from hosting:</strong> as determined by GitHub.</li>
   </ul>
 
-  <h2>6. Your rights</h2>
+  <h2>7. Your rights</h2>
   <p>
     You have the right to access (Art. 15), rectification (Art. 16), erasure (Art. 17),
     restriction of processing (Art. 18), data portability (Art. 20) and the right to
@@ -340,14 +380,14 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
     the chat.
   </p>
 
-  <h2>7. Right to lodge a complaint</h2>
+  <h2>8. Right to lodge a complaint</h2>
   <p>
     You have the right to lodge a complaint with a data protection supervisory
     authority, for example the Hessian Commissioner for Data Protection and Freedom of
     Information, Postfach 3163, 65021 Wiesbaden, Germany.
   </p>
 
-  <h2>8. Changes</h2>
+  <h2>9. Changes</h2>
   <p>
     This privacy policy will be updated whenever the service or the legal framework
     changes.

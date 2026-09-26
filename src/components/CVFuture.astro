@@ -930,6 +930,8 @@ const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.break
     .gx { height: auto; min-height: 100dvh; grid-template-rows: auto auto auto; }
     .gx-role { display: none; }
     .gx-top { flex-wrap: wrap; row-gap: 0.5rem; }
+    /* Four entries in the view switch since the project match: the row wraps. */
+    .gx-top-right { flex-wrap: wrap; row-gap: 0.5rem; }
     .gx-stage { grid-template-columns: minmax(0, 1fr); }
     .gx.panel-closed .gx-stage { grid-template-columns: minmax(0, 1fr); }
     .gx.panel-closed .gx-panel { display: none; }

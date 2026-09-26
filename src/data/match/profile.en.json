@@ -1,0 +1,18 @@
+{
+  "lang": "en",
+  "measuredAt": "2026-09-26",
+  "model": "jev-1.13.0",
+  "entriesHash": "8b6991e7",
+  "depth": {
+    "testauto": 0.983,
+    "perf": 0.907,
+    "qm": 1,
+    "ai": 0.977,
+    "agents": 0.9,
+    "cloud": 0.993,
+    "dev": 1,
+    "lead": 0.997
+  },
+  "seconds": 0.295,
+  "tokens": 5498
+}

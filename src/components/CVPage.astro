@@ -263,10 +263,10 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
           links carried no hreflang and no current-state. `no-print` because a
           language switch and a theme button on paper are ink for nothing. */}
       <nav class="no-print flex items-center justify-end mb-8 text-sm" aria-label={t.navLanguage}>
-        <div class="flex items-center gap-3">
-          {/* The other two views, /<lang>/minimal/ and /<lang>/future/. */}
+        <div class="flex flex-wrap items-center justify-end gap-3">
+          {/* The other views, /<lang>/minimal/ and /<lang>/future/, and the project match. */}
           <span class="cv-view-switch"><ViewSwitch lang={lang} current="classic" /></span>
-          <span class="opacity-20" aria-hidden="true">|</span>
+          <span class="cv-view-sep opacity-20" aria-hidden="true">|</span>
           <a href="/de/" hreflang="de" aria-current={lang === 'de' ? 'true' : undefined} class={lang === 'de' ? 'cv-lang-link is-active' : 'cv-lang-link'}>DE</a>
           <span class="opacity-20" aria-hidden="true">|</span>
           <a href="/en/" hreflang="en" aria-current={lang === 'en' ? 'true' : undefined} class={lang === 'en' ? 'cv-lang-link is-active' : 'cv-lang-link'}>EN</a>
@@ -1418,6 +1418,12 @@ const INITIAL_PROJECTS = 6; // featured cards shown before the "show all" expand
 <style>
   /* Colours for the shared view switch (ViewSwitch.astro). Quiet on purpose:
      the views are on trial, not a feature the page should lead with. */
+  /* Four entries since the project match: on a phone the switch takes its own
+     row above the language links instead of running off the left edge. */
+  @media (max-width: 520px) {
+    .cv-view-switch { flex-basis: 100%; justify-content: flex-end; }
+    .cv-view-sep { display: none; }
+  }
   .cv-view-switch {
     display: inline-flex;
     --vs-line: var(--line);

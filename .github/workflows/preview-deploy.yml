@@ -41,6 +41,9 @@ jobs:
       - name: Test career graph
         run: npm run test:graph
 
+      - name: Test project match
+        run: npm run test:match
+
       - name: Generate PDFs
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de

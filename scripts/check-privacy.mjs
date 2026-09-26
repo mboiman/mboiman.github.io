@@ -51,6 +51,10 @@ const read = (rel) => {
 
 const flat = (html) => visibleText(html).replace(/\s+/g, ' ').trim();
 
+/** Where the rules below look. The variable names (s3 … s6) and the messages
+ *  keep the old numbers; SECTION says which <h2> each one reads today. */
+const SECTION = { chat: 3, recipients: 5, retention: 6, rights: 7 };
+
 /** Text of numbered section `n` ("<h2>5. ..."), up to the next <h2>. */
 function section(src, n) {
   const start = src.search(new RegExp(`<h2>\\s*${n}\\.`));
@@ -184,10 +188,12 @@ for (const lang of ['de', 'en']) {
   if (!src) continue;
   const file = PATHS[lang];
   const L = LANG[lang];
-  const s3 = items(section(src, 3));
-  const s4 = blocks(section(src, 4));
-  const s5 = items(section(src, 5));
-  const s6 = flat(section(src, 6));
+  // The numbers of the chat, recipient, retention and rights sections. They
+  // moved up by one on 2026-09-26, when the project match became section 4.
+  const s3 = items(section(src, SECTION.chat));
+  const s4 = blocks(section(src, SECTION.recipients));
+  const s5 = items(section(src, SECTION.retention));
+  const s6 = flat(section(src, SECTION.rights));
   const all = flat(src);
 
   // The runtime starts uvicorn with its defaults: access log on, proxy headers
