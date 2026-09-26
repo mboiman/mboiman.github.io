@@ -87,6 +87,8 @@ export interface AgentWidgetStrings {
   send: string;            // send button aria-label
   close: string;           // close button aria-label
   greeting: string;        // first agent bubble shown before any exchange
+  greetingNamed?: string;  // same, for a link carrying ?for=<name>; {name} is replaced (greeting.ts)
+  greetingNamedDu?: string; // informal form for ?for=<name>&du=1, only where the language has one
   connecting: string;      // shown while fetching the agent card
   working: string;         // generic "thinking" indicator label
   errorConnect: string;    // could not reach the agent (network/CORS, card never fetched)
@@ -1187,6 +1189,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       send: 'Senden',
       close: 'Schließen',
       greeting: 'Hallo, ich bin Michaels persönlicher KI-Agent. Fragen Sie mich zu seiner Erfahrung, seinen Projekten oder seiner Verfügbarkeit.',
+      greetingNamed: 'Hallo {name}, schön, dass Sie vorbeischauen. Ich bin Michaels persönlicher KI-Agent. Fragen Sie mich zu seiner Erfahrung, seinen Projekten oder seiner Verfügbarkeit.',
+      greetingNamedDu: 'Hallo {name}, schön, dass du vorbeischaust. Ich bin Michaels persönlicher KI-Agent. Frag mich zu seiner Erfahrung, seinen Projekten oder seiner Verfügbarkeit.',
       connecting: 'Verbinde mit dem Agenten …',
       working: 'Agent arbeitet …',
       errorConnect: 'Der Agent ist gerade nicht erreichbar. Bitte später erneut versuchen.',
@@ -1825,6 +1829,9 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       send: 'Send',
       close: 'Close',
       greeting: "Hi, I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
+      greetingNamed: "Hi {name}, good to see you here. I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
+      // English has one form of address; the du variant repeats it so both bundles carry the same keys (check:i18n).
+      greetingNamedDu: "Hi {name}, good to see you here. I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
       connecting: 'Connecting to the agent …',
       working: 'Agent is working …',
       errorConnect: 'The agent is unreachable right now. Please try again later.',
