@@ -1,9 +1,17 @@
 /**
  * jev-match: the live side of the project match on mboiman.github.io/<lang>/match/.
  *
- *   GET  /health            reachability, for the page's live dot
+ *   GET  /health            reachability, for the page's text and file tabs
  *   POST /match   {lang, text}   one posting: project request + one request per line
- *   POST /profile {lang}         how deep the CV is per area (used by the measure script)
+ *   POST /profile {lang}         how deep the CV is per area; measure script only,
+ *                                needs the header x-measure-token = MEASURE_TOKEN
+ *
+ * Guards, because every run spends money on the key (review 2026-09-26):
+ * an allowed Origin or the measure token, a body under 64 KB, ten runs a minute
+ * per address (an IPv6 address counts per /64, the block one client holds), a
+ * ceiling for all visitors together, at most two attempts per Jev call so a run
+ * stays under the 50 subrequests of a Worker, and fixed error codes that say
+ * nothing about the key or the code.
  *
  * Why a worker at all: the Jev key must never reach a browser, and GitHub Pages
  * has no server. Why not the agent host on macminim4: that box shares the home
@@ -21,14 +29,21 @@ import {
 import entriesDe from '../.generated/entries.de.json';
 import entriesEn from '../.generated/entries.en.json';
 
+type Limiter = { limit(o: { key: string }): Promise<{ success: boolean }> };
 interface Env {
   TYPESAFE_API_KEY: string;
   ALLOWED_ORIGINS: string;
-  LIMITER?: { limit(o: { key: string }): Promise<{ success: boolean }> };
+  /** Set only where the measure script runs (wrangler dev --var). */
+  MEASURE_TOKEN?: string;
+  LIMITER?: Limiter;
+  GLOBAL_LIMITER?: Limiter;
 }
+
+class UpstreamError extends Error {}
 
 const API = 'https://api.typesafe.ai/v1/systemone';
 const MAX_CHARS = 12000;
+const MAX_BODY = 64 * 1024;
 const PARALLEL = 4;
 const ENTRIES: Record<Lang, CvEntry[]> = { de: entriesDe as CvEntry[], en: entriesEn as CvEntry[] };
 
@@ -43,7 +58,7 @@ const json = (data: unknown, status: number, headers: Record<string, string>) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers } });
 
 async function ask(body: JevRequest, key: string): Promise<JevAnswer> {
-  for (let attempt = 0; attempt < 3; attempt += 1) {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
     const started = Date.now();
     const res = await fetch(API, { method: 'POST', headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (res.ok) {
@@ -51,13 +66,13 @@ async function ask(body: JevRequest, key: string): Promise<JevAnswer> {
       out._seconds = (Date.now() - started) / 1000;
       return out;
     }
-    if ([429, 500, 502, 503, 504].includes(res.status) && attempt < 2) {
-      await new Promise(r => setTimeout(r, 600 * 2 ** attempt));
+    if ([429, 500, 502, 503, 504].includes(res.status) && attempt < 1) {
+      await new Promise(r => setTimeout(r, 800));
       continue;
     }
-    throw new Error(`jev ${res.status}`);
+    throw new UpstreamError(`jev ${res.status}`);
   }
-  throw new Error('jev unavailable');
+  throw new UpstreamError('jev unavailable');
 }
 
 async function pool<T, R>(items: T[], fn: (x: T) => Promise<R>): Promise<R[]> {
@@ -69,6 +84,12 @@ async function pool<T, R>(items: T[], fn: (x: T) => Promise<R>): Promise<R[]> {
   return out;
 }
 
+/** The rate-limit key: the address, or its /64 for IPv6. */
+function clientKey(request: Request): string {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  return ip.includes(':') ? ip.split(':').slice(0, 4).join(':') + '::/64' : ip;
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -76,19 +97,20 @@ export default {
     const h = cors(origin, env);
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
-    if (url.pathname === '/health') return json({ ok: Boolean(env.TYPESAFE_API_KEY), model: MODEL }, 200, h);
+    if (url.pathname === '/health') return json({ ok: Boolean(env.TYPESAFE_API_KEY) }, 200, h);
     if (request.method !== 'POST') return json({ error: 'method' }, 405, h);
-    // A browser from another site gets no CORS header and cannot read the
-    // answer anyway; refusing it here also spares the Jev budget.
-    if (origin && !h['Access-Control-Allow-Origin']) return json({ error: 'origin' }, 403, h);
 
-    if (env.LIMITER) {
-      const { success } = await env.LIMITER.limit({ key: request.headers.get('CF-Connecting-IP') || 'unknown' });
-      if (!success) return json({ error: 'rate' }, 429, h);
-    }
+    const measuring = Boolean(env.MEASURE_TOKEN) && request.headers.get('x-measure-token') === env.MEASURE_TOKEN;
+    if (!measuring && !h['Access-Control-Allow-Origin']) return json({ error: 'origin' }, 403, h);
+    if (url.pathname === '/profile' && !measuring) return json({ error: 'not found' }, 404, h);
+    if (Number(request.headers.get('Content-Length') || 0) > MAX_BODY) return json({ error: 'size' }, 413, h);
 
-    let body: { lang?: string; text?: string };
+    if (env.LIMITER && !(await env.LIMITER.limit({ key: clientKey(request) })).success) return json({ error: 'rate' }, 429, h);
+    if (env.GLOBAL_LIMITER && !(await env.GLOBAL_LIMITER.limit({ key: 'all' })).success) return json({ error: 'busy' }, 503, h);
+
+    let body: { lang?: unknown; text?: unknown } | null;
     try { body = await request.json(); } catch { return json({ error: 'json' }, 400, h); }
+    if (!body || typeof body !== 'object') return json({ error: 'json' }, 400, h);
     const lang: Lang = body.lang === 'en' ? 'en' : 'de';
     const entries = ENTRIES[lang];
 
@@ -98,7 +120,7 @@ export default {
         return json({ lang, model: a.model ?? MODEL, depth: readProfile(a), seconds: a._seconds, tokens: a.usage?.input_tokens ?? 0 }, 200, h);
       }
       if (url.pathname === '/match') {
-        const text = String(body.text || '').slice(0, MAX_CHARS);
+        const text = String(body.text ?? '').slice(0, MAX_CHARS);
         const lines = splitRequirements(text);
         if (lines.length < 2) return json({ error: 'short' }, 422, h);
         const [project, answers] = await Promise.all([
@@ -112,7 +134,8 @@ export default {
         }, 200, h);
       }
     } catch (e) {
-      return json({ error: e instanceof Error ? e.message : 'failed' }, 502, h);
+      // Fixed codes only: a message could say that the key is refused, or name code.
+      return json({ error: e instanceof UpstreamError ? 'upstream' : 'failed' }, 502, h);
     }
     return json({ error: 'not found' }, 404, h);
   },

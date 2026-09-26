@@ -11,6 +11,7 @@
 export const MAX_FILE_BYTES = 5 * 1024 * 1024;
 
 export class FileTooBig extends Error {}
+const MAX_XML_BYTES = 20 * 1024 * 1024;
 
 export async function readFileText(file: File): Promise<string> {
   if (file.size > MAX_FILE_BYTES) throw new FileTooBig();
@@ -25,12 +26,16 @@ async function readPdf(file: File): Promise<string> {
   const worker = await import('pdfjs-dist/build/pdf.worker.min.mjs?url');
   pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
   const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
-  const pages: string[] = [];
-  for (let i = 1; i <= Math.min(doc.numPages, 20); i += 1) {
-    const content = await (await doc.getPage(i)).getTextContent();
-    pages.push(content.items.map(it => ('str' in it ? it.str + (it.hasEOL ? '\n' : '') : '')).join(''));
+  try {
+    const pages: string[] = [];
+    for (let i = 1; i <= Math.min(doc.numPages, 20); i += 1) {
+      const content = await (await doc.getPage(i)).getTextContent();
+      pages.push(content.items.map(it => ('str' in it ? it.str + (it.hasEOL ? '\n' : '') : '')).join(''));
+    }
+    return pages.join('\n').replace(/[ \t]+\n/g, '\n').trim();
+  } finally {
+    await doc.destroy();
   }
-  return pages.join('\n').replace(/[ \t]+\n/g, '\n').trim();
 }
 
 /** The one file a docx needs, found through the zip's central directory. */
@@ -48,6 +53,7 @@ async function readDocx(file: File): Promise<string> {
   for (let n = 0; n < count; n += 1) {
     const method = view.getUint16(p + 10, true);
     const size = view.getUint32(p + 20, true);
+    const unpacked = view.getUint32(p + 24, true);
     const nameLen = view.getUint16(p + 28, true);
     const extraLen = view.getUint16(p + 30, true);
     const commentLen = view.getUint16(p + 32, true);
@@ -55,6 +61,8 @@ async function readDocx(file: File): Promise<string> {
     const entry = dec.decode(buf.subarray(p + 46, p + 46 + nameLen));
     p += 46 + nameLen + extraLen + commentLen;
     if (entry !== 'word/document.xml') continue;
+    // A few MB can inflate to gigabytes; a posting never needs that much.
+    if (unpacked > MAX_XML_BYTES) throw new FileTooBig();
     const start = local + 30 + view.getUint16(local + 26, true) + view.getUint16(local + 28, true);
     const raw = buf.subarray(start, start + size);
     const bytes = method === 0 ? raw : new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
@@ -67,6 +75,9 @@ export function docxXmlToText(xml: string): string {
   return xml
     .replace(/<w:tab\/>/g, '\t')
     .replace(/<w:br[^>]*\/>/g, '\n')
+    // A list paragraph carries its numbering in w:numPr, not as text: give it a
+    // bullet, so splitRequirements sees a list item.
+    .replace(/<w:p\b[^>]*>(?:(?!<\/w:p>).)*?<w:numPr>/gs, m => `${m}- `)
     .replace(/<\/w:p>/g, '\n')
     .replace(/<[^>]+>/g, '')
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&')

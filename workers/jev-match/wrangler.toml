@@ -16,5 +16,23 @@ name = "LIMITER"
 namespace_id = "7301"
 simple = { limit = 10, period = 60 }
 
+# All visitors together: 30 runs a minute. At about 7,500 input tokens per
+# request and 0.042 US$ per million that is at most about 0.16 US$ a minute;
+# a spend limit in the TypeSafe account is the second fence.
+[[ratelimits]]
+name = "GLOBAL_LIMITER"
+namespace_id = "7302"
+simple = { limit = 30, period = 60 }
+
 [vars]
-ALLOWED_ORIGINS = "https://mboiman.github.io,http://localhost:4321,http://localhost:4391"
+ALLOWED_ORIGINS = "https://mboiman.github.io"
+
+# Local work: wrangler dev --remote --env dev --var TYPESAFE_API_KEY:… --var MEASURE_TOKEN:…
+[env.dev]
+[env.dev.vars]
+ALLOWED_ORIGINS = "http://localhost:4321,http://localhost:4391"
+
+[[env.dev.ratelimits]]
+name = "LIMITER"
+namespace_id = "7303"
+simple = { limit = 10, period = 60 }

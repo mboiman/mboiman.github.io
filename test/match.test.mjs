@@ -7,6 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import toml from 'toml';
+import { docxXmlToText } from '../src/lib/match-file.ts';
 import {
   AXES, cvEntries, splitRequirements, projectRequest, requirementRequest, profileRequest,
   readProject, readRequirement, readProfile, scoreMatch, verdictOf, entriesHash, DEFAULT_WEIGHTS,
@@ -47,6 +48,21 @@ test('splitRequirements: a paragraph without bullets splits into sentences, capp
   assert.equal(lines[0], 'Sie arbeiten an Thema Nummer 1 im Team.');
 });
 
+test('splitRequirements: short lines without bullets stay unless they head a list', () => {
+  // A docx or a copied HTML list arrives without bullet glyphs.
+  const text = 'Ihr Profil\nErfahrung mit Kubernetes\nFließend Englisch\nSehr gute Deutschkenntnisse';
+  assert.deepEqual(splitRequirements(text), ['Erfahrung mit Kubernetes', 'Fließend Englisch', 'Sehr gute Deutschkenntnisse']);
+});
+
+test('splitRequirements: over the cap, bullets win over prose, order is kept', () => {
+  const intro = Array.from({ length: 14 }, (_, i) => `Unser Unternehmen wächst seit Jahren stetig weiter, Absatz ${i + 1}.`).join('\n');
+  const bullets = ['- Erfahrung mit Playwright', '- Erfahrung mit Azure', '- Erfahrung mit Python'].join('\n');
+  const lines = splitRequirements(`${intro}\n${bullets}`, 5);
+  assert.equal(lines.length, 5);
+  assert.deepEqual(lines.slice(-3), ['Erfahrung mit Playwright', 'Erfahrung mit Azure', 'Erfahrung mit Python']);
+  assert.match(lines[0], /Absatz 1\./);
+});
+
 test('splitRequirements: very long lines are cut, empty input gives nothing', () => {
   assert.deepEqual(splitRequirements('   \n  '), []);
   const long = `- ${'Erfahrung '.repeat(80)}`;
@@ -82,6 +98,11 @@ for (const lang of ['de', 'en']) {
     assert.equal(Object.keys(prof.questions).length, AXES.length);
   });
 }
+
+test('docxXmlToText: list paragraphs become bullets', () => {
+  const xml = '<w:p><w:r><w:t>Ihr Profil</w:t></w:r></w:p><w:p><w:pPr><w:numPr><w:ilvl w:val="0"/></w:numPr></w:pPr><w:r><w:t>Python</w:t></w:r></w:p>';
+  assert.equal(docxXmlToText(xml), 'Ihr Profil\n- Python');
+});
 
 // A hand-built measurement: two requirements fully covered, one must-have
 // missing, one line that is no requirement at all.

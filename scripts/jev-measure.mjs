@@ -6,13 +6,15 @@
  *
  * Run:  npm run measure:match            (all)
  *       npm run measure:match -- --profile-only
- *       JEV_VIA=http://localhost:8799 npm run measure:match
+ *       JEV_VIA=http://localhost:8799 JEV_TOKEN=<any word> npm run measure:match
  *
  * JEV_VIA sends everything through the jev-match worker instead of calling the
  * API directly (then no key is needed here). Needed on 2026-09-26: TypeSafe
  * refused the home connection with 403 before any key check, while the same
  * request from Cloudflare went through. Start the worker for that with
- *   cd workers/jev-match && wrangler dev --remote --port 8799 --var TYPESAFE_API_KEY:<key>
+ *   cd workers/jev-match && wrangler dev --remote --env dev --port 8799 \
+ *     --var TYPESAFE_API_KEY:<key> --var MEASURE_TOKEN:<same word as JEV_TOKEN>
+ * The token lets the script past the worker's origin check and opens /profile.
  *
  * The API key is never in this repository. It comes from the environment
  * (TYPESAFE_API_KEY) or, on Michael's Mac, from the login keychain entry
@@ -90,7 +92,7 @@ const profileOnly = process.argv.includes('--profile-only');
 const measuredAt = new Date().toISOString().slice(0, 10);
 
 async function viaWorker(path, body) {
-  const res = await fetch(`${VIA}${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const res = await fetch(`${VIA}${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-measure-token': process.env.JEV_TOKEN ?? '' }, body: JSON.stringify(body) });
   if (!res.ok) throw new Error(`worker ${path}: HTTP ${res.status} ${await res.text()}`);
   return res.json();
 }

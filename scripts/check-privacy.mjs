@@ -51,8 +51,9 @@ const read = (rel) => {
 
 const flat = (html) => visibleText(html).replace(/\s+/g, ' ').trim();
 
-/** Where the rules below look. The variable names (s3 … s6) and the messages
- *  keep the old numbers; SECTION says which <h2> each one reads today. */
+/** Where the rules below look. The variable names (s3 … s6) keep the old
+ *  numbers; SECTION says which <h2> each one reads today, and the messages
+ *  print it from here. */
 const SECTION = { chat: 3, recipients: 5, retention: 6, rights: 7 };
 
 /** Text of numbered section `n` ("<h2>5. ..."), up to the next <h2>. */
@@ -203,16 +204,16 @@ for (const lang of ['de', 'en']) {
   // and a synthetic X-Forwarded-For. If the runtime stops doing that, drop the
   // sentence and this rule together.
   if (!s3.some((t) => L.opLog.test(t) && L.ip.test(t))) {
-    errors.push(`${file} section 3: the operational-log item has to name the IP address the service writes to its access log.`);
+    errors.push(`${file} section ${SECTION.chat}: the operational-log item has to name the IP address the service writes to its access log.`);
   }
   if (!s5.some((t) => L.opLog.test(t) && L.ip.test(t))) {
-    errors.push(`${file} section 5: the retention line for operational logs has to cover the IP addresses in the access log.`);
+    errors.push(`${file} section ${SECTION.retention}: the retention line for operational logs has to cover the IP addresses in the access log.`);
   }
 
   // Code mails, invitations and Michael's answer go out through Graph and stay
   // in the sender's Sent Items. A retention list without them is incomplete.
   if (!s5.some((t) => L.senderBox.test(t) && L.toVisitor.test(t))) {
-    errors.push(`${file} section 5: needs a retention line for the agent's emails to the visitor in the sending mailbox.`);
+    errors.push(`${file} section ${SECTION.retention}: needs a retention line for the agent's emails to the visitor in the sending mailbox.`);
   }
   // The mailboxes (ai@bks-lab.com Sent Items, Michael's Gmail) and the Telegram chat
   // have no automatic deletion. The first version promised 12 months for them, which
@@ -221,7 +222,7 @@ for (const lang of ['de', 'en']) {
   // this check in the same commit.
   for (const t of s5.filter((t) => L.senderBox.test(t))) {
     if (!L.noAutoDelete.test(t)) {
-      errors.push(`${file} section 5: "${t.slice(0, 60)}…" names a mailbox without saying that no automatic deletion is set up there.`);
+      errors.push(`${file} section ${SECTION.retention}: "${t.slice(0, 60)}…" names a mailbox without saying that no automatic deletion is set up there.`);
     }
   }
 
@@ -231,14 +232,14 @@ for (const lang of ['de', 'en']) {
   // If that changes, rewrite this rule with the text.
   const anthropic = s4.find((t) => /^Anthropic\b/.test(t)) ?? '';
   if (!anthropic) {
-    errors.push(`${file} section 4: no recipient item that starts with "Anthropic".`);
+    errors.push(`${file} section ${SECTION.recipients}: no recipient item that starts with "Anthropic".`);
   } else {
     for (const [rx, what] of [
       [L.ownResponsibility, 'that Anthropic processes the data under its own responsibility'],
       [L.noDpa, 'that there is no processing agreement'],
       [L.training, 'the training setting'],
     ]) {
-      if (!rx.test(anthropic)) errors.push(`${file} section 4, Anthropic: has to state ${what}.`);
+      if (!rx.test(anthropic)) errors.push(`${file} section ${SECTION.recipients}, Anthropic: has to state ${what}.`);
     }
   }
   // The DPF/SCC sentence is Michael's basis for his own transfers. It must name
@@ -246,21 +247,21 @@ for (const lang of ['de', 'en']) {
   // such basis of his own.
   const dpf = s4.filter((t) => /Data Privacy Framework/.test(t));
   if (!dpf.length) {
-    errors.push(`${file} section 4: the transfer basis for the US providers is missing.`);
+    errors.push(`${file} section ${SECTION.recipients}: the transfer basis for the US providers is missing.`);
   }
   for (const t of dpf) {
     if (/Anthropic/.test(t)) {
-      errors.push(`${file} section 4: the DPF/SCC sentence mentions Anthropic. There is no DPF or SCC basis between Michael Boiman and Anthropic; say that in the Anthropic item instead.`);
+      errors.push(`${file} section ${SECTION.recipients}: the DPF/SCC sentence mentions Anthropic. There is no DPF or SCC basis between Michael Boiman and Anthropic; say that in the Anthropic item instead.`);
     }
     if (!/GitHub/.test(t) || !/Cloudflare/.test(t)) {
-      errors.push(`${file} section 4: the DPF/SCC sentence has to name the providers it covers, otherwise it reads as covering every recipient.`);
+      errors.push(`${file} section ${SECTION.recipients}: the DPF/SCC sentence has to name the providers it covers, otherwise it reads as covering every recipient.`);
     }
   }
 
   // Who can read the transcripts: the account and every holder of one of its
   // keys, not a named admin list.
   if (!s3.some((t) => L.elastic.test(t) && L.keys.test(t))) {
-    errors.push(`${file} section 3: the conversation-log item has to say that holders of the account's access keys can read the logs.`);
+    errors.push(`${file} section ${SECTION.chat}: the conversation-log item has to say that holders of the account's access keys can read the logs.`);
   }
 
   // The card fetch happens on opening the chat window, on every page, also when the
@@ -268,10 +269,10 @@ for (const lang of ['de', 'en']) {
   // item has to say so; the forbidden sentence above caught the old claim.
   const card = s3.find((t) => L.card.test(t) && L.ip.test(t)) ?? '';
   if (!card) {
-    errors.push(`${file} section 3: no item on fetching the agent card with the IP address.`);
+    errors.push(`${file} section ${SECTION.chat}: no item on fetching the agent card with the IP address.`);
   } else {
-    if (!L.cardOnOpen.test(card)) errors.push(`${file} section 3, agent card: has to say that opening the chat window fetches it.`);
-    if (!L.cardDeepLink.test(card)) errors.push(`${file} section 3, agent card: has to name the #agent link that opens the window.`);
+    if (!L.cardOnOpen.test(card)) errors.push(`${file} section ${SECTION.chat}, agent card: has to say that opening the chat window fetches it.`);
+    if (!L.cardDeepLink.test(card)) errors.push(`${file} section ${SECTION.chat}, agent card: has to name the #agent link that opens the window.`);
   }
 
   // Replies to the agent's emails land in ai@bks-lab.com. The mailbox watcher sets
@@ -279,17 +280,17 @@ for (const lang of ['de', 'en']) {
   // Section 3 says where they go and that nothing evaluates them, section 5 keeps them
   // with the agent's emails, without automatic deletion.
   if (!s3.some((t) => L.replies.test(t) && /ai@bks-lab\.com/.test(t) && L.repliesNotEvaluated.test(t))) {
-    errors.push(`${file} section 3: has to say that replies to the agent's emails go to ai@bks-lab.com and are not evaluated automatically.`);
+    errors.push(`${file} section ${SECTION.chat}: has to say that replies to the agent's emails go to ai@bks-lab.com and are not evaluated automatically.`);
   }
   if (!s5.some((t) => L.senderBox.test(t) && L.toVisitor.test(t) && L.repliesKept.test(t))) {
-    errors.push(`${file} section 5: the retention line for the agent's emails to the visitor has to cover the visitor's replies.`);
+    errors.push(`${file} section ${SECTION.retention}: the retention line for the agent's emails to the visitor has to cover the visitor's replies.`);
   }
 
   if (!L.litB.test(all) || !L.litF.test(all)) {
     errors.push(`${file}: both legal bases, lit. b and lit. f, have to be named.`);
   }
   if (!L.objection.test(s6)) {
-    errors.push(`${file} section 6: the objection and deletion route for the chat is missing.`);
+    errors.push(`${file} section ${SECTION.rights}: the objection and deletion route for the chat is missing.`);
   }
 }
 

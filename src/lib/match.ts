@@ -143,36 +143,53 @@ export function entriesHash(entries: CvEntry[]): string {
 // ── A posting to requirement lines ─────────────────────────────────────────
 
 const BULLET = /^\s*(?:[-*•·▪►–]|\d{1,2}[.)])\s+/;
+const HEADING = /^(?:ihre?\s+)?(?:profil|aufgaben|anforderungen|qualifikation(?:en)?|kenntnisse|das bringen sie mit|was sie mitbringen|wir bieten|das bieten wir|benefits|über uns|about us|(?:your\s+)?(?:profile|tasks|requirements|responsibilities|qualifications)|what we offer|what you bring)$/i;
 
 /**
  * Lines as the posting wrote them. A bullet is a line; a paragraph without
- * bullets splits into sentences. Short lines that are not bullets are taken
- * as headings ("Ihr Profil", "Aufgaben:") and dropped, and so is anything
- * ending in a colon. Whether a line is a requirement at all is Jev's call
+ * bullets splits into sentences. Anything ending in a colon is a heading, and
+ * so is a short line that names a section ("Ihr Profil") or introduces a
+ * bullet list. Other short lines stay: a Word list or a list copied from a web
+ * page arrives without bullet glyphs, and "Fließend Englisch" is a requirement
+ * (review 2026-09-26). Whether a line is a requirement at all is Jev's call
  * (is_req), not a keyword list's.
+ *
+ * Over `max`, bullets win: a long company introduction must not use up the
+ * budget before the list of requirements at the end. The kept lines stay in
+ * the posting's order.
  */
 export function splitRequirements(text: string, max = 16): string[] {
-  const out: string[] = [];
+  const found: { text: string; bullet: boolean }[] = [];
   const seen = new Set<string>();
-  const add = (raw: string) => {
+  const add = (raw: string, bullet: boolean) => {
     const s = raw.replace(/\s+/g, ' ').trim();
     if (s.length < 8 || s.split(' ').length < 2) return;
     const cut = s.length > 300 ? `${s.slice(0, 297).replace(/\s+\S*$/, '')} …` : s;
     const key = cut.toLowerCase();
     if (seen.has(key)) return;
     seen.add(key);
-    out.push(cut);
+    found.push({ text: cut, bullet });
   };
-  for (const line of (text || '').replace(/\r/g, '').split('\n')) {
-    const t = line.trim();
-    if (!t) continue;
-    if (BULLET.test(t)) { add(t.replace(BULLET, '')); continue; }
-    if (t.endsWith(':')) continue;
-    if (t.split(/\s+/).length <= 3 && !/[.!?]$/.test(t)) continue;
+  const lines = (text || '').replace(/\r/g, '').split('\n').map(l => l.trim()).filter(Boolean);
+  lines.forEach((t, i) => {
+    if (BULLET.test(t)) { add(t.replace(BULLET, ''), true); return; }
+    if (t.endsWith(':')) return;
+    const short = t.split(/\s+/).length <= 3 && !/[.!?]$/.test(t);
+    if (short && (HEADING.test(t) || BULLET.test(lines[i + 1] ?? ''))) return;
     const sentences = t.length > 160 ? t.split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ])/) : [t];
-    sentences.forEach(add);
+    sentences.forEach(x => add(x, false));
+  });
+  if (found.length <= max) return found.map(f => f.text);
+  const bullets = found.filter(f => f.bullet).length;
+  let prose = Math.max(0, max - bullets);
+  let kept = 0;
+  const out: string[] = [];
+  for (const f of found) {
+    if (kept >= max) break;
+    if (!f.bullet) { if (prose <= 0) continue; prose -= 1; }
+    out.push(f.text); kept += 1;
   }
-  return out.slice(0, max);
+  return out;
 }
 
 // ── Requests ───────────────────────────────────────────────────────────────

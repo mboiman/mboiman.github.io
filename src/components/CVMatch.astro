@@ -303,7 +303,7 @@ const pageData = {
     </footer>
   </div>
 
-  <script type="application/json" id="mt-data" set:html={JSON.stringify(pageData)} />
+  <script type="application/json" id="mt-data" set:html={JSON.stringify(pageData).replace(/</g, '\\u003c')} />
 
   <script>
     import { scoreMatch, verdictOf, splitRequirements, MET_LEVEL, type Measurement, type RequirementResult, type Weights } from '../lib/match';
@@ -327,6 +327,7 @@ const pageData = {
 
     function showTab(name: string, focus = false) {
       tab = name;
+      if (name !== 'demo') probeLive();
       tabs.forEach(b => {
         const on = b.dataset.tab === name;
         b.setAttribute('aria-selected', String(on));
@@ -368,7 +369,7 @@ const pageData = {
         const content = await readFileText(file);
         text.value = content.slice(0, 12000);
         showTab('text');
-        note.textContent = T.fileRead.replace('{name}', file.name).replace('{n}', nf(text.value.length)) + ' ' + (liveOk ? T.noteLive : T.liveDown);
+        note.textContent = T.fileRead.replace('{name}', () => file.name).replace('{n}', nf(text.value.length)) + ' ' + (liveOk ? T.noteLive : T.liveDown);
         updateStart();
         text.focus();
       } catch (e) {
@@ -381,13 +382,17 @@ const pageData = {
     drop.addEventListener('dragleave', () => drop.classList.remove('is-over'));
     drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('is-over'); takeFile(e.dataTransfer?.files?.[0]); });
 
-    // Is the live worker there? Examples work either way.
-    if (D.endpoint) {
+    // Is the live worker there? Asked only once a visitor opens the text or
+    // file tab: the examples send nothing, and the privacy page says so.
+    let probed = false;
+    function probeLive() {
+      if (probed || !D.endpoint) return;
+      probed = true;
       fetch(`${D.endpoint}/health`, { signal: AbortSignal.timeout(6000) })
         .then(r => r.ok ? r.json() : null)
         .then(j => { liveOk = Boolean(j?.ok); })
         .catch(() => { liveOk = false; })
-        .finally(() => showTab(tab));
+        .finally(() => { if (tab !== 'demo') showTab(tab); });
     }
 
     // ── The run ──────────────────────────────────────────────────────────
@@ -400,11 +405,26 @@ const pageData = {
     let timers: number[] = [];
     let current: Measurement | null = null;
     let answered: RequirementResult[] = [];
+    /** Which rows have their answer: they arrive out of order, so a count is not enough. */
+    let arrived = new Set<number>();
     let projectIn = false;
     let weights: Weights = { ...D.weights };
     let shownTotal = 0;
-    const links: { row: HTMLElement; ev: HTMLElement; dashed: boolean }[] = [];
+    const links: { row: HTMLElement; ev: HTMLElement; dashed: boolean; path?: SVGPathElement }[] = [];
 
+    const frames: Record<string, number> = {};
+    /** One animation frame loop per target; a new tween or a reset cancels the old one. */
+    function animate(target: string, dur: number, step: (k: number) => void) {
+      cancelAnimationFrame(frames[target]);
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const k = Math.min(1, (now - t0) / dur);
+        step(k);
+        if (k < 1) frames[target] = requestAnimationFrame(tick);
+      };
+      frames[target] = requestAnimationFrame(tick);
+    }
+    const stopFrames = () => Object.keys(frames).forEach(k => cancelAnimationFrame(frames[k]));
     const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
     const later = (ms: number, fn: () => void) => { timers.push(window.setTimeout(fn, ms)); };
 
@@ -423,7 +443,8 @@ const pageData = {
 
     function reset(lines: string[]) {
       clearTimers();
-      answered = []; projectIn = false; links.length = 0; shownTotal = 0;
+      stopFrames();
+      answered = []; arrived = new Set(); projectIn = false; links.length = 0; shownTotal = 0;
       reqsEl.replaceChildren(...lines.map(rowFor));
       evidEl.replaceChildren();
       wire.replaceChildren();
@@ -465,29 +486,18 @@ const pageData = {
       const from = polyState[name].slice();
       polyState[name] = to.slice();
       const draw = (vals: number[]) => el.setAttribute('points', vals.map((v, i) => pt(i, v).map(n => n.toFixed(1)).join(',')).join(' '));
-      if (instant || reduced) { draw(to); return; }
-      const t0 = performance.now(); const dur = 700;
-      const step = (now: number) => {
-        const k = Math.min(1, (now - t0) / dur); const e = 1 - (1 - k) ** 3;
-        draw(from.map((f, i) => f + (to[i] - f) * e));
-        if (k < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
+      if (instant || reduced) { cancelAnimationFrame(frames[`poly-${name}`]); draw(to); return; }
+      animate(`poly-${name}`, 700, k => { const e = 1 - (1 - k) ** 3; draw(from.map((f, i) => f + (to[i] - f) * e)); });
     }
 
     function setTotal(value: number, instant = false) {
       const ring = $('[data-ring]');
       ring.style.strokeDashoffset = String(100 - value);
       const num = $('[data-total]');
-      if (instant || reduced) { num.textContent = String(value); shownTotal = value; return; }
-      const from = shownTotal; const t0 = performance.now();
+      if (instant || reduced) { cancelAnimationFrame(frames.total); num.textContent = String(value); shownTotal = value; return; }
+      const from = shownTotal;
       shownTotal = value;
-      const step = (now: number) => {
-        const k = Math.min(1, (now - t0) / 600);
-        num.textContent = String(Math.round(from + (value - from) * (1 - (1 - k) ** 3)));
-        if (k < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
+      animate('total', 600, k => { num.textContent = String(Math.round(from + (value - from) * (1 - (1 - k) ** 3))); });
     }
 
     function refreshScore(final = false) {
@@ -573,7 +583,7 @@ const pageData = {
       path.setAttribute('class', `mt-link${dashed ? ' is-weak' : ''}`);
       path.setAttribute('pathLength', '1');
       wire.append(path);
-      links.push({ row, ev, dashed });
+      links.push({ row, ev, dashed, path });
       if (instant || reduced) { path.classList.add('is-drawn'); return; }
       requestAnimationFrame(() => path.classList.add('is-drawn'));
       // One point of light travels the line once while it draws.
@@ -590,22 +600,30 @@ const pageData = {
       requestAnimationFrame(step);
     }
 
+    /** On resize the lines only move: a line that is still drawing keeps its
+     *  element, class and travelling light (review 2026-09-26: rebuilding all
+     *  paths here cut every draw animation off, because each arrival grows the
+     *  board and so fires the observer). Lines made while the wire was hidden
+     *  get their element now. */
     function redrawLinks() {
-      wire.replaceChildren();
       if (getComputedStyle(wire).display === 'none') return;
       const b = board.getBoundingClientRect();
       wire.setAttribute('viewBox', `0 0 ${b.width} ${b.height}`);
       for (const l of links) {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', linkPath(l.row, l.ev));
-        path.setAttribute('class', `mt-link is-drawn${l.dashed ? ' is-weak' : ''}`);
-        path.setAttribute('pathLength', '1');
-        wire.append(path);
+        if (!l.path) {
+          l.path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          l.path.setAttribute('class', `mt-link is-drawn${l.dashed ? ' is-weak' : ''}`);
+          l.path.setAttribute('pathLength', '1');
+          wire.append(l.path);
+        }
+        l.path.setAttribute('d', linkPath(l.row, l.ev));
       }
     }
     new ResizeObserver(() => { if (!run.hidden) redrawLinks(); }).observe(board);
 
     function arrive(r: RequirementResult, i: number, instant: boolean) {
+      if (arrived.has(i)) return;
+      arrived.add(i);
       answered.push(r);
       const row = reqsEl.children[i] as HTMLElement;
       row.classList.remove('is-asking');
@@ -657,8 +675,11 @@ const pageData = {
         .replace('{sekunden}', nf(counters.time, 1));
       refreshScore(true);
       $('[data-after]').hidden = false;
-      $('[data-skip]').hidden = true;
+      const skip = $('[data-skip]');
+      const hadFocus = document.activeElement === skip;
+      skip.hidden = true;
       $('[data-replay]').hidden = false;
+      if (hadFocus) $<HTMLButtonElement>('[data-replay]').focus();
       run.classList.add('is-done');
       updateShareOut();
     }
@@ -694,9 +715,8 @@ const pageData = {
       if (!current) return;
       clearTimers();
       const meas = current;
-      const done = answered.length;
       if (!projectIn) projectArrives(true);
-      meas.requirements.slice(done).forEach((r, k) => arrive(r, done + k, true));
+      meas.requirements.forEach((r, i) => arrive(r, i, true));
       requestAnimationFrame(redrawLinks);
       finish();
     }
@@ -723,6 +743,8 @@ const pageData = {
       status.textContent = T.statusWaiting;
       $('[data-skip]').hidden = true;
       run.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      status.tabIndex = -1;
+      status.focus({ preventScroll: true });
       try {
         const res = await fetch(`${D.endpoint}/match`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -734,6 +756,7 @@ const pageData = {
         play(await res.json());
       } catch (e) {
         run.hidden = true;
+        startBtn.focus();
         const msg = e instanceof Error ? e.message : 'error';
         showError(msg === 'rate' ? T.errorRate : T.errorLive.replace('{error}', msg));
       } finally {
@@ -745,8 +768,10 @@ const pageData = {
     $('[data-replay]').addEventListener('click', () => { if (current) play(current); });
     $('[data-new]').addEventListener('click', () => {
       clearTimers();
+      stopFrames();
       run.hidden = true;
       $('[data-input]').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      $<HTMLButtonElement>(`[data-tab="${tab}"]`).focus({ preventScroll: true });
     });
 
     // ── Weights: same answers, new arithmetic ────────────────────────────
@@ -775,16 +800,26 @@ const pageData = {
       if (!current) return;
       const top = Object.entries(current.project.demand).sort((a, b) => b[1] - a[1]).slice(0, 3)
         .map(([k]) => D.axes.find((a: any) => a.key === k)?.label).filter(Boolean).join(', ');
+      // The agent sends at once and its conversations are logged, so a live
+      // run's own text stays out: only an example's lines go along
+      // (review 2026-09-26; the privacy page names Cloudflare and TypeSafe for
+      // own text, not the chat).
       const s = scoreMatch(current.requirements, current.project.demand, D.profile, weights);
-      const gaps = s.gaps.slice(0, 3).map(g => g.text.slice(0, 80)).join('; ');
-      const prompt = (gaps ? T.agentPrompt.replace('{gaps}', gaps) : T.agentPromptNoGaps).replace('{axes}', top);
+      const gaps = (current as any).live ? '' : s.gaps.slice(0, 3).map(g => g.text.slice(0, 80)).join('; ');
+      const prompt = (gaps ? T.agentPrompt.replace('{gaps}', () => gaps) : T.agentPromptNoGaps).replace('{axes}', () => top);
       window.dispatchEvent(new CustomEvent('bridge-agent:prompt', { detail: { text: prompt } }));
     });
     const mail = $<HTMLAnchorElement>('[data-cta-mail]');
     mail?.addEventListener('click', () => {
       if (!current) return;
       const s = scoreMatch(current.requirements, current.project.demand, D.profile, weights);
-      const body = current.requirements.filter(r => r.counts).slice(0, 12).map(r => `- ${r.text}`).join('\n');
+      // Windows and Outlook drop a mailto link above about 2,000 characters.
+      let body = '';
+      for (const r of current.requirements.filter(x => x.counts)) {
+        const line = `- ${r.text}\n`;
+        if (encodeURIComponent(body + line).length > 1500) break;
+        body += line;
+      }
       mail.href = `${D.mail}?subject=${encodeURIComponent(`${T.mailSubject} (${T.scoreTitle} ${s.total})`)}&body=${encodeURIComponent(body)}`;
     });
 

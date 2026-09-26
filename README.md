@@ -167,7 +167,7 @@ and one when it is done.
 | `src/data/match/*.json` | Stored Jev measurements of the examples and of the CV profile |
 | `src/lib/match-file.ts` | Reading an upload in the browser (pdf.js on demand, docx without a zip library) |
 | `src/lib/match-config.ts` | `MATCH_ENDPOINT` of the live worker; empty means examples only |
-| `workers/jev-match/` | Cloudflare Worker for own text: holds the key, stores nothing, 10 runs per minute and address |
+| `workers/jev-match/` | Cloudflare Worker for own text: holds the key, stores nothing; allowed origin only, 10 runs a minute per address (IPv6 per /64), 30 for everyone together, fixed error codes |
 | `scripts/jev-measure.mjs` | Measures the examples and the profile again (`npm run measure:match`) |
 | `test/match.test.mjs` | `npm run test:match`: splitting, requests, score, and that stored runs still fit the texts and the CV |
 
@@ -181,16 +181,19 @@ reads it from `TYPESAFE_API_KEY` or the macOS keychain entry `typesafe-api`
 ```bash
 npm run measure:match
 # the home connection got 403 from TypeSafe on 2026-09-26; then go through the worker:
-cd workers/jev-match && wrangler dev --remote --port 8799 --var TYPESAFE_API_KEY:$(security find-generic-password -s typesafe-api -a mboiman -w)
-JEV_VIA=http://localhost:8799 npm run measure:match
+cd workers/jev-match && wrangler dev --remote --env dev --port 8799 \
+  --var TYPESAFE_API_KEY:$(security find-generic-password -s typesafe-api -a mboiman -w) \
+  --var MEASURE_TOKEN:messlauf
+JEV_VIA=http://localhost:8799 JEV_TOKEN=messlauf npm run measure:match
 ```
 
 `test:match` fails when a demo text no longer matches its stored run or an
 evidence entry left the CV, and warns when the profile was measured on an older CV.
 
 **Going live** for own text: `wrangler deploy` in `workers/jev-match` (it builds
-the CV entries from `config.cv.toml` first), set the secret, then put the worker
-URL into `MATCH_ENDPOINT`. The privacy pages already describe this path
+the CV entries from `config.cv.toml` first, so redeploy after CV changes), set
+the secret, set a spend limit in the TypeSafe account, then put the worker URL
+into `MATCH_ENDPOINT`. The privacy pages already describe this path
 (section 4).
 
 ### Remembered view
