@@ -1,7 +1,8 @@
 {
   "files": [
-    "CVMinimal.Au_9DpJF.css",
-    "global.Cp7xC5jI.css"
+    "CVMinimal.D4MV-EJS.css",
+    "CVPage.BwPKQn9x.css",
+    "DarkModeToggle.CRb_GShu.css"
   ],
   "note": "One deploy of grace for cached HTML. See scripts/carry-assets.mjs."
 }
