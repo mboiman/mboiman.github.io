@@ -31,8 +31,9 @@ export interface GraphInput {
 
 export interface Bar { id: string; anchor: string; x1: number; x2: number; y: number; label: string; labelX: number; labelAnchor: 'start' | 'end'; running: boolean }
 export interface Mark { id: string; anchor: string; x: number; y: number; label: string }
-export interface Pill { id: string; key: string; x: number; y: number; w: number; label: string }
-export interface Dot { id: string; anchor: string; x: number; y: number; lines: string[] }
+/** `count`: entries it joins. `since`: start year of its earliest station, or null. */
+export interface Pill { id: string; key: string; x: number; y: number; w: number; label: string; count: number; stations: number; projects: number; since: number | null; reveal: number }
+export interface Dot { id: string; anchor: string; x: number; y: number; lines: string[]; reveal: number }
 export interface Edge { from: string; to: string; d: string }
 export interface Tick { x: number; label: string }
 
@@ -42,6 +43,10 @@ export interface CareerGraph {
   axisY: number;
   ticks: Tick[];
   today: number;
+  /** Where the axis changes scale, or null when it does not. */
+  breakX: number | null;
+  /** x of 1 January of every year on the axis, for the time lapse's year counter. */
+  years: [number, number][];
   bars: Bar[];
   talks: Mark[];
   skills: Pill[];
@@ -106,20 +111,26 @@ function shortTitle(title: string): string {
   return title.split(/:\s| · /)[0].trim();
 }
 
-/** Word wrap into at most two lines of `max` characters, with an ellipsis. */
-function wrap(text: string, max: number): string[] {
+/**
+ * Wrap into at most two lines of `max` characters, ending in an ellipsis when
+ * text is left over. A line may also break after a hyphen inside a word, so
+ * "E-Mail-Klassifizierung" becomes "E-Mail-" and "Klassifizierung" rather than
+ * one cut-off fragment.
+ */
+export function wrap(text: string, max: number): string[] {
+  const tokens = text.trim().split(/\s+/).flatMap(w => w.split(/(?<=-)(?=[^-])/).map((t, i) => ({ t, gap: i === 0 })));
+  const cut = (l: string) => (l.length > max ? `${l.slice(0, max - 1)}…` : l);
   const lines: string[] = [];
   let line = '';
-  for (const word of text.split(/\s+/)) {
-    const next = line ? `${line} ${word}` : word;
+  for (const { t, gap } of tokens) {
+    const next = line ? `${line}${gap ? ' ' : ''}${t}` : t;
     if (next.length <= max) { line = next; continue; }
     if (line) lines.push(line);
-    line = word;
-    if (lines.length === 2) break;
+    line = t;
+    if (lines.length === 2) return [cut(lines[0]), `${lines[1].length >= max ? lines[1].slice(0, max - 1) : lines[1]}…`];
   }
-  if (line && lines.length < 2) lines.push(line);
-  if (lines.length === 2 && text.length > lines.join(' ').length) lines[1] = `${lines[1].replace(/\s*\S{0,3}$/, '')}…`;
-  return lines.map(l => (l.length > max ? `${l.slice(0, max - 1)}…` : l));
+  if (line) lines.push(line);
+  return lines.map(cut);
 }
 
 /**
@@ -163,9 +174,20 @@ export function buildCareerGraph(input: GraphInput): CareerGraph {
   const ranges = stations.map(s => dateRange(s.dates, now));
   const first = Math.floor(Math.min(...ranges.map(r => r.start), ...talks.map(t => dateRange(t.dates, now).start)));
   const last = Math.max(now, ...ranges.map(r => r.end));
-  const xOf = (year: number) => PAD_X + ((year - first) / (last - first)) * (W - 2 * PAD_X);
+  // Two scales on one axis: the last eleven years at full width, everything
+  // before at 40 percent. On a linear axis 2006 to 2015 took half the width
+  // while five stations of the last five years crowded into six lanes at the
+  // right edge. The change is marked on the axis, never hidden.
+  const split = Math.max(first, Math.floor(now) - 11);
+  const OLD = 0.4;
+  const units = (year: number) => (Math.min(year, split) - first) * OLD + Math.max(0, year - split);
+  const xOf = (year: number) => PAD_X + (units(year) / units(last)) * (W - 2 * PAD_X);
   const ticks: Tick[] = [];
-  for (let y = first; y <= Math.floor(last); y += 2) ticks.push({ x: round(xOf(y)), label: String(y) });
+  for (let y = first; y <= Math.floor(last); y += 1) {
+    if (y < split ? (y - first) % 4 === 0 : y % 2 === 0) ticks.push({ x: round(xOf(y)), label: String(y) });
+  }
+  const years: [number, number][] = [];
+  for (let y = first; y <= Math.ceil(last); y += 1) years.push([round(xOf(y)), y]);
 
   // ── Station bars: newest first into the lowest free lane ─────────────────
   // A lane is taken over the bar AND its label, so a short bar with a long
@@ -231,12 +253,24 @@ export function buildCareerGraph(input: GraphInput): CareerGraph {
     const xs = l.stations.map(id => mid(barById.get(id)!));
     const want = xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : W / 2;
     const label = l.sk.label[lang];
-    return { want, w: label.length * SKILL_CHAR_W + 24, key: l.sk.key, label };
+    const starts = l.stations.map(id => ranges[stations.findIndex(s => `s:${s.anchor}` === id)].start);
+    const count = l.stations.length + l.projects.length;
+    return {
+      want, key: l.sk.key, label, count,
+      w: (label.length + String(count).length + 1) * SKILL_CHAR_W + 26,
+      stations: l.stations.length, projects: l.projects.length,
+      since: starts.length ? Math.floor(Math.min(...starts)) : null,
+      reveal: xs.length ? Math.min(...l.stations.map(id => barById.get(id)!.x1)) : W,
+    };
   }).sort((a, b) => a.want - b.want);
   // Alternate rows in order of their wish, then settle each row on its own.
   const skills: Pill[] = [0, 1].flatMap(row =>
     spread(wished.filter((_, i) => i % 2 === row), 12, PAD_X / 2, W - PAD_X / 2)
-      .map(p => ({ id: `k:${p.key}`, key: p.key, x: round(p.x), y: SKILL_Y[row], w: round(p.w), label: p.label })));
+      .map(p => ({
+        id: `k:${p.key}`, key: p.key, x: round(p.x), y: SKILL_Y[row], w: round(p.w), label: p.label,
+        count: p.count, stations: p.stations, projects: p.projects, since: p.since, reveal: round(p.reveal),
+      })));
+  const skillReveal = new Map(skills.map(s => [s.id, s.reveal]));
   const skillX = new Map(skills.map(s => [s.id, s.x]));
 
   // ── Projects: under the competencies they share, on two staggered rows ───
@@ -246,11 +280,14 @@ export function buildCareerGraph(input: GraphInput): CareerGraph {
     const id = `p:${p.anchor}`;
     const ks = projectSkills.get(id) || [];
     const want = ks.length ? ks.reduce((a, k) => a + skillX.get(k)!, 0) / ks.length : W / 2;
-    return { id, anchor: p.anchor!, want, w: 128, title: shortTitle(p.title) };
+    // A project has no date of its own. In the time lapse it appears once the
+    // last of its competencies has, which is the earliest it could have been built.
+    const reveal = ks.length ? Math.max(...ks.map(k => skillReveal.get(k)!)) : W;
+    return { id, anchor: p.anchor!, want, w: 128, title: shortTitle(p.title), reveal };
   }).sort((a, b) => a.want - b.want);
   const projectsOut: Dot[] = [0, 1].flatMap(row =>
     spread(wishedProjects.filter((_, i) => i % 2 === row), 8, PAD_X / 2, W - PAD_X / 2)
-      .map(d => ({ id: d.id, anchor: d.anchor, x: round(d.x), y: PROJECT_Y[row], lines: wrap(d.title, 17) })));
+      .map(d => ({ id: d.id, anchor: d.anchor, x: round(d.x), y: PROJECT_Y[row], lines: wrap(d.title, 17), reveal: round(Math.min(d.reveal, xOf(now))) })));
 
   // ── Edges ────────────────────────────────────────────────────────────────
   const edges: Edge[] = [];
@@ -276,6 +313,7 @@ export function buildCareerGraph(input: GraphInput): CareerGraph {
 
   return {
     width: W, height: H, axisY: AXIS_Y, ticks, today: round(xOf(now)),
+    breakX: split > first ? round(xOf(split)) : null, years,
     bars, talks: talkMarks, skills, projects: projectsOut, edges, neighbours,
   };
 }

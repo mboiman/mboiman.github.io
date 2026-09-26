@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import toml from 'toml';
-import { buildCareerGraph, dateRange } from '../src/lib/career-graph.ts';
+import { buildCareerGraph, dateRange, wrap } from '../src/lib/career-graph.ts';
 import talkPatterns from '../scripts/lib/talk-patterns.json' with { type: 'json' };
 
 const config = toml.parse(fs.readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8'));
@@ -55,8 +55,23 @@ for (const lang of ['de', 'en']) {
   });
 }
 
+test('the axis gives recent years more room than old ones, and says where it changes', () => {
+  const p = config.languages.de.params;
+  const g = buildCareerGraph({ lang: 'de', now: 2026.73, stations: p.experiences.list.filter((e) => !isTalk(e)), talks: [], projects: [] });
+  const at = (y) => g.years.find(([, year]) => year === y)[0];
+  assert.ok(at(2025) - at(2024) > 2 * (at(2009) - at(2008)), 'a recent year is wider than an old one');
+  assert.ok(g.breakX !== null && g.breakX > at(2008) && g.breakX < at(2024), 'the scale change is marked');
+});
+
 test('dateRange reads every form in the TOML', () => {
   assert.deepEqual(dateRange('seit 06/2025', 2026.5), { start: 2025 + 5 / 12, end: 2026.5, running: true });
   assert.equal(dateRange('09/2025-09/2026', 2027).end, 2026 + 9 / 12);
   assert.deepEqual(dateRange('2023', 2026), { start: 2023, end: 2024, running: false });
+});
+
+test('project labels wrap into two lines, also at a hyphen, and say when they were cut', () => {
+  assert.deepEqual(wrap('E-Mail-Klassifizierung und -Verarbeitungsprozess', 17), ['E-Mail-', 'Klassifizierung…']);
+  assert.deepEqual(wrap('Quality Dashboard', 17), ['Quality Dashboard']);
+  assert.deepEqual(wrap('Medical Transcription System', 17), ['Medical', 'Transcription…']);
+  for (const line of wrap('24/7 Automated Legacy Migration Validator', 17)) assert.ok(line.length <= 17);
 });

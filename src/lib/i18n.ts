@@ -425,6 +425,17 @@ export interface I18nStrings {
     focusFor: string;
     focusPlain: string;
     focusReset: string;
+    /** Competency panel: how often and since when, without plural forms. */
+    skillCounts: string;
+    skillSince: string;
+    /** Under the command line while typing: the graph filters live. */
+    matches: string;
+    noMatch: string;
+    typeHint: string;
+    play: string;
+    playLabel: string;
+    stop: string;
+    axisBreak: string;
   };
   agentWidget: AgentWidgetStrings;
 }
@@ -920,6 +931,15 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusFor: 'Für {for} zusammengestellt. Die passenden Einträge sind im Graphen gelb markiert.',
       focusPlain: 'Die passenden Einträge sind im Graphen gelb markiert.',
       focusReset: 'Markierung aufheben',
+      skillCounts: 'Stationen: {s} · Projekte: {p}',
+      skillSince: 'seit {since}',
+      matches: '{n} Treffer im Graphen · Enter fragt den Agenten',
+      noMatch: 'Kein Treffer im Graphen · Enter fragt den Agenten',
+      typeHint: 'Tippen filtert den Graphen, Enter fragt den Agenten',
+      play: 'Zeitreise',
+      playLabel: 'Werdegang von {first} bis heute abspielen',
+      stop: 'Anhalten',
+      axisBreak: 'Vor {year} gestaucht dargestellt',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1420,6 +1440,15 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusFor: 'Put together for {for}. The matching entries are marked in yellow in the graph.',
       focusPlain: 'The matching entries are marked in yellow in the graph.',
       focusReset: 'Clear the marks',
+      skillCounts: 'Positions: {s} · Projects: {p}',
+      skillSince: 'since {since}',
+      matches: '{n} matches in the graph · Enter asks the agent',
+      noMatch: 'Nothing in the graph · Enter asks the agent',
+      typeHint: 'Typing filters the graph, Enter asks the agent',
+      play: 'Time lapse',
+      playLabel: 'Play the career from {first} to today',
+      stop: 'Stop',
+      axisBreak: 'Compressed before {year}',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

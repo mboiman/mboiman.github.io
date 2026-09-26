@@ -93,6 +93,18 @@ it. Below 900 px the panel stands above the graph and the graph scrolls sideways
   `#project-…`), plus `#skill-<key>`. Selecting a node writes its id into the
   address bar, so the URL is always a link to what is on screen.
 - A tailored link marks its entries in yellow instead of reordering.
+- Two scales on one axis: the last eleven years at full width, the years
+  before at 40 percent, marked with `//` on the axis (and explained in its
+  tooltip), so the dense recent years get the room.
+- Each competency shows how many entries name it; its panel adds stations,
+  projects and the year of its earliest station.
+- The command line filters while you type (every word must occur in an
+  entry's text; a competency matches by name), Enter sends the question to the
+  agent.
+- "Zeitreise" / "Time lapse" plays the career from the first year to today: a
+  cursor runs along the axis and each station, competency, project and line
+  appears when it is reached (`data-reveal`, computed at build time). Hidden
+  for visitors who ask for reduced motion.
 
 ### Tailored link for one application (Minimal and Future)
 
