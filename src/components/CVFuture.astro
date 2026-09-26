@@ -80,47 +80,6 @@ const edgeReveal = (e: { from: string; to: string }) => Math.max(revealOf.get(e.
 const firstYear = g.years[0]?.[1];
 const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.breakX)?.[1];
 
-/* ── The time lapse as chapters ──────────────────────────────────────────
-   One chapter per station, oldest first. Each carries the part of the graph
-   the camera frames (the bar, its label and the competencies it joins, with
-   the lower third left free for the caption), what the caption says, and
-   how long it stays: the years before the axis break pass quicker. Computed
-   here so the browser only animates. */
-const skillById = new Map(g.skills.map(s => [s.id, s]));
-const jobById = new Map(jobs.map(e => [`s:${e.anchor}`, e]));
-const RATIO = g.width / g.height;
-const frame = (b: (typeof g.bars)[number]) => {
-  const ks = joined(b.id, 'k:').map(k => skillById.get(k)!);
-  const labelW = b.label.length * 8.1;
-  const lx = b.labelAnchor === 'end' ? b.labelX - labelW : b.labelX;
-  let x = Math.min(b.x1, lx, ...ks.map(k => k.x - k.w / 2)) - 40;
-  const right = Math.max(b.x2, lx + labelW, ...ks.map(k => k.x + k.w / 2)) + 40;
-  let y = b.y - 50;
-  const bottom = ks.length ? Math.max(...ks.map(k => k.y)) + 30 : b.y + 60;
-  let w = right - x;
-  let h = (bottom - y) / 0.66;
-  if (w / h < RATIO) { const nw = h * RATIO; x -= (nw - w) / 2; w = nw; } else { h = w / RATIO; }
-  const minW = g.width / 2.2;
-  if (w < minW) { x -= (minW - w) / 2; w = minW; h = w / RATIO; }
-  if (w > g.width) { w = g.width; h = g.height; }
-  x = Math.max(0, Math.min(x, g.width - w));
-  y = Math.max(0, Math.min(y, g.height - h));
-  return [x, y, w, h].map(n => Math.round(n));
-};
-const topSkills = (ids: string[]) => ids.map(k => skillById.get(k)!).sort((a, b) => b.count - a.count).slice(0, 4).map(s => s.label);
-const story = {
-  chapters: [...g.bars].sort((a, b) => a.x1 - b.x1).map(b => {
-    const e = jobById.get(b.id)!;
-    const year = Math.floor(dateRange(e.dates, now).start);
-    return {
-      id: b.id, reveal: b.x1, year, company: b.label, role: e.position,
-      skills: topSkills(joined(b.id, 'k:')),
-      box: frame(b),
-      dur: breakYear !== null && year < breakYear ? 950 : 1400,
-    };
-  }),
-  finale: { id: '', reveal: Infinity, year: f.today, company: profile.name, role: ui.tagline, skills: topSkills(g.skills.map(s => s.id)) },
-};
 ---
 
 <BaseLayout title={f.seoTitle} description={ui.seo_description || ui.tagline} lang={lang} noindex view="future">
@@ -255,25 +214,14 @@ const story = {
           <span aria-hidden="true">&gt;</span>{f.profile}
         </button>
         <p class="gx-swipe">{f.swipe}</p>
-        {/* The caption of the time lapse: year, company, role, competencies,
-            and one step per chapter. Decorative, the panel carries the text. */}
-        <div class="gx-cap" data-cap hidden aria-hidden="true">
-          <div class="gx-cap-steps" data-cap-steps>
-            {story.chapters.map(c => <span style={`--dur:${c.dur}ms`}></span>)}
-            <span style="--dur:2400ms"></span>
-          </div>
-          <p class="gx-cap-year" data-cap-year></p>
-          <p class="gx-cap-company" data-cap-company></p>
-          <p class="gx-cap-role" data-cap-role></p>
-          <p class="gx-cap-skills" data-cap-skills></p>
-        </div>
         <div class="gx-play-wrap">
+          <span class="gx-lapse-year" data-lapse-year aria-hidden="true"></span>
           <button type="button" class="gx-play" data-play data-label-play={f.play} data-label-stop={f.stop} aria-label={f.playLabel.replace('{first}', String(firstYear))}>
             <svg viewBox="0 0 16 16" aria-hidden="true"><path class="gx-play-icon" d="M4 2.5v11l9-5.5z" /><path class="gx-stop-icon" d="M4 3h8v10H4z" /></svg>
             <span data-play-text>{f.play}</span>
           </button>
         </div>
-        <svg class="gx-svg" viewBox={`0 0 ${g.width} ${g.height}`} preserveAspectRatio="xMidYMin meet" role="group" aria-label={f.graphLabel} data-story={JSON.stringify(story, (_, v) => (v === Infinity ? 1e9 : v))}>
+        <svg class="gx-svg" viewBox={`0 0 ${g.width} ${g.height}`} preserveAspectRatio="xMidYMin meet" role="group" aria-label={f.graphLabel} data-years={JSON.stringify(g.years)}>
           <defs>
             <linearGradient id="gx-bar" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.55" />
@@ -305,6 +253,7 @@ const story = {
           <g class="gx-edges" aria-hidden="true">
             {g.edges.map((e, i) => <path class="gx-edge" d={e.d} data-from={e.from} data-to={e.to} data-reveal={edgeReveal(e)} pathLength="1" style={`--i:${i}`} />)}
           </g>
+          <g class="gx-signals" aria-hidden="true"></g>
 
           {g.bars.map(b => (
             <g class:list={['gx-node gx-bar', b.running && 'is-running']} data-node={b.id} data-cv-anchor={b.anchor} data-reveal={b.x1} tabindex="0" role="button" aria-label={nodeLabel.get(b.id)}>
@@ -512,96 +461,102 @@ const story = {
     input.addEventListener('input', filter);
     input.form!.addEventListener('submit', () => setTimeout(filter, 0));
 
-    /* ── Time lapse, in chapters ────────────────────────────────────────
-       Station by station, oldest first. For each, the camera moves to the
-       part of the graph around it (the viewBox is animated), its lines light
-       up, and the caption swaps: the year and the company decode out of
-       random characters, the role and the competencies follow. What earlier
-       chapters showed stays at half strength, so the profile visibly grows.
-       The end zooms out to the whole graph and says "today". Chapters,
-       frames and timings come from the build (data-story). Not offered to
-       anyone who asked for less motion. */
-    type Chapter = { id: string; reveal: number; year: number | string; company: string; role: string; skills: string[]; box?: number[]; dur?: number };
-    const story = JSON.parse(svg.dataset.story || '{"chapters":[]}') as { chapters: Chapter[]; finale: Chapter };
+    /* ── Time lapse: signal flow ────────────────────────────────────────
+       The picture never moves. Time runs evenly along the axis (the old,
+       compressed years pass quicker, as the axis already says), and:
+         - each station bar grows from its start to its end as time passes;
+         - when a bar has grown to its middle, where its lines leave, a point
+           of light runs down each line to a competency, drawing the line
+           behind it;
+         - every arriving signal counts the competency up by one and makes it
+           a little brighter, until it stands at its full count;
+         - when time reaches a project's year, a signal runs from each of its
+           competencies to the project, which lights up and is counted.
+       So the network visibly charges up instead of being shown piece by
+       piece. Nothing here jumps: no camera, no caption, no swapping text.
+       Not offered to anyone who asked for less motion. */
+    const NS = 'http://www.w3.org/2000/svg';
     const playBtn = root.querySelector<HTMLButtonElement>('[data-play]')!;
     const playText = playBtn.querySelector<HTMLElement>('[data-play-text]')!;
-    const cap = root.querySelector<HTMLElement>('[data-cap]')!;
-    const capYear = cap.querySelector<HTMLElement>('[data-cap-year]')!;
-    const capCompany = cap.querySelector<HTMLElement>('[data-cap-company]')!;
-    const capRole = cap.querySelector<HTMLElement>('[data-cap-role]')!;
-    const capSkills = cap.querySelector<HTMLElement>('[data-cap-skills]')!;
-    const steps = [...cap.querySelectorAll<HTMLElement>('[data-cap-steps] span')];
-    const revealables = [...svg.querySelectorAll<SVGElement>('[data-reveal]')].map(el => ({ el, x: Number(el.dataset.reveal) }));
-    const FULL = [0, 0, svg.viewBox.baseVal.width, svg.viewBox.baseVal.height];
+    const yearOut = root.querySelector<HTMLElement>('[data-lapse-year]')!;
+    const signals = svg.querySelector<SVGGElement>('.gx-signals')!;
+    const tickTexts = [...svg.querySelectorAll<SVGTextElement>('.gx-axis > g > text')].map(el => ({ el, x: Number(el.getAttribute('x')) }));
+    const barEls = [...svg.querySelectorAll<SVGGElement>('.gx-bar')].map(el => {
+      const rect = el.querySelector<SVGRectElement>('.gx-shape')!;
+      const x1 = Number(rect.getAttribute('x'));
+      const w = Number(rect.getAttribute('width'));
+      return { el, rect, id: el.dataset.node!, x1, w, mid: x1 + w / 2, fired: false };
+    }).sort((a, b) => a.x1 - b.x1);
+    const talkEls = [...svg.querySelectorAll<SVGGElement>('.gx-talk')].map(el => ({ el, x: Number(el.dataset.reveal) }));
+    const skillEls = new Map([...svg.querySelectorAll<SVGGElement>('.gx-skill')].map(el => {
+      const count = el.querySelector<SVGTSpanElement>('.gx-count')!;
+      return [el.dataset.node!, { el, count, total: Number(count.textContent), now: 0 }];
+    }));
+    const projectEls = [...svg.querySelectorAll<SVGGElement>('.gx-project')].map(el => ({ el, id: el.dataset.node!, x: Number(el.dataset.reveal), fired: false }));
+    const edgesFrom = new Map<string, SVGPathElement[]>();
+    edges.forEach(e => { const k = e.dataset.from!; edgesFrom.set(k, [...(edgesFrom.get(k) || []), e]); });
+    const edgesTo = new Map<string, SVGPathElement[]>();
+    edges.forEach(e => { const k = e.dataset.to!; edgesTo.set(k, [...(edgesTo.get(k) || []), e]); });
+    const x0 = barEls.length ? Math.min(...barEls.map(b => b.x1), ...talkEls.map(t => t.x)) : 0;
+    const endX = Number(svg.querySelector('.gx-today')?.getAttribute('x1') || 0);
+    /** The year at a point on the axis: 1 January of every year, from the build. */
+    const yearMarks = JSON.parse(svg.dataset.years || '[]') as [number, number][];
+    const yearAt = (x: number) => {
+      for (let i = yearMarks.length - 1; i >= 0; i -= 1) if (x >= yearMarks[i][0]) return yearMarks[i][1];
+      return yearMarks[0]?.[1] ?? '';
+    };
 
-    let timers: number[] = [];
-    let vb = [...FULL];
-    let vbRaf = 0;
-    const later = (fn: () => void, ms: number) => { timers.push(window.setTimeout(fn, ms)); };
-    const setViewBox = (b: number[]) => { vb = b; svg.setAttribute('viewBox', b.map(n => n.toFixed(1)).join(' ')); };
-    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-    const zoomTo = (target: number[], ms: number) => {
-      cancelAnimationFrame(vbRaf);
-      const from = [...vb];
+    let raf = 0;
+    const DURATION = 14000;
+    const SIGNAL_MS = 1150;
+
+    const charge = (id: string) => {
+      const s = skillEls.get(id);
+      if (!s) return;
+      s.now = Math.min(s.total, s.now + 1);
+      s.count.textContent = String(s.now);
+      s.el.style.opacity = String(0.25 + 0.75 * (s.now / Math.max(1, s.total)));
+      s.el.classList.remove('is-bump');
+      void s.el.getBoundingClientRect();
+      s.el.classList.add('is-bump', 'is-on');
+    };
+    const signal = (edge: SVGPathElement, arrive: () => void) => {
+      const len = edge.getTotalLength();
+      const dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('r', '3.4');
+      dot.setAttribute('class', 'gx-signal');
+      signals.appendChild(dot);
+      edge.classList.add('is-trace');
+      edge.style.strokeDasharray = '1';
       const t0 = performance.now();
       const step = (now: number) => {
-        const t = Math.min(1, (now - t0) / ms);
-        setViewBox(from.map((v, i) => v + (target[i] - v) * ease(t)));
-        if (t < 1 && playing) vbRaf = requestAnimationFrame(step);
+        if (!playing) { dot.remove(); return; }
+        const t = Math.min(1, (now - t0) / SIGNAL_MS);
+        const at = edge.getPointAtLength(len * t);
+        dot.setAttribute('cx', String(at.x));
+        dot.setAttribute('cy', String(at.y));
+        edge.style.strokeDashoffset = String(1 - t);
+        if (t < 1) requestAnimationFrame(step);
+        else { dot.remove(); arrive(); }
       };
-      vbRaf = requestAnimationFrame(step);
-    };
-
-    /** Decode `text` into `el` out of random characters, left to right. */
-    const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/<>+*';
-    const decode = (el: HTMLElement, text: string, ms: number) => {
-      const chars = [...text];
-      const t0 = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min(1, (now - t0) / ms);
-        el.textContent = chars.map((c, i) => (c === ' ' || i / chars.length < p ? c : GLYPHS[Math.floor(Math.random() * GLYPHS.length)])).join('');
-        if (p < 1 && playing) requestAnimationFrame(tick);
-        else el.textContent = text;
-      };
-      requestAnimationFrame(tick);
-    };
-
-    const setCurrent = (id: string) => {
-      nodes.forEach((n, key) => n.classList.toggle('is-cur', !!id && (key === id || !!near.get(id)?.has(key))));
-      edges.forEach(e => e.classList.toggle('is-cur', !!id && (e.dataset.from === id || e.dataset.to === id)));
-    };
-    const revealUpTo = (x: number) => revealables.forEach(r => r.el.classList.toggle('is-on', r.x <= x + 0.5));
-
-    const showCaption = (c: Chapter, i: number) => {
-      cap.classList.add('is-swap');
-      steps.forEach((s, j) => { s.classList.toggle('is-done', j < i); s.classList.toggle('is-now', j === i); });
-      later(() => {
-        cap.classList.remove('is-swap');
-        decode(capYear, String(c.year), 380);
-        decode(capCompany, c.company, 480);
-        capRole.textContent = c.role;
-        capSkills.replaceChildren(...c.skills.map((label, k) => {
-          const chip = document.createElement('span');
-          chip.textContent = label;
-          chip.style.setProperty('--k', String(k));
-          return chip;
-        }));
-      }, 120);
+      requestAnimationFrame(step);
     };
 
     const stopPlay = () => {
-      timers.forEach(clearTimeout);
-      timers = [];
+      cancelAnimationFrame(raf);
+      raf = 0;
       playing = false;
-      cancelAnimationFrame(vbRaf);
-      setViewBox([...FULL]);
-      svg.classList.remove('is-playing', 'is-finale');
-      setCurrent('');
-      revealables.forEach(r => r.el.classList.remove('is-on'));
+      svg.classList.remove('is-playing');
+      signals.replaceChildren();
+      barEls.forEach(b => { b.rect.setAttribute('width', String(b.w)); b.el.classList.remove('is-on'); b.fired = false; });
+      talkEls.forEach(t => t.el.classList.remove('is-on'));
+      skillEls.forEach(s => { s.count.textContent = String(s.total); s.now = 0; s.el.style.opacity = ''; s.el.classList.remove('is-on', 'is-bump'); });
+      projectEls.forEach(pr => { pr.el.classList.remove('is-on'); pr.fired = false; });
+      edges.forEach(e => { e.classList.remove('is-trace'); e.style.strokeDasharray = ''; e.style.strokeDashoffset = ''; });
+      tickTexts.forEach(t => t.el.classList.remove('is-past'));
       root.classList.remove('playing');
-      cap.hidden = true;
-      cap.classList.remove('is-out');
       playText.textContent = playBtn.dataset.labelPlay!;
+      yearOut.textContent = '';
       light(current === 'profile' ? null : current, 'is-lit');
     };
     const play = () => {
@@ -611,27 +566,40 @@ const story = {
       light(null, 'is-hover');
       svg.classList.add('is-playing');
       root.classList.add('playing');
-      cap.hidden = false;
       playText.textContent = playBtn.dataset.labelStop!;
-      let t = 0;
-      story.chapters.forEach((c, i) => {
-        later(() => {
-          revealUpTo(c.reveal);
-          setCurrent(c.id);
-          zoomTo(c.box || FULL, i === 0 ? 800 : 650);
-          showCaption(c, i);
-        }, t);
-        t += c.dur || 1200;
-      });
-      later(() => {
-        revealUpTo(Infinity);
-        setCurrent('');
-        svg.classList.add('is-finale');
-        zoomTo(FULL, 1000);
-        showCaption(story.finale, story.chapters.length);
-      }, t);
-      later(() => cap.classList.add('is-out'), t + 2400);
-      later(stopPlay, t + 2800);
+      barEls.forEach(b => b.rect.setAttribute('width', '0'));
+      skillEls.forEach(s => { s.count.textContent = '0'; s.el.style.opacity = '0.12'; });
+      const t0 = performance.now();
+      const frame = (now: number) => {
+        if (!playing) return;
+        const t = Math.min(1, (now - t0) / DURATION);
+        const x = x0 + (endX - x0) * t;
+        yearOut.textContent = String(yearAt(x));
+        tickTexts.forEach(tk => tk.el.classList.toggle('is-past', tk.x <= x));
+        barEls.forEach(b => {
+          const grown = Math.max(0, Math.min(b.w, x - b.x1));
+          b.rect.setAttribute('width', String(grown));
+          if (x >= b.x1) b.el.classList.add('is-on');
+          if (!b.fired && x >= b.mid) {
+            b.fired = true;
+            (edgesFrom.get(b.id) || []).forEach(e => signal(e, () => charge(e.dataset.to!)));
+          }
+        });
+        talkEls.forEach(tk => { if (x >= tk.x) tk.el.classList.add('is-on'); });
+        projectEls.forEach(pr => {
+          if (pr.fired || x < pr.x) return;
+          pr.fired = true;
+          // Every competency the project names sends a signal, and counts the
+          // project when it arrives: the count on a competency is stations
+          // plus projects, so it ends where the resting graph shows it.
+          const ins = edgesTo.get(pr.id) || [];
+          if (!ins.length) { pr.el.classList.add('is-on'); return; }
+          ins.forEach(e => signal(e, () => { pr.el.classList.add('is-on'); charge(e.dataset.from!); }));
+        });
+        if (t < 1) raf = requestAnimationFrame(frame);
+        else window.setTimeout(() => { if (playing) stopPlay(); }, SIGNAL_MS + 2600);
+      };
+      raf = requestAnimationFrame(frame);
     };
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) playBtn.hidden = true;
     playBtn.addEventListener('click', play);
@@ -939,54 +907,23 @@ const story = {
   .gx-stop-icon { display: none; }
   .gx.playing .gx-play-icon { display: none; }
   .gx.playing .gx-stop-icon { display: inline; }
-  /* Playback: earlier chapters at half strength, the current one bright. */
-  .gx-svg.is-playing .gx-node { opacity: 0.07; transition: opacity 0.4s ease; }
-  .gx-svg.is-playing .gx-node.is-on { opacity: 0.38; }
-  .gx-svg.is-playing .gx-node.is-cur,
-  .gx-svg.is-playing.is-finale .gx-node.is-on { opacity: 1; }
-  .gx-svg.is-playing .gx-node.is-cur .gx-shape { filter: drop-shadow(0 0 8px rgba(94, 234, 212, 0.9)); }
-  .gx-svg.is-playing .gx-edge { opacity: 0.03; animation: none; stroke-dasharray: none; transition: opacity 0.4s ease; }
-  .gx-svg.is-playing .gx-edge.is-on { opacity: 0.2; stroke: rgba(94, 234, 212, 0.45); }
-  .gx-svg.is-playing.is-finale .gx-edge.is-on { opacity: 0.4; }
-  .gx-svg.is-playing .gx-edge.is-cur {
-    opacity: 1; stroke: var(--gx-accent); stroke-width: 1.8;
-    stroke-dasharray: 0.012 0.008; animation: gx-flow 1.2s linear infinite;
+  /* Signal flow. Everything starts faint; what time reaches comes on. */
+  .gx-svg.is-playing .gx-node { opacity: 0.12; transition: opacity 0.6s ease; }
+  .gx-svg.is-playing .gx-node.is-on { opacity: 1; }
+  .gx-svg.is-playing .gx-skill { transition: opacity 0.35s ease; }
+  .gx-svg.is-playing .gx-edge {
+    opacity: 1; stroke: rgba(94, 234, 212, 0.32); stroke-width: 1.1;
+    stroke-dasharray: 1; stroke-dashoffset: 1; animation: none; transition: none;
   }
-
-  /* The caption: lower left, like a title in a film. */
-  .gx-cap {
-    position: absolute; left: 1.25rem; bottom: 1.1rem; z-index: 2;
-    width: min(32rem, 62%);
-    padding: 0.9rem 1.2rem 1.1rem;
-    background: linear-gradient(180deg, rgba(5, 7, 11, 0.86), rgba(5, 7, 11, 0.96));
-    border-left: 2px solid var(--gx-accent);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition: opacity 0.12s ease, transform 0.12s ease;
+  .gx-svg.is-playing .gx-axis > g > text { transition: fill 0.4s ease; }
+  .gx-svg.is-playing .gx-axis > g > text:global(.is-past) { fill: var(--gx-ink); }
+  .gx-signals :global(.gx-signal) {
+    fill: #eafffb;
+    filter: drop-shadow(0 0 4px #5eead4) drop-shadow(0 0 10px rgba(94, 234, 212, 0.85));
   }
-  .gx-cap[hidden] { display: none; }
-  .gx-cap.is-swap { opacity: 0.15; transform: translateY(4px); }
-  .gx-cap.is-out { opacity: 0; transition-duration: 0.4s; }
-  .gx-cap-steps { display: flex; gap: 3px; margin-bottom: 0.9rem; }
-  .gx-cap-steps span { position: relative; flex: 1; height: 2px; overflow: hidden; background: rgba(148, 163, 184, 0.22); }
-  .gx-cap-steps span::after { content: ""; position: absolute; inset: 0; background: var(--gx-accent); transform: scaleX(0); transform-origin: left; }
-  .gx-cap-steps span.is-done::after { transform: scaleX(1); }
-  .gx-cap-steps span.is-now::after { animation: gx-fill var(--dur) linear forwards; }
-  @keyframes gx-fill { to { transform: scaleX(1); } }
-  .gx-cap-year {
-    font-family: var(--gx-mono); font-size: clamp(2.6rem, 4.6vw, 4rem); font-weight: 300; line-height: 1;
-    letter-spacing: 0.02em; color: var(--gx-accent); text-shadow: 0 0 22px rgba(94, 234, 212, 0.55);
-  }
-  .gx-cap-company { margin-top: 0.4rem; font-size: 1.5rem; font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; color: var(--gx-ink); }
-  .gx-cap-role { margin-top: 0.25rem; font-size: var(--fs-14); line-height: 1.45; color: var(--gx-text); }
-  .gx-cap-skills { margin-top: 0.65rem; display: flex; flex-wrap: wrap; gap: 0.35rem; min-height: 1.4rem; }
-  .gx-cap-skills :global(span) {
-    padding: 0.1rem 0.45rem;
-    font-family: var(--gx-mono); font-size: var(--fs-11);
-    color: var(--gx-accent); border: 1px solid rgba(94, 234, 212, 0.45);
-    animation: gx-chip 0.35s ease both; animation-delay: calc(var(--k) * 90ms + 150ms);
-  }
-  @keyframes gx-chip { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+  .gx-skill:global(.is-bump) .gx-shape { animation: gx-bump 0.45s ease-out; transform-box: fill-box; transform-origin: center; }
+  @keyframes gx-bump { 0% { transform: scale(1); } 35% { transform: scale(1.07); stroke: #5eead4; } 100% { transform: scale(1); } }
+  .gx-lapse-year { font-family: var(--gx-mono); font-size: 1.6rem; font-weight: 300; color: var(--gx-accent); letter-spacing: 0.04em; text-shadow: 0 0 16px rgba(94, 234, 212, 0.5); }
 
   /* ── Narrow screens: a page again, the graph scrolls sideways ────────── */
   @media (max-width: 899px) {
@@ -1003,7 +940,6 @@ const story = {
     .gx-ask { position: sticky; bottom: 0; }
     .gx-legal { display: none; }
     .gx-play-wrap { position: static; padding: 0 1.25rem 0.5rem; }
-    .gx-cap { position: static; width: auto; margin: 0 1.25rem 0.6rem; }
     .gx-reopen { position: static; margin: 0.6rem 1.25rem; }
     .gx-profile-btn { padding: 0.2rem 0.5rem; }
     .gx-match { display: none; }

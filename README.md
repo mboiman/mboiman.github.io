@@ -101,15 +101,14 @@ it. Below 900 px the panel stands above the graph and the graph scrolls sideways
 - The command line filters while you type (every word must occur in an
   entry's text; a competency matches by name), Enter sends the question to the
   agent.
-- "Zeitreise" / "Time lapse" plays the career as chapters, one per station,
-  oldest first: the camera moves to the station and the competencies it joins
-  (the SVG viewBox is animated), its lines light up, and a caption in the lower
-  left swaps to the year, company, role and top competencies, the year and
-  company decoding out of random characters. A step bar shows the chapters.
-  Earlier chapters stay at half strength, so the profile visibly grows; the end
-  zooms out to the whole graph and says "today". Frames, texts and timings are
-  computed at build time (`data-story`). Hidden for visitors who ask for
-  reduced motion.
+- "Zeitreise" / "Time lapse" is a signal flow. The picture never moves: time
+  runs evenly along the axis and the year labels light up as it passes. Each
+  station bar grows from its start to its end; when it reaches its middle, a
+  point of light runs down each of its lines and draws the line behind it.
+  Every arriving signal counts the competency up by one and makes it brighter,
+  so each ends at the count the resting graph shows (stations plus projects).
+  When time reaches a project's year, signals run from its competencies to it.
+  About 14 seconds. Hidden for visitors who ask for reduced motion.
 - It plays once by itself on a visitor's first visit (`localStorage` key
   `cv-future-lapse-seen`), except when the visitor arrives through a tailored
   link or an entry link; any click, key or wheel stops it.
