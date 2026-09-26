@@ -1,0 +1,1002 @@
+---
+/**
+ * The future view: the CV as one picture instead of a document.
+ *
+ * Michael turned down a first "future" view on 2026-09-25 because it was the
+ * same scrolling document as the other two in a dark coat, and chose this
+ * instead: a career graph. Stations stand as bars on a time axis, talks as
+ * marks on the axis, competencies and projects as rows below, and a line joins
+ * a competency to every entry that names it. Nothing scrolls on a desktop. A
+ * side panel shows the profile until something is picked, then that entry.
+ * The agent sits in a command line at the bottom; when it points at an entry,
+ * the node lights and the panel opens it.
+ *
+ * Layout is computed at build time (src/lib/career-graph.ts), so the browser
+ * only highlights and switches panels. Every entry's text is rendered into the
+ * panel on the server; the script shows one at a time, and without it the panel
+ * simply lists all of them. Same data as the other views; the tailored link
+ * (?for=&focus=) marks nodes here instead of reordering lists.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ViewSwitch from './ViewSwitch.astro';
+import { getCVData } from '../lib/toml-loader';
+import { formatBlocks } from '../lib/markdown';
+import { i18n } from '../lib/i18n';
+import { isTalk, sortByRecency } from '../lib/experience';
+import { splitDetails } from '../lib/station-details';
+import { buildCareerGraph, dateRange } from '../lib/career-graph';
+
+interface Props {
+  lang: 'de' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = i18n[lang];
+const m = t.minimal;
+const f = t.future;
+
+const data = getCVData(lang);
+const { profile, contact, ui, experiences, projects, agent_proof: agentProof } = data;
+
+const jobs = sortByRecency(experiences.list.filter(e => !isTalk(e)));
+const talks = sortByRecency(experiences.list.filter(isTalk));
+
+const today = new Date();
+const now = today.getFullYear() + today.getMonth() / 12 + (today.getDate() - 1) / 365;
+const g = buildCareerGraph({ lang, now, stations: jobs, talks, projects: projects.list });
+
+const email = contact.list.find(c => c.url?.startsWith('mailto:'));
+const contactText = (item: { url?: string; title: string }) => {
+  const url = item.url || '';
+  if (url.startsWith('mailto:')) return url.slice(7);
+  if (url.startsWith('tel:')) return item.title;
+  if (/^https?:\/\//.test(url)) return url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  return item.title;
+};
+
+const station = (details: string) => {
+  const d = splitDetails(details || '', t.truncatePatterns, t.truncateToolPatterns);
+  const more = [d.fold, d.tools ? `**${d.tools.title}**\n${d.tools.body}` : ''].filter(Boolean).join('\n\n');
+  return { open: formatBlocks(d.open), more: formatBlocks(more), moreTitle: [d.foldTitle, d.tools?.title].filter(Boolean).join(' · ') };
+};
+
+/** Label of any node, for the chips that jump between panels. */
+const nodeLabel = new Map<string, string>([
+  ...jobs.map(e => [`s:${e.anchor}`, `${e.position} · ${e.company.split(' · ')[0]}`] as [string, string]),
+  ...projects.list.map(p => [`p:${p.anchor}`, p.title] as [string, string]),
+  ...g.skills.map(s => [s.id, s.label] as [string, string]),
+]);
+const joined = (id: string, prefix: string) => (g.neighbours[id] || []).filter(n => n.startsWith(prefix));
+const PILL_H = 26;
+
+/** Where each node and line appears in the time lapse, as an x on the axis. */
+const revealOf = new Map<string, number>([
+  ...g.bars.map(b => [b.id, b.x1] as [string, number]),
+  ...g.talks.map(tk => [tk.id, tk.x] as [string, number]),
+  ...g.skills.map(s => [s.id, s.reveal] as [string, number]),
+  ...g.projects.map(p => [p.id, p.reveal] as [string, number]),
+]);
+const edgeReveal = (e: { from: string; to: string }) => Math.max(revealOf.get(e.from) ?? 0, revealOf.get(e.to) ?? 0);
+const firstYear = g.years[0]?.[1];
+const breakYear = g.breakX === null ? null : g.years.find(([x]) => x === g.breakX)?.[1];
+
+---
+
+<BaseLayout title={f.seoTitle} description={ui.seo_description || ui.tagline} lang={lang} noindex view="future">
+  <script is:inline>document.documentElement.classList.add('gx-js');</script>
+
+  <div class="gx">
+    <header class="gx-top">
+      <div class="gx-id">
+        <span class="gx-name">{profile.name}</span>
+        <span class="gx-role">{ui.tagline}</span>
+      </div>
+      <div class="gx-top-right">
+        <button type="button" class="gx-profile-btn no-print" data-goto="profile">{f.profile}</button>
+        <ViewSwitch lang={lang} current="future" />
+        <nav class="gx-lang" aria-label={t.navLanguage}>
+          <a href="/de/future/" hreflang="de" class:list={[lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+          <a href="/en/future/" hreflang="en" class:list={[lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="gx-stage">
+      {/* ── The panel: profile first, one article per node after it ── */}
+      <aside class="gx-panel" id="main" aria-live="polite">
+        <button type="button" class="gx-close no-print" data-close aria-label={f.close}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" /></svg>
+        </button>
+
+        <article class="gx-article is-active" data-panel="profile">
+          <div class="gx-focus" hidden data-focus-banner data-for={f.focusFor} data-plain={f.focusPlain}>
+            <p data-focus-text></p>
+            <a href={`/${lang}/future/`}>{f.focusReset}</a>
+          </div>
+          <p class="gx-kicker">{f.profile}</p>
+          <h1 class="gx-h1">{profile.name}</h1>
+          <p class="gx-lead">{ui.tagline}</p>
+          <p class="gx-hint">{f.hint}</p>
+          <dl class="gx-facts">
+            {t.facts.map(fact => (<div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>))}
+          </dl>
+          <p class="gx-text">{t.careerIntro}</p>
+          <p class="gx-kicker gx-kicker-gap">{agentProof.promptTitle}</p>
+          <div class="gx-suggest">
+            {agentProof.prompts.map(prompt => <button type="button" data-agent-prompt={prompt}><span aria-hidden="true">&gt;</span>{prompt}</button>)}
+          </div>
+          <ul class="gx-contacts">
+            {contact.list.slice(0, 6).map(item => (
+              <li><a href={item.url || '#'} target={item.url?.startsWith('mailto:') || item.url?.startsWith('tel:') ? '_self' : '_blank'} rel="noopener">{contactText(item)}</a></li>
+            ))}
+          </ul>
+          <p class="gx-actions">
+            {email && <a class="gx-btn" href={email.url}>{m.ctaButton}</a>}
+            <a class="gx-link" href={`/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`} download>{t.pdfDownload}</a>
+          </p>
+        </article>
+
+        {jobs.map(exp => {
+          const r = dateRange(exp.dates, now);
+          const st = station(exp.details);
+          const id = `s:${exp.anchor}`;
+          return (
+            <article class="gx-article" data-panel={id}>
+              <button type="button" class="gx-back no-print" data-goto="profile">{f.back}</button>
+              <p class="gx-kicker">{exp.dates}{r.running && <span class="gx-tag">{f.running}</span>}</p>
+              <h2 class="gx-h2">{exp.position}</h2>
+              <p class="gx-sub">{exp.company}</p>
+              <div class="gx-body">
+                <Fragment set:html={st.open} />
+                {st.more && (
+                  <details class="gx-more">
+                    <summary>{st.moreTitle || m.more}</summary>
+                    <Fragment set:html={st.more} />
+                  </details>
+                )}
+              </div>
+              {joined(id, 'k:').length > 0 && (
+                <p class="gx-chips">{joined(id, 'k:').map(k => <button type="button" data-goto={k}>{nodeLabel.get(k)}</button>)}</p>
+              )}
+            </article>
+          );
+        })}
+
+        {talks.filter(x => x.anchor).map(talk => (
+          <article class="gx-article" data-panel={`t:${talk.anchor}`}>
+            <button type="button" class="gx-back no-print" data-goto="profile">{f.back}</button>
+            <p class="gx-kicker">{talk.dates} · {f.legendTalks}</p>
+            <h2 class="gx-h2">{talk.position}</h2>
+            <p class="gx-sub">{talk.company}</p>
+            <div class="gx-body" set:html={station(talk.details ?? '').open} />
+          </article>
+        ))}
+
+        {g.skills.map(s => (
+          <article class="gx-article" data-panel={s.id}>
+            <button type="button" class="gx-back no-print" data-goto="profile">{f.back}</button>
+            <p class="gx-kicker">{f.legendSkills}</p>
+            <h2 class="gx-h2">{s.label}</h2>
+            <p class="gx-stat">{f.skillCounts.replace('{s}', String(s.stations)).replace('{p}', String(s.projects))}{s.since !== null && <span> · {f.skillSince.replace('{since}', String(s.since))}</span>}</p>
+            <p class="gx-sub">{f.connects}</p>
+            <ul class="gx-list">
+              {[...joined(s.id, 's:'), ...joined(s.id, 'p:')].map(n => (
+                <li><button type="button" data-goto={n}><span>{n.startsWith('s:') ? f.legendStations : f.legendProjects}</span>{nodeLabel.get(n)}</button></li>
+              ))}
+            </ul>
+          </article>
+        ))}
+
+        {projects.list.filter(p => p.anchor).map(project => {
+          const id = `p:${project.anchor}`;
+          return (
+            <article class="gx-article" data-panel={id}>
+              <button type="button" class="gx-back no-print" data-goto="profile">{f.back}</button>
+              <p class="gx-kicker">{project.year ? `${project.year} · ` : ''}{project.category}</p>
+              <h2 class="gx-h2">{project.title}</h2>
+              <div class="gx-body" set:html={formatBlocks(project.tagline)} />
+              {project.tech_stack?.length > 0 && <p class="gx-tech">{project.tech_stack.join(' · ')}</p>}
+              {project.url && <p class="gx-proof"><a href={project.url} target="_blank" rel="noopener">{project.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></p>}
+              {joined(id, 'k:').length > 0 && (
+                <p class="gx-chips">{joined(id, 'k:').map(k => <button type="button" data-goto={k}>{nodeLabel.get(k)}</button>)}</p>
+              )}
+            </article>
+          );
+        })}
+      </aside>
+
+      {/* ── The graph ── */}
+      <div class="gx-canvas no-print">
+        {/* Only while the panel is closed: the way back, where the panel was.
+            Below 900 px the closed panel left no way back at all, because the
+            top button was hidden there. */}
+        <button type="button" class="gx-reopen" data-goto="profile" aria-label={f.profile}>
+          <span aria-hidden="true">&gt;</span>{f.profile}
+        </button>
+        <p class="gx-swipe">{f.swipe}</p>
+        <div class="gx-play-wrap">
+          <span class="gx-lapse-year" data-lapse-year aria-hidden="true"></span>
+          <button type="button" class="gx-play" data-play data-label-play={f.play} data-label-stop={f.stop} aria-label={f.playLabel.replace('{first}', String(firstYear))}>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path class="gx-play-icon" d="M4 2.5v11l9-5.5z" /><path class="gx-stop-icon" d="M4 3h8v10H4z" /></svg>
+            <span data-play-text>{f.play}</span>
+          </button>
+        </div>
+        <svg class="gx-svg" viewBox={`0 0 ${g.width} ${g.height}`} preserveAspectRatio="xMidYMin meet" role="group" aria-label={f.graphLabel} data-years={JSON.stringify(g.years)}>
+          <defs>
+            <linearGradient id="gx-bar" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#2dd4bf" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#5eead4" />
+            </linearGradient>
+          </defs>
+
+          <g class="gx-axis" aria-hidden="true">
+            <line x1={g.ticks[0]?.x ?? 0} x2={g.today} y1={g.axisY} y2={g.axisY} />
+            {g.ticks.filter(tk => Math.abs(tk.x - g.today) > 44).map(tk => (
+              <g>
+                <line x1={tk.x} x2={tk.x} y1={g.axisY - 5} y2={g.axisY + 5} />
+                <text x={tk.x} y={g.axisY - 14} text-anchor="middle">{tk.label}</text>
+              </g>
+            ))}
+            <line class="gx-today" x1={g.today} x2={g.today} y1={g.axisY} y2={Math.max(...g.bars.map(b => b.y)) + 24} />
+            <text class="gx-today-label" x={g.today} y={g.axisY - 14} text-anchor="middle">{f.today}</text>
+            {g.breakX !== null && (
+              <g class="gx-break">
+                <title>{f.axisBreak.replace('{year}', String(breakYear))}</title>
+                <line x1={g.breakX - 7} x2={g.breakX - 1} y1={g.axisY + 7} y2={g.axisY - 7} />
+                <line x1={g.breakX + 1} x2={g.breakX + 7} y1={g.axisY + 7} y2={g.axisY - 7} />
+              </g>
+            )}
+            <text class="gx-row" x="20" y={Math.min(...g.skills.map(s => s.y)) - 30}>{f.legendSkills}</text>
+            <text class="gx-row" x="20" y={Math.min(...g.projects.map(p => p.y)) - 30}>{f.legendProjects}</text>
+          </g>
+
+          <g class="gx-edges" aria-hidden="true">
+            {g.edges.map((e, i) => <path class="gx-edge" d={e.d} data-from={e.from} data-to={e.to} data-reveal={edgeReveal(e)} pathLength="1" style={`--i:${i}`} />)}
+          </g>
+          <g class="gx-signals" aria-hidden="true"></g>
+
+          {g.bars.map(b => (
+            <g class:list={['gx-node gx-bar', b.running && 'is-running']} data-node={b.id} data-cv-anchor={b.anchor} data-reveal={b.x1} tabindex="0" role="button" aria-label={nodeLabel.get(b.id)}>
+              <rect class="gx-hit" x={(b.labelAnchor === 'end' ? Math.min(b.x1, b.x2 - b.label.length * 8.1) : b.x1) - 4} y={b.y - 26} width={Math.max(b.x2 - b.x1, b.label.length * 8.1) + 8} height="40" />
+              <text x={b.labelX} y={b.y - 8} text-anchor={b.labelAnchor}>{b.label}</text>
+              <rect class="gx-shape" x={b.x1} y={b.y} width={b.x2 - b.x1} height="10" rx="2" />
+              {b.running && <circle class="gx-pulse" cx={b.x2} cy={b.y + 5} r="5" />}
+            </g>
+          ))}
+
+          {g.talks.map(tk => (
+            <g class="gx-node gx-talk"  data-node={tk.id} data-cv-anchor={tk.anchor} data-reveal={tk.x} tabindex="0" role="button" aria-label={`${f.legendTalks}: ${tk.label}`}>
+              <rect class="gx-hit" x={tk.x - 10} y={tk.y - 10} width="20" height="20" />
+              <rect class="gx-shape" x={tk.x - 5} y={tk.y - 5} width="10" height="10" transform={`rotate(45 ${tk.x} ${tk.y})`} />
+            </g>
+          ))}
+
+          {g.skills.map(s => (
+            <g class="gx-node gx-skill" data-node={s.id} data-reveal={s.reveal} tabindex="0" role="button" aria-label={`${f.legendSkills}: ${s.label}, ${s.count}`}>
+              <rect class="gx-shape" x={s.x - s.w / 2} y={s.y - PILL_H / 2} width={s.w} height={PILL_H} rx={PILL_H / 2} />
+              <text x={s.x} y={s.y + 5} text-anchor="middle">{s.label}<tspan class="gx-count" dx="6">{s.count}</tspan></text>
+            </g>
+          ))}
+
+          {g.projects.map(p => (
+            <g class="gx-node gx-project" data-node={p.id} data-cv-anchor={p.anchor} data-reveal={p.reveal} tabindex="0" role="button" aria-label={`${f.legendProjects}: ${nodeLabel.get(p.id)}`}>
+              <rect class="gx-hit" x={p.x - 62} y={p.y - 12} width="124" height={p.lines.length * 16 + 28} />
+              <circle class="gx-shape" cx={p.x} cy={p.y} r="6" />
+              <text x={p.x} y={p.y + 24} text-anchor="middle">
+                {p.lines.map((line, i) => <tspan x={p.x} dy={i === 0 ? 0 : 16}>{line}</tspan>)}
+              </text>
+            </g>
+          ))}
+          <g class="gx-legend" aria-hidden="true" transform={`translate(20 ${g.height - 14})`}>
+            <rect class="gx-lg-bar" x="0" y="-8" width="22" height="7" rx="2" />
+            <text x="30" y="0">{f.legendStations}</text>
+            <circle class="gx-lg-run" cx={30 + f.legendStations.length * 7.4 + 18} cy="-4.5" r="4" />
+            <text x={30 + f.legendStations.length * 7.4 + 28} y="0">{f.running}</text>
+            <g transform={`translate(${30 + (f.legendStations.length + f.running.length) * 7.4 + 62} 0)`}>
+              <rect class="gx-lg-talk" x="-4" y="-8.5" width="8" height="8" transform="rotate(45 0 -4.5)" />
+              <text x="12" y="0">{f.legendTalks}</text>
+              <g transform={`translate(${f.legendTalks.length * 7.4 + 38} 0)`}>
+                <rect class="gx-lg-skill" x="0" y="-11" width="26" height="13" rx="6.5" />
+                <text x="34" y="0">{f.legendSkills}</text>
+                <g transform={`translate(${f.legendSkills.length * 7.4 + 60} 0)`}>
+                  <circle class="gx-lg-project" cx="4" cy="-4.5" r="4.5" />
+                  <text x="16" y="0">{f.legendProjects}</text>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    {/* ── The command line ── */}
+    <footer class="gx-ask no-print">
+      <span class="gx-live" data-agent-live data-live-ok={t.agentReachable} data-live-down={t.agentUnavailable} role="status">
+        <span class="gx-live-dot" aria-hidden="true"></span>
+        <span data-agent-live-text>{t.agentCardStatic}</span>
+      </span>
+      <form class="gx-form" data-ask>
+        <span class="gx-prompt-mark" aria-hidden="true">&gt;</span>
+        <input type="text" name="q" autocomplete="off" aria-label={f.askLabel} placeholder={f.askPlaceholder} />
+        <button type="submit">{f.askSend}</button>
+      </form>
+      <span class="gx-match" data-match data-hint={f.typeHint} data-matches={f.matches} data-none={f.noMatch} aria-live="polite">{f.typeHint}</span>
+      <button
+        type="button"
+        class="gx-console"
+        data-agent-open
+        aria-label={agentProof.ask}
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="agent-widget-panel"
+      >{f.openConsole}</button>
+      <nav class="gx-legal" aria-label={t.navFooter}>
+        <a href={`/${lang}/impressum/`}>{t.legalImpressum}</a>
+        <a href={`/${lang}/datenschutz/`}>{t.legalPrivacy}</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script>
+    import { readFocus, focusText, agentPrompts } from '../lib/cv-links';
+
+    const root = document.querySelector<HTMLElement>('.gx')!;
+    const svg = root.querySelector<SVGSVGElement>('.gx-svg')!;
+    const panel = root.querySelector<HTMLElement>('.gx-panel')!;
+    const nodes = new Map([...svg.querySelectorAll<SVGGElement>('.gx-node')].map(n => [n.dataset.node!, n]));
+    const edges = [...svg.querySelectorAll<SVGPathElement>('.gx-edge')];
+    const articles = new Map([...panel.querySelectorAll<HTMLElement>('[data-panel]')].map(a => [a.dataset.panel!, a]));
+
+    /** Neighbours from the edges themselves, so they cannot disagree. */
+    const near = new Map<string, Set<string>>();
+    for (const e of edges) {
+      const { from, to } = e.dataset as { from: string; to: string };
+      (near.get(from) ?? near.set(from, new Set()).get(from)!).add(to);
+      (near.get(to) ?? near.set(to, new Set()).get(to)!).add(from);
+    }
+
+    const light = (id: string | null, cls: 'is-lit' | 'is-hover') => {
+      svg.classList.toggle(cls === 'is-lit' ? 'has-sel' : 'has-hover', !!id);
+      nodes.forEach((n, key) => n.classList.toggle(cls, !!id && (key === id || !!near.get(id)?.has(key))));
+      edges.forEach(e => e.classList.toggle(cls, !!id && (e.dataset.from === id || e.dataset.to === id)));
+    };
+
+    /* Entry ids in the address bar are the same as on the other two views
+       (#exp-…, #project-…), so a link copied here opens the same entry there. */
+    const hashFor = (id: string) => {
+      const [kind, key] = id.split(':');
+      return kind === 's' || kind === 't' ? `exp-${key}` : kind === 'p' ? `project-${key}` : kind === 'k' ? `skill-${key}` : '';
+    };
+    const idForHash = (hash: string) => {
+      const h = decodeURIComponent(hash.replace(/^#/, ''));
+      const m = h.match(/^(exp|project|skill)-(.+)$/);
+      if (!m) return null;
+      const candidates = m[1] === 'exp' ? [`s:${m[2]}`, `t:${m[2]}`] : [`${m[1] === 'project' ? 'p' : 'k'}:${m[2]}`];
+      return candidates.find(c => articles.has(c)) ?? null;
+    };
+
+    let current = 'profile';
+    let playing = false;
+    const select = (id: string, { hash = true } = {}) => {
+      if (!articles.has(id)) id = 'profile';
+      current = id;
+      articles.forEach((a, key) => a.classList.toggle('is-active', key === id));
+      nodes.forEach((n, key) => n.classList.toggle('is-sel', key === id));
+      light(id === 'profile' ? null : id, 'is-lit');
+      root.classList.remove('panel-closed');
+      panel.scrollTop = 0;
+      if (hash) history.replaceState(null, '', id === 'profile' ? location.pathname + location.search : `#${hashFor(id)}`);
+      if (window.matchMedia('(max-width: 899px)').matches && id !== 'profile') panel.scrollIntoView({ block: 'start' });
+    };
+
+    nodes.forEach((n, id) => {
+      n.addEventListener('click', () => select(id));
+      n.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(id); } });
+      n.addEventListener('mouseenter', () => { if (!playing) light(id, 'is-hover'); });
+      n.addEventListener('mouseleave', () => light(null, 'is-hover'));
+      n.addEventListener('focus', () => { if (!playing) light(id, 'is-hover'); });
+      n.addEventListener('blur', () => light(null, 'is-hover'));
+    });
+    root.addEventListener('click', ev => {
+      const go = (ev.target as HTMLElement).closest<HTMLElement>('[data-goto]');
+      if (go) select(go.dataset.goto!);
+      if ((ev.target as HTMLElement).closest('[data-close]')) root.classList.add('panel-closed');
+    });
+    document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && current !== 'profile') select('profile'); });
+
+    // A tailored link marks its entries; it does not open one.
+    const { anchors, name } = readFocus();
+    const marked = anchors.flatMap(a => [`s:${a}`, `t:${a}`, `p:${a}`]).filter(id => nodes.has(id));
+    if (marked.length) {
+      marked.forEach(id => nodes.get(id)!.classList.add('is-focus'));
+      const banner = panel.querySelector<HTMLElement>('[data-focus-banner]');
+      if (banner) {
+        banner.querySelector('[data-focus-text]')!.textContent = focusText(banner, name);
+        banner.hidden = false;
+      }
+    }
+
+    const fromHash = idForHash(location.hash);
+    if (fromHash) select(fromHash, { hash: false });
+    window.addEventListener('hashchange', () => { const id = idForHash(location.hash); if (id) select(id, { hash: false }); });
+
+    // The agent points at an entry by flashing its [data-cv-anchor]; follow it.
+    new MutationObserver(records => {
+      for (const r of records) {
+        const n = r.target as SVGGElement;
+        if (n.classList.contains('bridge-flash') && n.dataset.node) select(n.dataset.node);
+      }
+    }).observe(svg, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
+    root.querySelector<HTMLFormElement>('[data-ask]')!.addEventListener('submit', ev => {
+      ev.preventDefault();
+      const input = (ev.currentTarget as HTMLFormElement).elements.namedItem('q') as HTMLInputElement;
+      const text = input.value.trim();
+      if (!text) return;
+      window.dispatchEvent(new CustomEvent('bridge-agent:prompt', { detail: { text } }));
+      input.value = '';
+    });
+    agentPrompts();
+
+    /* ── The command line filters while you type ───────────────────────
+       Every word must occur. Stations, talks and projects are searched in
+       their full panel text, so "peppol" finds the stations that did it and
+       not only the node called Peppol; a competency only by its name, since
+       its panel lists other entries and would match all of them. */
+    const input = root.querySelector<HTMLInputElement>('[data-ask] input')!;
+    const matchOut = root.querySelector<HTMLElement>('[data-match]')!;
+    const haystack = new Map([...nodes.keys()].map(id => {
+      const art = articles.get(id);
+      const text = id.startsWith('k:') ? nodes.get(id)!.getAttribute('aria-label') : art?.textContent;
+      return [id, (text || '').toLowerCase()];
+    }));
+    const filter = () => {
+      const words = input.value.toLowerCase().split(/\s+/).filter(w => w.length >= 2);
+      const hits = words.length ? [...haystack].filter(([, text]) => words.every(w => text.includes(w))).map(([id]) => id) : [];
+      svg.classList.toggle('has-match', words.length > 0);
+      nodes.forEach((n, id) => n.classList.toggle('is-match', hits.includes(id)));
+      edges.forEach(e => e.classList.toggle('is-match', hits.includes(e.dataset.from!) && hits.includes(e.dataset.to!)));
+      matchOut.textContent = !words.length ? matchOut.dataset.hint! : hits.length ? matchOut.dataset.matches!.replace('{n}', String(hits.length)) : matchOut.dataset.none!;
+    };
+    input.addEventListener('input', filter);
+    input.form!.addEventListener('submit', () => setTimeout(filter, 0));
+
+    /* ── Time lapse: signal flow ────────────────────────────────────────
+       The picture never moves. Time runs evenly along the axis (the old,
+       compressed years pass quicker, as the axis already says), and:
+         - each station bar grows from its start to its end as time passes;
+         - when a bar has grown to its middle, where its lines leave, a point
+           of light runs down each line to a competency, drawing the line
+           behind it;
+         - every arriving signal counts the competency up by one and makes it
+           a little brighter, until it stands at its full count;
+         - when time reaches a project's year, a signal runs from each of its
+           competencies to the project, which lights up and is counted.
+       So the network visibly charges up instead of being shown piece by
+       piece. Nothing here jumps: no camera, no caption, no swapping text.
+       Not offered to anyone who asked for less motion. */
+    const NS = 'http://www.w3.org/2000/svg';
+    const playBtn = root.querySelector<HTMLButtonElement>('[data-play]')!;
+    const playText = playBtn.querySelector<HTMLElement>('[data-play-text]')!;
+    const yearOut = root.querySelector<HTMLElement>('[data-lapse-year]')!;
+    const signals = svg.querySelector<SVGGElement>('.gx-signals')!;
+    const tickTexts = [...svg.querySelectorAll<SVGTextElement>('.gx-axis > g > text')].map(el => ({ el, x: Number(el.getAttribute('x')) }));
+    const barEls = [...svg.querySelectorAll<SVGGElement>('.gx-bar')].map(el => {
+      const rect = el.querySelector<SVGRectElement>('.gx-shape')!;
+      const x1 = Number(rect.getAttribute('x'));
+      const w = Number(rect.getAttribute('width'));
+      return { el, rect, id: el.dataset.node!, x1, w, mid: x1 + w / 2, fired: false };
+    }).sort((a, b) => a.x1 - b.x1);
+    const talkEls = [...svg.querySelectorAll<SVGGElement>('.gx-talk')].map(el => ({ el, x: Number(el.dataset.reveal) }));
+    const skillEls = new Map([...svg.querySelectorAll<SVGGElement>('.gx-skill')].map(el => {
+      const count = el.querySelector<SVGTSpanElement>('.gx-count')!;
+      return [el.dataset.node!, { el, count, total: Number(count.textContent), now: 0 }];
+    }));
+    const projectEls = [...svg.querySelectorAll<SVGGElement>('.gx-project')].map(el => ({ el, id: el.dataset.node!, x: Number(el.dataset.reveal), fired: false }));
+    const edgesFrom = new Map<string, SVGPathElement[]>();
+    edges.forEach(e => { const k = e.dataset.from!; edgesFrom.set(k, [...(edgesFrom.get(k) || []), e]); });
+    const edgesTo = new Map<string, SVGPathElement[]>();
+    edges.forEach(e => { const k = e.dataset.to!; edgesTo.set(k, [...(edgesTo.get(k) || []), e]); });
+    const x0 = barEls.length ? Math.min(...barEls.map(b => b.x1), ...talkEls.map(t => t.x)) : 0;
+    const endX = Number(svg.querySelector('.gx-today')?.getAttribute('x1') || 0);
+    /** The year at a point on the axis: 1 January of every year, from the build. */
+    const yearMarks = JSON.parse(svg.dataset.years || '[]') as [number, number][];
+    const yearAt = (x: number) => {
+      for (let i = yearMarks.length - 1; i >= 0; i -= 1) if (x >= yearMarks[i][0]) return yearMarks[i][1];
+      return yearMarks[0]?.[1] ?? '';
+    };
+
+    let raf = 0;
+    const DURATION = 14000;
+    const SIGNAL_MS = 1150;
+
+    const charge = (id: string) => {
+      const s = skillEls.get(id);
+      if (!s) return;
+      s.now = Math.min(s.total, s.now + 1);
+      s.count.textContent = String(s.now);
+      s.el.style.opacity = String(0.25 + 0.75 * (s.now / Math.max(1, s.total)));
+      s.el.classList.remove('is-bump');
+      void s.el.getBoundingClientRect();
+      s.el.classList.add('is-bump', 'is-on');
+    };
+    const signal = (edge: SVGPathElement, arrive: () => void) => {
+      const len = edge.getTotalLength();
+      const dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('r', '3.4');
+      dot.setAttribute('class', 'gx-signal');
+      signals.appendChild(dot);
+      edge.classList.add('is-trace');
+      edge.style.strokeDasharray = '1';
+      const t0 = performance.now();
+      const step = (now: number) => {
+        if (!playing) { dot.remove(); return; }
+        const t = Math.min(1, (now - t0) / SIGNAL_MS);
+        const at = edge.getPointAtLength(len * t);
+        dot.setAttribute('cx', String(at.x));
+        dot.setAttribute('cy', String(at.y));
+        edge.style.strokeDashoffset = String(1 - t);
+        if (t < 1) requestAnimationFrame(step);
+        else { dot.remove(); arrive(); }
+      };
+      requestAnimationFrame(step);
+    };
+
+    const stopPlay = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      playing = false;
+      svg.classList.remove('is-playing');
+      signals.replaceChildren();
+      barEls.forEach(b => { b.rect.setAttribute('width', String(b.w)); b.el.classList.remove('is-on'); b.fired = false; });
+      talkEls.forEach(t => t.el.classList.remove('is-on'));
+      skillEls.forEach(s => { s.count.textContent = String(s.total); s.now = 0; s.el.style.opacity = ''; s.el.classList.remove('is-on', 'is-bump'); });
+      projectEls.forEach(pr => { pr.el.classList.remove('is-on'); pr.fired = false; });
+      edges.forEach(e => { e.classList.remove('is-trace'); e.style.strokeDasharray = ''; e.style.strokeDashoffset = ''; });
+      tickTexts.forEach(t => t.el.classList.remove('is-past'));
+      root.classList.remove('playing');
+      playText.textContent = playBtn.dataset.labelPlay!;
+      yearOut.textContent = '';
+      light(current === 'profile' ? null : current, 'is-lit');
+    };
+    const play = () => {
+      if (playing) { stopPlay(); return; }
+      playing = true;
+      light(null, 'is-lit');
+      light(null, 'is-hover');
+      svg.classList.add('is-playing');
+      root.classList.add('playing');
+      playText.textContent = playBtn.dataset.labelStop!;
+      barEls.forEach(b => b.rect.setAttribute('width', '0'));
+      skillEls.forEach(s => { s.count.textContent = '0'; s.el.style.opacity = '0.12'; });
+      const t0 = performance.now();
+      const frame = (now: number) => {
+        if (!playing) return;
+        const t = Math.min(1, (now - t0) / DURATION);
+        const x = x0 + (endX - x0) * t;
+        yearOut.textContent = String(yearAt(x));
+        tickTexts.forEach(tk => tk.el.classList.toggle('is-past', tk.x <= x));
+        barEls.forEach(b => {
+          const grown = Math.max(0, Math.min(b.w, x - b.x1));
+          b.rect.setAttribute('width', String(grown));
+          if (x >= b.x1) b.el.classList.add('is-on');
+          if (!b.fired && x >= b.mid) {
+            b.fired = true;
+            (edgesFrom.get(b.id) || []).forEach(e => signal(e, () => charge(e.dataset.to!)));
+          }
+        });
+        talkEls.forEach(tk => { if (x >= tk.x) tk.el.classList.add('is-on'); });
+        projectEls.forEach(pr => {
+          if (pr.fired || x < pr.x) return;
+          pr.fired = true;
+          // Every competency the project names sends a signal, and counts the
+          // project when it arrives: the count on a competency is stations
+          // plus projects, so it ends where the resting graph shows it.
+          const ins = edgesTo.get(pr.id) || [];
+          if (!ins.length) { pr.el.classList.add('is-on'); return; }
+          ins.forEach(e => signal(e, () => { pr.el.classList.add('is-on'); charge(e.dataset.from!); }));
+        });
+        if (t < 1) raf = requestAnimationFrame(frame);
+        else window.setTimeout(() => { if (playing) stopPlay(); }, SIGNAL_MS + 2600);
+      };
+      raf = requestAnimationFrame(frame);
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) playBtn.hidden = true;
+    playBtn.addEventListener('click', play);
+    svg.addEventListener('click', () => { if (playing) stopPlay(); });
+
+    /* ── First visit: the time lapse plays once by itself ──────────────
+       Once per visitor (localStorage, marked before it starts, so an
+       interrupted run counts too). Not for anyone who arrives with a link
+       to something specific: a tailored link or an entry link means the
+       reader came for that, and a quarter minute of animation would stand in
+       the way. Any click, key or wheel stops it at once. */
+    const LAPSE_SEEN = 'cv-future-lapse-seen';
+    const autoplay = () => {
+      if (playBtn.hidden || marked.length || fromHash) return;
+      try {
+        if (localStorage.getItem(LAPSE_SEEN)) return;
+        localStorage.setItem(LAPSE_SEEN, '1');
+      } catch { return; }
+      const events = ['pointerdown', 'keydown', 'wheel'] as const;
+      const interrupt = (ev: Event) => {
+        if ((ev.target as Element | null)?.closest?.('[data-play]')) return;
+        if (playing) stopPlay();
+        events.forEach(t => document.removeEventListener(t, interrupt, true));
+      };
+      setTimeout(() => {
+        play();
+        events.forEach(t => document.addEventListener(t, interrupt, true));
+      }, 700);
+    };
+    autoplay();
+
+    // A closed <details> prints as its summary alone.
+    window.addEventListener('beforeprint', () => panel.querySelectorAll('details').forEach(d => { d.open = true; }));
+  </script>
+</BaseLayout>
+
+<style>
+  .gx {
+    --gx-bg: #05070b;
+    --gx-panel: #0a0f16;
+    --gx-line: rgba(148, 163, 184, 0.14);
+    --gx-line-strong: rgba(148, 163, 184, 0.3);
+    --gx-ink: #e8eef5;
+    --gx-text: #b4bfcc;
+    --gx-muted: #7d8896;
+    --gx-accent: #5eead4;
+    --gx-violet: #b4a5fb;
+    --gx-amber: #fbbf24;
+    --gx-mono: var(--font-mono);
+    --vs-line: var(--gx-line-strong);
+    --vs-text: var(--gx-muted);
+    --vs-text-hover: var(--gx-ink);
+    --vs-active-bg: var(--gx-accent);
+    --vs-active-text: var(--gx-bg);
+    --vs-radius: 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100vh;
+    height: 100dvh;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 35%, rgba(94, 234, 212, 0.07), transparent 70%),
+      radial-gradient(circle, rgba(148, 163, 184, 0.10) 1px, transparent 1.2px) 0 0 / 28px 28px,
+      var(--gx-bg);
+    color: var(--gx-text);
+    font-family: var(--font-body);
+  }
+  :global(html.cv-future body) { background: #05070b; }
+  :global(html.cv-future) { color-scheme: dark; }
+  .gx a { color: inherit; }
+  .gx button { font: inherit; cursor: pointer; }
+
+  /* ── Top ─────────────────────────────────────────────────────────────── */
+  .gx-top {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 0.7rem 1.25rem;
+    border-bottom: 1px solid var(--gx-line);
+  }
+  .gx-id { display: flex; align-items: baseline; gap: 0.9rem; min-width: 0; }
+  .gx-name { font-size: var(--fs-16); font-weight: 500; color: var(--gx-ink); white-space: nowrap; }
+  .gx-role { font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gx-top-right { display: flex; align-items: center; gap: 0.9rem; }
+  .gx-profile-btn { padding: 0.25rem 0.6rem; font-size: var(--fs-13) !important; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line-strong); }
+  .gx-profile-btn:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
+  .gx-lang { display: flex; gap: 0.55rem; font-size: var(--fs-13); }
+  .gx-lang a { color: var(--gx-muted); text-decoration: none; }
+  .gx-lang a.is-active { color: var(--gx-ink); font-weight: 600; }
+
+  /* ── Stage: panel beside graph ───────────────────────────────────────── */
+  .gx-stage { display: grid; grid-template-columns: 24rem minmax(0, 1fr); min-height: 0; }
+  .gx.panel-closed .gx-stage { grid-template-columns: 0 minmax(0, 1fr); }
+  .gx.panel-closed .gx-panel { visibility: hidden; }
+
+  .gx-panel {
+    position: relative;
+    overflow-y: auto;
+    padding: 1.4rem 1.4rem 2rem;
+    background: rgba(10, 15, 22, 0.86);
+    border-right: 1px solid var(--gx-line);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gx-line-strong) transparent;
+  }
+  .gx-close { position: absolute; top: 0.8rem; right: 0.8rem; width: 2rem; height: 2rem; padding: 0.35rem; color: var(--gx-muted); background: transparent; border: 0; }
+  .gx-close:hover { color: var(--gx-ink); }
+  :global(.gx-js) .gx-article:not(.is-active) { display: none; }
+  .gx-article + .gx-article { margin-top: 2.5rem; }
+  :global(.gx-js) .gx-article + .gx-article { margin-top: 0; }
+  .gx-article { animation: gx-in 0.25s ease-out; }
+  @keyframes gx-in { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+
+  .gx-kicker { font-family: var(--gx-mono); font-size: var(--fs-11); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gx-accent); }
+  .gx-tag { margin-left: 0.6rem; padding: 0 0.35rem; border: 1px solid var(--gx-accent); }
+  .gx-h1 { margin-top: 0.5rem; font-size: 2.3rem; font-weight: 300; letter-spacing: -0.03em; line-height: 1.02; color: var(--gx-ink); }
+  .gx-h2 { margin-top: 0.5rem; font-size: 1.45rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; color: var(--gx-ink); }
+  .gx-lead { margin-top: 0.6rem; font-size: var(--fs-15); color: var(--gx-ink); }
+  .gx-sub { margin-top: 0.35rem; font-family: var(--gx-mono); font-size: var(--fs-12); color: var(--gx-muted); }
+  .gx-hint { margin-top: 1rem; padding-left: 0.75rem; border-left: 2px solid var(--gx-accent); font-size: var(--fs-13); line-height: 1.55; color: var(--gx-text); }
+  .gx-facts { margin-top: 1.2rem; display: grid; gap: 0.3rem; font-size: var(--fs-13); }
+  .gx-facts div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.75rem; }
+  .gx-facts dt { font-family: var(--gx-mono); font-size: var(--fs-11); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gx-muted); padding-top: 0.1rem; }
+  .gx-facts dd { color: var(--gx-ink); }
+  .gx-text { margin-top: 1.1rem; font-size: var(--fs-14); line-height: 1.6; }
+  .gx-contacts { margin-top: 1rem; list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: var(--fs-13); }
+  .gx-contacts a { text-decoration: none; border-bottom: 1px solid var(--gx-line-strong); }
+  .gx-contacts a:hover { color: var(--gx-accent); border-color: var(--gx-accent); }
+  .gx-actions { margin-top: 1.3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .gx-btn { padding: 0.6rem 1rem; font-size: var(--fs-14); font-weight: 500; color: var(--gx-bg) !important; background: var(--gx-accent); text-decoration: none; }
+  .gx-btn:hover { filter: brightness(1.08); }
+  .gx-link { font-size: var(--fs-13); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--gx-line-strong); }
+
+  .gx-focus { margin: 0 2rem 1.2rem 0; padding: 0.75rem 0.85rem; border: 1px solid rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.08); font-size: var(--fs-13); color: var(--gx-ink); }
+  .gx-focus[hidden] { display: none; }
+  .gx-focus a { display: inline-block; margin-top: 0.3rem; font-size: var(--fs-12); color: var(--gx-muted); }
+
+  .gx-back { margin-bottom: 1rem; padding: 0; font-size: var(--fs-12) !important; color: var(--gx-muted); background: none; border: 0; }
+  .gx-back::before { content: "<"; margin-right: 0.4rem; font-family: var(--gx-mono); color: var(--gx-accent); }
+  .gx-back:hover { color: var(--gx-ink); }
+  .gx-body { margin-top: 1rem; font-size: var(--fs-14); line-height: 1.6; }
+  .gx-body :global(p + p), .gx-body :global(p + ul), .gx-body :global(ul + p) { margin-top: 0.55rem; }
+  .gx-body :global(ul) { list-style: none; padding: 0; }
+  .gx-body :global(li) { position: relative; padding-left: 0.9rem; }
+  .gx-body :global(li)::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 0.4rem; height: 1px; background: var(--gx-accent); }
+  .gx-body :global(li + li) { margin-top: 0.25rem; }
+  .gx-body :global(strong) { font-weight: 500; color: var(--gx-ink); }
+  .gx-body :global(a) { color: var(--gx-accent); }
+  .gx-more { margin-top: 0.7rem; }
+  .gx-more summary { cursor: pointer; font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); }
+  .gx-more summary:hover { color: var(--gx-accent); }
+  .gx-more[open] summary { margin-bottom: 0.5rem; }
+  .gx-tech { margin-top: 0.8rem; font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); line-height: 1.6; }
+  .gx-proof { margin-top: 0.6rem; font-family: var(--gx-mono); font-size: var(--fs-12); color: var(--gx-accent); word-break: break-word; }
+  .gx-chips { margin-top: 1.1rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .gx-chips button { padding: 0.2rem 0.55rem; font-size: var(--fs-12) !important; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line-strong); border-radius: 999px; }
+  .gx-chips button:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
+  .gx-list { margin-top: 0.8rem; list-style: none; padding: 0; display: grid; gap: 0.35rem; }
+  .gx-list button { display: grid; gap: 0.1rem; width: 100%; padding: 0.55rem 0.7rem; text-align: left; font-size: var(--fs-13) !important; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line); }
+  .gx-list button span { font-family: var(--gx-mono); font-size: var(--fs-10); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gx-muted); }
+  .gx-list button:hover { border-color: var(--gx-accent); }
+
+  /* ── Graph ───────────────────────────────────────────────────────────── */
+  /* Clipped: while the time lapse zooms, the graph must not spill over the
+     panel and the command line. */
+  .gx-canvas { position: relative; min-width: 0; min-height: 0; padding: 0.5rem 0.75rem; overflow: hidden; }
+  .gx-swipe { display: none; }
+  .gx-svg { width: 100%; height: 100%; display: block; overflow: hidden; font-family: var(--font-body); }
+
+  .gx-axis line { stroke: var(--gx-line-strong); stroke-width: 1; }
+  .gx-axis text { font-family: var(--gx-mono); font-size: 13px; fill: var(--gx-muted); }
+  .gx-axis .gx-today { stroke: var(--gx-accent); stroke-dasharray: 3 4; opacity: 0.7; }
+  .gx-axis .gx-today-label { fill: var(--gx-accent); }
+  .gx-axis .gx-row { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .gx-edge {
+    fill: none;
+    stroke: rgba(148, 163, 184, 0.18);
+    stroke-width: 1;
+    stroke-dasharray: 1;
+    animation: gx-draw 1.6s ease-out both;
+    animation-delay: calc(var(--i) * 6ms);
+    transition: stroke 0.2s ease, opacity 0.2s ease;
+  }
+  @keyframes gx-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .gx-edge.is-lit, .gx-edge.is-hover {
+    stroke: var(--gx-accent);
+    stroke-width: 1.6;
+    stroke-dasharray: 0.012 0.008;
+    animation: gx-flow 1.2s linear infinite;
+  }
+  @keyframes gx-flow { to { stroke-dashoffset: -0.04; } }
+  .gx-svg.has-sel .gx-edge:not(.is-lit):not(.is-hover),
+  .gx-svg.has-hover .gx-edge:not(.is-hover):not(.is-lit) { opacity: 0.25; }
+
+  .gx-node { cursor: pointer; outline: none; transition: opacity 0.2s ease; }
+  .gx-hit { fill: transparent; }
+  /* A dark halo behind every label, so a line running under it cannot cut it. */
+  .gx-node text { font-size: 15px; fill: var(--gx-text); transition: fill 0.2s ease; paint-order: stroke; stroke: var(--gx-bg); stroke-width: 4px; stroke-linejoin: round; }
+  .gx-skill text { stroke: none; }
+  .gx-svg.has-sel .gx-node:not(.is-lit):not(.is-sel):not(.is-hover),
+  .gx-svg.has-hover:not(.has-sel) .gx-node:not(.is-hover) { opacity: 0.35; }
+  .gx-node:focus-visible .gx-shape { outline: none; stroke: var(--gx-ink); stroke-width: 2; }
+
+  .gx-bar .gx-shape { fill: url(#gx-bar); }
+  .gx-bar text { fill: var(--gx-ink); }
+  .gx-bar:hover .gx-shape, .gx-bar.is-sel .gx-shape { filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.8)); }
+  .gx-pulse { fill: var(--gx-accent); transform-box: fill-box; transform-origin: center; animation: gx-pulse 1.8s ease-out infinite; }
+  @keyframes gx-pulse { 0% { opacity: 0.9; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
+
+  .gx-talk .gx-shape { fill: var(--gx-bg); stroke: var(--gx-amber); stroke-width: 1.5; }
+  .gx-talk:hover .gx-shape, .gx-talk.is-sel .gx-shape { fill: var(--gx-amber); }
+
+  .gx-skill .gx-shape { fill: rgba(10, 15, 22, 0.95); stroke: var(--gx-line-strong); stroke-width: 1; transition: stroke 0.2s ease, fill 0.2s ease; }
+  .gx-skill text { font-size: 14px; fill: var(--gx-ink); }
+  .gx-skill:hover .gx-shape, .gx-skill.is-lit .gx-shape, .gx-skill.is-hover .gx-shape { stroke: var(--gx-accent); }
+  .gx-skill.is-sel .gx-shape { fill: var(--gx-accent); stroke: var(--gx-accent); }
+  .gx-skill.is-sel text { fill: var(--gx-bg); }
+
+  .gx-project .gx-shape { fill: var(--gx-bg); stroke: var(--gx-violet); stroke-width: 1.5; transition: fill 0.2s ease; }
+  .gx-project text { font-size: 13px; fill: var(--gx-text); }
+  .gx-project:hover .gx-shape, .gx-project.is-lit .gx-shape, .gx-project.is-sel .gx-shape { fill: var(--gx-violet); }
+  .gx-project:hover text, .gx-project.is-sel text { fill: var(--gx-ink); }
+
+  /* A tailored link's entries: an amber ring that stays. */
+  .gx-node.is-focus .gx-shape { stroke: var(--gx-amber) !important; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.7)); }
+  .gx-bar.is-focus .gx-shape { fill: var(--gx-amber); }
+
+  /* The agent's pointer: follow it, and let the node glow for a moment. */
+  .gx-node:global(.bridge-flash) { outline: none !important; }
+  .gx-node:global(.bridge-flash) .gx-shape { filter: drop-shadow(0 0 10px rgba(94, 234, 212, 1)); }
+
+  /* ── Command line ────────────────────────────────────────────────────── */
+  .gx-ask {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem;
+    padding: 0.7rem 1.25rem;
+    border-top: 1px solid var(--gx-line);
+    background: rgba(5, 7, 11, 0.92);
+  }
+  .gx-live { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); white-space: nowrap; }
+  .gx-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gx-muted); }
+  .gx-live[data-state="ok"] { color: var(--gx-accent); }
+  .gx-live[data-state="ok"] .gx-live-dot { background: var(--gx-accent); animation: gx-dot 2s ease-out infinite; }
+  .gx-live[data-state="down"] .gx-live-dot { background: #f87171; }
+  @keyframes gx-dot { 0% { box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.55); } 100% { box-shadow: 0 0 0 8px rgba(94, 234, 212, 0); } }
+  .gx-form { flex: 1 1 26rem; max-width: 52rem; display: flex; align-items: center; gap: 0.5rem; padding: 0.15rem 0.2rem 0.15rem 0.7rem; border: 1px solid var(--gx-line-strong); background: var(--gx-panel); }
+  .gx-form:focus-within { border-color: var(--gx-accent); box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12); }
+  .gx-prompt-mark { font-family: var(--gx-mono); color: var(--gx-accent); }
+  .gx-form input { flex: 1; min-width: 0; padding: 0.45rem 0; font: inherit; font-size: var(--fs-16); color: var(--gx-ink); background: transparent; border: 0; outline: none; }
+  .gx-form input::placeholder { color: var(--gx-muted); }
+  .gx-form button { padding: 0.4rem 0.8rem; font-size: var(--fs-13) !important; font-weight: 500; color: var(--gx-bg); background: var(--gx-accent); border: 0; }
+  .gx-kicker-gap { margin-top: 1.4rem; }
+  .gx-suggest { margin-top: 0.5rem; display: grid; gap: 0.35rem; }
+  .gx-suggest button { display: flex; gap: 0.5rem; padding: 0.5rem 0.65rem; text-align: left; font-size: var(--fs-13) !important; line-height: 1.4; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line); }
+  .gx-suggest button span { font-family: var(--gx-mono); color: var(--gx-accent); }
+  .gx-suggest button:hover { border-color: var(--gx-accent); background: rgba(94, 234, 212, 0.06); }
+  .gx-console { padding: 0.3rem 0.65rem; font-family: var(--gx-mono); font-size: var(--fs-11) !important; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gx-ink); background: transparent; border: 1px solid var(--gx-line-strong); }
+  .gx-console:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
+  .gx-legal { display: flex; gap: 0.8rem; margin-left: auto; font-size: var(--fs-11); color: var(--gx-muted); }
+
+  .gx-reopen {
+    display: none;
+    position: absolute; top: 0.9rem; left: 0.9rem; z-index: 3;
+    align-items: center; gap: 0.45rem;
+    padding: 0.45rem 0.8rem;
+    font-family: var(--gx-mono); font-size: var(--fs-12) !important; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gx-ink); background: var(--gx-panel); border: 1px solid var(--gx-accent);
+    box-shadow: 0 0 18px -6px rgba(94, 234, 212, 0.6);
+  }
+  .gx-reopen span { color: var(--gx-accent); }
+  .gx-reopen:hover { background: rgba(94, 234, 212, 0.1); }
+  .gx.panel-closed .gx-reopen { display: inline-flex; }
+
+  /* ── Counts, stats, legend, axis break ───────────────────────────────── */
+  .gx-count { font-family: var(--gx-mono); font-size: 12px; fill: var(--gx-accent); }
+  .gx-skill.is-sel .gx-count { fill: var(--gx-bg); }
+  .gx-stat { margin-top: 0.4rem; font-family: var(--gx-mono); font-size: var(--fs-12); color: var(--gx-accent); }
+  .gx-break line { stroke: var(--gx-muted); stroke-width: 1.2; }
+  .gx-legend text { font-family: var(--gx-mono); font-size: 12px; fill: var(--gx-muted); }
+  .gx-lg-bar { fill: url(#gx-bar); }
+  .gx-lg-run { fill: var(--gx-accent); }
+  .gx-lg-talk { fill: none; stroke: var(--gx-amber); stroke-width: 1.4; }
+  .gx-lg-skill { fill: none; stroke: var(--gx-line-strong); }
+  .gx-lg-project { fill: none; stroke: var(--gx-violet); stroke-width: 1.4; }
+
+  /* Resting state: the lines are there, but quiet. They speak on hover. */
+  .gx-svg:not(.has-sel):not(.has-hover):not(.has-match):not(.is-playing) .gx-edge { stroke: rgba(148, 163, 184, 0.11); }
+
+  /* ── Live filter from the command line ───────────────────────────────── */
+  .gx-svg.has-match .gx-node:not(.is-match) { opacity: 0.2; }
+  .gx-svg.has-match .gx-edge:not(.is-match) { opacity: 0.12; }
+  .gx-svg.has-match .gx-node.is-match .gx-shape { filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.9)); }
+  .gx-svg.has-match .gx-edge.is-match { stroke: var(--gx-accent); opacity: 0.8; }
+  .gx-match { font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); }
+
+  /* ── Time lapse ──────────────────────────────────────────────────────── */
+  .gx-play-wrap { position: absolute; bottom: 1rem; right: 1.25rem; z-index: 2; display: flex; align-items: center; gap: 0.9rem; }
+  .gx-play {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-family: var(--gx-mono); font-size: var(--fs-12) !important; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gx-bg); background: var(--gx-accent); border: 0;
+    box-shadow: 0 0 24px -6px rgba(94, 234, 212, 0.7);
+  }
+  .gx-play[hidden] { display: none; }
+  .gx-play svg { width: 0.8rem; height: 0.8rem; fill: currentColor; }
+  .gx-stop-icon { display: none; }
+  .gx.playing .gx-play-icon { display: none; }
+  .gx.playing .gx-stop-icon { display: inline; }
+  /* Signal flow. Everything starts faint; what time reaches comes on. */
+  .gx-svg.is-playing .gx-node { opacity: 0.12; transition: opacity 0.6s ease; }
+  .gx-svg.is-playing .gx-node.is-on { opacity: 1; }
+  .gx-svg.is-playing .gx-skill { transition: opacity 0.35s ease; }
+  .gx-svg.is-playing .gx-edge {
+    opacity: 1; stroke: rgba(94, 234, 212, 0.32); stroke-width: 1.1;
+    stroke-dasharray: 1; stroke-dashoffset: 1; animation: none; transition: none;
+  }
+  .gx-svg.is-playing .gx-axis > g > text { transition: fill 0.4s ease; }
+  .gx-svg.is-playing .gx-axis > g > text:global(.is-past) { fill: var(--gx-ink); }
+  .gx-signals :global(.gx-signal) {
+    fill: #eafffb;
+    filter: drop-shadow(0 0 4px #5eead4) drop-shadow(0 0 10px rgba(94, 234, 212, 0.85));
+  }
+  .gx-skill:global(.is-bump) .gx-shape { animation: gx-bump 0.45s ease-out; transform-box: fill-box; transform-origin: center; }
+  @keyframes gx-bump { 0% { transform: scale(1); } 35% { transform: scale(1.07); stroke: #5eead4; } 100% { transform: scale(1); } }
+  .gx-lapse-year { font-family: var(--gx-mono); font-size: 1.6rem; font-weight: 300; color: var(--gx-accent); letter-spacing: 0.04em; text-shadow: 0 0 16px rgba(94, 234, 212, 0.5); }
+
+  /* ── Narrow screens: a page again, the graph scrolls sideways ────────── */
+  @media (max-width: 899px) {
+    .gx { height: auto; min-height: 100dvh; grid-template-rows: auto auto auto; }
+    .gx-role { display: none; }
+    .gx-top { flex-wrap: wrap; row-gap: 0.5rem; }
+    .gx-stage { grid-template-columns: minmax(0, 1fr); }
+    .gx.panel-closed .gx-stage { grid-template-columns: minmax(0, 1fr); }
+    .gx.panel-closed .gx-panel { display: none; }
+    .gx-panel { border-right: 0; border-bottom: 1px solid var(--gx-line); overflow: visible; }
+    .gx-canvas { overflow-x: auto; padding: 0.5rem 0 1rem; }
+    .gx-svg { width: 1000px; height: auto; }
+    .gx-swipe { display: block; padding: 0 1.25rem 0.4rem; font-family: var(--gx-mono); font-size: var(--fs-11); color: var(--gx-muted); }
+    .gx-ask { position: sticky; bottom: 0; }
+    .gx-legal { display: none; }
+    .gx-play-wrap { position: static; padding: 0 1.25rem 0.5rem; }
+    .gx-reopen { position: static; margin: 0.6rem 1.25rem; }
+    .gx-profile-btn { padding: 0.2rem 0.5rem; }
+    .gx-match { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gx-edge, .gx-edge.is-lit, .gx-edge.is-hover, .gx-pulse, .gx-live-dot, .gx-article { animation: none !important; }
+  }
+
+  /* ── The agent panel in this view ────────────────────────────────────── */
+  :global(html.cv-future #agent-widget-root) {
+    --bg: #0a0f16;
+    --text: #e8eef5;
+    --text-secondary: #7d8896;
+    --accent: #5eead4;
+    --accent-hover: #5eead4;
+    --accent-cta: #5eead4;
+    --aw-grad: #5eead4;
+    --aw-border: rgba(148, 163, 184, 0.16);
+    --aw-border-strong: rgba(148, 163, 184, 0.32);
+    --aw-elev-panel: 0 0 0 1px rgba(94, 234, 212, 0.18), 0 30px 80px -30px rgba(94, 234, 212, 0.35);
+  }
+  :global(html.cv-future #agent-widget-panel) { border-radius: 0; }
+  :global(html.cv-future #agent-widget-header),
+  :global(html.cv-future #agent-widget-form) { background: #0a0f16; }
+  :global(html.cv-future #agent-widget-title) { font-family: var(--font-mono); font-size: var(--fs-13); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+  :global(html.cv-future .aw-avatar) { background: transparent; border-color: rgba(94, 234, 212, 0.45); color: #5eead4; }
+  :global(html.cv-future .aw-msg.aw-user) { background: #5eead4; color: #05070b; border-radius: 0; box-shadow: 0 0 24px -10px rgba(94, 234, 212, 0.8); }
+  :global(html.cv-future .aw-msg.aw-user a) { color: #05070b; }
+  :global(html.cv-future .aw-msg.aw-agent) {
+    background: rgba(13, 18, 26, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-left: 2px solid #5eead4;
+    border-radius: 0;
+    box-shadow: none;
+    color: #b4bfcc;
+  }
+  :global(html.cv-future .aw-msg.aw-agent strong) { color: #e8eef5; }
+  :global(html.cv-future #agent-widget-input),
+  :global(html.cv-future #agent-widget-send),
+  :global(html.cv-future .aw-icon-btn),
+  :global(html.cv-future .aw-offer-btn),
+  :global(html.cv-future .aw-view-on-page),
+  :global(html.cv-future .aw-card-ex),
+  :global(html.cv-future .aw-working) { border-radius: 0; }
+  :global(html.cv-future #agent-widget-send) { background: #5eead4; color: #05070b; }
+  :global(html.cv-future #agent-widget-input:focus-visible) { border-color: #5eead4; box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.15); }
+
+  /* ── Print: the panel's text, every entry, ink on paper ──────────────── */
+  @media print {
+    .gx { display: block; height: auto; background: #fff; color: #222; --gx-ink: #111; --gx-text: #2d3238; --gx-muted: #5b626a; --gx-accent: #111; }
+    :global(html.cv-future body) { background: #fff; }
+    .gx-top-right, .gx-canvas, .gx-ask, .gx-close, .gx-back, .gx-focus { display: none !important; }
+    .gx-stage { display: block; }
+    .gx-panel, .gx.panel-closed .gx-panel { display: block; visibility: visible; overflow: visible; border: 0; background: none; padding: 0; }
+    :global(.gx-js) .gx-article:not(.is-active) { display: block; }
+    .gx-article + .gx-article { margin-top: 1.4rem !important; padding-top: 1rem; border-top: 1px solid #ddd; break-inside: avoid-page; }
+    .gx-article[data-panel^="k:"] { display: none !important; }
+  }
+</style>

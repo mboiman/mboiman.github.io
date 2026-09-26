@@ -1,0 +1,52 @@
+---
+/**
+ * The switch between the three views of the CV, one component for all three
+ * pages so a fourth view is one entry here instead of three edits.
+ *
+ * Colours come from the page: each view sets --vs-line, --vs-text,
+ * --vs-text-hover, --vs-active-bg and --vs-active-text on an ancestor. A click
+ * is remembered (data-view-choice, handled in BaseLayout), a visit is not.
+ */
+import { i18n } from '../lib/i18n';
+
+export type CvView = 'classic' | 'minimal' | 'future';
+
+interface Props {
+  lang: 'de' | 'en';
+  current: CvView;
+}
+
+const { lang, current } = Astro.props;
+const t = i18n[lang];
+const views: { id: CvView; href: string; label: string }[] = [
+  { id: 'classic', href: `/${lang}/`, label: t.minimal.toClassic },
+  { id: 'minimal', href: `/${lang}/minimal/`, label: t.minimal.toMinimal },
+  { id: 'future', href: `/${lang}/future/`, label: t.future.toFuture },
+];
+---
+
+<span class="vs no-print" role="group" aria-label={t.minimal.switchLabel}>
+  {views.map(v => (
+    <a
+      href={v.href}
+      class:list={['vs-link', v.id === current && 'is-active']}
+      aria-current={v.id === current ? 'page' : undefined}
+      data-view-choice={v.id}
+    >{v.label}</a>
+  ))}
+</span>
+
+<style>
+  .vs {
+    display: inline-flex;
+    border: 1px solid var(--vs-line, currentColor);
+    border-radius: var(--vs-radius, var(--r-xs));
+    overflow: hidden;
+    font-size: var(--fs-13);
+    white-space: nowrap;
+  }
+  .vs-link { padding: 0.25rem 0.6rem; color: var(--vs-text, inherit); text-decoration: none; }
+  .vs-link + .vs-link { border-left: 1px solid var(--vs-line, currentColor); }
+  .vs-link:hover { color: var(--vs-text-hover, inherit); }
+  .vs-link.is-active { background: var(--vs-active-bg, currentColor); color: var(--vs-active-text, #fff); }
+</style>

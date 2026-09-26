@@ -6,9 +6,9 @@ interface Props {
   /** Keeps a page out of search results, e.g. the minimal view while it is on
    *  trial. astro.config.mjs leaves the same pages out of the sitemap. */
   noindex?: boolean;
-  /** Which of the two CV views this page is. The classic one sends a visitor
-   *  who picked the minimal view (localStorage `cv-view`) there before paint. */
-  view?: 'classic' | 'minimal';
+  /** Which of the three CV views this page is. The classic one sends a visitor
+   *  who picked another view (localStorage `cv-view`) there before paint. */
+  view?: 'classic' | 'minimal' | 'future';
 }
 
 import '../styles/global.css';
@@ -88,7 +88,7 @@ const personJsonLd = {
 ---
 
 <!DOCTYPE html>
-<html lang={lang} data-theme="system" class={view === 'minimal' ? 'cv-minimal' : undefined}>
+<html lang={lang} data-theme="system" class={view && view !== 'classic' ? `cv-${view}` : undefined}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -150,8 +150,9 @@ const personJsonLd = {
       // this follows a choice the visitor made. The hash survives, and the
       // entry ids are the same on both views.
       try {
-        if (localStorage.getItem('cv-view') === 'minimal') {
-          location.replace(location.pathname.replace(/\/?$/, '/') + 'minimal/' + location.search + location.hash);
+        const view = localStorage.getItem('cv-view');
+        if (view === 'minimal' || view === 'future') {
+          location.replace(location.pathname.replace(/\/?$/, '/') + view + '/' + location.search + location.hash);
         }
       } catch {}
     </script>

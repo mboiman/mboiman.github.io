@@ -396,6 +396,47 @@ export interface I18nStrings {
     focusTag: string;
     permalink: string;
   };
+  /** The third view under /<lang>/future/. Section names, focus banner and
+   *  permalink text come from `minimal`, which both alternative views share;
+   *  this block holds only what the future view says and the others do not. */
+  future: {
+    toFuture: string;
+    seoTitle: string;
+    /** Accessible name of the graph and the one-line reading hint beside it. */
+    graphLabel: string;
+    hint: string;
+    today: string;
+    running: string;
+    legendStations: string;
+    legendTalks: string;
+    legendSkills: string;
+    legendProjects: string;
+    profile: string;
+    back: string;
+    close: string;
+    /** Heading over the list of entries a competency is joined to. */
+    connects: string;
+    askLabel: string;
+    askPlaceholder: string;
+    askSend: string;
+    openConsole: string;
+    swipe: string;
+    /** Banner of a tailored link here: the graph marks entries, it does not reorder. */
+    focusFor: string;
+    focusPlain: string;
+    focusReset: string;
+    /** Competency panel: how often and since when, without plural forms. */
+    skillCounts: string;
+    skillSince: string;
+    /** Under the command line while typing: the graph filters live. */
+    matches: string;
+    noMatch: string;
+    typeHint: string;
+    play: string;
+    playLabel: string;
+    stop: string;
+    axisBreak: string;
+  };
   agentWidget: AgentWidgetStrings;
 }
 
@@ -866,6 +907,39 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusReset: 'Ganzen Lebenslauf in normaler Reihenfolge zeigen',
       focusTag: 'Passend',
       permalink: 'Link zu diesem Eintrag',
+    },
+    future: {
+      toFuture: 'Futur',
+      seoTitle: 'Michael Boiman · Lebenslauf als Karriere-Graph',
+      graphLabel: 'Karriere-Graph: Stationen auf der Zeitachse, darunter Kompetenzen und Projekte',
+      hint: 'Wählen Sie eine Station, eine Kompetenz oder ein Projekt. Die Linien verbinden jede Kompetenz mit den Stationen und Projekten, in denen sie vorkommt.',
+      today: 'heute',
+      running: 'laufend',
+      legendStations: 'Stationen',
+      legendTalks: 'Vorträge',
+      legendSkills: 'Kompetenzen',
+      legendProjects: 'Projekte',
+      profile: 'Profil',
+      back: 'Zurück zum Profil',
+      close: 'Schließen',
+      connects: 'Kommt vor in',
+      askLabel: 'Frage an den Agenten',
+      askPlaceholder: 'Frag den Agenten, zum Beispiel: Erfahrung mit Peppol?',
+      askSend: 'Fragen',
+      openConsole: 'Konsole',
+      swipe: 'Zum Erkunden seitlich wischen',
+      focusFor: 'Für {for} zusammengestellt. Die passenden Einträge sind im Graphen gelb markiert.',
+      focusPlain: 'Die passenden Einträge sind im Graphen gelb markiert.',
+      focusReset: 'Markierung aufheben',
+      skillCounts: 'Stationen: {s} · Projekte: {p}',
+      skillSince: 'seit {since}',
+      matches: '{n} Treffer im Graphen · Enter fragt den Agenten',
+      noMatch: 'Kein Treffer im Graphen · Enter fragt den Agenten',
+      typeHint: 'Tippen filtert den Graphen, Enter fragt den Agenten',
+      play: 'Zeitreise',
+      playLabel: 'Werdegang von {first} bis heute abspielen',
+      stop: 'Anhalten',
+      axisBreak: 'Vor {year} gestaucht dargestellt',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1342,6 +1416,39 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       focusReset: 'Show the whole CV in its usual order',
       focusTag: 'Matching',
       permalink: 'Link to this entry',
+    },
+    future: {
+      toFuture: 'Future',
+      seoTitle: 'Michael Boiman · CV as a career graph',
+      graphLabel: 'Career graph: positions on a time axis, competencies and projects below',
+      hint: 'Pick a position, a competency or a project. The lines join each competency to the positions and projects that name it.',
+      today: 'today',
+      running: 'ongoing',
+      legendStations: 'Positions',
+      legendTalks: 'Talks',
+      legendSkills: 'Competencies',
+      legendProjects: 'Projects',
+      profile: 'Profile',
+      back: 'Back to the profile',
+      close: 'Close',
+      connects: 'Appears in',
+      askLabel: 'Question for the agent',
+      askPlaceholder: 'Ask the agent, e.g. experience with Peppol?',
+      askSend: 'Ask',
+      openConsole: 'Console',
+      swipe: 'Swipe sideways to explore',
+      focusFor: 'Put together for {for}. The matching entries are marked in yellow in the graph.',
+      focusPlain: 'The matching entries are marked in yellow in the graph.',
+      focusReset: 'Clear the marks',
+      skillCounts: 'Positions: {s} · Projects: {p}',
+      skillSince: 'since {since}',
+      matches: '{n} matches in the graph · Enter asks the agent',
+      noMatch: 'Nothing in the graph · Enter asks the agent',
+      typeHint: 'Typing filters the graph, Enter asks the agent',
+      play: 'Time lapse',
+      playLabel: 'Play the career from {first} to today',
+      stop: 'Stop',
+      axisBreak: 'Compressed before {year}',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

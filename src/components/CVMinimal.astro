@@ -20,6 +20,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
+import ViewSwitch from './ViewSwitch.astro';
 import { getCVData } from '../lib/toml-loader';
 import { formatBlocks } from '../lib/markdown';
 import { i18n } from '../lib/i18n';
@@ -75,10 +76,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
       <div class="mn-top no-print">
         <Image src={portrait} alt={profile.name} widths={[64, 128]} sizes="4rem" class="mn-portrait" loading="eager" />
         <nav class="mn-controls" aria-label={t.navLanguage}>
-          <span class="mn-switch" role="group" aria-label={m.switchLabel}>
-            <a href={`/${lang}/`} class="mn-switch-link" data-view-choice="classic">{m.toClassic}</a>
-            <a href={`/${lang}/minimal/`} class="mn-switch-link is-active" aria-current="page" data-view-choice="minimal">{m.toMinimal}</a>
-          </span>
+          <ViewSwitch lang={lang} current="minimal" />
           <a href="/de/minimal/" hreflang="de" class:list={['mn-lang', lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
           <a href="/en/minimal/" hreflang="en" class:list={['mn-lang', lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
           <DarkModeToggle lang={lang} />
@@ -128,8 +126,8 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
     <main id="main" class="mn-main">
       {/* Filled by the script below when the link names entries (?focus=),
           so a plain visit renders nothing here. */}
-      <div class="mn-focus" hidden data-for={m.focusFor} data-plain={m.focusPlain} data-tag={m.focusTag}>
-        <p class="mn-focus-text"></p>
+      <div class="mn-focus" hidden data-focus-banner data-for={m.focusFor} data-plain={m.focusPlain} data-tag={m.focusTag}>
+        <p class="mn-focus-text" data-focus-text></p>
         <a class="mn-focus-reset" href={`/${lang}/minimal/`}>{m.focusReset}</a>
       </div>
       {/* Verifiable first, as on the classic page: what a reader can open
@@ -139,11 +137,11 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
           <h2>{m.running.title}</h2>
           <p>{m.running.text}</p>
         </div>
-        <div class="mn-list">
+        <div class="mn-list" data-focus-list>
           {t.running.map((item, i) => (
             <details class="mn-item" open={i === 0}>
               <summary>
-                <span class="mn-item-title">{item.title}</span>
+                <span class="mn-item-title" data-focus-title>{item.title}</span>
                 <span class="mn-plus" aria-hidden="true"></span>
               </summary>
               <div class="mn-body">
@@ -164,11 +162,11 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
             <h2>{m.experience.title}</h2>
             <p>{m.experience.text}</p>
           </div>
-          <div class="mn-list">
+          <div class="mn-list" data-focus-list>
             {jobs.map(exp => (
               <details class="mn-item" id={exp.anchor ? `exp-${exp.anchor}` : undefined} data-cv-anchor={exp.anchor}>
                 <summary>
-                  <span class="mn-item-title">
+                  <span class="mn-item-title" data-focus-title>
                     <h3>{exp.position}</h3>
                     <span class="mn-meta">{exp.company} · {exp.dates}</span>
                   </span>
@@ -202,11 +200,11 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
             <h2>{m.projects.title}</h2>
             <p>{m.projects.text}</p>
           </div>
-          <div class="mn-list">
+          <div class="mn-list" data-focus-list>
             {allProjects.map(project => (
               <details class="mn-item" id={project.anchor ? `project-${project.anchor}` : undefined} data-cv-anchor={project.anchor}>
                 <summary>
-                  <span class="mn-item-title">
+                  <span class="mn-item-title" data-focus-title>
                     <h3>{project.title}</h3>
                     <span class="mn-meta">{project.category}</span>
                   </span>
@@ -229,11 +227,11 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
           <h2>{m.skills.title}</h2>
           <p>{m.skills.text}</p>
         </div>
-        <div class="mn-list">
+        <div class="mn-list" data-focus-list>
           {skillGroups.map(group => (
             <details class="mn-item">
               <summary>
-                <span class="mn-item-title">{group.title}</span>
+                <span class="mn-item-title" data-focus-title>{group.title}</span>
                 <span class="mn-plus" aria-hidden="true"></span>
               </summary>
               <div class="mn-body"><p>{group.items.join(' · ')}</p></div>
@@ -248,11 +246,11 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
             <h2>{m.talks.title}</h2>
             <p>{m.talks.text}</p>
           </div>
-          <div class="mn-list">
+          <div class="mn-list" data-focus-list>
             {talks.map(talk => (
               <details class="mn-item" id={talk.anchor ? `exp-${talk.anchor}` : undefined} data-cv-anchor={talk.anchor}>
                 <summary>
-                  <span class="mn-item-title">
+                  <span class="mn-item-title" data-focus-title>
                     <h3>{talk.position}</h3>
                     <span class="mn-meta">{talk.company} · {talk.dates}</span>
                   </span>
@@ -286,7 +284,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
             <h2>{m.background.title}</h2>
             <p>{m.background.text}</p>
           </div>
-          <div class="mn-list">
+          <div class="mn-list" data-focus-list>
             {education.enable && education.list.map(edu => (
               <div class="mn-row">
                 <h3>{edu.degree}</h3>
@@ -325,70 +323,10 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
   </div>
 
   <script>
-    /* ── A link made for one application ────────────────────────────────
-       ?for=DB%20InfraGO&focus=db-vertrieb,tuev-sued,e-invoicing-platform
-       moves the named entries to the top of their list, in the order given,
-       opens them, and says so in a line above the sections. Built entirely
-       in the browser from the URL: nothing about an application is ever
-       written into this public repository. /job-application builds the link
-       from the anchors in config.cv.toml.
-
-       Anchors are checked against the pattern the agent uses too, and only
-       entries that exist move; an unknown anchor is ignored, not an error. */
-    const ANCHOR = /^[a-z0-9-]+$/;
-    const params = new URLSearchParams(location.search);
-    const focus = (params.get('focus') || '')
-      .split(',').map(a => a.trim()).filter(a => ANCHOR.test(a)).slice(0, 20);
-    const banner = document.querySelector<HTMLElement>('.mn-focus');
-    const hits = focus
-      .map(a => document.querySelector<HTMLDetailsElement>(`.mn-list > details[data-cv-anchor="${a}"]`))
-      .filter((el): el is HTMLDetailsElement => el !== null);
-
-    if (hits.length && banner) {
-      // Reverse, so prepending leaves them in the order the link gave.
-      [...hits].reverse().forEach(el => {
-        el.open = true;
-        el.classList.add('is-focus');
-        const tag = document.createElement('span');
-        tag.className = 'mn-focus-tag';
-        tag.textContent = banner.dataset.tag || '';
-        el.querySelector('.mn-item-title')?.prepend(tag);
-        el.parentElement?.prepend(el);
-      });
-      const name = (params.get('for') || '').trim().slice(0, 80);
-      const text = name ? (banner.dataset.for || '').replace('{for}', name) : (banner.dataset.plain || '');
-      const p = banner.querySelector('.mn-focus-text');
-      if (p) p.textContent = text;
-      banner.hidden = false;
-    }
-
-    /* ── Links to one entry ─────────────────────────────────────────────
-       #exp-dvag or #project-agent-mesh-gateway opens that entry and brings
-       it into view. A closed <details> has no height, so the browser's own
-       jump lands on the summary at best; opening first makes it land. */
-    const openFromHash = () => {
-      const id = decodeURIComponent(location.hash.slice(1));
-      if (!id) return;
-      const el = document.getElementById(id);
-      if (!(el instanceof HTMLDetailsElement)) return;
-      el.open = true;
-      el.scrollIntoView({ block: 'start' });
-    };
-    openFromHash();
-    window.addEventListener('hashchange', openFromHash);
-
-    /* ── Print ──────────────────────────────────────────────────────────
-       A closed <details> prints as its summary alone, so a printout lost
-       every station. Everything opens for the print and goes back after. */
-    let closed: HTMLDetailsElement[] = [];
-    window.addEventListener('beforeprint', () => {
-      closed = [...document.querySelectorAll<HTMLDetailsElement>('.mn details:not([open])')];
-      closed.forEach(d => { d.open = true; });
-    });
-    window.addEventListener('afterprint', () => {
-      closed.forEach(d => { d.open = false; });
-      closed = [];
-    });
+    // Tailored links, entry links, print and agent prompts: src/lib/cv-links.ts,
+    // shared with the future view.
+    import { initCvLinks } from '../lib/cv-links';
+    initCvLinks();
   </script>
 </BaseLayout>
 
@@ -430,10 +368,13 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
   .mn-portrait { width: 4rem; height: 4rem; border-radius: 9999px; object-fit: cover; filter: grayscale(100%); }
 
   .mn-controls { display: flex; align-items: center; gap: 0.75rem; font-size: var(--fs-13); flex-wrap: wrap; justify-content: flex-end; }
-  .mn-switch { display: inline-flex; border: 1px solid var(--mn-line); border-radius: var(--r-xs); overflow: hidden; }
-  .mn-switch-link { padding: 0.3rem 0.65rem; color: var(--mn-muted); text-decoration: none; }
-  .mn-switch-link:hover { color: var(--mn-ink); }
-  .mn-switch-link.is-active { background: var(--mn-btn); color: var(--mn-btn-text); }
+  .mn-controls {
+    --vs-line: var(--mn-line);
+    --vs-text: var(--mn-muted);
+    --vs-text-hover: var(--mn-ink);
+    --vs-active-bg: var(--mn-btn);
+    --vs-active-text: var(--mn-btn-text);
+  }
   .mn-lang { color: var(--mn-muted); text-decoration: none; }
   .mn-lang.is-active { color: var(--mn-ink); font-weight: 600; }
 
@@ -601,7 +542,7 @@ const plain = (html: string) => html.replace(/\sstyle="[^"]*"/g, '');
   .mn-focus[hidden] { display: none; }
   .mn-focus-reset { display: inline-block; margin-top: 0.35rem; font-size: var(--fs-13); color: var(--mn-muted); text-decoration: underline; text-underline-offset: 3px; }
   .mn-focus-reset:hover { color: var(--mn-ink); }
-  .mn-item-title :global(.mn-focus-tag) {
+  .mn-item-title :global(.cv-focus-tag) {
     display: block;
     margin-bottom: 0.15rem;
     font-size: var(--fs-11);

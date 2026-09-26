@@ -44,6 +44,9 @@ export interface ProjectItem {
   impact?: string;
   /** Stable slug for agent-driven scroll+highlight (featured projects). See ExperienceItem.anchor. */
   anchor?: string;
+  /** The year the work started, only where a source says so; the source sits
+   *  as a comment beside it in config.cv.toml. Used by the career graph. */
+  year?: number;
 }
 // NOTE: `metric` / `metric_label` were removed on 2026-08-07. They fed the giant
 // number beside each act on the presentation, and their presence also *selected*
