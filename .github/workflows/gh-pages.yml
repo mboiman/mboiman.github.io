@@ -112,3 +112,27 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+      # The live project match (workers/jev-match) carries the CV entries it was
+      # built with: scripts/match-entries.mjs reads config.cv.toml at deploy time.
+      # Deploying it with every push to main keeps the worker's CV the same as
+      # the page's, which a deploy by hand would forget (Michael, 2026-09-26).
+      #
+      # A pull request only bundles it (--dry-run needs no token), so every PR
+      # proves the worker still builds. On main it deploys to Michael's private
+      # Cloudflare account (account_id in wrangler.toml) with the repository
+      # secret CLOUDFLARE_API_TOKEN, a token that may only edit Workers scripts.
+      # Without that secret the step says so and leaves the worker as it is,
+      # instead of failing a site deploy that already went out.
+      - name: Worker for the project match
+        working-directory: workers/jev-match
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            npx --yes wrangler@4 deploy --env="" --dry-run --outdir "$RUNNER_TEMP/jev-match"
+          elif [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN is not set: the jev-match worker was not redeployed and may carry an older CV."
+          else
+            npx --yes wrangler@4 deploy --env=""
+          fi

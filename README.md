@@ -212,9 +212,12 @@ JEV_VIA=http://localhost:8799 JEV_TOKEN=messlauf npm run measure:match
 evidence entry left the CV, and warns when the profile was measured on an older CV.
 
 **Live** since 2026-09-26 at `https://jev-match.mboiman.workers.dev` (Michael's
-private Cloudflare account, `account_id` in `wrangler.toml`). Redeploy after CV
-changes, because the worker carries the CV entries it was built with:
-`cd workers/jev-match && wrangler deploy --env=""`. The key is a Worker secret,
+private Cloudflare account, `account_id` in `wrangler.toml`). The worker carries
+the CV entries it was built with, so `gh-pages.yml` redeploys it on every push
+to `main` (a pull request only bundles it with `--dry-run`). That needs the
+repository secret `CLOUDFLARE_API_TOKEN`, a Cloudflare token with the single
+permission Account > Workers Scripts > Edit on the private account; without it
+the step warns and skips. By hand: `cd workers/jev-match && wrangler deploy --env=""`. The key is a Worker secret,
 set from the keychain without touching a file:
 `security find-generic-password -s typesafe-api -a mboiman -w | wrangler secret put TYPESAFE_API_KEY --env=""`. The privacy pages already describe this path
 (section 4).
