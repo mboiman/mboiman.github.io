@@ -1830,6 +1830,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       close: 'Close',
       greeting: "Hi, I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
       greetingNamed: "Hi {name}, good to see you here. I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
+      // English has one form of address; the du variant repeats it so both bundles carry the same keys (check:i18n).
+      greetingNamedDu: "Hi {name}, good to see you here. I'm Michael's personal AI agent. Ask me about his experience, his projects, or his availability.",
       connecting: 'Connecting to the agent …',
       working: 'Agent is working …',
       errorConnect: 'The agent is unreachable right now. Please try again later.',
