@@ -208,3 +208,30 @@ for (const lang of ['de', 'en']) {
     });
   }
 }
+
+// ── The PDF export ─────────────────────────────────────────────────────────
+test('buildReportPdf: report pages first, the CV behind them, odd characters survive', async () => {
+  const { buildReportPdf } = await import('../src/lib/match-pdf.ts');
+  const { PDFDocument } = await import('pdf-lib');
+  const cv = await PDFDocument.create();
+  cv.addPage(); cv.addPage();
+  const cvBytes = await cv.save();
+  const line = (i) => ({ text: `Anforderung ${i}: Erfahrung mit Playwright ↳ ≥ 5 Jahre „Qualität“ ✓ 🚀`, kind: 'MUSS', level: 'belegt', evidence: 'Senior Quality Engineer · TÜV Süd', gap: i % 5 === 0, counts: true });
+  const input = {
+    lang: 'de', kicker: 'Projekt-Abgleich · mit Jev', title: 'KI-gestützte Testautomatisierung', modeLine: 'Wiedergabe der Messung vom 26.09.2026',
+    total: 94, verdict: 'Passt sehr gut', subs: [['Anforderungen gedeckt', '94 %'], ['Muss-Kriterien belegt', '11 / 11'], ['Themen-Passung', '95 %']],
+    roleLine: 'Rolle laut Jev: Testautomatisierung', weightsLine: 'Gewichtung: Anforderungen 70 %, Themen 30 %, Muss-Kriterien 2-fach',
+    axes: AXES.map((a, i) => ({ label: a.label.de, demand: i / 8, cover: 1 - i / 10, fromLines: i % 2 === 0 })),
+    legend: { demand: 'Projekt verlangt', cover: 'Lebenslauf belegt' },
+    gapsTitle: 'Offene Punkte', gaps: [line(5)], gapsNone: 'keine', gapsNote: 'Hinweis',
+    linesTitle: 'Anforderungen und Belege', cols: ['Anforderung', 'Art', 'Stufe', 'Beleg'],
+    lines: Array.from({ length: 40 }, (_, i) => line(i)),
+    methodTitle: 'So entsteht die Wertung', method: ['Deckung = Summe aus Gewicht × Stufe/3.'],
+    footer: 'Erstellt am 26.09.2026 · mboiman.github.io/de/match/', cvNote: 'Es folgt der Lebenslauf.', cv: cvBytes, cvMissing: 'fehlt',
+  };
+  const bytes = await buildReportPdf(input);
+  const out = await PDFDocument.load(bytes);
+  assert.ok(out.getPageCount() >= 4, `pages ${out.getPageCount()}`);   // 1 head + ≥1 table + 2 CV
+  const noCv = await PDFDocument.load(await buildReportPdf({ ...input, cv: null }));
+  assert.equal(out.getPageCount() - noCv.getPageCount(), 2);
+});

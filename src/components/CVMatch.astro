@@ -19,9 +19,10 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ViewSwitch from './ViewSwitch.astro';
+import DarkModeToggle from './DarkModeToggle.astro';
 import { getCVData } from '../lib/toml-loader';
 import { i18n } from '../lib/i18n';
-import { AXES, cvEntries, requirementRequest, DEFAULT_WEIGHTS, splitRequirements } from '../lib/match';
+import { AXES, cvEntries, requirementRequest, DEFAULT_WEIGHTS, splitRequirements, scoreMatch } from '../lib/match';
 import { DEMOS } from '../lib/match-demos';
 import { MATCH_ENDPOINT } from '../lib/match-config';
 
@@ -37,6 +38,10 @@ const demoRuns = Object.fromEntries(DEMOS.map(d => [d.id, measurements[`../data/
 const profileRun = measurements[`../data/match/profile.${lang}.json`];
 
 const entries = cvEntries(data as any);
+/* The preview picture (scripts/match-og.mjs) shows the first example; its alt
+   text names the same score, computed from the same stored run. */
+const ogRun = demoRuns[DEMOS[0].id];
+const ogScore = ogRun ? scoreMatch(ogRun.requirements, ogRun.project.demand, profileRun?.depth ?? {}, DEFAULT_WEIGHTS).total : 0;
 const entryInfo = Object.fromEntries(entries.map(e => [e.id, {
   label: e.label,
   kind: e.kind,
@@ -83,13 +88,15 @@ const pageData = {
   weights: DEFAULT_WEIGHTS,
   price: 0.042,
   t: m,
+  demoTitles: Object.fromEntries(DEMOS.map(d => [d.id, d.title[lang]])),
+  cvPdf: `/pdfs/Michael_Boiman_CV_${lang.toUpperCase()}.pdf`,
   measuredLabel: Object.fromEntries(DEMOS.map(d => [d.id, fmtDate(demoRuns[d.id]?.measuredAt ?? '2026-09-26')])),
   mail: email?.url ?? '',
 };
 ---
 
-<BaseLayout title={m.seoTitle} description={m.seoDescription} lang={lang} noindex view="match">
-  <div class="mt">
+<BaseLayout title={m.seoTitle} description={m.seoDescription} lang={lang} noindex view="match" ogImage={`/images/og-match-${lang}.png`} ogImageAlt={m.ogAlt.replace('{score}', String(ogScore))}>
+  <div class="mt" data-match-page>
     <header class="mt-top">
       <a class="mt-id" href={`/${lang}/`}>
         <span class="mt-name">{profile.name}</span>
@@ -101,6 +108,7 @@ const pageData = {
           <a href="/de/match/" hreflang="de" class:list={[lang === 'de' && 'is-active']} aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
           <a href="/en/match/" hreflang="en" class:list={[lang === 'en' && 'is-active']} aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
         </nav>
+        <DarkModeToggle lang={lang} />
       </div>
     </header>
 
@@ -266,6 +274,13 @@ const pageData = {
               {email && <a class="mt-btn" href={email.url} data-cta-mail>{m.ctaMail}</a>}
               <button type="button" class="mt-ghost" data-cta-agent>{m.ctaAgent}</button>
             </p>
+            <p class="mt-cta-actions">
+              <button type="button" class="mt-ghost mt-pdf" data-pdf data-busy={m.pdfBusy}>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M3 12v2h10v-2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>{m.pdfButton}</span>
+              </button>
+            </p>
+            <p class="mt-small">{m.pdfHint}</p>
           </div>
         </div>
       </section>
@@ -384,15 +399,15 @@ const pageData = {
 
     // Is the live worker there? Asked only once a visitor opens the text or
     // file tab: the examples send nothing, and the privacy page says so.
-    let probed = false;
-    function probeLive() {
-      if (probed || !D.endpoint) return;
-      probed = true;
-      fetch(`${D.endpoint}/health`, { signal: AbortSignal.timeout(6000) })
+    let probe: Promise<void> | null = null;
+    function probeLive(): Promise<void> {
+      if (!D.endpoint) return Promise.resolve();
+      probe ??= fetch(`${D.endpoint}/health`, { signal: AbortSignal.timeout(6000) })
         .then(r => r.ok ? r.json() : null)
         .then(j => { liveOk = Boolean(j?.ok); })
         .catch(() => { liveOk = false; })
         .finally(() => { if (tab !== 'demo') showTab(tab); });
+      return probe;
     }
 
     // ── The run ──────────────────────────────────────────────────────────
@@ -823,7 +838,86 @@ const pageData = {
       mail.href = `${D.mail}?subject=${encodeURIComponent(`${T.mailSubject} (${T.scoreTitle} ${s.total})`)}&body=${encodeURIComponent(body)}`;
     });
 
+    // ── Export: the evaluation as a PDF, the CV behind it ────────────────
+    const pdfBtn = $<HTMLButtonElement>('[data-pdf]');
+    pdfBtn.addEventListener('click', async () => {
+      if (!current) return;
+      const label = pdfBtn.querySelector('span')!;
+      const idle = label.textContent;
+      pdfBtn.disabled = true;
+      label.textContent = pdfBtn.dataset.busy!;
+      try {
+        const meas = current;
+        const s = scoreMatch(meas.requirements, meas.project.demand, D.profile, weights);
+        const demoId = (meas as any).live ? '' : $<HTMLInputElement>('input[name="demo"]:checked')?.value;
+        const title = demoId ? D.demoTitles[demoId] : T.pdfOwnPosting;
+        const lvl = (r: RequirementResult) => T.levels[Math.round(r.level)];
+        const kind = (r: RequirementResult) => (!r.counts ? T.notReq : r.must >= 0.5 ? T.must : T.nice);
+        const evidence = (r: RequirementResult) => (r.counts && r.evidence && r.level >= 0.75 && D.entries[r.evidence] ? D.entries[r.evidence].label : r.counts ? T.noEvidence : '');
+        const toLine = (r: RequirementResult) => ({ text: r.text, kind: kind(r), level: r.counts ? lvl(r) : '', evidence: evidence(r), gap: r.counts && r.level < MET_LEVEL, counts: r.counts });
+        const today = new Date().toLocaleDateString(D.lang === 'de' ? 'de-DE' : 'en-GB');
+        const cv = await fetch(D.cvPdf).then(r => (r.ok ? r.arrayBuffer() : null)).then(b => (b ? new Uint8Array(b) : null)).catch(() => null);
+        const { buildReportPdf } = await import('../lib/match-pdf');
+        const bytes = await buildReportPdf({
+          lang: D.lang, kicker: $('.mt-kicker').textContent || '', title,
+          modeLine: $('[data-mode]').textContent || '',
+          total: s.total, verdict: T.verdicts[verdictOf(s.total)],
+          subs: [[T.subCoverage, `${nf(s.coverage * 100)} %`], [T.subMust, `${s.mustMet} / ${s.mustTotal}`], [T.subTopics, `${nf(s.topicFit * 100)} %`]],
+          roleLine: T.role.replace('{role}', T.roles[meas.project.role] ?? T.roles.other),
+          weightsLine: T.pdfWeights.replace('{a}', String(Math.round(weights.reqShare * 100))).replace('{b}', String(100 - Math.round(weights.reqShare * 100))).replace('{n}', String(weights.mustFactor)),
+          axes: D.axes.map((a: any) => ({ label: a.label, demand: s.perAxis[a.key].demand, cover: s.perAxis[a.key].cover, fromLines: s.perAxis[a.key].fromLines })),
+          legend: { demand: T.legendDemand, cover: T.legendCover },
+          gapsTitle: T.gapsTitle, gaps: s.gaps.map(toLine), gapsNone: T.gapsNone, gapsNote: T.gapsNote,
+          linesTitle: T.pdfLinesTitle, cols: T.pdfCols, lines: meas.requirements.map(toLine),
+          methodTitle: T.methodTitle, method: [T.methodLead, ...T.formula, ...T.limits],
+          footer: T.pdfFooter.replace('{date}', today),
+          cvNote: T.pdfCvNote, cv, cvMissing: T.pdfCvMissing,
+        });
+        const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${T.pdfFile}_${(demoId || 'Projekt').replace(/[^a-z0-9-]/gi, '_')}.pdf`;
+        document.body.append(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+      } catch {
+        showError(T.pdfFailed);
+      } finally {
+        pdfBtn.disabled = false;
+        label.textContent = idle;
+      }
+    });
+
+    // ── Started by the agent ─────────────────────────────────────────────
+    // The chat offers a button (⟦ui:match⟧ in AgentWidget.astro); its click
+    // arrives here as an event, or, from another view, as a posting waiting in
+    // sessionStorage. Either way the visitor clicked, as the privacy page says.
+    async function startFromAgent(detail: { text?: string; demo?: string }) {
+      if (detail.demo) {
+        const radio = document.querySelector<HTMLInputElement>(`input[name="demo"][value="${CSS.escape(detail.demo)}"]`);
+        if (!radio) return;
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change'));
+        showTab('demo');
+      } else if (detail.text) {
+        text.value = detail.text.slice(0, 12000);
+        showTab('text');
+        await probeLive();
+        if (!liveOk) { showError(T.liveDown); return; }
+      } else return;
+      startBtn.click();
+    }
+    window.addEventListener('bridge-agent:match', e => { void startFromAgent((e as CustomEvent).detail || {}); });
+
     showTab('demo');
+    try {
+      const pending = sessionStorage.getItem('cv-match-pending');
+      if (pending) {
+        sessionStorage.removeItem('cv-match-pending');
+        void startFromAgent(JSON.parse(pending));
+      }
+    } catch {}
   </script>
 </BaseLayout>
 
@@ -832,15 +926,15 @@ const pageData = {
      script during a run, and Astro's scoped styles only reach markup that
      exists at build time. Every class carries the mt- prefix instead. */
   .mt {
-    --mt-bg: #f5f4ef;
+    --mt-bg: #f4f6f9;
     --mt-surface: #ffffff;
     --mt-ink: #14171c;
     --mt-text: #39414b;
     --mt-muted: #5c6470;
     --mt-line: rgba(20, 23, 28, 0.12);
     --mt-line-strong: rgba(20, 23, 28, 0.24);
-    --mt-accent: #0f766e;
-    --mt-accent-soft: rgba(15, 118, 110, 0.16);
+    --mt-accent: #1d4ed8;
+    --mt-accent-soft: rgba(29, 78, 216, 0.13);
     --mt-demand: #b45309;
     --mt-demand-soft: rgba(180, 83, 9, 0.08);
     --mt-gap: #b42318;
@@ -858,21 +952,21 @@ const pageData = {
     font-family: var(--font-body);
   }
   html.dark .mt {
-    --mt-bg: #0e1217;
-    --mt-surface: #151b22;
+    --mt-bg: #0b1120;
+    --mt-surface: #111a2e;
     --mt-ink: #eef2f6;
     --mt-text: #bcc5cf;
     --mt-muted: #93a0ad;
     --mt-line: rgba(188, 197, 207, 0.14);
     --mt-line-strong: rgba(188, 197, 207, 0.3);
-    --mt-accent: #5eead4;
-    --mt-accent-soft: rgba(94, 234, 212, 0.18);
+    --mt-accent: #60a5fa;
+    --mt-accent-soft: rgba(96, 165, 250, 0.18);
     --mt-demand: #fbbf24;
     --mt-demand-soft: rgba(251, 191, 36, 0.08);
     --mt-gap: #fca5a5;
   }
-  html.cv-match body { background: #f5f4ef; }
-  html.cv-match.dark body { background: #0e1217; }
+  html.cv-match body { background: #f4f6f9; }
+  html.cv-match.dark body { background: #0b1120; }
   .mt a { color: inherit; }
   .mt button, .mt select { font: inherit; cursor: pointer; }
   .mt button:disabled { cursor: not-allowed; opacity: 0.5; }
@@ -1037,6 +1131,8 @@ const pageData = {
   .mt-weights .mt-ghost { margin-top: 0.8rem; }
   .mt-cta p { margin-top: 0.5rem; font-size: var(--fs-14); line-height: 1.55; }
   .mt-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; margin-top: 1rem !important; }
+  .mt-pdf { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .mt-pdf svg { width: 0.95rem; height: 0.95rem; }
 
   /* ── Method ── */
   .mt-method { margin-top: 4.5rem; padding-top: 2.5rem; border-top: 1px solid var(--mt-line); }
@@ -1078,6 +1174,52 @@ const pageData = {
   @media (prefers-reduced-motion: reduce) {
     .mt *, .mt *::after { animation: none !important; transition: none !important; }
   }
+
+  /* ── The agent panel in this view: same paper, ink and blue ── */
+  html.cv-match #agent-widget-root {
+    --bg: #ffffff;
+    --text: #14171c;
+    --text-secondary: #5c6470;
+    --accent: #1d4ed8;
+    --accent-hover: #1e40af;
+    --accent-cta: #1d4ed8;
+    --aw-grad: #1d4ed8;
+    --aw-border: rgba(20, 23, 28, 0.12);
+    --aw-border-strong: rgba(20, 23, 28, 0.24);
+    --aw-elev-panel: 0 0 0 1px rgba(20, 23, 28, 0.08), 0 30px 70px -30px rgba(15, 23, 42, 0.35);
+  }
+  html.cv-match.dark #agent-widget-root {
+    --bg: #111a2e;
+    --text: #eef2f6;
+    --text-secondary: #93a0ad;
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --accent-cta: #60a5fa;
+    --aw-grad: #60a5fa;
+    --aw-border: rgba(188, 197, 207, 0.14);
+    --aw-border-strong: rgba(188, 197, 207, 0.3);
+    --aw-elev-panel: 0 0 0 1px rgba(96, 165, 250, 0.18), 0 30px 80px -30px rgba(0, 0, 0, 0.6);
+  }
+  html.cv-match #agent-widget-panel { border-radius: 0; }
+  html.cv-match #agent-widget-header,
+  html.cv-match #agent-widget-form { background: var(--mt-surface, #fff); }
+  html.cv-match .aw-avatar { background: transparent; border-color: var(--accent); color: var(--accent); }
+  html.cv-match .aw-msg.aw-user { background: var(--accent); color: #fff; border-radius: 0; box-shadow: none; }
+  html.cv-match.dark .aw-msg.aw-user { color: #0b1120; }
+  html.cv-match .aw-msg.aw-user a { color: inherit; }
+  html.cv-match .aw-msg.aw-agent { border-radius: 0; box-shadow: none; border-left: 2px solid var(--accent); }
+  html.cv-match #agent-widget-input,
+  html.cv-match #agent-widget-send,
+  html.cv-match .aw-icon-btn,
+  html.cv-match .aw-offer-btn,
+  html.cv-match .aw-view-on-page,
+  html.cv-match .aw-card-ex,
+  html.cv-match .aw-working { border-radius: 0; }
+  html.cv-match #agent-widget-send { background: var(--accent); color: #fff; }
+  html.cv-match.dark #agent-widget-send { color: #0b1120; }
+  html.cv-match #agent-widget-input:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+  html.cv-match .aw-match-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+  html.cv-match.dark .aw-match-btn { color: #0b1120; }
   @media print {
     .mt-input, .mt-bar-actions, .mt-weights, .mt-cta, .mt-top-right { display: none !important; }
     .mt-side { position: static; }

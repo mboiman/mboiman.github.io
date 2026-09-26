@@ -169,7 +169,28 @@ and one when it is done.
 | `src/lib/match-config.ts` | `MATCH_ENDPOINT` of the live worker; empty means examples only |
 | `workers/jev-match/` | Cloudflare Worker for own text: holds the key, stores nothing; allowed origin only, 10 runs a minute per address (IPv6 per /64), 30 for everyone together, fixed error codes |
 | `scripts/jev-measure.mjs` | Measures the examples and the profile again (`npm run measure:match`) |
-| `test/match.test.mjs` | `npm run test:match`: splitting, requests, score, and that stored runs still fit the texts and the CV |
+| `src/lib/match-pdf.ts` | The PDF export: evaluation pages plus the CV PDF |
+| `scripts/match-og.mjs` | The link preview picture with the net diagram |
+| `test/match.test.mjs` | `npm run test:match`: splitting, requests, score, the PDF, and that stored runs still fit the texts and the CV |
+
+**Export.** "Evaluation as PDF" builds the report in the browser (`src/lib/match-pdf.ts`,
+pdf-lib loaded on click, Helvetica because pdf-lib embeds no woff2): score, net
+diagram, open points, every line with its evidence, the method, then the CV PDF
+of the page language appended.
+
+**The agent can start it.** The widget declares `match` in `ui_capabilities`; the
+agent may end an answer with `⟦ui:match⟧` (the visitor's last message is the
+posting) or `⟦ui:match <demo-id>⟧`. The widget shows a button, and only the
+visitor's click starts the run: on /match/ through the `bridge-agent:match`
+event, from any other view through `sessionStorage` (`cv-match-pending`). The
+agent's rules are in the bridge repo, `agents/mboiman/system-prompt.md`.
+
+**Link preview.** `/match/` has its own `og:image` with the net diagram of the
+first example (`public/images/og-match-{de,en}.png`), rendered with the site's
+font by `npm run og:match` and committed. Run it again after measuring.
+
+**Look.** Blue on paper, blue on navy in dark mode, with the theme button of
+the other views; the agent panel takes the same colours under `html.cv-match`.
 
 **The key.** The TypeSafe key is never in the repository. The measure script
 reads it from `TYPESAFE_API_KEY` or the macOS keychain entry `typesafe-api`

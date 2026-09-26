@@ -531,6 +531,19 @@ export interface I18nStrings {
     limits: string[];
     exampleTitle: string;
     exampleNote: string;
+    pdfButton: string;
+    pdfHint: string;
+    pdfBusy: string;
+    pdfFailed: string;
+    pdfOwnPosting: string;
+    pdfLinesTitle: string;
+    pdfCols: [string, string, string, string];
+    pdfWeights: string;
+    pdfFooter: string;
+    pdfCvNote: string;
+    pdfCvMissing: string;
+    pdfFile: string;
+    ogAlt: string;
   };
   agentWidget: AgentWidgetStrings;
 }
@@ -1151,6 +1164,19 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       ],
       exampleTitle: 'Eine Anfrage an Jev, gekürzt',
       exampleNote: 'Die Einträge des Lebenslaufs stehen einmal im Zustand, die Auswahl verweist per Pfad auf sie.',
+      pdfButton: 'Auswertung als PDF',
+      pdfHint: 'Mit dem Lebenslauf als PDF dahinter. Wird in Ihrem Browser erstellt.',
+      pdfBusy: 'PDF wird erstellt …',
+      pdfFailed: 'Das PDF ließ sich nicht erstellen. Bitte noch einmal versuchen.',
+      pdfOwnPosting: 'Eigene Ausschreibung',
+      pdfLinesTitle: 'Anforderungen und Belege',
+      pdfCols: ['Anforderung', 'Art', 'Stufe', 'Beleg im Lebenslauf'],
+      pdfWeights: 'Gewichtung: Anforderungen {a} %, Themen {b} %, Muss-Kriterien {n}-fach',
+      pdfFooter: 'Erstellt am {date} auf mboiman.github.io/de/match/',
+      pdfCvNote: 'Auf den folgenden Seiten: der Lebenslauf von Michael Boiman.',
+      pdfCvMissing: 'Den Lebenslauf finden Sie unter mboiman.github.io.',
+      pdfFile: 'Michael_Boiman_Abgleich',
+      ogAlt: 'Netzdiagramm eines Projekt-Abgleichs: was ein Beispielprojekt verlangt und was Michael Boimans Lebenslauf belegt, Gesamtwertung {score}',
     },
     agentWidget: {
       launcherLabel: 'Mit meinem KI-Agenten chatten',
@@ -1776,6 +1802,19 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       ],
       exampleTitle: 'One request to Jev, shortened',
       exampleNote: 'The CV entries sit in the state once, and the choice points at them by path.',
+      pdfButton: 'Evaluation as PDF',
+      pdfHint: 'With the CV as a PDF behind it. Made in your browser.',
+      pdfBusy: 'Making the PDF …',
+      pdfFailed: 'The PDF could not be made. Please try again.',
+      pdfOwnPosting: 'Own posting',
+      pdfLinesTitle: 'Requirements and evidence',
+      pdfCols: ['Requirement', 'Type', 'Level', 'Evidence in the CV'],
+      pdfWeights: 'Weighting: requirements {a} %, topics {b} %, must-haves {n} times',
+      pdfFooter: 'Made on {date} at mboiman.github.io/en/match/',
+      pdfCvNote: 'On the following pages: the CV of Michael Boiman.',
+      pdfCvMissing: 'The CV is at mboiman.github.io.',
+      pdfFile: 'Michael_Boiman_Match',
+      ogAlt: 'Net diagram of a project match: what an example project asks for and what Michael Boiman\'s CV shows, overall score {score}',
     },
     agentWidget: {
       launcherLabel: 'Chat with my AI agent',

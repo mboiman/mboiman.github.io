@@ -9,6 +9,10 @@ interface Props {
   /** Which of the three CV views this page is. The classic one sends a visitor
    *  who picked another view (localStorage `cv-view`) there before paint. */
   view?: 'classic' | 'minimal' | 'future' | 'match';
+  /** Link preview picture, a path under public/, and what it shows. The match
+   *  page has its own with the net diagram, for sharing on LinkedIn. */
+  ogImage?: string;
+  ogImageAlt?: string;
 }
 
 import '../styles/global.css';
@@ -21,7 +25,7 @@ import AgentWidget from '../components/AgentWidget.astro';
 import { getImage } from 'astro:assets';
 import portraitSource from '../assets/portraits/profile_.jpg';
 
-const { title, description, lang, noindex = false, view } = Astro.props;
+const { title, description, lang, noindex = false, view, ogImage, ogImageAlt } = Astro.props;
 const otherLang = lang === 'de' ? 'en' : 'de';
 const currentPath = Astro.url.pathname;
 const otherPath = currentPath.replace(`/${lang}/`, `/${otherLang}/`);
@@ -41,7 +45,7 @@ const defaultPath = isLangHome ? '/' : dePath;
 
 const siteOrigin = 'https://mboiman.github.io';
 const pageUrl = `${siteOrigin}${currentPath}`;
-const ogImageUrl = `${siteOrigin}/images/og-card.png`;
+const ogImageUrl = `${siteOrigin}${ogImage ?? '/images/og-card.png'}`;
 /* Derived, not the emitted original. Importing the source alone would ship the
    750x1000 JPEG of 362 kB into dist for the sake of one meta tag that no visitor
    ever fetches. This asks for the same picture at the same width in webp, which
@@ -106,7 +110,7 @@ const personJsonLd = {
   <meta property="og:image" content={ogImageUrl} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Michael Boiman, Quality Engineer und KI-Architekt, Frankfurt am Main" />
+  <meta property="og:image:alt" content={ogImageAlt ?? 'Michael Boiman, Quality Engineer und KI-Architekt, Frankfurt am Main'} />
   <meta property="og:url" content={pageUrl} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
