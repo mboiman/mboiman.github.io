@@ -471,11 +471,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     sidebarLabel: 'Profil-Kurzangaben',
     // "Freiberuflich" is gone: the tagline directly above already says it.
     facts: [
-      { label: 'Verfügbar', value: 'ab sofort, 5 Tage/Woche' },
+      { label: 'Verfügbar', value: 'auf Anfrage' },
       { label: 'Ort', value: 'Frankfurt am Main und Remote' },
       { label: 'Reise', value: 'nach Absprache' },
       { label: 'Abrechnung', value: 'eigene Rechnung oder BKS-Lab GmbH' },
       { label: 'Stundensatz', value: 'auf Anfrage' },
+      { label: 'Staatsangehörigkeit', value: 'deutsch' },
+      { label: 'Referenzen', value: 'auf Anfrage' },
     ],
     acts: [
       {
@@ -1012,11 +1014,13 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
     // two different commercial terms, and nothing checked it. Aligned to the
     // German wording, which is the default page.
     facts: [
-      { label: 'Available', value: 'immediately, 5 days a week' },
+      { label: 'Available', value: 'on request' },
       { label: 'Based', value: 'Frankfurt am Main and remote' },
       { label: 'Travel', value: 'by arrangement' },
       { label: 'Billing', value: 'own account or BKS-Lab GmbH' },
       { label: 'Hourly rate', value: 'on request' },
+      { label: 'Citizenship', value: 'German' },
+      { label: 'References', value: 'on request' },
     ],
     acts: [
       {

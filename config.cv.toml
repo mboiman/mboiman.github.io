@@ -319,17 +319,40 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Context Orchestrator**: Zentrales Multi-Repo-Steuerungssystem mit dreigeteilter Registry (Instanz-Basis, geteiltes Org-Fragment, persönliches Fragment), damit Firmendaten und Personendaten getrennt verteilt werden können. Trägt Repos, Kunden, Infrastruktur und Skills, dazu automatische Cross-Repo-Navigation und strukturiertes Arbeits-Tracking mit Archivierung
 - **Hook-basiertes Permission System**: Smart Guard mit projektspezifischen Sicherheitsregeln für Git-Operationen: Branch-Schutz, Secret-Erkennung und Deployment-Gates
 - **Production Operations E-Invoicing**: Laufende Betreuung einer E-Invoicing-Plattform einer führenden Online-Jobplattform (unter NDA): automatisiertes Incident-Management, Log-Analyse, Weekly Reporting und Go-Live Tracking
+- **Peppol-Ausbau derselben Plattform (ab 06/2025)**: eigenständige Dienste für ausgehende und eingehende Rechnungen (Azure Functions) neben der bestehenden Verarbeitung, angebunden an einen zertifizierten Peppol Access Point; die SAP-ByDesign-Schnittstelle nach technischem Deep Dive mit dem SAP-Partner über SOAP statt REST umgesetzt; zusätzlicher Eingangskanal per Postfach für Lieferanten ohne Peppol (PDF, ZUGFeRD, XRechnung); Betrieb über Managed Identity und Key Vault in getrennten Pre- und Produktionsumgebungen
 - **Eigenbetriebene Infrastruktur**: 50 launchd-Dienste auf dem zentralen Host, 18 Geräte in der Registratur, über Tailscale statt über offene Ports erreichbar. Sicherung nach 3-2-1 als deklarierte Topologie: 10 Quellen, 5 Ziele, 16 Strecken (restic/rclone auf NAS), deren Ist-Stand gegen das Soll abgeglichen wird.
 
 **Tools & Technologien**
 - LLM Orchestration: Claude (primär), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
-- AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
+- AI Development Platform: Claude Code, Plugin-Architektur (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration; davor Cursor
 - Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-nach-A2A-Gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Microsoft Graph, Exchange Online, Elasticsearch, Kibana, OpenTelemetry/OTLP
 - Betrieb: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrierte Repos in Python, TypeScript, Rust und Go
+        """
+
+        [[languages.de.params.experiences.list]]
+        position = "AI Test Automation Engineer · Aufbau des KI-Testautomatisierungsprozesses"
+        anchor = "kion"
+        dates = "seit 09/2026"
+        company = "KION Group"
+        details = """
+**KI-gestützte Testautomatisierung** für ein Kundenportal des Konzerns: Aufbau des kompletten Prozesses, von der Ableitung der Testfälle bis zur grünen CI-Pipeline.
+
+**Schwerpunkte**
+- **Test-Orchestrator**: Kette aus KI-Bausteinen mit festem Log-Schema, eigener Modellstufe je Baustein und Verbrauchsmessung, als wiederverwendbarer Befehl für das Team
+- **Architekturregeln für die Testcodebasis**: aus einer mehrstufigen Analyse mit mehreren KI-Agenten abgeleitet, unabhängig gegengeprüft und dokumentiert
+- **Architekturprüfung für generierten Testcode**: erkennt Verstöße gegen den Styleguide des Teams und korrigiert leichte selbständig
+- **Kalibrierte Vergleichsläufe**: KI-generierte E2E-Tests nach Kosten, Verbrauch und Konformität zum Standard verglichen, über mehrere Modellstufen
+- **Stabile Pipeline**: Ursache hängender Tests gefunden (ein Drittanbieter-Element fehlte beim Laden noch) und behoben
+- **Abdeckung**: vier Testbereiche eines Portalmoduls end to end, von der Testfall-Ableitung bis zur grünen Pipeline
+
+**Tools & Technologien**
+- Testing: Playwright, TypeScript, Angular-Codebasis
+- AI: Claude Code (mehrere Modellstufen), GitHub Copilot CLI
+- CI/CD & Tooling: GitHub Actions, Sonar, Jira mit Xray, Confluence, SAFe
         """
 
         [[languages.de.params.experiences.list]]
@@ -347,6 +370,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Bug Analysis & Quality Intelligence**: Implementierung eines umfassenden Bug-Tracking-Systems mit WIQL Queries, automatisierten Dashboards und Executive PDF-Reporting
 - **Pipeline Integration**: Test-Automatisierung in Azure DevOps CI/CD Pipelines mit HTML Report Upload zu Azure Test Results
 - **AI-gestützte Automatisierung**: Entwicklung von Automation Skills für Workflow-Optimierung, Bug-Analyse und Incident-Response mit messbarer Zeitersparnis
+- **KI-gestützte Testprozesse**: Integrationstests, E2E-Tests und API-Tests als durchgängige Prozesse mit KI-Agenten aufgesetzt, dazu Incident-Analysen über KI
 
 **Tools & Technologien**
 - Testing: Behave, Playwright, TypeScript, Python, pytest, Page Object Model, Fixtures
@@ -355,6 +379,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Frontend: React, TypeScript, Vite, TanStack Router
 - AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
 - DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
+- Agentic Coding: GitHub Copilot CLI
         """
 
         [[languages.de.params.experiences.list]]
@@ -408,7 +433,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 
 **Tools** 
 - IntelliJ / Visual Studio Code 
-- Java / JavaScript / TypeScript 
+- Java / Kotlin / JavaScript / TypeScript 
 - Playwright / Gauge / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
 - CI/CD / GitHub (reusable workflows) 
@@ -548,6 +573,15 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         """
 
         [[languages.de.params.experiences.list]]
+        position = "Gründer: Boiman.Solutions und QualityCluster"
+        anchor = "boiman-solutions"
+        dates = "06/2021-08/2021"
+        company = "Boiman.Solutions"
+        details = """
+**Aufbau** des eigenen Beratungsangebots Boiman.Solutions und der Quality-Engineering-Gemeinschaft QualityCluster, einem Zusammenschluss von Quality Engineers für mehr Qualität durch höheren Automatisierungsgrad.
+        """
+
+        [[languages.de.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
         dates = "01/2017-05/2021"
@@ -600,7 +634,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Tools** 
 - Visual Studio 
 - Eclipse 
-- JMeter 
+- JMeter
+- SoapUI 
 - GIT 
 - JIRA / Confluence 
 - Excel & Access VBS 
@@ -636,11 +671,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         details = """
 **QS, Testmanagement, Testautomatisierung, Requirements Engineering** Es wurden insgesamt 5 Projekte als QA & Testmanager begleitet und erfolgreich eingeführt 
 **Projekte** 
-- SIPCA: Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen 
-- STM: Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP) 
-- GPM2: Aktien-Bonus-Programm für Angestellte (Frontend: Web / Backend: JBoss) 
-- PATAC 
-- SOM: Verwaltung und Übersicht von OrgUnits 
+- SOM (05/2009-07/2010): Verwaltung und Übersicht von OrgUnits; Testmanagement und Requirements Management
+- SIPCA (07/2010-09/2010 und 07/2014-03/2015): Verwaltungssystem für Mitarbeiter-Jahresziele und Berechnung der Bonuszahlungen; Change-Request-Management
+- STM (09/2010-03/2012 und 05/2014-07/2014): Antrag und Reisekostenerfassung (Frontend: Web / Backend SAP); Testmanagement und Requirements Management
+- PATAC (07/2012-08/2012): Testautomatisierung
+- GPM2 (09/2012-05/2014): Aktien-Bonus-Programm für Angestellte (Frontend: Web / Backend: JBoss); Testautomatisierung
 
 **Schwerpunkte** 
 - Erstellung fachlicher Testkonzepte und Testpläne 
@@ -674,7 +709,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Monitoring und Reporting 
 
 **Tools** 
-- Loadrunner 
+- HP LoadRunner 8.1 und 9.5 
         """
 
         [[languages.de.params.experiences.list]]
@@ -688,6 +723,16 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
 - Durchführung von Lasttests und Analyse der Ergebnisse 
 - Monitoring und Reporting 
+
+**Kunden und Systeme**
+- British Telecom (München): Nummernportierungssystem, Lasttests über HTTP und SOAP
+- Mobiliar (Bern): Versicherungssystem mit Java-Applet- und Terminal-Oberfläche
+- DB Systel (Frankfurt): Verspätungsbenachrichtigung für Bahnreisende, Lasttests mit simulierten XML-Daten
+- Sparkassen Informatik: Bankportal mit über 30 J2EE-Anwendungen auf WebSphere (AIX und Sun)
+- Loyalty Partner (München): Siebel-Callcenter-Anwendung
+- Telekom (Darmstadt): Dokumentenmanagementsystem und Mediensystem eines Mobilfunkbetreibers
+- Itelium und Deutsche Post: Last auf Kassensystemen
+- Postbank: Überweisungsarchiv und Mandantenintegrationssoftware
 
 **Tools** 
 - Loadrunner 
@@ -971,17 +1016,40 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Context Orchestrator**: central multi-repo control system with a three-way split registry (instance base, shared org fragment, personal fragment), so company data and personal data can be distributed separately. It carries repos, customers, infrastructure and skills, plus automatic cross-repo navigation and structured work tracking with archiving
 - **Hook-based Permission System**: Smart Guard with project-specific security rules for Git operations: branch protection, secret detection and deployment gates
 - **Production Operations E-Invoicing**: ongoing management of an e-invoicing platform for a leading online job platform (under NDA): automated incident management, log analysis, weekly reporting and go-live tracking
+- **Peppol expansion of the same platform (from 06/2025)**: separate services for outgoing and incoming invoices (Azure Functions) next to the existing processing, connected to a certified Peppol access point; the SAP ByDesign interface built over SOAP instead of REST after a technical deep dive with the SAP partner; an extra inbound channel by mailbox for suppliers without Peppol (PDF, ZUGFeRD, XRechnung); operated through managed identity and Key Vault in separate pre-production and production environments
 - **Self-Operated Infrastructure**: 50 launchd services on the central host, 18 devices in the registry, reachable over Tailscale rather than open ports. Backups follow 3-2-1 as a declared topology: 10 sources, 5 targets, 16 pipelines (restic/rclone to NAS), with actual state reconciled against intent.
 
 **Tools & Technologies**
 - LLM Orchestration: Claude (primary), Google Gemini, OpenAI GPT, Model Context Protocol (MCP), Google Agent Development Kit (ADK)
-- AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration
+- AI Development Platform: Claude Code, Plugin Architecture (Skills, Hooks, Commands, Agents), YAML/Markdown Configuration; Cursor before that
 - Multi-Agent: A2A Protocol 1.0, a2a-sdk, Agent Cards, MCP-to-A2A gateway, JSON-RPC 2.0, SSE Streaming
 - Backend: Python 3.13, FastAPI, uvx Distribution, Git Submodules
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Microsoft Graph, Exchange Online, Elasticsearch, Kibana, OpenTelemetry/OTLP
 - Operations: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrated repos span Python, TypeScript, Rust and Go
+        """
+
+        [[languages.en.params.experiences.list]]
+        position = "AI Test Automation Engineer · Building the AI Test Automation Process"
+        anchor = "kion"
+        dates = "since 09/2026"
+        company = "KION Group"
+        details = """
+**AI-driven test automation** for one of the group's customer portals: building the complete process, from deriving the test cases to a green CI pipeline.
+
+**Key Responsibilities**
+- **Test orchestrator**: a chain of AI building blocks with a fixed log schema, its own model tier per block and usage tracking, packaged as a reusable command for the team
+- **Architecture rules for the test code base**: derived from a multi-stage analysis with several AI agents, independently cross-checked and documented
+- **Architecture check for generated test code**: detects violations of the team's style guide and fixes the minor ones on its own
+- **Calibrated comparison runs**: AI-generated E2E tests compared on cost, usage and conformance to the standard, across several model tiers
+- **Stable pipeline**: found and fixed the cause of hanging tests (a third-party element was still missing while the page loaded)
+- **Coverage**: four test areas of a portal module end to end, from deriving the test cases to a green pipeline
+
+**Tools & Technologies**
+- Testing: Playwright, TypeScript, Angular code base
+- AI: Claude Code (several model tiers), GitHub Copilot CLI
+- CI/CD & tooling: GitHub Actions, Sonar, Jira with Xray, Confluence, SAFe
         """
 
         [[languages.en.params.experiences.list]]
@@ -999,6 +1067,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Bug Analysis & Quality Intelligence**: Implementation of comprehensive bug tracking system with WIQL queries, automated dashboards, and executive PDF reporting
 - **Pipeline Integration**: Test automation in Azure DevOps CI/CD pipelines with HTML report upload to Azure Test Results
 - **AI-Powered Automation**: Development of automation skills for workflow optimization, bug analysis, and incident response with measurable time savings
+- **AI-Driven Test Processes**: Integration, E2E and API testing set up as end-to-end processes with AI agents, plus AI-assisted incident analysis
 
 **Tools & Technologies**
 - Testing: Behave, Playwright, TypeScript, Python, pytest, Page Object Model, Fixtures
@@ -1007,6 +1076,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Frontend: React, TypeScript, Vite, TanStack Router
 - AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
 - DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
+- Agentic Coding: GitHub Copilot CLI
         """
 
         [[languages.en.params.experiences.list]]
@@ -1060,7 +1130,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 
 **Tools**
 - IntelliJ / Visual Studio Code
-- Java / JavaScript / TypeScript
+- Java / Kotlin / JavaScript / TypeScript
 - Playwright / Gauge / Karate
 - Python for processing and analysis of test and reporting data
 - CI/CD / GitHub (reusable workflows)
@@ -1200,6 +1270,15 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         """
 
         [[languages.en.params.experiences.list]]
+        position = "Founder: Boiman.Solutions and QualityCluster"
+        anchor = "boiman-solutions"
+        dates = "06/2021-08/2021"
+        company = "Boiman.Solutions"
+        details = """
+**Set up** his own consultancy Boiman.Solutions and the quality engineering community QualityCluster, a group of quality engineers working towards more quality through a higher degree of automation.
+        """
+
+        [[languages.en.params.experiences.list]]
         position = "DevOps Quality Lead & Dashboard Architect"
         anchor = "db-vertrieb"
         dates = "01/2017-05/2021"
@@ -1253,6 +1332,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Visual Studio
 - Eclipse
 - JMeter
+- SoapUI
 - Git
 - JIRA / Confluence
 - Excel & Access VBS
@@ -1288,11 +1368,11 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         details = """
 **QA, test management, test automation, requirements engineering**: A total of 5 projects were supported as QA & test manager and successfully implemented
 **Projects**
-- SIPCA: Management system for employee annual targets and bonus calculation
-- STM: Application and travel expense recording (Frontend: Web / Backend: SAP)
-- GPM2: Share bonus program for employees (Frontend: Web / Backend: JBoss)
-- PATAC
-- SOM: Management and overview of OrgUnits
+- SOM (05/2009-07/2010): management and overview of OrgUnits; test management and requirements management
+- SIPCA (07/2010-09/2010 and 07/2014-03/2015): management system for employee annual targets and bonus calculation; change request management
+- STM (09/2010-03/2012 and 05/2014-07/2014): application and travel expense recording (Frontend: Web / Backend: SAP); test management and requirements management
+- PATAC (07/2012-08/2012): test automation
+- GPM2 (09/2012-05/2014): share bonus program for employees (Frontend: Web / Backend: JBoss); test automation
 
 **Key responsibilities**
 - Creation of technical test concepts and test plans
@@ -1326,7 +1406,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Monitoring and reporting
 
 **Tools**
-- LoadRunner
+- HP LoadRunner 8.1 and 9.5
         """
 
         [[languages.en.params.experiences.list]]
@@ -1340,6 +1420,16 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Creation of test scripts in LoadRunner with the http protocol
 - Execution of load tests and analysis of results
 - Monitoring and reporting
+
+**Clients and systems**
+- British Telecom (Munich): number porting system, load tests over HTTP and SOAP
+- Mobiliar (Bern): insurance system with Java applet and terminal front ends
+- DB Systel (Frankfurt): delay notification for rail passengers, load tests with simulated XML data
+- Sparkassen Informatik: banking portal of more than 30 J2EE applications on WebSphere (AIX and Sun)
+- Loyalty Partner (Munich): Siebel call centre application
+- Telekom (Darmstadt): document management system and a media system for a mobile operator
+- Itelium and Deutsche Post: load on point-of-sale systems
+- Postbank: transfer archive and client integration software
 
 **Tools**
 - LoadRunner
