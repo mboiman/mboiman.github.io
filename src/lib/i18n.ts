@@ -435,6 +435,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { label: 'Reise', value: 'nach Absprache' },
       { label: 'Abrechnung', value: 'eigene Rechnung oder BKS-Lab GmbH' },
       { label: 'Stundensatz', value: 'auf Anfrage' },
+      { label: 'Staatsangehörigkeit', value: 'deutsch' },
+      { label: 'Referenzen', value: 'auf Anfrage' },
     ],
     acts: [
       {
@@ -943,6 +945,8 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       { label: 'Travel', value: 'by arrangement' },
       { label: 'Billing', value: 'own account or BKS-Lab GmbH' },
       { label: 'Hourly rate', value: 'on request' },
+      { label: 'Citizenship', value: 'German' },
+      { label: 'References', value: 'on request' },
     ],
     acts: [
       {
