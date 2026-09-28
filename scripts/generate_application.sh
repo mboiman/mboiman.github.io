@@ -93,7 +93,17 @@ fi
 
 # Step 3: Combine PDFs
 echo "🔗 Combining PDFs..."
-node scripts/combine_pdfs.js "$COVER_LETTER_PDF" "$CV_PDF" "$OUTPUT_PDF"
+# Optional middle part: the project match (scripts/jev-match.mjs, without CV).
+if [ -n "$MATCH_PDF" ]; then
+    if [ ! -f "$MATCH_PDF" ]; then
+        echo "❌ MATCH_PDF not found: $MATCH_PDF"
+        exit 1
+    fi
+    echo "📊 Including project match: $MATCH_PDF"
+    node scripts/combine_pdfs.js "$COVER_LETTER_PDF" "$MATCH_PDF" "$CV_PDF" "$OUTPUT_PDF"
+else
+    node scripts/combine_pdfs.js "$COVER_LETTER_PDF" "$CV_PDF" "$OUTPUT_PDF"
+fi
 
 if [ ! -f "$OUTPUT_PDF" ]; then
     echo "❌ Failed to combine PDFs"
@@ -104,6 +114,7 @@ echo "✅ Application PDF generated successfully: $OUTPUT_PDF"
 echo ""
 echo "📊 Summary:"
 echo "  • Cover letter: ✅ Generated"
+[ -n "$MATCH_PDF" ] && echo "  • Project match: ✅ Included"
 echo "  • CV: ✅ Generated"
 echo "  • Combined PDF: ✅ Generated"
 echo "  • Output: $OUTPUT_PDF"

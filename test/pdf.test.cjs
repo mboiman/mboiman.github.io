@@ -236,3 +236,37 @@ test('rendered application: one font family, sane page counts', { timeout: 24000
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });
+
+// Short CV for an application with a Jev evaluation (cv.short in the letter
+// JSON): the stations Jev cites stay in full, every other one is a row, and the
+// full CV is one link away.
+test('short CV: focused stations in full, the rest as rows, link to the full CV', async () => {
+  const params = config.languages.de.params;
+  const fullUrl = 'https://mboiman.github.io/de/?for=Beispiel&focus=kion,dvag';
+  const data = fixture({ cv: { short: true, focus: ['kion', 'dvag', 'quality-dashboard'], fullUrl } });
+  const html = await generateHTMLFromConfig(applyApplicationOverrides(params, data), PHOTO, 'de');
+  const titles = [...html.matchAll(/class="exp-title">([^<]+)</g)].map((m) => m[1]);
+  const focused = params.experiences.list.filter((e) => ['kion', 'dvag'].includes(e.anchor)).map((e) => e.position);
+  assert.deepEqual(titles.sort(), focused.sort());
+  for (const e of params.experiences.list.filter((x) => x.anchor === 'db-vertrieb')) {
+    assert.ok(html.includes(e.position), 'an unfocused station still appears as a row');
+  }
+  assert.ok(html.includes(fullUrl), 'links the full CV');
+  assert.doesNotMatch(html, /Tools &amp; Technologien|Tools & Technologien/, 'tool lists live under competencies in the short CV');
+  const projects = [...html.matchAll(/class="project-title">([^<]+)</g)].map((m) => m[1]);
+  assert.deepEqual(projects, params.projects.list.filter((p) => p.anchor === 'quality-dashboard').map((p) => p.title));
+});
+
+test('short CV: without cv.short the CV is unchanged', async () => {
+  const params = config.languages.de.params;
+  const plain = await generateHTMLFromConfig(params, PHOTO, 'de');
+  const same = await generateHTMLFromConfig(applyApplicationOverrides(params, fixture()), PHOTO, 'de');
+  assert.equal([...plain.matchAll(/class="exp-title"/g)].length, [...same.matchAll(/class="exp-title"/g)].length);
+});
+
+test('letter: an enclosure line from the data replaces the default', () => {
+  const params = config.languages.de.params;
+  const html = generateCoverLetterHTML(fixture({ requirements: [], enclosure: 'Anlagen: Auswertung, Lebenslauf' }), params, PHOTO);
+  assert.match(html, /Anlagen: Auswertung, Lebenslauf/);
+  assert.doesNotMatch(html, /Anlage: Lebenslauf/);
+});

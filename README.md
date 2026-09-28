@@ -170,6 +170,8 @@ and one when it is done.
 | `workers/jev-match/` | Cloudflare Worker for own text: holds the key, stores nothing; allowed origin only, 10 runs a minute per address (IPv6 per /64), 30 for everyone together, fixed error codes |
 | `scripts/jev-measure.mjs` | Measures the examples and the profile again (`npm run measure:match`) |
 | `src/lib/match-pdf.ts` | The PDF export: evaluation pages plus the CV PDF |
+| `src/lib/match-report.ts` | What goes into that PDF from one run; shared by the page and the command line |
+| `scripts/jev-match.mjs` | The match from the command line for an application bundle (`npm run match`) |
 | `scripts/match-og.mjs` | The link preview picture with the net diagram |
 | `test/match.test.mjs` | `npm run test:match`: splitting, requests, score, the PDF, and that stored runs still fit the texts and the CV |
 
@@ -207,6 +209,33 @@ cd workers/jev-match && wrangler dev --remote --env dev --port 8799 \
   --var MEASURE_TOKEN:messlauf
 JEV_VIA=http://localhost:8799 JEV_TOKEN=messlauf npm run measure:match
 ```
+
+**From the command line**, for an application (the job-application skill in the
+bridge repo calls this):
+
+```bash
+npm run match -- --file posting.txt --title "AI Quality Engineer" \
+  --json applications/match_firma.json --out applications/match_firma.pdf
+MATCH_PDF=applications/match_firma.pdf ./scripts/generate_application.sh \
+  config.cv.toml applications/bewerbung_firma.pdf de cover_letter_firma.json
+```
+
+With the evaluation in the bundle the letter JSON usually asks for the short
+CV: `"cv": { "short": true, "focus": [anchors], "fullUrl": "<tailored link>" }`
+prints the focused stations in full without tool lists, every other station as
+one row, only the focused projects, and a last line linking the full CV (about
+2 pages instead of 5). `"enclosure"` replaces the letter's enclosure line.
+`--cv-follows` makes the evaluation's last line announce the CV behind it.
+
+The first call asks Jev through the live worker and writes the same evaluation
+the page exports, without the CV (`--with-cv` appends it); stdout is a JSON
+summary per line. `--from <json>` rebuilds the PDF from a stored run without
+asking again, `--credit "<line>"` adds small lines after the method. The worker
+lets the script past its origin check with the measure token, a Worker secret
+`MEASURE_TOKEN` and the keychain entry `jev-match-token` (account `mboiman`),
+set on 2026-09-28. The bundle is then cover letter, evaluation, CV. Give the
+script only the task and requirement lists of a posting: a title or an intro
+sentence counts as a line too.
 
 `test:match` fails when a demo text no longer matches its stored run or an
 evidence entry left the CV, and warns when the profile was measured on an older CV.
