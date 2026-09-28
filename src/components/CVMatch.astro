@@ -848,31 +848,12 @@ const pageData = {
       label.textContent = pdfBtn.dataset.busy!;
       try {
         const meas = current;
-        const s = scoreMatch(meas.requirements, meas.project.demand, D.profile, weights);
         const demoId = (meas as any).live ? '' : $<HTMLInputElement>('input[name="demo"]:checked')?.value;
         const title = demoId ? D.demoTitles[demoId] : T.pdfOwnPosting;
-        const lvl = (r: RequirementResult) => T.levels[Math.round(r.level)];
-        const kind = (r: RequirementResult) => (!r.counts ? T.notReq : r.must >= 0.5 ? T.must : T.nice);
-        const evidence = (r: RequirementResult) => (r.counts && r.evidence && r.level >= 0.75 && D.entries[r.evidence] ? D.entries[r.evidence].label : r.counts ? T.noEvidence : '');
-        const toLine = (r: RequirementResult) => ({ text: r.text, kind: kind(r), level: r.counts ? lvl(r) : '', evidence: evidence(r), gap: r.counts && r.level < MET_LEVEL, counts: r.counts });
-        const today = new Date().toLocaleDateString(D.lang === 'de' ? 'de-DE' : 'en-GB');
         const cv = await fetch(D.cvPdf).then(r => (r.ok ? r.arrayBuffer() : null)).then(b => (b ? new Uint8Array(b) : null)).catch(() => null);
-        const { buildReportPdf } = await import('../lib/match-pdf');
-        const bytes = await buildReportPdf({
-          lang: D.lang, kicker: $('.mt-kicker').textContent || '', title,
-          modeLine: $('[data-mode]').textContent || '',
-          total: s.total, verdict: T.verdicts[verdictOf(s.total)],
-          subs: [[T.subCoverage, `${nf(s.coverage * 100)} %`], [T.subMust, `${s.mustMet} / ${s.mustTotal}`], [T.subTopics, `${nf(s.topicFit * 100)} %`]],
-          roleLine: T.role.replace('{role}', T.roles[meas.project.role] ?? T.roles.other),
-          weightsLine: T.pdfWeights.replace('{a}', String(Math.round(weights.reqShare * 100))).replace('{b}', String(100 - Math.round(weights.reqShare * 100))).replace('{n}', String(weights.mustFactor)),
-          axes: D.axes.map((a: any) => ({ label: a.label, demand: s.perAxis[a.key].demand, cover: s.perAxis[a.key].cover, fromLines: s.perAxis[a.key].fromLines })),
-          legend: { demand: T.legendDemand, cover: T.legendCover },
-          gapsTitle: T.gapsTitle, gaps: s.gaps.map(toLine), gapsNone: T.gapsNone, gapsNote: T.gapsNote,
-          linesTitle: T.pdfLinesTitle, cols: T.pdfCols, lines: meas.requirements.map(toLine),
-          methodTitle: T.methodTitle, method: [T.methodLead, ...T.formula, ...T.limits],
-          footer: T.pdfFooter.replace('{date}', today),
-          cvNote: T.pdfCvNote, cv, cvMissing: T.pdfCvMissing,
-        });
+        const [{ buildReportPdf }, { reportInput }] = await Promise.all([import('../lib/match-pdf'), import('../lib/match-report')]);
+        const entries = Object.entries(D.entries).map(([id, e]: [string, any]) => ({ id, label: e.label }));
+        const bytes = await buildReportPdf(reportInput({ lang: D.lang, meas, profile: D.profile, entries, title, date: new Date(), cv, weights }));
         const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
         const a = document.createElement('a');
         a.href = url;

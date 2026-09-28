@@ -66,8 +66,8 @@ function generateCoverLetterHTML(data, langConfig, profileImageData) {
         </div>`).join('')}
     </section>` : '';
 
-  let enclosure = stripEmoji(langConfig.ui.attachment_label || (de ? 'Anlage: Lebenslauf' : 'Enclosure: Curriculum vitae'));
-  if (requirements.length) enclosure += de ? ', Anforderungsabgleich' : ', requirements match';
+  let enclosure = stripEmoji(data.enclosure || langConfig.ui.attachment_label || (de ? 'Anlage: Lebenslauf' : 'Enclosure: Curriculum vitae'));
+  if (requirements.length && !data.enclosure) enclosure += de ? ', Anforderungsabgleich' : ', requirements match';
 
   const body = [
     paragraphs(data.opening),

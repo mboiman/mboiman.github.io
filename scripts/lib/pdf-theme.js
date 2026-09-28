@@ -263,6 +263,7 @@ function footerTemplate(text) {
  *
  *   contactInfo: { email, phone, linkedin, website }   replaces those entries
  *   header:      { tagline, location, availability }  replaces the header lines
+ *   cv:          { short, focus: [anchors], fullUrl }  a short CV for a bundle with the Jev evaluation
  *
  * Returns a copy; the parsed TOML is never mutated.
  */
@@ -287,6 +288,10 @@ function applyApplicationOverrides(langConfig, data) {
   if (h.location !== undefined) cfg.ui.location = h.location;
   if (h.availability !== undefined) cfg.ui.availability = h.availability;
   if (data.style) cfg.pdf_style = resolveStyle(data.style);
+  // cv.short: the stations and projects named in cv.focus (anchors) in full,
+  // everything else as one row, the full CV behind cv.fullUrl.
+  const cv = data.cv || {};
+  if (cv.short) cfg.cv_short = { focus: Array.isArray(cv.focus) ? cv.focus : [], fullUrl: cv.fullUrl || '' };
   return cfg;
 }
 

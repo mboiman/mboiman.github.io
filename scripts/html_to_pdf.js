@@ -51,7 +51,7 @@ function getExperienceTier(exp) {
 /**
  * Truncate for full tier: keep intro + first N bullets of Schwerpunkte + tools.
  */
-function truncateToFull(details, maxBullets = 5) {
+function truncateToFull(details, maxBullets = 5, withTools = true) {
   if (!details) return '';
   const lines = details.split('\n');
   const introLines = [];
@@ -93,7 +93,7 @@ function truncateToFull(details, maxBullets = 5) {
 
   const parts = [introLines.join('\n').trim()];
   if (schwerpunktLines.length > 0) parts.push(schwerpunktLines.join('\n').trim());
-  if (toolLines.length > 0) parts.push(toolLines.join('\n').trim());
+  if (withTools && toolLines.length > 0) parts.push(toolLines.join('\n').trim());
   return parts.filter(Boolean).join('\n\n');
 }
 
@@ -315,8 +315,23 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         <div class="exp-details">${formatTextToParagraphs(details)}</div>
       </div>`;
 
+  // Short CV (cv.short from the letter JSON, applyApplicationOverrides): the
+  // bundle already carries the Jev evaluation, which names the entries behind
+  // each requirement. Those stations print in full, every other one becomes a
+  // row, and the full CV is one link away. Made for 2 pages instead of 5.
+  const short = langConfig.cv_short || null;
+  const inFocus = (x) => Boolean(short && x.anchor && short.focus.includes(x.anchor));
+  if (short) {
+    const rest = [...fullExperiences, ...mediumExperiences].filter(e => !inFocus(e));
+    const kept = [...fullExperiences, ...mediumExperiences].filter(inFocus);
+    fullExperiences.length = 0;
+    mediumExperiences.length = 0;
+    fullExperiences.push(...kept);
+    compactExperiences.push(...rest);
+  }
+
   const stationsHtml = [...fullExperiences, ...mediumExperiences].sort(byStart).map(exp => fullExperiences.includes(exp)
-    ? renderExperience(exp, truncateToFull(exp.details || '', 4), false)
+    ? renderExperience(exp, truncateToFull(exp.details || '', short ? 3 : 4, !short), false)
     : renderExperience(exp, truncateToMedium(exp.details || ''), true)).join('');
   compactExperiences.sort(byStart);
 
@@ -330,7 +345,9 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       </table>` : '';
 
   // Projects, in the order config.cv.toml declares via pdf_rank.
-  const projectsHtml = rankedProjects(langConfig, targetLang).map(project => {
+  const ranked = rankedProjects(langConfig, targetLang);
+  const focusedProjects = short ? ranked.concat((langConfig.projects.list || []).filter(p => !ranked.includes(p))).filter(inFocus) : ranked;
+  const projectsHtml = focusedProjects.map(project => {
     const tech = project.tech_stack ? project.tech_stack.slice(0, 5).join(' · ') : '';
     const descriptionSource = project.tagline_pdf
       ? project.tagline_pdf.trim()
@@ -363,7 +380,11 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     earlier: de ? 'Frühere Positionen' : 'Earlier positions',
     projects: de ? 'Ausgewählte Projekte' : 'Selected projects',
     talks: de ? 'Vorträge & Workshops' : 'Talks & workshops',
+    others: de ? 'Weitere Positionen' : 'Further positions',
+    full: de ? 'Vollständiger Lebenslauf mit allen Stationen und Projekten' : 'Full CV with every position and project',
   };
+  // Short CV: the profile's first paragraph only, the anchors stay.
+  const summaryMd = short ? String(langConfig.summary.summary || '').split(/\n\s*\n/)[0] : langConfig.summary.summary;
 
   return `
 <!DOCTYPE html>
@@ -422,6 +443,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
         .two-col { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8mm; }
         .two-col td { font-size: 8.5pt; }
         .two-col section { break-inside: avoid; page-break-inside: avoid; }
+        .full-cv { margin-top: 5mm; padding-top: 2.5mm; border-top: 0.5pt solid var(--rule-soft); font-size: 8.5pt; color: var(--text); }
+        .full-cv a { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -429,7 +452,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
 
     <section class="profile">
         <h2 class="section-title">${langConfig.summary.title}</h2>
-        ${formatTextToParagraphs(langConfig.summary.summary)}
+        ${formatTextToParagraphs(summaryMd)}
         <div class="anchors">${anchorsHtml}</div>
     </section>
 
@@ -441,13 +464,13 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
     <section>
         <h2 class="section-title">${langConfig.experiences.title}</h2>
         ${stationsHtml}
-        ${compactExperiences.length > 0 ? `<div class="subhead">${t.earlier}</div>${compactExpHtml}` : ''}
+        ${compactExperiences.length > 0 ? `<div class="subhead">${short ? t.others : t.earlier}</div>${compactExpHtml}` : ''}
     </section>
 
-    <section>
+    ${projectsHtml ? `<section>
         <h2 class="section-title">${t.projects}</h2>
         <div class="projects">${projectsHtml}</div>
-    </section>
+    </section>` : ''}
 
     <div class="two-col">
         ${workshopExperiences.length > 0 ? `
@@ -462,6 +485,7 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
             <table>${languageHtml}</table>
         </section>
     </div>
+    ${short && short.fullUrl ? `<p class="full-cv">${t.full}: <a href="${short.fullUrl}">${short.fullUrl.replace(/^https?:\/\//, '')}</a></p>` : ''}
 </body>
 </html>
   `;

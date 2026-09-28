@@ -37,6 +37,8 @@ export interface ReportInput {
   methodTitle: string;
   method: string[];
   footer: string;          // "Erstellt am … · mboiman.github.io/de/match/"
+  /** Small lines after the method: what made this and where. Optional. */
+  credit?: string[];
   cvNote: string;
   /** The CV to append, already fetched; null when it could not be loaded. */
   cv: Uint8Array | null;
@@ -213,6 +215,11 @@ export async function buildReportPdf(input: ReportInput): Promise<Uint8Array> {
     ensure(ls.length * 12 + 4);
     ls.forEach(l => { put(l, M, 9, font, text); y -= 12; });
     y -= 4;
+  }
+  for (const c of input.credit ?? []) {
+    const ls = wrap(c, font, 8.5, A4[0] - 2 * M);
+    ensure(ls.length * 11 + 2);
+    ls.forEach(l => { put(l, M, 8.5, font, muted); y -= 11; });
   }
   y -= 8;
   ensure(20);
