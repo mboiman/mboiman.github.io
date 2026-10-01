@@ -91,6 +91,8 @@ defaultContentLanguage = "de"
           "Azure Functions",
           "Azure DevOps",
           "Azure Monitor & KQL",
+          "AWS",
+          "Google Cloud",
           "CI/CD",
           "Docker",
           "Cloudflare (Workers, Pages, R2)",
@@ -238,7 +240,7 @@ In Enterprise-Projekten (**DB Vertrieb**, **DVAG**, **TÜV Süd**) sind Quality-
 
 Heute heißt das: E-Invoicing nach EN 16931 im Regelbetrieb und ein Netz aus Agenten, die sich über die offenen Protokolle MCP und A2A gegenseitig befragen.
 
-Ergänzend gebe ich dieses Wissen weiter, in Entwickler- und Business-Workshops und in einem Impulsvortrag an der TU Darmstadt, und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen.
+Ergänzend gebe ich dieses Wissen weiter, in Entwickler- und Business-Workshops und in einem Impulsvortrag an der TU Darmstadt, und übersetze KI-Praxis für technische wie nicht-technische Zielgruppen. Ärzte, Juristen und Finanzberater habe ich an die Arbeit mit KI im eigenen Alltag herangeführt, Fachteams in verschiedenen Projekten begleitet.
         """
 
       [languages.de.params.experiences]
@@ -309,7 +311,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Menschliches Gate auf vier Autonomiestufen**: Was ein Agent an sich selbst ändern darf, ist in vier Schichten getrennt (Kontext, Skill-Dateien und Regeln, Nutzerprofil, Modellgewichte), jede mit ausdrücklichem menschlichem Gate. Vorschläge laufen über einen eigenen Ordner mit Schema und Prüfpfad, statt still wirksam zu werden. Die EU-KI-Verordnung ist damit nicht nur Workshop-Inhalt, sondern die eigene Betriebspraxis
 - **Spezifikation und Verifikationsdesign**: Vor dem Bauen führt ein fester Ablauf durch Anforderung, Entwurf und Verifikationsplan. Jedes Abnahmekriterium bekommt dabei die stärkste verfügbare Prüfung, in dieser Reihenfolge: deterministischer Test vor externem Signal vor Modell-Urteil, dazu die Gate-Stärke. Das ist die Stelle, an der Quality Engineering und KI-Entwicklung dieselbe Disziplin sind
 - **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
-- **MCP Navigation Server**: Entwicklung eines Model Context Protocol Servers (Python) mit intelligenter Hierarchie-Navigation, automatischer Content-Discovery und SharePoint-Integration
+- **MCP-Server und Protokollwahl**: Zwei Model-Context-Protocol-Server in Python selbst gebaut, einer für die Wiki-Hierarchie (Navigation, Content-Discovery, SharePoint-Integration), einer für die Inhalte der Firmen-Website. MCP-Schulung gehalten. Im eigenen Einsatz gilt: MCP nur dort, wo es gegenüber Skills, REST oder A2A tatsächlich trägt, denn die meisten MCP-Server sind im Alltag nicht effektiv
 - **Google ADK (frühere Stufe)**: Die erste Fassung des Agenten-Netzes lief auf dem Google Agent Development Kit mit LiteLLM. Im Juli 2026 durch den a2a-sdk-Server auf eigener Laufzeit ersetzt, die Erfahrung mit ADK und dessen Tool-Integration bleibt
 - **GitHub Project Automation**: LLM-gesteuertes Issue-Management mit 7-Pflichtfelder-System, automatischer Kategorisierung, Smart Repository Mapping und Review Queue Management
 - **Development Workflow Automation**: GitHub Actions Workflows für vollautomatische Issue-to-PR-Transformation (Assignment → Feature-Branch → Implementation → Code Review → PR)
@@ -789,6 +791,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Azure Functions",
           "Azure DevOps",
           "Azure Monitor & KQL",
+          "AWS",
+          "Google Cloud",
           "CI/CD",
           "Docker",
           "Cloudflare (Workers, Pages, R2)",
@@ -936,7 +940,7 @@ In enterprise projects (**DB Vertrieb**, **DVAG**, **TÜV Süd**), quality monit
 
 Today that means e-invoicing to EN 16931 in production and a network of agents consulting each other over the open MCP and A2A protocols.
 
-I also pass this knowledge on, in developer and business workshops and in an invited talk at TU Darmstadt, translating hands-on AI for technical and non-technical audiences alike."""
+I also pass this knowledge on, in developer and business workshops and in an invited talk at TU Darmstadt, translating hands-on AI for technical and non-technical audiences alike. I have introduced doctors, lawyers and financial advisers to working with AI in their own daily work and supported business teams across several projects."""
 
       [languages.en.params.experiences]
         enable = true
@@ -1006,7 +1010,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **Human gate on four autonomy layers**: what an agent may change about itself is split into four layers (context, skill files and rules, user profile, model weights), each with an explicit human gate. Proposals go through a dedicated folder with a schema and a review path instead of taking effect silently. The EU AI Act is therefore not just workshop content here but my own operating practice
 - **Specification and verification design**: before building, a fixed sequence runs through requirement, design and verification plan. Every acceptance criterion is mapped to the strongest available check, in this order: deterministic test before external signal before model judgement, together with the gate strength. This is where quality engineering and AI development are the same discipline
 - **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
-- **MCP Navigation Server**: Development of Model Context Protocol server (Python) with intelligent hierarchy navigation, automatic content discovery, and SharePoint integration
+- **MCP servers and protocol choice**: Built two Model Context Protocol servers in Python, one for the wiki hierarchy (navigation, content discovery, SharePoint integration), one for the company website content. Delivered MCP training. In my own work, MCP is used only where it beats skills, REST or A2A, since most MCP servers are not effective in everyday use
 - **Google ADK (earlier stage)**: the first version of the agent network ran on the Google Agent Development Kit with LiteLLM. Replaced in July 2026 by the a2a-sdk server on our own runtime; the ADK and tool-integration experience from that stage stays
 - **GitHub Project Automation**: LLM-driven issue management with 7-mandatory-field system, automatic categorization, smart repository mapping, and review queue management
 - **Development Workflow Automation**: GitHub Actions workflows for fully automatic issue-to-PR transformation (assignment → feature branch → implementation → code review → PR)
