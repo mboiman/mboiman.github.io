@@ -332,6 +332,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Microsoft Graph, Exchange Online, Elasticsearch, Kibana, OpenTelemetry/OTLP
 - Betrieb: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
+- Cloud: AWS, Google Cloud (neben Azure)
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrierte Repos in Python, TypeScript, Rust und Go
         """
 
@@ -612,6 +613,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Helm / Docker 
 - JIRA / Confluence 
 - Kibana / Grafana / Instana / Graylog 
+- AWS 
 - Behaviour Driven Development 
 - Consumer Driven Contracts (Spring Cloud Contract) 
 - Ionic (Hybride App) 
@@ -1031,6 +1033,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Automation: GitHub Actions, GitHub GraphQL API, gh CLI
 - Integration: SharePoint API, Microsoft Graph, Exchange Online, Elasticsearch, Kibana, OpenTelemetry/OTLP
 - Operations: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
+- Cloud: AWS, Google Cloud (alongside Azure)
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrated repos span Python, TypeScript, Rust and Go
         """
 
@@ -1311,6 +1314,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Helm / Docker
 - JIRA / Confluence
 - Kibana / Grafana / Instana / Graylog
+- AWS
 - Behaviour Driven Development
 - Consumer Driven Contracts (Spring Cloud Contract)
 - Ionic (hybrid app)
