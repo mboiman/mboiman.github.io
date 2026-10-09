@@ -74,8 +74,16 @@ if [ ! -d node_modules ]; then
 fi
 
 # Step 1: Generate cover letter PDF
+# With the project match attached, the letter drops its own requirements annex:
+# the match lists every requirement with its CV evidence, the annex only a
+# selection of the same, a page that says it twice.
+LETTER_DATA="$COVER_LETTER_DATA"
+if [ -n "$MATCH_PDF" ]; then
+    LETTER_DATA="$TEMP_DIR/cover_letter_data.json"
+    node -e 'const fs=require("fs");const d=JSON.parse(fs.readFileSync(process.argv[1],"utf8"));d.requirements=[];fs.writeFileSync(process.argv[2],JSON.stringify(d))' "$COVER_LETTER_DATA" "$LETTER_DATA"
+fi
 echo "📝 Generating cover letter..."
-node scripts/application_to_pdf.js "$CONFIG_FILE" "$COVER_LETTER_PDF" "$LANGUAGE" "$COVER_LETTER_DATA"
+node scripts/application_to_pdf.js "$CONFIG_FILE" "$COVER_LETTER_PDF" "$LANGUAGE" "$LETTER_DATA"
 
 if [ ! -f "$COVER_LETTER_PDF" ]; then
     echo "❌ Failed to generate cover letter PDF"

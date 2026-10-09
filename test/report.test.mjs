@@ -8,7 +8,7 @@ import toml from 'toml';
 import { PDFDocument } from 'pdf-lib';
 import { cvEntries, scoreMatch, DEFAULT_WEIGHTS } from '../src/lib/match.ts';
 import { reportInput } from '../src/lib/match-report.ts';
-import { buildReportPdf } from '../src/lib/match-pdf.ts';
+import { buildReportPdf, methodLayout } from '../src/lib/match-pdf.ts';
 import { i18n } from '../src/lib/i18n.ts';
 
 const config = toml.parse(fs.readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8'));
@@ -56,11 +56,23 @@ test('buildReportPdf runs in Node and appends the CV when given', async () => {
   assert.ok(bare.getPageCount() >= 2);
   const cv = await PDFDocument.create();
   cv.addPage(); cv.addPage();
-  const withCv = await PDFDocument.load(await buildReportPdf(build({ cv: await cv.save() })));
+  const withCv = await PDFDocument.load(await buildReportPdf(build({ credit: ['Erstellt mit Jev · typesafe.ai'], cv: await cv.save() })));
   assert.equal(withCv.getPageCount(), bare.getPageCount() + 2);
 });
 
 test('reportInput: cvFollows announces the CV behind the evaluation instead of a link', () => {
   const r = build({ cvFollows: true });
   assert.equal(r.cvMissing, i18n.de.match.pdfCvNote);
+});
+
+test('methodLayout: the method block stays whole and never costs a page of its own', () => {
+  // Fits under the table as is.
+  assert.deepEqual(methodLayout(200, 0, 150, 110), { where: 'after', compact: false });
+  // A few lines short under the table: set it tighter.
+  assert.deepEqual(methodLayout(120, 0, 150, 110), { where: 'after', compact: true });
+  // Not under the table, but under the open points on page 1.
+  assert.deepEqual(methodLayout(60, 220, 150, 110), { where: 'first', compact: false });
+  assert.deepEqual(methodLayout(60, 130, 150, 110), { where: 'first', compact: true });
+  // Nowhere: the whole block moves to a new page, it is never split.
+  assert.deepEqual(methodLayout(60, 80, 150, 110), { where: 'newPage', compact: false });
 });

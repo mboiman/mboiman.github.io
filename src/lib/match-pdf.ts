@@ -48,6 +48,20 @@ export interface ReportInput {
 const A4: [number, number] = [595.28, 841.89];
 const M = 48;
 
+/** Where and how the method block is set. `room` is the space left under the
+ *  requirements table, `roomFirst` the space left under the open points on the
+ *  head page; `normal` and `compact` are the block's height in either type. It is
+ *  never split: its tail alone on a page of its own made the application bundle a
+ *  page longer than it needs to be. */
+export function methodLayout(room: number, roomFirst: number, normal: number, compact: number):
+  { where: 'after' | 'first' | 'newPage'; compact: boolean } {
+  if (normal <= room) return { where: 'after', compact: false };
+  if (compact <= room) return { where: 'after', compact: true };
+  if (normal <= roomFirst) return { where: 'first', compact: false };
+  if (compact <= roomFirst) return { where: 'first', compact: true };
+  return { where: 'newPage', compact: false };
+}
+
 export async function buildReportPdf(input: ReportInput): Promise<Uint8Array> {
   const { PDFDocument, StandardFonts, rgb } = await import('pdf-lib');
   const doc: PDFDocumentT = await PDFDocument.create();
@@ -175,6 +189,10 @@ export async function buildReportPdf(input: ReportInput): Promise<Uint8Array> {
     y -= ls.length * 13 + 6;
   }
 
+  // The head page and where it ends: the method block may still go here.
+  const headPage = page;
+  const headY = y - 18;
+
   // ── Requirements and evidence ────────────────────────────────────────────
   newPage();
   put(input.linesTitle, M, 14, bold, ink);
@@ -206,24 +224,34 @@ export async function buildReportPdf(input: ReportInput): Promise<Uint8Array> {
   }
 
   // ── Method ───────────────────────────────────────────────────────────────
+  // Measured as one block in normal and compact type, then set whole (methodLayout).
+  const type = (c: boolean) => c
+    ? { title: 11, gapT: 13, size: 8, lh: 9.5, gapP: 2, credit: 7.5, clh: 9, gapCv: 6 }
+    : { title: 12, gapT: 16, size: 9, lh: 12, gapP: 4, credit: 8.5, clh: 11, gapCv: 8 };
+  const block = (c: boolean) => {
+    const t = type(c);
+    const paras = input.method.map(p => wrap(p, font, t.size, A4[0] - 2 * M));
+    const credit = (input.credit ?? []).map(p => wrap(p, font, t.credit, A4[0] - 2 * M));
+    const h = t.gapT + paras.reduce((n, ls) => n + ls.length * t.lh + t.gapP, 0)
+      + credit.reduce((n, ls) => n + ls.length * t.clh, 0) + t.gapCv + t.lh;
+    return { t, paras, credit, h };
+  };
   y -= 18;
-  ensure(40);
-  put(input.methodTitle, M, 12, bold, ink);
-  y -= 16;
-  for (const para of input.method) {
-    const ls = wrap(para, font, 9, A4[0] - 2 * M);
-    ensure(ls.length * 12 + 4);
-    ls.forEach(l => { put(l, M, 9, font, text); y -= 12; });
-    y -= 4;
+  // The method block may run down to the page margin; the footer still sits below it.
+  const floor = M;
+  const mode = methodLayout(y - floor, headY - floor, block(false).h, block(true).h);
+  if (mode.where === 'newPage') newPage();
+  if (mode.where === 'first') { page = headPage; y = headY; }
+  const { t, paras, credit } = block(mode.compact);
+  put(input.methodTitle, M, t.title, bold, ink);
+  y -= t.gapT;
+  for (const ls of paras) {
+    ls.forEach(l => { put(l, M, t.size, font, text); y -= t.lh; });
+    y -= t.gapP;
   }
-  for (const c of input.credit ?? []) {
-    const ls = wrap(c, font, 8.5, A4[0] - 2 * M);
-    ensure(ls.length * 11 + 2);
-    ls.forEach(l => { put(l, M, 8.5, font, muted); y -= 11; });
-  }
-  y -= 8;
-  ensure(20);
-  put(input.cv ? input.cvNote : input.cvMissing, M, 9, bold, blue);
+  for (const ls of credit) ls.forEach(l => { put(l, M, t.credit, font, muted); y -= t.clh; });
+  y -= t.gapCv;
+  put(input.cv ? input.cvNote : input.cvMissing, M, t.size, bold, blue);
 
   // Footer on the report pages.
   pages.forEach((p, i) => {
