@@ -1815,8 +1815,13 @@ const widgetStrings = {
       ifaces.forEach((i: any) => { if (i && typeof i.protocolBinding === 'string') badges.appendChild(el('span', 'aw-card-badge', i.protocolBinding)); });
       if (card.capabilities && card.capabilities.streaming) badges.appendChild(el('span', 'aw-card-badge', t.cardStreaming || 'Streaming'));
       if (card.capabilities && card.capabilities.pushNotifications) badges.appendChild(el('span', 'aw-card-badge', t.cardPush || 'Push'));
-      if (card.version) badges.appendChild(el('span', 'aw-card-badge', 'v' + String(card.version)));
+      // The A2A protocol version lives on the interface (A2A v1.0), the card's own
+      // `version` is the agent's version. Both used to sit here as one bare "v1.0.0"
+      // badge under the protocol heading, which read as the protocol version.
+      const protoVersion = String(ifaces[0]?.protocolVersion ?? card.protocolVersion ?? '').trim();
+      if (protoVersion) badges.appendChild(el('span', 'aw-card-badge', 'A2A ' + protoVersion));
       if (badges.childNodes.length) proto.appendChild(badges);
+      if (card.version) proto.appendChild(metaLine(t.cardVersion || 'Agent version', String(card.version)));
 
       const inModes = Array.isArray(card.defaultInputModes) ? card.defaultInputModes.join(', ') : '';
       const outModes = Array.isArray(card.defaultOutputModes) ? card.defaultOutputModes.join(', ') : '';
