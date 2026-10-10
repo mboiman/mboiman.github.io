@@ -110,6 +110,7 @@ export interface AgentWidgetStrings {
   cardProtocol: string;    // protocol section heading
   cardEndpoint: string;    // endpoint label
   cardModes: string;       // input/output modes label
+  cardVersion?: string;    // the agent's own version (card.version), not the protocol
   cardSkills: string;      // skills section heading
   cardExamplesHint: string;// hint above clickable examples
   /**
@@ -1211,6 +1212,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardProtocol: 'A2A-Protokoll',
       cardEndpoint: 'Endpunkt',
       cardModes: 'Ein-/Ausgabe',
+      cardVersion: 'Agent-Version',
       cardSkills: 'Fähigkeiten',
       cardExamplesHint: 'Beispiel-Frage anklicken zum Starten',
       cardSourceNote: 'Der Agent veröffentlicht seinen Steckbrief auf {lang}. Die Protokollangaben darunter sind sprachneutral.',
@@ -1852,6 +1854,7 @@ export const i18n: Record<'de' | 'en', I18nStrings> = {
       cardProtocol: 'A2A protocol',
       cardEndpoint: 'Endpoint',
       cardModes: 'Input/Output',
+      cardVersion: 'Agent version',
       cardSkills: 'Skills',
       cardExamplesHint: 'Click an example question to start',
       cardSourceNote: 'The agent publishes its card in {lang}. The protocol facts below are language-neutral.',
