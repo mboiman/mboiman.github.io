@@ -2091,7 +2091,11 @@ const widgetStrings = {
 
       const answer = (finalContent.trim() || artifactContent.trim());
       if (answer) {
-        if (bubble) bubble.innerHTML = safeMarkdown(answer);
+        // ensureBubble, not `if (bubble)`: the live bubble is created by the paced
+        // reveal, which runs on requestAnimationFrame. A hidden tab never fires rAF,
+        // so a visitor who switched tabs while waiting got no bubble at all and the
+        // answer was dropped (measured 2026-10-10: server answered, panel stayed empty).
+        ensureBubble().innerHTML = safeMarkdown(answer);
         return { kind: 'answer', text: answer };
       }
       if (bubble) (bubble.closest('.aw-row') || bubble).remove(); // empty live bubble — drop its row
