@@ -264,6 +264,7 @@ function footerTemplate(text) {
  *   contactInfo: { email, phone, linkedin, website }   replaces those entries
  *   header:      { tagline, location, availability }  replaces the header lines
  *   cv:          { short, focus: [anchors], fullUrl }  a short CV for a bundle with the Jev evaluation
+ *                { expand: [anchors] }                these stations in full, whatever their age
  *
  * Returns a copy; the parsed TOML is never mutated.
  */
@@ -292,6 +293,9 @@ function applyApplicationOverrides(langConfig, data) {
   // everything else as one row, the full CV behind cv.fullUrl.
   const cv = data.cv || {};
   if (cv.short) cfg.cv_short = { focus: Array.isArray(cv.focus) ? cv.focus : [], fullUrl: cv.fullUrl || '' };
+  // cv.expand: stations (anchors) printed in full whatever their age, for an
+  // application that leans on them. Everything else keeps its tier.
+  if (Array.isArray(cv.expand) && cv.expand.length) cfg.cv_expand = cv.expand;
   return cfg;
 }
 

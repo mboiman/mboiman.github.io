@@ -264,6 +264,28 @@ test('short CV: without cv.short the CV is unchanged', async () => {
   assert.equal([...plain.matchAll(/class="exp-title"/g)].length, [...same.matchAll(/class="exp-title"/g)].length);
 });
 
+// cv.expand (letter JSON): stations the application leans on print in full,
+// even when their age would make them a row. The rest of the CV is unchanged.
+test('cv.expand: named stations print in full, with their key points', async () => {
+  const params = config.languages.de.params;
+  const plain = await generateHTMLFromConfig(params, PHOTO, 'de');
+  const html = await generateHTMLFromConfig(applyApplicationOverrides(params, fixture({ cv: { expand: ['db-systel', 'db-vertrieb'] } })), PHOTO, 'de');
+  const titles = (h) => [...h.matchAll(/class="exp-title">([^<]+)</g)].map((m) => m[1]);
+  const systel = params.experiences.list.find((e) => e.anchor === 'db-systel').position;
+  assert.ok(!titles(plain).includes(systel), 'without cv.expand DB Systel is a row');
+  assert.ok(titles(html).includes(systel), 'with cv.expand DB Systel is a station');
+  assert.equal(titles(html).length, titles(plain).length + 1, 'no other station changes');
+  assert.match(html, /Aufbau und Ausführung der Last und Performance Tests/, 'key points of an expanded station print');
+  assert.match(html, /bahn\.de/, 'key points of DB Vertrieb print');
+});
+
+test('full station: a second heading under the key points gets its own bullets', async () => {
+  const params = config.languages.de.params;
+  const html = await generateHTMLFromConfig(applyApplicationOverrides(params, fixture({ cv: { expand: ['consulting-2006-2008'] } })), PHOTO, 'de');
+  assert.match(html, /Kunden und Systeme/);
+  assert.match(html, /British Telecom \(München\): Nummernportierungssystem/, 'the list under the heading prints, not only the heading');
+});
+
 test('letter: an enclosure line from the data replaces the default', () => {
   const params = config.languages.de.params;
   const html = generateCoverLetterHTML(fixture({ requirements: [], enclosure: 'Anlagen: Auswertung, Lebenslauf' }), params, PHOTO);
