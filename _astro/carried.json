@@ -1,4 +1,16 @@
 {
-  "files": [],
+  "files": [
+    "AgentWidget.astro_astro_type_script_index_0_lang.BFjMAZs5.js",
+    "CVFuture.astro_astro_type_script_index_0_lang.DJul7FUN.js",
+    "CVMatch.astro_astro_type_script_index_0_lang.BndmOAfw.js",
+    "CVPage.astro_astro_type_script_index_0_lang.Crh3zmEv.js",
+    "StoryPage.911CGLvU.css",
+    "es.Uy9YQt0W.js",
+    "global.wx44ZesW.css",
+    "match-pdf.1z1VfDRY.js",
+    "match-report.FIUNNKo5.js",
+    "pdf.DHnNJfgx.js",
+    "pdf.worker.min.CQZ3OvSs.js"
+  ],
   "note": "One deploy of grace for cached HTML. See scripts/carry-assets.mjs."
 }
