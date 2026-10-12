@@ -80,7 +80,12 @@ function truncateToFull(details, maxBullets = 5, withTools = true) {
     if (!inSchwerpunkte && !inTools) {
       introLines.push(line);
     } else if (inSchwerpunkte) {
-      if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
+      // A further heading inside the key points ("Kunden und Systeme") opens
+      // its own list with its own budget; before, it printed as an empty heading.
+      if (/^\*\*[^*]+\*\*/.test(line.trim())) {
+        bulletCount = 0;
+        schwerpunktLines.push(line);
+      } else if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
         bulletCount++;
         if (bulletCount <= maxBullets) schwerpunktLines.push(line);
       } else {
@@ -294,7 +299,8 @@ async function generateHTMLFromConfig(langConfig, profileImageData, targetLang) 
       workshopExperiences.push(exp);
       return;
     }
-    const tier = getExperienceTier(exp);
+    const expand = langConfig.cv_expand || [];
+    const tier = exp.anchor && expand.includes(exp.anchor) ? 'full' : getExperienceTier(exp);
     if (tier === 'full') fullExperiences.push(exp);
     else if (tier === 'medium') mediumExperiences.push(exp);
     else compactExperiences.push(exp);
