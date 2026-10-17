@@ -55,7 +55,7 @@ export const ROLES: Record<string, string> = {
   other: 'Something else',
 };
 
-export const MODEL = 'jev-latest';
+export const MODEL = 'jev-1.14.0';
 
 const DEMAND_LEVELS = ['Not asked for', 'Mentioned in passing or nice to have', 'Clearly required', 'Central to the role'];
 // Anchored on time and number of roles: with softer levels ("some exposure",

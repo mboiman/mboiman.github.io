@@ -34,7 +34,7 @@ test('reportInput: score, verdict and gaps are the ones the page computes', () =
 
 test('reportInput: the mode line names the measurement date, the footer today', () => {
   const r = build();
-  assert.match(r.modeLine, /26\.0?9\.2026/);
+  assert.match(r.modeLine, /17\.10\.2026/);
   assert.match(r.footer, /28\.9\.2026|28\.09\.2026/);
 });
 

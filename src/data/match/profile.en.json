@@ -1,18 +1,18 @@
 {
   "lang": "en",
-  "measuredAt": "2026-09-26",
-  "model": "jev-1.13.0",
-  "entriesHash": "8b6991e7",
+  "measuredAt": "2026-10-17",
+  "model": "jev-1.14.0",
+  "entriesHash": "52afa45f",
   "depth": {
-    "testauto": 0.983,
-    "perf": 0.907,
-    "qm": 1,
-    "ai": 0.977,
-    "agents": 0.9,
-    "cloud": 0.993,
-    "dev": 1,
-    "lead": 0.997
+    "testauto": 0.877,
+    "perf": 0.977,
+    "qm": 0.997,
+    "ai": 0.877,
+    "agents": 0.72,
+    "cloud": 0.983,
+    "dev": 0.99,
+    "lead": 0.98
   },
-  "seconds": 0.295,
-  "tokens": 5498
+  "seconds": 0.234,
+  "tokens": 5666
 }
