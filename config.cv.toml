@@ -432,6 +432,8 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Einführung von Gauge (BDD) 
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
+- Last- und Performancetests mit JMeter und LoadRunner für kleinere Projekte, jeweils wenn ein Projekt so weit war
+- Beratung der Teams zu Performance- und Lastfragen: Lastverhalten, Antwortzeiten und Engpässe der Backend-Services
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 
 **Tools** 
@@ -443,6 +445,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
+- JMeter / LoadRunner 
 - Behaviour Driven Development 
 - Consumer Driven Contracts (Pact.io) 
         """
@@ -629,7 +632,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         details = """
 **Last und Performance Tests und Analyse (Testmanager, Testdesigner, Analyst)** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
-- Aufbau und Ausführung der Last und Performance Tests über HTTP, WS, REST, MQ und JMS 
+- Aufbau und Ausführung der Last und Performance Tests mit LoadRunner und JMeter über HTTP, WS, REST, MQ und JMS 
 - Analyse der Ergebnisse & Performance Logs
 - Dokumentation in Form von Testkonzepten, Analysen, Management-Reporting und Wiki-Dokumentation 
 - Status Reports 
@@ -639,7 +642,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Tools** 
 - Visual Studio 
 - Eclipse 
-- JMeter
+- LoadRunner / JMeter
 - SoapUI 
 - GIT 
 - JIRA / Confluence 
@@ -720,27 +723,32 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         [[languages.de.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006-12/2008"
-        company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
+        dates = "09/2005-12/2008"
+        company = "SQS AG · C1 SetCon (Performance Engineering) · freiberuflich"
         details = """
-**Last und Performance Tester / Tester** Verschiedene Projekte, überwiegend Last & Performance Tests
+**Last- und Performancetests (Consultant, Performance Berater)** Angestellt als Consultant bei der SQS AG (09/2005-01/2007) und bei der C1 SetCon im Bereich Performance Engineering (02/2007-03/2008), danach freiberuflich. Überwiegend Last- und Performancetests mit LoadRunner
 **Schwerpunkte** 
-- Erstellung von Testskripten in LoadRunner mit dem http-Protokoll  
-- Durchführung von Lasttests und Analyse der Ergebnisse 
-- Monitoring und Reporting 
+- Lastkonzepte, Lastszenarien und Testdatengenerierung, auch zur Laufzeit
+- Erstellung von Testskripten in LoadRunner (VuGen) mit dem HTTP-Protokoll, dazu SOAP, Oracle und Java RMI
+- Durchführung von Lasttests, Einzel- und Mix-Szenarien, Analyse der Ergebnisse
+- Monitoring über JMX, Status-Seiten und Server-Metriken (Red Hat, Solaris), Auswertung in eigenen Log-Parsern
+- Reporting und Dokumentation
 
 **Kunden und Systeme**
-- British Telecom (München): Nummernportierungssystem, Lasttests über HTTP und SOAP
-- Mobiliar (Bern): Versicherungssystem mit Java-Applet- und Terminal-Oberfläche
-- DB Systel (Frankfurt): Verspätungsbenachrichtigung für Bahnreisende, Lasttests mit simulierten XML-Daten
-- Sparkassen Informatik: Bankportal mit über 30 J2EE-Anwendungen auf WebSphere (AIX und Sun)
-- Loyalty Partner (München): Siebel-Callcenter-Anwendung
-- Telekom (Darmstadt): Dokumentenmanagementsystem und Mediensystem eines Mobilfunkbetreibers
-- Itelium und Deutsche Post: Last auf Kassensystemen
-- Postbank: Überweisungsarchiv und Mandantenintegrationssoftware
+- British Telecom (München, freiberuflich 2008): Nummernportierungssystem, Lasttest der Aktualisierung von Telefonnummern beim Anbieterwechsel über HTTP-GUI und SOAP, Bea WebLogic und Oracle, Monitoring per JMX und Server-Metriken
+- Eigenes Performance-Monitoring-Tool (freiberuflich 2008): zeichnet Performance-Daten von Servern im Netzwerk über SSH auf und gibt sie wieder (Java)
+- Mobiliar (Bern, C1 SetCon): Lasttest eines Versicherungssystems mit Java-Applet- und Terminal-Oberfläche (Smalltalk, IMS, DB2), LoadRunner 9.0
+- DB Systel (Frankfurt, C1 SetCon): Verspätungsbenachrichtigung für Bahnreisende, Last an drei Schnittstellen (Oracle, Java RMI, HTTP), Zugdaten aus Produktionslogs und zur Laufzeit generiert
+- Sparkassen Informatik (C1 SetCon): Bankportal mit über 30 J2EE-Anwendungen auf einem WebSphere-Cluster, genutzt von 229 Instituten mit 7.800 Filialen; Einzeltests je Anwendung und Mix-Szenario für Wechselwirkungen unter Last
+- Loyalty Partner (München, C1 SetCon): Lasttest einer Siebel-Callcenter-Anwendung, Skripte aus Quick Test Pro in LoadRunner übertragen
+- Itellium und Deutsche Post (SQS): Last- und Performancetest an Web- und Kassensystemen, Web-Frontend und Kommunikation der Kassen (Tomcat), LoadRunner 8
+- Postbank (SQS): Testmanagement und Integrationstest eines Überweisungsarchivs, QS einer Mandantenintegrationssoftware
+- Telekom (Darmstadt, SQS): Dokumentenmanagementsystem und Mediensystem eines Mobilfunkbetreibers
 
 **Tools** 
-- Loadrunner 
+- Mercury/HP LoadRunner 8.0 bis 9.1 (VuGen, Controller, Analysis)
+- Quick Test Pro, Quality Center / TestDirector
+- Toad, JMX
         """
 
       [languages.en]
@@ -1134,6 +1142,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Adoption of Gauge (BDD)
 - Roll-out of Playwright and integration into the existing CI/CD pipeline
 - Functional and technical incident analysis
+- Load and performance tests with JMeter and LoadRunner for smaller projects, whenever a project had reached that stage
+- Advising the teams on performance and load questions: load behaviour, response times and bottlenecks of backend services
 - Consultancy, design and implementation of solutions for quality-related issues
 
 **Tools**
@@ -1145,6 +1155,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Helm / Containers
 - JIRA / Confluence
 - Grafana
+- JMeter / LoadRunner
 - Behaviour Driven Development
 - Consumer-Driven Contracts (Pact.io)
         """
@@ -1331,7 +1342,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         details = """
 **Load and performance tests and analysis (test manager, test designer, analyst)**: Development, execution and analysis of load and performance tests
 **Key responsibilities**
-- Setup and execution of load and performance tests over HTTP, WS, REST, MQ and JMS
+- Setup and execution of load and performance tests with LoadRunner and JMeter over HTTP, WS, REST, MQ and JMS
 - Analysis of results & performance logs
 - Documentation in the form of test concepts, analyses, management reporting and wiki documentation
 - Status reports
@@ -1341,7 +1352,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Tools**
 - Visual Studio
 - Eclipse
-- JMeter
+- LoadRunner / JMeter
 - SoapUI
 - Git
 - JIRA / Confluence
@@ -1422,27 +1433,32 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         [[languages.en.params.experiences.list]]
         position = "Performance Test Engineer & Quality Consultant"
         anchor = "consulting-2006-2008"
-        dates = "01/2006-12/2008"
-        company = "British Telecom, Mobiliar, DB-Systel, Sparkassen Informatik, Loyalty Partner, Telekom, Itelium, Deutsche Post, Postbank"
+        dates = "09/2005-12/2008"
+        company = "SQS AG · C1 SetCon (Performance Engineering) · freelance"
         details = """
-**Load and performance tester / tester**: Various projects, predominantly load & performance tests
+**Load and performance testing (consultant, performance consultant)**: Employed as a consultant at SQS AG (09/2005-01/2007) and at C1 SetCon in performance engineering (02/2007-03/2008), freelance afterwards. Predominantly load and performance tests with LoadRunner
 **Key responsibilities**
-- Creation of test scripts in LoadRunner with the http protocol
-- Execution of load tests and analysis of results
-- Monitoring and reporting
+- Load concepts, load scenarios and test data generation, including at runtime
+- Test scripts in LoadRunner (VuGen) with the HTTP protocol, plus SOAP, Oracle and Java RMI
+- Execution of load tests, single and mixed scenarios, analysis of results
+- Monitoring via JMX, status pages and server metrics (Red Hat, Solaris), evaluated with own log parsers
+- Reporting and documentation
 
 **Clients and systems**
-- British Telecom (Munich): number porting system, load tests over HTTP and SOAP
-- Mobiliar (Bern): insurance system with Java applet and terminal front ends
-- DB Systel (Frankfurt): delay notification for rail passengers, load tests with simulated XML data
-- Sparkassen Informatik: banking portal of more than 30 J2EE applications on WebSphere (AIX and Sun)
-- Loyalty Partner (Munich): Siebel call centre application
-- Telekom (Darmstadt): document management system and a media system for a mobile operator
-- Itelium and Deutsche Post: load on point-of-sale systems
-- Postbank: transfer archive and client integration software
+- British Telecom (Munich, freelance 2008): number porting system, load test of telephone number updates on provider switch via HTTP GUI and SOAP, Bea WebLogic and Oracle, monitoring via JMX and server metrics
+- Own performance monitoring tool (freelance 2008): records and replays performance data of servers in the network over SSH (Java)
+- Mobiliar (Bern, C1 SetCon): load test of an insurance system with Java applet and terminal front ends (Smalltalk, IMS, DB2), LoadRunner 9.0
+- DB Systel (Frankfurt, C1 SetCon): delay notification for rail passengers, load on three interfaces (Oracle, Java RMI, HTTP), train data from production logs and generated at runtime
+- Sparkassen Informatik (C1 SetCon): banking portal of more than 30 J2EE applications on a WebSphere cluster, used by 229 institutions with 7,800 branches; single tests per application and a mixed scenario for interactions under load
+- Loyalty Partner (Munich, C1 SetCon): load test of a Siebel call centre application, scripts transferred from Quick Test Pro into LoadRunner
+- Itellium and Deutsche Post (SQS): load and performance test of web and point-of-sale systems, web front end and till communication (Tomcat), LoadRunner 8
+- Postbank (SQS): test management and integration test of a transfer archive, QA of client integration software
+- Telekom (Darmstadt, SQS): document management system and a media system for a mobile operator
 
 **Tools**
-- LoadRunner
+- Mercury/HP LoadRunner 8.0 to 9.1 (VuGen, Controller, Analysis)
+- Quick Test Pro, Quality Center / TestDirector
+- Toad, JMX
         """
 
       [languages.de.params.projects]
