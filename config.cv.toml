@@ -432,6 +432,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Einführung von Gauge (BDD) 
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
+- Last- und Performancetests mit JMeter und LoadRunner für kleinere Projekte, jeweils wenn ein Projekt so weit war
 - Beratung der Teams zu Performance- und Lastfragen: Lastverhalten, Antwortzeiten und Engpässe der Backend-Services
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 
@@ -444,6 +445,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Helm / Container 
 - JIRA / Confluence 
 - Grafana 
+- JMeter / LoadRunner 
 - Behaviour Driven Development 
 - Consumer Driven Contracts (Pact.io) 
         """
@@ -630,7 +632,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         details = """
 **Last und Performance Tests und Analyse (Testmanager, Testdesigner, Analyst)** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
-- Aufbau und Ausführung der Last und Performance Tests über HTTP, WS, REST, MQ und JMS 
+- Aufbau und Ausführung der Last und Performance Tests mit LoadRunner und JMeter über HTTP, WS, REST, MQ und JMS 
 - Analyse der Ergebnisse & Performance Logs
 - Dokumentation in Form von Testkonzepten, Analysen, Management-Reporting und Wiki-Dokumentation 
 - Status Reports 
@@ -640,7 +642,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Tools** 
 - Visual Studio 
 - Eclipse 
-- JMeter
+- LoadRunner / JMeter
 - SoapUI 
 - GIT 
 - JIRA / Confluence 
@@ -739,8 +741,8 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - DB Systel (Frankfurt, C1 SetCon): Verspätungsbenachrichtigung für Bahnreisende, Last an drei Schnittstellen (Oracle, Java RMI, HTTP), Zugdaten aus Produktionslogs und zur Laufzeit generiert
 - Sparkassen Informatik (C1 SetCon): Bankportal mit über 30 J2EE-Anwendungen auf einem WebSphere-Cluster, genutzt von 229 Instituten mit 7.800 Filialen; Einzeltests je Anwendung und Mix-Szenario für Wechselwirkungen unter Last
 - Loyalty Partner (München, C1 SetCon): Lasttest einer Siebel-Callcenter-Anwendung, Skripte aus Quick Test Pro in LoadRunner übertragen
-- Itellium und Deutsche Post (SQS): Last- und Performancetest des Kassensystems über das Web-Frontend (Tomcat), LoadRunner 8
-- Postbank (SQS): Last- und Integrationstest eines Überweisungsarchivs, QS einer Mandantenintegrationssoftware
+- Itellium und Deutsche Post (SQS): Last- und Performancetest an Web- und Kassensystemen, Web-Frontend und Kommunikation der Kassen (Tomcat), LoadRunner 8
+- Postbank (SQS): Testmanagement und Integrationstest eines Überweisungsarchivs, QS einer Mandantenintegrationssoftware
 - Telekom (Darmstadt, SQS): Dokumentenmanagementsystem und Mediensystem eines Mobilfunkbetreibers
 
 **Tools** 
@@ -1140,6 +1142,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Adoption of Gauge (BDD)
 - Roll-out of Playwright and integration into the existing CI/CD pipeline
 - Functional and technical incident analysis
+- Load and performance tests with JMeter and LoadRunner for smaller projects, whenever a project had reached that stage
 - Advising the teams on performance and load questions: load behaviour, response times and bottlenecks of backend services
 - Consultancy, design and implementation of solutions for quality-related issues
 
@@ -1152,6 +1155,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Helm / Containers
 - JIRA / Confluence
 - Grafana
+- JMeter / LoadRunner
 - Behaviour Driven Development
 - Consumer-Driven Contracts (Pact.io)
         """
@@ -1338,7 +1342,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         details = """
 **Load and performance tests and analysis (test manager, test designer, analyst)**: Development, execution and analysis of load and performance tests
 **Key responsibilities**
-- Setup and execution of load and performance tests over HTTP, WS, REST, MQ and JMS
+- Setup and execution of load and performance tests with LoadRunner and JMeter over HTTP, WS, REST, MQ and JMS
 - Analysis of results & performance logs
 - Documentation in the form of test concepts, analyses, management reporting and wiki documentation
 - Status reports
@@ -1348,7 +1352,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Tools**
 - Visual Studio
 - Eclipse
-- JMeter
+- LoadRunner / JMeter
 - SoapUI
 - Git
 - JIRA / Confluence
@@ -1447,8 +1451,8 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - DB Systel (Frankfurt, C1 SetCon): delay notification for rail passengers, load on three interfaces (Oracle, Java RMI, HTTP), train data from production logs and generated at runtime
 - Sparkassen Informatik (C1 SetCon): banking portal of more than 30 J2EE applications on a WebSphere cluster, used by 229 institutions with 7,800 branches; single tests per application and a mixed scenario for interactions under load
 - Loyalty Partner (Munich, C1 SetCon): load test of a Siebel call centre application, scripts transferred from Quick Test Pro into LoadRunner
-- Itellium and Deutsche Post (SQS): load and performance test of the point-of-sale system via its web front end (Tomcat), LoadRunner 8
-- Postbank (SQS): load and integration test of a transfer archive, QA of client integration software
+- Itellium and Deutsche Post (SQS): load and performance test of web and point-of-sale systems, web front end and till communication (Tomcat), LoadRunner 8
+- Postbank (SQS): test management and integration test of a transfer archive, QA of client integration software
 - Telekom (Darmstadt, SQS): document management system and a media system for a mobile operator
 
 **Tools**
