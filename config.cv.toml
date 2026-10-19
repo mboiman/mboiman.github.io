@@ -94,7 +94,9 @@ defaultContentLanguage = "de"
           "AWS",
           "Google Cloud",
           "CI/CD",
-          "Docker",
+          "Docker & Container",
+          "VMware",
+          "PowerShell",
           "Cloudflare (Workers, Pages, R2)",
           "Microsoft 365 / Exchange Online",
           "Grafana",
@@ -356,6 +358,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Testing: Playwright, TypeScript, Angular-Codebasis
 - AI: Claude Code (mehrere Modellstufen), GitHub Copilot CLI
 - CI/CD & Tooling: GitHub Actions, Sonar, Jira mit Xray, Confluence, SAFe
+- Scripting & Container: PowerShell, Docker
         """
 
         [[languages.de.params.experiences.list]]
@@ -381,7 +384,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Backend: FastAPI, Python, Pydantic, SQLModel, Azure Functions, Azure Service Bus
 - Frontend: React, TypeScript, Vite, TanStack Router
 - AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
-- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
+- DevOps: Azure DevOps Pipelines, Git, Docker, PowerShell, Azure Blob Storage, Poetry
 - Agentic Coding: GitHub Copilot CLI
         """
 
@@ -442,7 +445,8 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Playwright / Gauge / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
 - CI/CD / GitHub (reusable workflows) 
-- Helm / Container 
+- Helm / Docker / Container 
+- PowerShell 
 - JIRA / Confluence 
 - Grafana 
 - JMeter / LoadRunner 
@@ -805,7 +809,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "AWS",
           "Google Cloud",
           "CI/CD",
-          "Docker",
+          "Docker & Container",
+          "VMware",
+          "PowerShell",
           "Cloudflare (Workers, Pages, R2)",
           "Microsoft 365 / Exchange Online",
           "Grafana",
@@ -1066,6 +1072,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Testing: Playwright, TypeScript, Angular code base
 - AI: Claude Code (several model tiers), GitHub Copilot CLI
 - CI/CD & tooling: GitHub Actions, Sonar, Jira with Xray, Confluence, SAFe
+- Scripting & containers: PowerShell, Docker
         """
 
         [[languages.en.params.experiences.list]]
@@ -1091,7 +1098,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Backend: FastAPI, Python, Pydantic, SQLModel, Azure Functions, Azure Service Bus
 - Frontend: React, TypeScript, Vite, TanStack Router
 - AI Integration: Azure OpenAI (GPT-4o), LangChain, Azure AI Search, Embeddings
-- DevOps: Azure DevOps Pipelines, Git, Docker, Azure Blob Storage, Poetry
+- DevOps: Azure DevOps Pipelines, Git, Docker, PowerShell, Azure Blob Storage, Poetry
 - Agentic Coding: GitHub Copilot CLI
         """
 
@@ -1152,7 +1159,8 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Playwright / Gauge / Karate
 - Python for processing and analysis of test and reporting data
 - CI/CD / GitHub (reusable workflows)
-- Helm / Containers
+- Helm / Docker / Containers
+- PowerShell
 - JIRA / Confluence
 - Grafana
 - JMeter / LoadRunner
