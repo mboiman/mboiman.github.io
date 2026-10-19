@@ -8,7 +8,7 @@ werden muss.
 Wichtig: Der öffentliche Agent (mboiman.bks-lab.com) liest **nur**
 `config.cv.toml`. Was er wissen soll, gehört dorthin, nicht hierher.
 
-Stand 26.09.2026. Quellen sind Michaels eigene Lebensläufe: Mitarbeiterprofile
+Stand 26.09.2026, ergänzt 19.10.2026. Quellen sind Michaels eigene Lebensläufe: Mitarbeiterprofile
 07/2008, 01/2009, 01/2010 und das Freelancer-Profil 10/2016 (Ablage
 `3_RESOURCES/CV-Center/Michael/` im privaten Dokumentenarchiv), sowie das
 Diplomzeugnis vom 29.08.2005.
@@ -19,6 +19,7 @@ Diplomzeugnis vom 29.08.2005.
 - Siemens: die Projekte mit Zeiträumen und Rolle je Phase
 - ING-DiBa: HP LoadRunner 8.1 und 9.5
 - DB Systel: SoapUI
+- Beratung 2005 bis 2008: Arbeitgeber SQS AG und C1 SetCon (19.10.2026)
 
 ## Frühere Positionen, die im CV fehlen
 
@@ -30,10 +31,12 @@ Diplomzeugnis vom 29.08.2005.
 | 09/2005 bis 01/2007 | Consultant | SQS AG |
 | 02/2007 bis 03/2008 | Consultant | C1 SetCon |
 
-**Offen:** Die CV-Station „Performance Test Engineer & Quality Consultant“
-steht auf 01/2006 bis 12/2008. Laut den alten Profilen lief die Beratung als
-Consultant bei SQS AG (ab 09/2005) und C1 SetCon (bis 03/2008). Ob die Station
-die Arbeitgeber nennen und ihre Daten angleichen soll, entscheidet Michael.
+**Erledigt (19.10.2026):** Die Station `consulting-2006-2008` nennt jetzt SQS AG
+und C1 SetCon als Arbeitgeber, läuft von 09/2005 bis 12/2008 und trägt je Kunde
+den Arbeitgeber (mboiman.github.io#123). Zuordnung laut Profil 04/2008 und
+Michael: SQS mit Deutscher Post/Itellium als einzigem Lasttest, C1 SetCon mit
+Loyalty Partner, Sparkassen Informatik, DB Systel und Mobiliar, British Telecom
+ab 2008 selbständig.
 
 ## Eigene Apps 2012 bis 2016
 
