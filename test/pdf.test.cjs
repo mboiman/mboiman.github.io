@@ -283,7 +283,7 @@ test('full station: a second heading under the key points gets its own bullets',
   const params = config.languages.de.params;
   const html = await generateHTMLFromConfig(applyApplicationOverrides(params, fixture({ cv: { expand: ['consulting-2006-2008'] } })), PHOTO, 'de');
   assert.match(html, /Kunden und Systeme/);
-  assert.match(html, /British Telecom \(München\): Nummernportierungssystem/, 'the list under the heading prints, not only the heading');
+  assert.match(html, /British Telecom \(München, freiberuflich 2008\): Nummernportierungssystem/, 'the list under the heading prints, not only the heading');
 });
 
 test('letter: an enclosure line from the data replaces the default', () => {

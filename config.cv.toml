@@ -432,6 +432,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Einführung von Gauge (BDD) 
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
+- Beratung der Teams zu Performance- und Lastfragen: Lastverhalten, Antwortzeiten und Engpässe der Backend-Services
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 
 **Tools** 
@@ -1139,6 +1140,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Adoption of Gauge (BDD)
 - Roll-out of Playwright and integration into the existing CI/CD pipeline
 - Functional and technical incident analysis
+- Advising the teams on performance and load questions: load behaviour, response times and bottlenecks of backend services
 - Consultancy, design and implementation of solutions for quality-related issues
 
 **Tools**
