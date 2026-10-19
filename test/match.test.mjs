@@ -72,10 +72,10 @@ test('splitRequirements: very long lines are cut, empty input gives nothing', ()
 for (const lang of ['de', 'en']) {
   const entries = cvEntries(params(lang));
 
-  test(`cvEntries [${lang}]: one per station, talk, anchored project, plus the profile`, () => {
+  test(`cvEntries [${lang}]: one per station, talk, anchored project, plus the profile and the skills`, () => {
     const p = params(lang);
     const anchored = p.projects.list.filter((x) => x.anchor).length;
-    assert.equal(entries.length, p.experiences.list.filter((e) => e.anchor).length + anchored + 1);
+    assert.equal(entries.length, p.experiences.list.filter((e) => e.anchor).length + anchored + 2);
     const ids = entries.map((e) => e.id);
     assert.equal(new Set(ids).size, ids.length, 'ids are unique');
     for (const e of entries) {
@@ -234,4 +234,18 @@ test('buildReportPdf: report pages first, the CV behind them, odd characters sur
   assert.ok(out.getPageCount() >= 4, `pages ${out.getPageCount()}`);   // 1 head + ≥1 table + 2 CV
   const noCv = await PDFDocument.load(await buildReportPdf({ ...input, cv: null }));
   assert.equal(out.getPageCount() - noCv.getPageCount(), 2);
+});
+
+// Station texts are cut at 600 characters, so tool lists at the end of a
+// station never reach Jev. The sidebar skills are the CV's own inventory of
+// tools; without them Docker or PowerShell read as gaps (abcona, 2026-10-19).
+test('cvEntries: the sidebar skills are an entry of their own, in both languages', () => {
+  for (const lang of ['de', 'en']) {
+    const p = params(lang);
+    const skills = cvEntries(p).find((e) => e.id === 'x-skills');
+    assert.ok(skills, `${lang}: an x-skills entry exists`);
+    assert.equal(skills.kind, 'profile');
+    assert.equal(skills.label, p.ui.sidebar_skills_title);
+    for (const s of p.ui.sidebar_skills) assert.ok(skills.text.includes(s), `${lang}: ${s} reaches Jev`);
+  }
 });

@@ -103,6 +103,7 @@ export function plain(md: string, max = 600): string {
 
 interface CvParams {
   profile: { tagline: string };
+  ui?: { sidebar_skills?: string[]; sidebar_skills_title?: string };
   summary?: { summary?: string };
   education?: { list: { degree: string; college?: string; dates: string }[] };
   language?: { list: { language: string; level: string }[] };
@@ -119,6 +120,13 @@ export function cvEntries(p: CvParams): CvEntry[] {
     (p.language?.list || []).map(l => `${l.language} (${l.level})`).join(', '),
   ].filter(Boolean).join('. ');
   out.push({ id: 'x-profile', kind: 'profile', anchor: '', label: p.profile.tagline, text: plain(profile, 690) });
+  // Station texts are cut at 600 characters, so their tool lists never reach
+  // Jev. The sidebar skills are the CV's inventory of tools, read as one entry.
+  const skills = p.ui?.sidebar_skills || [];
+  if (skills.length) {
+    const title = p.ui?.sidebar_skills_title || 'Skills';
+    out.push({ id: 'x-skills', kind: 'profile', anchor: '', label: title, text: plain(`${title}: ${skills.join(', ')}`, 700) });
+  }
   for (const e of p.experiences.list) {
     if (!e.anchor) continue;
     const head = `${e.position}, ${e.company.split(' · ')[0]} (${e.dates})`;
