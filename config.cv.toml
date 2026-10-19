@@ -599,7 +599,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
         details = """
 **Testmanagement, Testkoordination, Testautomatisierung (agil: Kanban, Scrum, SAFe)** Koordination als PO eines übergreifenden QA-Teams inklusive teamübergreifender Einarbeitung, Hilfestellung, Beratung, Schulung 
 **Schwerpunkte** 
-- Aufbau des produktiven Lasttests für eine Funktion von bahn.de: Lastszenarien, Testaufbau, Durchführung und Auswertung 
+- Aufbau des produktiven Lasttests für das Ticketing von bahn.de, das nach Amazon als größtes B2C-Projekt in Europa galt: Lastszenarien, Testaufbau, Durchführung und Auswertung 
 - Last- und Performancetests innerhalb der CI/CD mit Gatling / JMeter, Engpassanalyse mittels Kibana, Graylog, Grafana und Instana 
 - Agile Qualitätssicherung durch Konzeption von QualityGates in der CI/CD Pipeline 
 - Konzeption und Aufbau von fachlichen und technischen Dashboards mit Kibana, Graylog, Grafana, Instana & Elastic Search 
@@ -1313,7 +1313,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
         details = """
 **Test management, test coordination, test automation, agile (Kanban, Scrum, SAFe)**: Coordination as PO of a cross-team QA team including cross-team onboarding, support, consulting, training
 **Key responsibilities**
-- Built the production load test for a bahn.de feature: load scenarios, test setup, execution and analysis
+- Built the production load test for bahn.de ticketing, considered the largest B2C project in Europe after Amazon: load scenarios, test setup, execution and analysis
 - Load and performance tests within CI/CD with Gatling / JMeter, bottleneck analysis using Kibana, Graylog, Grafana and Instana
 - Agile quality assurance through the design of quality gates in the CI/CD pipeline
 - Design and implementation of functional and technical dashboards with Kibana, Graylog, Grafana, Instana & Elastic Search 
