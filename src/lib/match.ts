@@ -125,7 +125,7 @@ export function cvEntries(p: CvParams): CvEntry[] {
   const skills = p.ui?.sidebar_skills || [];
   if (skills.length) {
     const title = p.ui?.sidebar_skills_title || 'Skills';
-    out.push({ id: 'x-skills', kind: 'profile', anchor: '', label: title, text: plain(`${title}: ${skills.join(', ')}`, 700) });
+    out.push({ id: 'x-skills', kind: 'profile', anchor: '', label: title, text: plain(`${title}: ${skills.join(', ')}`, 1000) });
   }
   for (const e of p.experiences.list) {
     if (!e.anchor) continue;

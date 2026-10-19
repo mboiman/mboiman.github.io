@@ -80,7 +80,7 @@ for (const lang of ['de', 'en']) {
     assert.equal(new Set(ids).size, ids.length, 'ids are unique');
     for (const e of entries) {
       assert.match(e.id, /^[spx]-[a-z0-9-]+$/);
-      assert.ok(e.text.length > 20 && e.text.length <= 700, `${e.id} text length ${e.text.length}`);
+      assert.ok(e.text.length > 20 && e.text.length <= (e.id === 'x-skills' ? 1000 : 700), `${e.id} text length ${e.text.length}`);
       assert.doesNotMatch(e.text, /\*\*|\]\(/, `${e.id} carries markdown`);
     }
   });

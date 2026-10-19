@@ -105,6 +105,11 @@ defaultContentLanguage = "de"
           "OpenTelemetry / OTLP",
           "REST APIs",
           "JMeter",
+          "LoadRunner",
+          "SoapUI",
+          "Dynatrace",
+          "Jenkins",
+          "Instana",
           "Gatling",
           "Agile (Scrum/Kanban)"
         ]
@@ -820,6 +825,11 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "OpenTelemetry / OTLP",
           "REST APIs",
           "JMeter",
+          "LoadRunner",
+          "SoapUI",
+          "Dynatrace",
+          "Jenkins",
+          "Instana",
           "Gatling",
           "Agile (Scrum/Kanban)"
         ]
