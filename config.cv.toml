@@ -105,9 +105,7 @@ defaultContentLanguage = "de"
           "OpenTelemetry / OTLP",
           "REST APIs",
           "JMeter",
-          "LoadRunner (VuGen, Web HTTP/HTML)",
-          "TruClient",
-          "Citrix",
+          "LoadRunner (VuGen, Web HTTP/HTML, TruClient, Citrix)",
           "SoapUI",
           "Dynatrace",
           "Jenkins",
@@ -442,7 +440,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Einführung von Gauge (BDD) 
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
-- Last- und Performancetests mit JMeter und LoadRunner für kleinere Projekte, jeweils wenn ein Projekt so weit war
+- Nebenbei Last- und Performancetests für kleinere Projekte, jeweils wenn ein Projekt so weit war: JMeter und Gatling, teilweise LoadRunner, browserbasiert mit Playwright statt TruClient
 - Beratung der Teams zu Performance- und Lastfragen: Lastverhalten, Antwortzeiten und Engpässe der Backend-Services
 - Beratung sowie Konzeption und Umsetzung von Lösungen für qualitätsrelevante Probleme 
 
@@ -456,7 +454,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - PowerShell 
 - JIRA / Confluence 
 - Grafana 
-- JMeter / LoadRunner 
+- JMeter / Gatling / LoadRunner (VuGen, Web HTTP/HTML)
 - Behaviour Driven Development 
 - Consumer Driven Contracts (Pact.io) 
         """
@@ -644,6 +642,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Last und Performance Tests und Analyse (Testmanager, Testdesigner, Analyst)** Entwicklung, Durchführung und Analyse von Last und Performance Tests 
 **Schwerpunkte** 
 - Aufbau und Ausführung der Last und Performance Tests mit LoadRunner und JMeter über HTTP, WS, REST, MQ und JMS 
+- Browserbasierte Lastszenarien mit LoadRunner TruClient
 - Analyse der Ergebnisse & Performance Logs
 - Dokumentation in Form von Testkonzepten, Analysen, Management-Reporting und Wiki-Dokumentation 
 - Status Reports 
@@ -653,7 +652,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Tools** 
 - Visual Studio 
 - Eclipse 
-- LoadRunner / JMeter
+- LoadRunner (VuGen, Web HTTP/HTML, TruClient) / JMeter
 - SoapUI 
 - GIT 
 - JIRA / Confluence 
@@ -728,7 +727,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Monitoring und Reporting 
 
 **Tools** 
-- HP LoadRunner 8.1 und 9.5 
+- HP LoadRunner 8.1 und 9.5 (VuGen, Web HTTP/HTML)
         """
 
         [[languages.de.params.experiences.list]]
@@ -740,7 +739,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 **Last- und Performancetests (Consultant, Performance Berater)** Angestellt als Consultant bei der SQS AG (09/2005-01/2007) und bei der C1 SetCon im Bereich Performance Engineering (02/2007-03/2008), danach freiberuflich. Überwiegend Last- und Performancetests mit LoadRunner
 **Schwerpunkte** 
 - Lastkonzepte, Lastszenarien und Testdatengenerierung, auch zur Laufzeit
-- Erstellung von Testskripten in LoadRunner (VuGen) mit dem HTTP-Protokoll, dazu SOAP, Oracle und Java RMI
+- Erstellung von Testskripten in LoadRunner (VuGen) mit dem Protokoll Web HTTP/HTML, dazu SOAP, Oracle und Java RMI
 - Durchführung von Lasttests, Einzel- und Mix-Szenarien, Analyse der Ergebnisse
 - Monitoring über JMX, Status-Seiten und Server-Metriken (Red Hat, Solaris), Auswertung in eigenen Log-Parsern
 - Reporting und Dokumentation
@@ -757,7 +756,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
 - Telekom (Darmstadt, SQS): Dokumentenmanagementsystem und Mediensystem eines Mobilfunkbetreibers
 
 **Tools** 
-- Mercury/HP LoadRunner 8.0 bis 9.1 (VuGen, Controller, Analysis)
+- Mercury/HP LoadRunner 8.0 bis 9.1 (VuGen mit Web HTTP/HTML, Controller, Analysis)
 - Quick Test Pro, Quality Center / TestDirector
 - Toad, JMX
         """
@@ -827,9 +826,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "OpenTelemetry / OTLP",
           "REST APIs",
           "JMeter",
-          "LoadRunner (VuGen, Web HTTP/HTML)",
-          "TruClient",
-          "Citrix",
+          "LoadRunner (VuGen, Web HTTP/HTML, TruClient, Citrix)",
           "SoapUI",
           "Dynatrace",
           "Jenkins",
@@ -1163,7 +1160,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Adoption of Gauge (BDD)
 - Roll-out of Playwright and integration into the existing CI/CD pipeline
 - Functional and technical incident analysis
-- Load and performance tests with JMeter and LoadRunner for smaller projects, whenever a project had reached that stage
+- Alongside, load and performance tests for smaller projects whenever a project had reached that stage: JMeter and Gatling, partly LoadRunner, browser-based with Playwright instead of TruClient
 - Advising the teams on performance and load questions: load behaviour, response times and bottlenecks of backend services
 - Consultancy, design and implementation of solutions for quality-related issues
 
@@ -1177,7 +1174,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - PowerShell
 - JIRA / Confluence
 - Grafana
-- JMeter / LoadRunner
+- JMeter / Gatling / LoadRunner (VuGen, Web HTTP/HTML)
 - Behaviour Driven Development
 - Consumer-Driven Contracts (Pact.io)
         """
@@ -1365,6 +1362,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Load and performance tests and analysis (test manager, test designer, analyst)**: Development, execution and analysis of load and performance tests
 **Key responsibilities**
 - Setup and execution of load and performance tests with LoadRunner and JMeter over HTTP, WS, REST, MQ and JMS
+- Browser-based load scenarios with LoadRunner TruClient
 - Analysis of results & performance logs
 - Documentation in the form of test concepts, analyses, management reporting and wiki documentation
 - Status reports
@@ -1374,7 +1372,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Tools**
 - Visual Studio
 - Eclipse
-- LoadRunner / JMeter
+- LoadRunner (VuGen, Web HTTP/HTML, TruClient) / JMeter
 - SoapUI
 - Git
 - JIRA / Confluence
@@ -1449,7 +1447,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Monitoring and reporting
 
 **Tools**
-- HP LoadRunner 8.1 and 9.5
+- HP LoadRunner 8.1 and 9.5 (VuGen, Web HTTP/HTML)
         """
 
         [[languages.en.params.experiences.list]]
@@ -1461,7 +1459,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 **Load and performance testing (consultant, performance consultant)**: Employed as a consultant at SQS AG (09/2005-01/2007) and at C1 SetCon in performance engineering (02/2007-03/2008), freelance afterwards. Predominantly load and performance tests with LoadRunner
 **Key responsibilities**
 - Load concepts, load scenarios and test data generation, including at runtime
-- Test scripts in LoadRunner (VuGen) with the HTTP protocol, plus SOAP, Oracle and Java RMI
+- Test scripts in LoadRunner (VuGen) with the Web HTTP/HTML protocol, plus SOAP, Oracle and Java RMI
 - Execution of load tests, single and mixed scenarios, analysis of results
 - Monitoring via JMX, status pages and server metrics (Red Hat, Solaris), evaluated with own log parsers
 - Reporting and documentation
@@ -1478,7 +1476,7 @@ The full presentation is available at [Pitch.com](https://pitch.com/public/bc7ea
 - Telekom (Darmstadt, SQS): document management system and a media system for a mobile operator
 
 **Tools**
-- Mercury/HP LoadRunner 8.0 to 9.1 (VuGen, Controller, Analysis)
+- Mercury/HP LoadRunner 8.0 to 9.1 (VuGen with Web HTTP/HTML, Controller, Analysis)
 - Quick Test Pro, Quality Center / TestDirector
 - Toad, JMX
         """
