@@ -107,6 +107,7 @@ defaultContentLanguage = "de"
           "JMeter",
           "LoadRunner (VuGen, Web HTTP/HTML, TruClient, Citrix)",
           "SoapUI",
+          "Jira mit Zephyr / Xray",
           "Dynatrace",
           "Jenkins",
           "Instana",
@@ -438,6 +439,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Aufbau und Konzeption einer CI/CD-Pipeline für verschiedene Entwicklungs-Teams (Backend + Frontend) 
 - Einführung von QualityGates zur Sicherung der Qualität innerhalb der CI/CD-Pipeline
 - Einführung von Gauge (BDD) 
+- Einführung von Zephyr als Testmanagement in Jira: Testfälle, Testzyklen und Ausführungsstände für die Teams
 - Einführung von Playwright und Integration in bestehende CI/CD-Pipeline
 - Fachliche und technische Analyse von Incidents 
 - Nebenbei Last- und Performancetests für kleinere Projekte, jeweils wenn ein Projekt so weit war: JMeter und Gatling, teilweise LoadRunner, browserbasiert mit Playwright statt TruClient
@@ -452,7 +454,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - CI/CD / GitHub (reusable workflows) 
 - Helm / Docker / Container 
 - PowerShell 
-- JIRA / Confluence 
+- JIRA / Confluence / Zephyr 
 - Grafana 
 - JMeter / Gatling / LoadRunner (VuGen, Web HTTP/HTML)
 - Behaviour Driven Development 
@@ -828,6 +830,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "JMeter",
           "LoadRunner (VuGen, Web HTTP/HTML, TruClient, Citrix)",
           "SoapUI",
+          "Jira with Zephyr / Xray",
           "Dynatrace",
           "Jenkins",
           "Instana",
@@ -1158,6 +1161,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Design and setup of CI/CD pipelines for multiple development teams (backend + frontend)
 - Introduction of quality gates to safeguard quality within the CI/CD pipeline
 - Adoption of Gauge (BDD)
+- Introduction of Zephyr as test management in Jira: test cases, test cycles and execution status for the teams
 - Roll-out of Playwright and integration into the existing CI/CD pipeline
 - Functional and technical incident analysis
 - Alongside, load and performance tests for smaller projects whenever a project had reached that stage: JMeter and Gatling, partly LoadRunner, browser-based with Playwright instead of TruClient
@@ -1172,7 +1176,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - CI/CD / GitHub (reusable workflows)
 - Helm / Docker / Containers
 - PowerShell
-- JIRA / Confluence
+- JIRA / Confluence / Zephyr
 - Grafana
 - JMeter / Gatling / LoadRunner (VuGen, Web HTTP/HTML)
 - Behaviour Driven Development
