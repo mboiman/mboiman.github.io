@@ -38,7 +38,7 @@ const GROUPS: { de: string; en: string; test: RegExp }[] = [
   {
     de: 'KI & Agenten',
     en: 'AI & Agents',
-    test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain|agent/i,
+    test: /llm|claude|gemini|gpt|copilot|mcp|a2a|adk|langchain|agent|hugging face|vllm|ollama/i,
   },
   {
     de: 'Delivery & Automation',
