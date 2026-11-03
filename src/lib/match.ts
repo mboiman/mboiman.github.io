@@ -153,6 +153,11 @@ export function entriesHash(entries: CvEntry[]): string {
 const BULLET = /^\s*(?:[-*•·▪►–]|\d{1,2}[.)])\s+/;
 const HEADING = /^(?:ihre?\s+)?(?:profil|aufgaben|anforderungen|qualifikation(?:en)?|kenntnisse|das bringen sie mit|was sie mitbringen|wir bieten|das bieten wir|benefits|über uns|about us|(?:your\s+)?(?:profile|tasks|requirements|responsibilities|qualifications)|what we offer|what you bring)$/i;
 
+/** A heading that says whether its lines are mandatory or optional travels with each
+ *  of its lines: Jev sees one line at a time, and "Nice to Have" must reach its `must`
+ *  question (2026-11-03). A plain heading ("Ihr Profil") adds nothing. */
+const SECTION_KIND = /\b(?:muss|must|pflicht|zwingend|required|mandatory|nice[ -]to[ -]have|wünschenswert|von vorteil|optional|preferred|bonus|plus|soll|kann)/i;
+
 /**
  * Lines as the posting wrote them. A bullet is a line; a paragraph without
  * bullets splits into sentences. Anything ending in a colon is a heading, and
@@ -166,9 +171,10 @@ const HEADING = /^(?:ihre?\s+)?(?:profil|aufgaben|anforderungen|qualifikation(?:
  * budget before the list of requirements at the end. The kept lines stay in
  * the posting's order.
  */
-export function splitRequirements(text: string, max = 16): string[] {
+export function splitRequirements(text: string, max = 24): string[] {
   const found: { text: string; bullet: boolean }[] = [];
   const seen = new Set<string>();
+  let section = '';
   const add = (raw: string, bullet: boolean) => {
     const s = raw.replace(/\s+/g, ' ').trim();
     if (s.length < 8 || s.split(' ').length < 2) return;
@@ -176,14 +182,18 @@ export function splitRequirements(text: string, max = 16): string[] {
     const key = cut.toLowerCase();
     if (seen.has(key)) return;
     seen.add(key);
-    found.push({ text: cut, bullet });
+    found.push({ text: section ? `${section}: ${cut}` : cut, bullet });
+  };
+  const heading = (t: string) => {
+    const name = t.replace(/:$/, '').trim();
+    section = SECTION_KIND.test(name) && name.length <= 40 ? name : '';
   };
   const lines = (text || '').replace(/\r/g, '').split('\n').map(l => l.trim()).filter(Boolean);
   lines.forEach((t, i) => {
     if (BULLET.test(t)) { add(t.replace(BULLET, ''), true); return; }
-    if (t.endsWith(':')) return;
+    if (t.endsWith(':')) { heading(t); return; }
     const short = t.split(/\s+/).length <= 3 && !/[.!?]$/.test(t);
-    if (short && (HEADING.test(t) || BULLET.test(lines[i + 1] ?? ''))) return;
+    if (short && (HEADING.test(t) || BULLET.test(lines[i + 1] ?? ''))) { heading(t); return; }
     const sentences = t.length > 160 ? t.split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ])/) : [t];
     sentences.forEach(x => add(x, false));
   });
@@ -227,7 +237,7 @@ export function requirementRequest(requirement: string, entries: CvEntry[]): Jev
       must: { type: 'noul', instructions: 'Is `requirement` phrased as mandatory rather than optional or nice to have?' },
       axis: { type: 'choice', instructions: 'Which area does `requirement` belong to?', criteria: axis },
       evidence: { type: 'choice', instructions: 'Which entry of `cv` best shows that the candidate meets `requirement`?', criteria: evidence },
-      level: { type: 'score', instructions: 'How well does `cv` show that the candidate has done what `requirement` asks for?', criteria: COVER_LEVELS },
+      level: { type: 'score', instructions: 'How well does `cv` show that the candidate has done what `requirement` asks for? If `requirement` names several tools, technologies or skills, rate the least shown one.', criteria: COVER_LEVELS },
     },
   };
 }

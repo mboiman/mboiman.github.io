@@ -249,3 +249,37 @@ test('cvEntries: the sidebar skills are an entry of their own, in both languages
     for (const s of p.ui.sidebar_skills) assert.ok(skills.text.includes(s), `${lang}: ${s} reaches Jev`);
   }
 });
+
+// 2026-11-03, Akkodis "Tester Robotframework": Jev rated "Nice to Have" lines as
+// mandatory because a line arrived without its heading, and a line naming
+// Robot Framework, Playwright and Appium averaged to 1.8 although only
+// Playwright is in the CV.
+test('splitRequirements: a line under a must or nice-to-have heading carries that heading', () => {
+  const text = [
+    'Aufgaben:',
+    '- Testautomatisierung mit Robot Framework',
+    'Muss-Anforderungen:',
+    '- Erfahrung mit Xray (> 5 Jahre Erfahrung)',
+    'Nice to Have:',
+    '- Erfahrung als Tester innerhalb von SAFe',
+    'Ihr Profil',
+    '- Gute Deutschkenntnisse',
+  ].join('\n');
+  assert.deepEqual(splitRequirements(text), [
+    'Testautomatisierung mit Robot Framework',
+    'Muss-Anforderungen: Erfahrung mit Xray (> 5 Jahre Erfahrung)',
+    'Nice to Have: Erfahrung als Tester innerhalb von SAFe',
+    'Gute Deutschkenntnisse',
+  ]);
+});
+
+test('splitRequirements: the default cap is 24 lines, within the worker budget', () => {
+  const bullets = Array.from({ length: 30 }, (_, i) => `- Erfahrung mit Werkzeug Nummer ${i + 1}`).join('\n');
+  assert.equal(splitRequirements(bullets).length, 24);
+});
+
+test('requirementRequest: a line naming several tools is rated by the least shown one', () => {
+  const req = requirementRequest('Testautomatisierung mit Robot Framework (Playwright & Appium)', cvEntries(params('de')));
+  assert.match(req.questions.level.instructions, /several/i);
+  assert.match(req.questions.level.instructions, /least/i);
+});
