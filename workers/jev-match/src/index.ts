@@ -10,7 +10,8 @@
  * an allowed Origin or the measure token, a body under 64 KB, ten runs a minute
  * per address (an IPv6 address counts per /64, the block one client holds), a
  * ceiling for all visitors together, at most two attempts per Jev call so a run
- * stays under the 50 subrequests of a Worker, and fixed error codes that say
+ * stays under the 50 subrequests of a Worker (1 project call plus at most 24 lines
+ * times 2 = 49, splitRequirements caps at 24), and fixed error codes that say
  * nothing about the key or the code.
  *
  * Why a worker at all: the Jev key must never reach a browser, and GitHub Pages

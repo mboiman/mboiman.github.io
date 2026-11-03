@@ -451,6 +451,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Java / Kotlin / JavaScript / TypeScript 
 - Playwright / Gauge / Karate 
 - Python für die Aufbereitung und Analyse von Test- und Reportdaten
+- SQL für die Analyse und Validierung von Testdaten
 - CI/CD / GitHub (reusable workflows) 
 - Helm / Docker / Container 
 - PowerShell 
@@ -1173,6 +1174,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Java / Kotlin / JavaScript / TypeScript
 - Playwright / Gauge / Karate
 - Python for processing and analysis of test and reporting data
+- SQL for analysing and validating test data
 - CI/CD / GitHub (reusable workflows)
 - Helm / Docker / Containers
 - PowerShell
