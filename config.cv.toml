@@ -82,6 +82,9 @@ defaultContentLanguage = "de"
           "Claude Code (Skills, Hooks, MCP)",
           "Agent-Harness Engineering",
           "LLMs (Claude, Gemini, GPT)",
+          "Lokale LLMs (vLLM, Ollama)",
+          "LLM-Evaluierung & Benchmarks",
+          "Hugging Face (Spaces, Datasets)",
           "Agent Orchestration (MCP & A2A)",
           "a2a-sdk & Agent Cards",
           "Google ADK",
@@ -317,6 +320,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - **Agenten-Netz nach A2A**: a2a-sdk-Server mit lokalem claude-Backend auf einer aus open-bridge übernommenen Laufzeit. Drei Agenten (Person, Firma, OSS-Projekt) befragen sich gegenseitig ausschließlich lesend, davor ein zustandsloses MCP-nach-A2A-Gateway, damit auch reine MCP-Clients die Agenten erreichen. Agent Cards nach Protokollversion 1.0, JSON-RPC 2.0. Rund 4.600 Zeilen Python mit 98 automatisierten Testfällen, im Team entstanden (vier weitere Beitragende)
 - **Telemetrie nach OpenTelemetry**: Logs, Metriken und Traces über OTLP an eine verwaltete Senke, mit fester Feldkonvention und Namensschema, gedeckeltem Ingest-Schlüssel und nach Mandant getrennten Leserechten (als Rechteschnitt gemessen, nicht als Absicht dokumentiert). Ehrlicher Reifegrad: der Logpfad ist im Betrieb, Metriken und Traces sind verdrahtet und noch nicht abgenommen
 - **Menschliches Gate auf vier Autonomiestufen**: Was ein Agent an sich selbst ändern darf, ist in vier Schichten getrennt (Kontext, Skill-Dateien und Regeln, Nutzerprofil, Modellgewichte), jede mit ausdrücklichem menschlichem Gate. Vorschläge laufen über einen eigenen Ordner mit Schema und Prüfpfad, statt still wirksam zu werden. Die EU-KI-Verordnung ist damit nicht nur Workshop-Inhalt, sondern die eigene Betriebspraxis
+- **Testlabor für offene Modelle (lab-bench)**: Eigener Prüfstand, auf dem BKS-Lab misst, welches Modell eine Aufgabe auf selbst kontrollierter Hardware trägt. Offene Modelle (u. a. Qwen3, DeepSeek-R1, Nemotron) laufen selbst gehostet über vLLM und Ollama auf einer RTX 4090, dazu GLiNER-Encoder, ein klassisch trainierter Klassifikator und eine gehostete Entscheidungs-API als Vergleich. Gemessen werden u. a. deutsches Retrieval für RAG, Sprache zu Text, Rechnungsfelder aus Seitenbildern, Routing und Slot-Extraktion, mit 95-%-Bootstrap-Intervall, McNemar-Tests, Plausibilitätsabgleich gegen veröffentlichte Referenzwerte, Tempo, Grafikspeicher und Energiebedarf. Nachtläufe in einem Proxmox-Labor mit Prometheus und Grafana; die Ergebnisse liegen offen als Dataset und Space auf Hugging Face (bks-lab/lab-bench-results, bks-lab/lab-bench)
 - **Spezifikation und Verifikationsdesign**: Vor dem Bauen führt ein fester Ablauf durch Anforderung, Entwurf und Verifikationsplan. Jedes Abnahmekriterium bekommt dabei die stärkste verfügbare Prüfung, in dieser Reihenfolge: deterministischer Test vor externem Signal vor Modell-Urteil, dazu die Gate-Stärke. Das ist die Stelle, an der Quality Engineering und KI-Entwicklung dieselbe Disziplin sind
 - **Git-Wiki Transformation**: Migration der Confluence-Wissensdatenbank zu strukturiertem Git-basiertem Wiki mit hierarchischer Organisation und Multi-Repository-Architektur (Submodules für Kundenprojekte)
 - **MCP-Server und Protokollwahl**: Zwei Model-Context-Protocol-Server in Python selbst gebaut, einer für die Wiki-Hierarchie (Navigation, Content-Discovery, SharePoint-Integration), einer für die Inhalte der Firmen-Website. MCP-Schulung gehalten. Im eigenen Einsatz gilt: MCP nur dort, wo es gegenüber Skills, REST oder A2A tatsächlich trägt, denn die meisten MCP-Server sind im Alltag nicht effektiv
@@ -806,6 +810,9 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Claude Code (Skills, Hooks, MCP)",
           "Agent Harness Engineering",
           "LLMs (Claude, Gemini, GPT)",
+          "Local LLMs (vLLM, Ollama)",
+          "LLM Evaluation & Benchmarks",
+          "Hugging Face (Spaces, Datasets)",
           "Agent Orchestration (MCP & A2A)",
           "a2a-sdk & Agent Cards",
           "Google ADK",
@@ -1040,6 +1047,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - **A2A Agent Network**: an a2a-sdk server with a local claude backend, running on a runtime adopted from open-bridge. Three agents (person, company, OSS project) consult each other on read-only edges, fronted by a stateless MCP-to-A2A gateway so MCP-only clients can reach them. Agent Cards at protocol version 1.0, JSON-RPC 2.0. Around 4,600 lines of Python with 98 automated test cases, built as a team effort (four further contributors)
 - **OpenTelemetry-based telemetry**: logs, metrics and traces over OTLP into a managed sink, with a fixed field convention and naming scheme, a capped ingest key and read rights separated per client (measured as an access cut, not documented as an intention). Honest maturity: the log path is in operation, metrics and traces are wired and not yet accepted
 - **Human gate on four autonomy layers**: what an agent may change about itself is split into four layers (context, skill files and rules, user profile, model weights), each with an explicit human gate. Proposals go through a dedicated folder with a schema and a review path instead of taking effect silently. The EU AI Act is therefore not just workshop content here but my own operating practice
+- **Test bench for open models (lab-bench)**: own test bench on which BKS-Lab measures which model can carry a task on hardware it controls. Open models (including Qwen3, DeepSeek-R1, Nemotron) run self-hosted through vLLM and Ollama on an RTX 4090, alongside GLiNER encoders, a classically trained classifier and a hosted decision API for comparison. Measured among others: German retrieval for RAG, speech to text, invoice fields from page images, routing and slot extraction, with 95 % bootstrap intervals, McNemar tests, a sanity check against published reference values, speed, GPU memory and energy. Nightly runs in a Proxmox lab with Prometheus and Grafana; results are public as a dataset and Space on Hugging Face (bks-lab/lab-bench-results, bks-lab/lab-bench)
 - **Specification and verification design**: before building, a fixed sequence runs through requirement, design and verification plan. Every acceptance criterion is mapped to the strongest available check, in this order: deterministic test before external signal before model judgement, together with the gate strength. This is where quality engineering and AI development are the same discipline
 - **Git Wiki Transformation**: Migration of Confluence knowledge base to structured Git-based wiki with hierarchical organization and multi-repository architecture (submodules for customer projects)
 - **MCP servers and protocol choice**: Built two Model Context Protocol servers in Python, one for the wiki hierarchy (navigation, content discovery, SharePoint integration), one for the company website content. Delivered MCP training. In my own work, MCP is used only where it beats skills, REST or A2A, since most MCP servers are not effective in everyday use
