@@ -78,6 +78,7 @@ defaultContentLanguage = "de"
           "Cucumber/Gauge",
           "Python",
           "TypeScript",
+          "Java (Maven, Gradle)",
           "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
           "Agent-Harness Engineering",
@@ -94,7 +95,7 @@ defaultContentLanguage = "de"
           "Azure Functions",
           "Azure DevOps",
           "Azure Monitor & KQL",
-          "AWS",
+          "AWS Bedrock (Claude, EU)",
           "Google Cloud",
           "CI/CD",
           "Docker & Container",
@@ -346,6 +347,26 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
 - Betrieb: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
 - Cloud: AWS, Google Cloud (neben Azure)
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrierte Repos in Python, TypeScript, Rust und Go
+        """
+
+        [[languages.de.params.experiences.list]]
+        position = "KI-Assistent für Patientenanfragen auf AWS Bedrock (EU)"
+        anchor = "bedrock-praxis"
+        dates = "seit 04/2026"
+        company = "Zahnarztpraxis in Frankfurt · freiberuflich"
+        details = """
+**Claude auf AWS Bedrock im Produktivbetrieb**: WhatsApp-Assistent für Terminanfragen einer Zahnarztpraxis, produktiv seit 09/2026. Gesundheitsdaten verlangen EU-Datenhaltung, deshalb läuft das Modell ausschließlich über Bedrock in eu-central-1 (Frankfurt) mit EU-Inferenzprofil, nie über ein globales Profil.
+
+**Schwerpunkte**
+- **Architektur**: Das Sprachmodell versteht die Anfrage, ein deterministischer, getesteter Kern entscheidet. Freie Termine kommen live aus dem Terminportal, das Modell merkt vor und bucht nie selbst
+- **Bedrock-Betrieb**: IAM-Zugang, Modellzugang über Marketplace-Vereinbarungen, Token-Kontingente je Inferenzprofil, Modellwechsel von Claude Haiku 4.5 auf Haiku 5.5 vorbereitet, weil ältere Modelle auslaufen
+- **Evaluierung**: über 1.000 automatisierte Testfälle, darunter eigene Szenario-Tests gegen das echte Modell (Sprache, Terminwahrheit, keine erfundenen Termine)
+- **Betrieb**: Git-basiertes Deployment mit UAT und Produktion, Gesundheitsbericht dreimal täglich, DSGVO-Einwilligung vor dem ersten inhaltlichen Satz
+
+**Tools & Technologien**
+- AI: Anthropic Claude über AWS Bedrock (eu-central-1), Claude Code CLI als Modell-Laufzeit
+- Backend: Python, pytest, mypy, ruff
+- Integration: WhatsApp Business, Terminportal-API
         """
 
         [[languages.de.params.experiences.list]]
@@ -806,6 +827,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Cucumber/Gauge",
           "Python",
           "TypeScript",
+          "Java (Maven, Gradle)",
           "FastAPI",
           "Claude Code (Skills, Hooks, MCP)",
           "Agent Harness Engineering",
@@ -822,7 +844,7 @@ Die vollständige Präsentation ist unter [Pitch.com](https://pitch.com/public/b
           "Azure Functions",
           "Azure DevOps",
           "Azure Monitor & KQL",
-          "AWS",
+          "AWS Bedrock (Claude, EU)",
           "Google Cloud",
           "CI/CD",
           "Docker & Container",
@@ -1073,6 +1095,26 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
 - Operations: Cloudflare (Workers, Pages, R2, DNS), Tailscale, launchd, restic/rclone
 - Cloud: AWS, Google Cloud (alongside Azure)
 - Development: Bash Scripting, jq, Docker, Multi-Agent Systems; orchestrated repos span Python, TypeScript, Rust and Go
+        """
+
+        [[languages.en.params.experiences.list]]
+        position = "AI Assistant for Patient Requests on AWS Bedrock (EU)"
+        anchor = "bedrock-praxis"
+        dates = "since 04/2026"
+        company = "Dental practice in Frankfurt · freelance"
+        details = """
+**Claude on AWS Bedrock in production**: WhatsApp assistant for appointment requests at a dental practice, in production since 09/2026. Health data requires EU data residency, so the model runs only through Bedrock in eu-central-1 (Frankfurt) with an EU inference profile, never a global one.
+
+**Focus**
+- **Architecture**: the language model understands the request, a deterministic, tested core decides. Free slots come live from the booking portal; the model notes a request and never books on its own
+- **Bedrock operations**: IAM access, model access through Marketplace agreements, token quotas per inference profile, migration from Claude Haiku 4.5 to Haiku 5.5 prepared as older models retire
+- **Evaluation**: more than 1,000 automated test cases, including scenario tests against the real model (language, appointment truth, no invented slots)
+- **Operations**: Git-based deployment with UAT and production, health report three times a day, GDPR consent before the first substantive sentence
+
+**Tools & Technologies**
+- AI: Anthropic Claude on AWS Bedrock (eu-central-1), Claude Code CLI as model runtime
+- Backend: Python, pytest, mypy, ruff
+- Integration: WhatsApp Business, booking portal API
         """
 
         [[languages.en.params.experiences.list]]
