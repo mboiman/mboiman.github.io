@@ -351,7 +351,7 @@ Vollständiger Workshop mit Folien, Live-Demos und praktischen Übungen für mod
         [[languages.de.params.experiences.list]]
         position = "AI Test Automation Engineer · Aufbau des KI-Testautomatisierungsprozesses"
         anchor = "kion"
-        dates = "seit 09/2026"
+        dates = "09/2026-10/2026"
         company = "KION Group"
         details = """
 **KI-gestützte Testautomatisierung** für ein Kundenportal des Konzerns: Aufbau des kompletten Prozesses, von der Ableitung der Testfälle bis zur grünen CI-Pipeline.
@@ -1078,7 +1078,7 @@ Complete workshop with slides, live demos, and practical exercises for modern AI
         [[languages.en.params.experiences.list]]
         position = "AI Test Automation Engineer · Building the AI Test Automation Process"
         anchor = "kion"
-        dates = "since 09/2026"
+        dates = "09/2026-10/2026"
         company = "KION Group"
         details = """
 **AI-driven test automation** for one of the group's customer portals: building the complete process, from deriving the test cases to a green CI pipeline.
