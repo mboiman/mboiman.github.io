@@ -1,33 +1,90 @@
 // Renders profile-README.md (the GitHub profile page, repo mboiman/mboiman) from
 // profile-README.template.md and the English part of config.cv.toml.
 //
-//   node scripts/profile-readme.mjs          write profile-README.md
-//   node scripts/profile-readme.mjs --check  exit 1 when the file is stale
+//   npm run profile:readme            write profile-README.md
+//   npm run profile:readme -- --check exit 1 when the file is stale
 //
 // Placeholders:
-//   {{tagline}}        languages.en.params.ui.tagline
-//   {{availability}}   languages.en.params.ui.availability
-//   {{stack: A | B}}   chips joined with " · "; each one must be an exact entry
-//                      of languages.en.params.ui.sidebar_skills, so the profile
-//                      never names a skill the CV does not carry.
+//   {{tagline}} {{availability}}  languages.en.params.ui
+//   {{experience: N}}  career positions in CV order, each linked to its CV
+//                      section; the first N in a table, the rest in <details>
+//   {{talks}}          talks and workshops (scripts/lib/talk-patterns.json)
+//   {{skills}}         every ui.sidebar_skills entry, grouped like the CV page
+//                      (src/lib/skill-groups.ts)
+//   {{education}} {{languages}}
+//   {{badges: Label:logo:color[:logoColor] | ...}}
+//                      shields.io badges; a label the CV never mentions fails,
+//                      so the profile cannot claim a tool the CV does not carry
 import fs from 'node:fs';
 import toml from 'toml';
 import { fileURLToPath } from 'node:url';
+import { groupedSkills } from '../src/lib/skill-groups.ts';
+import talkPatterns from './lib/talk-patterns.json' with { type: 'json' };
 
-export function render(config, template) {
-  const ui = config.languages.en.params.ui;
-  const skills = new Set(ui.sidebar_skills);
+const CV = 'https://mboiman.github.io/en/';
+const talkPosition = new RegExp(talkPatterns.position.join('|'), 'i');
+const talkCompany = new RegExp(talkPatterns.company.join('|'), 'i');
+
+export const isTalk = (e) => talkPosition.test(e.position || '') || talkCompany.test(e.company || '');
+
+const cell = (s) => String(s).replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+const link = (e) => `[${cell(e.position)}](${CV}#exp-${e.anchor})`;
+
+function experienceTable(rows) {
+  return ['| When | Role | Where |', '|---|---|---|',
+    ...rows.map((e) => `| ${cell(e.dates)} | ${link(e)} | ${cell(e.company)} |`)].join('\n');
+}
+
+function experience(params, arg) {
+  const n = Number.parseInt(arg, 10);
+  if (!Number.isInteger(n) || n < 1) throw new Error(`{{experience: N}} needs a positive N, got "${arg}"`);
+  const jobs = params.experiences.list.filter((e) => !isTalk(e));
+  const [shown, rest] = [jobs.slice(0, n), jobs.slice(n)];
+  let out = experienceTable(shown);
+  if (rest.length) {
+    out += `\n\n<details>\n<summary>Earlier positions</summary>\n\n${experienceTable(rest)}\n\n</details>`;
+  }
+  return out;
+}
+
+function badges(raw, arg) {
+  const text = raw.toLowerCase();
+  const specs = (arg || '').split('|').map((s) => s.trim()).filter(Boolean);
+  const missing = [];
+  const out = specs.map((spec) => {
+    const [label, logo = '', color = '555555', logoColor = 'white'] = spec.split(':').map((s) => s.trim());
+    if (!text.includes(label.toLowerCase())) missing.push(label);
+    const msg = encodeURIComponent(label.replace(/-/g, '--').replace(/_/g, '__'));
+    const query = ['style=for-the-badge', logo && `logo=${logo}`, logo && `logoColor=${logoColor}`].filter(Boolean).join('&');
+    return `![${label}](https://img.shields.io/badge/${msg}-${color}?${query})`;
+  });
+  if (missing.length) throw new Error(`badge label not found in config.cv.toml: ${missing.join(', ')}`);
+  return out.join('\n');
+}
+
+export function render(config, template, raw = fs.readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8')) {
+  const params = config.languages.en.params;
+  const ui = params.ui;
   // The template's leading note is for editors of the template, not for readers.
   return template.replace(/^<!--[\s\S]*?-->\n/, '').replace(/\{\{\s*([a-z]+)\s*(?::([^}]*))?\}\}/g, (_, key, arg) => {
-    if (key === 'tagline') return ui.tagline;
-    if (key === 'availability') return ui.availability;
-    if (key === 'stack') {
-      const chips = (arg || '').split('|').map((s) => s.trim()).filter(Boolean);
-      const missing = chips.filter((c) => !skills.has(c));
-      if (missing.length) throw new Error(`stack chip not in en sidebar_skills: ${missing.join(', ')}`);
-      return chips.join(' · ');
+    switch (key) {
+      case 'tagline': return ui.tagline;
+      case 'availability': return ui.availability;
+      case 'experience': return experience(params, arg);
+      case 'talks':
+        return params.experiences.list.filter(isTalk)
+          .map((e) => `- **${cell(e.dates)}** · ${link(e)} · ${cell(e.company)}`).join('\n');
+      case 'skills':
+        return ['| Area | Skills |', '|---|---|',
+          ...groupedSkills(ui.sidebar_skills, 'en').map((g) => `| **${cell(g.title)}** | ${g.items.map(cell).join(' · ')} |`)].join('\n');
+      case 'education':
+        return params.education.list
+          .map((e) => `- **${cell(e.degree)}**${e.college ? `, ${cell(e.college)}` : ''} (${cell(e.dates)})`).join('\n');
+      case 'languages':
+        return params.language.list.map((l) => `${l.language} (${l.level.toLowerCase()})`).join(', ');
+      case 'badges': return badges(raw, arg);
+      default: throw new Error(`unknown placeholder {{${key}}}`);
     }
-    throw new Error(`unknown placeholder {{${key}}}`);
   });
 }
 

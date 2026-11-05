@@ -27,8 +27,8 @@
     "og:match": "node --experimental-strip-types scripts/match-og.mjs",
     "test:greeting": "node --experimental-strip-types --test test/greeting.test.mjs",
     "match": "node --experimental-strip-types scripts/jev-match.mjs",
-    "profile:readme": "node scripts/profile-readme.mjs",
-    "test:profile": "node --test test/profile-readme.test.mjs"
+    "profile:readme": "node --experimental-strip-types scripts/profile-readme.mjs",
+    "test:profile": "node --experimental-strip-types --test test/profile-readme.test.mjs"
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.4",
