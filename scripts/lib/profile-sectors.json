@@ -1,0 +1,17 @@
+{
+  "_comment": "GitHub profile (profile-README.md): what each career station shows INSTEAD of the company. Michael 2026-11-05: no client or employer names on the profile, only the sector. Keyed by experience anchor. A station without an entry fails the render, so a new station can never leak its company by default. `role` overrides a position title that itself carries a firm name.",
+  "bks-llm-infra": { "sector": "Own firm, internal R&D" },
+  "kion": { "sector": "Industrial group, customer portal" },
+  "tuev-sued": { "sector": "Testing and certification, medical devices" },
+  "dvag": { "sector": "Financial services" },
+  "bks-ai-automation": { "sector": "Client in the digital economy" },
+  "akkuswap": { "sector": "Energy startup" },
+  "ai-engineering-lead": { "sector": "Publishing house" },
+  "boiman-solutions": { "sector": "Own firm", "role": "Founder of a QA consultancy and a quality engineering community" },
+  "db-vertrieb": { "sector": "Rail, sales" },
+  "db-systel": { "sector": "Rail, IT services" },
+  "telekom": { "sector": "Telecommunications" },
+  "siemens": { "sector": "Industrial technology" },
+  "ing-diba": { "sector": "Banking" },
+  "consulting-2006-2008": { "sector": "QA consultancy, freelance" }
+}

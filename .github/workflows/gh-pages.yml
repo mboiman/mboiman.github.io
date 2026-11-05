@@ -60,6 +60,12 @@ jobs:
       - name: Test project match
         run: npm run test:match
 
+      # profile-README.md is the GitHub profile page (copied to mboiman/mboiman).
+      # It renders from config.cv.toml, so a stale copy or a skill the CV does
+      # not carry fails here.
+      - name: Test profile README
+        run: npm run test:profile
+
       - name: Generate PDFs
         run: |
           ./scripts/generate_cv.sh config.cv.toml public/pdfs/Michael_Boiman_CV_DE.pdf de
