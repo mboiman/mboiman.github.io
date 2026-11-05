@@ -1,5 +1,6 @@
 <!-- Source for profile-README.md. Edit this file, then `npm run profile:readme`.
-     Placeholders in double braces come from config.cv.toml (en); see scripts/profile-readme.mjs. -->
+     Placeholders in double braces come from config.cv.toml (en); see scripts/profile-readme.mjs.
+     No client or employer names on the profile (Michael, 2026-11-05): stations show a sector. -->
 <div align="center">
 
 # Michael Boiman
@@ -14,27 +15,46 @@
 [![Lebenslauf](https://img.shields.io/badge/Lebenslauf-Deutsch-1f6feb?style=flat-square)](https://mboiman.github.io/de/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-mboiman-0A66C2?style=flat-square)](https://www.linkedin.com/in/mboiman/)
 [![Email](https://img.shields.io/badge/mboiman%40gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:mboiman@gmail.com)
-[![BKS-Lab](https://img.shields.io/badge/GitHub-bks--lab-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/bks-lab)
 
 </div>
 
-Quality engineer and AI architect based in Frankfurt am Main. Quality engineering and AI architecture run in parallel for me rather than in sequence: the testing discipline is the reason my agent setup has gates and evidence instead of acting blind. Everything below links to the thing itself.
+## Hi, I'm Michael
 
-## Evidence
+I'm a freelance quality engineer and AI architect in Frankfurt. Quality engineering and AI architecture run in parallel for me, not one after the other: the testing discipline is the reason my agents have gates and evidence instead of acting blind.
 
-| | What it is |
-|---|---|
-| **[open-bridge](https://github.com/bks-lab/open-bridge)** · [demo](https://bks-lab.github.io/open-bridge/) | Context layer for coding agents: plain markdown and YAML in git, read at session start by Claude Code, Codex and Copilot CLI. Skills, rules and a promote flow with a content leak gate in CI. MIT, built as a team at [BKS-Lab](https://github.com/bks-lab) |
-| **[Agent network](https://bks-lab.github.io/open-bridge/agents.html#gateway)** | Three A2A agents (person, company, OSS project) that ask each other questions, read only, plus a stateless MCP to A2A gateway so plain MCP clients reach them too. a2a-sdk, Agent Cards, JSON-RPC 2.0 |
-| **[lab-bench](https://github.com/bks-lab/lab-bench)** · [results](https://huggingface.co/datasets/bks-lab/lab-bench-results) · [Space](https://huggingface.co/spaces/bks-lab/lab-bench) | Which model carries a task on hardware we control: open models self-hosted via vLLM and Ollama, measured on German retrieval, speech to text, invoice fields and routing, with bootstrap intervals and McNemar tests |
-| **[Live CV agent](https://mboiman.github.io/en/)** | The chat on my CV is an A2A agent: it answers questions about my experience, jumps to the station it talks about and forwards meeting requests, which I approve |
-| **[Project match](https://mboiman.github.io/en/match/)** | Paste a project description and the decision model Jev scores it against my CV, requirement by requirement |
-| **Peppol e-invoicing** | EN 16931 in production: outbound and inbound services on Azure Functions, a certified Peppol access point, SAP ByDesign over SOAP, a mailbox channel for suppliers without Peppol. Client under NDA, details in the CV |
-| **[This CV](https://github.com/mboiman/mboiman.github.io)** | Astro site in German and English, PDFs via Puppeteer, content guards in CI. This profile page is rendered from the same file |
+My background is enterprise quality engineering: test automation, performance engineering and quality dashboards in rail, financial services, industry and medical device certification. Today I build agent systems, measure which models carry a task, and build and operate e-invoicing services in production.
 
-## Try the agent
+## What I'm working on
 
-The agent behind my CV speaks A2A. Ask it from a terminal:
+### open-bridge
+
+[![release](https://img.shields.io/github/v/release/bks-lab/open-bridge?style=flat-square&label=release&color=1f6feb)](https://github.com/bks-lab/open-bridge/releases)
+[![last commit](https://img.shields.io/github/last-commit/bks-lab/open-bridge?style=flat-square)](https://github.com/bks-lab/open-bridge/commits/main)
+[![license](https://img.shields.io/github/license/bks-lab/open-bridge?style=flat-square)](https://github.com/bks-lab/open-bridge/blob/main/LICENSE)
+
+[![open-bridge: a coding agent answers good morning from plain markdown and YAML in git (click for the 1:25 film)](https://raw.githubusercontent.com/bks-lab/open-bridge/main/docs/assets/video/open-bridge-loop.gif)](https://www.youtube.com/watch?v=pkieGFYcO88)
+
+Stop re-explaining your work to your coding agent. open-bridge is plain markdown and YAML in git that Claude Code, Codex and Copilot CLI read at session start: repos, clients, rules, skills and a work log. A promote flow with a content leak gate in CI keeps private data out of the public core. We build it as a team at BKS-Lab and release it continuously under MIT.
+
+[Repository](https://github.com/bks-lab/open-bridge) · [Demo page](https://bks-lab.github.io/open-bridge/) · [Film](https://www.youtube.com/watch?v=pkieGFYcO88)
+
+### Agents that ask each other
+
+Three A2A agents (a person, a company, an open source project) that query each other, read only, with a stateless MCP to A2A gateway in front so plain MCP clients reach them too. a2a-sdk, Agent Cards, JSON-RPC 2.0, streaming. One of them is the chat on my CV, and it forwards meeting requests to me for approval instead of booking on its own. [How the gateway works](https://bks-lab.github.io/open-bridge/agents.html#gateway)
+
+### lab-bench
+
+[![last commit](https://img.shields.io/github/last-commit/bks-lab/lab-bench?style=flat-square)](https://github.com/bks-lab/lab-bench/commits/main)
+
+Which model carries a task on hardware we control? Open models run self-hosted via vLLM and Ollama and are measured on German retrieval for RAG, speech to text, invoice fields from page images and routing, with bootstrap intervals and McNemar tests rather than single numbers. The results are open. [Repository](https://github.com/bks-lab/lab-bench) · [Dataset](https://huggingface.co/datasets/bks-lab/lab-bench-results) · [Space](https://huggingface.co/spaces/bks-lab/lab-bench)
+
+### E-invoicing in production
+
+Peppol BIS 3.0 and EN 16931: outbound and inbound services on Azure Functions behind a certified Peppol access point, an ERP coupling over SOAP, and a mailbox channel for suppliers without Peppol (PDF, ZUGFeRD, XRechnung). Managed identity, Key Vault, separate pre and production environments. Client under NDA, so no code here.
+
+## Try it
+
+**Ask my CV agent.** It speaks A2A, so a terminal is enough:
 
 ```bash
 curl -s https://mboiman.bks-lab.com/ \
@@ -42,21 +62,41 @@ curl -s https://mboiman.bks-lab.com/ \
   -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"messageId":"hello-1","role":"ROLE_USER","parts":[{"text":"Which programming languages does Michael use most?"}]}}}'
 ```
 
-Its [agent card](https://mboiman.bks-lab.com/.well-known/agent-card.json) lists what else it can do: availability, meeting requests, questions about BKS-Lab and open-bridge.
+Its [agent card](https://mboiman.bks-lab.com/.well-known/agent-card.json) lists what else it does: availability, meeting requests, questions about open-bridge. Or use the chat on the [CV page](https://mboiman.github.io/en/).
 
-## Experience
+**Match your project.** Paste a project description on [mboiman.github.io/en/match](https://mboiman.github.io/en/match/) and the decision model Jev scores it against my CV, requirement by requirement.
+
+## Stations
 
 {{experience: 6}}
 
-## Talks and workshops
+**Talks and workshops**
 
 {{talks}}
 
-## Skills
+## Toolbox
 
-{{badges: Claude Code:claude:D97757 | GitHub Copilot:githubcopilot:000000 | Python:python:3776AB | TypeScript:typescript:3178C6 | Playwright::2EAD33 | pytest::0A9EDC | FastAPI:fastapi:009688 | Azure::0078D4 | Docker:docker:2496ED | GitHub Actions:githubactions:2088FF | Cloudflare:cloudflare:F38020 | Elasticsearch:elasticsearch:005571 | Kibana:kibana:E8478B | Grafana:grafana:F46800 | OpenTelemetry:opentelemetry:425CC7 | Hugging Face:huggingface:FFD21E:black | Ollama:ollama:000000 | JMeter:apachejmeter:D22128}}
+**AI and agents**<br>
+{{badges: Claude Code:claude:D97757 | GitHub Copilot:githubcopilot:000000 | MCP:modelcontextprotocol:000000 | A2A::374151 | LangChain:langchain:1C3C3C | Gemini:googlegemini:8E75B2 | Ollama:ollama:000000 | vLLM:vllm:30A2FF | Hugging Face:huggingface:FFD21E:black}}
+
+**Quality engineering**<br>
+{{badges: Playwright::2EAD33 | pytest:pytest:0A9EDC | Selenium:selenium:43B02A | Cucumber:cucumber:23D96C | JMeter:apachejmeter:D22128 | Gatling:gatling:FF9E2A | LoadRunner::0073E7 | Dynatrace:dynatrace:1496FF | Jira:jira:0052CC}}
+
+**Languages and backend**<br>
+{{badges: Python:python:3776AB | TypeScript:typescript:3178C6 | FastAPI:fastapi:009688 | Bash:gnubash:4EAA25 | PowerShell::5391FE}}
+
+**Cloud and operations**<br>
+{{badges: Azure::0078D4 | AWS::232F3E | Google Cloud:googlecloud:4285F4 | Cloudflare:cloudflare:F38020 | Docker:docker:2496ED | GitHub Actions:githubactions:2088FF | Proxmox:proxmox:E57000 | Tailscale:tailscale:242424}}
+
+**Observability**<br>
+{{badges: OpenTelemetry:opentelemetry:425CC7 | Elasticsearch:elasticsearch:005571 | Kibana:kibana:E8478B | Grafana:grafana:F46800 | Prometheus:prometheus:E6522C}}
+
+<details>
+<summary>Full skill list from my CV</summary>
 
 {{skills}}
+
+</details>
 
 ## Education
 
@@ -73,4 +113,4 @@ Languages: {{languages}}
 
 ---
 
-<sub>Experience, talks, skills, education and languages are generated from the same TOML file as my <a href="https://mboiman.github.io/en/">CV</a> and checked in its CI.</sub>
+<sub>Stations, talks, skills, education and languages are generated from the same TOML file as my <a href="https://mboiman.github.io/en/">CV</a> and checked in its CI. Every tool badge has to appear in the CV, or the build fails.</sub>

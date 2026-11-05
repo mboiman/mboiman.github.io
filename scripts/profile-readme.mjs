@@ -6,20 +6,26 @@
 //
 // Placeholders:
 //   {{tagline}} {{availability}}  languages.en.params.ui
-//   {{experience: N}}  career positions in CV order, each linked to its CV
-//                      section; the first N in a table, the rest in <details>
-//   {{talks}}          talks and workshops (scripts/lib/talk-patterns.json)
+//   {{experience: N}}  career stations in CV order with dates, role and SECTOR
+//                      (scripts/lib/profile-sectors.json), never the company;
+//                      each role links to its CV section; the first N in a
+//                      table, the rest in <details>. A station without a
+//                      sector entry fails, so no company leaks by default.
+//   {{talks}}          talks and workshops (scripts/lib/talk-patterns.json),
+//                      without the venue
 //   {{skills}}         every ui.sidebar_skills entry, grouped like the CV page
 //                      (src/lib/skill-groups.ts)
 //   {{education}} {{languages}}
 //   {{badges: Label:logo:color[:logoColor] | ...}}
-//                      shields.io badges; a label the CV never mentions fails,
-//                      so the profile cannot claim a tool the CV does not carry
+//                      shields.io badges on one line; a label the CV never
+//                      mentions as a whole word fails, so the profile cannot
+//                      claim a tool the CV does not carry
 import fs from 'node:fs';
 import toml from 'toml';
 import { fileURLToPath } from 'node:url';
 import { groupedSkills } from '../src/lib/skill-groups.ts';
 import talkPatterns from './lib/talk-patterns.json' with { type: 'json' };
+import sectors from './lib/profile-sectors.json' with { type: 'json' };
 
 const CV = 'https://mboiman.github.io/en/';
 const talkPosition = new RegExp(talkPatterns.position.join('|'), 'i');
@@ -28,11 +34,23 @@ const talkCompany = new RegExp(talkPatterns.company.join('|'), 'i');
 export const isTalk = (e) => talkPosition.test(e.position || '') || talkCompany.test(e.company || '');
 
 const cell = (s) => String(s).replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
-const link = (e) => `[${cell(e.position)}](${CV}#exp-${e.anchor})`;
+const link = (e, title = e.position) => `[${cell(title)}](${CV}#exp-${e.anchor})`;
+const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function sectorOf(e) {
+  const s = sectors[e.anchor];
+  if (!s?.sector) throw new Error(`no sector for station "${e.anchor}" in scripts/lib/profile-sectors.json`);
+  return s;
+}
 
 function experienceTable(rows) {
-  return ['| When | Role | Where |', '|---|---|---|',
-    ...rows.map((e) => `| ${cell(e.dates)} | ${link(e)} | ${cell(e.company)} |`)].join('\n');
+  // No company column: clients and employers are not named on the profile
+  // (Michael, 2026-11-05). The sector stands in, the role links to the CV.
+  return ['| When | Role | Sector |', '|---|---|---|',
+    ...rows.map((e) => {
+      const s = sectorOf(e);
+      return `| ${cell(e.dates)} | ${link(e, s.role || e.position)} | ${cell(s.sector)} |`;
+    })].join('\n');
 }
 
 function experience(params, arg) {
@@ -42,24 +60,25 @@ function experience(params, arg) {
   const [shown, rest] = [jobs.slice(0, n), jobs.slice(n)];
   let out = experienceTable(shown);
   if (rest.length) {
-    out += `\n\n<details>\n<summary>Earlier positions</summary>\n\n${experienceTable(rest)}\n\n</details>`;
+    out += `\n\n<details>\n<summary>Earlier stations</summary>\n\n${experienceTable(rest)}\n\n</details>`;
   }
   return out;
 }
 
 function badges(raw, arg) {
-  const text = raw.toLowerCase();
+  // A label counts as evidence only as a whole word: "Go" inside "Google" does not.
+  const inCv = (label) => new RegExp(`(^|[^\\p{L}\\p{N}])${esc(label)}([^\\p{L}\\p{N}]|$)`, 'iu').test(raw);
   const specs = (arg || '').split('|').map((s) => s.trim()).filter(Boolean);
   const missing = [];
   const out = specs.map((spec) => {
     const [label, logo = '', color = '555555', logoColor = 'white'] = spec.split(':').map((s) => s.trim());
-    if (!text.includes(label.toLowerCase())) missing.push(label);
+    if (!inCv(label)) missing.push(label);
     const msg = encodeURIComponent(label.replace(/-/g, '--').replace(/_/g, '__'));
     const query = ['style=for-the-badge', logo && `logo=${logo}`, logo && `logoColor=${logoColor}`].filter(Boolean).join('&');
     return `![${label}](https://img.shields.io/badge/${msg}-${color}?${query})`;
   });
   if (missing.length) throw new Error(`badge label not found in config.cv.toml: ${missing.join(', ')}`);
-  return out.join('\n');
+  return out.join(' ');
 }
 
 export function render(config, template, raw = fs.readFileSync(new URL('../config.cv.toml', import.meta.url), 'utf8')) {
@@ -73,7 +92,7 @@ export function render(config, template, raw = fs.readFileSync(new URL('../confi
       case 'experience': return experience(params, arg);
       case 'talks':
         return params.experiences.list.filter(isTalk)
-          .map((e) => `- **${cell(e.dates)}** · ${link(e)} · ${cell(e.company)}`).join('\n');
+          .map((e) => `- **${cell(e.dates)}** · ${link(e)}`).join('\n');
       case 'skills':
         return ['| Area | Skills |', '|---|---|',
           ...groupedSkills(ui.sidebar_skills, 'en').map((g) => `| **${cell(g.title)}** | ${g.items.map(cell).join(' · ')} |`)].join('\n');
