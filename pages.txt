@@ -1,0 +1,15 @@
+/
+/de/
+/en/
+/de/story/
+/en/story/
+/de/match/
+/en/match/
+/de/minimal/
+/en/minimal/
+/de/future/
+/en/future/
+/de/impressum/
+/en/impressum/
+/de/datenschutz/
+/en/datenschutz/
